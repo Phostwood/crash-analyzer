@@ -4,9 +4,36 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Crash Log Analyzer</title>
+<style>
+/* Set the background of the entire page to black */
+body {
+  background-color: black;
+  color: white; /* Default text color */
+  font-family: "Roboto Condensed",sans-serif;
+  line-height: 1.7;
+}
+
+/* Style for headings (h1, h2, etc.) */
+h1, h2, h3, h4, h5, h6 {
+  color: #E6E6E6; /* Light grey color for headings */
+}
+
+/* Style for links */
+a {
+  color: #0099CC; /* Blue color for links */
+}
+
+/* Style for bold text */
+b {
+  color: #e08821; /* Custom orange color for bold text */
+}
+
+#crashLog.dragover {
+  background-color: #e0e0e0; /* Light grey background when dragging over */
+}
+</style>
+
 <script>
-
-
 function getPercentAlphabetized(log) {
   // Extract the "Game plugins" section
   var pluginsRegex = /Game plugins \(\d+\)\s*\{[\s\S]*?\}/;
@@ -33,11 +60,11 @@ function getPercentAlphabetized(log) {
       // Compare plugin names and count if alphabetized
       if (currentPlugin.localeCompare(nextPlugin) < 0) {
         alphabetizedOrderCount++;
-		console.log(currentPlugin + ' is alphabetized before ' + nextPlugin); //DEBUGGING
+		//DEBUGGING: console.log(currentPlugin + ' is alphabetized before ' + nextPlugin); //DEBUGGING
       }
     } else {
       // Handle the case where the line does not contain a .esp file name
-      //DEBUGGING: console.error('A line does not contain a .esp file name:', lines[i]);
+      console.error('A line does not contain a .esp file name:', lines[i]); //DEBUGGING
     }
   }
 
@@ -49,9 +76,6 @@ function getPercentAlphabetized(log) {
 
 
 
-
-
-
 function analyzeLog() {
   var log = document.getElementById('crashLog').value;
   document.getElementById('result').innerHTML = '';
@@ -60,6 +84,13 @@ function analyzeLog() {
   var relevantObjectsRegex = /Possible relevant objects \(\d+\)\s*\{[\s\S]*?\}/;
   var relevantObjectsMatch = log.match(relevantObjectsRegex);
   var relevantObjectsSection = relevantObjectsMatch ? relevantObjectsMatch[0] : '';
+  console.log('relevantObjectsSection:' + relevantObjectsSection);
+  
+  // Extract the "Probable callstack" section
+  var probableCallstackRegex = /Probable callstack\s*\{[\s\S]*?\}/;
+  var probableCallstackMatch = log.match(probableCallstackRegex);
+  var probableCallstackSection = probableCallstackMatch ? probableCallstackMatch[0] : '';
+  console.log('probableCallstackSection:' + probableCallstackSection);
   
   
   // Check for .STRINGS crash
@@ -82,7 +113,7 @@ function analyzeLog() {
   // Check for Save Bloat crash
   var matchNullResults = log.match(/(NULL)|(\bProbable callstack\b)|(\bPossible relevant objects\b)/g) || [];
   if (matchNullResults.length > 16) {
-    document.getElementById('result').innerHTML += '<b>Save Bloat Detected:</b> While it may not have been the direct cause of the crash, this log file includes ' + matchNullResults.length + ' "(NULL)" references in its "Probable callstack" section. This may occur due to unresolved scripts, missing masters, or improper saving practices. More information and troubleshooting tips under <a href="https://www.nolvus.net/catalog/crashlog?acc=accordion-1-5">Save Bloat Crash</a/>.<br><br>';
+    document.getElementById('result').innerHTML += '<b>Save Bloat Detected:</b> While it may not have been the direct cause of the crash, this log file includes <b>' + matchNullResults.length + ' "(NULL)" references</b> in its "Stack" section. This may occur due to unresolved scripts, missing masters, or improper saving practices. More information and troubleshooting tips under <a href="https://www.nolvus.net/catalog/crashlog?acc=accordion-1-5">Save Bloat Crash</a/>.<br><br>';
   }
   // Check for Shadowrend crash
   if (relevantObjectsSection.includes('ccbgssse018-shadowrend.esl')) {
@@ -109,23 +140,27 @@ function analyzeLog() {
   }
   
   // Check for USVFS crash
-  /* WAITING ON SPECS:
-  if (log.includes('usvfs_x64.dll')) {
+  if (probableCallstackSection.includes('usvfs_x64.dll')) {
     document.getElementById('result').innerHTML += '<b>USVFS Crash Detected:</b> An antivirus (mostly weebroot or bitdefender) is blocking the MO2 file system. Either change your antivirus, or disable your antivirus, and/or create an exception for the entire Nolvus directory. More information and troubleshooting tips under <a href="https://www.nolvus.net/catalog/crashlog?acc=accordion-1-12">USVFS Crash</a/>.<br><br>';
   }
-  END WAITING ON SPECS */
   
   // Check for Alphabetized Load Order crash
   var percentAlphabetized = getPercentAlphabetized(log);
   if (percentAlphabetized > 90) {
-    document.getElementById('result').innerHTML += '<b>Alphabetized Load Order Detected:</b> While it may not have been the direct cause of the crash, this log file\'s .esp mods are ' + percentAlphabetized + '% alphabetized in their load order. Review information on the <a href="https://www.nolvus.net/catalog/crashlog?acc=accordion-1-7">Load Order Crash</a>.<br><br>';
+    document.getElementById('result').innerHTML += '<b>Alphabetized Load Order Detected:</b> This log file\'s .esp mods are <b>' + percentAlphabetized + '% alphabetized</b> in their load order. Review information on the <a href="https://www.nolvus.net/catalog/crashlog?acc=accordion-1-7">Load Order Crash</a>.<br><br>';
   }
   
   //TODOs:
-	// 1. List missing mods?
-	// 2. List non-vanilla mods?
-	// 3. Drag and drop to populate into textarea
-	// 4. Choose a file to populate into textarea
+	// 1. ⏸️List missing mods? (infeasible without knowing individual install configs?)
+	// 2. ⏸️List non-vanilla mods? (infeasible without a single list of all possible vanilla-Nolvus mods from all possible variants and configurations)
+	// 5. ⏸️Out of order/sequence vanilla mods? (infeasible without a single list of all possible vanilla-Nolvus mods from all possible variants and configurations)
+	// 3. ✅Drag and drop to populate into textarea
+	// 4. ✅Choose a file to populate into textarea
+	// 6. ❌✅Add Google Analytics? SKIP: just use built in https://github.com/Phostwood/crash-analyzer/graphs/traffic
+	// 7. ⏸️Sample crash files download (or pulldown selector?) (for now I just uploaded some sample crash logs)
+	// 8. ✅Nolvus.net inspired font and colors?
+	// 9. ✅Check for USVFS crash
+
   
   // Default to unknown crash
   if (document.getElementById('result').innerHTML == '') {
@@ -137,11 +172,97 @@ function analyzeLog() {
 </head>
 
 <body>
-<h1>Phostwood's Unofficial Nolvus Crash Log Analyzer</h1>
-<textarea id="crashLog" rows="10" cols="50" placeholder="Paste your Nolvus crash log content here..."></textarea><br>
+<h1>Phostwood's Unofficial Nolvus Crash Log Analyzer (Beta)</h1>
+<p><input type="file" id="fileInput" style="display:none;" onchange="loadFile(event)" accept=".txt">
+<button onclick="document.getElementById('fileInput').click();">Choose File</button></p>
+<p id="filename"></p>
+<textarea id="crashLog" rows="10" cols="50" placeholder="Or drag-and-drop your log file onto this field, or copy-paste your Nolvus crash log content here..."></textarea><br>
 <button onclick="analyzeLog()">Analyze</button>
 <p id="result"></p>
 <p>Not all crash types can be detected with this tool. Also, this analysis is very formulaic, and can miss subtleties which may be caught by human analysis. For more information on any of these crash types, see <a href="https://www.nolvus.net/catalog/crashlog">https://www.nolvus.net/catalog/crashlog</a>. For a human analysis, share your crash logs with <a href="https://www.reddit.com/r/Nolvus/">r/Nolvus</a> and/or the <a href="https://discord.gg/Zkh5PwD">Nolvus Discord</a>.</p>
 <p>Thank you to Vektor, Discrepancy, and Corrupt Bliss for your documentation and/or assistance in making this!</p>
+
+
+<script>
+// Clear results on any change to the textarea field
+function clearResult() {
+  document.getElementById('result').innerHTML = '';
+}
+
+// Function to handle file selection and load the file content into the textarea
+function loadFile(event) {
+  var input = event.target;
+  var reader = new FileReader();
+  reader.onload = function() {
+    var text = reader.result;
+    document.getElementById('crashLog').value = text;
+    // Display the filename
+    document.getElementById('filename').textContent = 'Loaded file: ' + input.files[0].name;
+    clearResult();
+	analyzeLog();
+  };
+  reader.onerror = function(event) {
+    console.error('File reading error:', event.target.error);
+  };
+  reader.readAsText(input.files[0]);
+}
+
+// Function to handle drag and drop with visual feedback, file type validation, and filename display
+function handleDragOver(evt) {
+  evt.stopPropagation();
+  evt.preventDefault();
+  evt.dataTransfer.dropEffect = 'copy'; // Explicitly show this is a copy.
+}
+
+function handleDrop(evt) {
+  evt.stopPropagation();
+  evt.preventDefault();
+  var files = evt.dataTransfer.files; // FileList object.
+  if (files.length > 0) {
+    var file = files[0];
+    if (file.type === 'text/plain') { // Validate file type
+      var reader = new FileReader();
+      reader.onload = function(event) {
+        document.getElementById('crashLog').value = event.target.result;
+        // Display the filename
+        document.getElementById('filename').textContent = 'Loaded file: ' + file.name;
+        clearResult(); // Call clearResult here after setting the value
+		analyzeLog();
+      };
+      reader.onerror = function(event) {
+        console.error('File reading error:', event.target.error);
+      };
+      reader.readAsText(file);
+    } else {
+      console.error('Unsupported file type:', file.type);
+    }
+  }
+}
+
+// Setup the event listeners for drag and drop with visual feedback
+var dropZone = document.getElementById('crashLog');
+dropZone.addEventListener('dragover', function(evt) {
+  handleDragOver(evt);
+  this.classList.add('dragover'); // Add class for visual feedback
+}, false);
+dropZone.addEventListener('dragleave', function(evt) {
+  this.classList.remove('dragover'); // Remove class when dragging leaves
+}, false);
+dropZone.addEventListener('drop', function(evt) {
+  handleDrop(evt);
+  this.classList.remove('dragover'); // Remove class on drop
+}, false);
+
+// Event listener for changes to the textarea
+dropZone.addEventListener('input', function() {
+  // Only clear the result, not the filename
+  document.getElementById('result').innerHTML = '';
+}, false);
+
+// Initialize the result area
+clearResult();
+</script>
+
+
 </body>
 </html>
