@@ -16,7 +16,10 @@
 <title>Crash Log Analyzer</title>
 
 <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed:300i,400,400i,700%7cMarcellus+SC" rel="stylesheet">
-<!--<link href="https://nolvus.b-cdn.net/assets/vendor/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">-->
+
+<!-- Using stylesheet from Nolvus.net (with Vektor's permission) -->
+<link href="https://nolvus.b-cdn.net/assets/vendor/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://nolvus.b-cdn.net/assets/css/nolvus.min.css" rel="stylesheet">
 
 <style>
 /* Base styles */
@@ -33,7 +36,8 @@ body {
 }
 
 ol, ul {
-    margin-bottom: calc(2rem + 1vw); /* Fluid margin-bottom for lists */
+    margin-top: calc(1rem + 1vw); /* Fluid margin-bottom for lists */
+	margin-bottom: calc(2rem + 1vw); /* Fluid margin-bottom for lists */
 }
 
 li {
@@ -49,7 +53,7 @@ h5 { font-size: calc(1.375rem + 0.25vw); }
 h6 { font-size: calc(1.25rem + 0.125vw); }
 
 a {
-  color: #0099CC; /* Blue color for links */
+  color: #2175e0; /* Blue color for links */
 }
 
 b {
@@ -74,7 +78,8 @@ button, textarea {
 
 textarea {
     width: 100%; /* Full width of the parent element */
-    margin: 0; /* No margin for the textarea */
+    margin: 0.2em; /* Margin relative to the font size */
+	margin-left: 0;
     box-sizing: border-box; /* Include padding and border in the element's width */
     padding: 0.5em; /* Padding inside the textarea */
     border: 1px solid #ccc; /* Border for the textarea */
@@ -156,11 +161,20 @@ textarea {
 }
 </style>
 
-
-
-
-
 <script>
+function copyStylesOver() {
+	// JavaScript to apply the .text-main-1 class to all <b> tags
+	document.querySelectorAll('b').forEach(boldTag => {
+	  boldTag.classList.add('text-main-1');
+	});
+	
+	// Select all anchor elements and apply underline style
+	document.querySelectorAll('a').forEach(function(link) {
+	  link.style.textDecoration = 'underline';
+	});
+
+}
+
 function getPercentAlphabetized(log) {
   // Extract the "Game plugins" section
   var pluginsRegex = /Game plugins \(\d+\)\s*\{[\s\S]*?\}/;
@@ -278,20 +292,23 @@ function analyzeLog() {
   }
   
   //TODOs:
-	// 1. ⏸️[INFEASIBLE?] List missing mods? (infeasible without knowing individual install configs?)
-	// 2. ⏸️[INFEASIBLE?] List non-vanilla mods? (infeasible without a single list of all possible vanilla-Nolvus mods from all possible variants and configurations)
-	// 5. ⏸️[INFEASIBLE?] Out of order/sequence vanilla mods? (infeasible without a single list of all possible vanilla-Nolvus mods from all possible variants and configurations)
-	// 3. ✅Drag and drop to populate into textarea
-	// 4. ✅Choose a file to populate into textarea
-	// 6. ✅Add Google Analytics
-	// 7. ✅Uploaded example crash files download
-	// 8. ✅Nolvus.net inspired font and colors?
-	// 9. ✅Check for USVFS crash
-	//10. ✅Improved formatting and styling consistency across browsers
-	//11. ✅Reordering of checks and analysis output with softer diagnosises moved towards the bottom
-	//12. ✅Fluid layout for mobile to ultrawide screens
-	//13. ⏸️⭐Integrate Nolvus.net's CSS (✔️permission given by Vektor)
-	//14. ✅Checks for upated version and alerts user to self-refresh if file is old
+	// ✅Drag and drop to populate into textarea
+	// ✅Choose a file to populate into textarea
+	// ✅Uploaded example crash files download
+	// ✅Nolvus.net inspired font and colors?
+	// ✅Check for USVFS crash
+	// ✅Improved formatting and styling consistency across browsers
+	// ✅Reordering of checks and analysis output with softer diagnosises moved towards the bottom
+	// ✅Fluid layout for mobile to ultrawide screens
+	// ✅Checks for updated version and alerts user to self-refresh if file is old
+	// ✅Add Google Analytics (was inserted in prior "Usability and UX improvements" check in
+	// ✅Fix to prevent alert if this is the initial loading of the page
+	// ✅Integrate Nolvus.net's CSS (✔️permission given by Vektor)
+	// ✅Verify Google Analytics is working
+	
+	// ⏸️[INFEASIBLE?] List missing mods? (infeasible without knowing individual install configs?)
+	// ⏸️[INFEASIBLE?] List non-vanilla mods? (infeasible without a single list of all possible vanilla-Nolvus mods from all possible variants and configurations)
+	// ⏸️[INFEASIBLE?] Out of order/sequence vanilla mods? (infeasible without a single list of all possible vanilla-Nolvus mods from all possible variants and configurations)
 
   
   // Default to unknown crash
@@ -300,14 +317,14 @@ function analyzeLog() {
   }
   
   document.getElementById('result').innerHTML = '<ul>' + result + '</ul>';
+  copyStylesOver();
 }
 </script>
 </head>
 
 
-
 <body>
-<h1>Phostwood's Unofficial Nolvus Crash Log Analyzer (Beta)</h1>
+<h2 class="nk-title display-4">Phostwood's Unofficial Nolvus Crash Log Analyzer (Beta)</h1>
 <p><b>Find your crash logs at:</b><br>
 <code>[YOUR_DRIVE]:Nolvus\Instances\Nolvus Ascension\MODS\overwrite\NetScriptFramework\Crash</code></p>
 <input type="file" id="fileInput" style="display:none;" onchange="loadFile(event)" accept=".txt">
@@ -328,6 +345,7 @@ function analyzeLog() {
 // Clear results on any change to the textarea field
 function clearResult() {
   document.getElementById('result').innerHTML = '';
+  copyStylesOver();
 }
 
 // Functions to handle file selection and load the file content into the textarea
@@ -410,23 +428,31 @@ dropZone.addEventListener('input', function() {
 
 // Initialize the result area
 clearResult();
+copyStylesOver();
 
+
+//Check server for newer version
 document.addEventListener('DOMContentLoaded', (event) => {
-  // Replace 'USER' with your GitHub username and 'REPO' with your repository name
   const user = 'phostwood';
   const repo = 'crash-analyzer';
 
-  // Fetch the latest commit date from GitHub API
   fetch(`https://api.github.com/repos/${user}/${repo}/commits?per_page=1`)
     .then(response => response.json())
     .then(commits => {
       const lastCommitDate = new Date(commits[0].commit.committer.date);
+      console.log('Date this page was last updated on server:', lastCommitDate);
 
       // Get the last visit date from localStorage
-      const lastVisitDate = new Date(localStorage.getItem('lastVisitDate'));
+      const lastVisitStored = localStorage.getItem('lastVisitDate');
+      const lastVisitDate = lastVisitStored ? new Date(lastVisitStored) : new Date();
+
+      // Set the last visit date in localStorage if not set
+      if (!lastVisitStored) {
+        localStorage.setItem('lastVisitDate', lastVisitDate);
+      }
 
       // Check if the page has been updated since the last visit
-      if (lastCommitDate > lastVisitDate) {
+      if (lastVisitDate < lastCommitDate) {
         // Display a friendly warning to refresh the page
         alert('This page has been updated since your last visit. Please refresh the page to see the latest changes.');
       }
