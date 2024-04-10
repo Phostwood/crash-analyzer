@@ -1,35 +1,52 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-5X8TRFYCFK"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-5X8TRFYCFK');
+</script>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Crash Log Analyzer</title>
+
+<link href="https://fonts.googleapis.com/css?family=Roboto+Condensed:300i,400,400i,700%7cMarcellus+SC" rel="stylesheet">
+<!--<link href="https://nolvus.b-cdn.net/assets/vendor/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">-->
+
 <style>
-@import url('https://fonts.googleapis.com/css?family=Roboto+Condensed&display=swap');
-
-
+/* Base styles */
 body {
-	background-color: black;
-	color: white;
-	font-family: "Roboto Condensed", sans-serif;
-	font-size: 1rem;
-	font-weight: 400;
-	line-height; 27.2px;
-	-webkit-font-smoothing antialiased;
+    background-color: black;
+    color: white;
+    font-family: "Roboto Condensed", sans-serif;
+    font-size: calc(1rem + 0.5vw); /* Fluid font-size starting at 1rem for mobile */
+    font-weight: 400;
+    line-height: 1.6; /* Relative to the font-size */
+    -webkit-font-smoothing: antialiased;
+    margin: calc(5% + 1vw); /* Fluid margin starting at 5% for mobile */
+	margin-top: calc(2.5% + 0.5vw);
 }
 
 ol, ul {
-	margin-bottom: 32px;
+    margin-bottom: calc(2rem + 1vw); /* Fluid margin-bottom for lists */
 }
 
 li {
-	margin-bottom: 16px;
+    margin-bottom: calc(1rem + 0.5vw); /* Fluid margin-bottom for list items */
 }
 
 /* Style for headings (h1, h2, etc.) */
-h1, h2, h3, h4, h5, h6 {
-  color: #E6E6E6; /* Light grey color for headings */
-}
+h1 { font-size: calc(2rem + 0.75vw); } /* only heading currently used */
+h2 { font-size: calc(1.75rem + 0.625vw); }
+h3 { font-size: calc(1.625rem + 0.5vw); }
+h4 { font-size: calc(1.5rem + 0.375vw); }
+h5 { font-size: calc(1.375rem + 0.25vw); }
+h6 { font-size: calc(1.25rem + 0.125vw); }
 
 a {
   color: #0099CC; /* Blue color for links */
@@ -39,10 +56,109 @@ b {
   color: #e08821; /* Custom orange color for bold text */
 }
 
+code {
+    /* background-color: white; /* White background */
+    /* color: black;*/ /* Black text */
+    /* border: 1px solid black;*/ /* Black border */
+    /*padding: 0.2em 0.4em;*/ /* Padding around the text */
+    font-family: monospace; /* Monospaced font for code */
+    font-size: calc(0.8rem + 0.5vw); /* Fluid font-size for code */
+}
+
+button, textarea {
+    font-size: calc(1rem + 0.5vw); /* Adapts with the font size of the body */
+    padding: 0.2em 0.4em; /* Padding relative to the font size */
+    border: none;
+    border-radius: 0.2em; /* Border radius relative to the font size */
+}
+
+textarea {
+    width: 100%; /* Full width of the parent element */
+    margin: 0; /* No margin for the textarea */
+    box-sizing: border-box; /* Include padding and border in the element's width */
+    padding: 0.5em; /* Padding inside the textarea */
+    border: 1px solid #ccc; /* Border for the textarea */
+    resize: both; /* Allows the textarea to be resized both horizontally and vertically */
+}
+
 #crashLog.dragover {
-  background-color: #e0e0e0; /* Light grey background when dragging over */
+  background-color: #d0d0d0; /* Light grey background when dragging over */
+}
+
+/* Medium screens (tablets, 768px and up) */
+@media (min-width: 768px) {
+    body {
+        font-size: calc(1rem + 0.75vw); /* Slightly larger font-size */
+        margin: calc(5% + 1.5vw); /* Slightly larger margin */
+		margin-top: calc(2.5% + 0.75vw);
+    }
+    h1 { font-size: calc(2.25rem + 0.875vw); }
+    /* ... and so on for h2 to h6 ... */
+	/*button, textarea {
+        font-size: 1.125em; /* Slightly larger font-size for buttons and textareas */
+    }*/
+}
+
+/* Large screens (desktops, 992px and up) */
+@media (min-width: 992px) {
+    body {
+        font-size: calc(1rem + 1vw); /* Larger font-size */
+        margin: calc(5% + 2vw); /* Larger margin */
+		margin-top: calc(2.5% + 1vw);
+    }
+    h1 { font-size: calc(2.5rem + 1vw); }
+    /* ... and so on for h2 to h6 ... */
+	/*button, textarea {
+        font-size: 1.25em; /* Larger font-size for buttons and textareas */
+    }*/
+}
+
+/* Extra large screens (wide screens, 1200px and up) */
+@media (min-width: 1200px) {
+    body {
+        font-size: calc(1rem + 1.25vw); /* Even larger font-size */
+        margin: calc(5% + 2.5vw); /* Larger margin */
+		margin-top: calc(2.5% + 1.25vw);
+    }
+    h1 { font-size: calc(2.75rem + 1.125vw); }
+    /* ... and so on for h2 to h6 ... */
+	/*button, textarea {
+        font-size: 1.5em; /* Even larger font-size for buttons and textareas */
+    }*/
+}
+
+/* 2K screens (2048px and up) */
+@media (min-width: 2048px) {
+    body {
+        font-size: calc(1rem + 1.5vw); /* Larger font-size for 2K resolution */
+        margin: calc(5% + 3vw); /* Larger margin for 2K resolution */
+		margin-top: calc(2.5% + 1.5vw);
+    }
+    h1 { font-size: calc(3rem + 1.25vw); }
+    /* ... and so on for h2 to h6 ... */
+	/*button, textarea {
+        font-size: 1.75em; /* Larger font-size for buttons and textareas on 2K screens */
+    }*/
+}
+
+/* 4K screens (3840px and up) */
+@media (min-width: 3840px) {
+    body {
+        font-size: calc(1rem + 2vw); /* Larger font-size for 4K resolution */
+        margin: calc(5% + 4vw); /* Larger margin for 4K resolution */
+		margin-top: calc(2.5% + 2vw);
+    }
+    h1 { font-size: calc(3.25rem + 1.375vw); } 
+    /* ... and so on for h2 to h6 ... */
+	/*button, textarea {
+        font-size: 2em; /* Larger font-size for buttons and textareas on 4K screens */
+    }*/
 }
 </style>
+
+
+
+
 
 <script>
 function getPercentAlphabetized(log) {
@@ -162,17 +278,20 @@ function analyzeLog() {
   }
   
   //TODOs:
-	// 1. ⏸️List missing mods? (infeasible without knowing individual install configs?)
-	// 2. ⏸️List non-vanilla mods? (infeasible without a single list of all possible vanilla-Nolvus mods from all possible variants and configurations)
-	// 5. ⏸️Out of order/sequence vanilla mods? (infeasible without a single list of all possible vanilla-Nolvus mods from all possible variants and configurations)
+	// 1. ⏸️[INFEASIBLE?] List missing mods? (infeasible without knowing individual install configs?)
+	// 2. ⏸️[INFEASIBLE?] List non-vanilla mods? (infeasible without a single list of all possible vanilla-Nolvus mods from all possible variants and configurations)
+	// 5. ⏸️[INFEASIBLE?] Out of order/sequence vanilla mods? (infeasible without a single list of all possible vanilla-Nolvus mods from all possible variants and configurations)
 	// 3. ✅Drag and drop to populate into textarea
 	// 4. ✅Choose a file to populate into textarea
-	// 6. ❌✅Add Google Analytics? SKIP: just use built in https://github.com/Phostwood/crash-analyzer/graphs/traffic
-	// 7. ⏸️Sample crash files download (or pulldown selector?) (for now I just uploaded some sample crash logs)
+	// 6. ✅Add Google Analytics
+	// 7. ✅Uploaded example crash files download
 	// 8. ✅Nolvus.net inspired font and colors?
 	// 9. ✅Check for USVFS crash
 	//10. ✅Improved formatting and styling consistency across browsers
 	//11. ✅Reordering of checks and analysis output with softer diagnosises moved towards the bottom
+	//12. ✅Fluid layout for mobile to ultrawide screens
+	//13. ⏸️⭐Integrate Nolvus.net's CSS (✔️permission given by Vektor)
+	//14. ✅Checks for upated version and alerts user to self-refresh if file is old
 
   
   // Default to unknown crash
@@ -182,16 +301,18 @@ function analyzeLog() {
   
   document.getElementById('result').innerHTML = '<ul>' + result + '</ul>';
 }
-
 </script>
 </head>
 
+
+
 <body>
 <h1>Phostwood's Unofficial Nolvus Crash Log Analyzer (Beta)</h1>
-<p><b>Find your crash logs at:</b> [YOUR_DRIVE]:Nolvus\Instances\Nolvus Ascension\MODS\overwrite\NetScriptFramework\Crash</p>
-<p><input type="file" id="fileInput" style="display:none;" onchange="loadFile(event)" accept=".txt">
-<button onclick="document.getElementById('fileInput').click();">Choose File</button></p>
-<p id="filename"></p>
+<p><b>Find your crash logs at:</b><br>
+<code>[YOUR_DRIVE]:Nolvus\Instances\Nolvus Ascension\MODS\overwrite\NetScriptFramework\Crash</code></p>
+<input type="file" id="fileInput" style="display:none;" onchange="loadFile(event)" accept=".txt">
+<button onclick="document.getElementById('fileInput').click();">Choose File</button>
+<div id="filename"></div>
 <textarea id="crashLog" rows="10" cols="50" placeholder="Or drag-and-drop your log file onto this field, or copy-paste your Nolvus crash log content here..."></textarea><br>
 <button onclick="analyzeLog()">Analyze</button>
 <p id="result"></p>
@@ -199,7 +320,8 @@ function analyzeLog() {
 <p>Not all crash types can be detected with this tool. Also, this analysis is very formulaic, and can miss subtleties which may be caught by human analysis.</p>
 <p>For more information on any of these crash types, see <a href="https://www.nolvus.net/catalog/crashlog">https://www.nolvus.net/catalog/crashlog</a>.</p>
 <p>For a human analysis, share your crash logs with <a href="https://www.reddit.com/r/Nolvus/">r/Nolvus</a> and/or the <a href="https://discord.gg/Zkh5PwD">Nolvus Discord</a>.</p>
-<p>Thank you to Vektor, Discrepancy, and Corrupt Bliss for your documentation and/or assistance in making this!</p>
+<p>&nbsp;<p>
+<p>Thank you to Vektor, Discrepancy, Gaetan, and Corrupt Bliss for your documentation and/or assistance in making this!</p>
 
 
 <script>
@@ -208,17 +330,24 @@ function clearResult() {
   document.getElementById('result').innerHTML = '';
 }
 
-// Function to handle file selection and load the file content into the textarea
+// Functions to handle file selection and load the file content into the textarea
+function displayFilename(fileName) {
+  var filenameDisplay = document.getElementById('filename');
+  filenameDisplay.innerHTML = '<b>Loaded file:</b> <code></code>';
+  var codeElement = filenameDisplay.querySelector('code');
+  var textNode = document.createTextNode(fileName);
+  codeElement.appendChild(textNode);
+}
+
 function loadFile(event) {
   var input = event.target;
   var reader = new FileReader();
   reader.onload = function() {
     var text = reader.result;
     document.getElementById('crashLog').value = text;
-    // Display the filename
-    document.getElementById('filename').innerHTML = '<b>Loaded file:</b> ' + input.files[0].name;
+    displayFilename(input.files[0].name);
     clearResult();
-	analyzeLog();
+    analyzeLog();
   };
   reader.onerror = function(event) {
     console.error('File reading error:', event.target.error);
@@ -243,10 +372,9 @@ function handleDrop(evt) {
       var reader = new FileReader();
       reader.onload = function(event) {
         document.getElementById('crashLog').value = event.target.result;
-        // Display the filename
-        document.getElementById('filename').innerHTML = '<b>Loaded file:</b> ' + file.name;
+        displayFilename(file.name);
         clearResult(); // Call clearResult here after setting the value
-		analyzeLog();
+        analyzeLog();
       };
       reader.onerror = function(event) {
         console.error('File reading error:', event.target.error);
@@ -257,6 +385,8 @@ function handleDrop(evt) {
     }
   }
 }
+
+
 
 // Setup the event listeners for drag and drop with visual feedback
 var dropZone = document.getElementById('crashLog');
@@ -280,6 +410,33 @@ dropZone.addEventListener('input', function() {
 
 // Initialize the result area
 clearResult();
+
+document.addEventListener('DOMContentLoaded', (event) => {
+  // Replace 'USER' with your GitHub username and 'REPO' with your repository name
+  const user = 'phostwood';
+  const repo = 'crash-analyzer';
+
+  // Fetch the latest commit date from GitHub API
+  fetch(`https://api.github.com/repos/${user}/${repo}/commits?per_page=1`)
+    .then(response => response.json())
+    .then(commits => {
+      const lastCommitDate = new Date(commits[0].commit.committer.date);
+
+      // Get the last visit date from localStorage
+      const lastVisitDate = new Date(localStorage.getItem('lastVisitDate'));
+
+      // Check if the page has been updated since the last visit
+      if (lastCommitDate > lastVisitDate) {
+        // Display a friendly warning to refresh the page
+        alert('This page has been updated since your last visit. Please refresh the page to see the latest changes.');
+      }
+
+      // Update the last visit date in localStorage
+      localStorage.setItem('lastVisitDate', new Date());
+    })
+    .catch(error => console.error('Error fetching commit data:', error));
+});
+
 </script>
 
 
