@@ -10,6 +10,13 @@
 
   gtag('config', 'G-5X8TRFYCFK');
 </script>
+<script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "luzl3ap6kg");
+</script>
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -29,14 +36,24 @@ body {
     font-family: "Roboto Condensed", sans-serif;
     font-size: calc(1rem + 0.5vw); /* Fluid font-size starting at 1rem for mobile */
     font-weight: 400;
+    font-weight: 400;
     line-height: 1.6; /* Relative to the font-size */
     -webkit-font-smoothing: antialiased;
     margin: calc(5% + 1vw); /* Fluid margin starting at 5% for mobile */
 	margin-top: calc(2.5% + 0.5vw);
 }
 
+#result {
+	max-width: 1200px;
+}
+
+#footer {
+	margin-top: calc(3rem + 1vw); /* Fluid margin-top */
+	max-width: 1200px;
+}
+
 ol, ul {
-    margin-top: calc(1rem + 1vw); /* Fluid margin-bottom for lists */
+	margin-top: calc(1rem + 1vw); /* Fluid margin-top */
 	margin-bottom: calc(2rem + 1vw); /* Fluid margin-bottom for lists */
 	margin-left: calc(2% + 1vw);
 	margin-right: calc(2% + 1vw);
@@ -45,6 +62,7 @@ ol, ul {
 li {
     margin-bottom: calc(1rem + 0.5vw); /* Fluid margin-bottom for list items */
 }
+
 
 /* Style for headings (h1, h2, etc.) */
 h1 { font-size: calc(2rem + 0.75vw); }
@@ -58,7 +76,7 @@ a {
   color: #89CFF0; /* Blue color for links */
 }
 
-b {
+b, strong {
   color: #e08821; /* Nolvus orange color for bold text */
 }
 
@@ -66,6 +84,8 @@ code {
     font-family: monospace; /* Monospaced font for code */
     font-size: calc(0.8rem + 0.5vw); /* Fluid font-size for code */
 	color: #f0c491;
+	margin-left: 0;
+	padding-left: 0;
 }
 
 button, textarea {
@@ -171,6 +191,10 @@ function copyStylesOver() {
 	document.querySelectorAll('b').forEach(boldTag => {
 	  boldTag.classList.add('text-main-1');
 	});
+	// JavaScript to apply the .text-main-1 class to all <b> tags
+	document.querySelectorAll('strong').forEach(boldTag => {
+	  boldTag.classList.add('text-main-1');
+	});
 	
 	// Select all anchor elements and apply underline style
 	document.querySelectorAll('a').forEach(function(link) {
@@ -259,7 +283,7 @@ function analyzeLog() {
   // Check for Gravelord / Mihail Sithis crash
   var matchGravelordMatches = log.match(/mihailmmasithis\.esp/g) || [];
   if (matchGravelordMatches && matchGravelordMatches.length >= 3) {
-    result += '</li><b>Gravelord / Mihail Sithis Crash Detected:</b> Go to <a href="https://www.nexusmods.com/skyrimspecialedition/mods/108591">Discrepancy\'s patch settings hub</a> and download the relevant patch. This patch can be installed mid-game, and always should not load after any of the flat maps. When installed, the plugin should be moved above FNIS.esp. More information and troubleshooting tips under <a href="https://www.nolvus.net/catalog/crashlog?acc=accordion-1-8">Gravelord / Mihail Sithis Crash</a/>.</li>';
+    result += '<li><b>Gravelord / Mihail Sithis Crash Detected:</b> Go to <a href="https://www.nexusmods.com/skyrimspecialedition/mods/108591">Discrepancy\'s patch settings hub</a> and download the relevant patch. This patch can be installed mid-game, and always should not load after any of the flat maps. When installed, the plugin should be moved above FNIS.esp. More information and troubleshooting tips under <a href="https://www.nolvus.net/catalog/crashlog?acc=accordion-1-8">Gravelord / Mihail Sithis Crash</a/>.</li>';
   }
   // Check for Skeleton crash
   var skeletonRegex = /NiNode\(Name: `NPC L UpperarmTwist1 \[LUt1\]`\)|BSFadeNode\(Name: `skeleton.nif`\)|NiNode\(Name: `NPC R Forearm \[RLar\]`\)|BSTriShape\(Name: `OneHandedSword`\)/g;
@@ -311,8 +335,20 @@ function analyzeLog() {
 	// ✅Verify Google Analytics is working
 	// ✅Fix to prevent alert if this is the initial loading of the page
 	// ✅Fix page formatting
-	// ✅Improve blue link color for better contrast on phones
+	// ✅Improve blue link color for better contrast on phones\
 	
+	// ✅Added code for MS Clarity Analytics https://clarity.microsoft.com/
+	// ✅Shrink title font
+	// ✅Slightly clarified textarea instructions
+	// ✅Remove indent before "[YOUR_DRIVE]:Nolvus\Instances\Nolvus Ascension\MODS\overwrite\NetScriptFramework\Crash"
+	// ✅Fixed missing bullet on Gravelord Crash description
+	// ✅Max width for content area
+	// ✅Refactored with semantic HTML layout
+	
+	// ⏸️Special code for Google Analytics conversions and clicks and stuff? (conversion would be a following a diagnosed link to Nolvus.net? CLick would be doing an analysis? Need to read up on the Google Analytics docs.
+	// ⏸️Display the "Game plugins (2343)" line? 
+	
+	// ⏸️[INFEASIBLE?] Color syntaxing? Maybe output the "Possible relevant objects" section and the "Probable callstack" with the non-null single quoted names and filenames? Probably need to collect more crash logs from different sources before deciding? 
 	// ⏸️[INFEASIBLE?] List missing mods? (infeasible without knowing individual install configs?)
 	// ⏸️[INFEASIBLE?] List non-vanilla mods? (infeasible without a single list of all possible vanilla-Nolvus mods from all possible variants and configurations)
 	// ⏸️[INFEASIBLE?] Out of order/sequence vanilla mods? (infeasible without a single list of all possible vanilla-Nolvus mods from all possible variants and configurations)
@@ -332,21 +368,31 @@ function analyzeLog() {
 
 
 <body>
-<h2 class="nk-title display-4">Phostwood's Unofficial Nolvus Crash Log Analyzer (Beta)</h1>
-<p><b>Find your crash logs at:</b><br>
-<code>[YOUR_DRIVE]:Nolvus\Instances\Nolvus Ascension\MODS\overwrite\NetScriptFramework\Crash</code></p>
-<input type="file" id="fileInput" style="display:none;" onchange="loadFile(event)" accept=".txt">
-<button onclick="document.getElementById('fileInput').click();">Choose File</button>
-<div id="filename"></div>
-<textarea id="crashLog" rows="10" cols="50" placeholder="Or drag-and-drop your log file onto this field, or copy-paste your Nolvus crash log content here..."></textarea><br>
-<button onclick="analyzeLog()">Analyze</button>
-<p id="result"></p>
+	<header>
+		<h1>Phostwood's Unofficial Nolvus Crash Log Analyzer (Beta)</h1>
+	</header>
+	<main>
+		<section>
+			<p>
+				<strong>Find your crash logs at:</strong><br>
+				<code>[YOUR_DRIVE]\Nolvus\Instances\Nolvus Ascension\MODS\overwrite\NetScriptFramework\Crash</code>
+			</p>
+			<input type="file" id="fileInput" style="display:none;" onchange="loadFile(event)" accept=".txt">
+			<button onclick="document.getElementById('fileInput').click();">Choose File</button>
+			<div id="filename"></div>
+			<textarea id="crashLog" rows="10" cols="50" placeholder="Choose file (above), or drag-and-drop your log file onto this field, or copy-paste your Nolvus crash log content here..."></textarea><br>
+			<button onclick="analyzeLog()">Analyze</button>
+		</section>
+		<article id="result"></article>
+		<aside id="footer">
+			<p>Not all crash types can be detected with this tool. Also, this analysis is very formulaic, and can miss subtleties which may be caught by human analysis.</p>
+			<p>For more information on any of these crash types, see <a href="https://www.nolvus.net/catalog/crashlog">Nolvus Crash Log Catalog</a>.</p>
+			<p>For a <strong>human analysis</strong>, share your crash logs with <a href="https://www.reddit.com/r/Nolvus/">r/Nolvus</a> and/or the <a href="https://discord.gg/Zkh5PwD">Nolvus Discord</a>.</p>
+			<p>Please <strong>report any issues</strong> (or share suggestions) in my <a href="https://www.reddit.com/r/Nolvus/comments/1bzwo0z/unofficial_nolvus_crash_log_analyzer/">r/Nolvus reddit post</a>.</p>
+			<p>Thank you to Vektor, Discrepancy, Gaetan, and Corrupt Bliss for your documentation and/or assistance!</p>
+		</aside>
+	</main>
 
-<p>Not all crash types can be detected with this tool. Also, this analysis is very formulaic, and can miss subtleties which may be caught by human analysis.</p>
-<p>For more information on any of these crash types, see <a href="https://www.nolvus.net/catalog/crashlog">https://www.nolvus.net/catalog/crashlog</a>.</p>
-<p>For a human analysis, share your crash logs with <a href="https://www.reddit.com/r/Nolvus/">r/Nolvus</a> and/or the <a href="https://discord.gg/Zkh5PwD">Nolvus Discord</a>.</p>
-<p>&nbsp;<p>
-<p>Thank you to Vektor, Discrepancy, Gaetan, and Corrupt Bliss for your documentation and/or assistance in making this!</p>
 
 
 <script>
