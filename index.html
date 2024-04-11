@@ -38,6 +38,8 @@ body {
 ol, ul {
     margin-top: calc(1rem + 1vw); /* Fluid margin-bottom for lists */
 	margin-bottom: calc(2rem + 1vw); /* Fluid margin-bottom for lists */
+	margin-left: calc(2% + 1vw);
+	margin-right: calc(2% + 1vw);
 }
 
 li {
@@ -45,28 +47,25 @@ li {
 }
 
 /* Style for headings (h1, h2, etc.) */
-h1 { font-size: calc(2rem + 0.75vw); } /* only heading currently used */
-h2 { font-size: calc(1.75rem + 0.625vw); }
+h1 { font-size: calc(2rem + 0.75vw); }
+h2 { font-size: calc(1.75rem + 0.625vw); } /* only heading currently used */
 h3 { font-size: calc(1.625rem + 0.5vw); }
 h4 { font-size: calc(1.5rem + 0.375vw); }
 h5 { font-size: calc(1.375rem + 0.25vw); }
 h6 { font-size: calc(1.25rem + 0.125vw); }
 
 a {
-  color: #2175e0; /* Blue color for links */
+  color: #89CFF0; /* Blue color for links */
 }
 
 b {
-  color: #e08821; /* Custom orange color for bold text */
+  color: #e08821; /* Nolvus orange color for bold text */
 }
 
 code {
-    /* background-color: white; /* White background */
-    /* color: black;*/ /* Black text */
-    /* border: 1px solid black;*/ /* Black border */
-    /*padding: 0.2em 0.4em;*/ /* Padding around the text */
     font-family: monospace; /* Monospaced font for code */
     font-size: calc(0.8rem + 0.5vw); /* Fluid font-size for code */
+	color: #f0c491;
 }
 
 button, textarea {
@@ -98,7 +97,8 @@ textarea {
 		margin-top: calc(2.5% + 0.75vw);
     }
     h1 { font-size: calc(2.25rem + 0.875vw); }
-    /* ... and so on for h2 to h6 ... */
+	h2 { font-size: calc(2rem + 0.75vw); }
+    /* ... and so on for h3 to h6 ... */
 	/*button, textarea {
         font-size: 1.125em; /* Slightly larger font-size for buttons and textareas */
     }*/
@@ -112,7 +112,8 @@ textarea {
 		margin-top: calc(2.5% + 1vw);
     }
     h1 { font-size: calc(2.5rem + 1vw); }
-    /* ... and so on for h2 to h6 ... */
+	h2 { font-size: calc(2.25rem + 0.875vw); }
+    /* ... and so on for h3 to h6 ... */
 	/*button, textarea {
         font-size: 1.25em; /* Larger font-size for buttons and textareas */
     }*/
@@ -126,7 +127,8 @@ textarea {
 		margin-top: calc(2.5% + 1.25vw);
     }
     h1 { font-size: calc(2.75rem + 1.125vw); }
-    /* ... and so on for h2 to h6 ... */
+	h2 { font-size: calc(2.5rem + 1vw); }
+    /* ... and so on for h3 to h6 ... */
 	/*button, textarea {
         font-size: 1.5em; /* Even larger font-size for buttons and textareas */
     }*/
@@ -140,7 +142,8 @@ textarea {
 		margin-top: calc(2.5% + 1.5vw);
     }
     h1 { font-size: calc(3rem + 1.25vw); }
-    /* ... and so on for h2 to h6 ... */
+	h2 { font-size: calc(2.75rem + 1.125vw); }
+    /* ... and so on for h3 to h6 ... */
 	/*button, textarea {
         font-size: 1.75em; /* Larger font-size for buttons and textareas on 2K screens */
     }*/
@@ -153,8 +156,9 @@ textarea {
         margin: calc(5% + 4vw); /* Larger margin for 4K resolution */
 		margin-top: calc(2.5% + 2vw);
     }
-    h1 { font-size: calc(3.25rem + 1.375vw); } 
-    /* ... and so on for h2 to h6 ... */
+    h1 { font-size: calc(3.25rem + 1.375vw); }
+	h2 { font-size: calc(3rem + 1.25vw); }	
+    /* ... and so on for h3 to h6 ... */
 	/*button, textarea {
         font-size: 2em; /* Larger font-size for buttons and textareas on 4K screens */
     }*/
@@ -305,6 +309,9 @@ function analyzeLog() {
 	// ✅Fix to prevent alert if this is the initial loading of the page
 	// ✅Integrate Nolvus.net's CSS (✔️permission given by Vektor)
 	// ✅Verify Google Analytics is working
+	// ✅Fix to prevent alert if this is the initial loading of the page
+	// ✅Fix page formatting
+	// ✅Improve blue link color for better contrast on phones
 	
 	// ⏸️[INFEASIBLE?] List missing mods? (infeasible without knowing individual install configs?)
 	// ⏸️[INFEASIBLE?] List non-vanilla mods? (infeasible without a single list of all possible vanilla-Nolvus mods from all possible variants and configurations)
@@ -318,6 +325,7 @@ function analyzeLog() {
   
   document.getElementById('result').innerHTML = '<ul>' + result + '</ul>';
   copyStylesOver();
+  checkForUpdate();
 }
 </script>
 </head>
@@ -432,7 +440,7 @@ copyStylesOver();
 
 
 //Check server for newer version
-document.addEventListener('DOMContentLoaded', (event) => {
+function checkForUpdate() {
   const user = 'phostwood';
   const repo = 'crash-analyzer';
 
@@ -442,25 +450,32 @@ document.addEventListener('DOMContentLoaded', (event) => {
       const lastCommitDate = new Date(commits[0].commit.committer.date);
       console.log('Date this page was last updated on server:', lastCommitDate);
 
-      // Get the last visit date from localStorage
-      const lastVisitStored = localStorage.getItem('lastVisitDate');
-      const lastVisitDate = lastVisitStored ? new Date(lastVisitStored) : new Date();
+      // Get the last used date from localStorage
+	  const lastCommitDateStored = localStorage.getItem('lastCommitDateUsed');
+      var lastCommitDateUsed = lastCommitDateStored;
 
-      // Set the last visit date in localStorage if not set
-      if (!lastVisitStored) {
-        localStorage.setItem('lastVisitDate', lastVisitDate);
+      // Set the last used date in localStorage if not set
+      if (!lastCommitDateUsed) {
+        console.log('lastCommitDateStored:', lastCommitDateStored);
+		localStorage.setItem('lastCommitDateUsed', lastCommitDate);
+		lastCommitDateUsed = lastCommitDate;
       }
+	  console.log('Date of last update viewed/used:', lastCommitDateUsed);
 
       // Check if the page has been updated since the last visit
-      if (lastVisitDate < lastCommitDate) {
+      if (lastCommitDateUsed < lastCommitDate) {
         // Display a friendly warning to refresh the page
-        alert('This page has been updated since your last visit. Please refresh the page to see the latest changes.');
+        alert('This page has been updated since your last visit. Please refresh the page to use the latest changes.');
       }
 
-      // Update the last visit date in localStorage
-      localStorage.setItem('lastVisitDate', new Date());
+      // Update the last used date in localStorage
+      localStorage.setItem('lastCommitDateUsed', lastCommitDate);
     })
     .catch(error => console.error('Error fetching commit data:', error));
+}
+
+document.addEventListener('DOMContentLoaded', (event) => {
+	checkForUpdate();
 });
 
 </script>
