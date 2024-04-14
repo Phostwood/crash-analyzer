@@ -22,7 +22,7 @@
 <title>Crash Log Analyzer</title>
 
 <meta charset="UTF-8">
-<meta name="version" content="0.9.1">
+<meta name="version" content="0.9.2">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <link rel="icon" type="image/x-icon" 			href="https://phostwood.github.io/crash-analyzer/favicon.ico">
@@ -267,11 +267,6 @@ function analyzeLog() {
 	if (relevantObjectsSection.includes('ccbgssse018-shadowrend.esl')) {
 		result += '<li><b>Possible Shadowrend Crash Detected:</b> Load an earlier save, traveling to a different cell from the original crash, and play for a few days in game away from the area. This avoids the Shadowrend, and hopefully allows the issue to resolve itself. If you load a shadowrend save and continue playing on it there is a chance the issue can compound upon itself, causing more frequent crashes and issues. ⚠️NOTE: Shadowrend as a probable stack item will appear often, but it can be a misnomer sometimes because it isn\'t always the direct cause of a crash. There are other cases where shadowrend will be listed in the log (many wrong Load Order Crashes will show it) but it won\'t be the direct cause of a crash. More information and troubleshooting tips under <a href="https://www.nolvus.net/catalog/crashlog?acc=accordion-1-6">Shadowrend Crash</a/>.</li>';
 	}
-	// Check for Save Bloat crash
-	var matchNullResults = log.match(/(NULL)|(\bProbable callstack\b)|(\bPossible relevant objects\b)/g) || [];
-	if (matchNullResults.length > 16) {
-		result += '<li><b>Save Bloat Detected:</b> While it may not have been the direct cause of the crash, this log file includes <b>' + matchNullResults.length + ' NULL references</b> in its "Stack" section. This may occur due to unresolved scripts, missing masters, and/or improper saving practices. With customized lists it can also be indicative of a problematic mod or incorrect load order. More information and troubleshooting tips under <a href="https://www.nolvus.net/catalog/crashlog?acc=accordion-1-5">Save Bloat Crash</a/> and <a href="https://www.nolvus.net/catalog/crashlog?acc=accordion-1-7">Load Order Crash</a>. If issue persists, share your crash logs with <a href="https://www.reddit.com/r/Nolvus/">r/Nolvus</a> and/or the <a href="https://discord.gg/Zkh5PwD">Nolvus Discord</a></li>';
-	}
 
 	// Default to unknown crash
 	if (result == '') {
@@ -281,13 +276,11 @@ function analyzeLog() {
 	document.getElementById('result').innerHTML = '<ul>' + result + '</ul>';
 	showCopyDiagnosisButton();
 }
-  
+
 // - - - TODOs - - -
 
-// Version 0.9.1:  (hopfully will soon be out of beta)
-// ✅Improved description for Save Bloat crash
-// ✅fixed spelling error: travelling --> traveling
-// ✅added skeleton_female.nif to list of possible Skeleton crash indicators
+// Version 0.9.2:  (hopfully will soon be out of beta)
+// ✅Removed test for Save Bloat Detected. Discrepancy: "I don't know of any footprint to check in the crash log for save bloat or save instability, but I will say that counting instances of NULL is not it"
 
 
 // - - - FUTURE FEATURES? - - -
