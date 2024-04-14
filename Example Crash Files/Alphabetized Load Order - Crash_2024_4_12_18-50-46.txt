@@ -1,0 +1,3044 @@
+Unhandled native exception occurred at 0x7FF731B79C63 (SkyrimSE.exe+289C63) on thread 12972!
+
+FrameworkName: NetScriptFramework
+FrameworkVersion: 15
+FrameworkArchitecture: x64
+GameLibrary: SkyrimSE
+GameLibraryVersion: 18
+ApplicationName: SkyrimSE.exe
+ApplicationVersion: 1.5.97.0
+VersionInfo: Successfully loaded
+Time: 12 Apr 2024 18:50:46.357
+
+Possible relevant objects (11)
+{
+  [   0]    TESObjectREFR(FormId: 1C6E7915, File: `Wyrmstooth.esp`, BaseForm: TESObjectSTAT(FormId: 0010C4D1, File: `Skyrim.esm`))
+  [   0]    TESObjectSTAT(FormId: 0010C4D1, File: `Skyrim.esm`)
+  [   0]    TESObjectREFR(FormId: 1C0083BB, File: `Lux Orbis - Wyrmstooth.esp <- Wyrmstooth.esp`, BaseForm: null)
+  [   0]    TESObjectCELL(Name: Wilderness, FormId: FF000DA5)
+  [  21]    TESObjectCELL(Name: Wilderness, FormId: 1C0010FD, File: `Missives - Wyrmstooth.esp <- Lux Orbis - Wyrmstooth.esp <- DynDOLOD.esp <- DBM_Wyrmstooth_Patch.esp <- DynDOLOD.esm <- Wyrmstooth.esp`)
+  [  29]    TESObjectSTAT(FormId: 0010C4B9, File: `Skyrim.esm`)
+  [  29]    TESObjectREFR(FormId: 1C9CA9AC, File: `Wyrmstooth.esp`, BaseForm: TESObjectSTAT(FormId: 0010C4B9, File: `Skyrim.esm`))
+  [  36]    TESWorldSpace(Name: WyrmstoothWorld `Wyrmstooth`, FormId: 1C000D62, File: `Wyrmstooth for FWMF.esp <- WoW Dragon Mounds CTD Fix - Wyrmstooth Patch.esp <- RBB - Wyrmstooth.esp <- Occlusion.esp <- Missives - Wyrmstooth.esp <- Lux Via - Wyrmstooth addon.esp <- Lux Orbis - Wyrmstooth.esp <- DynDOLOD.esp <- DBM_Wyrmstooth_Patch.esp <- DynDOLOD.esm <- Wyrmstooth.esp`)
+  [  72]    BGSVolumetricLighting(FormId: 01002713, File: `Update.esm`)
+  [  81]    TESNPC(Name: `Adventurer`, FormId: 00000007, File: `Skyrim Unbound.esp <- ccbgssse018-shadowrend.esl <- Skyrim.esm`)
+  [  81]    PlayerCharacter(FormId: 00000014, BaseForm: TESNPC(Name: `Adventurer`, FormId: 00000007, File: `Skyrim Unbound.esp <- ccbgssse018-shadowrend.esl <- Skyrim.esm`))
+}
+
+Probable callstack
+{
+  [0]   0x7FF731B79C63     (SkyrimSE.exe+289C63)          TESObjectREFR::GetFullLODRef_289C50+13
+  [1]   0x7FF731B68DE3     (SkyrimSE.exe+278DE3)          unk_278D90+53
+  [2]   0x7FF731B64ED7     (SkyrimSE.exe+274ED7)          unk_274E50+87
+  [3]   0x7FF731B5838B     (SkyrimSE.exe+26838B)          TESObjectCELL::unk_2682A0+EB
+  [4]   0x7FF731BA652A     (SkyrimSE.exe+2B652A)          unk_2B64C0+6A
+  [5]   0x7FF731A6297F     (SkyrimSE.exe+17297F)          DataHandler::unk_1726A0+2DF
+  [6]   0x7FF731A5E9A6     (SkyrimSE.exe+16E9A6)          unk_16E660+346
+  [7]   0x7FF731EA0463     (SkyrimSE.exe+5B0463)          Main::unk_5B0120+343
+  [8]   0x7FF731EA85FC     (SkyrimSE.exe+5B85FC)          InitTESThread::Func1_5B85E0+1C
+  [9]   0x7FF7324FD6BD     (SkyrimSE.exe+C0D6BD)          StartAddress_0_C0D680+3D
+  [10]  0x7FFB9FCA257D     (KERNEL32.DLL+1257D)           
+  [11]  0x7FFBA07EAA48     (ntdll.dll+5AA48)              
+}
+
+Registers
+{
+  AX:       0x0                (NULL)
+  BX:       0x1E7BFFF600       (TESObjectREFR**) -> (FormId: 1C0083BB, File: `Lux Orbis - Wyrmstooth.esp <- Wyrmstooth.esp`, BaseForm: null)
+  CX:       0x1B7E04AFBA0      (TESObjectREFR*) -> (FormId: 1C0083BB, File: `Lux Orbis - Wyrmstooth.esp <- Wyrmstooth.esp`, BaseForm: null)
+  DX:       0x1B825093100      (TESObjectCELL*) -> (Name: Wilderness, FormId: FF000DA5)
+  SI:       0x1B7E3509E80      (void*)
+  DI:       0x1E7BFFF648       (void*)
+  BP:       0x1E7BFFF670       (void*)
+  SP:       0x1E7BFFF558       (void*)
+  IP:       0x7FF731B79C63     (SkyrimSE.exe+289C63) (void*)
+  R8:       0x1B7EEDC2230      (TESObjectREFR**) -> (FormId: 1C6E7915, File: `Wyrmstooth.esp`, BaseForm: TESObjectSTAT(FormId: 0010C4D1, File: `Skyrim.esm`))
+  R9:       0x8                (u8):[8]
+  R10:      0x1E7BFFF538       (BSTArrayAllocatorFunctor<BSScrapArrayAllocator>*)
+  R11:      0x7FFB621C1349     (VCRUNTIME140.dll+11349) (void*)
+  R12:      0x1B75D4750C8      (char*) "d"
+  R13:      0x0                (NULL)
+  R14:      0x1E7BFFF6B8       (void*)
+  R15:      0x0                (NULL)
+  Flags:    0x10246           
+  XMM0:     (double)9.33415358412792E-312 / (float)-5.879055E+19
+  XMM1:     (double)9.33369491460975E-312 / (float)-2.750147E+16
+  XMM2:     (double)9.33369460109546E-312 / (float)-2.73652E+16
+  XMM3:     (double)9.33369460425748E-312 / (float)-2.736657E+16
+  XMM4:     (double)9.33415443581804E-312 / (float)-5.954871E+19
+  XMM5:     (double)9.33415525794327E-312 / (float)-6.028054E+19
+  XMM6:     (double)0 / (float)0
+  XMM7:     (double)0 / (float)0
+  XMM8:     (double)0 / (float)0
+  XMM9:     (double)0 / (float)0
+  XMM10:    (double)0 / (float)0
+  XMM11:    (double)0 / (float)0
+  XMM12:    (double)0 / (float)0
+  XMM13:    (double)0 / (float)0
+  XMM14:    (double)0 / (float)0
+  XMM15:    (double)0 / (float)0
+}
+
+Stack
+{
+  [SP+0]    0x7FF731B68DE3     (SkyrimSE.exe+278DE3) (void*)
+  [SP+8]    0x1E7BFFF600       (TESObjectREFR**) -> (FormId: 1C0083BB, File: `Lux Orbis - Wyrmstooth.esp <- Wyrmstooth.esp`, BaseForm: null)
+  [SP+10]   0x0                (NULL)
+  [SP+18]   0x1E7BFFF5D0       (void*)
+  [SP+20]   0xFFFFFFFFFFFFFFFE (i64):[-2]
+  [SP+28]   0xFFFFFFFFFFFFFFFE (i64):[-2]
+  [SP+30]   0x8                (u8):[8]
+  [SP+38]   0x1B7E3509E80      (void*)
+  [SP+40]   0x7FF731B64ED7     (SkyrimSE.exe+274ED7) (void*)
+  [SP+48]   0x1B7E3505560      (TESObjectREFR**) -> (FormId: 1C0083BB, File: `Lux Orbis - Wyrmstooth.esp <- Wyrmstooth.esp`, BaseForm: null)
+  [SP+50]   0x1E7BFFF600       (TESObjectREFR**) -> (FormId: 1C0083BB, File: `Lux Orbis - Wyrmstooth.esp <- Wyrmstooth.esp`, BaseForm: null)
+  [SP+58]   0x1B7E3509E80      (void*)
+  [SP+60]   0x7FF7324F5067     (SkyrimSE.exe+C05067) (void*)
+  [SP+68]   0x1B7E3505560      (TESObjectREFR**) -> (FormId: 1C0083BB, File: `Lux Orbis - Wyrmstooth.esp <- Wyrmstooth.esp`, BaseForm: null)
+  [SP+70]   0x1B7E3509E80      (void*)
+  [SP+78]   0x1B7E3509E80      (void*)
+  [SP+80]   0x1B7E3509E80      (void*)
+  [SP+88]   0x0                (NULL)
+  [SP+90]   0x7FF731B5838B     (SkyrimSE.exe+26838B) (void*)
+  [SP+98]   0x1B7E0538E00      (TESObjectCELL*) -> (Name: Wilderness, FormId: 1C0010FD, File: `Missives - Wyrmstooth.esp <- Lux Orbis - Wyrmstooth.esp <- DynDOLOD.esp <- DBM_Wyrmstooth_Patch.esp <- DynDOLOD.esm <- Wyrmstooth.esp`)
+  [SP+A0]   0x1B7E0538E00      (TESObjectCELL*) -> (Name: Wilderness, FormId: 1C0010FD, File: `Missives - Wyrmstooth.esp <- Lux Orbis - Wyrmstooth.esp <- DynDOLOD.esp <- DBM_Wyrmstooth_Patch.esp <- DynDOLOD.esm <- Wyrmstooth.esp`)
+  [SP+A8]   0x1B7E04AFBA0      (TESObjectREFR*) -> (FormId: 1C0083BB, File: `Lux Orbis - Wyrmstooth.esp <- Wyrmstooth.esp`, BaseForm: null)
+  [SP+B0]   0x1B7E0538F18      (char*) "?2"
+  [SP+B8]   0xFFFFFFFFFFFFFFFE (i64):[-2]
+  [SP+C0]   0x7FF732E111A8     (SkyrimSE.exe+15211A8) (void*)
+  [SP+C8]   0x1E7BFFF628       (ScrapHeap**)
+  [SP+D0]   0x1B75D475030      (ScrapHeap*)
+  [SP+D8]   0x1B7EEDC1600      (TESObjectREFR**) -> (FormId: 1C9CA9AC, File: `Wyrmstooth.esp`, BaseForm: TESObjectSTAT(FormId: 0010C4B9, File: `Skyrim.esm`))
+  [SP+E0]   0x1B700000200      (void*)
+  [SP+E8]   0x1B700000187      (void*)
+  [SP+F0]   0x1E7BFFF6A8       (TESObjectCELL**) -> (Name: Wilderness, FormId: FF000DA5)
+  [SP+F8]   0x1E7BFFF628       (ScrapHeap**)
+  [SP+100]  0x1E7BFFF6A0       (void*)
+  [SP+108]  0x1E7BFFF6B0       (void*)
+  [SP+110]  0x1B7DFB3A780      (TESWorldSpace*) -> (Name: WyrmstoothWorld `Wyrmstooth`, FormId: 1C000D62, File: `Wyrmstooth for FWMF.esp <- WoW Dragon Mounds CTD Fix - Wyrmstooth Patch.esp <- RBB - Wyrmstooth.esp <- Occlusion.esp <- Missives - Wyrmstooth.esp <- Lux Via - Wyrmstooth addon.esp <- Lux Orbis - Wyrmstooth.esp <- DynDOLOD.esp <- DBM_Wyrmstooth_Patch.esp <- DynDOLOD.esm <- Wyrmstooth.esp`)
+  [SP+118]  0x7FF7337B2D40     (SkyrimSE.exe+1EC2D40) (void*)
+  [SP+120]  0x1B7E0538E00      (TESObjectCELL*) -> (Name: Wilderness, FormId: 1C0010FD, File: `Missives - Wyrmstooth.esp <- Lux Orbis - Wyrmstooth.esp <- DynDOLOD.esp <- DBM_Wyrmstooth_Patch.esp <- DynDOLOD.esm <- Wyrmstooth.esp`)
+  [SP+128]  0x7FF7337B33F8     (SkyrimSE.exe+1EC33F8) (void*)
+  [SP+130]  0x1B7D9C2D260      (TESWorldSpace**) -> (Name: WyrmstoothWorld `Wyrmstooth`, FormId: 1C000D62, File: `Wyrmstooth for FWMF.esp <- WoW Dragon Mounds CTD Fix - Wyrmstooth Patch.esp <- RBB - Wyrmstooth.esp <- Occlusion.esp <- Missives - Wyrmstooth.esp <- Lux Via - Wyrmstooth addon.esp <- Lux Orbis - Wyrmstooth.esp <- DynDOLOD.esp <- DBM_Wyrmstooth_Patch.esp <- DynDOLOD.esm <- Wyrmstooth.esp`)
+  [SP+138]  0x1E7BFFF750       (void*)
+  [SP+140]  0x7FF731BA652A     (SkyrimSE.exe+2B652A) (void*)
+  [SP+148]  0x0                (NULL)
+  [SP+150]  0x1B825093100      (TESObjectCELL*) -> (Name: Wilderness, FormId: FF000DA5)
+  [SP+158]  0x1B700000000      (void*)
+  [SP+160]  0x1E7BFFF648       (void*)
+  [SP+168]  0x7FF7337B3A28     (SkyrimSE.exe+1EC3A28) (void*)
+  [SP+170]  0x7FF731A6297F     (SkyrimSE.exe+17297F) (void*)
+  [SP+178]  0x1B7D9C2D320      (void*)
+  [SP+180]  0x1B700000064      (void*)
+  [SP+188]  0x7FF7337B2EA0     (SkyrimSE.exe+1EC2EA0) (void*)
+  [SP+190]  0x1B7D9C2D320      (void*)
+  [SP+198]  0xFFFFFFFFFFFFFFFE (i64):[-2]
+  [SP+1A0]  0x7FF732E294D0     (SkyrimSE.exe+15394D0) (char*) "HelpBarter"
+  [SP+1A8]  0x0                (NULL)
+  [SP+1B0]  0x0                (NULL)
+  [SP+1B8]  0x1B75D474F38      (void*)
+  [SP+1C0]  0x0                (NULL)
+  [SP+1C8]  0x0                (NULL)
+  [SP+1D0]  0x7FF731A614A4     (SkyrimSE.exe+1714A4) (void*)
+  [SP+1D8]  0x1B7CA044800      (void*)
+  [SP+1E0]  0x1E7BFFF7B8       (void*)
+  [SP+1E8]  0x7FF7337B2D40     (SkyrimSE.exe+1EC2D40) (void*)
+  [SP+1F0]  0x7FF731A64773     (SkyrimSE.exe+174773) (void*)
+  [SP+1F8]  0x1B75D474F38      (void*)
+  [SP+200]  0x0                (NULL)
+  [SP+208]  0x1B6BE882E28      (void*)
+  [SP+210]  0x1B7CA044800      (void*)
+  [SP+218]  0x7FF7337B2D40     (SkyrimSE.exe+1EC2D40) (void*)
+  [SP+220]  0x7FF731A5E9A6     (SkyrimSE.exe+16E9A6) (void*)
+  [SP+228]  0x1B7D9C2D320      (void*)
+  [SP+230]  0x1B7D2089C00      (BGSVolumetricLighting**) -> (FormId: 01002713, File: `Update.esm`)
+  [SP+238]  0x7FF7337B2D40     (SkyrimSE.exe+1EC2D40) (void*)
+  [SP+240]  0x1B6BE882E28      (void*)
+  [SP+248]  0x1B6BE87ED80      (void*)
+  [SP+250]  0x1B6BE882E28      (void*)
+  [SP+258]  0xFFFFFFFFFFFFFFFE (i64):[-2]
+  [SP+260]  0x7FF7337B2D40     (SkyrimSE.exe+1EC2D40) (void*)
+  [SP+268]  0x1E7BFFF828       (void*)
+  [SP+270]  0x7FF731EA6DA1     (SkyrimSE.exe+5B6DA1) (void*)
+  [SP+278]  0x1B78973C100      (PlayerCharacter*) -> (FormId: 00000014, BaseForm: TESNPC(Name: `Adventurer`, FormId: 00000007, File: `Skyrim Unbound.esp <- ccbgssse018-shadowrend.esl <- Skyrim.esm`))
+  [SP+280]  0x1B663746501      (void*)
+  [SP+288]  0x0                (NULL)
+  [SP+290]  0x0                (NULL)
+  [SP+298]  0x768              (u16):[1896]
+  [SP+2A0]  0x1E7BFFF8B0       (void*)
+  [SP+2A8]  0x1B75D474960      (void*)
+  [SP+2B0]  0x1E7BFFF889       (void*)
+  [SP+2B8]  0x2                (u8):[2]
+  [SP+2C0]  0x7FF731EA0463     (SkyrimSE.exe+5B0463) (void*)
+  [SP+2C8]  0x2                (u8):[2]
+  [SP+2D0]  0x1B700100000      (void*)
+  [SP+2D8]  0x1B7CA026B00      (void*)
+  [SP+2E0]  0x1B7CA0272A8      (void*)
+  [SP+2E8]  0x1B789623D00      (Sky*)
+  [SP+2F0]  0x1B7896367A0      (LoadedAreaBound*)
+  [SP+2F8]  0x7FF734817750     (SkyrimSE.exe+2F27750) (BGSStoryTeller*)
+  [SP+300]  0x0                (NULL)
+  [SP+308]  0x7FF7336DEE58     (SkyrimSE.exe+1DEEE58) (SettingT<INISettingCollection>*)
+  [SP+310]  0x7FF7336DEE70     (SkyrimSE.exe+1DEEE70) (SettingT<INISettingCollection>*)
+  [SP+318]  0x7FF7336DEE88     (SkyrimSE.exe+1DEEE88) (SettingT<INISettingCollection>*)
+  [SP+320]  0x7FF7336DEEA0     (SkyrimSE.exe+1DEEEA0) (SettingT<INISettingCollection>*)
+  [SP+328]  0x7FF7336DEEB8     (SkyrimSE.exe+1DEEEB8) (SettingT<INISettingCollection>*)
+  [SP+330]  0x7FF7336DEED0     (SkyrimSE.exe+1DEEED0) (SettingT<INISettingCollection>*)
+  [SP+338]  0x7FF7336DEEE8     (SkyrimSE.exe+1DEEEE8) (SettingT<INISettingCollection>*)
+  [SP+340]  0x7FF7336DEF00     (SkyrimSE.exe+1DEEF00) (SettingT<INISettingCollection>*)
+  [SP+348]  0x7FF7336DEF18     (SkyrimSE.exe+1DEEF18) (SettingT<INISettingCollection>*)
+  [SP+350]  0x7FF7336DEF30     (SkyrimSE.exe+1DEEF30) (SettingT<INISettingCollection>*)
+  [SP+358]  0xFFFFFFFFFFFFFFFE (i64):[-2]
+  [SP+360]  0x7FF734817BE0     (SkyrimSE.exe+2F27BE0) (void*)
+  [SP+368]  0x0                (NULL)
+  [SP+370]  0x0                (NULL)
+  [SP+378]  0x0                (NULL)
+  [SP+380]  0x0                (NULL)
+  [SP+388]  0x0                (NULL)
+  [SP+390]  0x7FF731EA85FC     (SkyrimSE.exe+5B85FC) (void*)
+  [SP+398]  0x1E78BCF830       (InitTESThread*)
+  [SP+3A0]  0x0                (NULL)
+  [SP+3A8]  0x2                (u8):[2]
+  [SP+3B0]  0x7FF734817750     (SkyrimSE.exe+2F27750) (BGSStoryTeller*)
+  [SP+3B8]  0x1E78BCF830       (InitTESThread*)
+  [SP+3C0]  0x7FF7324FD6BD     (SkyrimSE.exe+C0D6BD) (void*)
+  [SP+3C8]  0x0                (NULL)
+  [SP+3D0]  0x1E78BCF830       (InitTESThread*)
+  [SP+3D8]  0x1B66374CB68      (void*)
+  [SP+3E0]  0x1B66374CB68      (void*)
+  [SP+3E8]  0x1E78BCF830       (InitTESThread*)
+  [SP+3F0]  0x0                (NULL)
+  [SP+3F8]  0x0                (NULL)
+  [SP+400]  0x7FFB9FCA257D     (KERNEL32.DLL+1257D) (void*)
+  [SP+408]  0x0                (NULL)
+  [SP+410]  0x0                (NULL)
+  [SP+418]  0x0                (NULL)
+  [SP+420]  0x0                (NULL)
+  [SP+428]  0x0                (NULL)
+  [SP+430]  0x7FFBA07EAA48     (ntdll.dll+5AA48) (void*)
+  [SP+438]  0x0                (NULL)
+  [SP+440]  0x0                (NULL)
+  [SP+448]  0x0                (NULL)
+  [SP+450]  0x0                (NULL)
+  [SP+458]  0x0                (NULL)
+  [SP+460]  0x0                (NULL)
+  [SP+468]  0xD69F053C00000000 (i64):[-2981658673039802368]
+  [SP+470]  0x0                (NULL)
+  [SP+478]  0x4F0FFFFFB30      (u64):[5433133628208]
+  [SP+480]  0x7FFB9E0AC880     (KERNELBASE.dll+15C880) (void*)
+  [SP+488]  0x1E7BFFE680       (void*)
+  [SP+490]  0x7FFB4895CDBC0    (u64):[2251475700734912]
+  [SP+498]  0x7FFB4895CDBC     (mscorlib.ni.dll+85CDBC) (void*)
+  [SP+4A0]  0x1E7BFFE680       (void*)
+  [SP+4A8]  0x0                (NULL)
+  [SP+4B0]  0x0                (NULL)
+  [SP+4B8]  0x0                (NULL)
+  [SP+4C0]  0x0                (NULL)
+  [SP+4C8]  0x0                (NULL)
+  [SP+4D0]  0x0                (NULL)
+  [SP+4D8]  0x0                (NULL)
+  [SP+4E0]  0x0                (NULL)
+  [SP+4E8]  0x0                (NULL)
+  [SP+4F0]  0x0                (NULL)
+  [SP+4F8]  0x0                (NULL)
+  [SP+500]  0x0                (NULL)
+  [SP+508]  0x0                (NULL)
+  [SP+510]  0x0                (NULL)
+  [SP+518]  0x0                (NULL)
+  [SP+520]  0x0                (NULL)
+  [SP+528]  0x0                (NULL)
+  [SP+530]  0x0                (NULL)
+  [SP+538]  0x0                (NULL)
+  [SP+540]  0x0                (NULL)
+  [SP+548]  0x0                (NULL)
+  [SP+550]  0x0                (NULL)
+  [SP+558]  0x0                (NULL)
+  [SP+560]  0x0                (NULL)
+  [SP+568]  0x0                (NULL)
+  [SP+570]  0x0                (NULL)
+  [SP+578]  0x0                (NULL)
+  [SP+580]  0x0                (NULL)
+  [SP+588]  0x0                (NULL)
+  [SP+590]  0x0                (NULL)
+  [SP+598]  0x0                (NULL)
+  [SP+5A0]  0x0                (NULL)
+  [SP+5A8]  0x0                (NULL)
+  [SP+5B0]  0x0                (NULL)
+  [SP+5B8]  0x0                (NULL)
+  [SP+5C0]  0x0                (NULL)
+  [SP+5C8]  0x0                (NULL)
+  [SP+5D0]  0x0                (NULL)
+  [SP+5D8]  0x0                (NULL)
+  [SP+5E0]  0x0                (NULL)
+  [SP+5E8]  0x0                (NULL)
+  [SP+5F0]  0x0                (NULL)
+  [SP+5F8]  0x0                (NULL)
+  [SP+600]  0x0                (NULL)
+  [SP+608]  0x0                (NULL)
+  [SP+610]  0x0                (NULL)
+  [SP+618]  0x0                (NULL)
+  [SP+620]  0x0                (NULL)
+  [SP+628]  0x0                (NULL)
+  [SP+630]  0x0                (NULL)
+  [SP+638]  0x0                (NULL)
+  [SP+640]  0x0                (NULL)
+  [SP+648]  0x0                (NULL)
+  [SP+650]  0x0                (NULL)
+  [SP+658]  0x0                (NULL)
+  [SP+660]  0x0                (NULL)
+  [SP+668]  0x0                (NULL)
+  [SP+670]  0x0                (NULL)
+  [SP+678]  0x0                (NULL)
+  [SP+680]  0x0                (NULL)
+  [SP+688]  0x0                (NULL)
+  [SP+690]  0x0                (NULL)
+  [SP+698]  0x0                (NULL)
+  [SP+6A0]  0x0                (NULL)
+  [SP+6A8]  0x0                (NULL)
+  [SP+6B0]  0x0                (NULL)
+  [SP+6B8]  0x0                (NULL)
+  [SP+6C0]  0x0                (NULL)
+  [SP+6C8]  0x0                (NULL)
+  [SP+6D0]  0x0                (NULL)
+  [SP+6D8]  0x0                (NULL)
+  [SP+6E0]  0x0                (NULL)
+  [SP+6E8]  0x0                (NULL)
+  [SP+6F0]  0x0                (NULL)
+  [SP+6F8]  0x0                (NULL)
+  [SP+700]  0x0                (NULL)
+  [SP+708]  0x0                (NULL)
+  [SP+710]  0x0                (NULL)
+  [SP+718]  0x0                (NULL)
+  [SP+720]  0x0                (NULL)
+  [SP+728]  0x0                (NULL)
+  [SP+730]  0x0                (NULL)
+  [SP+738]  0x0                (NULL)
+  [SP+740]  0x0                (NULL)
+  [SP+748]  0x0                (NULL)
+  [SP+750]  0x0                (NULL)
+  [SP+758]  0x0                (NULL)
+  [SP+760]  0x0                (NULL)
+  [SP+768]  0x0                (NULL)
+  [SP+770]  0x0                (NULL)
+  [SP+778]  0x0                (NULL)
+  [SP+780]  0x0                (NULL)
+  [SP+788]  0x0                (NULL)
+  [SP+790]  0x0                (NULL)
+  [SP+798]  0x0                (NULL)
+  [SP+7A0]  0x0                (NULL)
+  [SP+7A8]  0x0                (NULL)
+  [SP+7B0]  0x0                (NULL)
+  [SP+7B8]  0x0                (NULL)
+  [SP+7C0]  0x0                (NULL)
+  [SP+7C8]  0x0                (NULL)
+  [SP+7D0]  0x0                (NULL)
+  [SP+7D8]  0x0                (NULL)
+  [SP+7E0]  0x0                (NULL)
+  [SP+7E8]  0x0                (NULL)
+  [SP+7F0]  0x0                (NULL)
+  [SP+7F8]  0x0                (NULL)
+  [SP+800]  0x0                (NULL)
+  [SP+808]  0x0                (NULL)
+  [SP+810]  0x0                (NULL)
+  [SP+818]  0x0                (NULL)
+  [SP+820]  0x0                (NULL)
+  [SP+828]  0x0                (NULL)
+  [SP+830]  0x0                (NULL)
+  [SP+838]  0x0                (NULL)
+  [SP+840]  0x0                (NULL)
+  [SP+848]  0x0                (NULL)
+  [SP+850]  0x0                (NULL)
+  [SP+858]  0x0                (NULL)
+  [SP+860]  0x0                (NULL)
+  [SP+868]  0x0                (NULL)
+  [SP+870]  0x0                (NULL)
+  [SP+878]  0x0                (NULL)
+  [SP+880]  0x0                (NULL)
+  [SP+888]  0x0                (NULL)
+  [SP+890]  0x0                (NULL)
+  [SP+898]  0x0                (NULL)
+  [SP+8A0]  0x0                (NULL)
+  [SP+8A8]  0x0                (NULL)
+  [SP+8B0]  0x0                (NULL)
+  [SP+8B8]  0x0                (NULL)
+  [SP+8C0]  0x0                (NULL)
+  [SP+8C8]  0x0                (NULL)
+  [SP+8D0]  0x0                (NULL)
+  [SP+8D8]  0x0                (NULL)
+  [SP+8E0]  0x0                (NULL)
+  [SP+8E8]  0x0                (NULL)
+  [SP+8F0]  0x0                (NULL)
+  [SP+8F8]  0x0                (NULL)
+  [SP+900]  0x0                (NULL)
+  [SP+908]  0x0                (NULL)
+  [SP+910]  0x0                (NULL)
+  [SP+918]  0x0                (NULL)
+  [SP+920]  0x0                (NULL)
+  [SP+928]  0x0                (NULL)
+  [SP+930]  0x0                (NULL)
+  [SP+938]  0x0                (NULL)
+  [SP+940]  0x0                (NULL)
+  [SP+948]  0x0                (NULL)
+  [SP+950]  0x0                (NULL)
+  [SP+958]  0x0                (NULL)
+  [SP+960]  0x0                (NULL)
+  [SP+968]  0x0                (NULL)
+  [SP+970]  0x0                (NULL)
+  [SP+978]  0x0                (NULL)
+  [SP+980]  0x0                (NULL)
+  [SP+988]  0x0                (NULL)
+  [SP+990]  0x0                (NULL)
+  [SP+998]  0x0                (NULL)
+  [SP+9A0]  0x0                (NULL)
+  [SP+9A8]  0x0                (NULL)
+  [SP+9B0]  0x0                (NULL)
+  [SP+9B8]  0x0                (NULL)
+  [SP+9C0]  0x0                (NULL)
+  [SP+9C8]  0x0                (NULL)
+  [SP+9D0]  0x0                (NULL)
+  [SP+9D8]  0x0                (NULL)
+  [SP+9E0]  0x0                (NULL)
+  [SP+9E8]  0x0                (NULL)
+  [SP+9F0]  0x0                (NULL)
+  [SP+9F8]  0x0                (NULL)
+  [SP+A00]  0x0                (NULL)
+  [SP+A08]  0x0                (NULL)
+  [SP+A10]  0x0                (NULL)
+  [SP+A18]  0x0                (NULL)
+  [SP+A20]  0x0                (NULL)
+  [SP+A28]  0x0                (NULL)
+  [SP+A30]  0x0                (NULL)
+  [SP+A38]  0x0                (NULL)
+  [SP+A40]  0x0                (NULL)
+  [SP+A48]  0x0                (NULL)
+  [SP+A50]  0x0                (NULL)
+  [SP+A58]  0x0                (NULL)
+  [SP+A60]  0x0                (NULL)
+  [SP+A68]  0x0                (NULL)
+  [SP+A70]  0x0                (NULL)
+  [SP+A78]  0x0                (NULL)
+  [SP+A80]  0x0                (NULL)
+  [SP+A88]  0x0                (NULL)
+  [SP+A90]  0x0                (NULL)
+  [SP+A98]  0x0                (NULL)
+  [SP+AA0]  0x0                (NULL)
+}
+
+Modules
+{
+  SkyrimSE.exe:                                     0x7FF7318F0000
+  ntdll.dll:                                        0x7FFBA0790000
+  KERNEL32.DLL:                                     0x7FFB9FC90000
+  KERNELBASE.dll:                                   0x7FFB9DF50000
+  apphelp.dll:                                      0x7FFB9AA70000
+  USER32.dll:                                       0x7FFB9EE40000
+  win32u.dll:                                       0x7FFB9DE80000
+  GDI32.dll:                                        0x7FFBA0710000
+  gdi32full.dll:                                    0x7FFB9E3A0000
+  msvcp_win.dll:                                    0x7FFB9E300000
+  ucrtbase.dll:                                     0x7FFB9DB70000
+  ADVAPI32.dll:                                     0x7FFBA0340000
+  msvcrt.dll:                                       0x7FFBA0280000
+  sechost.dll:                                      0x7FFB9E900000
+  bcrypt.dll:                                       0x7FFB9DF20000
+  RPCRT4.dll:                                       0x7FFB9E6E0000
+  SHELL32.dll:                                      0x7FFB9F430000
+  ole32.dll:                                        0x7FFBA0480000
+  combase.dll:                                      0x7FFB9FEF0000
+  WS2_32.dll:                                       0x7FFB9F1B0000
+  SETUPAPI.dll:                                     0x7FFB9E9B0000
+  X3DAudio1_7.dll:                                  0x66B60000
+  XINPUT1_3.dll:                                    0x400000
+  OLEAUT32.dll:                                     0x7FFBA0630000
+  DINPUT8.dll:                                      0x7FFB62640000
+  binkw64.dll:                                      0x7FFB64C20000
+  WINHTTP.dll:                                      0x7FFB95DA0000
+  IPHLPAPI.DLL:                                     0x7FFB9C5B0000
+  steam_api64.dll:                                  0x66B20000
+  MSVCP140.dll:                                     0x7FFB62120000
+  WSOCK32.dll:                                      0x7FFB7CA80000
+  VCRUNTIME140.dll:                                 0x7FFB621B0000
+  d3dx9_42.dll:                                     0x7FFB9A260000
+  d3d11.dll:                                        0x180000000
+  WINMM.dll:                                        0x7FFB95260000
+  HID.DLL:                                          0x7FFB9C2C0000
+  SHLWAPI.dll:                                      0x7FFBA0420000
+  dxgi.dll:                                         0x7FFAFE610000
+  dbghelp.dll:                                      0x7FFB9B300000
+  VCRUNTIME140_1.dll:                               0x7FFB7BA80000
+  d3dx11_43.dll:                                    0x7FFB03010000
+  dwmapi.dll:                                       0x7FFB9AF40000
+  WININET.dll:                                      0x7FFB8D040000
+  VERSION.dll:                                      0x7FFB929B0000
+  D3DCOMPILER_43.dll:                               0x7FFAFE3A0000
+  CRYPTBASE.DLL:                                    0x7FFB9D200000
+  IMM32.DLL:                                        0x7FFB9E540000
+  binkw64_.dll:                                     0x1B64BE50000
+  skse64_steam_loader.dll:                          0x7FFB62600000
+  windows.storage.dll:                              0x7FFB9B9C0000
+  wintypes.dll:                                     0x7FFB9B880000
+  inputhost.dll:                                    0x7FFB824C0000
+  CoreMessaging.dll:                                0x7FFB9A690000
+  SHCORE.dll:                                       0x7FFB9F230000
+  profapi.dll:                                      0x7FFB9D9E0000
+  bcryptPrimitives.dll:                             0x7FFB9DC90000
+  usvfs_x64.dll:                                    0x7FFB70860000
+  steamclient64.dll:                                0x7FFABB2E0000
+  CRYPT32.dll:                                      0x7FFB9DD10000
+  imagehlp.dll:                                     0x7FFBA0400000
+  PSAPI.DLL:                                        0x7FFBA0330000
+  tier0_s64.dll:                                    0x7FFAFE200000
+  vstdlib_s64.dll:                                  0x7FFB01410000
+  MSWSOCK.dll:                                      0x7FFB9D000000
+  Secur32.dll:                                      0x7FFB9C890000
+  SSPICLI.DLL:                                      0x7FFB9CE00000
+  EngineFixes.dll:                                  0x7FFAFE100000
+  tbb.dll:                                          0x7FFB01650000
+  tbbmalloc.dll:                                    0x7FFAFEA70000
+  FPSFixPlugin.dll:                                 0x7FFB60D60000
+  NetScriptFramework.Runtime.dll:                   0x7FFB36A00000
+  mscoree.dll:                                      0x7FFB4A230000
+  mscoreei.dll:                                     0x7FFB4A190000
+  kernel.appcore.dll:                               0x7FFB9CAB0000
+  clr.dll:                                          0x7FFB497E0000
+  VCRUNTIME140_1_CLR0400.dll:                       0x7FFB7A1F0000
+  VCRUNTIME140_CLR0400.dll:                         0x7FFB9A7D0000
+  ucrtbase_clr0400.dll:                             0x7FFB49710000
+  mscorlib.ni.dll:                                  0x7FFB48100000
+  clrjit.dll:                                       0x7FFB3A990000
+  wldp.dll:                                         0x7FFB9D2A0000
+  amsi.dll:                                         0x7FFB91BA0000
+  USERENV.dll:                                      0x7FFB9D0A0000
+  MpOav.dll:                                        0x7FFAB1340000
+  MPCLIENT.DLL:                                     0x7FFABDBE0000
+  WINTRUST.dll:                                     0x7FFB9DEB0000
+  MSASN1.dll:                                       0x7FFB9D750000
+  gpapi.dll:                                        0x7FFB9D070000
+  System.ni.dll:                                    0x7FFB39C30000
+  System.Core.ni.dll:                               0x7FFB16AD0000
+  urlmon.dll:                                       0x7FFB8DE10000
+  iertutil.dll:                                     0x7FFB8D5E0000
+  srvcli.dll:                                       0x7FFB80560000
+  netutils.dll:                                     0x7FFB9C430000
+  PROPSYS.dll:                                      0x7FFB98B80000
+  virtdisk.dll:                                     0x7FFB78AC0000
+  NetScriptFramework.SkyrimSE.dll:                  0x7FFAFDD50000
+  skse64_1_5_97.dll:                                0x7FFAFDFB0000
+  ACloserLookSSE.dll:                               0x1B600BF0000
+  AddItemMenuSE.dll:                                0x7FFAFDEB0000
+  AHZmoreHUDInventory.dll:                          0x7FFAFDCE0000
+  AHZmoreHUDPlugin.dll:                             0x7FFAFD900000
+  AnimationMotionRevolution.dll:                    0x7FFAFB490000
+  AnimationQueueFix.dll:                            0x7FFAFD8A0000
+  AutoInputSwitch.dll:                              0x7FFAFD380000
+  BetterJumpingSE.dll:                              0x7FFAFD620000
+  BetterThirdPersonSelection.dll:                   0x7FFAFB070000
+  BugFixesSSE.dll:                                  0x7FFAFB010000
+  cbp.dll:                                          0x7FFAFAF10000
+  CCExtender.dll:                                   0x7FFAFAE90000
+  CombatMusicFix.dll:                               0x7FFAFADF0000
+  CompassNavigationOverhaul.dll:                    0x7FFAF90A0000
+  ComprehensiveAttackSpeedPatch.dll:                0x7FFAF6EE0000
+  ConsoleUtilSSE.dll:                               0x7FFAF9010000
+  ContextualCrosshair.dll:                          0x7FFAF8FB0000
+  ContinueSound.dll:                                0x7FFAF76C0000
+  DisableFollowerCollision.dll:                     0x7FFAF77D0000
+  DKAF.dll:                                         0x7FFAF7270000
+  DP_Extender.dll:                                  0x7FFAFDE70000
+  DtryKeyUtil.dll:                                  0x7FFAF6E40000
+  DynamicAnimationReplacer.dll:                     0x7FFAF6DD0000
+  DynDOLOD.DLL:                                     0x7FFAF6D50000
+  EldenCounter.dll:                                 0x7FFAF6CC0000
+  ENBHelperPlus.dll:                                0x7FFAF6C60000
+  ENBHelperSE.dll:                                  0x7FFAF6880000
+  ENBInputDisabler.dll:                             0x7FFAF67F0000
+  EquipmentDurability.dll:                          0x7FFAF6780000
+  EVLaS.dll:                                        0x7FFB16760000
+  ExATKDataPlugin.dll:                              0x7FFB02FE0000
+  Experience.dll:                                   0x7FFAF6430000
+  ExtendedHotkeySystem.dll:                         0x7FFAF6390000
+  fiss.dll:                                         0x7FFAFDCA0000
+  FlatMapMarkersSSE.dll:                            0x7FFAF62F0000
+  FloatingDamageV2.dll:                             0x7FFAF6710000
+  FormListManipulator.dll:                          0x7FFAF61D0000
+  Fuz Ro D'oh.dll:                                  0x7FFAF6160000
+  GearSpreader.dll:                                 0x7FFAE70E0000
+  gotobed.dll:                                      0x7FFAE8FD0000
+  HDLocalMap.dll:                                   0x7FFAF6C00000
+  hdtSMP64.dll:                                     0x7FFABE8C0000
+  HonedMetal.dll:                                   0x7FFAFD340000
+  HookDamage.dll:                                   0x7FFAE7080000
+  HorseStaminaHUD.dll:                              0x7FFAE6FC0000
+  HotkeysSystem.dll:                                0x7FFAE6EF0000
+  iEquipUtil.dll:                                   0x7FFAE6E50000
+  ImmersiveEquipmentDisplays.dll:                   0x7FFABE120000
+  D3DCOMPILER_47.dll:                               0x7FFB99140000
+  CRYPTSP.dll:                                      0x7FFB9D2F0000
+  ImWalkinHere.dll:                                 0x7FFAF8F70000
+  InfinityUI.dll:                                   0x7FFAE6D20000
+  InsertAttackData.dll:                             0x7FFAE6CC0000
+  InstantlySkipDialogueNG.dll:                      0x7FFAE6C10000
+  InventoryInjector.dll:                            0x7FFAE6B70000
+  J42_ARR_plugin.dll:                               0x7FFAE6B20000
+  JContainers64.dll:                                0x7FFABF310000
+  keyholepeekmenu.dll:                              0x7FFAE6AB0000
+  large_sector_fix.dll:                             0x7FFB8FBC0000
+  LibFire.dll:                                      0x7FFABDF90000
+  LibMathf.dll:                                     0x7FFABDE80000
+  loki_DynamicAnimationCasting.dll:                 0x7FFABDDA0000
+  MagExtender.dll:                                  0x7FFAE6A70000
+  MaxsuAIProcessFix.dll:                            0x7FFAE6A00000
+  MaxsuBlockSpark.dll:                              0x7FFABDD50000
+  MaxsuDetectionMeter.dll:                          0x7FFABB100000
+  MSVCP140_ATOMIC_WAIT.dll:                         0x7FFB7C990000
+  MaxsuIFrame.dll:                                  0x7FFABAFF0000
+  MaxsuOnHitAnimFW.dll:                             0x7FFABAFA0000
+  MaxsuStaggerDirFix.dll:                           0x7FFABAF50000
+  MCMHelper.dll:                                    0x7FFABAE70000
+  MCO.dll:                                          0x7FFABADE0000
+  mfgfix.dll:                                       0x7FFABAD20000
+  MoreInformativeConsole.dll:                       0x7FFABAC40000
+  OneClickPowerAttack.dll:                          0x7FFABDD10000
+  PapyrusTweaks.dll:                                0x7FFABAB40000
+  PapyrusUtil.dll:                                  0x7FFABA9C0000
+  Paraglider.dll:                                   0x1B61E910000
+  PayloadInterpreter.dll:                           0x7FFABA890000
+  PlayerRotation.dll:                               0x7FFABA830000
+  po3_BaseObjectSwapper.dll:                        0x7FFABA710000
+  po3_ENBLightForEffectShaders.dll:                 0x7FFABA650000
+  po3_KeywordItemDistributor.dll:                   0x7FFABA4C0000
+  po3_LockVariations.dll:                           0x7FFABA410000
+  po3_OxygenMeter2.dll:                             0x7FFABA360000
+  po3_PapyrusExtender.dll:                          0x7FFABA0F0000
+  po3_SeasonsOfSkyrim.dll:                          0x7FFABA000000
+  po3_SimpleOffenceSuppression.dll:                 0x7FFAB9F60000
+  po3_SpellPerkItemDistributor.dll:                 0x7FFAB9DF0000
+  po3_SplashesOfSkyrim.dll:                         0x7FFAB9D30000
+  po3_SplashesOfStorms.dll:                         0x7FFAB9C70000
+  po3_Tweaks.dll:                                   0x7FFAB9BA0000
+  po3_VampiresCastNoShadow.dll:                     0x7FFAB9B00000
+  po3_WashThatBloodOff.dll:                         0x7FFAB9A60000
+  poisoner.dll:                                     0x7FFAB99A0000
+  Precision.dll:                                    0x7FFAB97D0000
+  QuickLootEE.dll:                                  0x7FFAB96F0000
+  RecursionFPSFix.dll:                              0x7FFAB9610000
+  ScaleformTranslationPP.dll:                       0x7FFAB9530000
+  SCAR.dll:                                         0x7FFAB9290000
+  ScrambledBugs.dll:                                0x7FFAB94D0000
+  ShowPlayerInMenus.dll:                            0x7FFAB9220000
+  SimpleDualSheath.dll:                             0x7FFAB9180000
+  SimplyKnock.dll:                                  0x7FFB010F0000
+  skee64-memleak-patch.dll:                         0x7FFAB9480000
+  skee64.dll:                                       0x7FFAB8F90000
+  SkyrimUpscaler.dll:                               0x7FFAB8E50000
+  nvngx_dlss.dll:                                   0x7FFAB6450000
+  PDPerfPlugin.dll:                                 0x7FFAB8E10000
+  d3d12.dll:                                        0x7FFB8FBD0000
+  SmoothCam.dll:                                    0x7FFAB8CA0000
+  dbgcore.DLL:                                      0x7FFB80AA0000
+  SSEDisplayTweaks.dll:                             0x7FFAB8BF0000
+  SSEFpsStabilizer.dll:                             0x7FFAB8B90000
+  SSMT_Fix.dll:                                     0x7FFAB8B20000
+  StayAtSystemPageSE.dll:                           0x7FFAB8A90000
+  StormLightning.dll:                               0x7FFAB8A40000
+  SurvivalControlPanel.dll:                         0x7FFAB89D0000
+  TimeFormatChanger.dll:                            0x7FFAB8980000
+  TK_Dodge_RE.dll:                                  0x7FFAB8930000
+  TrueDirectionalMovement.dll:                      0x7FFAB8870000
+  TrueHUD.dll:                                      0x7FFAB87B0000
+  UltimateCombat.dll:                               0x7FFAB8770000
+  valhallaCombat.dll:                               0x7FFAB86D0000
+  Vibrant weapons.dll:                              0x7FFAB8670000
+  WadeInWater.dll:                                  0x7FFAB8610000
+  WhoseQuestIsItAnyway.dll:                         0x7FFAB8560000
+  zxlice's ultimate potion animation.dll:           0x7FFAB8510000
+  uxtheme.dll:                                      0x7FFB9AB30000
+  gameoverlayrenderer64.dll:                        0x7FFAB8370000
+  CFGMGR32.dll:                                     0x7FFB9D770000
+  MSCTF.dll:                                        0x7FFB9E580000
+  textinputframework.dll:                           0x7FFB7E3A0000
+  dxgi.dll:                                         0x7FFB9AD40000
+  dxcore.dll:                                       0x7FFB9AC20000
+  directxdatabasehelper.dll:                        0x7FFB987E0000
+  d3dcompiler_46e.dll:                              0x7FFAF7F80000
+  d3d11.dll:                                        0x7FFB997B0000
+  nvldumdx.dll:                                     0x7FFB929C0000
+  cryptnet.dll:                                     0x7FFB92970000
+  drvstore.dll:                                     0x7FFB92810000
+  devobj.dll:                                       0x7FFB9D7C0000
+  rsaenh.dll:                                       0x7FFB9CA70000
+  nvwgf2umx.dll:                                    0x7FFB85A80000
+  MessageBus.dll:                                   0x7FFB8E900000
+  NSI.dll:                                          0x1B649220000
+  dhcpcsvc.DLL:                                     0x7FFB95A70000
+  dcomp.dll:                                        0x7FFB9A000000
+  ondemandconnroutehelper.dll:                      0x7FFB7D460000
+  WINNSI.DLL:                                       0x7FFB98AB0000
+  DPAPI.DLL:                                        0x7FFB9D810000
+  DNSAPI.dll:                                       0x7FFB9C5E0000
+  rasadhlp.dll:                                     0x7FFB95100000
+  fwpuclnt.dll:                                     0x7FFB948C0000
+  schannel.DLL:                                     0x7FFB9C970000
+  ncrypt.dll:                                       0x7FFB9D3F0000
+  NTASN1.dll:                                       0x7FFB9D3A0000
+  ncryptsslp.dll:                                   0x7FFB7FC90000
+  WindowsCodecs.dll:                                0x7FFB98F90000
+  xinput1_4.dll:                                    0x7FFB39C10000
+  _nvngx.dll:                                       0x7FFB71E00000
+  nvapi64.dll:                                      0x7FFB92070000
+  DEVRTL.dll:                                       0x7FFB93640000
+  SPINF.dll:                                        0x7FFB8E8E0000
+  ntmarta.dll:                                      0x7FFB9CB50000
+  nvcuda64.dll:                                     0x7FFB72D30000
+  XAudio2_7.dll:                                    0x7FFAFB400000
+  clbcatq.dll:                                      0x1B6EC9E0000
+  MMDevApi.dll:                                     0x7FFB8C310000
+  resourcepolicyclient.dll:                         0x7FFB9AF80000
+  AUDIOSES.DLL:                                     0x7FFB83B00000
+  powrprof.dll:                                     0x7FFB9CCA0000
+  UMPDC.dll:                                        0x7FFB9CC80000
+  Windows.UI.dll:                                   0x7FFB84090000
+  avrt.dll:                                         0x7FFB984A0000
+  DSOUND.DLL:                                       0x7FFB18F00000
+  ResampleDmo.DLL:                                  0x7FFB17760000
+  winmmbase.dll:                                    0x7FFB77EA0000
+  msdmo.dll:                                        0x7FFB76AB0000
+  CoreUIComponents.dll:                             0x7FFB97850000
+}
+
+Plugins (2)
+{
+  custom_skills
+  {
+    Name: "Custom Skills"
+    Version: 1
+    Author: "meh321"
+    Assembly: CustomSkills, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  }
+
+  grasscontrol
+  {
+    Name: "Grass Control"
+    Version: 8
+    Author: "meh321"
+    Assembly: GrassControl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  }
+}
+
+Game plugins (2314)
+{
+  [00] Skyrim.esm
+  [01] Update.esm
+  [02] Dawnguard.esm
+  [03] HearthFires.esm
+  [04] Dragonborn.esm
+  [05] ccasvsse001-almsivi.esm
+  [06] ccbgssse001-fish.esm
+  [07] cctwbsse001-puzzledungeon.esm
+  [08] cceejsse001-hstead.esm
+  [09] ccbgssse016-umbra.esm
+  [0A] ccbgssse031-advcyrus.esm
+  [0B] ccbgssse067-daedinv.esm
+  [0C] ccbgssse025-advdsgs.esm
+  [0D] cceejsse005-cave.esm
+  [0E] ccafdsse001-dwesanctuary.esm
+  [0F] 3DNPC.esp
+  [10] AKSkyrimUnderground.esm
+  [11] Alpine Forest of Whiterun Valley.esp
+  [12] arnima.esm
+  [13] BSAssets.esm
+  [14] BSHeartland.esm
+  [15] BS_DLC_patch.esp
+  [16] Campfire.esm
+  [17] LegacyoftheDragonborn.esm
+  [18] DBM_CC_HallOfWonders.esp
+  [19] Dwarfsphere.esp
+  [1A] Natural Waterfalls.esp
+  [1B] Unslaad.esm
+  [1C] Wyrmstooth.esp
+  [1D] Vigilant.esm
+  [1E] Lux Via - Markarth Entrance and Farm Overhaul.esp
+  [1F] Lux Via.esp
+  [20] Unofficial Skyrim Special Edition Patch.esp
+  [21] DynDOLOD.esm
+  [22] ETaC - RESOURCES.esp
+  [23] evgSIRENROOT.esm
+  [24] FISS.esp
+  [25] GKBWavesReborn.esp
+  [26] JSwords.esm
+  [27] LOTD_HUB.esp
+  [28] Occ_Skyrim_Tamriel.esp
+  [29] Resources - The Great Cities.esp
+  [2A] RSkyrimChildren.esm
+  [2B] SGEyebrows.esp
+  [2C] TravellersOfSkyrim.esm
+  [2D] WheelsOfLull.esp
+  [2E] wraithguardvaultfixer.esp
+  [2F] 1Ogres.esp
+  [30] AddItemMenuSE.esp
+  [31] AI Overhaul.esp
+  [32] AKSkyrimUnderground_AddOn.esp
+  [33] AMatterOfTime.esp
+  [34] Amber Guard.esp
+  [35] Andromeda - Unique Standing Stones of Skyrim.esp
+  [36] AnotherOakwood.esp
+  [37] Apocalypse - Magic of Skyrim.esp
+  [38] Apocalypse - Ordinator Compatibility Patch.esp
+  [39] Atlas Map Markers.esp
+  [3A] Attack_MCO.esp
+  [3B] Audio Overhaul Skyrim.esp
+  [3C] Beards.esp
+  [3D] Better Courier.esp
+  [3E] BlubboPines_V3.esp
+  [3F] BluePalaceTerrace.esp
+  [40] Book Of Shadows.esp
+  [41] CitizensComplete.esp
+  [42] ClefJ's Dragon Bridge.esp
+  [43] Cloaks - Dawnguard.esp
+  [44] Cloaks.esp
+  [45] COINMerchantExchange.esp
+  [46] Complete Alchemy & Cooking Overhaul.esp
+  [47] Complete Crafting Overhaul_Remastered.esp
+  [48] Conduit.esp
+  [49] COTN - Dawnstar.esp
+  [4A] COTN - Falkreath.esp
+  [4B] COTN - Morthal.esp
+  [4C] CoveredBridgesofSkyrim.esp
+  [4D] Crystalwind_Estate.esp
+  [4E] Cutting Room Floor.esp
+  [4F] Darkend.esp
+  [50] Dawn of Skyrim.esp
+  [51] DBM_RelicNotifications.esp
+  [52] dD - Enhanced Blood Main.esp
+  [53] Deadly Shadows of  Riften.esp
+  [54] DeadlyDragons.esp
+  [55] DIS_Armor_Fractions.esp
+  [56] DIS_Heavy_Legion.esp
+  [57] Distinct Interiors.esp
+  [58] DiverseDragonsCollectionSE.esp
+  [59] Dr_Bandolier.esp
+  [5A] DragonbornShoutPerks.esp
+  [5B] DT_Hjertesten Hall.esp
+  [5C] DungeonsRevisited.esp
+  [5D] Dunpar Wall.esp
+  [5E] DynDOLOD.esp
+  [5F] EasyWheel-AIO.esp
+  [60] Eli_Breezehome.esp
+  [61] Eli_Ruska.esp
+  [62] Eli_Sicarius' Refuge.esp
+  [63] ElysiumEstate.esp
+  [64] Embers XD.esp
+  [65] ENB Light.esp
+  [66] ETaC - Darkwater Crossing.esp
+  [67] ETaC - Riverwood.esp
+  [68] EVGATAIO.esp
+  [69] Faction Crossbows.esp
+  [6A] FNIS.esp
+  [6B] Footprints.esp
+  [6C] ForgottenCity.esp
+  [6D] FranklyHDImperialArmorsAndWeapons.esp
+  [6E] FWMF for Fantasy Paper Maps.esp
+  [6F] GG's Thieves Guild Headquarters.esp
+  [70] GIST soul trap.esp
+  [71] Granite Hill.esp
+  [72] Grey_Quarter_Overhaul.esp
+  [73] Growl - Werebeasts of Skyrim.esp
+  [74] Guard Dialogue Overhaul.esp
+  [75] Haem Projects Goblands.esp
+  [76] HearthfireMultiKid.esp
+  [77] HonedMetal.esp
+  [78] HotKeySkill.esp
+  [79] Hunterborn.esp
+  [7A] Icy Windhelm.esp
+  [7B] Immersive Encounters.esp
+  [7C] Immersive Sounds - Compendium.esp
+  [7D] Immersive Speechcraft.esp
+  [7E] Immersive Wenches.esp
+  [7F] ImmersiveInteractions.esp
+  [80] ImperialMail - DBM.esp
+  [81] ImperialMail.esp
+  [82] Inigo.esp
+  [83] Instincts - Animal Taming in Skyrim.esp
+  [84] J42_ArmorRatingRedux.esp
+  [85] JK's Blue Palace.esp
+  [86] JK's College of Winterhold.esp
+  [87] JK's Riverfall Cottage.esp
+  [88] Keep it Clean - Hunterborn Soaps Patch.esp
+  [89] Keep It Clean.esp
+  [8A] konahrik_accoutrements.esp
+  [8B] KS Hairdo's.esp
+  [8C] Lainalten.esp
+  [8D] Landlord.esp
+  [8E] Landscape Fixes For Grass Mods.esp
+  [8F] Landscape Seam Fixes.esp
+  [90] LeftHandRings.esp
+  [91] Lucien-AnniversaryEdition-Patch.esp
+  [92] Lucien.esp
+  [93] Lux.esp
+  [94] MaximumCarnage.esp
+  [95] MaximumDestruction.esp
+  [96] MeekoReborn.esp
+  [97] mihailbanekins.esp
+  [98] mihailgiantesses.esp
+  [99] mihailruinachs.esp
+  [9A] Missives.esp
+  [9B] Morning Fogs SSE.esp
+  [9C] NAT-ENB.esp
+  [9D] Nolvus Ascension Trees Addon.esp
+  [9E] NW_Sons_of_Skyrim.esp
+  [9F] nwsFollowerFramework.esp
+  [A0] OBIS SE.esp
+  [A1] Odin - Skyrim Magic Overhaul.esp
+  [A2] Ordinator - Perks of Skyrim.esp
+  [A3] Paragliding.esp
+  [A4] QuickLight.esp
+  [A5] QwibLantern.esp
+  [A6] RaceMenu.esp
+  [A7] RaceMenuHH.esp
+  [A8] RaceMenuPlugin.esp
+  [A9] RBB - Wyrmstooth.esp
+  [AA] Realistic Boat Bobbing.esp
+  [AB] Reich Corigate.esp
+  [AC] Relationship Dialogue Overhaul.esp
+  [AD] Riften Docks Overhaul.esp
+  [AE] Riften_Bathhouse.esp
+  [AF] RiftenExtension.esp
+  [B0] RM_AnimatedOverlays.esp
+  [B1] Run For Your Lives.esp
+  [B2] S3DSigns.esp
+  [B3] Sacrosanct - Vampires of Skyrim.esp
+  [B4] SDA Campfire Patch.esp
+  [B5] Seasonal Weathers Framework.esp
+  [B6] Sepolcri.esp
+  [B7] SeranaDialogAddon.esp
+  [B8] simpleCarriageExpansion.esp
+  [B9] SimplyKnock.esp
+  [BA] Skyrim Unbound.esp
+  [BB] SkyrimReputation_SSE.esp
+  [BC] SkyrimsUniqueTreasures.esp
+  [BD] Skyshards.esp
+  [BE] SkyUI_SE.esp
+  [BF] SL01AmuletsSkyrim.esp
+  [C0] SMIM-SE-Merged-All.esp
+  [C1] Solitude Docks.esp
+  [C2] SoundsofSkyrimComplete.esp
+  [C3] SprintSlide.esp
+  [C4] Stances - Dynamic Weapon Movesets SE.esp
+  [C5] StaticSkillLeveling.esp
+  [C6] StrangeRunes.esp
+  [C7] Summermyst - Enchantments of Skyrim.esp
+  [C8] SunHelmCampfireSkill.esp
+  [C9] SunHelmSurvival.esp
+  [CA] SunHelmWyrmstoothPatch.esp
+  [CB] Sunthgat.esp
+  [CC] The Dark Arts.esp
+  [CD] The Great City of Rorikstead.esp
+  [CE] The Great City of Winterhold v4.esp
+  [CF] The Great Town of Ivarstead.esp
+  [D0] The Great Town of Karthwasten.esp
+  [D1] The Great Town of Shor's Stone.esp
+  [D2] The Great Village of Kynesgrove.esp
+  [D3] The Great Village of Mixwater Mill.esp
+  [D4] The Great Village of Old Hroldan.esp
+  [D5] TheChoiceIsYours.esp
+  [D6] This Is Jorrvaskr.esp
+  [D7] Thunderchild - Epic Shout Package.esp
+  [D8] TimingIsEverything.esp
+  [D9] Toccata.esp
+  [DA] TPOS_Skyrims_Dead.esp
+  [DB] Trade & Barter.esp
+  [DC] TradeRoutes.esp
+  [DD] TravellersOfSkyrim - Light.esp
+  [DE] Triumvirate - Mage Archetypes.esp
+  [DF] True Prone System.esp
+  [E0] TW3Weaponry.esp
+  [E1] UIExtensions.esp
+  [E2] UltimateCombat.esp
+  [E3] Undeath.esp
+  [E4] UndeathFixes.esp
+  [E5] UnreadBooksGlow.esp
+  [E6] ValhallaCombat.esp
+  [E7] Vernim Wood.esp
+  [E8] VioLens SE.esp
+  [E9] WACCF_Armor and Clothing Extension.esp
+  [EA] weapon buff by loop.esp
+  [EB] Weapons Armor Clothing & Clutter Fixes.esp
+  [EC] WetandCold.esp
+  [ED] Whitepeak Tower.esp
+  [EE] WhiterunDefenses.esp
+  [EF] Windhelm Lighthouse.esp
+  [F0] WindPath.esp
+  [F1] Wintersun - Faiths of Skyrim.esp
+  [F2] WM_WidgetMod.esp
+  [F3] WZOblivionArtifacts.esp
+  [F4] XPMSE.esp
+  [FE 000] ccbgssse002-exoticarrows.esl
+  [FE 001] ccbgssse003-zombies.esl
+  [FE 002] ccbgssse004-ruinsedge.esl
+  [FE 003] ccbgssse005-goldbrand.esl
+  [FE 004] ccbgssse006-stendarshammer.esl
+  [FE 005] ccbgssse007-chrysamere.esl
+  [FE 006] ccbgssse010-petdwarvenarmoredmudcrab.esl
+  [FE 007] ccbgssse011-hrsarmrelvn.esl
+  [FE 008] ccbgssse012-hrsarmrstl.esl
+  [FE 009] ccbgssse014-spellpack01.esl
+  [FE 00A] ccbgssse019-staffofsheogorath.esl
+  [FE 00B] ccbgssse020-graycowl.esl
+  [FE 00C] ccbgssse021-lordsmail.esl
+  [FE 00D] ccmtysse001-knightsofthenine.esl
+  [FE 00E] ccqdrsse001-survivalmode.esl
+  [FE 00F] ccqdrsse002-firewood.esl
+  [FE 010] ccbgssse018-shadowrend.esl
+  [FE 011] ccbgssse035-petnhound.esl
+  [FE 012] ccfsvsse001-backpacks.esl
+  [FE 013] cceejsse002-tower.esl
+  [FE 014] ccedhsse001-norjewel.esl
+  [FE 015] ccvsvsse002-pets.esl
+  [FE 016] ccbgssse037-curios.esl
+  [FE 017] ccbgssse034-mntuni.esl
+  [FE 018] ccbgssse045-hasedoki.esl
+  [FE 019] ccbgssse008-wraithguard.esl
+  [FE 01A] ccbgssse036-petbwolf.esl
+  [FE 01B] ccffbsse001-imperialdragon.esl
+  [FE 01C] ccmtysse002-ve.esl
+  [FE 01D] ccbgssse043-crosselv.esl
+  [FE 01E] ccvsvsse001-winter.esl
+  [FE 01F] cceejsse003-hollow.esl
+  [FE 020] ccbgssse038-bowofshadows.esl
+  [FE 021] ccbgssse040-advobgobs.esl
+  [FE 022] ccbgssse050-ba_daedric.esl
+  [FE 023] ccbgssse052-ba_iron.esl
+  [FE 024] ccbgssse054-ba_orcish.esl
+  [FE 025] ccbgssse058-ba_steel.esl
+  [FE 026] ccbgssse059-ba_dragonplate.esl
+  [FE 027] ccbgssse061-ba_dwarven.esl
+  [FE 028] ccpewsse002-armsofchaos.esl
+  [FE 029] ccbgssse041-netchleather.esl
+  [FE 02A] ccedhsse002-splkntset.esl
+  [FE 02B] ccbgssse064-ba_elven.esl
+  [FE 02C] ccbgssse063-ba_ebony.esl
+  [FE 02D] ccbgssse062-ba_dwarvenmail.esl
+  [FE 02E] ccbgssse060-ba_dragonscale.esl
+  [FE 02F] ccbgssse056-ba_silver.esl
+  [FE 030] ccbgssse055-ba_orcishscaled.esl
+  [FE 031] ccbgssse053-ba_leather.esl
+  [FE 032] ccbgssse051-ba_daedricmail.esl
+  [FE 033] ccbgssse057-ba_stalhrim.esl
+  [FE 034] ccbgssse066-staves.esl
+  [FE 035] ccbgssse068-bloodfall.esl
+  [FE 036] ccbgssse069-contest.esl
+  [FE 037] ccvsvsse003-necroarts.esl
+  [FE 038] ccvsvsse004-beafarmer.esl
+  [FE 039] ccffbsse002-crossbowpack.esl
+  [FE 03A] ccbgssse013-dawnfang.esl
+  [FE 03B] ccrmssse001-necrohouse.esl
+  [FE 03C] ccedhsse003-redguard.esl
+  [FE 03D] cceejsse004-hall.esl
+  [FE 03E] cckrtsse001_altar.esl
+  [FE 03F] cccbhsse001-gaunt.esl
+  [FE 040] 11Debaser.esl
+  [FE 041] ___BlockAngleFix.esl
+  [FE 042] AHZmoreHUD.esl
+  [FE 043] ApachiiHair.esm
+  [FE 044] ApachiiHairFemales.esm
+  [FE 045] ApachiiHairMales.esm
+  [FE 046] Armors of the Velothi Pt2.esl
+  [FE 047] Astral.esl
+  [FE 048] Beards of Power.esp
+  [FE 049] BetterDynamicAsh-DisableRefs.esm
+  [FE 04A] blockenchantments.esl
+  [FE 04B] Cathedral - 3D Mountain Flowers.esp
+  [FE 04C] CC'sEnhancedOreVeinsSSE-HearthfirePatch.esl
+  [FE 04D] ColovianPrince.esl
+  [FE 04E] Interesting Roads.esp
+  [FE 04F] Lux - Resources.esp
+  [FE 050] EVGAnimatedTraversal.esl
+  [FE 051] Experience.esl
+  [FE 052] Expressive Facegen Morphs.esl
+  [FE 053] High Poly Head.esm
+  [FE 054] iWant Widgets.esl
+  [FE 055] KvetchiMercenary.esl
+  [FE 056] Landscape and Water Fixes.esp
+  [FE 057] LOTD Skill Trees.esp
+  [FE 058] Lux - Master plugin.esm
+  [FE 059] Lux Orbis - Master plugin.esm
+  [FE 05A] MajesticMountains_Landscape.esm
+  [FE 05B] Markarth - City of Stone.esp
+  [FE 05C] MoragTongGrandmaster.esl
+  [FE 05D] Occ_Skyrim_AnnEdition.esp
+  [FE 05E] OCF.esp
+  [FE 05F] Rainbows.esp
+  [FE 060] RASS - Visual Effects.esl
+  [FE 061] Realistic Boat Bobbing SE - DisabledRefs.esm
+  [FE 062] RegalPaladinArmor.esl
+  [FE 063] RTRWolfWarriorAxe.esl
+  [FE 064] RTRWolfWarriorSeax.esl
+  [FE 065] RTRWolfWarriorSword.esl
+  [FE 066] RU_CityTreesSE_Solitude.esl
+  [FE 067] RU_CityTreesSE_Windhelm.esl
+  [FE 068] Shockwave.esl
+  [FE 069] ShootingStars.esp
+  [FE 06A] Smooth Weapon.esm
+  [FE 06B] SmoothCam.esl
+  [FE 06C] StormCalling.esl
+  [FE 06D] Supernova.esl
+  [FE 06E] SurvivalControlPanel.esp
+  [FE 06F] TrueHUD.esl
+  [FE 070] Unofficial Skyrim Creation Club Content Patch.esl
+  [FE 071] Unslaad Bodyslide.esl
+  [FE 072] Vibrant weapons.esl
+  [FE 073] Vigilant Bodyslide.esl
+  [FE 074] WornUndead.esl
+  [FE 075] 1FS.esp
+  [FE 076] 1nivWICCloaks.esp
+  [FE 077] 1nivWICCloaks_COS_CCOR_Patch.esp
+  [FE 078] 1nivWICCloaks_SMP_Patch.esp
+  [FE 079] 1SilverArmor.esp
+  [FE 07A] 1Three-eyedSwallow.esp
+  [FE 07B] 3BBB.esp
+  [FE 07C] 3DNPC - AI Overhaul Patch.esp
+  [FE 07D] 3DNPC - CRF Patch.esp
+  [FE 07E] 3DNPC - TGV Old Hroldan patch.esp
+  [FE 07F] 3DNPC0.esp
+  [FE 080] 3DNPC1.esp
+  [FE 081] 4thUnknownAncientShroudedReplacer.esp
+  [FE 082] [COCO] Shadow Assassin.esp
+  [FE 083] [ETH]AllDeathAnimations.esp
+  [FE 084] [Ghozgul] Dragon Fang.esp
+  [FE 085] [Ghozgul] StingSpear.esp
+  [FE 086] [LM] Arnima - Baby Ogre Inventory Fix.esp
+  [FE 087] [LM] Arnima - Last King Fix.esp
+  [FE 088] [LM] Arnima - Plated Wool Fixes.esp
+  [FE 089] [LM] Arnima dragonstar fix.esp
+  [FE 08A] [xPatch] Modpocalypse NPCs (v3) SSE - 3DNPC.esp
+  [FE 08B] [xPatch] Modpocalypse NPCs (v3) SSE - AI Overhaul - 3DNPC.esp
+  [FE 08C] [xPatch] Modpocalypse NPCs (v3) SSE - AI Overhaul - Cutting Room Floor.esp
+  [FE 08D] [xPatch] Modpocalypse NPCs (v3) SSE - AI Overhaul - JK's The Winking Skeever.esp
+  [FE 08E] [xPatch] Modpocalypse NPCs (v3) SSE - AI Overhaul.esp
+  [FE 08F] [xPatch] Modpocalypse NPCs (v3) SSE - Cutting Room Floor.esp
+  [FE 090] [xPatch] Modpocalypse NPCs (v3) SSE - DIS_Armor_Fractions - OBIS SE.esp
+  [FE 091] [xPatch] Modpocalypse NPCs (v3) SSE - DIS_Armor_Fractions.esp
+  [FE 092] [xPatch] Modpocalypse NPCs (v3) SSE - DIS_Heavy_Legion - Cutting Room Floor.esp
+  [FE 093] [xPatch] Modpocalypse NPCs (v3) SSE - DIS_Heavy_Legion.esp
+  [FE 094] [xPatch] Modpocalypse NPCs (v3) SSE - Immersive Encounters - OBIS SE.esp
+  [FE 095] [xPatch] Modpocalypse NPCs (v3) SSE - Immersive Encounters.esp
+  [FE 096] [xPatch] Modpocalypse NPCs (v3) SSE - JK's The Winking Skeever.esp
+  [FE 097] [xPatch] Modpocalypse NPCs (v3) SSE - LegacyoftheDragonborn.esp
+  [FE 098] [xPatch] Modpocalypse NPCs (v3) SSE - OBIS SE - Weapons Armor Clothing & Clutter Fixes.esp
+  [FE 099] [xPatch] Modpocalypse NPCs (v3) SSE - OBIS SE.esp
+  [FE 09A] [xPatch] Modpocalypse NPCs (v3) SSE - WACCF_Armor and Clothing Extension - Cutting Room Floor.esp
+  [FE 09B] [xPatch] Modpocalypse NPCs (v3) SSE - WACCF_Armor and Clothing Extension.esp
+  [FE 09C] [xPatch] Modpocalypse NPCs (v3) SSE - Weapons Armor Clothing & Clutter Fixes.esp
+  [FE 09D] [Zynx] RogueSorceress.esp
+  [FE 09E] _Fuse00_AdventurerArmor.esp
+  [FE 09F] _Fuse00_ArmorInquisitor.esp
+  [FE 0A0] _Fuse00_ArmorRaven.esp
+  [FE 0A1] ABP - RareCurious.esp
+  [FE 0A2] ACloserLook.esp
+  [FE 0A3] Action Based Projectiles - Arcane Archery.esp
+  [FE 0A4] Action Based Projectiles - CC Spell pack.esp
+  [FE 0A5] Action Based Projectiles - Necroarts.esp
+  [FE 0A6] Action Based Projectiles - Odin Patch.esp
+  [FE 0A7] Action Based Projectiles - Saints and Seducers.esp
+  [FE 0A8] Action Based Projectiles - The Contest Patch.esp
+  [FE 0A9] Action Based Projectiles - Triumvirate.esp
+  [FE 0AA] Action Based Projectiles.esp
+  [FE 0AB] ActionBasedProjectile - AOS Patch.esp
+  [FE 0AC] ActionBasedProjectiles - FactionCrossbows Patch.esp
+  [FE 0AD] ActionBasedProjectiles - ISC Patch.esp
+  [FE 0AE] Additional Attack By Loop.esp
+  [FE 0AF] Aedes.esp
+  [FE 0B0] Aetherius.esp
+  [FE 0B1] AHO Apocalypse Spell Creation Patch.esp
+  [FE 0B2] AHO CRF Spell Creation Patch.esp
+  [FE 0B3] AI Overhaul - Cutting Room Floor Patch.esp
+  [FE 0B4] AI Overhaul - Relationship Dialogue Overhaul Patch.esp
+  [FE 0B5] AloriaFollower.esp
+  [FE 0B6] AltairNightingale.esp
+  [FE 0B7] aMidianBorn_Book of Silence.esp
+  [FE 0B8] Amulets of Skyrim - Tweaks and Fixes.esp
+  [FE 0B9] Andromeda - Simply Knock Patch.esp
+  [FE 0BA] Anga's Mill COTN Addon - eFPS.esp
+  [FE 0BB] Animal Blood Potion Sacrosanct Patch.esp
+  [FE 0BC] AnimalBloodPotionsSSE.esp
+  [FE 0BD] Animated Ice Floes - Dawnguard.esp
+  [FE 0BE] Animated Ice Floes - LotD Patch.esp
+  [FE 0BF] Animated Ice Floes - Marsh Floes Addon.esp
+  [FE 0C0] Animated Ice Floes.esp
+  [FE 0C1] AnimatedPoisons.esp
+  [FE 0C2] AOS_EBT Patch.esp
+  [FE 0C3] ApprenticeStoneReCovered.esp
+  [FE 0C4] Arclight.esp
+  [FE 0C5] Armor of Intrigue.esp
+  [FE 0C6] Armors of the Velothi - WACCF Patch.esp
+  [FE 0C7] Armors of the Velothi Pt2 - Travelling Merchant Travels.esp
+  [FE 0C8] Armors of the Velothi.esp
+  [FE 0C9] Arnima - Nord Reach Fix.esp
+  [FE 0CA] Arnima_Dialogue Conditions Fix.esp
+  [FE 0CB] ASS_IconsAddon.esp
+  [FE 0CC] AtronachStoneRecovered.esp
+  [FE 0CD] AudibleNPCDialogues.esp
+  [FE 0CE] Audio Overhaul Skyrim - Hunterborn Patch.esp
+  [FE 0CF] Audio Overhaul Skyrim - Immersive Sounds Patch.esp
+  [FE 0D0] AudioOverhaulSkyrim_CACO_Patch.esp
+  [FE 0D1] AudioOverhaulSkyrim_CCOR_Patch.esp
+  [FE 0D2] Austio Weapons.esp
+  [FE 0D3] Aves Frostmoon Rings NonReplacer.esp
+  [FE 0D4] Aves INPCs Jewelry Replacer.esp
+  [FE 0D5] AVExpansion.esp
+  [FE 0D6] Awesome Potions Simplified by Revoith.esp
+  [FE 0D7] BA_BardSongs_AIO.esp
+  [FE 0D8] Baltimore Weapons.esp
+  [FE 0D9] Bandit Lines Expansion.esp
+  [FE 0DA] BarbasENBLightAddon.esp
+  [FE 0DB] BCS_TCIY_Patch.esp
+  [FE 0DC] BDOR Nova Pack.esp
+  [FE 0DD] Bears of the North.esp
+  [FE 0DE] BeastHHBB - Ai Overhaul Patch.esp
+  [FE 0DF] BeastHHBB - Armor and Clothing Extension Patch.esp
+  [FE 0E0] BeastHHBB - Cutting Room Floor Patch.esp
+  [FE 0E1] BeastHHBB - Immersive Encounters Replacer.esp
+  [FE 0E2] BeastHHBB - OBiS Patch.esp
+  [FE 0E3] BeastHHBB - Relationship Dialogue Overhaul Replacer.esp
+  [FE 0E4] BeastHHBB - Riften Docks Overhaul.esp
+  [FE 0E5] BeastHHBB.esp
+  [FE 0E6] Belethor's Sister.esp
+  [FE 0E7] BentPines.esp
+  [FE 0E8] BentPines_SOS.esp
+  [FE 0E9] Better Dynamic Ash.esp
+  [FE 0EA] BetterQuestObjectives - LOTD Patch.esp
+  [FE 0EB] BetterQuestObjectives - Wintersun Patch.esp
+  [FE 0EC] BetterQuestObjectives-CRFPatch.esp
+  [FE 0ED] BetterQuestObjectives.esp
+  [FE 0EE] BetterThirdPersonSelection.esp
+  [FE 0EF] Beyond Bruma - Trade and Barter Patch.esp
+  [FE 0F0] Beyond Bruma for FWMF.esp
+  [FE 0F1] Beyond Reach - CACO Patch.esp
+  [FE 0F2] Beyond Reach - Delayed Quest Start.esp
+  [FE 0F3] Beyond Reach - Fixed .nif Records.esp
+  [FE 0F4] Beyond Reach - Immersive Sounds Patch.esp
+  [FE 0F5] Beyond Reach - Shields and Cloaks.esp
+  [FE 0F6] Beyond Reach - Skyrim Border Tweak.esp
+  [FE 0F7] Beyond Reach - Temper Recipes.esp
+  [FE 0F8] Beyond Reach Patch - Sorting Fixes.esp
+  [FE 0F9] Beyond Skyrim Bruma_CCOR_Patch.esp
+  [FE 0FA] BeyondReach-RSChildrenPatch.esp
+  [FE 0FB] Bigger Moons.esp
+  [FE 0FC] Bijin - All In One.esp
+  [FE 0FD] Billyro's Weapons.esp
+  [FE 0FE] Blackened Steel Armor and weapon set.esp
+  [FE 0FF] Blackreach Paper Map for FWMF.esp
+  [FE 100] BladeStaff.esp
+  [FE 101] BleakFallsReCovered.esp
+  [FE 102] bleedoutFix.esp
+  [FE 103] BlendedRoads.esp
+  [FE 104] Blubbos_Markarth_2022.esp
+  [FE 105] Blubbos_Whiterun_Lanterns.esp
+  [FE 106] Blue Palace Frescoes - JKs Blue Palace Terrace patch.esp
+  [FE 107] Blue Palace Frescoes.esp
+  [FE 108] BluePalaceDomeLight.esp
+  [FE 109] BluePalaceTerrace-LegacyOfTheDragonborn-Patch.esp
+  [FE 10A] BluthundSword.esp
+  [FE 10B] boethiahsword.esp
+  [FE 10C] BOOBIES_ImmersiveIcons.esp
+  [FE 10D] BountiesRedone_Missives_Bruma.esp
+  [FE 10E] BountiesRedone_Missives_Solstheim.esp
+  [FE 10F] BountiesRedone_Missives_Wyrmstooth.esp
+  [FE 110] BountiesRedone_MissivesExtension.esp
+  [FE 111] Bow Charge Plus.esp
+  [FE 112] BowRapidCombo.esp
+  [FE 113] Brows.esp
+  [FE 114] Bruma Bears of the North Patch.esp
+  [FE 115] BurningSilver.esp
+  [FE 116] C.O.I.N. - Beyond Skyrim Patch.esp
+  [FE 117] C.O.I.N. - Saints and Seducers Patch.esp
+  [FE 118] C.O.I.N. - The Cause Patch.esp
+  [FE 119] C.O.I.N.esp
+  [FE 11A] CACO Rare Curios Patch.esp
+  [FE 11B] CACO_Beyond Skyrim Bruma_Patch.esp
+  [FE 11C] CACO_Growl_Patch.esp
+  [FE 11D] CACO_Keep It Clean.esp
+  [FE 11E] CACO_Ordinator_Patch.esp
+  [FE 11F] CACO_Saints&Seducers.esp
+  [FE 120] CACO_SunHelm.esp
+  [FE 121] CACO_Undeath_Patch.esp
+  [FE 122] CACO_USSEP_Patch.esp
+  [FE 123] CACO_Wintersun.esp
+  [FE 124] CACO_Wyrmstooth_Patch.esp
+  [FE 125] Carriage Guards - Markarth Outskirts Patch.esp
+  [FE 126] Carriage Guards.esp
+  [FE 127] CarryMyStuff.esp
+  [FE 128] Cathedral - 3D Pine Grass.esp
+  [FE 129] CathedralMountainFlowers_CACO_Patch.esp
+  [FE 12A] CBBE.esp
+  [FE 12B] CC armors Immersive sounds patch.esp
+  [FE 12C] CC Farming - RSChildren.esp
+  [FE 12D] CC-Bittercup_CACO_Patch.esp
+  [FE 12E] CC-Bittercup_TCIY_Patch.esp
+  [FE 12F] CC-BloodchillManor_CACO_Patch.esp
+  [FE 130] CC-BloodchillManor_TCIY_Patch.esp
+  [FE 131] CC-BowOfShadows_CACO_Patch.esp
+  [FE 132] CC-Fishing_CACO_Patch.esp
+  [FE 133] CC-Fishing_CCOR_Patch.esp
+  [FE 134] CC-ForgottenSeasons_CACO_Patch.esp
+  [FE 135] CC-Goblins_CACO_Patch.esp
+  [FE 136] CC-HeadmansCleaver_TCIY_Patch.esp
+  [FE 137] CC-Hendraheim_TCIY_Patch.esp
+  [FE 138] CC-Nix-Hound_CACO_Patch.esp
+  [FE 139] CC-PlagueOfTheDead_CACO_Patch.esp
+  [FE 13A] CC-PlagueOfTheDead_TCIY_Patch.esp
+  [FE 13B] CC-Saints&Seducers_TCIY_Patch.esp
+  [FE 13C] CC-StaffOfSheogorath_TCIY_Patch.esp
+  [FE 13D] CC-Sunder&Wraithguard_TCIY_Patch.esp
+  [FE 13E] CC-TheCause_CACO_Patch.esp
+  [FE 13F] CC-VigilEnforcer_TCIY_Patch.esp
+  [FE 140] CCOR_Campfire_Patch.esp
+  [FE 141] CCOR_JSwords_Patch.esp
+  [FE 142] CCOR_Ordinator.esp
+  [FE 143] CG4 Fx_SnowEffectsMerge.esp
+  [FE 144] Chapter II - Soundtrack mod by Dreyma Music.esp
+  [FE 145] ChillwindDephts.esp
+  [FE 146] CitizensComplete_RSChildrenPatch.esp
+  [FE 147] CL's Crissaegrim.esp
+  [FE 148] CL's Rapier.esp
+  [FE 149] Cloaks&Capes.esp
+  [FE 14A] Cloaks&Capes_SMP_Patch.esp
+  [FE 14B] Cloaks_CCOR_Patch.esp
+  [FE 14C] College Of Winterhold - Quest Expansion.esp
+  [FE 14D] CommunityOverlays1_0T30.esp
+  [FE 14E] CommunityOverlays2_31T50.esp
+  [FE 14F] CommunityOverlays3.esp
+  [FE 150] Companionsskillltree.esp
+  [FE 151] Conditional Expressions.esp
+  [FE 152] COTN Addon - Anga's Mill.esp
+  [FE 153] COTN Angas Mill Addon - CACO patch.esp
+  [FE 154] COTN Angas Mill Addon - Embers XD patch.esp
+  [FE 155] COTN Angas Mill Addon - Lux Orbis patch.esp
+  [FE 156] COTN Angas Mill Addon - Sounds of Skyrim patch.esp
+  [FE 157] COTN Dawnstar - 3DNPC Patch.esp
+  [FE 158] COTN Dawnstar - AI Overhaul Patch.esp
+  [FE 159] COTN Dawnstar - Amulets of Skyrim Patch.esp
+  [FE 15A] COTN Dawnstar - CACO patch.esp
+  [FE 15B] COTN Dawnstar - Cathedral Flowers Patch.esp
+  [FE 15C] COTN Dawnstar - CC - Staff of Sheogorath Patch.esp
+  [FE 15D] COTN Dawnstar - CC - Vigil Enforcer Patch.esp
+  [FE 15E] COTN Dawnstar - Citizens of Tamriel Patch.esp
+  [FE 15F] COTN Dawnstar - Cloaks of Skyrim Patch.esp
+  [FE 160] COTN Dawnstar - Embers XD [XD ESP] Patch.esp
+  [FE 161] COTN Dawnstar - Immersive Wenches Patch.esp
+  [FE 162] COTN Dawnstar - Keep it Clean Patch.esp
+  [FE 163] COTN Dawnstar - Legacy of the Dragonborn Patch.esp
+  [FE 164] COTN Dawnstar - Skyrim Reputation Patch.esp
+  [FE 165] COTN Dawnstar - SkyrimsUniqueTreasures Patch.esp
+  [FE 166] COTN Dawnstar - Sounds of Skyrim Patch.esp
+  [FE 167] COTN Dawnstar - Wintersun Patch.esp
+  [FE 168] COTN Falkreath - 3DNPC Patch.esp
+  [FE 169] COTN Falkreath - AI Overhaul patch.esp
+  [FE 16A] COTN Falkreath - Amulets of Skyrim Patch.esp
+  [FE 16B] COTN Falkreath - Atlas Map Markers SE patch.esp
+  [FE 16C] COTN Falkreath - CACO patch.esp
+  [FE 16D] COTN Falkreath - CC - Bittercup Patch.esp
+  [FE 16E] COTN Falkreath - CC - Elven Hunter Armor patch.esp
+  [FE 16F] COTN Falkreath - CC - Fishing Patch.esp
+  [FE 170] COTN Falkreath - Cloaks Patch.esp
+  [FE 171] COTN Falkreath - Drinking Fountains patch.esp
+  [FE 172] COTN Falkreath - Embers XD Patch.esp
+  [FE 173] COTN Falkreath - Grass Mods Patch.esp
+  [FE 174] COTN Falkreath - Immersive Wenches Patch.esp
+  [FE 175] COTN Falkreath - Imperial Mail Patch.esp
+  [FE 176] COTN Falkreath - Keep It Clean patch.esp
+  [FE 177] COTN Falkreath - Ladder Animation Add-On.esp
+  [FE 178] COTN Falkreath - Landscape and Water Fixes Patch.esp
+  [FE 179] COTN Falkreath - LOTD patch.esp
+  [FE 17A] COTN Falkreath - Lucien Patch.esp
+  [FE 17B] COTN Falkreath - Missives patch.esp
+  [FE 17C] COTN Falkreath - S3DSigns patch.esp
+  [FE 17D] COTN Falkreath - Skyrim Underground Patch.esp
+  [FE 17E] COTN Falkreath - Skyrims Unique Treasures patch.esp
+  [FE 17F] COTN Falkreath - Sounds of Skyrim patch.esp
+  [FE 180] COTN Falkreath Addons.esp
+  [FE 181] COTN Morthal - 3DNPC Patch.esp
+  [FE 182] COTN Morthal - AI Overhaul Patch.esp
+  [FE 183] COTN Morthal - Amulets Patch.esp
+  [FE 184] COTN Morthal - CACO patch.esp
+  [FE 185] COTN Morthal - CC - Fishing Patch.esp
+  [FE 186] COTN Morthal - Cloaks Patch.esp
+  [FE 187] COTN Morthal - Embers XD [XD ESP] Patch.esp
+  [FE 188] COTN Morthal - Immersive Wenches Patch.esp
+  [FE 189] COTN Morthal - Keep it Clean Patch.esp
+  [FE 18A] COTN Morthal - Landscape and Water Fixes Patch.esp
+  [FE 18B] COTN Morthal - LOTD Patch.esp
+  [FE 18C] COTN Morthal - Oblivion Artifacts Pack.esp
+  [FE 18D] COTN Morthal - Skyrims Unique Treasures Patch.esp
+  [FE 18E] COTN Morthal - Sounds of Skyrim patch.esp
+  [FE 18F] COW_RS_Patch.esp
+  [FE 190] Craftable Locpicks - 10.esp
+  [FE 191] CRF + Trading Posts Patch.esp
+  [FE 192] Crimson Blood Armor.esp
+  [FE 193] CuttingRoomFloor_CACO_Patch.esp
+  [FE 194] CuttingRoomFloor_WACCF_Patch.esp
+  [FE 195] Cuyima 3DNPC - Redone.esp
+  [FE 196] DaedricArmorLight.esp
+  [FE 197] DapperDeliveries_CourierOverhaul.esp
+  [FE 198] Dark Arts Un-Lux Patch.esp
+  [FE 199] Darkend Paper Map for FWMF.esp
+  [FE 19A] Darkwater Crossing - TGC Addon.esp
+  [FE 19B] Darkwater Crossing TGC Addon - eFPS.esp
+  [FE 19C] DAstaffAnimation.esp
+  [FE 19D] Dawn of Skyrim - AI Overhaul Patch.esp
+  [FE 19E] Dawn of Skyrim - Dlizzio's Mesh Fixes patch.esp
+  [FE 19F] Dayspring Canyon Paper Map for FWMF.esp
+  [FE 1A0] DBM - 3D Mountain FLower - Player Homes Patch.esp
+  [FE 1A1] DBM_3DNPC_Patch.esp
+  [FE 1A2] DBM_AHO_Patch.esp
+  [FE 1A3] DBM_AmuletsOfSkyrim_Patch.esp
+  [FE 1A4] DBM_AOS_Patch.esp
+  [FE 1A5] DBM_BeyondReach_Patch.esp
+  [FE 1A6] DBM_BSHeartlandPatch - HoF Displays.esp
+  [FE 1A7] DBM_BSHeartlandPatch - Main.esp
+  [FE 1A8] DBM_CACO_Patch.esp
+  [FE 1A9] DBM_CC_AADaedricMailHOWPatch.esp
+  [FE 1AA] DBM_CC_AADaedricPlateHOWPatch.esp
+  [FE 1AB] DBM_CC_AADragonplateHOWPatch.esp
+  [FE 1AC] DBM_CC_AADragonscaleHOWPatch.esp
+  [FE 1AD] DBM_CC_AADwarvenMailHOWPatch.esp
+  [FE 1AE] DBM_CC_AADwarvenPlateHOWPatch.esp
+  [FE 1AF] DBM_CC_AAEbonyPlateHOWPatch.esp
+  [FE 1B0] DBM_CC_AAElvenHunterHOWPatch.esp
+  [FE 1B1] DBM_CC_AAIronPlateHOWPatch.esp
+  [FE 1B2] DBM_CC_AALeatherHOWPatch.esp
+  [FE 1B3] DBM_CC_AAOrcishPlateHOWPatch.esp
+  [FE 1B4] DBM_CC_AAOrcishScaledHOWPatch.esp
+  [FE 1B5] DBM_CC_AASilverHOWPatch.esp
+  [FE 1B6] DBM_CC_AAStalhrimFurHOWPatch.esp
+  [FE 1B7] DBM_CC_AASteelSoldierHOWPatch.esp
+  [FE 1B8] DBM_CC_ACArcaneAccessoriesHOWPatch.esp
+  [FE 1B9] DBM_CC_ACArcaneArcherHOWPatch.esp
+  [FE 1BA] DBM_CC_ACBoneWolfHOWPatch.esp
+  [FE 1BB] DBM_CC_ACPlagueOfTheDeadHOWPatch.esp
+  [FE 1BC] DBM_CC_ArmsOfChaosHOWPatch.esp
+  [FE 1BD] DBM_CC_Bitter_CuriosAddon.esp
+  [FE 1BE] DBM_CC_BittercupHOWPatch.esp
+  [FE 1BF] DBM_CC_BloodchillManorPatch.esp
+  [FE 1C0] DBM_CC_Cause_CuriosAddon.esp
+  [FE 1C1] DBM_CC_CB01EliteCrossbowsHOWPatch.esp
+  [FE 1C2] DBM_CC_CB02ExpCrossbowsHOWPatch.esp
+  [FE 1C3] DBM_CC_ChrysamerePatchV2.esp
+  [FE 1C4] DBM_CC_CivilWarChampionsHOWPatch.esp
+  [FE 1C5] DBM_CC_DeadMansDreadHOWPatch.esp
+  [FE 1C6] DBM_CC_DivineCrusaderHOWPatch.esp
+  [FE 1C7] DBM_CC_DMD_OAPSynergy.esp
+  [FE 1C8] DBM_CC_DuskDawnHOWPatch.esp
+  [FE 1C9] DBM_CC_DwMudcrabHOWPatch.esp
+  [FE 1CA] DBM_CC_FarmingPatch.esp
+  [FE 1CB] DBM_CC_FearsomeFistsHOWPatch.esp
+  [FE 1CC] DBM_CC_Fish_CRFSynergy.esp
+  [FE 1CD] DBM_CC_Fish_CuriosAddon.esp
+  [FE 1CE] DBM_CC_FishingHOWPatch.esp
+  [FE 1CF] DBM_CC_ForgottenSeasonsHOWPatch.esp
+  [FE 1D0] DBM_CC_FS_CuriosAddon.esp
+  [FE 1D1] DBM_CC_GallowsHallPatch.esp
+  [FE 1D2] DBM_CC_GhostsoftheTribunalHOWPatch.esp
+  [FE 1D3] DBM_CC_Gob_CuriosAddon.esp
+  [FE 1D4] DBM_CC_GoblinsHOWPatch.esp
+  [FE 1D5] DBM_CC_GoldbrandHOWPatch.esp
+  [FE 1D6] DBM_CC_GotT_CuriosAddon.esp
+  [FE 1D7] DBM_CC_GrayCowlReturnsPatchV2.esp
+  [FE 1D8] DBM_CC_HeadsmansCleaverHOWPatch.esp
+  [FE 1D9] DBM_CC_HendraheimPatch.esp
+  [FE 1DA] DBM_CC_HorseArmorDLCElvenPatch.esp
+  [FE 1DB] DBM_CC_HorseArmorDLCSteelPatch.esp
+  [FE 1DC] DBM_CC_LordsMailPatchV2.esp
+  [FE 1DD] DBM_CC_MyrwatchPatch.esp
+  [FE 1DE] DBM_CC_NchuanthumzPatch.esp
+  [FE 1DF] DBM_CC_NecromanticGrimoireHOWPatch.esp
+  [FE 1E0] DBM_CC_NetchLeatherArmorHOWPatch.esp
+  [FE 1E1] DBM_CC_NixHoundHOWPatch.esp
+  [FE 1E2] DBM_CC_NordicJewelryHOWPatch.esp
+  [FE 1E3] DBM_CC_PotD_CuriosAddon.esp
+  [FE 1E4] DBM_CC_RareCuriosHOWPatch.esp
+  [FE 1E5] DBM_CC_RedguardEliteArmamentsHOWPatch.esp
+  [FE 1E6] DBM_CC_RuinsEdgePatchV2.esp
+  [FE 1E7] DBM_CC_SaintsSeducersHOWPatch.esp
+  [FE 1E8] DBM_CC_SaS_CuriosAddon.esp
+  [FE 1E9] DBM_CC_ShadowfootSanctumPatch.esp
+  [FE 1EA] DBM_CC_ShadowrendHOWPatch.esp
+  [FE 1EB] DBM_CC_SpellKnightArmorHOWPatch.esp
+  [FE 1EC] DBM_CC_StaffOfHasedokiHOWPatch.esp
+  [FE 1ED] DBM_CC_StaffofSheogorathPatchV2.esp
+  [FE 1EE] DBM_CC_StavesHOWPatch.esp
+  [FE 1EF] DBM_CC_StendarrsHammerHOWPatch.esp
+  [FE 1F0] DBM_CC_SunderWraithguardPatchV4.esp
+  [FE 1F1] DBM_CC_TheBowOfShadowsHOWPatch.esp
+  [FE 1F2] DBM_CC_TheCausePatch.esp
+  [FE 1F3] DBM_CC_TheContestPatch.esp
+  [FE 1F4] DBM_CC_TundraHomesteadPatch.esp
+  [FE 1F5] DBM_CC_UmbraPatchV2.esp
+  [FE 1F6] DBM_CC_VigilEnforcerArmorHOWPatch.esp
+  [FE 1F7] DBM_CC_Wilds01BackpacksHOWPatch.esp
+  [FE 1F8] DBM_CC_Wilds02WildHorsesHOWPatch.esp
+  [FE 1F9] DBM_CC_Wilds04PetsHOWPatch.esp
+  [FE 1FA] DBM_CC_Wilds05SaturaliaHOWPatch.esp
+  [FE 1FB] DBM_CCOR_Patch.esp
+  [FE 1FC] DBM_CloaksofSkyrim_Patch.esp
+  [FE 1FD] DBM_CoSRetexture_Patch.esp
+  [FE 1FE] DBM_CRF_Patch.esp
+  [FE 1FF] DBM_DawnofSkyrimDC_Patch.esp
+  [FE 200] DBM_DIS_Armor_Fractions.esp
+  [FE 201] DBM_Dlizzio's Mesh Fixes patch.esp
+  [FE 202] DBM_ForgottenCity_Patch.esp
+  [FE 203] DBM_HUB_BillyRoW_Patch.esp
+  [FE 204] DBM_HUB_CarvedBrink_Patch.esp
+  [FE 205] DBM_HUB_ColovianPrince_Patch.esp
+  [FE 206] DBM_HUB_FARAAMESL_Patch.esp
+  [FE 207] DBM_HUB_Kozakowy_CBBE_Patch.esp
+  [FE 208] DBM_HUB_KSA_Patch.esp
+  [FE 209] DBM_HUB_KvetchiMerc_Patch.esp
+  [FE 20A] DBM_HUB_Velothi_Patch.esp
+  [FE 20B] DBM_ISC_Patch.esp
+  [FE 20C] DBM_JaysusSwords_Patch.esp
+  [FE 20D] DBM_JKArcadia_Patch.esp
+  [FE 20E] DBM_JKBannered_Patch.esp
+  [FE 20F] DBM_JKBelethor_Patch.esp
+  [FE 210] DBM_JKBluePalace_Patch.esp
+  [FE 211] DBM_JKDragonsreach_Patch.esp
+  [FE 212] DBM_JKDrunken_Patch.esp
+  [FE 213] DBM_JKWarmaidens_Patch.esp
+  [FE 214] DBM_KA_Patch.esp
+  [FE 215] DBM_KeepitClean_Patch.esp
+  [FE 216] DBM_Missives_Patch.esp
+  [FE 217] DBM_NewLegion_Patch.esp
+  [FE 218] DBM_OBIS_Patch.esp
+  [FE 219] DBM_OblivionArtifacts_Patch.esp
+  [FE 21A] DBM_RSChildren_Patch.esp
+  [FE 21B] DBM_RuinsClutterImproved_Patch.esp
+  [FE 21C] DBM_SafehousePlus_Addon.esp
+  [FE 21D] DBM_SMIM_Patch.esp
+  [FE 21E] DBM_SUT_Patch.esp
+  [FE 21F] DBM_TradeBarter_Patch.esp
+  [FE 220] DBM_Undeath_Patch.esp
+  [FE 221] DBM_UnreadBooksGlow_Patch.esp
+  [FE 222] DBM_Unslaad_Display_Patch.esp
+  [FE 223] DBM_VanillaPlayerHomes_Patch.esp
+  [FE 224] DBM_Vigilant_Patch.esp
+  [FE 225] DBM_WACCF_Patch.esp
+  [FE 226] DBM_WheelsofLull_Patch.esp
+  [FE 227] DBM_Wintersun_Patch.esp
+  [FE 228] DBM_Wyrmstooth_Patch.esp
+  [FE 229] DBMCollectors.esp
+  [FE 22A] dD-Larger Splatter Size.esp
+  [FE 22B] Deadly Dragons - Diverse Dragons Collection.esp
+  [FE 22C] Deadly Dragons - Safezone CC Bittercup.esp
+  [FE 22D] Deadly Dragons - Safezone CC Dead Man's Dread.esp
+  [FE 22E] Deadly Dragons - Safezone CC The Cause.esp
+  [FE 22F] Deadly Dragons - Wyrmstooth.esp
+  [FE 230] DeadlySpellImpacts Transparency Fix.esp
+  [FE 231] DeadlySpellImpacts.esp
+  [FE 232] Deepwood Vale Paper Map for FWMF.esp
+  [FE 233] Desecration.esp
+  [FE 234] DetailedCarriages 2.0 - SMIM Patch.esp
+  [FE 235] DetailedCarriages 2.0.esp
+  [FE 236] DetailedCarriages_2.0_-_Lux_Via_-_Markarth_Entrance_and_Farm_Overhaul_Patch.esp
+  [FE 237] DIS_Armor_Fractions_3DNPC.esp
+  [FE 238] DIS_Armor_Fractions_OBIS.esp
+  [FE 239] DIS_Armor_Fractions_Vigilant.esp
+  [FE 23A] Disable Auto Vanity Mode.esp
+  [FE 23B] Disable Turn Animation.esp
+  [FE 23C] Disco - 3DNPC-AMM Greenwood Shack Patch.esp
+  [FE 23D] Disco - APS-CACO Texture Patch.esp
+  [FE 23E] DISCO_BloodChill_Texture_Fix.esp
+  [FE 23F] Distinct COTN Interiors - Dawnstar.esp
+  [FE 240] Distinct COTN Interiors - Falkreath.esp
+  [FE 241] Distinct COTN Interiors - Morthal.esp
+  [FE 242] Distinct JK's Arcadia's Cauldron.esp
+  [FE 243] Distinct JK's Arnleif and Sons Trading Company.esp
+  [FE 244] Distinct JK's Bannered Mare.esp
+  [FE 245] Distinct JK's Bee and Barb.esp
+  [FE 246] Distinct JK's Belethor's General Goods.esp
+  [FE 247] Distinct JK's Bits and Pieces.esp
+  [FE 248] Distinct JK's Candlehearth Hall.esp
+  [FE 249] Distinct JK's Drunken Huntsman.esp
+  [FE 24A] Distinct JK's Haelga's Bunkhouse.esp
+  [FE 24B] Distinct JK's Pawned Prawn.esp
+  [FE 24C] Distinct JK's Radiant Raiment.esp
+  [FE 24D] Distinct JK's Ragged Flagon.esp
+  [FE 24E] Distinct JK's Riverwood Trader.esp
+  [FE 24F] Distinct JK's Sleeping Giant Inn.esp
+  [FE 250] Distinct JK's Temple of Dibella.esp
+  [FE 251] Distinct JK's Temple of Mara.esp
+  [FE 252] Distinct JK's Winking Skeever.esp
+  [FE 253] Dlizzio's Mesh Fixes.esp
+  [FE 254] DNPCsBB.esp
+  [FE 255] DOS - Grey Quarter Overhaul Patch.esp
+  [FE 256] Dovahnique's Diverse Dark Elf Lanterns - BOS.esp
+  [FE 257] Dr_Bandolier_CCOR_Patch.esp
+  [FE 258] DragonInfusedDaedricArmor.esp
+  [FE 259] DragonsFallDown.esp
+  [FE 25A] DraugrMCO.esp
+  [FE 25B] DrifterArmorAndOutfitByXtudo.esp
+  [FE 25C] Drinking Fountains of Skyrim for SSE - COTN Dawnstar Patch.esp
+  [FE 25D] Drinking Fountains of Skyrim for SSE - The Great Town of Karthwasten Patch.esp
+  [FE 25E] Drinking Fountains of Skyrim for SSE.esp
+  [FE 25F] DS2Miracles.esp
+  [FE 260] Dual Wield Parrying_SKSE.esp
+  [FE 261] Dunmeri Furniture - 3DNPC patch.esp
+  [FE 262] Dunmeri Furniture - JKs New Gnisis Cornerclub patch.esp
+  [FE 263] Dunmeri Furniture - LOTD patch.esp
+  [FE 264] Dunmeri Furniture.esp
+  [FE 265] DustEffectsSSE.esp
+  [FE 266] DwarfsphereImprovedPatch.esp
+  [FE 267] Dwueth'Var V2.esp
+  [FE 268] Dynamic Impact - Slash Effects X-03EBT_ISC.esp
+  [FE 269] Dynamic Impact - Slash Effects X.esp
+  [FE 26A] Dynamic Things Alternative.esp
+  [FE 26B] Ebony Damascus Blades.esp
+  [FE 26C] eFPS - Nolvus Patch.esp
+  [FE 26D] EFPS - Strongholds Narzulbur Patch.esp
+  [FE 26E] EGIL Shadow of Akavir.esp
+  [FE 26F] Eikbiter.esp
+  [FE 270] EldenCounter.esp
+  [FE 271] Elemental Destruction Magic Redux.esp
+  [FE 272] Elexorien.esp
+  [FE 273] EliAtrociousRiftenTextureFix_SE.esp
+  [FE 274] ElysiumEstate_CACO_Patch.esp
+  [FE 275] Elytra ENB Light.esp
+  [FE 276] Ember_Sword.esp
+  [FE 277] Embers XD - Fire Magick Add-On.esp
+  [FE 278] Embers XD - Patch - Elis Breezehome.esp
+  [FE 279] Embers XD - Patch - Goldenhills Plantation.esp
+  [FE 27A] Embers XD - Patch - JKs Dragonsreach.esp
+  [FE 27B] Embers XD - Patch - Lux Via.esp
+  [FE 27C] EmbersXD-Campfire Patch.esp
+  [FE 27D] Emissive - DraugrMCO.esp
+  [FE 27E] Epic UI Sounds.esp
+  [FE 27F] ErynielElfSSE.esp
+  [FE 280] ESO Altmer Armor by NewrMind43.esp
+  [FE 281] ETaC - Darkwater Crossing RSC Patch.esp
+  [FE 282] ETaC - Riverwood AI Overhaul Patch.esp
+  [FE 283] ETaC - Riverwood RSC Patch.esp
+  [FE 284] EVGATDarkend.esp
+  [FE 285] EVGATDungeonsRevisited.esp
+  [FE 286] EVGATLOTD.esp
+  [FE 287] EVGATUnderground.esp
+  [FE 288] EVGConditionalIdles.esp
+  [FE 289] evgSIRENROOTthecausepatch.esp
+  [FE 28A] evgSIRENROOTtraversalpatch.esp
+  [FE 28B] EWM_NFF.esp
+  [FE 28C] Experience Quests Tweak.esp
+  [FE 28D] Experience.esp
+  [FE 28E] Faction Crossbows_CCOR_Patch.esp
+  [FE 28F] Falchion.esp
+  [FE 290] Falka_Armor_Ultimate_by_Aewin.esp
+  [FE 291] fallenbridgesSSE-Patch.esp
+  [FE 292] fallentreebridgesSSE.esp
+  [FE 293] Fast Sprinting 15%.esp
+  [FE 294] Ferrymen - New Outfits by Xtudo.esp
+  [FE 295] FGCAegeanSentinelHalberd.esp
+  [FE 296] Fireapple Rogue Elegance.esp
+  [FE 297] Fix blocking move.esp
+  [FE 298] FleshFX.esp
+  [FE 299] Fluffworks - Unique Frost SE.esp
+  [FE 29A] Fluffworks - White Stag.esp
+  [FE 29B] Fluffworks.esp
+  [FE 29C] FlyingCrowsSSE.esp
+  [FE 29D] Folkvangr - Grass and Landscape Overhaul.esp
+  [FE 29E] FollowerCrea.esp
+  [FE 29F] FollowerLese.esp
+  [FE 2A0] FollowerMabel.esp
+  [FE 2A1] FootprintsSand-patch.esp
+  [FE 2A2] Forgotten City Music Fix.esp
+  [FE 2A3] Forgotten Vale Map for FWMF.esp
+  [FE 2A4] ForkedSteelDagger.esp
+  [FE 2A5] Fortified Whiterun - Full Version - Dawn of Skyrim 1.5 patch.esp
+  [FE 2A6] Fortified Whiterun Lanterns.esp
+  [FE 2A7] Four Seasons.esp
+  [FE 2A8] Frost Meshes Patch.esp
+  [FE 2A9] frozenintime.esp
+  [FE 2AA] FWMF for Fantasy Paper Maps Weather and Lighting fix.esp
+  [FE 2AB] FWMF_Darkend.esp
+  [FE 2AC] FYX - Fortified Whiterun Consistency.esp
+  [FE 2AD] Galendor.esp
+  [FE 2AE] GemlingQueen_CCOR_Patch.esp
+  [FE 2AF] GG's Thieves Guild Headquarters Lux patch.esp
+  [FE 2B0] GG's Thieves Guild HQ - Distinct Interiors patch.esp
+  [FE 2B1] GG's Thieves Guild HQ - Faction Crossbows patch.esp
+  [FE 2B2] GG's Thieves Guild HQ - Kozakowy's Falka Armor CBBE patch.esp
+  [FE 2B3] GG's Thieves Guild HQ - LOTD patch.esp
+  [FE 2B4] GG's Thieves Guild HQ - Nocturnal Shrine patch.esp
+  [FE 2B5] GG's Thieves Guild HQ - Oblivion Artifacts patch.esp
+  [FE 2B6] GG's Thieves Guild HQ - Riften Docks Overhaul patch.esp
+  [FE 2B7] GG's Thieves Guild HQ - Sounds of Skyrim patch.esp
+  [FE 2B8] GG's Thieves Guild HQ - USSEP Patch.esp
+  [FE 2B9] GG's Thieves Guild HQ - WACCF Patch.esp
+  [FE 2BA] GhostLight.esp
+  [FE 2BB] GoldToSeptimsWeightless.esp
+  [FE 2BC] GoTDragonsEnemy.esp
+  [FE 2BD] Gotobed-HearthFires-patch.esp
+  [FE 2BE] Gotobed.esp
+  [FE 2BF] GQJ_DG_vampireamuletfix.esp
+  [FE 2C0] Great Town of Ivarstead - AI Overhaul Patch.esp
+  [FE 2C1] Great Town of Ivarstead - Atlas Map Markers Patch.esp
+  [FE 2C2] Great Town of Ivarstead - CACO patch.esp
+  [FE 2C3] Great Town of Ivarstead - Embers XD [XD ESP] Patch.esp
+  [FE 2C4] Great Town of Ivarstead - Immersive Wenches Patch.esp
+  [FE 2C5] Great Town of Ivarstead - Landscape and Water Fixes Patch.esp
+  [FE 2C6] Great Town of Ivarstead - LOTD Patch.esp
+  [FE 2C7] Great Town of Ivarstead - Redguard Elite Armaments Patch.esp
+  [FE 2C8] Great Town of Ivarstead - Skyrims Unique Treasures Patch.esp
+  [FE 2C9] Great Town of Ivarstead - USSEP Patch.esp
+  [FE 2CA] Great Town of Karthwasten - 3DNPC Patch.esp
+  [FE 2CB] Great Town of Karthwasten - AI Overhaul Patch.esp
+  [FE 2CC] Great Town of Karthwasten - Atlas Map Markers Patch.esp
+  [FE 2CD] Great Town of Karthwasten - Embers XD [XD ESP] Patch.esp
+  [FE 2CE] Great Town of Karthwasten - Immersive Wenches Patch.esp
+  [FE 2CF] Great Town of Karthwasten - Landscape and Water Fixes Patch.esp
+  [FE 2D0] Great Town of Karthwasten - Redguard Elite Armaments Patch.esp
+  [FE 2D1] Great Town of Karthwasten - USSEP Patch.esp
+  [FE 2D2] Great Town of Shor's Stone - 3DNPC Patch.esp
+  [FE 2D3] Great Town of Shor's Stone - AI Overhaul Patch.esp
+  [FE 2D4] Great Town of Shor's Stone - Atlas Map Makers Patch.esp
+  [FE 2D5] Great Town of Shor's Stone - Embers XD [XD ESP] Patch.esp
+  [FE 2D6] Great Town of Shor's Stone - Obsidian Mountain Fogs Patch.esp
+  [FE 2D7] Great Town of Shor's Stone - Redguard Elite Armaments Patch.esp
+  [FE 2D8] Great Town of Shor's Stone - RS Children Patch.esp
+  [FE 2D9] Great Town of Shor's Stone - SUT Patch.esp
+  [FE 2DA] Great Town of Shor's Stone - USSEP Patch.esp
+  [FE 2DB] Great Village of Kynesgrove - 3DNPC Patch.esp
+  [FE 2DC] Great Village of Kynesgrove - AI Overhaul Patch.esp
+  [FE 2DD] Great Village of Kynesgrove - Atlas Map Markers Patch.esp
+  [FE 2DE] Great Village of Kynesgrove - CC - Fishing Patch.esp
+  [FE 2DF] Great Village of Kynesgrove - Embers XD [XD ESP] Patch.esp
+  [FE 2E0] Great Village of Kynesgrove - Immersive Wenches Patch.esp
+  [FE 2E1] Great Village of Kynesgrove - Inigo Patch.esp
+  [FE 2E2] Great Village of Kynesgrove - Landscape and Water Fixes Patch.esp
+  [FE 2E3] Great Village of Kynesgrove - LOTD Patch.esp
+  [FE 2E4] Great Village of Kynesgrove - RS Children Patch.esp
+  [FE 2E5] Great Village of Kynesgrove - SUT Patch.esp
+  [FE 2E6] Great Village of Mixwater Mill - Immersion Patch.esp
+  [FE 2E7] Great Village of Mixwater Mill - Landscape and Water Fixes Patch.esp
+  [FE 2E8] Great Village of Mixwater Mill - RS Children Patch.esp
+  [FE 2E9] Great Village of Mixwater Mill - Skyrims Unique Treasures Patch.esp
+  [FE 2EA] Great Village of Mixwater Mill - USSEP Patch.esp
+  [FE 2EB] Great Village of Old Hroldan - AI Overhaul Patch.esp
+  [FE 2EC] Great Village of Old Hroldan - CC - Fishing Patch.esp
+  [FE 2ED] Great Village of Old Hroldan - Embers XD [XD ESP] Patch.esp
+  [FE 2EE] Great Village of Old Hroldan - Landscape and Water Fixes Patch.esp
+  [FE 2EF] Great Village of Old Hroldan - Skyrim Underground Patch.esp
+  [FE 2F0] Great Village of Old Hroldan - Skyrims Unique Treasures Patch.esp
+  [FE 2F1] Great Village of Old Hroldan - USSEP Patch.esp
+  [FE 2F2] Greybeards of Power.esp
+  [FE 2F3] HabdsRemainsLOTDPatch.esp
+  [FE 2F4] HagravenSkinShaders.esp
+  [FE 2F5] Half-Moon Mill - COTNed AI Overhaul Patch.esp
+  [FE 2F6] Half-Moon Mill - COTNed.esp
+  [FE 2F7] Half-Moon Mill COTN Addon - eFPS.esp
+  [FE 2F8] Half-Moon Mill COTNed - Distinct Interiors patch.esp
+  [FE 2F9] Half-Moon Mill COTNed - Embers XD patch.esp
+  [FE 2FA] Half-Moon Mill COTNed - Lux Orbis patch.esp
+  [FE 2FB] Half-Moon Mill COTNed - Sounds of Skyrim patch.esp
+  [FE 2FC] Half-Moon Mill COTNed - SUT Patch.esp
+  [FE 2FD] HD Lods SSE.esp
+  [FE 2FE] HD Stone Quarry and Clay Deposits SE.esp
+  [FE 2FF] Headhunter - Bounties Redone.esp
+  [FE 300] HearthfireMultiKid_LastName.esp
+  [FE 301] High Poly Head Vampire Fix.esp
+  [FE 302] High Poly NPCs - TravellersOfSkyrim - Light.esp
+  [FE 303] High Poly NPCs - WheelsOfLull.esp
+  [FE 304] HoldBorderBanners.esp
+  [FE 305] Honed Metal Voiced.esp
+  [FE 306] HonedMetal-MoreCraftingMaterials.esp
+  [FE 307] HotkeysSystem.esp
+  [FE 308] HPP - FirewoodSnow Campfire.esp
+  [FE 309] HPP - FirewoodSnow.esp
+  [FE 30A] HPP - Vaermina's Torpor.esp
+  [FE 30B] Hun Lovaas.esp
+  [FE 30C] Hunterborn - Experience Patch.esp
+  [FE 30D] Hunterborn Bone Arrow Ordinator Patch.esp
+  [FE 30E] I4IconAddon.esp
+  [FE 30F] iEquip.esp
+  [FE 310] Ilieh Cry of the Damned.esp
+  [FE 311] IllustratedTownPanels.esp
+  [FE 312] ImmAudioCCO.esp
+  [FE 313] Immersive Death Cycle.esp
+  [FE 314] Immersive Encounters - RS Children Patch.esp
+  [FE 315] Immersive Equipping Animations.esp
+  [FE 316] Immersive Speech Dialogues.esp
+  [FE 317] ImmersiveSpellLearning.esp
+  [FE 318] ImmersiveWenchesPlayerDialogueRewritten.esp
+  [FE 319] ImperialFalchion_by_Flarescale.esp
+  [FE 31A] ImperialMail - Bruma.esp
+  [FE 31B] ImTalkinHere.esp
+  [FE 31C] ImTalkinHere3DNPC.esp
+  [FE 31D] ImTalkinHereInigo.esp
+  [FE 31E] ImTalkinHereRDO.esp
+  [FE 31F] Inigo_CACO_Patch.esp
+  [FE 320] Insanity's Sorrow.esp
+  [FE 321] InsanitySorrow Weapons Pack.esp
+  [FE 322] ISC - Triumvirate Patch.esp
+  [FE 323] ISC - Unplayable Faction Armor Patch.esp
+  [FE 324] ISC Enhanced Blood Patch.esp
+  [FE 325] ISC WACCF Patch.esp
+  [FE 326] ISD_RavensBeak.esp
+  [FE 327] ISD_RavensBeakCraft.esp
+  [FE 328] Ivar.esp
+  [FE 329] Jess' Hjertesten-KiC Patch.esp
+  [FE 32A] JK Palace - EmbersXD Braziers Patch.esp
+  [FE 32B] JK's & Redbag's Dragonsreach Patch.esp
+  [FE 32C] JK's Angelines Aromatics.esp
+  [FE 32D] JK's Arcadia's Cauldron.esp
+  [FE 32E] JK's Arnleif and Sons Trading Company.esp
+  [FE 32F] JK's Bee and Barb.esp
+  [FE 330] JK's Belethor's General Goods.esp
+  [FE 331] JK's Bits and Pieces.esp
+  [FE 332] JK's Blue Palace Terrace.esp
+  [FE 333] JK's Candlehearth Hall.esp
+  [FE 334] JK's Castle Dour.esp
+  [FE 335] JK's Dragonsreach.esp
+  [FE 336] JK's Elgrims Elixirs - Dawn of Skyrim Patch.esp
+  [FE 337] JK's Elgrims Elixirs.esp
+  [FE 338] JK's Haelga's Bunkhouse.esp
+  [FE 339] JK's High Hrothgar.esp
+  [FE 33A] JK's Jorrvaskr.esp
+  [FE 33B] JK's Mistveil Keep.esp
+  [FE 33C] JK's New Gnisis Cornerclub.esp
+  [FE 33D] JK's Palace of the Kings.esp
+  [FE 33E] Jk's Pawned Prawn - Riften Docks Overhaul Patch.esp
+  [FE 33F] JK's Radiant Raiment.esp
+  [FE 340] JK's Riften Outskirts.esp
+  [FE 341] JK's Riverwood Trader.esp
+  [FE 342] JK's Sadris Used Wares.esp
+  [FE 343] JK's Septimus Signus's Outpost.esp
+  [FE 344] JK's Silver-Blood Inn.esp
+  [FE 345] JK's Sinderion's Field Laboratory.esp
+  [FE 346] JK's Sky Haven Temple.esp
+  [FE 347] JK's Sleeping Giant Inn.esp
+  [FE 348] JK's Temple of Dibella.esp
+  [FE 349] JK's Temple of Kynareth.esp
+  [FE 34A] JK's Temple of Mara.esp
+  [FE 34B] JK's Temple of Talos.esp
+  [FE 34C] JK's Temple of the Divines.esp
+  [FE 34D] JK's The Bannered Mare.esp
+  [FE 34E] JK's The Bards College.esp
+  [FE 34F] JK's The Hag's Cure.esp
+  [FE 350] JK's The Pawned Prawn.esp
+  [FE 351] JK's The Ragged Flagon.esp
+  [FE 352] JK's The Winking Skeever.esp
+  [FE 353] JK's Understone Keep.esp
+  [FE 354] JK's Warmaiden's.esp
+  [FE 355] JK's White Phial.esp
+  [FE 356] JK's Windhelm's Outskirts.esp
+  [FE 357] JKs Angelines Aromatics - AI Overhaul Patch.esp
+  [FE 358] JKs Angelines Aromatics - USSEP Patch.esp
+  [FE 359] JKs Arcadias Cauldron - AI Overhaul Patch.esp
+  [FE 35A] JKs Arcadias Cauldron - Bow of Shadows Patch.esp
+  [FE 35B] JKs Arcadias Cauldron - USSEP Patch.esp
+  [FE 35C] JKs Arnleif and Sons - AI Overhaul Patch.esp
+  [FE 35D] JKs Arnleif and Sons - LOTD Patch.esp
+  [FE 35E] JKs Arnleif and Sons - Rugnarok patch.esp
+  [FE 35F] JKs Arnleif and Sons - Sounds of Skyrim patch.esp
+  [FE 360] JKs Arnleif and Sons - SUT Patch.esp
+  [FE 361] JKs Bannered Mare - Dawn of Skyrim Patch.esp
+  [FE 362] JKs Bannered Mare - Immersion Patch.esp
+  [FE 363] JKs Bannered Mare - KIC Patch.esp
+  [FE 364] JKs Bards College - 3DNPC patch.esp
+  [FE 365] JKs Bards College - AI Overhaul patch.esp
+  [FE 366] JKs Bards College - Citizens Complete patch.esp
+  [FE 367] JKs Bards College - Dawn of Skyrim Patch.esp
+  [FE 368] JKs Bards College - Immersive Encounters patch.esp
+  [FE 369] JKs Bards College - LOTD patch.esp
+  [FE 36A] JKs Bards College - Oblivion Artifacts patch.esp
+  [FE 36B] JKs Bards College - Sounds of Skyrim patch.esp
+  [FE 36C] JKs Bards College - SUT patch.esp
+  [FE 36D] JKs Bards College - Undeath Patch.esp
+  [FE 36E] JKs Bee and Barb - 3DNPC Patch.esp
+  [FE 36F] JKs Bee and Barb - AI Overhaul Patch.esp
+  [FE 370] JKs Bee and Barb - DoS Patch.esp
+  [FE 371] JKs Bee and Barb - Elgrims Elixirs - Skyrim Underground Patch.esp
+  [FE 372] JKs Bee and Barb - Embers XD Patch.esp
+  [FE 373] JKs Bee and Barb - Immersive Wenches Patch.esp
+  [FE 374] JKs Bee and Barb - KIC Patch.esp
+  [FE 375] JKs Belethors General Goods - AI Overhaul Patch.esp
+  [FE 376] JKs Belethors General Goods - Rugnarok patch.esp
+  [FE 377] JKs Belethors General Goods - SUT Patch.esp
+  [FE 378] JKs Bits and Pieces - AI Overhaul Patch.esp
+  [FE 379] JKs Bits and Pieces - LOTD Patch.esp
+  [FE 37A] JKs Bits and Pieces - Rugnarok patch.esp
+  [FE 37B] JKs Bits and Pieces - USSEP Patch.esp
+  [FE 37C] JKs Blue Palace - DBMCollectors Patch.esp
+  [FE 37D] JKs Blue Palace - Immersion Patch.esp
+  [FE 37E] JKs Blue Palace - Sounds of Skyrim patch.esp
+  [FE 37F] JKs BPT - 3DNPC patch.esp
+  [FE 380] JKs BPT - ACE patch.esp
+  [FE 381] JKs BPT - AI Overhaul patch.esp
+  [FE 382] JKs BPT - Amulets of Skyrim patch.esp
+  [FE 383] JKs BPT - CACO patch.esp
+  [FE 384] JKs BPT - DBM Collectors patch.esp
+  [FE 385] JKs BPT - Immersive Wenches patch.esp
+  [FE 386] JKs BPT - LOTD patch.esp
+  [FE 387] JKs BPT - SUT patch.esp
+  [FE 388] JKs Candlehearth Hall - 3DNPC Patch.esp
+  [FE 389] JKs Candlehearth Hall - AI Overhaul Patch.esp
+  [FE 38A] JKs Candlehearth Hall - Embers XD Patch.esp
+  [FE 38B] JKs Candlehearth Hall - KIC Patch.esp
+  [FE 38C] JKs Candlehearth Hall - Rugnarok patch.esp
+  [FE 38D] JKs Castle Dour - Cloaks of Skyrim patch.esp
+  [FE 38E] JKs Castle Dour - CRF - Undeath Patch.esp
+  [FE 38F] JKs Castle Dour - DX Faction Crossbows patch.esp
+  [FE 390] JKs Castle Dour - LOTD patch.esp
+  [FE 391] JKs Castle Dour - New Legion patch.esp
+  [FE 392] JKs Castle Dour - Sounds of Skyrim patch.esp
+  [FE 393] JKs College of Winterhold - 3D Mountain Flowers patch.esp
+  [FE 394] JKs College of Winterhold - 3DNPC Patch.esp
+  [FE 395] JKs College of Winterhold - ACE Patch.esp
+  [FE 396] JKs College of Winterhold - AI Overhaul Patch.esp
+  [FE 397] JKs College of Winterhold - Amulets of Skyrim patch.esp
+  [FE 398] JKs College of Winterhold - CC - Goldbrand Patch.esp
+  [FE 399] JKs College of Winterhold - Cloaks Patch.esp
+  [FE 39A] JKs College of Winterhold - CRF Patch.esp
+  [FE 39B] JKs College of Winterhold - Dwueth Var Patch.esp
+  [FE 39C] JKs College of Winterhold - Konahrik Accoutrements patch.esp
+  [FE 39D] JKs College of Winterhold - LOTD Patch.esp
+  [FE 39E] JKs College of Winterhold - SUT Patch.esp
+  [FE 39F] JKs College of Winterhold - USSEP patch.esp
+  [FE 3A0] JKs College of Winterhold - WACCF patch.esp
+  [FE 3A1] JKs Dragonsreach - AI Overhaul.esp
+  [FE 3A2] JKs Dragonsreach - Immersive Wenches Patch.esp
+  [FE 3A3] JKs Dragonsreach - Konahrik Accoutrements Patch.esp
+  [FE 3A4] JKs Dragonsreach - Relationship Dialogue Overhaul Patch.esp
+  [FE 3A5] JKs Dragonsreach - Rudy HQ Miscellaneous Patch.esp
+  [FE 3A6] JKs Dragonsreach - SUT Patch.esp
+  [FE 3A7] JKs Drunken Huntsman - Civil War Champions Patch.esp
+  [FE 3A8] JKs Drunken Huntsman - Immersive Wenches Patch.esp
+  [FE 3A9] JKs Drunken Huntsman - USSEP Patch.esp
+  [FE 3AA] JKs Elgrims Elixirs - CRF Patch.esp
+  [FE 3AB] JKs Elgrims Elixirs - Embers XD Patch.esp
+  [FE 3AC] JKs Elgrims Elixirs - Rugnarok patch.esp
+  [FE 3AD] JKs Haelgas Bunkhouse - 3DNPC Patch.esp
+  [FE 3AE] JKs Haelgas Bunkhouse - AI Overhaul patch.esp
+  [FE 3AF] JKs Haelgas Bunkhouse - DoS patch.esp
+  [FE 3B0] JKs Haelgas Bunkhouse - KIC Patch.esp
+  [FE 3B1] JKs Haelgas Bunkhouse - Rugnarok patch.esp
+  [FE 3B2] JKs Haelgas Bunkhouse - SDA Patch.esp
+  [FE 3B3] JKs Haelgas Bunkhouse - Solitude and Temple Frescoes Patch.esp
+  [FE 3B4] JKs Hags Cure - AI Overhaul Patch.esp
+  [FE 3B5] JKs Hags Cure - Embers XD Patch.esp
+  [FE 3B6] JKs Hags Cure - SUT Patch.esp
+  [FE 3B7] JKs High Hrothgar - Amulets of Skyrim patch.esp
+  [FE 3B8] JKs High Hrothgar - Cloaks of Skyrim patch.esp
+  [FE 3B9] JKs High Hrothgar - Embers XD patch.esp
+  [FE 3BA] JKs High Hrothgar - LOTD Patch.esp
+  [FE 3BB] JKs High Hrothgar - Thunderchild patch.esp
+  [FE 3BC] JKs Jorrvaskr - AI Overhaul Patch.esp
+  [FE 3BD] JKs Jorrvaskr - Amulets of Skyrim patch.esp
+  [FE 3BE] JKs Jorrvaskr - Bears of the North patch.esp
+  [FE 3BF] JKs Jorrvaskr - LOTD patch.esp
+  [FE 3C0] JKs Jorrvaskr - Sounds of Skyrim - Lux patch.esp
+  [FE 3C1] JKs Jorrvaskr - This Is Jorrvaskr patch.esp
+  [FE 3C2] JKs Jorrvaskr - WACCF Patch.esp
+  [FE 3C3] JKs Mistveil Keep - 3DNPC Patch.esp
+  [FE 3C4] JKs Mistveil Keep - AI Overhaul Patch.esp
+  [FE 3C5] JKs Mistveil Keep - Embers XD Patch.esp
+  [FE 3C6] JKs Mistveil Keep - Immersive Wenches Patch.esp
+  [FE 3C7] JKs New Gnisis Cornerclub - 3DNPC Patch.esp
+  [FE 3C8] JKs New Gnisis Cornerclub - KIC Patch.esp
+  [FE 3C9] JKs New Gnisis Cornerclub - Rugnarok patch.esp
+  [FE 3CA] JKs New Gnisis Cornerclub - Skyrim Underground Patch.esp
+  [FE 3CB] JKs Palace of the Kings - Cloaks Patch.esp
+  [FE 3CC] JKs Palace of the Kings - DX Faction Crossbows patch.esp
+  [FE 3CD] JKs Palace of the Kings - Embers XD Patch.esp
+  [FE 3CE] JKs Palace of the Kings - Sons of Skyrim patch.esp
+  [FE 3CF] JKs Palace of the Kings - SUT Patch.esp
+  [FE 3D0] JKs Palace of the Kings - USSEP Patch.esp
+  [FE 3D1] JKs Pawned Prawn - Embers XD Patch.esp
+  [FE 3D2] JKs Pawned Prawn - LOTD Patch.esp
+  [FE 3D3] JKs Pawned Prawn - Rugnarok patch.esp
+  [FE 3D4] JKs Pawned Prawn - Store Doorbells patch.esp
+  [FE 3D5] JKs Radiant Raiment - 3DNPC Patch.esp
+  [FE 3D6] JKs Radiant Raiment - Cloaks Patch.esp
+  [FE 3D7] JKs Radiant Raiment - Immersion Patch.esp
+  [FE 3D8] JKs Radiant Raiment - USSEP Patch.esp
+  [FE 3D9] JKs Ragged Flagon - AI Overhaul Patch.esp
+  [FE 3DA] JKs Ragged Flagon - Embers XD Patch.esp
+  [FE 3DB] JKs Ragged Flagon - SUT Patch.esp
+  [FE 3DC] JKs Ragged Flagon - USSEP Patch.esp
+  [FE 3DD] JKs Riften Outskirts - AI Overhaul patch.esp
+  [FE 3DE] JKs Riften Outskirts - Carriage Stops of Skyrim patch.esp
+  [FE 3DF] JKs Riften Outskirts - CC Wild Horses patch.esp
+  [FE 3E0] JKs Riften Outskirts - Eli Ruska patch.esp
+  [FE 3E1] JKs Riften Outskirts - LAWF patch.esp
+  [FE 3E2] JKs Riften Outskirts - LOTD patch.esp
+  [FE 3E3] JKs Riften Outskirts - Lux Via patch.esp
+  [FE 3E4] JKs Riften Outskirts - Riften Docks Overhaul patch.esp
+  [FE 3E5] JKs Riften Outskirts - Riften Southwoods District patch.esp
+  [FE 3E6] JKs Riften Outskirts - RT Docks + Eli Ruska consistency patch.esp
+  [FE 3E7] JKs Riverwood Trader - Rugnarok patch.esp
+  [FE 3E8] JKs Sadris Used Wares - 3DNPC Patch.esp
+  [FE 3E9] JKs Sadris Used Wares - ACE Patch.esp
+  [FE 3EA] JKs Sadris Used Wares - LOTD Patch.esp
+  [FE 3EB] JKs Sadris Used Wares - Rugnarok patch.esp
+  [FE 3EC] JKs Sadris Used Wares - SUT Patch.esp
+  [FE 3ED] JKs Septimus Signus Outpost - LOTD Patch.esp
+  [FE 3EE] JKs Silver-Blood Inn - 3DNPC Patch.esp
+  [FE 3EF] JKs Silver-Blood Inn - AI Overhaul Patch.esp
+  [FE 3F0] JKs Silver-Blood Inn - Alt Dwarven Plate Patch.esp
+  [FE 3F1] JKs Silver-Blood Inn - Embers XD Patch.esp
+  [FE 3F2] JKs Silver-Blood Inn - KIC Patch.esp
+  [FE 3F3] JKs Silver-Blood Inn - LOTD Patch.esp
+  [FE 3F4] JKs Silver-Blood Inn - Spell Knight Armor Patch.esp
+  [FE 3F5] JKs Sinderions Field Laboratory - CACO patch.esp
+  [FE 3F6] JKs Sinderions Field Laboratory - CC - Fishing patch.esp
+  [FE 3F7] JKs Sinderions Field Laboratory - LOTD patch.esp
+  [FE 3F8] JKs Sky Haven Temple - 3DNPC Patch.esp
+  [FE 3F9] JKs Sky Haven Temple - Amulets Patch.esp
+  [FE 3FA] JKs Sky Haven Temple - LOTD Patch.esp
+  [FE 3FB] JKs Sky Haven Temple - SUT Patch.esp
+  [FE 3FC] JKs Sky Haven Temple - USSEP Patch.esp
+  [FE 3FD] JKs Sleeping Giant Inn - 3DNPC Patch.esp
+  [FE 3FE] JKs Sleeping Giant Inn - AI Overhaul SSE Patch.esp
+  [FE 3FF] JKs Sleeping Giant Inn - Embers XD Patch.esp
+  [FE 400] JKs Sleeping Giant Inn - KIC Patch.esp
+  [FE 401] JKs Sleeping Giant Inn - WiZKiD Alchemy Table patch.esp
+  [FE 402] JKs Temple of Dibella - ACE Patch.esp
+  [FE 403] JKs Temple of Dibella - AI Overhaul patch.esp
+  [FE 404] JKs Temple of Dibella - Oblivion Artifact Pack Patch.esp
+  [FE 405] JKs Temple of Dibella - SUT Patch.esp
+  [FE 406] JKs Temple of Kynareth - 3DNPC patch.esp
+  [FE 407] JKs Temple of Kynareth - Konahrik Accoutrements patch.esp
+  [FE 408] JKs Temple of Kynareth - Oblivion Artifacts patch.esp
+  [FE 409] JKs Temple of Kynareth - Solitude and Temple Frescoes Patch.esp
+  [FE 40A] JKs Temple of Kynareth - SUT patch.esp
+  [FE 40B] JKs Temple of Mara - 3DNPC Patch.esp
+  [FE 40C] JKs Temple of Mara - AI Overhaul Patch.esp
+  [FE 40D] JKs Temple of Mara - Oblivion Artifacts Patch.esp
+  [FE 40E] JKs Temple of Mara - Rugnarok patch.esp
+  [FE 40F] JKs Temple of Mara - Solitude and Temple Frescoes Patch.esp
+  [FE 410] JKs Temple of Mara - SUT Patch.esp
+  [FE 411] JKs Temple of Talos - 3DNPC patch.esp
+  [FE 412] JKs Temple of Talos - ACE Patch.esp
+  [FE 413] JKs Temple of Talos - AI Overhaul patch.esp
+  [FE 414] JKs Temple of Talos - Cloaks of Skyrim patch.esp
+  [FE 415] JKs Temple of Talos - Oblivion Artifacts patch.esp
+  [FE 416] JKs Temple of Talos - Solitude and Temple Frescoes Patch.esp
+  [FE 417] JKs Temple of Talos - USSEP patch.esp
+  [FE 418] JKs Temple of the Divines - 3DNPC Patch.esp
+  [FE 419] JKs Temple of the Divines - Alt Leather Armor Patch.esp
+  [FE 41A] JKs Temple of the Divines - LOTD patch.esp
+  [FE 41B] JKs Temple of the Divines - Oblivion Artifacts patch.esp
+  [FE 41C] JKs Temple of the Divines - Rugnarok patch.esp
+  [FE 41D] JKs Temple of the Divines - SUT patch.esp
+  [FE 41E] JKs Temple of the Divines - USSEP Patch.esp
+  [FE 41F] JKs The Drunken Huntsman.esp
+  [FE 420] JKs Understone Keep - 3DNPC.esp
+  [FE 421] JKs Understone Keep - AI Overhaul patch.esp
+  [FE 422] JKs Understone Keep - Amulets of Skyrim patch.esp
+  [FE 423] JKs Understone Keep - Embers XD Patch.esp
+  [FE 424] JKs Understone Keep - Immersive Wenches Patch.esp
+  [FE 425] JKs Understone Keep - Skyrim Underground Patch.esp
+  [FE 426] JKs Understone Keep - USSEP patch.esp
+  [FE 427] JKs White Phial - Embers XD Patch.esp
+  [FE 428] JKs White Phial - Rugnarok patch.esp
+  [FE 429] JKs Windhelm Outskirts - 3DNPC patch.esp
+  [FE 42A] JKs Windhelm Outskirts - CC Ebony Plate Armor patch.esp
+  [FE 42B] JKs Windhelm Outskirts - Lux Via patch.esp
+  [FE 42C] JKs Windhelm Outskirts - Skyrim 3D Signs patch.esp
+  [FE 42D] JKs Windhelm Outskirts - USSEP patch.esp
+  [FE 42E] JKs Winking Skeever - 3DNPC Patch.esp
+  [FE 42F] JKs Winking Skeever - AI Overhaul Patch.esp
+  [FE 430] JKs Winking Skeever - Fishing Patch.esp
+  [FE 431] JKs Winking Skeever - Immersion Patch.esp
+  [FE 432] JKs Winking Skeever - KIC Lux patch.esp
+  [FE 433] JKs Winking Skeever - SUT patch.esp
+  [FE 434] JKs Winking Skeever - Undeath Patch.esp
+  [FE 435] JKs Winking Skeever - USSEP Patch.esp
+  [FE 436] JS Dragon Claws AE - Konahriks Accoutrements.esp
+  [FE 437] JS Dragon Claws AE - Legacy of the Dragonborn.esp
+  [FE 438] JS Dragon Claws AE - Wyrmstooth.esp
+  [FE 439] JS Emissive Eyes SE - Growl.esp
+  [FE 43A] JS Emissive Eyes SE - Johnskyrim.esp
+  [FE 43B] JS Unique Utopia SE - Daggers - Johnskyrim.esp
+  [FE 43C] JS Unique Utopia SE - Daggers - LOTD Patch.esp
+  [FE 43D] JS Unique Utopia SE - Daggers - WACCF Patch.esp
+  [FE 43E] JS_DBM_KA_Patch.esp
+  [FE 43F] JS_DBM_Wyrmstooth_Patch.esp
+  [FE 440] Kai_3DNPC-WACCF_Patch.esp
+  [FE 441] Kai_Unbound-CotnDawnstar_Patch.esp
+  [FE 442] Kai_Unbound-CotnFalkreath_Patch.esp
+  [FE 443] Kai_Unbound-CotnMorthal_Patch.esp
+  [FE 444] Keep It Clean - Bruma patch.esp
+  [FE 445] Keep It Clean - Distinc Interior Patch.esp
+  [FE 446] KeepItClean-ArtisanSoap.esp
+  [FE 447] Keytrace.esp
+  [FE 448] KozakowyFalkaArmor.esp
+  [FE 449] KSA_vdk.esp
+  [FE 44A] KSHairdosSMP.esp
+  [FE 44B] LadyStoneReCovered.esp
+  [FE 44C] Landscape and Water Fixes - Patch - CACO.esp
+  [FE 44D] Landscape and Water Fixes - Patch - LFfGM.esp
+  [FE 44E] Landscape Fixes For Grass mods - Cutting Room Floor Locations.esp
+  [FE 44F] League of Assassins Armor.esp
+  [FE 450] LeftHandRings-1stPersonView.esp
+  [FE 451] LegacyoftheDragonborn - Sons of Skyrim patch by Xtudo.esp
+  [FE 452] Legendary Alpha Shields.esp
+  [FE 453] Little Touches for Whiterun - Outside.esp
+  [FE 454] LordStoneReCovered.esp
+  [FE 455] LOTD Exterior Fixes.esp
+  [FE 456] LOTD Museum Dress-up.esp
+  [FE 457] LOTD Safehouse KiC Bathroom Patch.esp
+  [FE 458] LOTD_HUB_FINH.esp
+  [FE 459] LOTD_HUB_ST.esp
+  [FE 45A] LOTD_HUB_TravelingMerchant.esp
+  [FE 45B] lotd_smim.esp
+  [FE 45C] LOTD_TCC_3DNPC.esp
+  [FE 45D] LOTD_TCC_AADaedricMail.esp
+  [FE 45E] LOTD_TCC_AADaedricPlate.esp
+  [FE 45F] LOTD_TCC_AADragonplate.esp
+  [FE 460] LOTD_TCC_AADragonscale.esp
+  [FE 461] LOTD_TCC_AADwarvenMail.esp
+  [FE 462] LOTD_TCC_AADwarvenPlate.esp
+  [FE 463] LOTD_TCC_AAEbonyPlate.esp
+  [FE 464] LOTD_TCC_AAElvenHunter.esp
+  [FE 465] LOTD_TCC_AAIronPlate.esp
+  [FE 466] LOTD_TCC_AALeather.esp
+  [FE 467] LOTD_TCC_AAOrcishPlate.esp
+  [FE 468] LOTD_TCC_AAOrcishScaled.esp
+  [FE 469] LOTD_TCC_AASilverArmor.esp
+  [FE 46A] LOTD_TCC_AAStalhrimFur.esp
+  [FE 46B] LOTD_TCC_AASteelSoldier.esp
+  [FE 46C] LOTD_TCC_Amulets.esp
+  [FE 46D] LOTD_TCC_ArcaneAccessories.esp
+  [FE 46E] LOTD_TCC_ArcaneArcher.esp
+  [FE 46F] LOTD_TCC_ArmsofChaos.esp
+  [FE 470] LOTD_TCC_Backpack.esp
+  [FE 471] LOTD_TCC_BillyRoW.esp
+  [FE 472] LOTD_TCC_BitterCup.esp
+  [FE 473] LOTD_TCC_BoneWolf.esp
+  [FE 474] LOTD_TCC_BowOfShadows.esp
+  [FE 475] LOTD_TCC_Bruma - HoF Displays.esp
+  [FE 476] LOTD_TCC_Carved Brink.esp
+  [FE 477] LOTD_TCC_CivilWarChampions.esp
+  [FE 478] LOTD_TCC_Cloaks.esp
+  [FE 479] LOTD_TCC_Colovian Prince.esp
+  [FE 47A] LOTD_TCC_DawnfangDuskfang.esp
+  [FE 47B] LOTD_TCC_DeadMansDread.esp
+  [FE 47C] LOTD_TCC_DivineCrusader.esp
+  [FE 47D] LOTD_TCC_DwarvenMudcrab.esp
+  [FE 47E] LOTD_TCC_EliteCross.esp
+  [FE 47F] LOTD_TCC_ExpandedCross.esp
+  [FE 480] LOTD_TCC_FearsomeFists.esp
+  [FE 481] LOTD_TCC_FINH.esp
+  [FE 482] LOTD_TCC_FishingHOW.esp
+  [FE 483] LOTD_TCC_GallowsHall.esp
+  [FE 484] LOTD_TCC_GhostsoftheTribunal.esp
+  [FE 485] LOTD_TCC_Goblins.esp
+  [FE 486] LOTD_TCC_HeadsmansCleaver.esp
+  [FE 487] LOTD_TCC_Holiday.esp
+  [FE 488] LOTD_TCC_Homes.esp
+  [FE 489] LOTD_TCC_HorseArmorElven.esp
+  [FE 48A] LOTD_TCC_HorseArmorSteel.esp
+  [FE 48B] LOTD_TCC_Horses.esp
+  [FE 48C] LOTD_TCC_JaysusCraft.esp
+  [FE 48D] LOTD_TCC_KA.esp
+  [FE 48E] LOTD_TCC_Kozakowy_CBBE.esp
+  [FE 48F] LOTD_TCC_KSA.esp
+  [FE 490] LOTD_TCC_Kvetchi Mercenary.esp
+  [FE 491] LOTD_TCC_NecromanticGrimoire.esp
+  [FE 492] LOTD_TCC_NetchLeatherArmor.esp
+  [FE 493] LOTD_TCC_NixHound.esp
+  [FE 494] LOTD_TCC_NordicJewelry.esp
+  [FE 495] LOTD_TCC_OblivionArt.esp
+  [FE 496] LOTD_TCC_Pets.esp
+  [FE 497] LOTD_TCC_Plague.esp
+  [FE 498] LOTD_TCC_ProjectAHO.esp
+  [FE 499] LOTD_TCC_RareCurios.esp
+  [FE 49A] LOTD_TCC_RedguardEliteArmaments.esp
+  [FE 49B] LOTD_TCC_Regal PaladinESL.esp
+  [FE 49C] LOTD_TCC_RuinsEdgeCC.esp
+  [FE 49D] LOTD_TCC_Saints.esp
+  [FE 49E] LOTD_TCC_Seasons.esp
+  [FE 49F] LOTD_TCC_Shadowrend.esp
+  [FE 4A0] LOTD_TCC_SpellKnightArmor.esp
+  [FE 4A1] LOTD_TCC_StaffofSheoCC.esp
+  [FE 4A2] LOTD_TCC_Staves.esp
+  [FE 4A3] LOTD_TCC_SUT.esp
+  [FE 4A4] LOTD_TCC_TFC.esp
+  [FE 4A5] LOTD_TCC_TheCause.esp
+  [FE 4A6] LOTD_TCC_TheGrayCowlReturns.esp
+  [FE 4A7] LOTD_TCC_TheHallofWonders.esp
+  [FE 4A8] LOTD_TCC_Umbra.esp
+  [FE 4A9] LOTD_TCC_Undeath.esp
+  [FE 4AA] LOTD_TCC_Velothi.esp
+  [FE 4AB] LOTD_TCC_Vigilant.esp
+  [FE 4AC] LOTD_TCC_VigilEnforcerArmorSet.esp
+  [FE 4AD] LOTD_TCC_WheelsOfLull.esp
+  [FE 4AE] LOTD_TCC_Wintersun.esp
+  [FE 4AF] LOTD_TCC_Wyrmstooth.esp
+  [FE 4B0] Louder Nature - Birds and Insects.esp
+  [FE 4B1] LoverStoneReCovered.esp
+  [FE 4B2] Lucien-Bruma-Patch.esp
+  [FE 4B3] LunarGuardArsenal_Battleaxe.esp
+  [FE 4B4] Lux - 3DNPC patch.esp
+  [FE 4B5] Lux - Amber Guard patch.esp
+  [FE 4B6] Lux - Anga's Mill COTN patch.esp
+  [FE 4B7] Lux - Better Courier patch.esp
+  [FE 4B8] Lux - Bittercup Patch.esp
+  [FE 4B9] Lux - Bloodchill Manor patch.esp
+  [FE 4BA] Lux - Blue Palace Terrace patch 3.esp
+  [FE 4BB] Lux - Carved Brink.esp
+  [FE 4BC] Lux - CC Fish patch.esp
+  [FE 4BD] Lux - COTN Dawnstar patch.esp
+  [FE 4BE] Lux - COTN Falkreath patch.esp
+  [FE 4BF] Lux - COTN Morthal patch.esp
+  [FE 4C0] Lux - Crimson Blood Armor Emporium patch.esp
+  [FE 4C1] Lux - Cuting Room Floor.esp
+  [FE 4C2] Lux - Darkwater Crossing TGC patch.esp
+  [FE 4C3] Lux - Dawnfang CC.esp
+  [FE 4C4] Lux - DBM_CC_GhostsoftheTribunalHOWPatch.esp
+  [FE 4C5] Lux - Dead Mans Dread Patch.esp
+  [FE 4C6] Lux - Distinct Interiors patch.esp
+  [FE 4C7] Lux - Dungeons Revisited Patch.esp
+  [FE 4C8] Lux - Dunpar Wall.esp
+  [FE 4C9] Lux - Eli Breezehome patch.esp
+  [FE 4CA] Lux - Eli Ruska patch.esp
+  [FE 4CB] Lux - Eli Sicarius Refuge patch.esp
+  [FE 4CC] Lux - Elite Crossbows.esp
+  [FE 4CD] Lux - Elysium Estate patch.esp
+  [FE 4CE] Lux - Embers XD patch.esp
+  [FE 4CF] Lux - ETaC Darkwater Crossing patch - full.esp
+  [FE 4D0] Lux - ETaC Riverwood patch - full.esp
+  [FE 4D1] Lux - Farmer patch.esp
+  [FE 4D2] Lux - Forgotten City.esp
+  [FE 4D3] Lux - Forgotten Seasons.esp
+  [FE 4D4] Lux - Ghosts of the Tribunal CC.esp
+  [FE 4D5] Lux - Goblins CC.esp
+  [FE 4D6] Lux - Goldbrand CC.esp
+  [FE 4D7] Lux - Granite Hill.esp
+  [FE 4D8] Lux - Great Village of Ivarstead patch.esp
+  [FE 4D9] Lux - Great Village of Karthwasten patch.esp
+  [FE 4DA] Lux - Great Village of Kynesgrove patch.esp
+  [FE 4DB] Lux - Great Village of Mixwater Mill patch.esp
+  [FE 4DC] Lux - Great Village of Old Hroldan patch.esp
+  [FE 4DD] Lux - Great Village of Shor's Stone patch.esp
+  [FE 4DE] Lux - Half Moon Mill COTN patch.esp
+  [FE 4DF] Lux - Hendraheim patch.esp
+  [FE 4E0] Lux - Inigo.esp
+  [FE 4E1] Lux - JK's Angelines Aromatics patch.esp
+  [FE 4E2] Lux - JK's Arcadia's Cauldron patch.esp
+  [FE 4E3] Lux - JK's Arnleif and Sons Trading Company patch.esp
+  [FE 4E4] Lux - JK's Bannered Mare patch.esp
+  [FE 4E5] Lux - JK's Bards College patch.esp
+  [FE 4E6] Lux - JK's Bards College Undeath patch.esp
+  [FE 4E7] Lux - JK's Bee and Barb patch.esp
+  [FE 4E8] Lux - JK's Belethor's General Goods patch.esp
+  [FE 4E9] Lux - JK's Bits and Pieces patch.esp
+  [FE 4EA] Lux - JK's Blue Palace patch.esp
+  [FE 4EB] Lux - JK's Blue Palace Terrace patch.esp
+  [FE 4EC] Lux - JK's Candlehearth Hall patch.esp
+  [FE 4ED] Lux - JK's Castle Dour patch.esp
+  [FE 4EE] Lux - JK's College patch.esp
+  [FE 4EF] Lux - JK's Dragonsreach Alternate Lighting.esp
+  [FE 4F0] Lux - JK's Dragonsreach patch.esp
+  [FE 4F1] Lux - JK's Drunken Huntsman patch.esp
+  [FE 4F2] Lux - JK's Elgrims Elixirs patch.esp
+  [FE 4F3] Lux - JK's Haelga's Bunkhouse patch.esp
+  [FE 4F4] Lux - JK's High Hrothgar patch.esp
+  [FE 4F5] Lux - JK's Jorrvaskr patch.esp
+  [FE 4F6] Lux - JK's Mistveil Keep patch.esp
+  [FE 4F7] Lux - JK's New Gnisis Cornerclub patch.esp
+  [FE 4F8] Lux - JK's Palace of Kings patch.esp
+  [FE 4F9] Lux - JK's Pawned Prawn patch.esp
+  [FE 4FA] Lux - JK's Radiant Raiment patch.esp
+  [FE 4FB] Lux - JK's Ragged Flagon patch.esp
+  [FE 4FC] Lux - JK's Riverfall Cottage patch.esp
+  [FE 4FD] Lux - JK's Riverwood Trader patch.esp
+  [FE 4FE] Lux - JK's Sadris Used Wares patch.esp
+  [FE 4FF] Lux - JK's Septimus Signus Outpost patch.esp
+  [FE 500] Lux - JK's Sinderion's Lab patch.esp
+  [FE 501] Lux - JK's Sky Haven patch.esp
+  [FE 502] Lux - JK's Sleeping Giant inn patch.esp
+  [FE 503] Lux - JK's Temple of Dibella patch.esp
+  [FE 504] Lux - JK's Temple of Divines patch.esp
+  [FE 505] Lux - JK's Temple of Kynareth patch.esp
+  [FE 506] Lux - JK's Temple of Mara patch.esp
+  [FE 507] Lux - JK's Temple of Talos patch.esp
+  [FE 508] Lux - JK's The Hag's Cure patch.esp
+  [FE 509] Lux - JK's Understone Keep patch.esp
+  [FE 50A] Lux - JK's Warmaidens patch.esp
+  [FE 50B] Lux - JK's White Phial patch.esp
+  [FE 50C] Lux - JK's Winking Skeever patch.esp
+  [FE 50D] Lux - JK's Winking Skeever Undeath alternative.esp
+  [FE 50E] Lux - Keep it clean patch.esp
+  [FE 50F] Lux - Konahrik Accoutrements.esp
+  [FE 510] Lux - Lainalten.esp
+  [FE 511] Lux - Legacy of the Dragonborn - JaySuS Swords Patch.esp
+  [FE 512] Lux - Legacy of the Dragonborn - Wheels of Lull.esp
+  [FE 513] Lux - Legacy of the Dragonborn Hall of Wonders patch.esp
+  [FE 514] Lux - Legacy of the Dragonborn patch.esp
+  [FE 515] Lux - Lucien.esp
+  [FE 516] Lux - Markarth Outskirts patch.esp
+  [FE 517] Lux - Molag Bal Shrine patch.esp
+  [FE 518] Lux - Nchuanthumz Dwarven Home patch.esp
+  [FE 519] Lux - Necrohouse patch.esp
+  [FE 51A] Lux - No grass in caves patch.esp
+  [FE 51B] Lux - Pets of Skyrim CC.esp
+  [FE 51C] Lux - ProjectAHO.esp
+  [FE 51D] Lux - Reich Corigate.esp
+  [FE 51E] Lux - Riften Bathhouse patch.esp
+  [FE 51F] Lux - Riften Southwoods District patch.esp
+  [FE 520] Lux - Ryften Windows JK's Bee and Barb patch.esp
+  [FE 521] Lux - Ryften Windows JK's Haelgas patch.esp
+  [FE 522] Lux - Ryften Windows JK's Temple of Mara patch.esp
+  [FE 523] Lux - Ryften Windows patch.esp
+  [FE 524] Lux - Ryn's Crabber's Shanty patch.esp
+  [FE 525] Lux - Saints and Seducers patch.esp
+  [FE 526] Lux - Sanguine Shrine patch.esp
+  [FE 527] Lux - Schlitzohr Oakwood.esp
+  [FE 528] Lux - Shadowfoot Sanctum patch.esp
+  [FE 529] Lux - Shrine of Namira patch.esp
+  [FE 52A] Lux - Silver Blood inn overhaul.esp
+  [FE 52B] Lux - Sirenroot patch.esp
+  [FE 52C] Lux - Skyrim Unbound patch.esp
+  [FE 52D] Lux - SLaWF patch.esp
+  [FE 52E] Lux - Solitude Docks patch.esp
+  [FE 52F] Lux - SoS compatibility patch.esp
+  [FE 530] Lux - Staff of Hasedoki CC.esp
+  [FE 531] Lux - Sunthgat.esp
+  [FE 532] Lux - The Cause patch.esp
+  [FE 533] Lux - The Great City of Rorikstead patch.esp
+  [FE 534] Lux - The Great City of Winterhold V4 patch.esp
+  [FE 535] Lux - This is JK's Jorrvaskr patch.esp
+  [FE 536] Lux - This is Jorrvaskr patch.esp
+  [FE 537] Lux - Tundra Homestead patch.esp
+  [FE 538] Lux - Umbra CC.esp
+  [FE 539] Lux - Undeath patch.esp
+  [FE 53A] Lux - Unslaad.esp
+  [FE 53B] Lux - USSEP patch.esp
+  [FE 53C] Lux - Vernim Wood.esp
+  [FE 53D] Lux - Vigil Enforcer CC.esp
+  [FE 53E] Lux - Vigilant patch.esp
+  [FE 53F] Lux - Whitepeak Tower patch.esp
+  [FE 540] Lux - WindPath patch.esp
+  [FE 541] Lux - Wintersun patch.esp
+  [FE 542] Lux - Wraithguard patch.esp
+  [FE 543] Lux - Wyrmstooth.esp
+  [FE 544] Lux Interiora Distincta - JK's Silver-Blood Inn Variante.esp
+  [FE 545] Lux Orbis  - Great Village of Old Hroldan patch.esp
+  [FE 546] Lux Orbis - 3DNPC patch.esp
+  [FE 547] Lux Orbis - Amber Guard.esp
+  [FE 548] Lux Orbis - Arms of Chaos CC.esp
+  [FE 549] Lux Orbis - Blue Palace Terrace patch.esp
+  [FE 54A] Lux Orbis - Bow of Shadow CC.esp
+  [FE 54B] Lux Orbis - CC Fish patch.esp
+  [FE 54C] Lux Orbis - COTN Dawnstar patch.esp
+  [FE 54D] Lux Orbis - COTN Falkreath patch.esp
+  [FE 54E] Lux Orbis - COTN Morthal patch.esp
+  [FE 54F] Lux Orbis - Cutting Room Floor patch.esp
+  [FE 550] Lux Orbis - Darkwater Crossing TGC Addon patch.esp
+  [FE 551] Lux Orbis - Dawn of Skyrim patch.esp
+  [FE 552] Lux Orbis - Dunpar Wall.esp
+  [FE 553] Lux Orbis - Elysium Estate patch.esp
+  [FE 554] Lux Orbis - ETaC Darkwater Crossing patch.esp
+  [FE 555] Lux Orbis - ETaC Riverwood patch.esp
+  [FE 556] Lux Orbis - Fortified Whiterun patch.esp
+  [FE 557] Lux Orbis - Goblins CC.esp
+  [FE 558] Lux Orbis - Granite Hill.esp
+  [FE 559] Lux Orbis - Great Town of Ivarstead patch.esp
+  [FE 55A] Lux Orbis - Great Town of Karthwasten patch.esp
+  [FE 55B] Lux Orbis - Great Town of Shor's Stone patch.esp
+  [FE 55C] Lux Orbis - Great Village of Kynesgrove patch.esp
+  [FE 55D] Lux Orbis - Great Village of Mixwater Mill patch.esp
+  [FE 55E] Lux Orbis - Interesting Roads.esp
+  [FE 55F] Lux Orbis - JK's Bannered Mare patch.esp
+  [FE 560] Lux Orbis - JK's Bards College patch.esp
+  [FE 561] Lux Orbis - JK's Bee and Barb patch.esp
+  [FE 562] Lux Orbis - JK's Candlehearth Hall patch.esp
+  [FE 563] Lux Orbis - JK's College patch.esp
+  [FE 564] Lux Orbis - JK's Drunken Huntsman patch.esp
+  [FE 565] Lux Orbis - JK's High Hrothgar patch.esp
+  [FE 566] Lux Orbis - JK's Mistveil Keep patch.esp
+  [FE 567] Lux Orbis - JK's Riverfall Cottage patch.esp
+  [FE 568] Lux Orbis - JK's Winking Skeever patch.esp
+  [FE 569] Lux Orbis - Lainalten.esp
+  [FE 56A] Lux Orbis - Lord's Mail CC.esp
+  [FE 56B] Lux Orbis - LotD patch.esp
+  [FE 56C] Lux Orbis - Mandragora's Meridia Shrine patch.esp
+  [FE 56D] Lux Orbis - Markarth Entrance and Farm overhaul patch.esp
+  [FE 56E] Lux Orbis - Reich Corigate.esp
+  [FE 56F] Lux Orbis - Riften Sconce Patch.esp
+  [FE 570] Lux Orbis - Riften Southwoods District patch.esp
+  [FE 571] Lux Orbis - Ryn's Apprentice Stone patch.esp
+  [FE 572] Lux Orbis - Ryn's Atronach Stone patch.esp
+  [FE 573] Lux Orbis - Ryn's Bleak Falls Tower.esp
+  [FE 574] Lux Orbis - Ryn's Lady Stone patch.esp
+  [FE 575] Lux Orbis - Ryn's Lord Stone patch.esp
+  [FE 576] Lux Orbis - Ryn's Lover Stone patch.esp
+  [FE 577] Lux Orbis - Ryn's Ritual Stone patch.esp
+  [FE 578] Lux Orbis - Ryn's Saarthal.esp
+  [FE 579] Lux Orbis - Ryn's Shadow Stone patch.esp
+  [FE 57A] Lux Orbis - Ryn's White River Watch.esp
+  [FE 57B] Lux Orbis - Ryns Secundas Kiss.esp
+  [FE 57C] Lux Orbis - Ryns Valtheim Keep ReCovered.esp
+  [FE 57D] Lux Orbis - Saints and Seducers patch.esp
+  [FE 57E] Lux Orbis - Saturalia CC.esp
+  [FE 57F] Lux Orbis - Schlitzohr Oakwood.esp
+  [FE 580] Lux Orbis - Shrine of Azura.esp
+  [FE 581] Lux Orbis - Shrine of Hermaeus Mora.esp
+  [FE 582] Lux Orbis - Shrine of Hircine.esp
+  [FE 583] Lux Orbis - Shrine of Jyggalag.esp
+  [FE 584] Lux Orbis - Shrine of Mephala.esp
+  [FE 585] Lux Orbis - Shrine of Peryite.esp
+  [FE 586] Lux Orbis - Shrine of Sanguine.esp
+  [FE 587] Lux Orbis - Shrine of Sheogorath.esp
+  [FE 588] Lux Orbis - Spell Knight Armor CC.esp
+  [FE 589] Lux Orbis - Strongholds - Largashbur Patch.esp
+  [FE 58A] Lux Orbis - Strongholds Narzulbur Patch.esp
+  [FE 58B] Lux Orbis - Sunthgat.esp
+  [FE 58C] Lux Orbis - The Great City of Rorikstead no light.esp
+  [FE 58D] Lux Orbis - The Great City of Rorikstead patch.esp
+  [FE 58E] Lux Orbis - The Great City of Winterhold V4 patch.esp
+  [FE 58F] Lux Orbis - Tundra Homestead patch.esp
+  [FE 590] Lux Orbis - Undeath patch.esp
+  [FE 591] Lux Orbis - USSEP patch.esp
+  [FE 592] Lux Orbis - Vernim Wood.esp
+  [FE 593] Lux Orbis - Wintersun patch.esp
+  [FE 594] Lux Orbis - Wyrmstooth.esp
+  [FE 595] Lux Orbis.esp
+  [FE 596] Lux patch for FWMF.esp
+  [FE 597] Lux Via - Amber Guard.esp
+  [FE 598] Lux Via - Blended Roads Bridges Texture sets.esp
+  [FE 599] Lux Via - CC Farming Patch.esp
+  [FE 59A] Lux Via - Covered Bridges of Skyrim patch.esp
+  [FE 59B] Lux Via - CRF patch.esp
+  [FE 59C] Lux Via - Granite Hill patch.esp
+  [FE 59D] Lux Via - Lainalten patch.esp
+  [FE 59E] Lux Via - plugin.esp
+  [FE 59F] Lux Via - Roadsigns Overhaul.esp
+  [FE 5A0] Lux Via - Ryn's Goldenglow Estate patch.esp
+  [FE 5A1] Lux Via - Ryn's Ritual Stone patch.esp
+  [FE 5A2] Lux Via - Ryn's White River Watch.esp
+  [FE 5A3] Lux Via - Solitude Docks patch.esp
+  [FE 5A4] Lux Via - Strongholds - Largashbur Patch.esp
+  [FE 5A5] Lux Via - TGC Winterhold V4 patch.esp
+  [FE 5A6] Lux Via - Wyrmstooth addon.esp
+  [FE 5A7] LuxID-JKs Silver-Blood Inn - 3DNPC patch.esp
+  [FE 5A8] LuxID-JKs Silver-Blood Inn - AI Overhaul patch.esp
+  [FE 5A9] LuxID-JKs Silver-Blood Inn - KIC patch.esp
+  [FE 5AA] LuxID-JKs Silver-Blood Inn - LOTD patch.esp
+  [FE 5AB] LuxID-JKs Silver-Blood Inn - SUT patch.esp
+  [FE 5AC] LWFixesCathFlowerspatch.esp
+  [FE 5AD] Magic of Vile Darkness - NPCS.esp
+  [FE 5AE] Magicians Judge V1.esp
+  [FE 5AF] MajesticMountains.esp
+  [FE 5B0] Maleficus' Traversal.esp
+  [FE 5B1] Man Those Borders!.esp
+  [FE 5B2] man_azura.esp
+  [FE 5B3] man_Azura_wintersunPatch.esp
+  [FE 5B4] man_HermaeusMora.esp
+  [FE 5B5] man_Hircine.esp
+  [FE 5B6] man_JyggalagShrine.esp
+  [FE 5B7] man_JyggalagShrine_wintersunPatch.esp
+  [FE 5B8] man_malacathShrine.esp
+  [FE 5B9] man_MehrunesDagonShrine.esp
+  [FE 5BA] man_MephalaShrine.esp
+  [FE 5BB] man_MephalaShrine_WintersunPatch.esp
+  [FE 5BC] man_MeridiaShrine.esp
+  [FE 5BD] man_molagBalShrine.esp
+  [FE 5BE] man_molagBalShrineWinterSun_Patch.esp
+  [FE 5BF] man_namiraShrine.esp
+  [FE 5C0] man_namiraShrine_wintersunPatch.esp
+  [FE 5C1] man_nocturnalShrine.esp
+  [FE 5C2] man_PeryiteShrine.esp
+  [FE 5C3] man_sanguineShrine.esp
+  [FE 5C4] man_sanguineShrine_WintersunPatch.esp
+  [FE 5C5] man_sheogorathShrine.esp
+  [FE 5C6] man_sithis.esp
+  [FE 5C7] man_vaermina.esp
+  [FE 5C8] man_Vaermina_WintersunPatch.esp
+  [FE 5C9] man_Wintersun_Sheogorath_Patch.esp
+  [FE 5CA] man_WSN_HermaMora_Patch.esp
+  [FE 5CB] Markarth Entrance and Farm Overhaul - efps patch.esp
+  [FE 5CC] Markarth Entrance and Farm Overhaul - USSEP patch.esp
+  [FE 5CD] Markarth Entrance and Farm Overhaul - Via patch.esp
+  [FE 5CE] Markarth Outskirts - Beyond Reach patch.esp
+  [FE 5CF] Markarth Outskirts - Detailed Carriages 2.0 patch.esp
+  [FE 5D0] Markarth Outskirts - Natural Waterfalls patch.esp
+  [FE 5D1] Markarth Paper Map for FWMF.esp
+  [FE 5D2] Markarth Temp Patch.esp
+  [FE 5D3] MCM for FWMF.esp
+  [FE 5D4] MCMHelper.esp
+  [FE 5D5] Melodies of Civilization.esp
+  [FE 5D6] metaSkillMenu.esp
+  [FE 5D7] mihailaegisofthesigil.esp
+  [FE 5D8] mihailashgolem.esp
+  [FE 5D9] mihailcrystalgolem.esp
+  [FE 5DA] mihaildismemberthosechaurus.esp
+  [FE 5DB] mihaildismemberthosemudcrabs.esp
+  [FE 5DC] mihaildoomsdayofblades.esp
+  [FE 5DD] mihaildraugrpatrols.esp
+  [FE 5DE] mihailesobonecolossus.esp
+  [FE 5DF] mihailesocenturion.esp
+  [FE 5E0] mihailfiendroth.esp
+  [FE 5E1] mihailfogling.esp
+  [FE 5E2] mihailgrummite.esp
+  [FE 5E3] mihailhavocrel.esp
+  [FE 5E4] mihailhelhest.esp
+  [FE 5E5] mihailmmaminotaur.esp
+  [FE 5E6] mihailmmasithis.esp
+  [FE 5E7] mihailmountainlion.esp
+  [FE 5E8] mihailnordicsentinel.esp
+  [FE 5E9] mihailogresandettins.esp
+  [FE 5EA] mihailogrim.esp
+  [FE 5EB] mihailscampstandalone.esp
+  [FE 5EC] mihailstormgolem.esp
+  [FE 5ED] mihailtoxindoctoroutfit.esp
+  [FE 5EE] mihailvampirebeasts.esp
+  [FE 5EF] MIHAILwaterhag.esp
+  [FE 5F0] mihailwhalebones.esp
+  [FE 5F1] mihailwraiths.esp
+  [FE 5F2] MikanEyes All in one SE.esp
+  [FE 5F3] Misc Dialogue Edits - Guard Dialogue Overhaul patch.esp
+  [FE 5F4] Misc Dialogue Edits - Skyrim Unbound patch.esp
+  [FE 5F5] Misc Dialogue Edits.esp
+  [FE 5F6] Missives - Blues Skyrim.esp
+  [FE 5F7] Missives - Heartland.esp
+  [FE 5F8] Missives - Solstheim.esp
+  [FE 5F9] Missives - Wyrmstooth.esp
+  [FE 5FA] MLP + GIST Patch.esp
+  [FE 5FB] MLP + ISC Patch.esp
+  [FE 5FC] MLPSoulGems.esp
+  [FE 5FD] Modern Combat AI.esp
+  [FE 5FE] Modpocalypse NPCs (v3) Amber Guard.esp
+  [FE 5FF] Modpocalypse NPCs (v3) Beyond Reach.esp
+  [FE 600] Modpocalypse NPCs (v3) Carved Brink.esp
+  [FE 601] Modpocalypse NPCs (v3) Citizens of Tamriel.esp
+  [FE 602] Modpocalypse NPCs (v3) Cutting Room Floor.esp
+  [FE 603] Modpocalypse NPCs (v3) Dawn of Skyrim.esp
+  [FE 604] Modpocalypse NPCs (v3) Dunpar Wall.esp
+  [FE 605] Modpocalypse NPCs (v3) Granite Hill Village.esp
+  [FE 606] Modpocalypse NPCs (v3) Immersive Wenches.esp
+  [FE 607] Modpocalypse NPCs (v3) Immersive World Encounters.esp
+  [FE 608] Modpocalypse NPCs (v3) Lainalten.esp
+  [FE 609] Modpocalypse NPCs (v3) Legacy of the Dragonborn.esp
+  [FE 60A] Modpocalypse NPCs (v3) Oakwood.esp
+  [FE 60B] Modpocalypse NPCs (v3) OBIS.esp
+  [FE 60C] Modpocalypse NPCs (v3) Project AHO.esp
+  [FE 60D] Modpocalypse NPCs (v3) Reich Corigate.esp
+  [FE 60E] Modpocalypse NPCs (v3) Riften Extension - Southwoods District.esp
+  [FE 60F] Modpocalypse NPCs (v3) SSE.esp
+  [FE 610] Modpocalypse NPCs (v3) Sunthgat.esp
+  [FE 611] Modpocalypse NPCs (v3) The Forgotten City.esp
+  [FE 612] Modpocalypse NPCs (v3) The Great Town of Ivarstead.esp
+  [FE 613] Modpocalypse NPCs (v3) The Great Town of Karthwasten.esp
+  [FE 614] Modpocalypse NPCs (v3) The Great Town of Shor's Stone.esp
+  [FE 615] Modpocalypse NPCs (v3) The Great Village of Kynesgrove.esp
+  [FE 616] Modpocalypse NPCs (v3) The Great Village of Mixwater Mill.esp
+  [FE 617] Modpocalypse NPCs (v3) The Great Village of Old Hroldan.esp
+  [FE 618] Modpocalypse NPCs (v3) Wyrmstooth.esp
+  [FE 619] MolagsWillSkillTree.esp
+  [FE 61A] More Dialogue Options - Guard Dialogue Overhaul patch.esp
+  [FE 61B] More Dialogue Options - Immersive Encounters patch.esp
+  [FE 61C] More Dialogue Options.esp
+  [FE 61D] MoreTreesinCities.esp
+  [FE 61E] NAT III - SoS - AOS Patch.esp
+  [FE 61F] Natural Waterfalls - SLaWF Patch.esp
+  [FE 620] nchardak waterfall fix.esp
+  [FE 621] Nether's Follower Framework - Settings Loader.esp
+  [FE 622] New Legion - CCOR Consistency Patch.esp
+  [FE 623] NibeneanArmorsAndOutfit.esp
+  [FE 624] Nicos Twinblades.esp
+  [FE 625] Njal.esp
+  [FE 626] No NPC Greetings.esp
+  [FE 627] NoBSAIProjectileDodge.esp
+  [FE 628] Nolvus Acsension Flora Patch.esp
+  [FE 629] Nolvus Ascension AI Patch.esp
+  [FE 62A] Nolvus Ascension Armors Patch.esp
+  [FE 62B] Nolvus Ascension Cities Patch.esp
+  [FE 62C] Nolvus Ascension Clothes Patch.esp
+  [FE 62D] Nolvus Ascension Combat Patch.esp
+  [FE 62E] Nolvus Ascension Container Patch.esp
+  [FE 62F] Nolvus Ascension Core Patch.esp
+  [FE 630] Nolvus Ascension Crafting Patch.esp
+  [FE 631] Nolvus Ascension Creatures Patch.esp
+  [FE 632] Nolvus Ascension DLC Patch.esp
+  [FE 633] Nolvus Ascension Economy Patch.esp
+  [FE 634] Nolvus Ascension Immersion Patch.esp
+  [FE 635] Nolvus Ascension Interiors Patch.esp
+  [FE 636] Nolvus Ascension Land Patch.esp
+  [FE 637] Nolvus Ascension Late Loader Patch.esp
+  [FE 638] Nolvus Ascension Lighting Patch.esp
+  [FE 639] Nolvus Ascension Misc Gameplay Patch.esp
+  [FE 63A] Nolvus Ascension Model Patch.esp
+  [FE 63B] Nolvus Ascension Mountains Patch.esp
+  [FE 63C] Nolvus Ascension Music Patch.esp
+  [FE 63D] Nolvus Ascension NPC Patch.esp
+  [FE 63E] Nolvus Ascension Perks Patch.esp
+  [FE 63F] Nolvus Ascension Player Home Patch.esp
+  [FE 640] Nolvus Ascension Races Patch.esp
+  [FE 641] Nolvus Ascension Seasonal Grass Mashup.esp
+  [FE 642] Nolvus Ascension Seasonal Plant Mashup.esp
+  [FE 643] Nolvus Ascension Seasonal Tree Mashup.esp
+  [FE 644] Nolvus Ascension Sounds Patch.esp
+  [FE 645] Nolvus Ascension Survival Patch.esp
+  [FE 646] Nolvus Ascension Towns Patch.esp
+  [FE 647] Nolvus Ascension Visual Base Patch.esp
+  [FE 648] Nolvus Ascension Weapons Patch.esp
+  [FE 649] Nolvus Ascension Weathers Patch.esp
+  [FE 64A] Nolvus Meshes Patch.esp
+  [FE 64B] Nolvus Weapon Keywords.esp
+  [FE 64C] Northerner Diaries in Skyrim.esp
+  [FE 64D] NPCs React To Invisibility - Bow of Shadows Patch.esp
+  [FE 64E] NPCs React To Invisibility.esp
+  [FE 64F] NPCs React To Necromancy.esp
+  [FE 650] NW_Sons_of_Skyrim - My fixes by Xtudo.esp
+  [FE 651] NyghtfallNonReplacer.esp
+  [FE 652] Obsidian Mountain Fogs.esp
+  [FE 653] Occ_Skyrim - The Great City of Rorikstead patch.esp
+  [FE 654] Occ_Skyrim - The Great Town of Ivarstead.esp
+  [FE 655] Occ_Skyrim - The Great Town of Karthwasten patch.esp
+  [FE 656] Occ_Skyrim - The Great Town of Shor's Stone patc.esp
+  [FE 657] Occ_Skyrim - The Great Village of Kynesgrove patch.esp
+  [FE 658] Occ_Skyrim - The Great Village of Mixwater Mill Patch.esp
+  [FE 659] Occ_Skyrim - The Great Village of Old Hroldan patch.esp
+  [FE 65A] Occ_Skyrim-Etac_Darkwater_Crossing_patch.esp
+  [FE 65B] Occ_Skyrim-Etac_Riverwood_patch.esp
+  [FE 65C] Occ_Skyrim-Legacy_of_Dragonborn_patch.esp
+  [FE 65D] Occ_Skyrim-Solitude_Docks_Patch.esp
+  [FE 65E] Occ_Skyrim_AmberGuard_patch.esp
+  [FE 65F] Occ_Skyrim_COTN-Dawnstar_patch.esp
+  [FE 660] Occ_Skyrim_COTN-Falkreath_patch.esp
+  [FE 661] Occ_Skyrim_COTN-Morthal_patch.esp
+  [FE 662] Occ_Skyrim_CuttinRoomFloor.esp
+  [FE 663] Occ_Skyrim_Dawn-of-Skyrim_patch.esp
+  [FE 664] Occ_Skyrim_DunparWall_patch.esp
+  [FE 665] Occ_Skyrim_Fortified-Whiterun_patch.esp
+  [FE 666] Occ_Skyrim_GraniteHill_patch.esp
+  [FE 667] Occ_Skyrim_JKsBluePalace_patch.esp
+  [FE 668] Occ_Skyrim_Lainalten.esp
+  [FE 669] Occ_Skyrim_Lux_Via.esp
+  [FE 66A] Occ_Skyrim_Lux_Via_Solitude_Docks.esp
+  [FE 66B] Occ_Skyrim_Oakwood_patch.esp
+  [FE 66C] Occ_Skyrim_ReichCorigate_patch.esp
+  [FE 66D] Occ_Skyrim_Ryn-AnisesCabin_patch.esp
+  [FE 66E] Occ_Skyrim_Ryn-BleakFalls_patch.esp
+  [FE 66F] Occ_Skyrim_Ryn-GoldenGlow_patch.esp
+  [FE 670] Occ_Skyrim_Ryn-HaltedStream_patch.esp
+  [FE 671] Occ_Skyrim_Ryn-Lord_patch.esp
+  [FE 672] Occ_Skyrim_Ryn-LoreiusFarm_patch.esp
+  [FE 673] Occ_Skyrim_Ryn-Ritual_patch.esp
+  [FE 674] Occ_Skyrim_Ryn-Saarthal_patch.esp
+  [FE 675] Occ_Skyrim_Ryn-Serpent_patch.esp
+  [FE 676] Occ_Skyrim_Ryn-Steed_patch.esp
+  [FE 677] Occ_Skyrim_Ryn-Tower_patch.esp
+  [FE 678] Occ_Skyrim_Ryn-ValtheimTowers_patch.esp
+  [FE 679] Occ_Skyrim_Southwoods_patch.esp
+  [FE 67A] Occ_Skyrim_Strongholds-LargashburPatch.esp
+  [FE 67B] Occ_Skyrim_Sunthgat_patch.esp
+  [FE 67C] Occ_Skyrim_TGC-Winterhold-v4_patch.esp
+  [FE 67D] Occiglacies.esp
+  [FE 67E] Occlusion.esp
+  [FE 67F] Odin - AOS + ISC Patch.esp
+  [FE 680] Odin - CACO Patch.esp
+  [FE 681] Odin - Ordinator Compatibility Patch.esp
+  [FE 682] Odin - Summons Redone.esp
+  [FE 683] Odin - YOT + ISC Patch.esp
+  [FE 684] OptimalPotionHotkeyMCM.esp
+  [FE 685] Ordinator - Apply Spell Conditions Fix.esp
+  [FE 686] Ordinator - Beyond Skyrim Bruma Patch.esp
+  [FE 687] Ordinator - No Directional Power Attacks - Balanced.esp
+  [FE 688] Ordinator Perks for Instincts.esp
+  [FE 689] Origins Of Forest - 3D Forest Grass.esp
+  [FE 68A] PAN_Valerica.esp
+  [FE 68B] Pandorable NPC's - All In One.esp
+  [FE 68C] Paragliding&DeformationSpell Patch.esp
+  [FE 68D] Particle Patch for ENB.esp
+  [FE 68E] Patch - (4thUnknown - Ancient Shrouded Armor Replacer) - (LOTD) - (WACCF).esp
+  [FE 68F] PENIS_IconsAddon.esp
+  [FE 690] Perk-HandToHand.esp
+  [FE 691] Perk-Unarmoured.esp
+  [FE 692] Perk-Vigilant.esp
+  [FE 693] Praedy's ElderCouncilAmulet.esp
+  [FE 694] PraedysSkulls.esp
+  [FE 695] Precision.esp
+  [FE 696] PreludeToPurgatory.esp
+  [FE 697] Pride of Skyrim - All In One.esp
+  [FE 698] ProjectAHO - StartWhenYouWant.esp
+  [FE 699] projectAHO ENB Patch.esp
+  [FE 69A] PSI.esp
+  [FE 69B] PTP_Wintersun.esp
+  [FE 69C] Pyromancy.esp
+  [FE 69D] Quarterstaff.esp
+  [FE 69E] QuickLightForFollowers.esp
+  [FE 69F] QuickLootEE.esp
+  [FE 6A0] RabbitsOfSkyrim - ESL.esp
+  [FE 6A1] Rally's Nord War Horns - Unique Torygg's Horn.esp
+  [FE 6A2] RandomBandagesforNPCs.esp
+  [FE 6A3] Rapier_and_Dirk_by_Flarescale.esp
+  [FE 6A4] RASS - Wet and Cold patch.esp
+  [FE 6A5] RBB - Riften Docks Overhaul Patch.esp
+  [FE 6A6] RBB - USSEP Patch.esp
+  [FE 6A7] RDO - CRF + USSEP Patch.esp
+  [FE 6A8] ReachTreeFixes.esp
+  [FE 6A9] Realistic-Voice.esp
+  [FE 6AA] RedBag's Dragonsreach.esp
+  [FE 6AB] RegaliaOfTheScorned.esp
+  [FE 6AC] RelationshipDialogueOverhaul_CACO_Patch.esp
+  [FE 6AD] Remove Hanging Moss From Trees.esp
+  [FE 6AE] ResplendentArmor.esp
+  [FE 6AF] Riften_Bathhouse_KIC_Patch.esp
+  [FE 6B0] RIftenBHJKsBeeAndBarbPatch.esp
+  [FE 6B1] RiftenExtensionDockOverhaulPatch.esp
+  [FE 6B2] RitualStoneReCovered.esp
+  [FE 6B3] RoadsignsOverhaul.esp
+  [FE 6B4] RoriksteadBasaltCliffs.esp
+  [FE 6B5] RS Children - AI Overhaul AE edition Patch.esp
+  [FE 6B6] RS Children Overhaul CC Patch.esp
+  [FE 6B7] RSC 3DNPC Patch.esp
+  [FE 6B8] RSC CRF Patch.esp
+  [FE 6B9] RSC Forgotten City Patch.esp
+  [FE 6BA] RSC Riften Extension Southwoods District Patch.esp
+  [FE 6BB] RSC Solitude Docks Patch.esp
+  [FE 6BC] RSChildren - Amber Guard.esp
+  [FE 6BD] RSChildren - Vernim Wood.esp
+  [FE 6BE] RSChildren Patch - BS Bruma.esp
+  [FE 6BF] RSChildren.esp
+  [FE 6C0] RSCO Clothing Fix.esp
+  [FE 6C1] RTDocks - CACO.esp
+  [FE 6C2] RTDocks - Fishing.esp
+  [FE 6C3] RU_CityTreesSE_Solitude_Addon0.esp
+  [FE 6C4] RU_CityTreesSE_Solitude_DOSPatch.esp
+  [FE 6C5] RU_CityTreesSE_Solitude_LessIsMore.esp
+  [FE 6C6] RU_CityTreesSE_Windhelm_Addon0.esp
+  [FE 6C7] Rudy Nordic Pottery SSE.esp
+  [FE 6C8] Runed_Nordic_Weapons.esp
+  [FE 6C9] RYFTEN - Back Door Canal N x JKs The Pawned P PATCH.esp
+  [FE 6CA] RYFTEN - Back Door Canal North.esp
+  [FE 6CB] RYFTEN - Back Door Canal South.esp
+  [FE 6CC] RYFTEN - Back Door East.esp
+  [FE 6CD] RYFTEN - Back Door South East.esp
+  [FE 6CE] RYFTEN - Back Keep Hole Fix.esp
+  [FE 6CF] RYFTEN - BBM Epic Balcony x DoS PATCH.esp
+  [FE 6D0] RYFTEN - BBM Epic Balcony.esp
+  [FE 6D1] RYFTEN - Birdhouse.esp
+  [FE 6D2] RYFTEN - Consistency of windows in Riften - JK's Haelga's Bunkhouse PATCH.esp
+  [FE 6D3] RYFTEN - Consistency of windows in Riften - JK's The Bee and Barb PATCH.esp
+  [FE 6D4] RYFTEN - Consistency of windows in Riften.esp
+  [FE 6D5] RYFTEN - Defenses Canal West Side North.esp
+  [FE 6D6] RYFTEN - Defenses Canal West Side South.esp
+  [FE 6D7] RYFTEN - Defenses NE x Deadly Shadows PATCH.esp
+  [FE 6D8] RYFTEN - Defenses North East Corner.esp
+  [FE 6D9] RYFTEN - Defenses North West Corner.esp
+  [FE 6DA] RYFTEN - Defenses South East Keep.esp
+  [FE 6DB] RYFTEN - Defenses South West Keep.esp
+  [FE 6DC] RYFTEN - Defenses West Side.esp
+  [FE 6DD] RYFTEN - E Beam x Deadly Shadows PATCH.esp
+  [FE 6DE] RYFTEN - Exposed Beam.esp
+  [FE 6DF] RYFTEN - Pathway x DoS PATCH.esp
+  [FE 6E0] RYFTEN - Pathway x JK's The Bee and Barb PATCH.esp
+  [FE 6E1] RYFTEN - Pathway.esp
+  [FE 6E2] RYFTEN - Roof Tile.esp
+  [FE 6E3] Ryn's Alchemists Shack.esp
+  [FE 6E4] Ryn's Anise's Cabin.esp
+  [FE 6E5] Ryn's Bleakfalls Tower.esp
+  [FE 6E6] Ryn's Bleakwind Basin _USSEP_Patch.esp
+  [FE 6E7] Ryn's Bleakwind Basin.esp
+  [FE 6E8] Ryn's Crabber's Shanty.esp
+  [FE 6E9] Ryn's GoldenGlow Estate.esp
+  [FE 6EA] Ryn's Halted Stream Camp.esp
+  [FE 6EB] Ryn's Loreius Farm.esp
+  [FE 6EC] Ryn's Lund's Hut.esp
+  [FE 6ED] Ryn's Saarthal.esp
+  [FE 6EE] Ryn's Sarethi Farm.esp
+  [FE 6EF] Ryn's Secunda's Kiss.esp
+  [FE 6F0] Ryn's White River Watch.esp
+  [FE 6F1] S_Katarina.esp
+  [FE 6F2] Sacrosanct_CACO_Patch.esp
+  [FE 6F3] SC_HorseReplacer.esp
+  [FE 6F4] scar-adxp-patch.esp
+  [FE 6F5] scar_adxp_staminaLimit.esp
+  [FE 6F6] School of Bear.esp
+  [FE 6F7] ScytheOfTheCrow.esp
+  [FE 6F8] SDA Custom Patch.esp
+  [FE 6F9] SDA DX Crimson Blood Patch.esp
+  [FE 6FA] SDA NFF Patch.esp
+  [FE 6FB] SDA RDO Patch.esp
+  [FE 6FC] SDA Wintersun Patch.esp
+  [FE 6FD] SeagullsofSkyrim.esp
+  [FE 6FE] Seasonal Landscapes.esp
+  [FE 6FF] Seasonal Unique Flowers & Plants.esp
+  [FE 700] Seasonal Weathers Framework - NAT-ENB III.esp
+  [FE 701] SeasonalWildlifeDistribution.esp
+  [FE 702] Seasons of Nolvus - Markarth.esp
+  [FE 703] Seasons of Nolvus - Oakwood Patch.esp
+  [FE 704] Seasons of Nolvus - Riften.esp
+  [FE 705] Seasons of Nolvus - Solitude.esp
+  [FE 706] Seasons of Nolvus.esp
+  [FE 707] Sepolcri - Cutting Room Floor patch.esp
+  [FE 708] Sepolcri - Dawn of Skyrim patch.esp
+  [FE 709] Serana Re-Imagined.esp
+  [FE 70A] SerpentStoneReCovered.esp
+  [FE 70B] SFO_SkinFeatureOverlays.esp
+  [FE 70C] Shadows Of Sunlight - In Small Exterior World Spaces.esp
+  [FE 70D] ShadowStoneReCovered.esp
+  [FE 70E] Shields_Of_Glory.esp
+  [FE 70F] ShieldsOfGlory - Temper Patch.esp
+  [FE 710] Shimmering Dagger.esp
+  [FE 711] Ships on the Horizon.esp
+  [FE 712] Short Grass Mixed.esp
+  [FE 713] ShowPlayerInMenus.esp
+  [FE 714] Sidequests of Skyrim.esp
+  [FE 715] SimplestHorses.esp
+  [FE 716] Simplicity of Snow - BSBruma Patch.esp
+  [FE 717] Simplicity of Snow - Dwemer Sanctuary Patch.esp
+  [FE 718] Simplicity of Snow.esp
+  [FE 719] Sithis Armour.esp
+  [FE 71A] SJG Quick Light Patch.esp
+  [FE 71B] Skidles.esp
+  [FE 71C] Skuldafn Map for FWMF.esp
+  [FE 71D] SkyDecoction.esp
+  [FE 71E] skyforgedWeapons.esp
+  [FE 71F] SkyRem - Mia.esp
+  [FE 720] Skyrim Paper Map by FreelanceCartography for FWMF.esp
+  [FE 721] Skyrim Remastered - Glaciers and Ice.esp
+  [FE 722] Skyrim Remastered - Ice Caves Fix.esp
+  [FE 723] Skyrim Reputation Growl Patch.esp
+  [FE 724] Skyrim Reputation Improved.esp
+  [FE 725] Skyrim Reputation Patch.esp
+  [FE 726] Skyrim Reputation Sacrosanct Patch.esp
+  [FE 727] Skyrim Trading Posts.esp
+  [FE 728] Skyrim Unbound - AOS Patch.esp
+  [FE 729] Skyrim Unbound - Cutting Room Floor Patch.esp
+  [FE 72A] Skyrim Unbound - GDO Patch.esp
+  [FE 72B] Skyrim Unbound - RDO Patch.esp
+  [FE 72C] Skyrim Unbound - Timing Is Everything Patch.esp
+  [FE 72D] Skyrim Unbound - Trade & Barter Patch.esp
+  [FE 72E] Skyrim Unbound - WACCF Patch.esp
+  [FE 72F] Skyrim Unbound Addon - Bruma.esp
+  [FE 730] Skyrim Unbound Addon - Orc Strongholds.esp
+  [FE 731] Skysan_Icicle.esp
+  [FE 732] SL01AmuletsSkyrim_CCOR_Patch.esp
+  [FE 733] Sleeping Expanded.esp
+  [FE 734] Smart_NPC_Potions.esp
+  [FE 735] Smart_NPC_Potions_-_SunHelm_Patch.esp
+  [FE 736] Smoking Torches And Candles.esp
+  [FE 737] Smooth Animation.esp
+  [FE 738] SmoothJumpINISettings.esp
+  [FE 739] SnowOverSkyrim.esp
+  [FE 73A] SnuSnu-VioLensed.esp
+  [FE 73B] Solitude Flags on the Towers SSE.esp
+  [FE 73C] Solitude StatueEuterpe .esp
+  [FE 73D] Solitude StatueGaiusMucius.esp
+  [FE 73E] Solitude StatueJason.esp
+  [FE 73F] Solitude StatueMarsAndMinerva.esp
+  [FE 740] SolitudeTempleFrescoes.esp
+  [FE 741] Solstheim Map by Duncan for FWMF.esp
+  [FE 742] SongstoPlaySkyrimto1.1.esp
+  [FE 743] Sons of Skyrim - CCOR Patch.esp
+  [FE 744] Sons of Skyrim - WACCF Patch.esp
+  [FE 745] SOS MM.esp
+  [FE 746] Soul Cairn Paper Map for FWMF.esp
+  [FE 747] SoulCairn-footprintsPatch.esp
+  [FE 748] SoundsofSkyrimComplete - Trigger Patch.esp
+  [FE 749] Southfringe Crash Fix.esp
+  [FE 74A] Sovngarde Paper Map for FWMF.esp
+  [FE 74B] SparklesSE - Immersive Sounds Patch.esp
+  [FE 74C] SparklesSE.esp
+  [FE 74D] Spear of Omicron.esp
+  [FE 74E] Spear of Skyrim.esp
+  [FE 74F] SpearOfLeonidas.esp
+  [FE 750] SPOA_shield.esp
+  [FE 751] SPOAsilverknight.esp
+  [FE 752] Sprites or Specters ENB Light.esp
+  [FE 753] Static Skill Leveling - AVO Edits.esp
+  [FE 754] SteedStoneReCovered.esp
+  [FE 755] SteelthornReplacer.esp
+  [FE 756] StendarrPaladinArmor.esp
+  [FE 757] Still.esp
+  [FE 758] Stones of Solitude.esp
+  [FE 759] StoreDoorbells.esp
+  [FE 75A] StormLightning.esp
+  [FE 75B] Strongholds - Largashbur.esp
+  [FE 75C] Strongholds - Narzulbur.esp
+  [FE 75D] stuck on screen fix.esp
+  [FE 75E] Summermyst - WACCF Patch.esp
+  [FE 75F] SummersetBannerFix.esp
+  [FE 760] SunHelm - CC Farming Patch.esp
+  [FE 761] Sunhelm - Experience Patch.esp
+  [FE 762] Sunhelm Magical Heat Sources.esp
+  [FE 763] SunHelm_3DNPC.esp
+  [FE 764] SunHelm_Dwarfsphere.esp
+  [FE 765] SunHelm_ForgottenCity.esp
+  [FE 766] SunHelm_Inigo.esp
+  [FE 767] SunHelm_RiftenDocksOverhaul.esp
+  [FE 768] SunHelm_Wintersun.esp
+  [FE 769] SunHelm_Wyrmstooth.esp
+  [FE 76A] SunHelmDrinkFountainsESPFE.esp
+  [FE 76B] Supreme Blizzards.esp
+  [FE 76C] Supreme Fog.esp
+  [FE 76D] Survival Mode Patches - Wet and Cold.esp
+  [FE 76E] Synthesis.esp
+  [FE 76F] Take A Peek - New Stealth Mechanic.esp
+  [FE 770] TamrielicGrass.esp
+  [FE 771] TCIY_CRF_Patch.esp
+  [FE 772] TCIY_Wintersun_Patch.esp
+  [FE 773] TES_Castle.esp
+  [FE 774] TES_Combat.esp
+  [FE 775] TES_Dungeon-Atmos.esp
+  [FE 776] TES_Explore.esp
+  [FE 777] TES_Tavern.esp
+  [FE 778] TES_Town.esp
+  [FE 779] TESL-LoadingScreens.esp
+  [FE 77A] TESL-LS-AddonApocalypse.esp
+  [FE 77B] TESL-LS-AddonLOTD.esp
+  [FE 77C] TESL-LS-AddonMain.esp
+  [FE 77D] TESL-LS-AddonSacrosanct.esp
+  [FE 77E] TESL-LS-AddonThunderchild.esp
+  [FE 77F] TESL-LS-Tweaks.esp
+  [FE 780] TESL-LS-VanillaLSRemover.esp
+  [FE 781] TGC Winterhold - 3D Mountain Flowers patch.esp
+  [FE 782] TGC Winterhold - 3DNPC patch.esp
+  [FE 783] TGC Winterhold - AI Overhaul patch.esp
+  [FE 784] TGC Winterhold - Amulets of Skyrim patch.esp
+  [FE 785] TGC Winterhold - Atlas Map Markers patch.esp
+  [FE 786] TGC Winterhold - CACO patch.esp
+  [FE 787] TGC Winterhold - Carriage Stops of Skyrim patch.esp
+  [FE 788] TGC Winterhold - CC Nchuanthumz patch.esp
+  [FE 789] TGC Winterhold - Citizens of Tamriel patch.esp
+  [FE 78A] TGC Winterhold - Cloaks of Skyrim patch.esp
+  [FE 78B] TGC Winterhold - COW Quest Expansion Patch.esp
+  [FE 78C] TGC Winterhold - Distinct Interiors Patch.esp
+  [FE 78D] TGC Winterhold - Embers XD patch.esp
+  [FE 78E] TGC Winterhold - Immersive Wenches Patch.esp
+  [FE 78F] TGC Winterhold - JKs CoW Patch.esp
+  [FE 790] TGC Winterhold - KIC patch.esp
+  [FE 791] TGC Winterhold - LAWF Patch.esp
+  [FE 792] TGC Winterhold - LOTD patch.esp
+  [FE 793] TGC Winterhold - Missives patch.esp
+  [FE 794] TGC Winterhold - S3DSigns patch.esp
+  [FE 795] TGC Winterhold - Skyrim Underground Patch.esp
+  [FE 796] TGC Winterhold - Skyshards patch.esp
+  [FE 797] TGC Winterhold - Sons of Skyrim patch.esp
+  [FE 798] TGC Winterhold - Sounds of Skyrim patch.esp
+  [FE 799] TGC Winterhold - SUT patch.esp
+  [FE 79A] TGC Winterhold - Undeath Patch.esp
+  [FE 79B] TGC Winterhold - Wheels of Lull Patch.esp
+  [FE 79C] TGV Darkwater Crossing - ETAC Modular Lazy Patch.esp
+  [FE 79D] TGV Darkwater Crossing - Immersive Wenches Patch.esp
+  [FE 79E] TGV Darkwater Crossing - Skyrim Reputation Patch.esp
+  [FE 79F] TGVoMM - 3DNPC patch.esp
+  [FE 7A0] The Dark Arts + CACO.esp
+  [FE 7A1] The Dark Arts - CCOR Patch.esp
+  [FE 7A2] The Distinct Great Ivarstead Interiors.esp
+  [FE 7A3] The Distinct Great Kynesgrove Interiors.esp
+  [FE 7A4] The Distinct Great Old Hroldan Inn.esp
+  [FE 7A5] The Distinct JK's New Gnisis Corner Club.esp
+  [FE 7A6] The Distinct JK's Sadri's Used Wares.esp
+  [FE 7A7] The Great Town of Ivarstead - 3DNPC Patch.esp
+  [FE 7A8] TheCoachmen - Markarth Outskirts Patch.esp
+  [FE 7A9] TheCoachmen.esp
+  [FE 7AA] TheEyesOfBeauty.esp
+  [FE 7AB] This Is Jorrvaskr - DOS.esp
+  [FE 7AC] This Is Jorrvaskr - KASA.esp
+  [FE 7AD] TighterBandoliers.esp
+  [FE 7AE] TKDodgeSE sound.esp
+  [FE 7AF] toggle compass hotkey.esp
+  [FE 7B0] Tools.esp
+  [FE 7B1] TowerStoneReCovered.esp
+  [FE 7B2] TradeRoutes-Patch-LegacyoftheDragonborn.esp
+  [FE 7B3] TradeRoutes-Patch-TradeAndBarter.esp
+  [FE 7B4] Traveling_Mage_Ultimate_by_Aewin.esp
+  [FE 7B5] TrissArmorRetextured.esp
+  [FE 7B6] TrueDirectionalMovement.esp
+  [FE 7B7] Tundra Overhaul Tree And Ruins By BigHead.esp
+  [FE 7B8] Twilight Princess Armor - Alt Textures and Cloth Addon - CCOR Patch.esp
+  [FE 7B9] Twilight Princess Armor - Alt Textures and Cloth Addon.esp
+  [FE 7BA] Twilight Princess Armor.esp
+  [FE 7BB] TwinbladesOfSkyrim.esp
+  [FE 7BC] Ultimate Combat No Damage Fix.esp
+  [FE 7BD] Unbearable Taunt Animation.esp
+  [FE 7BE] Unique Flowers & Plants.esp
+  [FE 7BF] UniqueBarbas.esp
+  [FE 7C0] UniqueSkulls WACCF Patch.esp
+  [FE 7C1] Unofficial Carved Brink Patch.esp
+  [FE 7C2] unslaadstartmod.esp
+  [FE 7C3] Ursine Armour HDT SMP SE.esp
+  [FE 7C4] ValtheimKeepRecovered.esp
+  [FE 7C5] VampiresHaveClaws - Player Racemenu Version.esp
+  [FE 7C6] VampiresHaveClaws - Player Version.esp
+  [FE 7C7] Veydosebrom Regions.esp
+  [FE 7C8] Vibrant weapons - Summermyst addon.esp
+  [FE 7C9] Vigilant Subtitle Fix.esp
+  [FE 7CA] Vigilant Voiced.esp
+  [FE 7CB] vigilant-footprintsPatch.esp
+  [FE 7CC] Viridian Armor - Color Variations.esp
+  [FE 7CD] Vulcano.esp
+  [FE 7CE] WA_BathWidget.esp
+  [FE 7CF] WACCF_KonahriksAccoutrements.esp
+  [FE 7D0] WadeInWater.esp
+  [FE 7D1] WadeInWaterRedone.esp
+  [FE 7D2] war scythe.esp
+  [FE 7D3] waterplants.esp
+  [FE 7D4] Wavy Waters.esp
+  [FE 7D5] WDAL NOLVUS Dark Faces Patch.esp
+  [FE 7D6] WDAL_[xPatch] Modpocalypse NPCs (v3) SSE - Cutting Room Floor Fix.esp
+  [FE 7D7] WDAL_Epic UI Sounds Fix.esp
+  [FE 7D8] WDAL_ImmAudioCCO Fix.esp
+  [FE 7D9] WDAL_ImmersiveSpellLearning Fix.esp
+  [FE 7DA] WDAL_JS Dragon Claws AE - Wyrmstooth Fix.esp.esp
+  [FE 7DB] WDAL_Modpocalypse NPCs (v3) Wyrmstooth Fix.esp
+  [FE 7DC] WEHealingPotions Patch - CACO.esp
+  [FE 7DD] Whiterun trees.esp
+  [FE 7DE] WhiterunDefenses - Cloud District Terrain Fix.esp
+  [FE 7DF] WhiterunDefenses - Steps to Cloud District Fix.esp
+  [FE 7E0] Windhelm - DoS EmbersXD Braziers Patch.esp
+  [FE 7E1] Windhelm Bridge Archways and Doors.esp
+  [FE 7E2] Windhelm Entrance Fix.esp
+  [FE 7E3] Wintersun_Hircine_Patch.esp
+  [FE 7E4] WiZkiD wells with real water.esp
+  [FE 7E5] WoW Dragon Mounds CTD Fix - Wyrmstooth Patch.esp
+  [FE 7E6] WoW Dragon Mounds CTD Fix.esp
+  [FE 7E7] Wyrmstooth for FWMF.esp
+  [FE 7E8] Yol'Kreh Scythes.esp
+  [FE 7E9] YOT - Andromeda.esp
+  [FE 7EA] YOT - Apocalypse.esp
+  [FE 7EB] YOT - Bone Wolf.esp
+  [FE 7EC] YOT - Bruma.esp
+  [FE 7ED] YOT - Campfire.esp
+  [FE 7EE] YOT - Camping.esp
+  [FE 7EF] YOT - Civil War Champions.esp
+  [FE 7F0] YOT - Cutting Room Floor.esp
+  [FE 7F1] YOT - Dawnfang and Duskfang.esp
+  [FE 7F2] YOT - Eli Breezehome.esp
+  [FE 7F3] YOT - Forgotten Seasons.esp
+  [FE 7F4] YOT - Growl.esp
+  [FE 7F5] YOT - Hendhraheim.esp
+  [FE 7F6] YOT - Hunterborn.esp
+  [FE 7F7] YOT - Immersive Sounds Odin.esp
+  [FE 7F8] YOT - Interesting NPCs.esp
+  [FE 7F9] YOT - Keep it Clean.esp
+  [FE 7FA] YOT - LOTD.esp
+  [FE 7FB] YOT - Myrwatch.esp
+  [FE 7FC] YOT - Nix Hound.esp
+  [FE 7FD] YOT - Odin.esp
+  [FE 7FE] YOT - Ordinator.esp
+  [FE 7FF] YOT - Pets of Skyrim.esp
+  [FE 800] YOT - Project AHO.esp
+  [FE 801] YOT - Sacrosanct.esp
+  [FE 802] YOT - Saints & Seducers.esp
+  [FE 803] YOT - Shadowfoot.esp
+  [FE 804] YOT - Shadowrend.esp
+  [FE 805] YOT - Summermyst.esp
+  [FE 806] YOT - Survival Mode.esp
+  [FE 807] YOT - Thunderchild.esp
+  [FE 808] YOT - Triumvirate.esp
+  [FE 809] YOT - Tundra Homestead.esp
+  [FE 80A] YOT - Umbra.esp
+  [FE 80B] YOT - Vigil Enforcer Armor Set.esp
+  [FE 80C] YOT - Vigilant.esp
+  [FE 80D] YOT - Wet and Cold.esp
+  [FE 80E] YOT - Wild Horses.esp
+  [FE 80F] YOT - Wintersun.esp
+  [FE 810] YOT - Wraithguard.esp
+  [FE 811] YOT - Wyrmstooth.esp
+  [FE 812] YOT - Your Own Thoughts.esp
+  [FE 813] Zerofrost Ultimate Armor Collection.esp
+  [FE 814] zxlice's ultimate potion animation.esp
+}
