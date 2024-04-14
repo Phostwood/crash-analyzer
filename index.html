@@ -10,6 +10,7 @@
 
   gtag('config', 'G-5X8TRFYCFK');
 </script>
+
 <script type="text/javascript">
     (function(c,l,a,r,i,t,y){
         c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
@@ -18,29 +19,76 @@
     })(window, document, "clarity", "script", "luzl3ap6kg");
 </script>
 
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Crash Log Analyzer</title>
+
+<meta charset="UTF-8">
+<meta name="version" content="0.9.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link rel="icon" type="image/x-icon" href="./crash-analyzer/favicon.ico">
+<link rel="apple-touch-icon" sizes="180x180" href="./crash-analyzer/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="./crash-analyzer/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="./crash-analyzer/favicon-16x16.png">
+<link rel="manifest" href="./crash-analyzer/site.webmanifest">
 
 <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed:300i,400,400i,700%7cMarcellus+SC" rel="stylesheet">
 
 <!-- Using stylesheet from Nolvus.net (with Vektor's permission) -->
-<link href="https://nolvus.b-cdn.net/assets/vendor/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
-<link href="https://nolvus.b-cdn.net/assets/css/nolvus.min.css" rel="stylesheet">
+<link href="./crash-analyzer/css/bootstrap.min.css" rel="stylesheet">
+<!--<link href="./crash-analyzer/css/nolvus.min.css" rel="stylesheet"> -->
+<script src="https://cdn.jsdelivr.net/npm/turndown@7.0.0/dist/turndown.js"></script>
 
 <style>
-/* Base styles */
+/* Fluid Typography Source: https://fluidtypography.com/  */
+
+/* SPECS:
+viewport width range: 370 to 4000px
+line height range: 1.7 to 1.3 ("Smaller fonts require more line height, which is why you may want to specify a start line height that has a greater value than the end line height (assuming your font size is adjusting proportionally to the viewport's width)." and "For optimal readability and accessibility, try 140% to 180% (that's 1.4 to 1.8)." --> which I'm taking as meaning 1.8 to 1.4)
+
+font size chart:
+tag		min	max
+code	14	18 (also for textarea)
+body	16	22px (also used for button)
+h6		17	26
+h5		18	30
+h4		19	34
+h3		20	38
+h2		22	42	
+h1		24	48	(only heading actually used/specified below)
+*/
+
+
+/* Fluid Typography Fonts */
+body, button {
+	font-family: "Roboto Condensed", sans-serif;
+	font-weight: 400;
+	font-size: clamp(1rem, 0.165vw + 0.962rem, 1.375rem);
+	line-height: clamp(1.7rem, 0.039vw + 1.691rem, 1.788rem);
+}
+
+code, textarea {
+    font-family: monospace;
+	font-size: clamp(0.875rem, 0.11vw + 0.85rem, 1.125rem);
+	line-height: clamp(1.463rem, -0.011vw + 1.49rem, 1.488rem);
+}
+
+h1 {
+	font-size: clamp(1.5rem, 0.661vw + 1.347rem, 3rem);
+	line-height: clamp(2.55rem, 0.595vw + 2.412rem, 3.9rem);
+}
+
+h1, h2, h3, h4, h5, h6 {
+	font-family: "Marcellus SC",serif;
+	font-weight: 600;
+}
+
+/* Other Styling */
 body {
     background-color: black;
     color: white;
-    font-family: "Roboto Condensed", sans-serif;
-    font-size: calc(1rem + 0.5vw); /* Fluid font-size starting at 1rem for mobile */
-    font-weight: 400;
-    font-weight: 400;
-    line-height: 1.6; /* Relative to the font-size */
     -webkit-font-smoothing: antialiased;
-    margin: calc(5% + 1vw); /* Fluid margin starting at 5% for mobile */
-	margin-top: calc(2.5% + 0.5vw);
+    margin: 5%;
+	margin-top: 1em;
 }
 
 #result {
@@ -48,340 +96,253 @@ body {
 }
 
 #footer {
-	margin-top: calc(3rem + 1vw); /* Fluid margin-top */
+	margin-top: 1em; 
 	max-width: 1200px;
 }
 
 ol, ul {
-	margin-top: calc(1rem + 1vw); /* Fluid margin-top */
-	margin-bottom: calc(2rem + 1vw); /* Fluid margin-bottom for lists */
-	margin-left: calc(2% + 1vw);
-	margin-right: calc(2% + 1vw);
+	margin-top: 1em;
+	margin-bottom: 2em;
+	margin-left: 2%;
+	margin-right: 2%;
 }
 
 li {
-    margin-bottom: calc(1rem + 0.5vw); /* Fluid margin-bottom for list items */
+    margin-bottom: 1em;
 }
 
-
-/* Style for headings (h1, h2, etc.) */
-h1 { font-size: calc(2rem + 0.75vw); }
-h2 { font-size: calc(1.75rem + 0.625vw); } /* only heading currently used */
-h3 { font-size: calc(1.625rem + 0.5vw); }
-h4 { font-size: calc(1.5rem + 0.375vw); }
-h5 { font-size: calc(1.375rem + 0.25vw); }
-h6 { font-size: calc(1.25rem + 0.125vw); }
-
 a {
-  color: #89CFF0; /* Blue color for links */
+	color: #89CFF0; /* Blue color for links */
 }
 
 b, strong {
-  color: #e08821; /* Nolvus orange color for bold text */
+	color: #e08821; /* Nolvus orange color for bold text */
 }
 
 code {
-    font-family: monospace; /* Monospaced font for code */
-    font-size: calc(0.8rem + 0.5vw); /* Fluid font-size for code */
 	color: #f0c491;
 	margin-left: 0;
 	padding-left: 0;
 }
 
 button, textarea {
-    font-size: calc(1rem + 0.5vw); /* Adapts with the font size of the body */
+	color: black;
     padding: 0.2em 0.4em; /* Padding relative to the font size */
     border: none;
     border-radius: 0.2em; /* Border radius relative to the font size */
 }
 
 textarea {
-    width: 100%; /* Full width of the parent element */
-    margin: 0.2em; /* Margin relative to the font size */
+    width: 100%;
+    margin: 0.2em;
 	margin-left: 0;
     box-sizing: border-box; /* Include padding and border in the element's width */
-    padding: 0.5em; /* Padding inside the textarea */
-    border: 1px solid #ccc; /* Border for the textarea */
-    resize: both; /* Allows the textarea to be resized both horizontally and vertically */
+    padding: 0.5em;
+    border: 1px solid #ccc;
+    resize: both;
+}
+
+button {
+	display: inline-block;
+	margin-right: 1em; /* Adjust the spacing between buttons */
 }
 
 #crashLog.dragover {
-  background-color: #d0d0d0; /* Light grey background when dragging over */
-}
-
-/* Medium screens (tablets, 768px and up) */
-@media (min-width: 768px) {
-    body {
-        font-size: calc(1rem + 0.75vw); /* Slightly larger font-size */
-        margin: calc(5% + 1.5vw); /* Slightly larger margin */
-		margin-top: calc(2.5% + 0.75vw);
-    }
-    h1 { font-size: calc(2.25rem + 0.875vw); }
-	h2 { font-size: calc(2rem + 0.75vw); }
-    /* ... and so on for h3 to h6 ... */
-	/*button, textarea {
-        font-size: 1.125em; /* Slightly larger font-size for buttons and textareas */
-    }*/
-}
-
-/* Large screens (desktops, 992px and up) */
-@media (min-width: 992px) {
-    body {
-        font-size: calc(1rem + 1vw); /* Larger font-size */
-        margin: calc(5% + 2vw); /* Larger margin */
-		margin-top: calc(2.5% + 1vw);
-    }
-    h1 { font-size: calc(2.5rem + 1vw); }
-	h2 { font-size: calc(2.25rem + 0.875vw); }
-    /* ... and so on for h3 to h6 ... */
-	/*button, textarea {
-        font-size: 1.25em; /* Larger font-size for buttons and textareas */
-    }*/
-}
-
-/* Extra large screens (wide screens, 1200px and up) */
-@media (min-width: 1200px) {
-    body {
-        font-size: calc(1rem + 1.25vw); /* Even larger font-size */
-        margin: calc(5% + 2.5vw); /* Larger margin */
-		margin-top: calc(2.5% + 1.25vw);
-    }
-    h1 { font-size: calc(2.75rem + 1.125vw); }
-	h2 { font-size: calc(2.5rem + 1vw); }
-    /* ... and so on for h3 to h6 ... */
-	/*button, textarea {
-        font-size: 1.5em; /* Even larger font-size for buttons and textareas */
-    }*/
-}
-
-/* 2K screens (2048px and up) */
-@media (min-width: 2048px) {
-    body {
-        font-size: calc(1rem + 1.5vw); /* Larger font-size for 2K resolution */
-        margin: calc(5% + 3vw); /* Larger margin for 2K resolution */
-		margin-top: calc(2.5% + 1.5vw);
-    }
-    h1 { font-size: calc(3rem + 1.25vw); }
-	h2 { font-size: calc(2.75rem + 1.125vw); }
-    /* ... and so on for h3 to h6 ... */
-	/*button, textarea {
-        font-size: 1.75em; /* Larger font-size for buttons and textareas on 2K screens */
-    }*/
-}
-
-/* 4K screens (3840px and up) */
-@media (min-width: 3840px) {
-    body {
-        font-size: calc(1rem + 2vw); /* Larger font-size for 4K resolution */
-        margin: calc(5% + 4vw); /* Larger margin for 4K resolution */
-		margin-top: calc(2.5% + 2vw);
-    }
-    h1 { font-size: calc(3.25rem + 1.375vw); }
-	h2 { font-size: calc(3rem + 1.25vw); }	
-    /* ... and so on for h3 to h6 ... */
-	/*button, textarea {
-        font-size: 2em; /* Larger font-size for buttons and textareas on 4K screens */
-    }*/
+	background-color: #d0d0d0; /* Light grey background when dragging over */
 }
 </style>
 
 <script>
-function copyStylesOver() {
-	// JavaScript to apply the .text-main-1 class to all <b> tags
-	document.querySelectorAll('b').forEach(boldTag => {
-	  boldTag.classList.add('text-main-1');
-	});
-	// JavaScript to apply the .text-main-1 class to all <b> tags
-	document.querySelectorAll('strong').forEach(boldTag => {
-	  boldTag.classList.add('text-main-1');
-	});
-	
-	// Select all anchor elements and apply underline style
-	document.querySelectorAll('a').forEach(function(link) {
-	  link.style.textDecoration = 'underline';
-	});
-
-}
-
 function getPercentAlphabetized(log) {
-  // Extract the "Game plugins" section
-  var pluginsRegex = /Game plugins \(\d+\)\s*\{[\s\S]*?\}/;
-  var pluginsMatch = log.match(pluginsRegex);
-  var pluginsSection = pluginsMatch ? pluginsMatch[0] : '';
+	// Extract the "Game plugins" section
+	var pluginsRegex = /Game plugins \(\d+\)\s*\{[\s\S]*?\}/;
+	var pluginsMatch = log.match(pluginsRegex);
+	var pluginsSection = pluginsMatch ? pluginsMatch[0] : '';
 
-  // Split the section into lines and filter out non-.esp plugin lines
-  var lines = pluginsSection.split('\n').filter(line => line.includes('.esp'));
+	// Split the section into lines and filter out non-.esp plugin lines
+	var lines = pluginsSection.split('\n').filter(line => line.includes('.esp'));
 
-  // Variables to count alphabetization issues
-  var alphabetizedOrderCount = 0;
-  var totalEspPlugins = lines.length - 1; // Subtract one because we compare each plugin to the next
+	// Variables to count alphabetization issues
+	var alphabetizedOrderCount = 0;
+	var totalEspPlugins = lines.length - 1; // Subtract one because we compare each plugin to the next
 
-  // Check if each .esp plugin is alphabetically ordered
-  for (var i = 0; i < totalEspPlugins; i++) {
-    // Extract plugin names without the bracketed index
-    var currentPluginMatch = lines[i].match(/^\s*\[.*?\]\s*(.+\.esp)$/i);
-    var nextPluginMatch = lines[i + 1].match(/^\s*\[.*?\]\s*(.+\.esp)$/i);
+	// Check if each .esp plugin is alphabetically ordered
+	for (var i = 0; i < totalEspPlugins; i++) {
+		// Extract plugin names without the bracketed index
+		var currentPluginMatch = lines[i].match(/^\s*\[.*?\]\s*(.+\.esp)$/i);
+		var nextPluginMatch = lines[i + 1].match(/^\s*\[.*?\]\s*(.+\.esp)$/i);
 
-    if (currentPluginMatch && nextPluginMatch) {
-      var currentPlugin = currentPluginMatch[1].toLowerCase().trim();
-      var nextPlugin = nextPluginMatch[1].toLowerCase().trim();
-
-      // Compare plugin names and count if alphabetized
-      if (currentPlugin.localeCompare(nextPlugin) < 0) {
-        alphabetizedOrderCount++;
-		//DEBUGGING: console.log(currentPlugin + ' is alphabetized before ' + nextPlugin); //DEBUGGING
-      }
-    } else {
-      // Handle the case where the line does not contain a .esp file name
-      console.error('A line does not contain a .esp file name:', lines[i]); //DEBUGGING
-    }
-  }
-
-  // Calculate the percentage of alphabetized .esp plugins
-  var percentAlphabetized = (alphabetizedOrderCount / totalEspPlugins) * 100;
-
-  return percentAlphabetized.toFixed(2); // Return percentage rounded to two decimals
+		if (currentPluginMatch && nextPluginMatch) {
+			var currentPlugin = currentPluginMatch[1].toLowerCase().trim();
+			var nextPlugin = nextPluginMatch[1].toLowerCase().trim();
+			// Compare plugin names and count if alphabetized
+			if (currentPlugin.localeCompare(nextPlugin) < 0) {
+				alphabetizedOrderCount++;
+				//DEBUGGING: console.log(currentPlugin + ' is alphabetized before ' + nextPlugin); //DEBUGGING
+			}
+		} else {
+			// Handle the case where the line does not contain a .esp file name
+			console.error('A line does not contain a .esp file name:', lines[i]); //DEBUGGING
+		}
+	}
+	// Calculate the percentage of alphabetized .esp plugins
+	var percentAlphabetized = (alphabetizedOrderCount / totalEspPlugins) * 100;
+	//DEBUGGING console.log('percentAlphabetized:',percentAlphabetized); //DEBUGGING
+	return percentAlphabetized.toFixed(2); // Return percentage rounded to two decimals
 }
-
 
 
 function analyzeLog() {
-  var log = document.getElementById('crashLog').value;
-  var result = '';
- 
-  
-  // Extract the "Possible relevant objects" section
-  var relevantObjectsRegex = /Possible relevant objects \(\d+\)\s*\{[\s\S]*?\}/;
-  var relevantObjectsMatch = log.match(relevantObjectsRegex);
-  var relevantObjectsSection = relevantObjectsMatch ? relevantObjectsMatch[0] : '';
-  console.log('relevantObjectsSection:' + relevantObjectsSection);
-  
-  // Extract the "Probable callstack" section
-  var probableCallstackRegex = /Probable callstack\s*\{[\s\S]*?\}/;
-  var probableCallstackMatch = log.match(probableCallstackRegex);
-  var probableCallstackSection = probableCallstackMatch ? probableCallstackMatch[0] : '';
-  console.log('probableCallstackSection:' + probableCallstackSection);
-  
-  
-  // Check for .STRINGS crash
-  var R14StringsRegex = /R14.*\.STRINGS/; // Regular expression to match "R14" and ".STRINGS" on the same line
-  if (R14StringsRegex.test(log)) {
-    result += '<li><b>.STRINGS Crash Detected:</b> Remove the unique character in your skyrim.ini’s sLanguage=ENGLISH line.  More information and troubleshooting tips under <a href="https://www.nolvus.net/catalog/crashlog?acc=accordion-1-1">.STRINGS Crash</a/>.</li>';
-  }
-  // Check for D6DDDA crash
-  if (log.includes('D6DDDA')) {
-    result += '<li><b>D6DDDA Crash Detected:</b> This may occur when either RAM or VRAM have been exceeded or due to broken/corrupt meshes (.nif) or textures (.dds). More information and troubleshooting tips under <a href="https://www.nolvus.net/catalog/crashlog?acc=accordion-1-2">D6DDDA Crash</a/>.</li>';
-  }
-  // Check for Shadow Scene Node crash
-  if (log.includes('ShadowSceneNode') && log.includes('(SkyrimSE.exe+12FDD00)')) {
-    result += '<li><b>Shadow Scene Node Crash Detected:</b> Load an earlier save, travelling to a different cell from the original crash, and play for a few days in game away from the area. This avoids the Shadow Scene, and hopefully allows the issue to resolve itself. More information and troubleshooting tips under <a href="https://www.nolvus.net/catalog/crashlog?acc=accordion-1-3">Shadow Scene Node crash</a/>.</li>';
-  }
-  // Check for JContainers crash
-  if (log.includes('JContainers64.dll+10AE45')) {
-    result += '<li><b>JContainers Crash Detected:</b> Go to <a href="https://www.nexusmods.com/skyrimspecialedition/mods/108591?tab=files&file_id=458596">Discrepancy\'s patch settings hub</a> and add the JContainers mod into MO2. Be sure that the patch is placed after the custom skills framework, so as to overwrite the necessary files. More information and troubleshooting tips under <a href="https://www.nolvus.net/catalog/crashlog?acc=accordion-1-4">JContainers Crash</a/>.</li>';
-  }
-  // Check for Gravelord / Mihail Sithis crash
-  var matchGravelordMatches = log.match(/mihailmmasithis\.esp/g) || [];
-  if (matchGravelordMatches && matchGravelordMatches.length >= 3) {
-    result += '<li><b>Gravelord / Mihail Sithis Crash Detected:</b> Go to <a href="https://www.nexusmods.com/skyrimspecialedition/mods/108591">Discrepancy\'s patch settings hub</a> and download the relevant patch. This patch can be installed mid-game, and always should not load after any of the flat maps. When installed, the plugin should be moved above FNIS.esp. More information and troubleshooting tips under <a href="https://www.nolvus.net/catalog/crashlog?acc=accordion-1-8">Gravelord / Mihail Sithis Crash</a/>.</li>';
-  }
-  // Check for Skeleton crash
-  var skeletonRegex = /NiNode\(Name: `NPC L UpperarmTwist1 \[LUt1\]`\)|BSFadeNode\(Name: `skeleton.nif`\)|NiNode\(Name: `NPC R Forearm \[RLar\]`\)|BSTriShape\(Name: `OneHandedSword`\)/g;
-  var skeletonMatches = relevantObjectsSection.match(skeletonRegex) || [];
-  if (skeletonMatches.length > 1) {
-    result += '<li><b>Skeleton Crash Detected:</b> Multiple indicators of a skeleton-related crash have been found. Restarting the game is the best advice we can currently offer. More information and troubleshooting tips under <a href="https://www.nolvus.net/catalog/crashlog?acc=accordion-1-9">Skeleton Crash</a/>.</li>';
-  }
-  // Check for A0D789 crash
-  if (log.includes('(SkyrimSE.exe+A0D789)')) {
-    result += '<li><b>A0D789 Crash Detected:</b> Reload game and continue playing, or alternatively, add the [SE/AE]A0D789patch patch by kingeric1992 from <a href="https://www.patreon.com/posts/se-ae-69951525">here</a> into MO2. More information and troubleshooting tips under <a href="https://www.nolvus.net/catalog/crashlog?acc=accordion-1-10">A0D789 Crash</a/>.</li>';
-  }
-  // Check for PDPerfPlugin crash
-  if (log.includes('PDPerfPlugin.dll+F125')) {
-    result += '<li><b>PDPerfPlugin Crash Detected:</b> This game likely crashed on startup. More information and troubleshooting tips under <a href="https://www.nolvus.net/catalog/crashlog?acc=accordion-1-11">PDPerfPlugin Crash</a/>.</li>';
-  }
-  
-  // Check for USVFS crash
-  if (probableCallstackSection.includes('usvfs_x64.dll')) {
-    result += '<li><b>USVFS Crash Detected:</b> An antivirus (mostly weebroot or bitdefender) is blocking the MO2 file system. Either change your antivirus, or disable your antivirus, and/or create an exception for the entire Nolvus directory. More information and troubleshooting tips under <a href="https://www.nolvus.net/catalog/crashlog?acc=accordion-1-12">USVFS Crash</a/>.</li>';
-  }
-  // Check for Alphabetized Load Order crash
-  var percentAlphabetized = getPercentAlphabetized(log);
-  if (percentAlphabetized > 90) {
-    result += '<li><b>Alphabetized Load Order Detected:</b> This log file\'s .esp mods are <b>' + percentAlphabetized + '% alphabetized</b> in their load order. Review information on the <a href="https://www.nolvus.net/catalog/crashlog?acc=accordion-1-7">Load Order Crash</a>.</li>';
-  }
-   // Check for Shadowrend crash
-  if (relevantObjectsSection.includes('ccbgssse018-shadowrend.esl')) {
-    result += '<li><b>Possible Shadowrend Crash Detected:</b> Load an earlier save, travelling to a different cell from the original crash, and play for a few days in game away from the area. This avoids the Shadowrend, and hopefully allows the issue to resolve itself. If you load a shadowrend save and continue playing on it there is a chance the issue can compound upon itself, causing more frequent crashes and issues. ⚠️NOTE: Shadowrend as a probable stack item will appear often, but it can be a misnomer sometimes because it isn\'t always the direct cause of a crash. There are other cases where shadowrend will be listed in the log (many wrong Load Order Crashes will show it) but it won\'t be the direct cause of a crash. More information and troubleshooting tips under <a href="https://www.nolvus.net/catalog/crashlog?acc=accordion-1-6">Shadowrend Crash</a/>.</li>';
-  }
-  // Check for Save Bloat crash
-  var matchNullResults = log.match(/(NULL)|(\bProbable callstack\b)|(\bPossible relevant objects\b)/g) || [];
-  if (matchNullResults.length > 16) {
-    result += '<li><b>Save Bloat Detected:</b> While it may not have been the direct cause of the crash, this log file includes <b>' + matchNullResults.length + ' NULL references</b> in its "Stack" section. This may occur due to unresolved scripts, missing masters, and/or improper saving practices. More information and troubleshooting tips under <a href="https://www.nolvus.net/catalog/crashlog?acc=accordion-1-5">Save Bloat Crash</a/>.</li>';
-  }
-  
-  //TODOs:
-	// ✅Drag and drop to populate into textarea
-	// ✅Choose a file to populate into textarea
-	// ✅Uploaded example crash files download
-	// ✅Nolvus.net inspired font and colors?
-	// ✅Check for USVFS crash
-	// ✅Improved formatting and styling consistency across browsers
-	// ✅Reordering of checks and analysis output with softer diagnosises moved towards the bottom
-	// ✅Fluid layout for mobile to ultrawide screens
-	// ✅Checks for updated version and alerts user to self-refresh if file is old
-	// ✅Add Google Analytics (was inserted in prior "Usability and UX improvements" check in
-	// ✅Fix to prevent alert if this is the initial loading of the page
-	// ✅Integrate Nolvus.net's CSS (✔️permission given by Vektor)
-	// ✅Verify Google Analytics is working
-	// ✅Fix to prevent alert if this is the initial loading of the page
-	// ✅Fix page formatting
-	// ✅Improve blue link color for better contrast on phones\
-	
-	// ✅Added code for MS Clarity Analytics https://clarity.microsoft.com/
-	// ✅Shrink title font
-	// ✅Slightly clarified textarea instructions
-	// ✅Remove indent before "[YOUR_DRIVE]:Nolvus\Instances\Nolvus Ascension\MODS\overwrite\NetScriptFramework\Crash"
-	// ✅Fixed missing bullet on Gravelord Crash description
-	// ✅Max width for content area
-	// ✅Refactored with semantic HTML layout
-	
-	// ⏸️Special code for Google Analytics conversions and clicks and stuff? (conversion would be a following a diagnosed link to Nolvus.net? CLick would be doing an analysis? Need to read up on the Google Analytics docs.
-	// ⏸️Display the "Game plugins (2343)" line? 
-	
-	// ⏸️[INFEASIBLE?] Color syntaxing? Maybe output the "Possible relevant objects" section and the "Probable callstack" with the non-null single quoted names and filenames? Probably need to collect more crash logs from different sources before deciding? 
-	// ⏸️[INFEASIBLE?] List missing mods? (infeasible without knowing individual install configs?)
-	// ⏸️[INFEASIBLE?] List non-vanilla mods? (infeasible without a single list of all possible vanilla-Nolvus mods from all possible variants and configurations)
-	// ⏸️[INFEASIBLE?] Out of order/sequence vanilla mods? (infeasible without a single list of all possible vanilla-Nolvus mods from all possible variants and configurations)
+	var log = document.getElementById('crashLog').value;
+	var result = '';
 
-  
-  // Default to unknown crash
-  if (result == '') {
-    result = '<li><b>No recognized crash pattern detected.</b> Review information on the <a href="https://www.nolvus.net/catalog/crashlog?acc=accordion-1-7">Load Order Crash</a>. For a human analysis, share your crash logs with <a href="https://www.reddit.com/r/Nolvus/">r/Nolvus</a> and/or the <a href="https://discord.gg/Zkh5PwD">Nolvus Discord</a>.</li>';
-  }
-  
-  document.getElementById('result').innerHTML = '<ul>' + result + '</ul>';
-  copyStylesOver();
-  checkForUpdate();
+	// Extract the "Possible relevant objects" section
+	var relevantObjectsRegex = /Possible relevant objects \(\d+\)\s*\{[\s\S]*?\}/;
+	var relevantObjectsMatch = log.match(relevantObjectsRegex);
+	var relevantObjectsSection = relevantObjectsMatch ? relevantObjectsMatch[0] : '';
+	//DEBUGGING: console.log('relevantObjectsSection:' + relevantObjectsSection);
+
+	// Extract the "Probable callstack" section
+	var probableCallstackRegex = /Probable callstack\s*\{[\s\S]*?\}/;
+	var probableCallstackMatch = log.match(probableCallstackRegex);
+	var probableCallstackSection = probableCallstackMatch ? probableCallstackMatch[0] : '';
+	//DEBUGGING: console.log('probableCallstackSection:' + probableCallstackSection);
+
+
+	// Check for .STRINGS crash
+	var R14StringsRegex = /R14.*\.STRINGS/; // Regular expression to match "R14" and ".STRINGS" on the same line
+	if (R14StringsRegex.test(log)) {
+		result += '<li><b>.STRINGS Crash Detected:</b> Remove the unique character in your skyrim.ini’s sLanguage=ENGLISH line.  More information and troubleshooting tips under <a href="https://www.nolvus.net/catalog/crashlog?acc=accordion-1-1">.STRINGS Crash</a/>.</li>';
+	}
+	// Check for D6DDDA crash
+	if (log.includes('D6DDDA')) {
+		result += '<li><b>D6DDDA Crash Detected:</b> This may occur when either RAM or VRAM have been exceeded or due to broken/corrupt meshes (.nif) or textures (.dds). More information and troubleshooting tips under <a href="https://www.nolvus.net/catalog/crashlog?acc=accordion-1-2">D6DDDA Crash</a/>.</li>';
+	}
+	// Check for Shadow Scene Node crash
+	if (log.includes('ShadowSceneNode') && log.includes('(SkyrimSE.exe+12FDD00)')) {
+		result += '<li><b>Shadow Scene Node Crash Detected:</b> Load an earlier save, travelling to a different cell from the original crash, and play for a few days in game away from the area. This avoids the Shadow Scene, and hopefully allows the issue to resolve itself. More information and troubleshooting tips under <a href="https://www.nolvus.net/catalog/crashlog?acc=accordion-1-3">Shadow Scene Node crash</a/>.</li>';
+	}
+	// Check for JContainers crash
+	if (log.includes('JContainers64.dll+10AE45')) {
+		result += '<li><b>JContainers Crash Detected:</b> Go to <a href="https://www.nexusmods.com/skyrimspecialedition/mods/108591?tab=files&file_id=458596">Discrepancy\'s patch settings hub</a> and add the JContainers mod into MO2. Be sure that the patch is placed after the custom skills framework, so as to overwrite the necessary files. More information and troubleshooting tips under <a href="https://www.nolvus.net/catalog/crashlog?acc=accordion-1-4">JContainers Crash</a/>.</li>';
+	}
+	// Check for Gravelord / Mihail Sithis crash
+	var matchGravelordMatches = log.match(/mihailmmasithis\.esp/g) || [];
+	if (matchGravelordMatches && matchGravelordMatches.length >= 3) {
+		result += '<li><b>Gravelord / Mihail Sithis Crash Detected:</b> Go to <a href="https://www.nexusmods.com/skyrimspecialedition/mods/108591">Discrepancy\'s patch settings hub</a> and download the relevant patch. This patch can be installed mid-game, and always should not load after any of the flat maps. When installed, the plugin should be moved above FNIS.esp. More information and troubleshooting tips under <a href="https://www.nolvus.net/catalog/crashlog?acc=accordion-1-8">Gravelord / Mihail Sithis Crash</a/>.</li>';
+	}
+	// Check for Skeleton crash
+	var skeletonRegex = /NPC L UpperarmTwist|skeleton.nif|NPC R Forearm|bisection|NPC SpineX|NPC L HeelPivot|NPC L FootBox|SaddleBone|NPC L Hand|CME L Forearm |NPC R Finger22/g;
+	var skeletonMatches = relevantObjectsSection.match(skeletonRegex) || [];
+	if (skeletonMatches.length > 0) {
+		result += '<li><b>Possible Skeleton Crash Detected:</b> ' + skeletonMatches.length +  ' indicators of a skeleton-related crash have been found. Restarting the game is the best advice we can currently offer. If you are adding your own mods, also check your load order. More information and troubleshooting tips under <a href="https://www.nolvus.net/catalog/crashlog?acc=accordion-1-9">Skeleton Crash</a/> and <a href="https://www.nolvus.net/catalog/crashlog?acc=accordion-1-7">Load Order Crash</a>.</li>';
+	}
+	// Check for A0D789 crash
+	if (log.includes('(SkyrimSE.exe+A0D789)')) {
+		result += '<li><b>A0D789 Crash Detected:</b> Reload game and continue playing, or alternatively, add the [SE/AE]A0D789patch patch by kingeric1992 from <a href="https://www.patreon.com/posts/se-ae-69951525">here</a> into MO2. More information and troubleshooting tips under <a href="https://www.nolvus.net/catalog/crashlog?acc=accordion-1-10">A0D789 Crash</a/>.</li>';
+	}
+	// Check for PDPerfPlugin crash
+	if (probableCallstackSection.includes('PDPerfPlugin.dll')) {
+	result += '<li><b>PDPerfPlugin Crash Detected:</b> If your game crashed on startup, see more information and troubleshooting tips under <a href="https://www.nolvus.net/catalog/crashlog?acc=accordion-1-11">PDPerfPlugin Crash</a/>.</li>';
+	}
+
+	// Check for USVFS crash
+	if (probableCallstackSection.includes('usvfs_x64.dll')) {
+		result += '<li><b>USVFS Crash Detected:</b> An antivirus (mostly weebroot or bitdefender) is blocking the MO2 file system. Either change your antivirus, or disable your antivirus, and/or create an exception for the entire Nolvus directory. More information and troubleshooting tips under <a href="https://www.nolvus.net/catalog/crashlog?acc=accordion-1-12">USVFS Crash</a/>.</li>';
+	}
+	// Check for Alphabetized Load Order crash
+	var percentAlphabetized = getPercentAlphabetized(log);
+	if (percentAlphabetized > 70) {
+		result += '<li><b>Alphabetized Load Order Detected:</b> This log file\'s .esp mods are ' + percentAlphabetized + '% alphabetized in their load order. Open the Nolvus Dashboard, click on "Manage" then "Instance". When loaded, click on <b>"Apply Order"</b>. ⚠️NOTE: Any added mods will be disabled and moved to the bottom of your list, so you\'ll have to manually re-order and re-enable those, but your vanilla Nolvus mods will be returned to their intended order.</li>';
+	}
+	//SkyrimUpscaler crash
+	var skyrimUpscalerMatches = probableCallstackSection.match(/SkyrimUpscaler\.dll/g) || [];
+	//DEBUGGING: console.log('SkyrimUpscaler matches:', skyrimUpscalerMatches);
+	if (skyrimUpscalerMatches && skyrimUpscalerMatches.length >= 3) {
+		result += '<li><b>Possible Skyrim Upscaler Crash Detected:</b> Review the guide, and make sure you have the correct upscaler version for your GPU and that you’ve correctly followed the installation instructions. If issue persists, share your crash logs with <a href="https://www.reddit.com/r/Nolvus/">r/Nolvus</a> and/or the <a href="https://discord.gg/Zkh5PwD">Nolvus Discord</a></li>';
+	}
+
+	//TODO: Custom mod found in Probable Callstack:  In customized you’ll likely find that there will be many direct mod related crashes which will list themselves. Most of the time it’s as simple as disabling or adjusting the load order of referenced mod
+
+	// Check for Shadowrend crash
+	if (relevantObjectsSection.includes('ccbgssse018-shadowrend.esl')) {
+		result += '<li><b>Possible Shadowrend Crash Detected:</b> Load an earlier save, travelling to a different cell from the original crash, and play for a few days in game away from the area. This avoids the Shadowrend, and hopefully allows the issue to resolve itself. If you load a shadowrend save and continue playing on it there is a chance the issue can compound upon itself, causing more frequent crashes and issues. ⚠️NOTE: Shadowrend as a probable stack item will appear often, but it can be a misnomer sometimes because it isn\'t always the direct cause of a crash. There are other cases where shadowrend will be listed in the log (many wrong Load Order Crashes will show it) but it won\'t be the direct cause of a crash. More information and troubleshooting tips under <a href="https://www.nolvus.net/catalog/crashlog?acc=accordion-1-6">Shadowrend Crash</a/>.</li>';
+	}
+	// Check for Save Bloat crash
+	var matchNullResults = log.match(/(NULL)|(\bProbable callstack\b)|(\bPossible relevant objects\b)/g) || [];
+	if (matchNullResults.length > 16) {
+		result += '<li><b>Save Bloat Detected:</b> While it may not have been the direct cause of the crash, this log file includes <b>' + matchNullResults.length + ' NULL references</b> in its "Stack" section. This may occur due to unresolved scripts, missing masters, and/or improper saving practices. With customized lists it can also be indicative of a problematic mod or bad load order. More information and troubleshooting tips under <a href="https://www.nolvus.net/catalog/crashlog?acc=accordion-1-5">Save Bloat Crash</a/>.</li>';
+	}
+
+	// Default to unknown crash
+	if (result == '') {
+		result = '<li><b>No recognized crash pattern detected.</b> Review information on the <a href="https://www.nolvus.net/catalog/crashlog?acc=accordion-1-7">Load Order Crash</a>. For a human analysis, share your crash logs with <a href="https://www.reddit.com/r/Nolvus/">r/Nolvus</a> and/or the <a href="https://discord.gg/Zkh5PwD">Nolvus Discord</a>.</li>';
+	}
+
+	document.getElementById('result').innerHTML = '<ul>' + result + '</ul>';
+	showCopyDiagnosisButton();
 }
+  
+// - - - TODOs - - -
+
+// Version 0.9.0:  (hopfully will soon be out of beta)
+// ✅Added icon <link> tags from https://favicon.io/emoji-favicons/magnifying-glass-tilted-left
+// ✅Separated this app from the Nolvus.net CSS files.
+// ✅BUG FIX: detect Skeleton Crash in newly obtained crash log
+// ✅More additions to possible indicators of Skeleton crash (from yet another obtained crash log)
+// ✅NEW TEST: Probable SkyrimUpscaler Crash (have also uploaded some new example crash log files)
+// ✅Improved description for Save Bloat
+// ✅Improved Description for Alphabetized Load Order
+// ✅NEW FEATURE: Copy and convert to markdown
+// ✅Make margins and fonts with fluid typography. Fonts larger on larger screens, but minimize the need for excess scrolling. https://fluidtypography.com/
+// ✅Remove experimental copyStylesOver()?
+// ✅Remove experimental resizeToFit()?
+// ✅Display version number to user
+// ✅Clean up browser's console log/errors
+// ✅Don't toggle "Copy Diagnosis" visibility, but purposefully show or hide
+// ✅Cleaned up code formatting
+// ✅FIXED bug I created in getPercentAlphabetized() while reformmating code 
+// ✅Tested
+// ✅Uploaded new example crash logs
+
+
+
+
+
+// - - - FUTURE FEATURES? - - -
+// ⏸️Special code for Google Analytics conversions and clicks and stuff? (conversion would be a following a diagnosed link to Nolvus.net? CLick would be doing an analysis? Need to read up on the Google Analytics docs.
+// ⏸️Display the "Game plugins (2343)" line? 
+// ⏸️[INFEASIBLE?] Color syntaxing? Maybe output the "Possible relevant objects" section and the "Probable callstack" with the non-null single quoted names and filenames? Probably need to collect more crash logs from different sources before deciding? 
+// ⏸️[INFEASIBLE?] List missing mods? (infeasible without knowing individual install configs?)
+// ⏸️[INFEASIBLE?] List non-vanilla mods? (infeasible without a single list of all possible vanilla-Nolvus mods from all possible variants and configurations)
+// ⏸️[INFEASIBLE?] Out of order/sequence vanilla mods? (infeasible without a single list of all possible vanilla-Nolvus mods from all possible variants and configurations)
+// ⏸️Custom mod found in Probable Callstack:  "In customized you’ll likely find that there will be many direct mod related crashes which will list themselves. Most of the time it’s as simple as disabling or adjusting the load order of referenced mod" (description from Corrupt Bliss)
+// ⏸ Find new tests/features in any other Skyrim crash-analysis mods?
+// ⏸ Somehow extract mod names from Probable Callstack and above ... and list the ones that show up with their number of occurences?
+// ⏸Check for updated version on GitHub? (and alerts user to self-refresh if file is old)
+// ⏸ New FaceGen Crash, counting "FaceGen" occurences. Indicate as possible crash. Pending troubleshooting advice. See "maybe Skeleton or Facegen - Crash_2024_4_13_14-6-0.txt"
+
+
 </script>
 </head>
 
 
 <body>
 	<header>
-		<h1>Phostwood's Unofficial Nolvus Crash Log Analyzer (Beta)</h1>
+		<h1>Phostwood's Unofficial Nolvus Crash Log Analyzer</h1>
 	</header>
 	<main>
 		<section>
+			<p id="versionNumber"></p>
 			<p>
 				<strong>Find your crash logs at:</strong><br>
-				<code>[YOUR_DRIVE]\Nolvus\Instances\Nolvus Ascension\MODS\overwrite\NetScriptFramework\Crash</code>
+				<code id="crashDirectory">[YOUR_DRIVE]\Nolvus\Instances\Nolvus Ascension\MODS\overwrite\NetScriptFramework\Crash</code>
 			</p>
 			<input type="file" id="fileInput" style="display:none;" onchange="loadFile(event)" accept=".txt">
 			<button onclick="document.getElementById('fileInput').click();">Choose File</button>
 			<div id="filename"></div>
 			<textarea id="crashLog" rows="10" cols="50" placeholder="Choose file (above), or drag-and-drop your log file onto this field, or copy-paste your Nolvus crash log content here..."></textarea><br>
-			<button onclick="analyzeLog()">Analyze</button>
+			<button onclick="analyzeLog()">Analyze</button> <button id="convert-button" style="display: none;">Copy Diagnosis</button>
 		</section>
 		<article id="result"></article>
 		<aside id="footer">
@@ -396,136 +357,148 @@ function analyzeLog() {
 
 
 <script>
+function getVersionNumber() {
+	var versionNumber = document.querySelector('meta[name="version"]').getAttribute('content');
+	var htmlOutput = '(Beta version ' + versionNumber + ')';
+	//TODO? ⚠️You are using an old version. Please refresh your page.⚠️
+	return htmlOutput;
+}
+document.getElementById('versionNumber').innerHTML = getVersionNumber();
+
+// Functions to show or hide the "Copy Diagnosis" button based on content
+function hideCopyDiagnosisButton() {
+	var button = document.getElementById('convert-button');
+	button.style.display = 'none';
+}
+function showCopyDiagnosisButton() {
+	var button = document.getElementById('convert-button');
+	button.style.display = 'inline-block';
+}
+
 // Clear results on any change to the textarea field
 function clearResult() {
-  document.getElementById('result').innerHTML = '';
-  copyStylesOver();
+		// Only clear the result, not the filename
+	document.getElementById('result').innerHTML = '';
+	hideCopyDiagnosisButton();
 }
+
+// - - -  handle drag-and-drop and "Choose File" button  - - - 
 
 // Functions to handle file selection and load the file content into the textarea
 function displayFilename(fileName) {
-  var filenameDisplay = document.getElementById('filename');
-  filenameDisplay.innerHTML = '<b>Loaded file:</b> <code></code>';
-  var codeElement = filenameDisplay.querySelector('code');
-  var textNode = document.createTextNode(fileName);
-  codeElement.appendChild(textNode);
+	var filenameDisplay = document.getElementById('filename');
+	filenameDisplay.innerHTML = '<b>Loaded file:</b> <code></code>';
+	var codeElement = filenameDisplay.querySelector('code');
+	var textNode = document.createTextNode(fileName);
+	codeElement.appendChild(textNode);
 }
 
 function loadFile(event) {
-  var input = event.target;
-  var reader = new FileReader();
-  reader.onload = function() {
-    var text = reader.result;
-    document.getElementById('crashLog').value = text;
-    displayFilename(input.files[0].name);
-    clearResult();
-    analyzeLog();
-  };
-  reader.onerror = function(event) {
-    console.error('File reading error:', event.target.error);
-  };
-  reader.readAsText(input.files[0]);
+	var input = event.target;
+	var reader = new FileReader();
+	reader.onload = function() {
+		var text = reader.result;
+		document.getElementById('crashLog').value = text;
+		displayFilename(input.files[0].name);
+		clearResult();
+		analyzeLog();
+	};
+	reader.onerror = function(event) {
+		console.error('File reading error:', event.target.error);
+	};
+	reader.readAsText(input.files[0]);
 }
 
 // Function to handle drag and drop with visual feedback, file type validation, and filename display
 function handleDragOver(evt) {
-  evt.stopPropagation();
-  evt.preventDefault();
-  evt.dataTransfer.dropEffect = 'copy'; // Explicitly show this is a copy.
+	evt.stopPropagation();
+	evt.preventDefault();
+	evt.dataTransfer.dropEffect = 'copy'; // Explicitly show this is a copy.
 }
 
 function handleDrop(evt) {
-  evt.stopPropagation();
-  evt.preventDefault();
-  var files = evt.dataTransfer.files; // FileList object.
-  if (files.length > 0) {
-    var file = files[0];
-    if (file.type === 'text/plain') { // Validate file type
-      var reader = new FileReader();
-      reader.onload = function(event) {
-        document.getElementById('crashLog').value = event.target.result;
-        displayFilename(file.name);
-        clearResult(); // Call clearResult here after setting the value
-        analyzeLog();
-      };
-      reader.onerror = function(event) {
-        console.error('File reading error:', event.target.error);
-      };
-      reader.readAsText(file);
-    } else {
-      console.error('Unsupported file type:', file.type);
-    }
-  }
+	evt.stopPropagation();
+	evt.preventDefault();
+	var files = evt.dataTransfer.files; // FileList object.
+	if (files.length > 0) {
+		var file = files[0];
+		if (file.type === 'text/plain') { // Validate file type
+			var reader = new FileReader();
+			reader.onload = function(event) {
+				document.getElementById('crashLog').value = event.target.result;
+				displayFilename(file.name);
+				clearResult(); // Call clearResult here after setting the value
+				analyzeLog();
+			};
+			reader.onerror = function(event) {
+				console.error('File reading error:', event.target.error);
+			};
+			reader.readAsText(file);
+		} else {
+			console.error('Unsupported file type:', file.type);
+		}
+	}
 }
-
-
 
 // Setup the event listeners for drag and drop with visual feedback
 var dropZone = document.getElementById('crashLog');
 dropZone.addEventListener('dragover', function(evt) {
-  handleDragOver(evt);
-  this.classList.add('dragover'); // Add class for visual feedback
+	handleDragOver(evt);
+	this.classList.add('dragover'); // Add class for visual feedback
 }, false);
 dropZone.addEventListener('dragleave', function(evt) {
-  this.classList.remove('dragover'); // Remove class when dragging leaves
+	this.classList.remove('dragover'); // Remove class when dragging leaves
 }, false);
 dropZone.addEventListener('drop', function(evt) {
-  handleDrop(evt);
-  this.classList.remove('dragover'); // Remove class on drop
+	handleDrop(evt);
+	this.classList.remove('dragover'); // Remove class on drop
 }, false);
 
 // Event listener for changes to the textarea
 dropZone.addEventListener('input', function() {
-  // Only clear the result, not the filename
-  document.getElementById('result').innerHTML = '';
+	clearResult() 
 }, false);
 
-// Initialize the result area
-clearResult();
-copyStylesOver();
 
+// - - -  "Copy Diagnosis" button - - - 
 
-//Check server for newer version
-function checkForUpdate() {
-  const user = 'phostwood';
-  const repo = 'crash-analyzer';
-
-  fetch(`https://api.github.com/repos/${user}/${repo}/commits?per_page=1`)
-    .then(response => response.json())
-    .then(commits => {
-      const lastCommitDate = new Date(commits[0].commit.committer.date);
-      console.log('Date this page was last updated on server:', lastCommitDate);
-
-      // Get the last used date from localStorage
-	  const lastCommitDateStored = localStorage.getItem('lastCommitDateUsed');
-      var lastCommitDateUsed = lastCommitDateStored;
-
-      // Set the last used date in localStorage if not set
-      if (!lastCommitDateUsed) {
-        console.log('lastCommitDateStored:', lastCommitDateStored);
-		localStorage.setItem('lastCommitDateUsed', lastCommitDate);
-		lastCommitDateUsed = lastCommitDate;
-      }
-	  console.log('Date of last update viewed/used:', lastCommitDateUsed);
-
-      // Check if the page has been updated since the last visit
-      if (lastCommitDateUsed < lastCommitDate) {
-        // Display a friendly warning to refresh the page
-        alert('This page has been updated since your last visit. Please refresh the page to use the latest changes.');
-      }
-
-      // Update the last used date in localStorage
-      localStorage.setItem('lastCommitDateUsed', lastCommitDate);
-    })
-    .catch(error => console.error('Error fetching commit data:', error));
+// Function to convert HTML to Markdown
+function convertHTMLToMarkdown(html) {
+	var turndownService = new TurndownService({
+	bulletListMarker: '-', // Markdown bullet list marker
+	headingStyle: 'atx'    // Markdown heading style
+	});
+	// Add a rule to handle <li> tags for proper line breaks
+	turndownService.addRule('listItem', {
+		filter: 'li',
+		replacement: function(content) {
+			return '\n- ' + content.trim() + '\n'; // Ensure each list item is on a new line
+		}
+	});
+	return turndownService.turndown(html);
 }
 
-document.addEventListener('DOMContentLoaded', (event) => {
-	checkForUpdate();
+// Function to copy text to clipboard
+function copyToClipboard(text) {
+	var dummy = document.createElement("textarea");
+	document.body.appendChild(dummy);
+	dummy.value = text;
+	dummy.select();
+	document.execCommand("copy");
+	document.body.removeChild(dummy);
+}
+
+// Event listener for the "Copy Diagnosis" button
+document.getElementById('convert-button').addEventListener('click', function() {
+	// Markdown link to be added at the top of the results
+	var resultsHeader = 'Results from [Phostwood\'s Unofficial Nolvus Crash Log Analyzer ' + getVersionNumber() + '](https://phostwood.github.io/crash-analyzer/):\n\n';
+	var htmlContent = document.getElementById('result').innerHTML;
+	var markdown = convertHTMLToMarkdown(htmlContent);
+	var finalMarkdown = resultsHeader + markdown;
+	copyToClipboard(finalMarkdown);
+	alert('Markdown copied to clipboard!');
 });
-
 </script>
-
 
 </body>
 </html>
