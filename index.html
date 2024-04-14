@@ -22,7 +22,7 @@
 <title>Crash Log Analyzer</title>
 
 <meta charset="UTF-8">
-<meta name="version" content="0.9.0">
+<meta name="version" content="0.9.1">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <link rel="icon" type="image/x-icon" 			href="https://phostwood.github.io/crash-analyzer/favicon.ico">
@@ -219,7 +219,7 @@ function analyzeLog() {
 	}
 	// Check for Shadow Scene Node crash
 	if (log.includes('ShadowSceneNode') && log.includes('(SkyrimSE.exe+12FDD00)')) {
-		result += '<li><b>Shadow Scene Node Crash Detected:</b> Load an earlier save, travelling to a different cell from the original crash, and play for a few days in game away from the area. This avoids the Shadow Scene, and hopefully allows the issue to resolve itself. More information and troubleshooting tips under <a href="https://www.nolvus.net/catalog/crashlog?acc=accordion-1-3">Shadow Scene Node crash</a/>.</li>';
+		result += '<li><b>Shadow Scene Node Crash Detected:</b> Load an earlier save, traveling to a different cell from the original crash, and play for a few days in game away from the area. This avoids the Shadow Scene, and hopefully allows the issue to resolve itself. More information and troubleshooting tips under <a href="https://www.nolvus.net/catalog/crashlog?acc=accordion-1-3">Shadow Scene Node crash</a/>.</li>';
 	}
 	// Check for JContainers crash
 	if (log.includes('JContainers64.dll+10AE45')) {
@@ -231,7 +231,7 @@ function analyzeLog() {
 		result += '<li><b>Gravelord / Mihail Sithis Crash Detected:</b> Go to <a href="https://www.nexusmods.com/skyrimspecialedition/mods/108591">Discrepancy\'s patch settings hub</a> and download the relevant patch. This patch can be installed mid-game, and always should not load after any of the flat maps. When installed, the plugin should be moved above FNIS.esp. More information and troubleshooting tips under <a href="https://www.nolvus.net/catalog/crashlog?acc=accordion-1-8">Gravelord / Mihail Sithis Crash</a/>.</li>';
 	}
 	// Check for Skeleton crash
-	var skeletonRegex = /NPC L UpperarmTwist|skeleton.nif|NPC R Forearm|bisection|NPC SpineX|NPC L HeelPivot|NPC L FootBox|SaddleBone|NPC L Hand|CME L Forearm |NPC R Finger22/g;
+	var skeletonRegex = /NPC L UpperarmTwist|skeleton\.nif|skeleton_female\.nif|NPC R Forearm|bisection|NPC SpineX|NPC L HeelPivot|NPC L FootBox|SaddleBone|NPC L Hand|CME L Forearm |NPC R Finger22/g;
 	var skeletonMatches = relevantObjectsSection.match(skeletonRegex) || [];
 	if (skeletonMatches.length > 0) {
 		result += '<li><b>Possible Skeleton Crash Detected:</b> ' + skeletonMatches.length +  ' indicators of a skeleton-related crash have been found. Restarting the game is the best advice we can currently offer. If you are adding your own mods, also check your load order. More information and troubleshooting tips under <a href="https://www.nolvus.net/catalog/crashlog?acc=accordion-1-9">Skeleton Crash</a/> and <a href="https://www.nolvus.net/catalog/crashlog?acc=accordion-1-7">Load Order Crash</a>.</li>';
@@ -265,12 +265,12 @@ function analyzeLog() {
 
 	// Check for Shadowrend crash
 	if (relevantObjectsSection.includes('ccbgssse018-shadowrend.esl')) {
-		result += '<li><b>Possible Shadowrend Crash Detected:</b> Load an earlier save, travelling to a different cell from the original crash, and play for a few days in game away from the area. This avoids the Shadowrend, and hopefully allows the issue to resolve itself. If you load a shadowrend save and continue playing on it there is a chance the issue can compound upon itself, causing more frequent crashes and issues. ⚠️NOTE: Shadowrend as a probable stack item will appear often, but it can be a misnomer sometimes because it isn\'t always the direct cause of a crash. There are other cases where shadowrend will be listed in the log (many wrong Load Order Crashes will show it) but it won\'t be the direct cause of a crash. More information and troubleshooting tips under <a href="https://www.nolvus.net/catalog/crashlog?acc=accordion-1-6">Shadowrend Crash</a/>.</li>';
+		result += '<li><b>Possible Shadowrend Crash Detected:</b> Load an earlier save, traveling to a different cell from the original crash, and play for a few days in game away from the area. This avoids the Shadowrend, and hopefully allows the issue to resolve itself. If you load a shadowrend save and continue playing on it there is a chance the issue can compound upon itself, causing more frequent crashes and issues. ⚠️NOTE: Shadowrend as a probable stack item will appear often, but it can be a misnomer sometimes because it isn\'t always the direct cause of a crash. There are other cases where shadowrend will be listed in the log (many wrong Load Order Crashes will show it) but it won\'t be the direct cause of a crash. More information and troubleshooting tips under <a href="https://www.nolvus.net/catalog/crashlog?acc=accordion-1-6">Shadowrend Crash</a/>.</li>';
 	}
 	// Check for Save Bloat crash
 	var matchNullResults = log.match(/(NULL)|(\bProbable callstack\b)|(\bPossible relevant objects\b)/g) || [];
 	if (matchNullResults.length > 16) {
-		result += '<li><b>Save Bloat Detected:</b> While it may not have been the direct cause of the crash, this log file includes <b>' + matchNullResults.length + ' NULL references</b> in its "Stack" section. This may occur due to unresolved scripts, missing masters, and/or improper saving practices. With customized lists it can also be indicative of a problematic mod or bad load order. More information and troubleshooting tips under <a href="https://www.nolvus.net/catalog/crashlog?acc=accordion-1-5">Save Bloat Crash</a/>.</li>';
+		result += '<li><b>Save Bloat Detected:</b> While it may not have been the direct cause of the crash, this log file includes <b>' + matchNullResults.length + ' NULL references</b> in its "Stack" section. This may occur due to unresolved scripts, missing masters, and/or improper saving practices. With customized lists it can also be indicative of a problematic mod or incorrect load order. More information and troubleshooting tips under <a href="https://www.nolvus.net/catalog/crashlog?acc=accordion-1-5">Save Bloat Crash</a/> and <a href="https://www.nolvus.net/catalog/crashlog?acc=accordion-1-7">Load Order Crash</a>. If issue persists, share your crash logs with <a href="https://www.reddit.com/r/Nolvus/">r/Nolvus</a> and/or the <a href="https://discord.gg/Zkh5PwD">Nolvus Discord</a></li>';
 	}
 
 	// Default to unknown crash
@@ -284,28 +284,10 @@ function analyzeLog() {
   
 // - - - TODOs - - -
 
-// Version 0.9.0:  (hopfully will soon be out of beta)
-// ✅Added icon <link> tags from https://favicon.io/emoji-favicons/magnifying-glass-tilted-left
-// ✅Separated this app from the Nolvus.net CSS files.
-// ✅BUG FIX: detect Skeleton Crash in newly obtained crash log
-// ✅More additions to possible indicators of Skeleton crash (from yet another obtained crash log)
-// ✅NEW TEST: Probable SkyrimUpscaler Crash (have also uploaded some new example crash log files)
-// ✅Improved description for Save Bloat
-// ✅Improved Description for Alphabetized Load Order
-// ✅NEW FEATURE: Copy and convert to markdown
-// ✅Make margins and fonts with fluid typography. Fonts larger on larger screens, but minimize the need for excess scrolling. https://fluidtypography.com/
-// ✅Remove experimental copyStylesOver()?
-// ✅Remove experimental resizeToFit()?
-// ✅Display version number to user
-// ✅Clean up browser's console log/errors
-// ✅Don't toggle "Copy Diagnosis" visibility, but purposefully show or hide
-// ✅Cleaned up code formatting
-// ✅FIXED bug I created in getPercentAlphabetized() while reformmating code 
-// ✅Tested
-// ✅Uploaded new example crash logs
-
-
-
+// Version 0.9.1:  (hopfully will soon be out of beta)
+// ✅Improved description for Save Bloat crash
+// ✅fixed spelling error: travelling --> traveling
+// ✅added skeleton_female.nif to list of possible Skeleton crash indicators
 
 
 // - - - FUTURE FEATURES? - - -
