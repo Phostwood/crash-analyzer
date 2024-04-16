@@ -22,7 +22,7 @@
 <title>Crash Log Analyzer</title>
 
 <meta charset="UTF-8">
-<meta name="version" content="0.9.4">
+<meta name="version" content="0.9.5">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <link rel="icon" type="image/x-icon" 			href="https://phostwood.github.io/crash-analyzer/favicon.ico">
@@ -211,12 +211,18 @@ function analyzeLog() {
 	// Check for .STRINGS crash
 	var R14StringsRegex = /R14.*\.STRINGS/; // Regular expression to match "R14" and ".STRINGS" on the same line
 	if (R14StringsRegex.test(log)) {
-		result += '<li><b>.STRINGS Crash Detected:</b> Remove any unique character in your <b>skyrim.ini<b>’s sLanguage=ENGLISH line.  More information and troubleshooting tips under <a href="https://www.nolvus.net/catalog/crashlog?acc=accordion-1-1">.STRINGS Crash</a/>.</li>';
+		result += '<li><b>.STRINGS Crash Detected:</b> Remove any unique character in your <b>skyrim.ini</b> file\'s <code>sLanguage=ENGLISH</code> line.  More information and troubleshooting tips under <a href="https://www.nolvus.net/catalog/crashlog?acc=accordion-1-1">.STRINGS Crash</a/>.</li>';
 	}
 	// Check for D6DDDA crash
 	if (log.includes('D6DDDA')) {
-		result += '<li><b>D6DDDA Crash Detected:</b> This may occur when either RAM or VRAM has been exceeded or due to broken/corrupt meshes (.nif) or textures (.dds). Verify that you have correctly <a href="https://www.nolvus.net/appendix/pagefile">set your Windows Pagefile Size</a>. More information and troubleshooting tips under <a href="https://www.nolvus.net/catalog/crashlog?acc=accordion-1-2">D6DDDA Crash</a/>.</li>';
+		result += '<li><b>D6DDDA Crash Detected:</b> This may occur when either RAM or VRAM has been exceeded or due to broken/corrupt meshes (.nif) or textures (.dds). Verify that you have correctly <a href="https://www.nolvus.net/appendix/pagefile">set your Windows Pagefile Size</a>. If you are playing vanilla Nolvus, and this issue is persistent, it could (rarely) also be an indicator of hardware issues. More information and troubleshooting tips under <a href="https://www.nolvus.net/catalog/crashlog?acc=accordion-1-2">D6DDDA Crash</a/>.</li>';
 	}
+	
+	// Check for VRAMr Gorehowl crash (specific variant of D6DDDA crash)
+	if (log.includes('D6DDDA') && relevantObjectsSection.includes('Gorehowl')) {
+		result += '<li><b>VRAMr Gorehowl Crash Detected:</b> If you are using VRAMr, try temporarily disabling VRAMr\'s output mod to get past the "Night at the Museum" quest, and then re-enable afterwards. Alternately, delete the "gorehowl" .dds and .nif image files. Or, just hide their overrides in MO2.</li>';
+	}
+	
 	// Check for Shadow Scene Node crash
 	if (probableCallstackSection.includes('BSCullingProcess::unk_D51280+78') && log.includes('(SkyrimSE.exe+12FDD00)')) {
 		result += '<li><b>Shadow Scene Node Crash Detected:</b> Load an earlier save, traveling to a different cell from the original crash, and play for a few days in game away from the area. This avoids the Shadow Scene, and hopefully allows the issue to resolve itself. More information and troubleshooting tips under <a href="https://www.nolvus.net/catalog/crashlog?acc=accordion-1-3">Shadow Scene Node crash</a/>.</li>';
@@ -235,6 +241,7 @@ function analyzeLog() {
 	if (log.includes('(SkyrimSE.exe+A0D789)')) {
 		result += '<li><b>A0D789 Crash Detected:</b> Reload game and continue playing, or alternatively, add the <a href="https://www.patreon.com/posts/se-ae-69951525">[SE/AE]A0D789patch</a> patch by kingeric1992 into Mod Organizer (MO2). If you would like guidance on modding/patching Nolvus, please watch this <a href="https://youtu.be/YOvug9KP5L4">brief tutorial video</a> for step-by-step instructions. More information and troubleshooting tips under <a href="https://www.nolvus.net/catalog/crashlog?acc=accordion-1-10">A0D789 Crash</a/>.</li>';
 	}
+	
 	// Check for PDPerfPlugin crash
 	if (probableCallstackSection.includes('PDPerfPlugin.dll')) {
 	result += '<li><b>PDPerfPlugin Crash Detected:</b> If your game crashed on startup, see more information and troubleshooting tips under <a href="https://www.nolvus.net/catalog/crashlog?acc=accordion-1-11">PDPerfPlugin Crash</a/>.</li>';
@@ -262,7 +269,7 @@ function analyzeLog() {
 	var skeletonRegex = /NPC L UpperarmTwist|NPC R UpperarmTwist|skeleton\.nif|skeleton_female\.nif|NPC L Forearm|NPC R Forearm|bisection|NPC SpineX|NPC L Heel|NPC R Heel|NPC L Foot|NPC R Foot|SaddleBone|NPC L Hand|NPC R Hand|NPC L Finger|NPC R Finger/g;
 	var skeletonMatches = relevantObjectsSection.match(skeletonRegex) || [];
 	if (skeletonMatches.length > 0) {
-		result += '<li><b>Possible Skeleton Crash Detected:</b> Your crash log contains'  + skeletonMatches.length +  ' indicator(s) of a skeleton-related crash. If you are playing vanilla Nolvus, restarting the game is the best advice we can currently offer. If you are adding your own mods, check your load order. More information and troubleshooting tips under <a href="https://www.nolvus.net/catalog/crashlog?acc=accordion-1-9">Skeleton Crash</a/> and <a href="https://www.nolvus.net/catalog/crashlog?acc=accordion-1-7">Load Order Crash</a>.</li>';
+		result += '<li><b>Possible Skeleton Crash Detected:</b> Your crash log contains '  + skeletonMatches.length +  ' indicator(s) of a skeleton-related crash. If you are playing vanilla Nolvus, restarting the game is the best advice we can currently offer. If you are adding your own mods, check your load order. More information and troubleshooting tips under <a href="https://www.nolvus.net/catalog/crashlog?acc=accordion-1-9">Skeleton Crash</a/> and <a href="https://www.nolvus.net/catalog/crashlog?acc=accordion-1-7">Load Order Crash</a>.</li>';
 	}
 
 	// Check for Shadowrend crash
@@ -281,8 +288,11 @@ function analyzeLog() {
 
 // - - - TODOs - - -
 
-// Version 0.9.4:  (hopfully will soon be out of beta)
-// ✅Tweaked descriptions of several crash types: Grammar/typo fixes. Tried to clarify some steps, and added a link to the video on modding Nolvus
+// Beta version 0.9.5:  (hopfully will soon be out of beta)
+// ✅Added a missing space to Skeleton Crash description
+// ✅Fixed formatting issue with Strings Crash description
+// ✅Added possible hardware issue to D6DDDA description
+// ✅Added new VRAMr Gorehowl crash as a specific type of D6DDDA. It's rarer, but it has a unique fingerprint, so I figured why not include it.
  
 
 
