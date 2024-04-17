@@ -22,7 +22,7 @@
 <title>Crash Log Analyzer</title>
 
 <meta charset="UTF-8">
-<meta name="version" content="0.9.5">
+<meta name="version" content="0.9.6">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <link rel="icon" type="image/x-icon" 			href="https://phostwood.github.io/crash-analyzer/favicon.ico">
@@ -220,7 +220,7 @@ function analyzeLog() {
 	
 	// Check for VRAMr Gorehowl crash (specific variant of D6DDDA crash)
 	if (log.includes('D6DDDA') && relevantObjectsSection.includes('Gorehowl')) {
-		result += '<li><b>VRAMr Gorehowl Crash Detected:</b> If you are using VRAMr, try temporarily disabling VRAMr\'s output mod to get past the "Night at the Museum" quest, and then re-enable afterwards. Alternately, delete the "gorehowl" .dds and .nif image files. Or, just hide their overrides in MO2.</li>';
+		result += '<li><b>VRAMr Gorehowl Crash Detected:</b> If you are using VRAMr, try temporarily disabling VRAMr\'s output mod to get past the "Night at the Museum" quest, and then re-enable afterwards. Alternately, delete the "gorehowl" .dds and .nif image files. Or, just hide their overrides in MO2. NOTE: the VRAMr mod author is fixing this issue, but old versions could still be in use for a while.</li>';
 	}
 	
 	// Check for Shadow Scene Node crash
@@ -260,7 +260,7 @@ function analyzeLog() {
 	var skyrimUpscalerMatches = probableCallstackSection.match(/SkyrimUpscaler\.dll/g) || [];
 	//DEBUGGING: console.log('SkyrimUpscaler matches:', skyrimUpscalerMatches);
 	if (skyrimUpscalerMatches && skyrimUpscalerMatches.length >= 3) {
-		result += '<li><b>Possible Skyrim Upscaler Crash Detected:</b> Review the guide, and make sure you have the correct upscaler version for your GPU and that you’ve correctly followed the installation instructions. If issue persists, share your crash logs with <a href="https://www.reddit.com/r/Nolvus/">r/Nolvus</a> and/or the <a href="https://discord.gg/Zkh5PwD">Nolvus Discord</a></li>';
+		result += '<li><b>Possible Skyrim Upscaler Crash Detected:</b> Review the guide, and make sure you have the correct upscaler version for your GPU and that you’ve correctly followed the <a href="https://docs.google.com/document/d/1AWONgaoaQiEUS7UMoC3p01Ht7Zfa_ARAHHg1ve7v-iM/edit">Nolvus DLSS Upscaler Installation Guide</a>. If issue persists, share your crash logs with <a href="https://www.reddit.com/r/Nolvus/">r/Nolvus</a> and/or the <a href="https://discord.gg/Zkh5PwD">Nolvus Discord</a></li>';
 	}
 
 	//TODO: Custom mod found in Probable Callstack:  In customized you’ll likely find that there will be many direct mod related crashes which will list themselves. Most of the time it’s as simple as disabling or adjusting the load order of referenced mod
@@ -288,11 +288,8 @@ function analyzeLog() {
 
 // - - - TODOs - - -
 
-// Beta version 0.9.5:  (hopfully will soon be out of beta)
-// ✅Added a missing space to Skeleton Crash description
-// ✅Fixed formatting issue with Strings Crash description
-// ✅Added possible hardware issue to D6DDDA description
-// ✅Added new VRAMr Gorehowl crash as a specific type of D6DDDA. It's rarer, but it has a unique fingerprint, so I figured why not include it.
+// Beta version 0.9.6:  (hopfully will soon be out of beta)
+// ✅Added link to Discrepancy's Nolvus Upscaler Guide.
  
 
 
