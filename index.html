@@ -22,7 +22,7 @@
 <title>Crash Log Analyzer</title>
 
 <meta charset="UTF-8">
-<meta name="version" content="0.10.1">
+<meta name="version" content="0.10.2">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <link rel="icon" type="image/x-icon" 			href="https://phostwood.github.io/crash-analyzer/favicon.ico">
@@ -206,39 +206,56 @@ function getPercentAlphabetized(passedLogFile) {
 }
 
 function extractNifPathsToListItems(logText) {
-	const regex = /"([^"]+\.nif)"/g;
-	let match;
-	const pathsSet = new Set();
+    const regex = /"([^"]+\.nif)"/g;
+    let match;
+    const pathsSet = new Set();
 
-	while ((match = regex.exec(logText)) !== null) {
-		pathsSet.add(match[1]);
-	}
+    while ((match = regex.exec(logText)) !== null) {
+        pathsSet.add(match[1]);
+    }
 
-	// Convert the Set back to an array and map to list items
-  	outputString = [...pathsSet].map(path => '<li><code>' + path + '</code></li>').join('');
-	if (outputString.trim() == '') {
-		outputString = '<li><code>(no meshes found in crash log ... consider decompressing relevant .bsa archives)</code></li>'
-	}
-	return outputString;
+    // If no matches were found, add the no meshes found message to the set
+    if (pathsSet.size === 0) {
+        pathsSet.add('(no meshes found in crash log ... consider decompressing relevant .bsa archives)');
+    }
+
+    // Convert the Set back to an array and process to list items
+    return processListItems([...pathsSet]);
 }
 
 function extractSkyrimTexturePathsToListItems(logText) {
-	const regex = /"([^"]+\.(dds|tga|bmp))"/g;
-	let match;
-	const pathsSet = new Set();
+    const regex = /"([^"]+\.(dds|tga|bmp))"/g;
+    let match;
+    const pathsSet = new Set();
 
-	while ((match = regex.exec(logText)) !== null) {
-		pathsSet.add(match[1]);
-	}
+    while ((match = regex.exec(logText)) !== null) {
+        pathsSet.add(match[1]);
+    }
 
-	// Convert the Set back to an array and map to list items
-	outputString = [...pathsSet].map(path => '<li><code>' + path + '</code></li>').join('');
-	if (outputString.trim() == '') {
-		outputString = '<li><code>(no textures found in crash log ... consider decompressing relevant .bsa archives)</code></li>'
-	}
-	return outputString;
+    // If no matches were found, add the no textures found message to the set
+    if (pathsSet.size === 0) {
+        pathsSet.add('(no textures found in crash log ... consider decompressing relevant .bsa archives)');
+    }
+
+    // Convert the Set back to an array and process to list items
+    return processListItems([...pathsSet]);
 }
 
+function processListItems(listItems) {
+    // Deduplicate the list
+    const dedupedListItems = [...new Set(listItems)];
+
+    // Wrap each file name in HTML, truncate if over 300 characters
+    const wrappedListItems = dedupedListItems.map(itemName => {
+        if (itemName.length > 300) {
+            itemName = itemName.substring(0, 300) + '...';
+        }
+        return '<li><code>' + itemName + '</code></li>';
+    });
+
+    // Add <ul> tags before the first <li> and after the last <li>
+    return '<ul>' + wrappedListItems.join('') + '</ul>';
+}
 
 
 // - - - Main Function - - - 
@@ -300,13 +317,13 @@ function analyzeLog() {
 	}
 	
 	// Check for PDPerfPlugin crash
-	if (logsFirstLine.includes('PDPerfPlugin.dll') || probableCallstackSection.includes('PDPerfPlugin.dll')) {
+	if (logsFirstLine.toLowerCase().includes('PDPerfPlugin.dll'.toLowerCase()) || probableCallstackSection.toLowerCase().includes('PDPerfPlugin.dll'.toLowerCase())) {
 		diagnoses += '<li>🎯<b>PDPerfPlugin Crash Detected:</b> This may be due to bad configurations for your graphics card. If your game crashed on startup, see more information and troubleshooting tips under <a href="https://www.nolvus.net/catalog/crashlog?acc=accordion-1-11">PDPerfPlugin Crash</a/>.</li>';
 		diagnosesCount++;
 	}
 
 	// Check for USVFS crash
-	if (probableCallstackSection.includes('usvfs_x64.dll')) {
+	if (probableCallstackSection.toLowerCase().includes('usvfs_x64.dll')) {
 		diagnoses += '<li>🎯<b>USVFS Crash Detected:</b> An antivirus (most frequently, Webroot or Bitdefender) is blocking the MO2 file system. Either change your antivirus, or disable your antivirus, and/or create an exception for the entire Nolvus directory. More information and troubleshooting tips under <a href="https://www.nolvus.net/catalog/crashlog?acc=accordion-1-12">USVFS Crash</a/>.</li>';
 		diagnosesCount++;
 	}
@@ -318,7 +335,7 @@ function analyzeLog() {
 	}
 	
 	// Check for D6DDDA crash
-	if (logsFirstLine.includes('D6DDDA')) {
+	if (logsFirstLine.toLowerCase().includes('D6DDDA'.toLowerCase())) {
 		diagnoses += '<li>❗<b>D6DDDA Crash Detected:</b> This may occur when either RAM or VRAM has been exceeded or due to broken/corrupt meshes (.nif) or textures (.dds). Verify that you have correctly <a href="https://www.nolvus.net/appendix/pagefile">set your Windows Pagefile Size</a>. If you are playing vanilla Nolvus, and this issue is persistent, it could (rarely) also be an indicator of hardware issues. More information and troubleshooting tips under <a href="https://www.nolvus.net/catalog/crashlog?acc=accordion-1-2">D6DDDA Crash</a/>.</li>';
 		diagnosesCount++;
 	}
@@ -326,13 +343,13 @@ function analyzeLog() {
 	//SkyrimUpscaler crash
 	var skyrimUpscalerMatches = probableCallstackSection.match(/SkyrimUpscaler\.dll/g) || [];
 	//DEBUGGING: console.log('SkyrimUpscaler matches:', skyrimUpscalerMatches);
-	if (logsFirstLine.includes('SkyrimUpscaler.dll') || (skyrimUpscalerMatches && skyrimUpscalerMatches.length >= 3)) {
+	if (logsFirstLine.toLowerCase().includes('SkyrimUpscaler.dll'.toLowerCase()) || (skyrimUpscalerMatches && skyrimUpscalerMatches.length >= 3)) {
 		diagnoses += '<li>❗<b>Possible Skyrim Upscaler Crash Detected:</b> Review the guide, and make sure you have the correct upscaler version for your GPU and that you’ve correctly followed the <a href="https://docs.google.com/document/d/1AWONgaoaQiEUS7UMoC3p01Ht7Zfa_ARAHHg1ve7v-iM/edit">Nolvus DLSS Upscaler Installation Guide</a>. If issue persists, share your crash logs with <a href="https://www.reddit.com/r/Nolvus/">r/Nolvus</a> and/or the <a href="https://discord.gg/Zkh5PwD">Nolvus Discord</a></li>';
 		diagnosesCount++;
 	}
 	
 	// Check for Shadow Scene Node crash
-	if (probableCallstackSection.includes('BSCullingProcess::unk_D51280+78') && logsFirstLine.includes('(SkyrimSE.exe+12FDD00)')) {
+	if (probableCallstackSection.toLowerCase().includes('BSCullingProcess::unk_D51280+78'.toLowerCase()) && logsFirstLine.includes('(SkyrimSE.exe+12FDD00)')) {
 		diagnoses += '<li>❗<b>Shadow Scene Node Crash Detected:</b> Load an earlier save, traveling to a different cell from the original crash, and play for a few days in game away from the area. This avoids the Shadow Scene, and hopefully allows the issue to resolve itself. More information and troubleshooting tips under <a href="https://www.nolvus.net/catalog/crashlog?acc=accordion-1-3">Shadow Scene Node crash</a/>.</li>';
 		diagnosesCount++;
 	}
@@ -348,8 +365,8 @@ function analyzeLog() {
 	}
 
 	// Check for Shadowrend crash
-	if (relevantObjectsSection.includes('ccbgssse018-shadowrend.esl')) {
-		diagnoses += '<li>❓<b>Possible Shadowrend Issue:</b> Try loading an earlier save and avoid the crash area for a few days. For custom mods, verify your load order. Shadowrend is frequently NOT the crash culprit. More information and troubleshooting tips under <a href="https://www.nolvus.net/catalog/crashlog?acc=accordion-1-6">Shadowrend Crash</a/> and <a href="https://www.nolvus.net/catalog/crashlog?acc=accordion-1-7">Load Order Crash</a>.</li>';
+	if (relevantObjectsSection.toLowerCase().includes('ccbgssse018-shadowrend.esl')) {
+		diagnoses += '<li>❓<b>Possible Shadowrend Issue:</b> Try loading an earlier save and avoid the crash area for a few days. Be cautious when loading a save that previously experienced the Shadowrend crash. Continuing to play on such a save might compound the issue, leading to more frequent crashes. For custom mods, verify your load order. Shadowrend is frequently NOT the crash culprit. More information and troubleshooting tips under <a href="https://www.nolvus.net/catalog/crashlog?acc=accordion-1-6">Shadowrend Crash</a/> and <a href="https://www.nolvus.net/catalog/crashlog?acc=accordion-1-7">Load Order Crash</a>.</li>';
 		diagnosesCount++;
 	}
 
@@ -373,25 +390,83 @@ function analyzeLog() {
 		// Source code: https://github.com/sri-arjuna/SSE-CLA
 		// Nexus Mod page: https://www.nexusmods.com/skyrimspecialedition/mods/89860
 
-	var insights = '<h5>Memory and Image-related Issues:</h5><ul>';
-	var insightsCount = 0;
 	
-	//D6DDDA
-	if (logsFirstLine.includes('D6DDDA')) {
-		insights += '<li>❗<b>D6DDDA Crash Detected:</b> The \'D6DDDA\' error may occur due to one of the following reasons:<ol>' +
-					'<li>Exceeded RAM or VRAM: Ensure that your system has sufficient memory resources:<ol>' +
-					'<li>Check if other applications are consuming excessive memory. Consider closing other applications.</li>' +
-					'<li>Consider running your load order through <a href="https://www.nexusmods.com/skyrimspecialedition/mods/90557">VRAMr</a> to conserve both VRAM and RAM by compressing all/most of your load order\'s texture files in an automated fashion. This can reduce your load order\'s images to a smaller resolution (file size) without a noticeable decrease in image quality, and can lead to smoother performance and fewer memory-related issues.</li>' +
-				'</ol></li>' +
-				'<li>Broken/Corrupt Meshes (.nif) or Textures (.dds): Verify the integrity of your installed mods. Corrupted files can lead to crashes:<ol>' +
-					'<li><a href="https://www.nexusmods.com/skyrimspecialedition/mods/23316">Cathedral Assets Optimizer (CAO)</a> can often be used to repair damaged image files. CAO ensures that textures are properly formatted and can also reduce their resolution (file size) without noticably reducing visual quality.</li>' +
-					'<li>Additionally, consider reaching out to the mod author if a specific mesh is identified as causing issues.</li>' +
-				'</ol></li>' +
-				'<li>Windows Pagefile Size: Verify that you have correctly <a href="https://www.nolvus.net/appendix/pagefile">set your Windows Pagefile Size</a>.</li>' +
-				'<li>Hardware Issues (Rare): While uncommon, persistent D6DDDA crashes could indicate underlying hardware problems. Run a memory diagnostic tool to check for faulty RAM. Windows Memory Diagnostic or MemTest86 can be used for this purpose. Monitor your system for other signs of instability.</li>' +
-				'</ol>For more detailed information and troubleshooting tips, refer to the <a href="https://www.nolvus.net/catalog/crashlog?acc=accordion-1-2">D6DDDA Crash section</a> on the Nolvus support page.</li>';
+	var insights = '<h5>Specific files mentioned:</h5><ul>';
+	var insightsCount = 0;
+
+	
+	// Define the regex patterns
+	const tests = [
+		/"([^"]+\.(dds|tga|bmp))"/ig,
+		/"([^"]+\.nif)"/ig,
+		/(\w+\.dll)/ig,
+		/[`"]([^`"]+\.esp)[`"]/ig,
+		/Name: [`"]([^`"]+)[`"], FormId: (\w+)/ig,
+		/[`"]([^`"]+\.pex)[`"]/ig,
+		/File: [`"]([^`"]+\.[a-zA-Z0-9]+)[`"]/ig
+	];
+
+	// Split the logs into lines
+	const lines = logsTopHalf.split('\n');
+
+	// Collect all the matches in order
+	let allMatches = [];
+	lines.forEach(line => {
+		tests.forEach(regex => {
+			const matches = line.match(regex);
+			if (matches) {
+				allMatches = allMatches.concat(matches);
+			}
+		});
+	});
+
+	// List of files to filter
+	const filterList = [
+		'clr.dll',
+		'd3d11.dll',
+		'D3D12Core.dll',
+		'D3DCOMPILER_47.dll',
+		'Dawnguard.esm',
+		'Dragonborn.esm',
+		'dxgi.dll',
+		'kernel32.dll',
+		'kernelbase.dll',
+		'MSVCP140.dll',
+		'ntdll.dll',
+		'Runtime.dll',
+		'skyrim.esm',
+		'tbbmalloc.dll',
+		'ucrtbase.dll',
+		'vcruntime140.dll',
+		'XINPUT1_3.dll'
+	].map(item => item.toLowerCase());
+
+	// Process all matches
+	allMatches = allMatches.map(item => {
+		// Remove "File:" and quotes
+		let processedItem = item.replace(/File: /i, "").replace(/['`"]/g, "");
+
+		// If the item is in the filter list, wrap it in parentheses and add a note
+		if (filterList.includes(processedItem.toLowerCase())) {
+			processedItem = `(${processedItem} ... unlikely culprit)`;
+		}
+
+		return processedItem;
+	});
+
+	// Process the matches
+	const processedMatches = processListItems(allMatches);
+
+	// Create the insights message
+	if (allMatches.length > 0) {
+		insights += '<li><b>Insights:</b> Elements higher in this list/log are frequently more likely to have helped cause the crash:'
+		insights += processedMatches;
+		insights += '</li>';
 		insightsCount++;
 	}
+
+
+	insights += '</ul><h5>More Definitive Test Results:</h5><ul>';
 	
 	//VRAMr Gorehowl
 	if (logsFirstLine.includes('D6DDDA') && relevantObjectsSection.includes('Gorehowl')) {
@@ -404,9 +479,78 @@ function analyzeLog() {
 					'</ol></li>';
 		insightsCount++;
 	}
+	//Strings
+	if (R14StringsRegex.test(logsTopHalf)) {
+		insights += '<li>🎯<b>.STRINGS Crash Detected:</b> This error typically occurs when there is a unique or non-standard character in the <code>sLanguage</code> line of your <b>skyrim.ini</b> file. To resolve this issue:<ol>' +
+					'<li>Open your <b>skyrim.ini</b> file located in the Documents/My Games/Skyrim folder.</li>' +
+					'<li>Locate the line that reads <code>sLanguage=ENGLISH</code>.</li>' +
+					'<li>Ensure that there are no unique characters or typos in this line. It should only contain standard text.</li>' +
+					'<li>Save the changes and restart Skyrim to see if the issue has been resolved.</li>' +
+					'<li>More information and troubleshooting tips under <a href="https://www.nolvus.net/catalog/crashlog?acc=accordion-1-1">.STRINGS Crash</a/>.</li>' +
+					'</ol></li>';
+		insightsCount++;
+	}
+
+	//USVFS (Antivirus)
+	if (probableCallstackSection.includes('usvfs_x64.dll')) {
+		insights += '<li>🎯<b>USVFS Crash Detected:</b> The presence of \'usvfs_x64.dll\' in the crash log indicates an issue related to the MO2 (Mod Organizer 2) file system. This crash is often caused by <b>antivirus software</b>, particularly Webroot or Bitdefender, blocking MO2\'s file operations. To resolve this issue:<ol>' +
+					'<li>Check if you have Webroot or Bitdefender antivirus installed.</li>' +
+					'<li>Temporarily disable your antivirus or create an exception for the entire Nolvus directory within your antivirus settings.</li>' +
+					'<li>Ensure that MO2 has the necessary permissions to access and modify files without interference from the antivirus.</li>' +
+					'<li>For detailed troubleshooting tips, refer to the <a href="https://www.nolvus.net/catalog/crashlog?acc=accordion-1-12">USVFS Crash section</a> on the Nolvus support page.</li>' +
+					'</ol></li>';
+		insightsCount++;
+	}
+
+	//D6DDDA
+	if (logsFirstLine.includes('D6DDDA')) {
+		insights += '<li>❗<b>D6DDDA Crash Detected:</b> The \'D6DDDA\' error may occur due to one of the following reasons:<ol>' +
+					'<li>Exceeded RAM or VRAM: Ensure that your system has sufficient memory resources:<ol>' +
+					'<li>Check if other applications are consuming excessive memory. Consider closing other applications.</li>' +
+					'<li>Consider running your load order through <a href="https://www.nexusmods.com/skyrimspecialedition/mods/90557">VRAMr</a> to conserve both VRAM and RAM by compressing all/most of your load order\'s texture files in an automated fashion. This can reduce your load order\'s images to a smaller resolution (file size) without a noticeable decrease in image quality, and can lead to smoother performance and fewer memory-related issues.</li>' +
+				'</ol></li>' +
+				'<li>Broken/Corrupt Meshes (.nif) or Textures (.dds): Verify the integrity of your installed mods. Corrupted files can lead to crashes:<ol>' +
+					'<li><a href="https://www.nexusmods.com/skyrimspecialedition/mods/23316">Cathedral Assets Optimizer (CAO)</a> can often be used to repair damaged image files. CAO ensures that textures are properly formatted and can also reduce their resolution (file size) without noticeably reducing visual quality.</li>' +
+					'<li>Additionally, consider reaching out to the mod author if a specific mesh is identified as causing issues.</li>' +
+				'</ol></li>' +
+				'<li>Windows Pagefile Size: Verify that you have correctly <a href="https://www.nolvus.net/appendix/pagefile">set your Windows Pagefile Size</a>.</li>' +
+				'<li>Hardware Issues (Rare): While uncommon, persistent D6DDDA crashes could indicate underlying hardware problems. Run a memory diagnostic tool to check for faulty RAM. Windows Memory Diagnostic or MemTest86 can be used for this purpose. Monitor your system for other signs of instability.</li>' +
+				'</ol>For more detailed information and troubleshooting tips, refer to the <a href="https://www.nolvus.net/catalog/crashlog?acc=accordion-1-2">D6DDDA Crash section</a> on the Nolvus support page.</li>';
+		insightsCount++;
+	}
+
+	//NVIDIA graphics driver
+	if (probableCallstackSection.toLowerCase().includes('nvwgf2umx.dll') || logsFirstLine.toLowerCase().includes('nvngx_dlssg.dll')) {
+	insights += '<li>❗<b>NVIDIA Driver Issue Detected:</b> "nvwgf2umx.dll" and "nvngx_dlssg.dll" errors are frequently linked to NVIDIA graphics driver issues. To resolve this, try the following steps:<ol>' +
+				'<li><b>Update your NVIDIA drivers</b> to the latest version. You can download the latest drivers from the NVIDIA website.</li>' +
+				'<li>If updating does not resolve the issue, perform a clean installation of the drivers using a tool like Display Driver Uninstaller (DDU) to remove all traces of the previous drivers before installing the new ones.</li>' +
+				'<li>Check for any GPU overclocking settings that may be causing instability and reset them to default if necessary.</li>' +
+				'</ol></li>';
+		insightsCount++;
+	}
+
+	//Memory issue (Missing Masters)
+	// Check thought up by AI (MS Bing Copilot):
+	if (logsTopHalf.includes('0xC0000005')) {
+		insights += '<li>❗<b>Memory Access Violation Detected:</b> Error code 0xc0000005 points to memory-related issues, such as invalid memory access operations. Common causes and resolutions include:<ol>' +
+			'<li><b>Missing Master Files:</b> Incompatibilities from a new mod may sometimes be resolved by installing <a href="https://www.nexusmods.com/skyrimspecialedition/mods/21146">Backported Extended ESL Support (BEES)</a>. If a mod was removed while others are still depending on it, see <a href="https://github.com/LivelyDismay/Learn-To-Mod/blob/main/lessons/Remove%20a%20Master.md">How To Remove a Master Requirement From a Plugin</a>.</li>' +
+			'<li><b>Incompatible Mods:</b> Review your mod list for conflicts that could affect memory allocation or access.</li>' +
+			'<li><b>File Format Versions:</b> Ensure all mods are compatible with your game version to prevent crashes from format mismatches.</li>' +
+			'</ol></li>';
+		insightsCount++;
+	}
+
+	//Missing Master 2
+	if (logsFirstLine.includes('5E1F22') || logsFirstLine.includes('05E1F22')) {
+		insights += '<li>❗<b>5E1F22 or 05E1F22 Detected:</b> These codes may suggest a <b>missing master</b> file. MO2 will display a warning icon next to plugins that are missing their masters. This issue can arise from incompatibilities due to a newly added mod, which is sometimes resolvable by installing <a href="https://www.nexusmods.com/skyrimspecialedition/mods/21146">Backported Extended ESL Support (BEES)</a>. It can also occur when one mod is removed (or disabled) while another mod or patch still expects it to be present. In this scenario, refer to the following tutorial on <a href="https://github.com/LivelyDismay/Learn-To-Mod/blob/main/lessons/Remove%20a%20Master.md">How To Remove a Master Requirement From a Plugin</a>.</li>';
+		insightsCount++;
+	}
+	
+	
+	insights += '</ul><h5>Memory and Image-related Issues:</h5><ul>';
 
 	//Out of RAM
-	if (logsTopHalf.includes('bad_alloc')) {
+	if (logsTopHalf.toLowerCase().includes('bad_alloc')) {
 		insights += '<li><b>bad_alloc Issue Detected:</b> The \'bad_alloc\' error typically indicates that the game has run <b>out of RAM</b> memory. To address this issue, follow these steps:<ol>' +
 					'<li>Close unnecessary applications to free up RAM.</li>' +
 					'<li>Consider upgrading your system with more RAM if you frequently encounter memory issues.</li>' +
@@ -420,7 +564,7 @@ function analyzeLog() {
 
 
 	//Memory allocation failure
-	if (logsTopHalf.includes('no_alloc')) {
+	if (logsTopHalf.toLowerCase().includes('no_alloc')) {
 		insights += '<li><b>no_alloc Issue Detected:</b> The \'no_alloc\' error suggests a <b>memory allocation</b> failure, often due to mod conflicts or system limitations. To troubleshoot this issue, follow these steps:<ol>' +
 					'<li>Run a memory diagnostic tool to check for faulty RAM. Windows Memory Diagnostic or MemTest86 can be used for this purpose.</li>' +
 					'<li>Review your mod list to ensure there are no conflicts.</li>' +
@@ -434,24 +578,13 @@ function analyzeLog() {
 	}
 
 	//tbbmalloc memory allocation issues
-	if (logsTopHalf.includes('tbbmalloc.dll')) {
+	if (logsTopHalf.toLowerCase().includes('tbbmalloc.dll')) {
 		insights += '<li><b>tbbmalloc.dll Issue Detected:</b> This indicator is associated with <b>memory allocation</b>. Its presence in the crash log suggests potential mod conflicts or the need for mod updates. Consider the following:<ol>' +
 					'<li>Check for mod compatibility issues, especially with those that modify memory allocation.</li>' +
 					'<li>Ensure all mods, particularly those related to memory management, are up to date.</li>' +
 					'<li>Verify that you have correctly <a href="https://www.nolvus.net/appendix/pagefile">set your Windows Pagefile Size</a>.</li>' +
 					'<li>Seek advice from the modding community if crashes persist after taking these steps.</li>' +
 					'</ol></li>';
-		insightsCount++;
-	}
-	
-	//Memory issue (Missing Masters)
-	// Check thought up by AI (MS Bing Copilot):
-	if (logsTopHalf.includes('0xC0000005')) {
-		insights += '<li><b>Memory Access Violation Detected:</b> Error code 0xc0000005 points to memory-related issues, such as invalid memory access operations. Common causes and resolutions include:<ol>' +
-			'<li><b>Missing Master Files:</b> Incompatibilities from a new mod may sometimes be resolved by installing <a href="https://www.nexusmods.com/skyrimspecialedition/mods/21146">Backported Extended ESL Support (BEES)</a>. If a mod was removed while others are still depending on it, see <a href="https://github.com/LivelyDismay/Learn-To-Mod/blob/main/lessons/Remove%20a%20Master.md">How To Remove a Master Requirement From a Plugin</a>.</li>' +
-			'<li><b>Incompatible Mods:</b> Review your mod list for conflicts that could affect memory allocation or access.</li>' +
-			'<li><b>File Format Versions:</b> Ensure all mods are compatible with your game version to prevent crashes from format mismatches.</li>' +
-			'</ol></li>';
 		insightsCount++;
 	}
 
@@ -474,7 +607,7 @@ function analyzeLog() {
 	}
 
 	//NIF
-	if (logsTopHalf.includes('Trishape')) {
+	if (logsTopHalf.toLowerCase().includes('trishape')) {
 		insights += '<li><b>Trishape Issue Detected:</b> Trishapes are components of NIF files that define the shape of 3D objects in the game. An issue here is likely due to a mod providing a corrupt or incompatible mesh. To resolve this:<ol>' +
 					'<li>Identify the mod responsible for the bad mesh by reviewing the list of mentioned meshes below.</li>' +
 					'<li>Check for updates or patches for the mod that may address the issue.</li>' +
@@ -485,7 +618,7 @@ function analyzeLog() {
 	}
 	
 	//Mesh (NIF, right?)
-	if (logsTopHalf.includes('mesh')) {
+	if (logsTopHalf.toLowerCase().includes('mesh')) {
 		insights += '<li><b>Possible Mesh Issue Detected:</b> This error indicates a generic mesh problem, which could be due to corrupt or incompatible mesh files. To address this issue:<ol>' +
 					'<li>Review the list of mentioned meshes below to identify any recently added or updated mods that may include these files.</li>' +
 					'<li>Check for updates or compatibility patches for the mods that provide these mesh files.</li>' +
@@ -506,7 +639,7 @@ function analyzeLog() {
 	}
 	
 	//NiNode
-	if (logsTopHalf.includes('NiNode')) {
+	if (logsTopHalf.toLowerCase().includes('NiNode'.toLowerCase())) {
 		insights += '<li><b>NiNode Issue Detected:</b> NiNodes are related to the skeletal structure of characters and creatures in Skyrim. This error could indicate an incompatible skeleton or a bad mesh. To troubleshoot this issue:<ol>' +
 					'<li>Read the descriptions of related mods and ensure the correct load order for skeleton-based mods. ⚠️Note: Avoid using tools like LOOT with Nolvus.</li>' +
 					'<li>Make sure you have a compatible skeleton mod installed, such as XPMSSE, and that it is not being overwritten by another mod in your mod manager.</li>' +
@@ -539,7 +672,7 @@ function analyzeLog() {
 	}
 	
 	//RaceMenu
-	if (logsTopHalf.includes('skee64.dll')) {
+	if (logsTopHalf.toLowerCase().includes('skee64.dll')) {
 		insights += '<li><b>skee64.dll Issue Detected:</b> This file is typically associated with <b>RaceMenu</b> and can indicate incompatibility issues with mods that affect character models or body meshes. To troubleshoot this issue:<ol>' +
 					'<li>Check for any recent mod installations or updates that may have altered character models or body meshes.</li>' +
 					'<li>Ensure that RaceMenu and all related mods are up to date and compatible with your version of Skyrim and SKSE.</li>' +
@@ -550,7 +683,7 @@ function analyzeLog() {
 	}
 	
 	//Bad texture
-	if (logsTopHalf.includes('CompressedArchiveStream')) {
+	if (logsTopHalf.toLowerCase().includes('CompressedArchiveStream'.toLowerCase())) {
 		insights += '<li><b>CompressedArchiveStream Issue Detected:</b> This error typically points to a <b>corrupted texture</b> file, which can occur when a mod improperly overwrites textures from the game or its DLCs. To resolve this issue, follow these steps:<ol>' +
 					'<li>Identify if a DLC texture is being overwritten by checking the load order and mod descriptions.</li>' +
 					'<li>If no specific texture name is mentioned, extract the "*.BSA" archives linked with any "*.esp" or "*.esm" files, excluding those from official DLCs, to pinpoint the corrupted file.</li>' +
@@ -562,9 +695,9 @@ function analyzeLog() {
 	}
 
 	//Textures
-	if (logsTopHalf.includes('textures')) {
+	if (logsTopHalf.toLowerCase().includes('texture')) {
 		insights += '<li><b>Texture Issue Detected:</b> The mention of \'textures\' in the crash log indicates a potential problem related to texture files. Textures play a crucial role in the visual quality of Skyrim, affecting everything from character models to landscapes and objects. To address texture-related issues, consider the following steps:<ol>' +
-					'<li><a href="https://www.nexusmods.com/skyrimspecialedition/mods/23316">Cathedral Assets Optimizer (CAO)</a> can often be used to repair damaged image files. CAO ensures that textures are properly formatted and can also reduce their resolution (file size) without noticably reducing visual quality.</li>' +
+					'<li><a href="https://www.nexusmods.com/skyrimspecialedition/mods/23316">Cathedral Assets Optimizer (CAO)</a> can often be used to repair damaged image files. CAO ensures that textures are properly formatted and can also reduce their resolution (file size) without noticeably reducing visual quality.</li>' +
 					'<li>Check your mod load order to prevent texture conflicts. Ensure that texture mods are loaded after any mods that alter the same textures.</li>' +
 					'<li>Inspect the list of textures mentioned in the crash log. These textures may be associated with specific mods or locations.</li>' +
 					'<li>Consider using lower resolution texture packs (e.g., 2K textures) if you experience performance or stability issues. High-resolution textures (e.g., 4K) can strain both your system\'s RAM and VRAM.</li>' +
@@ -580,7 +713,7 @@ function analyzeLog() {
 	insights += '</ul><h5>Mod-specific Issues:</h5><ul>';
 	
 	//Upscaler
-	if (logsTopHalf.includes('Upscaler.dll+')) {
+	if (logsTopHalf.toLowerCase().includes('upscaler.dll+')) {
 		insights += '<li><b>Upscaler.dll+ Issue Detected:</b> The error involving \'Upscaler.dll+\' suggests a problem with the Upscaler mod, which is designed to improve the game\'s graphics by increasing the resolution of textures. To troubleshoot this issue, consider the following steps:<ol>' +
 					'<li>Ensure you are using the correct version of the upscaler that is compatible with your GPU.</li>' +
 					'<li>Review the <a href="https://docs.google.com/document/d/1AWONgaoaQiEUS7UMoC3p01Ht7Zfa_ARAHHg1ve7v-iM/edit">Nolvus DLSS Upscaler Installation Guide</a> to confirm that you have followed all the installation steps correctly.</li>' +
@@ -605,7 +738,7 @@ function analyzeLog() {
 	}
 	
 	//Lanterns Of Skyrim II
-	if (logsTopHalf.includes('lanterns\\lantern.dds') || logsTopHalf.includes('Lanterns Of Skyrim II.esm')) {
+	if (logsTopHalf.toLowerCase().includes('lanterns\\lantern.dds') || logsTopHalf.toLowerCase().includes('Lanterns Of Skyrim II.esm'.toLowerCase())) {
 		insights += '<li><b>Possible Lanterns Of Skyrim II Issue Detected:</b> If you\'re using both the mods "Lanterns of Skyrim II" (LoS II) and "JK Skyrim," exercise caution when installing the "No Lights Patch." The LoS II patch is specifically designed to be used without the "No Lights Patch." Installing both may lead to conflicts or unexpected behavior related to lantern textures and lighting in your game. To avoid issues, follow these steps:<ol>' +
 					'<li>Check the mod descriptions and compatibility notes for both "Lanterns of Skyrim II" and "JK Skyrim."</li>' +
 					'<li>If you intend to use the "No Lights Patch," ensure that it is compatible with both mods.</li>' +
@@ -616,7 +749,7 @@ function analyzeLog() {
 	}
 	
 	//ImprovedCameraSE
-	if (logsTopHalf.includes('ImprovedCameraSE.dll')) {
+	if (logsTopHalf.toLowerCase().includes('ImprovedCameraSE.dll'.toLowerCase())) {
 		insights += '<li><b>ImprovedCameraSE.dll+ Issue Detected:</b> The presence of \'ImprovedCameraSE.dll+\' in the crash log indicates an error related to the **Improved Camera SE** mod. This mod enhances the in-game camera functionality, allowing for more dynamic and immersive views. However, pinpointing the exact cause of this error can be challenging. Here are some potential solutions to consider:<ol>' +
 					'<li>Add \'-forcesteamloader\' to your SKSE (Skyrim Script Extender) launch arguments. This flag ensures that SKSE uses the Steam loader, which can resolve compatibility issues with certain mods.</li>' +
 					'<li>Modify ReShade\'s INI file: Look for the \'MenuMode\' setting and change it to \'0\'. This adjustment might prevent conflicts between ReShade and Improved Camera SE.</li>' +
@@ -625,29 +758,30 @@ function analyzeLog() {
 		insightsCount++;
 	}
 
+/* 	DISABLED: as (1) is well tested as part of vanilla Nolvus, (2) doesn't have a specific fix, and (3) is not a common issue (if at all?)
 	//Skyrim Unbound
 	if (logsTopHalf.includes('Skyrim unbound')) {
 		insights += '<li><b>Skyrim Unbound Issue Detected:</b> The mention of \'Skyrim Unbound\' in the crash log indicates a potential issue related to this mod. If you\'re experiencing problems, consider installing one of the available fixes specifically designed for Skyrim Unbound. These fixes address common issues and enhance compatibility with other mods.</li>';
 		insightsCount++;
 	}
-	
+*/
+
+	//SimplestHorses.esp 
+	if (relevantObjectsSection.toLowerCase().includes('SimplestHorses.esp'.toLowerCase())) {
+		insights += '<li><b>Potential Conflict with Simplest Horses:</b> This mod has has been speculated to sometimes cause crashes when additional mods are added to Nolvus. If issue persists try disabling either your recentlly added mod(s), or these two mods: <ol><li>Simplest Horses</li><li>Simplest Horses - Animated Whistling Patch</li></ol></li>';
+		insightsCount++;
+	}
+
+	//Animated Ice Floes.esp
+	if (relevantObjectsSection.toLowerCase().includes('Animated Ice Floes.esp'.toLowerCase())) {
+		insights += '<li><b>Animated Ice Floes.esp Issue Detected:</b> This mod has has been speculated to sometimes cause crashes when additional mods are added to Nolvus. If issue persists try disabling either your recentlly added mod(s), the Animated Ice Floes mod.</li>';
+		insightsCount++;
+	}
 	
 	insights += '</ul><h5>Miscellaneous Issues:</h5><ul>';
-	
-	//Strings
-	if (R14StringsRegex.test(logsTopHalf)) {
-		insights += '<li>🎯<b>.STRINGS Crash Detected:</b> This error typically occurs when there is a unique or non-standard character in the <code>sLanguage</code> line of your <b>skyrim.ini</b> file. To resolve this issue:<ol>' +
-					'<li>Open your <b>skyrim.ini</b> file located in the Documents/My Games/Skyrim folder.</li>' +
-					'<li>Locate the line that reads <code>sLanguage=ENGLISH</code>.</li>' +
-					'<li>Ensure that there are no unique characters or typos in this line. It should only contain standard text.</li>' +
-					'<li>Save the changes and restart Skyrim to see if the issue has been resolved.</li>' +
-					'<li>More information and troubleshooting tips under <a href="https://www.nolvus.net/catalog/crashlog?acc=accordion-1-1">.STRINGS Crash</a/>.</li>' +
-					'</ol></li>';
-		insightsCount++;
-		}
 
 	//Shadowrend
-	if (relevantObjectsSection.includes('ccbgssse018-shadowrend.esl')) {
+	if (relevantObjectsSection.toLowerCase().includes('ccbgssse018-shadowrend.esl')) {
 		insights += '<li><b>Possible Shadowrend Crash Detected:</b> The presence of \'ccbgssse018-shadowrend.esl\' in the crash log suggests an issue related to the Shadowrend weapon. To address this issue:<ol>' +
 					'<li>Load an earlier save that predates the crash.</li>' +
 					'<li>Travel to a different cell (area) from where the original crash occurred.</li>' +
@@ -658,26 +792,9 @@ function analyzeLog() {
 		insightsCount++;
 	}
 
-	//USVFS (Antivirus)
-	if (probableCallstackSection.includes('usvfs_x64.dll')) {
-		insights += '<li>🎯<b>USVFS Crash Detected:</b> The presence of \'usvfs_x64.dll\' in the crash log indicates an issue related to the MO2 (Mod Organizer 2) file system. This crash is often caused by <b>antivirus software</b>, particularly Webroot or Bitdefender, blocking MO2\'s file operations. To resolve this issue:<ol>' +
-					'<li>Check if you have Webroot or Bitdefender antivirus installed.</li>' +
-					'<li>Temporarily disable your antivirus or create an exception for the entire Nolvus directory within your antivirus settings.</li>' +
-					'<li>Ensure that MO2 has the necessary permissions to access and modify files without interference from the antivirus.</li>' +
-					'<li>For detailed troubleshooting tips, refer to the <a href="https://www.nolvus.net/catalog/crashlog?acc=accordion-1-12">USVFS Crash section</a> on the Nolvus support page.</li>' +
-					'</ol></li>';
-		insightsCount++;
-	}
-
 	//Forced Termination
 	if (logsFirstLine.includes('0CB748E')) {
 		insights += '<li><b>0CB748E Detected:</b>This type of crash is often not indicative of a problem within the game itself but rather the result of the game\'s process being <b>forcibly terminated</b>. When Skyrim is closed in this manner, it doesn\’t go through the normal shutdown sequence, which can result in incomplete or corrupted data being written to the crash log.</li>';
-		insightsCount++;
-	}
-
-	//Missing Master
-	if (logsFirstLine.includes('5E1F22') || logsFirstLine.includes('05E1F22')) {
-		insights += '<li><b>5E1F22 or 05E1F22 Detected:</b> These codes may suggest a <b>missing master</b> file. MO2 will display a warning icon next to plugins that are missing their masters. This issue can arise from incompatibilities due to a newly added mod, which is sometimes resolvable by installing <a href="https://www.nexusmods.com/skyrimspecialedition/mods/21146">Backported Extended ESL Support (BEES)</a>. It can also occur when one mod is removed (or disabled) while another mod or patch still expects it to be present. In this scenario, refer to the following tutorial on <a href="https://github.com/LivelyDismay/Learn-To-Mod/blob/main/lessons/Remove%20a%20Master.md">How To Remove a Master Requirement From a Plugin</a>.</li>';
 		insightsCount++;
 	}
 
@@ -727,13 +844,13 @@ function analyzeLog() {
 
 	//Save game issues
 	if (logsFirstLine.includes('D2B923')) {
-		insights += '<li><b>D2B923 Detected:</b> This error is often linked to <b>save game issues</b>. It may be associated with mods that alter the save system, such as "Save System Overhaul (SSO)"[^1^][1] or "Alternate Start - Live Another Life (LAL)"[^2^][6]. A potential fix for users experiencing flashing savegame entries with SkyUI SE is the "SkyUI SE - Flashing Savegames Fix"[^3^][14]. If you\'re using a version of Skyrim SE or AE before v1.6.1130, this fix should work. For later versions, the "SkyUI SE - Difficulty Persistence Fix" is recommended, which includes the flashing savegames fix.</li>';
+		insights += '<li><b>D2B923 Detected:</b> This error is often linked to <b>save game issues</b>. It may be associated with mods that alter the save system, such as "Save System Overhaul (SSO)"[^1^][1] or "Alternate Start - Live Another Life (LAL)"[^2^][6]. A potential fix for users experiencing flashing savegame entries with SkyUI SE is the "SkyUI SE - Flashing Savegames Fix"[^3^][14]. If you\'re using a version of Skyrim SE or AE before v1.6.1130, this fix should work. For later versions, the "SkyUI SE - Difficulty Persistence Fix" is recommended, which includes the flashing savegames fix. Also, if you aren\'t aware of (and diligently following) <b>Jerilith\'s Safe Save Guide</b>, review it at <a href="https://www.nolvus.net/catalog/crashlog?acc=accordion-1-5">Save Bloat Crash</a/>.</li>';
 		insightsCount++;
 	}
 
 	//Save game issue 2
-	if (logsTopHalf.includes('BGSSaveLoadManager')) {
-		insights += '<li><b>BGSSaveLoadManager Issue Detected:</b> This error is associated with problems in the <b>save game</b> system. It may manifest as corrupted saves or issues when loading games. To potentially resolve this, you can try the following after loading the last working save:<ol>' +
+	if (logsTopHalf.toLowerCase().includes('BGSSaveLoadManager'.toLowerCase())) {
+		insights += '<li><b>BGSSaveLoadManager Issue Detected:</b> This error is associated with problems in the <b>save game</b> system. If you aren\'t aware of (and diligently following) <b>Jerilith\'s Safe Save Guide</b>, review it at <a href="https://www.nolvus.net/catalog/crashlog?acc=accordion-1-5">Save Bloat Crash</a/>. Issue may manifest as corrupted saves or issues when loading games. To potentially resolve this, you can try the following after loading the last working save:<ol>' +
 					'<li>Open the console in-game by pressing the tilde (~) key.</li>' +
 					'<li>Type the command "player.kill" and press Enter. This will kill your character and force the game to reload.</li>' +
 					'<li>After the game reloads, check if the issue with saving or loading persists.</li>' +
@@ -744,7 +861,7 @@ function analyzeLog() {
 	}
 
 	//SKSE
-	if (logsTopHalf.includes('skse64_loader.exe')) {
+	if (logsTopHalf.toLowerCase().includes('skse64_loader.exe')) {
 		insights += '<li><b>skse64_loader.exe Issue Detected:</b> This entry suggests that there may be an issue with <b>SKSE (Skyrim Script Extender)</b> or a mod that utilizes it. Common troubleshooting steps include:<ol>' +
 					'<li>Ensuring that SKSE is properly installed and that you are launching Skyrim through the SKSE launcher.</li>' +
 					'<li>Checking that your version of SKSE matches your version of Skyrim SE/AE.</li>' +
@@ -756,8 +873,8 @@ function analyzeLog() {
 	}
 
 	//HDT-SMP (Skinned Mesh Physics)
-	if (logsTopHalf.includes('hdtSMP64.dll')) {
-		insights += '<li><b>hdtSMP64.dll Issue Detected:</b> Frequent occurrences of this error might suggest a configuration issue or indicate NPCs wearing <b>HDT/SMP</b> enabled clothing. To troubleshoot this issue:<ol>' +
+	if (logsTopHalf.toLowerCase().includes('hdtSMP64.dll'.toLowerCase())) {
+		insights += '<li><b>hdtSMP64.dll Issue Detected:</b> Frequent occurrences of this error might suggest a configuration issue or indicate <b>physics</b> issues with NPCs wearing <b>HDT/SMP</b> enabled armor/clothing/hair. To troubleshoot this issue:<ol>' +
 					'<li>Ensure that \'hdtSMP64.dll\' is compatible with your installed versions of SkyrimSE.exe and SKSE. Incompatible DLLs can lead to crashes.</li>' +
 					'<li>Check for any recent updates or patches for the mod associated with \'hdtSMP64.dll\'.</li>' +
 					'<li>Review your mod configuration settings, especially those related to HDT/SMP, to ensure they are set up correctly.</li>' +
@@ -767,8 +884,8 @@ function analyzeLog() {
 	}
 
 	//cbp.dll Issue
-	if (logsTopHalf.includes('cbp.dll')) {
-		insights += '<li><b>cbp.dll Issue Detected:</b> Frequent appearances of this error might suggest a configuration issue or that NPCs are wearing <b>SMP/CBP</b> enabled clothing. To troubleshoot this issue:<ol>' +
+	if (logsTopHalf.toLowerCase().includes('cbp.dll')) {
+		insights += '<li><b>cbp.dll Issue Detected:</b> Frequent appearances of this error might suggest a configuration issue or indicate <b>physics</b> issues with NPCs are wearing <b>SMP/CBP</b> enabled clothing. To troubleshoot this issue:<ol>' +
 					'<li>Ensure that \'cbp.dll\' is compatible with your installed versions of SkyrimSE.exe and SKSE. Incompatible DLLs can lead to crashes.</li>' +
 					'<li>Check for any recent updates or patches for the mod associated with \'cbp.dll\'.</li>' +
 					'<li>Review your mod configuration settings, especially those related to CBP, to ensure they are set up correctly.</li>' +
@@ -778,20 +895,9 @@ function analyzeLog() {
 		insightsCount++;
 	}
 
-	//NVIDIA graphics driver
-	if (logsTopHalf.includes('nvwgf2umx.dll')) {
-		insights += '<li>❗<b>nvwgf2umx.dll Issue Detected:</b> This error is typically linked to <b>NVIDIA graphics driver</b> issues. To resolve this, try the following steps:<ol>' +
-					'<li>Update your NVIDIA drivers to the latest version. You can download the latest drivers from the NVIDIA website.</li>' +
-					'<li>If updating does not resolve the issue, perform a clean installation of the drivers using a tool like Display Driver Uninstaller (DDU) to remove all traces of the previous drivers before installing the new ones.</li>' +
-					'<li>Check for any GPU overclocking settings that may be causing instability and reset them to default if necessary.</li>' +
-					'<li>If you are using mods, ensure they are not too resource-intensive for your PC. Consider using fewer or less demanding mods.</li>' +
-					'<li>Verify the integrity of game files through your gaming platform (e.g., Steam) to ensure that all game files are correct and intact.</li>' +
-					'</ol></li>';
-		insightsCount++;
-	}
 
 	//0x0 on thread (Lighting or Shadows)
-	if (logsTopHalf.includes('0x0 on thread')) {
+	if (logsTopHalf.toLowerCase().includes('0x0 on thread')) {
 		insights += '<li><b>0x0 on thread Issue Detected:</b> This rare engine issue is often related to face lighting or shadow problems. To mitigate this issue, follow these steps:<ol>' +
 					'<li>Ensure you have the latest version of <a href="https://www.nexusmods.com/skyrimspecialedition/mods/17230">SSE Engine Fixes</a> installed. Engine Fixes addresses various bugs and patches issues in Skyrim Special Edition.</li>' +
 					'<li>Check for any conflicting mods that may affect lighting or shadows. Disable or adjust mods related to lighting, weather, or visual enhancements.</li>' +
@@ -802,7 +908,7 @@ function analyzeLog() {
 
 	//HUD
 	//Merged with test thought up by AI (MS Bing Copilot):
-	const hudRelatedRegex = /HUD|menus|maps/g;
+	const hudRelatedRegex = /HUD|menus|maps/ig;
 	var hudRelatedMatches = logsTopHalf.match(hudRelatedRegex) || [];
 	if (hudRelatedMatches.length > 0) {
 		insights += '<li><b>HUD Issue Detected:</b> The error suggests a conflict with your HUD/UI. To troubleshoot this issue, consider the following steps:<ol>' +
@@ -815,7 +921,7 @@ function analyzeLog() {
 	}
 
 	//XPMSE
-	if (logsTopHalf.includes('XPMSE')) {
+	if (logsTopHalf.toLowerCase().includes('XPMSE'.toLowerCase())) {
 		insights += '<li><b>XPMSE Issue Detected:</b> The mention of \'XPMSE\' in the crash log suggests a potential conflict or issue with the XP32 Maximum Skeleton Extended mod or its dependencies. This mod is crucial for animation support and is often required by other mods that add or modify character animations. To address this issue, consider the following steps:<ol>' +
 					'<li>Ensure that XPMSE is installed correctly and is loaded at the correct point in your mod load order.</li>' +
 					'<li>Verify that all mods requiring XPMSE as a dependency are compatible with the version you have installed.</li>' +
@@ -827,7 +933,7 @@ function analyzeLog() {
 	}
 
 	//XAudio
-	if (logsTopHalf.includes('XAudio')) {
+	if (logsTopHalf.toLowerCase().includes('XAudio'.toLowerCase())) {
 		insights += '<li><b>XAudio Issue Detected:</b> The \'XAudio\' error indicates a problem with the game\'s audio processing components. XAudio is a part of the Windows audio infrastructure, separate from DirectX. To resolve audio issues, follow these steps:<ol>' +
 					'<li>Download and install the latest version of the XAudio redistributable that is compatible with your operating system.</li>' +
 					'<li>Ensure your sound card drivers are up to date. Visit the manufacturer\'s website for the latest driver software.</li>' +
@@ -840,7 +946,7 @@ function analyzeLog() {
 
 
 	//keyboard
-	if (logsTopHalf.includes('bswin32keyboarddevice')) {
+	if (logsTopHalf.toLowerCase().includes('bswin32keyboarddevice')) {
 		insights += '<li><b>bswin32keyboarddevice Issue Detected:</b> The error related to \'bswin32keyboarddevice\' typically indicates a problem with the keyboard input system within the game. While this issue can sometimes be resolved with a simple computer restart, there are additional steps you can take if the problem persists:<ol>' +
 					'<li>Restart your computer to refresh the system and potentially resolve any temporary conflicts.</li>' +
 					'<li>Check for update	s to your keyboard drivers and install them if available.</li>' +
@@ -852,7 +958,7 @@ function analyzeLog() {
 	}
 
 	//DynDOLOD
-	if (logsTopHalf.includes('DynDOLOD.esm')) {
+	if (logsTopHalf.toLowerCase().includes('DynDOLOD.esm'.toLowerCase())) {
 		insights += '<li><b>DynDOLOD.esm Issue Detected:</b> The \'DynDOLOD.esm\' error is known to cause crashes to desktop (CTDs) when transitioning between locations, especially when autosave occurs concurrently with script execution. This can be due to the mod making extensive changes to the game\'s LOD (Level of Detail) which can be resource-intensive. To mitigate this issue:<ol>' +
 					'<li>Disable autosave in the game settings, particularly when changing locations or fast traveling.</li>' +
 					'<li>Manually save your game at regular intervals to avoid losing progress.</li>' +
@@ -866,7 +972,7 @@ function analyzeLog() {
 
 	// Check thought up by AI (MS Bing Copilot):
 	//ObjectReference Issues
-	const objectReferenceRegex = /kDeleted|TESLevItem/g;
+	const objectReferenceRegex = /kDeleted|TESLevItem/ig;
 	var objectReferenceMatches = logsTopHalf.match(objectReferenceRegex) || [];
 	if (objectReferenceMatches.length > 0) {
 		insights += '<li><b>ObjectReference Issues Detected:</b> The presence of ' + objectReferenceMatches.length + ' ObjectReference keyword(s) suggests crashes related to specific objects or records. To troubleshoot this:<ol>' +
@@ -928,48 +1034,7 @@ function analyzeLog() {
 		insightsCount++;
 	} END DISABLED TEST */
 
-	// Check thought up by AI (MS Bing Copilot):
-	//Driver Issue
-	const driverIssueRegex = /Driver issue detected: (\w+\.dll)/;
-	var driverIssueMatch = logsTopHalf.match(driverIssueRegex);	
-	if (driverIssueMatch) {
-		const driverName = driverIssueMatch[1];
-		insights += '<li><b>Driver Issue Detected:</b> Error related to <b>' + driverName + '</b>. Investigate graphics drivers or other system drivers for potential conflicts.</li>';
-		insightsCount++;
-	}
 
-
-
-	// Check thought up by AI (MS Bing Copilot):
-	//Plugin Issue
-	const pluginIssueRegex = /involved in the crash: "([^"]+\.esp)"/;
-	var pluginIssueMatch = logsTopHalf.match(pluginIssueRegex);
-	if (pluginIssueMatch) {
-		const pluginName = pluginIssueMatch[1];
-		insights += '<li><b>Plugin Issue Detected:</b> The plugin <b>' + pluginName + '</b> might be involved in the crash. Verify the integrity and compatibility of this mod.</li>';
-		insightsCount++;
-	}
-
-	// Check thought up by AI (MS Bing Copilot):
-	//Record Issue
-	const recordIssueRegex = /involved in the crash: name: "([^"]+)" formid: (\w+)/;
-	var recordIssueMatch = logsTopHalf.match(recordIssueRegex);
-	if (recordIssueMatch) {
-		const recordName = recordIssueMatch[1];
-		const formId = recordIssueMatch[2];
-		insights += '<li><b>Record Issue Detected:</b> The <b>record ' + recordName + ' with FormID ' + formId + '</b> might be involved in the crash. Investigate the related mod or game asset.</li>';
-		insightsCount++;
-	}
-
-	// Check thought up by AI (MS Bing Copilot):
-	//Papyrus Script Issue
-	const papyrusIssueRegex = /involved in the crash: "([^"]+\.pex)"/;
-	var papyrusIssueMatch = logsTopHalf.match(papyrusIssueRegex);
-	if (papyrusIssueMatch) {
-		const scriptName = papyrusIssueMatch[1];
-		insights += '<li><b>Papyrus Script Issue Detected:</b> The Papyrus script <b>' + scriptName + '</b> might be involved in the crash. Check for errors in the script or conflicts with other mods.</li>';
-		insightsCount++;
-	}
 
 
 	clearResult();
@@ -978,7 +1043,7 @@ function analyzeLog() {
 
 	if (document.getElementById('speculativeInsights').checked) {
 		if (insights.trim() !== '') {
-			outputHtml = '<h4>For Advanced Users: AI-Generated Speculative Insights</h4>⚠️<b>CAUTION:</b> many of the instructions below (and some of their tests) were generated by an AI system ... so they could potentially be giving bad advice. If you aren\'t confident in what you are doing, please consult with the Nolvus modding community before making any significant changes to mods added by vanila Nolvus.' + insights + '</ul>';
+			outputHtml = '<h4>For Advanced Users: Speculative Insights</h4>⚠️<b>CAUTION:</b> many of the instructions below (and some of their tests) were generated by an AI system ... so they could potentially be giving bad advice. If you aren\'t confident in what you are doing, please consult with the Nolvus modding community before making any significant changes to mods added by vanilla Nolvus.' + insights + '</ul>';
 			showH4();
 			document.getElementById('speculation').innerHTML = outputHtml;
 		}
@@ -992,13 +1057,22 @@ function analyzeLog() {
 
 // - - - TODOs - - -
 
-// Beta version 0.10.1:  (hopfully will soon be out of beta)
-// ✅41 new speculative tests for advnaed users
-// ✅Functional "Speculative Insights" checkbox
-// ✅Hide "Speculative Insights" checkbox when there are none
-// ✅Exclude "Speculative Insights" from the "Copy Diagnosis" button's output ... it could get way too long for sharing
-// ❌"Copy Insights" button?
-// ✅Created a mocked up test log that displays every error.
+// Beta version 0.10.2:  (hopfully will soon be out of beta)
+// ✅Fixed typo: vanilla
+// ✅Spelling correction: noticeably
+// ✅New "Specific files mentioned" section for quickly scanning all the potentially relevant files
+// ✅New speculative section for "More Definitive Test Results"
+// ✅New speculative test for Simplest Horses
+// ✅New speculative test for Animated Ice Flows issue
+// ✅Added this (rewritten) content back to the Diagnosis description of Shadowrend: Be cautious when loading a save that previously experienced the Shadowrend crash. Continuing to play on such a save might compound the issue, leading to more frequent crashes.
+// ✅Link to test.log on the crash analyzer page
+// ✅Improved test and description for NVIDIA drivers error with advice from Discrepancy
+// ✅Minor code refactoring
+// ✅Disabled test for "Skyrim Unbound" as it's well tested as part of vanilla Nolvus, doesn't have a specific fix, and isn't a common issue (if at all?)
+// ✅Most comparisons are now case-insensitive
+
+// ⏸️add notes to some frequently seen files, ex: nvwgf2umx.dll  (nvidia graphics driver)
+
 // ❓Q: If texture/mesh issues are found, but no specific files are listed, does that usually mean they are packaged up in a .BSA archive?
 // ❓Find all "file:" findins (with the filename/path) and display in categories as to where it showed up in the log)
 	// Do the same with other similar inidicators? Is there a "mod" or "plugin" or anything?
@@ -1037,7 +1111,8 @@ function analyzeLog() {
 			<p id="versionNumber"></p>
 			<p>
 				<strong>Find your crash logs at:</strong><br>
-				<code id="crashDirectory">[YOUR_DRIVE]\Nolvus\Instances\Nolvus Ascension\MODS\overwrite\NetScriptFramework\Crash</code>
+				<code id="crashDirectory">[YOUR_DRIVE]\Nolvus\Instances\Nolvus Ascension\MODS\overwrite\NetScriptFramework\Crash</code><br>
+				Or, alternately, download the <a href="https://raw.githubusercontent.com/Phostwood/crash-analyzer/main/Test_Log.txt">Test_Log.txt</a> to see every possible crash log issue.
 			</p>
 			<input type="file" id="fileInput" style="display:none;" onchange="loadFile(event)" accept=".txt">
 			<button onclick="document.getElementById('fileInput').click();">Choose File</button>
