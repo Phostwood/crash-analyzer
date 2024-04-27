@@ -1,0 +1,2144 @@
+Mod,Version,Section,Option
+Skyrim Script Extender,2.0.0.20,1.1 SKSE PLUGINS,Always Install
+Address Library for SKSE Plugins,2,1.1 SKSE PLUGINS,Always Install
+PapyrusUtil - Scripting Utility Functions,3.9,1.1 SKSE PLUGINS,Always Install
+Papyrus Extender,5.6.1,1.1 SKSE PLUGINS,Always Install
+Console Util,1.2.0,1.1 SKSE PLUGINS,Always Install
+Console Commands Extender,1.8.0,1.1 SKSE PLUGINS,Always Install
+More Informative Console,1.1.0,1.1 SKSE PLUGINS,Always Install
+Scaleform Translation PP,1.4.1,1.1 SKSE PLUGINS,Always Install
+ENB Helper,1.5,1.1 SKSE PLUGINS,Always Install
+ENB Helper Plus,1.0.4,1.1 SKSE PLUGINS,Always Install
+ENB Input Disabler,1.0.2,1.1 SKSE PLUGINS,Always Install
+Better Jumping,1.7.3,1.1 SKSE PLUGINS,Always Install
+JContainers,4.1.13,1.1 SKSE PLUGINS,Always Install
+FileAccess Interface for Skyrim Scripts - FISSES,1.3.7,1.1 SKSE PLUGINS,Always Install
+Fuz Ro D'oh,1.7,1.1 SKSE PLUGINS,Always Install
+Net Script Framework,18,1.1 SKSE PLUGINS,Always Install
+Base Object Swapper,2.6.0,1.1 SKSE PLUGINS,Always Install
+Keyword Item Distributor,3.0.4,1.1 SKSE PLUGINS,Always Install
+Custom Skills Framework,1,1.1 SKSE PLUGINS,Always Install
+Time Format Changer,1.1.0,1.1 SKSE PLUGINS,Always Install
+dTry's Key Utils,1.1,1.1 SKSE PLUGINS,Always Install
+Spell Perk Item Distributor,6.6.2,1.1 SKSE PLUGINS,Always Install
+Auto Input Switch,1.2.0,1.1 SKSE PLUGINS,Always Install
+Dynamic Key Action Framework NG,v1.0,1.1 SKSE PLUGINS,Always Install
+FormList Manipulator,1.7.1,1.1 SKSE PLUGINS,Always Install
+Upscaler Base Plugin,1.0.6.1,1.1 SKSE PLUGINS,DLAA
+Skyrim Upscaler,1.1.1.0,1.1 SKSE PLUGINS,DLAA
+DLL Plugin Loader,1,1.1 SKSE PLUGINS,Always Install
+SSE Engine Fixes,5.9.1,1.2 BUG FIXES & TWEAKS,Always Install
+Bug Fixes,6,1.2 BUG FIXES & TWEAKS,Always Install
+SSE Fixes,3.1.5.97,1.2 BUG FIXES & TWEAKS,Always Install
+SSE Display Tweaks,0.5.12,1.2 BUG FIXES & TWEAKS,Always Install
+Mfg Fix,1.5.4,1.2 BUG FIXES & TWEAKS,Always Install
+Dead Body Cleanup Script Crash Fix,0.3,1.2 BUG FIXES & TWEAKS,Always Install
+Chillwind Depths CTD Fix,1.0.1,1.2 BUG FIXES & TWEAKS,Always Install
+Dragon Mounds CTD Fix,1.2,1.2 BUG FIXES & TWEAKS,Always Install
+Scrambled Bugs,17,1.2 BUG FIXES & TWEAKS,Always Install
+Survival Mode Prompt Removed,1.0.0,1.2 BUG FIXES & TWEAKS,Always Install
+SSE FPS Stabilizer,1.1.6,1.2 BUG FIXES & TWEAKS,FPS Stabilizer
+Recursion Fix,1.2,1.2 BUG FIXES & TWEAKS,Always Install
+Powerofthree's Tweaks,1.8.0,1.2 BUG FIXES & TWEAKS,Always Install
+Powerofthree's Tweaks - Settings,1,1.2 BUG FIXES & TWEAKS,Always Install
+Papyrus Tweaks NG,4.1.0,1.2 BUG FIXES & TWEAKS,Always Install
+Papyrus Tweaks NG - Settings,1.1,1.2 BUG FIXES & TWEAKS,Always Install
+Disable Auto Vanity Mode,1,1.2 BUG FIXES & TWEAKS,Always Install
+NPC Stuck in Bleedout fix,0.1.2,1.2 BUG FIXES & TWEAKS,Always Install
+Stuck on Screen Load Door Prompt Fix,0.1.1,1.2 BUG FIXES & TWEAKS,Always Install
+Southfringe Sanctum Crash Fix,1.3,1.2 BUG FIXES & TWEAKS,Always Install
+Unofficial Skyrim Special Edition Patch,4.2.8,1.2 BUG FIXES & TWEAKS,Always Install
+Unofficial Skyrim Creation Club Content Patch,7.2,1.2 BUG FIXES & TWEAKS,Always Install
+Skyrim Unbound Reborn,2.0.5,1.3 ALTERNATE START,Alternate Start
+Skyrim Unbound Nolvus Preset,1.1,1.3 ALTERNATE START,Alternate Start
+Sky UI,5.2SE,2.1 HUDS,Always Install
+MCM Helper,1.4.0,2.1 HUDS,Always Install
+SkyHUD,0.90B,2.1 HUDS,Always Install
+UI Extensions,1.2.0,2.1 HUDS,Always Install
+Infinity UI,2.0.1,2.1 HUDS,Always Install
+Add Item Menu,1.14,2.1 HUDS,Always Install
+True HUD,1.1.8,2.1 HUDS,Always Install
+moreHUD,4.1.2.0,2.1 HUDS,Always Install
+moreHUD - Settings Loader,2.1.1,2.1 HUDS,Always Install
+moreHUD - Nolvus Settings,1,2.1 HUDS,Always Install
+moreHUD - Inventory Edition,1.0.20,2.1 HUDS,Always Install
+NORDIC UI - Interface Overhaul,2.4.1,2.1 HUDS,Always Install
+NORDIC UI - Better Scroll Bar - SkyUI,1.1,2.1 HUDS,Always Install
+NORDIC UI - Better Scroll Bar - Crafting menu,1,2.1 HUDS,Always Install
+NORDIC UI - Miscellaneous Patches,1.6,2.1 HUDS,Always Install
+NORDIC UI - Compass Markers Restored,1.2.0,2.1 HUDS,Always Install
+NORDIC UI - Markers,4,2.1 HUDS,Always Install
+NORDIC UI - Sleep Wait Menu,1,2.1 HUDS,Always Install
+NORDIC UI - True HUD Preset,1.1.1,2.1 HUDS,Always Install
+NORDIC UI - Nolvus Settings,1,2.1 HUDS,Always Install
+NORDIC UI - Nolvus Settings (Wide Screen),1,2.1 HUDS,Ultra Wide
+NORDIC UI - Clean StartMenu,1,2.1 HUDS,Always Install
+Contextual Crosshair,1.3.0,2.1 HUDS,Always Install
+Toggle Compass,1,2.1 HUDS,Always Install
+Compass Navigation Overhaul,2.1,2.1 HUDS,Always Install
+Compass Navigation Overhaul - NORDIC UI Skin,2.1,2.1 HUDS,Always Install
+Compass Navigation Overhaul (Wide Screen),1,2.1 HUDS,Ultra Wide
+QuickLoot EE,1.2.1,2.1 HUDS,Always Install
+QuickLoot EE - Settings Loader,1.1.0,2.1 HUDS,Always Install
+QuickLoot EE - Nordic UI Patch,1.0.0.0,2.1 HUDS,Always Install
+A Matter Of Time,v3.0.0a4,2.1 HUDS,Always Install
+A Matter Of Time - Settings Loader,2.1.1,2.1 HUDS,Always Install
+A Matter Of Time - Nolvus Settings,1,2.1 HUDS,Always Install
+A Matter Of Time - Seasons,1,2.1 HUDS,Always Install
+Widget Mod,0.5.8,2.1 HUDS,Always Install
+Widget Mod - Settings Loader,2,2.1 HUDS,Always Install
+Widget Mod - Nolvus Settings,1,2.1 HUDS,Always Install
+Widget Mod - Elden Ring,1.12,2.1 HUDS,Always Install
+Oxygen Meter 2,1.0.5,2.1 HUDS,Always Install
+Oxygen Meter 2 - Nordic UI Patch,1.1,2.1 HUDS,Always Install
+Detection Meter,v0.17,2.1 HUDS,Always Install
+Detection Meter - SkyAltert Redesign,1,2.1 HUDS,Always Install
+iEquip,1.6.4,2.1 HUDS,Always Install
+iEquip - Settings Loader,2.2.0,2.1 HUDS,Always Install
+iEquip - Nolvus Settings,1,2.1 HUDS,Always Install
+iEquip - Nolvus Settings (Wide Screen),1,2.1 HUDS,Ultra Wide
+Easy Wheel Menu,2.1,2.1 HUDS,Always Install
+Easy Wheel Menu - Settings Loader,1,2.1 HUDS,Always Install
+Easy Wheel - Nolvus Settings,1,2.1 HUDS,Always Install
+iWant Widgets,1.3,2.1 HUDS,Always Install
+Better Third Person Selection,0.5.8,2.1 HUDS,Always Install
+Better Third Person Selection - Nolvus Settings,1.1,2.1 HUDS,Always Install
+Stay At System Page,1.5.0,2.1 HUDS,Always Install
+Whose Quest Is It Anyway,1.3.0,2.1 HUDS,Always Install
+Gold To Septims - Weightless,1.0.0,2.1 HUDS,Always Install
+Custom Skill Menu,1.1.5,2.1 HUDS,Always Install
+Custom Skill Menu - Basic Icon Pack,1,2.1 HUDS,Always Install
+Custom Skill Menu - NORDIC UI,1.01,2.1 HUDS,Always Install
+Horse Stamina HUD,1.0.1,2.1 HUDS,Always Install
+Show Player In Menus,1.3.0.0,2.1 HUDS,Always Install
+Show Player in Menus - Nolvus Settings,1.1,2.1 HUDS,Always Install
+Floating Damage,2.0.1,2.1 HUDS,Always Install
+Floating Damage - Preset,0.1,2.1 HUDS,Always Install
+Nordic UI 32 by 9 and 21 by 9 Aspect Ratio Patch,2.4.1,2.1 HUDS,Ultra Wide
+NORDIC UI - Ultrawide Fixes and Patches,1.2,2.1 HUDS,Ultra Wide
+Wider MCM Menu for SkyUI,1.2,2.1 HUDS,Always Install
+Favorite Things - Extended Favorites Menu for SkyUI,1,2.1 HUDS,Ultra Wide
+Inventory Interface Information Injector,1.0.2,2.1 HUDS,Always Install
+Inventory Interface Information Injector - Patch,1,2.1 HUDS,Always Install
+Object Categorization Framework,4.4.0,2.1 HUDS,Always Install
+The Handy Icon Collection Collective,1.4.1,2.1 HUDS,Always Install
+B.O.O.B.I.E.S (aka Immersive Icons),2.1.1,2.1 HUDS,Always Install
+A.S.S. (A Food and Alchemy Addon for B.O.O.B.I.E.S.),1.3.0,2.1 HUDS,Always Install
+Phenomenally Enriched and Nuanced Ingredients for SkyUI,1.2.0,2.1 HUDS,Always Install
+Extended Hotkey System,1.1.0,2.2 HOTKEYS,Always Install
+UI-Integrated Hotkeys System,1.0.4.0,2.2 HOTKEYS,Always Install
+HD Local Map,1.0.2,2.3 SCREEN FONTS & MAP,Always Install
+Atlas Map Markers,2.7,2.3 SCREEN FONTS & MAP,Always Install
+Atlas Map Markers - Discrepancy's Greenwood Shack Patch,1,2.3 SCREEN FONTS & MAP,Always Install
+Sovngarde - Mist's Font Replacer Light,8.9,2.3 SCREEN FONTS & MAP,Always Install
+Font Overhaul - Natural Typefaces,2.1.1,2.3 SCREEN FONTS & MAP,Always Install
+Skyrim SE Skill Interface Re-Texture,v4.1,2.3 SCREEN FONTS & MAP,Always Install
+The Elder Scrolls Legends - Loading Screens,2.1.0,2.3 SCREEN FONTS & MAP,Always Install
+The Elder Scrolls Legends - Loading Screens - Textures [2K],2.1.0,2.3 SCREEN FONTS & MAP,Always Install
+The Last Dovahkiin - Main Menu Redesign,1.11,2.3 SCREEN FONTS & MAP,Always Install
+Unread Books Glow,2.2.1,2.3 SCREEN FONTS & MAP,Always Install
+Unread Books Glow - Settings Loader,1.0.2,2.3 SCREEN FONTS & MAP,Always Install
+Unread Books Glow - Nolvus Settings,1,2.3 SCREEN FONTS & MAP,Always Install
+RaceMenu Special Edition,0.4.16,2.4 CHARACTER,Always Install
+RaceMenu Special Edition - Hotfix,1.0.0,2.4 CHARACTER,Always Install
+RaceMenu High Heels Fixes,1.3,2.4 CHARACTER,Always Install
+Player Rotation in ShowRaceMenu,1.0.0,2.4 CHARACTER,Always Install
+Still - Skyrim Inspired Music,1.01,3. MUSIC & SOUNDS,Always Install
+Chapter II - Jeremy Soule Inspired Music,3,3. MUSIC & SOUNDS,Always Install
+Melodies of Civilization,1.01,3. MUSIC & SOUNDS,Always Install
+Hun - Lovaas,1,3. MUSIC & SOUNDS,Always Install
+Nyghtfall Music,1.93,3. MUSIC & SOUNDS,Always Install
+The Northerner Diaries,1.2a,3. MUSIC & SOUNDS,Always Install
+The Elder Songs,3.1.2,3. MUSIC & SOUNDS,Always Install
+Songs to Play Skyrim,1.1,3. MUSIC & SOUNDS,Always Install
+BA Bard Songs,1.3,3. MUSIC & SOUNDS,Always Install
+Nolvus Ascension - Music Patch,5,3. MUSIC & SOUNDS,Always Install
+Audio Overhaul for Skyrim,3.4.3,3. MUSIC & SOUNDS,Always Install
+Immersive Sounds - Compendium,3,3. MUSIC & SOUNDS,Always Install
+Immersive Sounds - Audio Overhaul Patch Redux,1.3,3. MUSIC & SOUNDS,Always Install
+Immersive Sounds - Creation Club Armours,1.1111,3. MUSIC & SOUNDS,Always Install
+Sounds of Skyrim Complete,2.1,3. MUSIC & SOUNDS,Always Install
+Phoenix Compendium,2.2.1,3. MUSIC & SOUNDS,Always Install
+Thundering Shouts,1.1,3. MUSIC & SOUNDS,Always Install
+Improved River Sound,1,3. MUSIC & SOUNDS,Always Install
+Louder Nature - Birds and Insects,1.2,3. MUSIC & SOUNDS,Always Install
+Authentic Wolf Howls and Aggro,1,3. MUSIC & SOUNDS,Always Install
+More Painful NPC Death Sounds,1.9,3. MUSIC & SOUNDS,Always Install
+More Painful NPC Death Sounds - Update,1.91,3. MUSIC & SOUNDS,Always Install
+NPC Dialogue Audio Enhancer,1,3. MUSIC & SOUNDS,Always Install
+The Elder Scrolls Theme Mashup,1,3. MUSIC & SOUNDS,Always Install
+Yggdrasil SoundFX,3.0.2,3. MUSIC & SOUNDS,Always Install
+Epic UI Audio,2.5,3. MUSIC & SOUNDS,Always Install
+Meridia Revoiced,1,3. MUSIC & SOUNDS,Always Install
+New Game Sound on Continue,1,3. MUSIC & SOUNDS,Always Install
+Sound Fix for Large Sector Drives,4,3. MUSIC & SOUNDS,Always Install
+Bleeding Edge - Bladed Weapons SFX Overhaul,0.3,3. MUSIC & SOUNDS,Always Install
+Bleeding Edge - Sword Alternative,0.1,3. MUSIC & SOUNDS,Always Install
+Skullbreaker - Blunt Weapons SFX,0.3,3. MUSIC & SOUNDS,Always Install
+Bulwark - Shield Audio Overhaul,0.1alpha,3. MUSIC & SOUNDS,Always Install
+Deathrattle - Maximum Carnage Audio Replacer,1.1,3. MUSIC & SOUNDS,Always Install
+Combat Music Fix,1,3. MUSIC & SOUNDS,Always Install
+The Black Door Revoiced,1,3. MUSIC & SOUNDS,Always Install
+Nolvus Ascension - Sound Patch,5,3. MUSIC & SOUNDS,Always Install
+Legacy of the Dragonborn,5.6.5,4. DLC MODS QUESTS & CONTENT ADDONS,Always Install
+Legacy of the Dragonborn - Sunder and Wraithguard,1,4. DLC MODS QUESTS & CONTENT ADDONS,Always Install
+Legacy of the Dragonborn - Creation Club Patch,5.2.1,4. DLC MODS QUESTS & CONTENT ADDONS,Always Install
+Legacy of the Dragonborn - The Curators Companion,6.2.3,4. DLC MODS QUESTS & CONTENT ADDONS,Always Install
+Legacy of the Dragonborn - Museum Exterior Fixes,0.6,4. DLC MODS QUESTS & CONTENT ADDONS,Always Install
+Legacy of the Dragonborn - Player Homes,1.01,4. DLC MODS QUESTS & CONTENT ADDONS,Always Install
+Legacy of the Dragonborn - Player Homes - Curator Patch,1,4. DLC MODS QUESTS & CONTENT ADDONS,Always Install
+Legacy of the Dragonborn - Hall of Forgotten,2.3.8,4. DLC MODS QUESTS & CONTENT ADDONS,Always Install
+Legacy of the Dragonborn - Hall of Forgotten - TCC,4.1,4. DLC MODS QUESTS & CONTENT ADDONS,Always Install
+Legacy of the Dragonborn - Collectors,0.1,4. DLC MODS QUESTS & CONTENT ADDONS,Always Install
+Beyond Skyrim - Assets,1.6.0,4. DLC MODS QUESTS & CONTENT ADDONS,Always Install
+Beyond Skyrim - Bruma,1.6.0,4. DLC MODS QUESTS & CONTENT ADDONS,Always Install
+Beyond Skyrim - Bruma Hotfix,1.6.1,4. DLC MODS QUESTS & CONTENT ADDONS,Always Install
+Beyond Skyrim - DLC Integration,1.5.2,4. DLC MODS QUESTS & CONTENT ADDONS,Always Install
+Legacy of the Dragonborn - Bruma Synergy Patch,1.12.0.0,4. DLC MODS QUESTS & CONTENT ADDONS,Always Install
+Legacy of the Dragonborn - Bruma Synergy Patch - HoF Display,1.12.0.0,4. DLC MODS QUESTS & CONTENT ADDONS,Always Install
+Legacy of the Dragonborn - Bruma Synergy Patch - Curator,1.12.0.0,4. DLC MODS QUESTS & CONTENT ADDONS,Always Install
+Wyrmstooth,1.2,4. DLC MODS QUESTS & CONTENT ADDONS,Always Install
+Wyrmstooth - Optimized Textures,1,4. DLC MODS QUESTS & CONTENT ADDONS,Always Install
+Wyrmstooth - WoW Dragon Mounds CTD Fix Patch,1.1,4. DLC MODS QUESTS & CONTENT ADDONS,Always Install
+The Wheels of Lull,5.1.8,4. DLC MODS QUESTS & CONTENT ADDONS,Always Install
+Vigilant,1.7.2,4. DLC MODS QUESTS & CONTENT ADDONS,Always Install
+Vigilant - English Voices Addon,1.7.2,4. DLC MODS QUESTS & CONTENT ADDONS,Always Install
+Vigilant - English Addon Subtitle Patch,1.4,4. DLC MODS QUESTS & CONTENT ADDONS,Always Install
+Unslaad,2.6.3,4. DLC MODS QUESTS & CONTENT ADDONS,Always Install
+Unslaad - English Voices Addon,2.6.3,4. DLC MODS QUESTS & CONTENT ADDONS,Always Install
+Unslaad - Starting Requirements,1.01,4. DLC MODS QUESTS & CONTENT ADDONS,Always Install
+Unslaad - Unofficial Legacy of the Dragonborn Patch,1.2,4. DLC MODS QUESTS & CONTENT ADDONS,Always Install
+The Forgotten City,1.8,4. DLC MODS QUESTS & CONTENT ADDONS,Always Install
+The Forgotten City - Music Patch,2.2,4. DLC MODS QUESTS & CONTENT ADDONS,Always Install
+Immersive World Encounters,V3.6.1,4. DLC MODS QUESTS & CONTENT ADDONS,Always Install
+Sidequests of Skyrim,0.7.1,4. DLC MODS QUESTS & CONTENT ADDONS,Always Install
+Cutting Room Floor,3.1.11,4. DLC MODS QUESTS & CONTENT ADDONS,Always Install
+Project AHO,2,4. DLC MODS QUESTS & CONTENT ADDONS,Always Install
+Project AHO - ESM Flag Edition,2,4. DLC MODS QUESTS & CONTENT ADDONS,Always Install
+Project AHO - Parallax Patch,1.03,4. DLC MODS QUESTS & CONTENT ADDONS,Always Install
+Project AHO - Bugfix and Improvement,1.7.1,4. DLC MODS QUESTS & CONTENT ADDONS,Always Install
+Project AHO - CRF Spell Crafting Patch,2,4. DLC MODS QUESTS & CONTENT ADDONS,Always Install
+Project AHO - ENB Patch,v0.1,4. DLC MODS QUESTS & CONTENT ADDONS,Always Install
+Project AHO - Start when you want,2,4. DLC MODS QUESTS & CONTENT ADDONS,Always Install
+Konarik's Accoutrements,5.5.3,4. DLC MODS QUESTS & CONTENT ADDONS,Always Install
+Konarik's Accoutrements - Upscaled Textures,1,4. DLC MODS QUESTS & CONTENT ADDONS,Always Install
+College of Winterhold - Quest Expansions,1.11,4. DLC MODS QUESTS & CONTENT ADDONS,Always Install
+Undeath Remastered,1.7,4. DLC MODS QUESTS & CONTENT ADDONS,Always Install
+Undeath Remastered - Facegen Data Patch,2,4. DLC MODS QUESTS & CONTENT ADDONS,Always Install
+Undeath - Classical Lichdom,3.6,4. DLC MODS QUESTS & CONTENT ADDONS,Always Install
+Undeath - Classical Lichdom - Cleaned and Enhanced Textures [2K],1,4. DLC MODS QUESTS & CONTENT ADDONS,Always Install
+The Sinister Seven,1.2,4. DLC MODS QUESTS & CONTENT ADDONS,Hardcore Mode
+The Sinister Seven Patch - LOTD Patch,1.1,4. DLC MODS QUESTS & CONTENT ADDONS,Hardcore Mode
+Carved Brink,1.1,4. DLC MODS QUESTS & CONTENT ADDONS,Always Install
+Carved Brink - Unofficial Patch,1.4,4. DLC MODS QUESTS & CONTENT ADDONS,Always Install
+Darkend,1.4,4. DLC MODS QUESTS & CONTENT ADDONS,Always Install
+Belethor's Sister - Quest,0.2.6,4. DLC MODS QUESTS & CONTENT ADDONS,Always Install
+SirenRoot - Deluge of Deceit,1.1,4. DLC MODS QUESTS & CONTENT ADDONS,Always Install
+Beyond Reach,4.61,4. DLC MODS QUESTS & CONTENT ADDONS,Always Install
+Beyond Reach - Delayed Quest Start,2.6c,4. DLC MODS QUESTS & CONTENT ADDONS,Always Install
+Beyond Reach - Shields and Cloaks,2.6c,4. DLC MODS QUESTS & CONTENT ADDONS,Always Install
+Beyond Reach - Skyrim Border Tweak,2.6c,4. DLC MODS QUESTS & CONTENT ADDONS,Always Install
+Beyond Reach - Temper Recipes,2.6c,4. DLC MODS QUESTS & CONTENT ADDONS,Always Install
+Beyond Reach - Immersive Sounds Patch,1.2,4. DLC MODS QUESTS & CONTENT ADDONS,Always Install
+Beyond Reach - Sorting Fixes,1.2,4. DLC MODS QUESTS & CONTENT ADDONS,Always Install
+Beyond Reach - Dialogue Conditions Fix,1,4. DLC MODS QUESTS & CONTENT ADDONS,Always Install
+Beyond Reach - Armor Fixes,1,4. DLC MODS QUESTS & CONTENT ADDONS,Always Install
+Beyond Reach - Dragonstar Armor Fix,1,4. DLC MODS QUESTS & CONTENT ADDONS,Always Install
+Beyond Reach - Dunlain Falls Building Fix,1,4. DLC MODS QUESTS & CONTENT ADDONS,Always Install
+Beyond Reach - Female Witchman Armor Fix,1,4. DLC MODS QUESTS & CONTENT ADDONS,Always Install
+Beyond Reach - Infant Ogre Fix,1,4. DLC MODS QUESTS & CONTENT ADDONS,Always Install
+Beyond Reach - Kredans Forsworn Textures,1,4. DLC MODS QUESTS & CONTENT ADDONS,Always Install
+Beyond Reach - Last King Fix,1,4. DLC MODS QUESTS & CONTENT ADDONS,Always Install
+Beyond Reach - Nord Reach Fix,1,4. DLC MODS QUESTS & CONTENT ADDONS,Always Install
+Beyond Reach - Shaman Mesh Fix,1,4. DLC MODS QUESTS & CONTENT ADDONS,Always Install
+Beyond Reach - House Texture Fix,1,4. DLC MODS QUESTS & CONTENT ADDONS,Always Install
+Beyond Reach - Troll Hotfix,1,4. DLC MODS QUESTS & CONTENT ADDONS,Always Install
+Beyond Reach - Wool Plate Armor Fixes,1,4. DLC MODS QUESTS & CONTENT ADDONS,Always Install
+Nolvus Ascension DLC Patch,5.4,4. DLC MODS QUESTS & CONTENT ADDONS,Always Install
+Particle Patch for ENB,1.1.9,5.1 BASE TEXTURES & MODELS,Always Install
+Static Mesh Improvement Mod,2.08,5.1 BASE TEXTURES & MODELS,Always Install
+Static Mesh Improvement Mod - Quality Addon,1.3,5.1 BASE TEXTURES & MODELS,Always Install
+Skyrim Landscape and Water Fixes,v7.4,5.1 BASE TEXTURES & MODELS,Always Install
+Unofficial Material Fix,1.17.0,5.1 BASE TEXTURES & MODELS,Always Install
+Assorted Mesh Fixes,0.77,5.1 BASE TEXTURES & MODELS,Always Install
+Assorted Mesh Fixes Parallax,0.77,5.1 BASE TEXTURES & MODELS,Always Install
+Assorted Bruma Mesh Fixes,0.1,5.1 BASE TEXTURES & MODELS,Always Install
+Dlizzio's Mesh Fixes,2.3,5.1 BASE TEXTURES & MODELS,Always Install
+Dlizzio's Mesh Fixes - Parallax Mesh Patch,1,5.1 BASE TEXTURES & MODELS,Always Install
+Assorted Mesh Fixes - Unofficial Material Fix Patch,1.12a,5.1 BASE TEXTURES & MODELS,Always Install
+SMIM - Quality Addon - Unofficial Material Fix Patch,1.12a,5.1 BASE TEXTURES & MODELS,Always Install
+Ruins Clutter Improved,3.2b,5.1 BASE TEXTURES & MODELS,Always Install
+Ruins Clutter Improved - Fixes,1.2,5.1 BASE TEXTURES & MODELS,Always Install
+Noble Skyrim,5.5.0,5.1 BASE TEXTURES & MODELS,Always Install
+Noble Skyrim - SMIM Patch,5.5.0,5.1 BASE TEXTURES & MODELS,Always Install
+Noble Skyrim - Material Fix,1,5.1 BASE TEXTURES & MODELS,Always Install
+Skyrim 202X [2K],9.1,5.1 BASE TEXTURES & MODELS,Always Install
+Skyrim 202X [2K] - Update,9.2,5.1 BASE TEXTURES & MODELS,Always Install
+Nolvus Ascension Visual Base Patch,5.0.0.0,5.1 BASE TEXTURES & MODELS,Always Install
+DynDOLOD Resources,3.37,5.2 LODS,Always Install
+DynDOLOD TexGen Fixes,2,5.2 LODS,Always Install
+DynDOLOD - DLL - NG + Scripts,6,5.2 LODS,Always Install
+HD Lods Textures,9.3,5.2 LODS,Always Install
+HD Lods Textures - Dlizzio's Mesh Fixes Patch,1,5.2 LODS,Always Install
+Blended Roads,1.7,5.3 LANDSCAPE,Always Install
+Blended Roads - Parallax,2,5.3 LANDSCAPE,Always Install
+Skyrim Terrain Parallax,1.5,5.3 LANDSCAPE,Always Install
+Skyrim 2020 - Wet Mud texture alternatives [2K],y.0,5.3 LANDSCAPE,Always Install
+Landscape Fixes For Grass Mods,5.1,5.3 LANDSCAPE,Always Install
+Landscape Fixes For Grass Mods - CRF Patch,1.0.6,5.3 LANDSCAPE,Always Install
+Landscape Seam Fixes,0.25,5.3 LANDSCAPE,Always Install
+Rally's Solstheim Landscapes [2K],1.1,5.3 LANDSCAPE,Always Install
+Rally's Solstheim Landscapes - Complex Terrain Parallax [2K],1,5.3 LANDSCAPE,Always Install
+Seasonal Landscapes,1.11,5.3 LANDSCAPE,Always Install
+Rudy - More dramatic Red Mountain Plume,1,5.3 LANDSCAPE,Always Install
+Skyrim Remastered - Glaciers and Ice,1,5.4 ICE SNOW & ASHES,Always Install
+Skyrim Remastered - Glaciers and Ice LODs,1,5.4 ICE SNOW & ASHES,Always Install
+Transparent and refracting Icicle and Frost Atronach,1.5.2,5.4 ICE SNOW & ASHES,Always Install
+Refracting Ice Form Debris,2,5.4 ICE SNOW & ASHES,Always Install
+Simplicity of Snow,0.1,5.4 ICE SNOW & ASHES,Always Install
+Simplicity of Snow - Parallax Meshes,0.11,5.4 ICE SNOW & ASHES,Always Install
+Vivid Landscapes - Snow [2K],1.6,5.4 ICE SNOW & ASHES,Always Install
+Vivid Landscapes - Snow - ProjectDiffuse [2K],1.1,5.4 ICE SNOW & ASHES,Always Install
+CG4 Snow Effects,2,5.4 ICE SNOW & ASHES,Always Install
+Better Dynamic Ash,2.1.1,5.4 ICE SNOW & ASHES,Always Install
+Footprints,1.6.1,5.4 ICE SNOW & ASHES,Always Install
+Footprints - Sand Patch,0.9,5.4 ICE SNOW & ASHES,Always Install
+Footprints - Vigilant Patch,1,5.4 ICE SNOW & ASHES,Always Install
+Footprints - Soul Cairn Patch,1,5.4 ICE SNOW & ASHES,Always Install
+Animated Ice Floes,1.9,5.4 ICE SNOW & ASHES,Always Install
+Majestic Mountains Main,4.02,5.5 MOUNTAINS & ROCKS,Always Install
+Majestic Mountains - More Accurate Collision,4.1,5.5 MOUNTAINS & ROCKS,Always Install
+Majestic Mountains - Simplicity of Snow Patch,1.1,5.5 MOUNTAINS & ROCKS,Always Install
+Skyrim - A Mountainous Experience,1.6,5.5 MOUNTAINS & ROCKS,Always Install
+Majestic Mountains - More Accurate Collision - AME Patch,4,5.5 MOUNTAINS & ROCKS,Always Install
+Majestic Mountains - Lods,4.01,5.5 MOUNTAINS & ROCKS,Always Install
+Northfires Photoreal Mountains 3 for Majestic Mountains [4K],1.0.0.0,5.5 MOUNTAINS & ROCKS,Always Install
+Northfire's Dirtcliffs - Parallax,1.2,5.5 MOUNTAINS & ROCKS,Always Install
+HD Stone Quarry and Clay Deposit [2K],1.1.0,5.5 MOUNTAINS & ROCKS,Always Install
+Nolvus Ascension Mountains Patch,5,5.5 MOUNTAINS & ROCKS,Always Install
+Nature of the Wild Lands,2.31.0.0,5.6.1 TREES & BARK,Always Install
+Nature of the Wild Lands - Quercus,1.21.0.0,5.6.1 TREES & BARK,Always Install
+Skyrim 3D Trees and Plants,5.0.1.0,5.6.1 TREES & BARK,Always Install
+Happy Little Trees,2.03,5.6.1 TREES & BARK,Always Install
+Happy Little Trees - 3D Lods,2.03,5.6.1 TREES & BARK,Always Install
+Blubbo Tree Pine Forest Dead,1,5.6.1 TREES & BARK,Always Install
+Blubbo Pines,1.1,5.6.1 TREES & BARK,Ultra
+Blubbo Pines 2022 v3,3,5.6.1 TREES & BARK,Always Install
+Blubbo Pines 2022 v3 (Set 1),3,5.6.1 TREES & BARK,Ultra
+Blubbo Snow Pines,1.0.0.0,5.6.1 TREES & BARK,Ultra
+Treerific,3,5.6.1 TREES & BARK,Ultra
+Aspens Ablaze,2.35,5.6.1 TREES & BARK,Ultra
+Aspens Ablaze Seasons,1.03,5.6.1 TREES & BARK,Ultra
+Blubbo Seasonal Aspen Replacer,1,5.6.1 TREES & BARK,Always Install
+Blubbo Seasonal Aspen Replacer [2K],1,5.6.1 TREES & BARK,Always Install
+Blubbo Reach Tree Replacer,0.9b,5.6.1 TREES & BARK,Always Install
+Blubbo Reach Cliff Tree Replacer,0.9b,5.6.1 TREES & BARK,Always Install
+Reach Tree Fixes for Blubbos Tree Replacer for Reach,1,5.6.1 TREES & BARK,Always Install
+Bent Pines II,2.02,5.6.1 TREES & BARK,Always Install
+Bent Pines II - Seasons,2.1,5.6.1 TREES & BARK,Always Install
+Immersive Fallen Trees,2.0.2,5.6.1 TREES & BARK,Always Install
+Immersive Fallen Trees Patch,1.2,5.6.1 TREES & BARK,Always Install
+Removing Ugly Details from Logs,1.1.c,5.6.1 TREES & BARK,Always Install
+Remove Hanging Moss From Trees,1.2,5.6.1 TREES & BARK,Always Install
+Alpine Forest of Whiterun Valley,1.0.5,5.6.1 TREES & BARK,Always Install
+Nolvus Ascension Trees Addon,1.6,5.6.1 TREES & BARK,Ultra
+Nolvus Ascension Seasonal Tree Mashup,1.2,5.6.1 TREES & BARK,Ultra
+Nolvus Ascension Seasonal Tree Mashup (Redux),1.2,5.6.1 TREES & BARK,Redux
+Mixed Grass,1.1,5.6.2 GRASS,Always Install
+Tamrielic Grass,1.0.1.0,5.6.2 GRASS,Always Install
+Tamrielic Grass - ENB Complex Grass,1.01,5.6.2 GRASS,Always Install
+Veydosebrom Regions,1.2.1,5.6.2 GRASS,Always Install
+Folkvangr - Grass and Landscape Overhaul,1.3,5.6.2 GRASS,Always Install
+Folkvangr - Summer Tundra,2.2,5.6.2 GRASS,Always Install
+Folkvangr - Summer Tundra - ENB Complex Grass,1.05,5.6.2 GRASS,Always Install
+Origins Of Forest - 3D Forest Grass,1.4.8.0,5.6.2 GRASS,Always Install
+Origins Of Forest - 3D Forest Grass - ENB Complex Grass,1.2,5.6.2 GRASS,Always Install
+Cathedral - 3D Pine Grass - Full 3D Coverage,0.462,5.6.2 GRASS,Always Install
+Cathedral - 3D Pine Grass - ENB Complex Grass,1.02,5.6.2 GRASS,Always Install
+Less Ugly Tundragrass,1,5.6.2 GRASS,Always Install
+Nolvus Ascension Seasonal Grass Mashup,1.3,5.6.2 GRASS,Always Install
+No Grass in Objects,8,5.6.2 GRASS,Ultra
+No Grass in Objects (Redux),8,5.6.2 GRASS,Redux
+Unique Flowers and Plants,1.4,5.6.3 PLANTS,Always Install
+Unique Flowers and Plans - ESL,1.4,5.6.3 PLANTS,Always Install
+Seasonal Unique Flowers and Plants,1.0.,5.6.3 PLANTS,Always Install
+Rallys Hanging Moss,1.1,5.6.3 PLANTS,Always Install
+Waterplants,1.8,5.6.3 PLANTS,Always Install
+Seasonal Water Lilies,1.01,5.6.3 PLANTS,Always Install
+Animated Water Lily,v1.01,5.6.3 PLANTS,Always Install
+HD Photorealistic Ivy,1.1,5.6.3 PLANTS,Always Install
+Cathedral Mushrooms,1,5.6.3 PLANTS,Always Install
+Rallys Blackreach Mushroom [2K],1,5.6.3 PLANTS,Always Install
+Rudy HQ - Falling Leaves and Needles,1,5.6.3 PLANTS,Always Install
+Rally's Solstheim Plants [2K],1,5.6.3 PLANTS,Always Install
+Rally's Solstheim Plants LOD,1,5.6.3 PLANTS,Always Install
+High Poly Gleamblossoms,1.2,5.6.3 PLANTS,Always Install
+Cathedral - 3D Snow Berries,1,5.6.3 PLANTS,Always Install
+Cathedral - 3D Mountain Flowers,2,5.6.3 PLANTS,Always Install
+Cathedral - 3D Mountain Flowers - Hearthfire Patch,2.1,5.6.3 PLANTS,Always Install
+Cathedral - 3D Mountain Flowers - Landscape and Water Fix,1,5.6.3 PLANTS,Always Install
+Cathedral - 3D Mountain Flowers - Legacy of The Dragonborn Patch,0.2,5.6.3 PLANTS,Always Install
+Cathedral - 3D Mountain Flowers - Lotd Player Homes Patch,1,5.6.3 PLANTS,Always Install
+Cathedral - 3D Thistle,1.1,5.6.3 PLANTS,Always Install
+Cathedral - 3D Lavender,1.3,5.6.3 PLANTS,Always Install
+Cathedral - 3D Clovers,3,5.6.3 PLANTS,Always Install
+Cathedral - 3D Tundra Cotton,2,5.6.3 PLANTS,Always Install
+Nightshade by Mari,1,5.6.3 PLANTS,Always Install
+Jazbay by Mari [2K],1.1,5.6.3 PLANTS,Always Install
+Swamp fungal pod by Mari [2K],1,5.6.3 PLANTS,Always Install
+Juniper by Mari [2K],1.1,5.6.3 PLANTS,Always Install
+Spiky grass by Mari [2K],1,5.6.3 PLANTS,Always Install
+Ivy Replacer for walls,1.1,5.6.3 PLANTS,Always Install
+Improved Gourds,1,5.6.3 PLANTS,Always Install
+Yellow Shrub Replacer - Seasons [2K],1,5.6.3 PLANTS,Always Install
+Fall Forest Shrub Replacer - Seasons [2K],1,5.6.3 PLANTS,Always Install
+Vine Maple Redone [2K],1.2,5.6.3 PLANTS,Always Install
+Nolvus Ascension Seasonal Plant Mashup,1.1,5.6.3 PLANTS,Always Install
+Nolvus Ascension Flora Patch,5.13,5.6.3 PLANTS,Always Install
+Seasons of Skyrim,1.7.5.2,5.7 WEATHERS,Always Install
+Simplicity of Seasons,1.4.1,5.7 WEATHERS,Always Install
+Seasons of Nolvus,2.1,5.7 WEATHERS,Always Install
+Seasonal Weathers Framework,1.01,5.7 WEATHERS,Always Install
+Four Seasons - Faster Seasons of Skyrim,1.1,5.7 WEATHERS,Always Install
+Obsidian Mountain Fogs Tweaked,1.01,5.7 WEATHERS,Always Install
+Natural Atmospheric Tamriel III,3.1.0,5.7 WEATHERS,Always Install
+Natural Atmospheric Tamriel III - Audio Patch,1,5.7 WEATHERS,Always Install
+Natural Atmospheric Tamriel III - Seasonal Weathers,NATENBIII3.0.2,5.7 WEATHERS,Always Install
+Supreme Blizzards,5,5.7 WEATHERS,Always Install
+Supreme and Volumetric Fog,9,5.7 WEATHERS,Always Install
+Wet and Cold,2.4.0,5.7 WEATHERS,Always Install
+Wet and Cold - Gear,2.41,5.7 WEATHERS,Always Install
+Wet and Cold - Settings Loader,1.0.1,5.7 WEATHERS,Always Install
+Wet and Cold - Nolvus Settings,1,5.7 WEATHERS,Always Install
+Wet And Cold - Creation Club Patch,1,5.7 WEATHERS,Always Install
+R.A.S.S. - Rain Ash And Snow Shaders,v3.2.2,5.7 WEATHERS,Always Install
+R.A.S.S. - Rain Ash And Snow Shaders - Settings Loader,2.1.1,5.7 WEATHERS,Always Install
+R.A.S.S. - Rain Ash And Snow Shaders - Nolvus Settings,1,5.7 WEATHERS,Always Install
+R.A.S.S. - Wet and Cold patch,1,5.7 WEATHERS,Always Install
+Morning Fogs,1.3.1,5.7 WEATHERS,Always Install
+Morning Fogs - Seams Fix,v1.1,5.7 WEATHERS,Always Install
+Storm Lightning,1.4.17,5.7 WEATHERS,Always Install
+Storm Lightning - Settings Loader,2.0.0.0,5.7 WEATHERS,Always Install
+Storm Lighting - Nolvus Settings,1,5.7 WEATHERS,Always Install
+Splashes of Storms,1.3.0,5.7 WEATHERS,Always Install
+Splashes of Storms - ENB Fix,1.2,5.7 WEATHERS,Always Install
+Nolvus Ascension Weathers Patch,5,5.7 WEATHERS,Always Install
+Shooting Stars,1.1,5.8 SKY,Always Install
+Rainbows,1.1,5.8 SKY,Always Install
+Praedy's Sky AIO [2K],2,5.8 SKY,Always Install
+Better Moons,1.1,5.8 SKY,Always Install
+Bigger Moons,2,5.8 SKY,Always Install
+Shadows Of Sunlight,0.5,5.8 SKY,Always Install
+Wavy Waters,1,5.9 WATER,Always Install
+Rapid Rocks,1,5.9 WATER,Always Install
+GKB Waves Reborn,3.1,5.9 WATER,Always Install
+Water in Wash Basins,1.2,5.9 WATER,Always Install
+WiZkiD Wells with Real Water,1,5.9 WATER,Always Install
+Wade In Water,v1.0,5.9 WATER,Always Install
+Wade In Water - Redone,1.1.2,5.9 WATER,Always Install
+Water Effects Brightness and Reflection Fix,0.5,5.9 WATER,Always Install
+Splashes of Skyrim,1.4.0,5.9 WATER,Always Install
+Natural Waterfalls,1.3.7,5.9 WATER,Always Install
+Natural Waterfalls - Rapid Rocks Patch,1,5.9 WATER,Always Install
+Apachii Sky Hair,1.6.Full,5.10.1 NPC's RESSOURCES,Always Install
+Apachii Sky Hair - Female,1.5.1,5.10.1 NPC's RESSOURCES,Always Install
+Apachii Sky Hair - Male,1.3,5.10.1 NPC's RESSOURCES,Always Install
+Modpocalypse NPCs - Resources,1.03,5.10.1 NPC's RESSOURCES,Always Install
+High Poly Head,1.4,5.10.1 NPC's RESSOURCES,Always Install
+KS Hairdos,1.9,5.10.1 NPC's RESSOURCES,Always Install
+Caliente's Beautiful Bodies Enhancer,1.7.1,5.10.1 NPC's RESSOURCES,Always Install
+CBPC - Physics with Collisions,1.5.6,5.10.1 NPC's RESSOURCES,Always Install
+Caliente's Beautiful Bodies Enhancer - 3BA,2.45,5.10.1 NPC's RESSOURCES,Always Install
+3BA CC BodySlides,1.1,5.10.1 NPC's RESSOURCES,Always Install
+Unslaad 3BA Bodyslide,1,5.10.1 NPC's RESSOURCES,Always Install
+Vigilant 3BA Bodyslide,1,5.10.1 NPC's RESSOURCES,Always Install
+Expressive Facegen Morphs,1,5.10.1 NPC's RESSOURCES,Always Install
+Expressive Facial Animation - Female Edition,1.7,5.10.1 NPC's RESSOURCES,Always Install
+Expressive Facial Animation - Male Edition,1.21,5.10.1 NPC's RESSOURCES,Always Install
+The Pure,1.3.1,5.10.1 NPC's RESSOURCES,Smooth Skin
+Tempered Skins for Females,1.32,5.10.1 NPC's RESSOURCES,Muscular Skin
+Tempered Skins for Males - Nude Version,2.06,5.10.1 NPC's RESSOURCES,Nude
+Tempered Skins for Males - Dressed Version,2.05,5.10.1 NPC's RESSOURCES,Dressed
+Skin Feature Overlays,1.6,5.10.1 NPC's RESSOURCES,Always Install
+Feminine Khajiit Textures [2K],3.2,5.10.1 NPC's RESSOURCES,Always Install
+Masculine Khajiit Textures [2K],2.1,5.10.1 NPC's RESSOURCES,Always Install
+Female Dragonic Argonian Textures [2K],1,5.10.1 NPC's RESSOURCES,Always Install
+Male Dragonic Argonian Textures [2K],1,5.10.1 NPC's RESSOURCES,Always Install
+Hvergelmir's Aesthetics - Beards [2K],5.0.1,5.10.1 NPC's RESSOURCES,Always Install
+Hvergelmir's Aesthetics - Brows,4.1,5.10.1 NPC's RESSOURCES,Always Install
+SG Female Eyebrows,1,5.10.1 NPC's RESSOURCES,Always Install
+Beards of Power,0.3b,5.10.1 NPC's RESSOURCES,Always Install
+Mikan Eyes,2.5,5.10.1 NPC's RESSOURCES,Always Install
+The Eyes of Beauty,1.2.1,5.10.1 NPC's RESSOURCES,Always Install
+The Eyes of Beauty - Vampire Eyes,1,5.10.1 NPC's RESSOURCES,Always Install
+BnP - Child Skin Remastered,1.1,5.10.1 NPC's RESSOURCES,Always Install
+BnP teeth overhaul,1.5a,5.10.1 NPC's RESSOURCES,Always Install
+Female Hands Redone,1.0.0,5.10.1 NPC's RESSOURCES,Always Install
+Female Hands Redone - 3BA,1.0.0,5.10.1 NPC's RESSOURCES,Always Install
+BodySlide and Outfit Studio,5.6.0,5.10.1 NPC's RESSOURCES,Always Install
+Community Overlays 1 - Main - CBBE [2K],1.0.1,5.10.1 NPC's RESSOURCES,Always Install
+Community Overlays 2 - Main - CBBE and Male,1,5.10.1 NPC's RESSOURCES,Always Install
+Community Overlays 3 - Main - CBBE and Male,1,5.10.1 NPC's RESSOURCES,Always Install
+Kimiko - Nord Racemenu Preset,1.1,5.10.1 NPC's RESSOURCES,Always Install
+R246 - Nord Racemenu Preset,2.5,5.10.1 NPC's RESSOURCES,Always Install
+Khinara Jade - Nord Racemenu Preset,1,5.10.1 NPC's RESSOURCES,Always Install
+Evelyn - Nord Racemenu Preset,1.3,5.10.1 NPC's RESSOURCES,Always Install
+Evelyn - Nord Racemenu Preset - Human Ears,1.3,5.10.1 NPC's RESSOURCES,Always Install
+Ciara - Nord Racemenu Preset,1,5.10.1 NPC's RESSOURCES,Always Install
+Caramella - Nord Racemenu Preset,1,5.10.1 NPC's RESSOURCES,Always Install
+Vercella - Imperial Racemenu Preset,1.2,5.10.1 NPC's RESSOURCES,Always Install
+Kuro Nyr - Imperial Racemenu Preset,1,5.10.1 NPC's RESSOURCES,Always Install
+Ari - Breton Racemenu Preset,1,5.10.1 NPC's RESSOURCES,Always Install
+Esme - Wood Elf Racemenu Preset,1,5.10.1 NPC's RESSOURCES,Always Install
+Xaza - Dark Elf High Racemenu Preset,1.2,5.10.1 NPC's RESSOURCES,Always Install
+Ragnar - Nord Racemenu Preset,1,5.10.1 NPC's RESSOURCES,Always Install
+Ragtag - Feminine Racemenu Presets,1,5.10.1 NPC's RESSOURCES,Always Install
+Ragtag - Masculine Racemenu Presets,1,5.10.1 NPC's RESSOURCES,Always Install
+TATSU - Dark Elf Male Preset,1,5.10.1 NPC's RESSOURCES,Always Install
+Lavitz - Imperial Male Half Elf,1,5.10.1 NPC's RESSOURCES,Always Install
+Scar - Redguard Male Preset,1,5.10.1 NPC's RESSOURCES,Always Install
+The Druid - Wood Elf Female Preset,1,5.10.1 NPC's RESSOURCES,Always Install
+The Breton - Half Elf Male Preset,1,5.10.1 NPC's RESSOURCES,Always Install
+Waylander - Imperial Male Preset,1,5.10.1 NPC's RESSOURCES,Always Install
+IFIRIT - Nord Male Preset,1,5.10.1 NPC's RESSOURCES,Always Install
+Miggyluv's Presets - Morten Nord Preset,1,5.10.1 NPC's RESSOURCES,Always Install
+Miggyluv's Presets - Agronak (Orc),1,5.10.1 NPC's RESSOURCES,Always Install
+Miggyluv's Presets - Gorak (Orc),1,5.10.1 NPC's RESSOURCES,Always Install
+Miggyluv's Presets - N'kia (Redguard),1,5.10.1 NPC's RESSOURCES,Always Install
+Miggyluv's Presets - William (Nord),1,5.10.1 NPC's RESSOURCES,Always Install
+Miggyluv's Presets - Vlad (Imperial),1,5.10.1 NPC's RESSOURCES,Always Install
+RaceMenu Animated Overlays,1.2,5.10.1 NPC's RESSOURCES,Always Install
+Immersive Wenches,1.6.0,5.10.2 ADDED NPC's,Always Install
+Immersive Wenches - Player Dialogue Rewritten,1,5.10.2 ADDED NPC's,Always Install
+Interesting NPCs 3DNPC,4.5,5.10.2 ADDED NPC's,Always Install
+Interesting NPCs 3DNPC - Update,4.53,5.10.2 ADDED NPC's,Always Install
+Interesting NPCs 3DNPC - Cutting Room Floor Patch,1,5.10.2 ADDED NPC's,Always Install
+Interesting NPCs 3DNPC - Legacy of the Dragonborn Patch,1.31,5.10.2 ADDED NPC's,Always Install
+Citizens of Tamriel,Redux,5.10.2 ADDED NPC's,Always Install
+Travellers of Skyrim,1.42a,5.10.2 ADDED NPC's,Always Install
+Inigo,2.4C,5.10.3 FOLLOWERS,Always Install
+Lucien,1.6.3,5.10.3 FOLLOWERS,Always Install
+Lucien - Creation Club Patch,1.6.3a,5.10.3 FOLLOWERS,Always Install
+Lucien - Beyond Skyrim - Bruma Patch,1.6.3a,5.10.3 FOLLOWERS,Always Install
+Crea's Party,4.01,5.10.3 FOLLOWERS,Always Install
+Katarina,1,5.10.3 FOLLOWERS,Always Install
+Toccata,1.4.2,5.10.3 FOLLOWERS,Always Install
+Meeko Reborn,1,5.10.3 FOLLOWERS,Always Install
+Eryniel,3.3.3.1.,5.10.3 FOLLOWERS,Always Install
+Njal,1.1,5.10.3 FOLLOWERS,Always Install
+Galendor,1.1,5.10.3 FOLLOWERS,Always Install
+Ivar,1.1,5.10.3 FOLLOWERS,Always Install
+Allura Combat Sorcerer,1,5.10.3 FOLLOWERS,Always Install
+Modpocalypse NPCs - All Vanilla NPCs,1,5.10.4 NPC's VISUAL OVERHAULS,Always Install
+Modpocalypse NPCs - Patch Collection,1,5.10.4 NPC's VISUAL OVERHAULS,Always Install
+Modpocalypse NPCs - Legacy of the Dragonborn,1,5.10.4 NPC's VISUAL OVERHAULS,Always Install
+Modpocalypse NPCs - Immersive World Encounters,1,5.10.4 NPC's VISUAL OVERHAULS,Always Install
+Modpocalypse NPCs - Wyrmstooth,1.01,5.10.4 NPC's VISUAL OVERHAULS,Always Install
+Modpocalypse NPCs - The Forgotten City,1,5.10.4 NPC's VISUAL OVERHAULS,Always Install
+Modpocalypse NPCs - Cutting Room Floor,1,5.10.4 NPC's VISUAL OVERHAULS,Always Install
+Modpocalypse NPCs - Project AHO,1,5.10.4 NPC's VISUAL OVERHAULS,Always Install
+Modpocalypse NPCs - Immersive Wenches,1,5.10.4 NPC's VISUAL OVERHAULS,Always Install
+Modpocalypse NPCs - Citizens of Tamriel,1,5.10.4 NPC's VISUAL OVERHAULS,Always Install
+Modpocalypse NPCs - Carved Brink,1,5.10.4 NPC's VISUAL OVERHAULS,Always Install
+Modpocalypse NPCs - Beyond Reach,1,5.10.4 NPC's VISUAL OVERHAULS,Always Install
+Travellers of Skyrim - High Poly NPC Patch,1,5.10.4 NPC's VISUAL OVERHAULS,Always Install
+Lucien Replacer - Ella's Version,1.1,5.10.4 NPC's VISUAL OVERHAULS,Always Install
+Lucien Replacer - Ella's Version - ESL,1.1,5.10.4 NPC's VISUAL OVERHAULS,Always Install
+Pride of Skyrim All In One,1,5.10.4 NPC's VISUAL OVERHAULS,Always Install
+Pride of Skyrim All In One - Merged,1,5.10.4 NPC's VISUAL OVERHAULS,Always Install
+Cuyima Interesting NPCs,1.1.1,5.10.4 NPC's VISUAL OVERHAULS,Always Install
+Pandorable's NPCs,1.4,5.10.4 NPC's VISUAL OVERHAULS,Always Install
+Pandorable's NPCs - Dawnguard,1.2,5.10.4 NPC's VISUAL OVERHAULS,Always Install
+Pandorable's NPCs - Dragonborn,1.1,5.10.4 NPC's VISUAL OVERHAULS,Always Install
+Pandorable's NPCs - All In One,1,5.10.4 NPC's VISUAL OVERHAULS,Always Install
+Serana Re-Imagined,2,5.10.4 NPC's VISUAL OVERHAULS,Always Install
+Pandorable's Valerica,1.1,5.10.4 NPC's VISUAL OVERHAULS,Always Install
+Serana Dialogue Add-On,4.0.2.3,5.10.4 NPC's VISUAL OVERHAULS,Always Install
+Bijin Warmaidens,3.1.3,5.10.4 NPC's VISUAL OVERHAULS,Always Install
+Bijin Warmaidens - Custom Body,1.3,5.10.4 NPC's VISUAL OVERHAULS,Always Install
+Bijin NPCs,1.2.1,5.10.4 NPC's VISUAL OVERHAULS,Always Install
+Bijin NPCs - Custom Body,1.3,5.10.4 NPC's VISUAL OVERHAULS,Always Install
+Bijin Wives,1.1.2,5.10.4 NPC's VISUAL OVERHAULS,Always Install
+Bijin Wives - Custom Body,1.3,5.10.4 NPC's VISUAL OVERHAULS,Always Install
+Bijin All In One,1,5.10.4 NPC's VISUAL OVERHAULS,Always Install
+Bijin Family - CBBE 3BA Bodyslides,1.1,5.10.4 NPC's VISUAL OVERHAULS,Always Install
+Beards of Power - Greybeards Replacer,0.2b,5.10.4 NPC's VISUAL OVERHAULS,Always Install
+Aesthetic Elves,0.5,5.10.4 NPC's VISUAL OVERHAULS,Always Install
+BeastHHBB - Khajiit and Argonian Content,3.7.1,5.10.4 NPC's VISUAL OVERHAULS,Always Install
+BeastHHBB - Patches and Addons,2.4,5.10.4 NPC's VISUAL OVERHAULS,Ultra
+BeastHHBB - Patches and Addons (Redux),2.4,5.10.4 NPC's VISUAL OVERHAULS,Redux
+RS Children Overhaul,1.1.3,5.10.4 NPC's VISUAL OVERHAULS,Always Install
+RS Children Overhaul - Forgotten City,1,5.10.4 NPC's VISUAL OVERHAULS,Always Install
+RS Children Overhaul - Cutting Room Floor Patch,1,5.10.4 NPC's VISUAL OVERHAULS,Always Install
+RS Children Overhaul - Interesting NPCs Patch,1,5.10.4 NPC's VISUAL OVERHAULS,Always Install
+RS Children Overhaul - Clothing Fix,2019111201,5.10.4 NPC's VISUAL OVERHAULS,Always Install
+RS Children Overhaul - Citizens of Tamriel Patch,1,5.10.4 NPC's VISUAL OVERHAULS,Always Install
+RS Children Overhaul - College Quest Expansion Patch,1.05,5.10.4 NPC's VISUAL OVERHAULS,Always Install
+RS Children Overhaul - CC Patch,1,5.10.4 NPC's VISUAL OVERHAULS,Always Install
+RS Children Overhaul - Farming Patch,1,5.10.4 NPC's VISUAL OVERHAULS,Always Install
+RS Children Overhaul - Beyond Reach Patch,1.1.1,5.10.4 NPC's VISUAL OVERHAULS,Always Install
+Vigilant - Character Overhaul,2.8.1,5.10.4 NPC's VISUAL OVERHAULS,Always Install
+Nolvus Ascension NPC Patch,5.3,5.10.4 NPC's VISUAL OVERHAULS,Always Install
+The Great Cities - Resources,1,5.11.1 CITIES,Always Install
+Dawn of Skyrim Director's Cut,1.5,5.11.1 CITIES,Ultra
+Dawn of Skyrim Director's Cut - Modpocalypse NPCs,1,5.11.1 CITIES,Ultra
+Dawn of Skyrim Director's Cut - Rob's Bug Fixes,2,5.11.1 CITIES,Ultra
+Rustic Window,2,5.11.1 CITIES,Always Install
+More Trees in Cities,1.4,5.11.1 CITIES,Ultra
+City Trees,3.1.1,5.11.1 CITIES,Ultra
+Boreal Whiterun [2K],2.1.0.0,WHITERUN,Always Install
+Whiterun Cobblestone,1,WHITERUN,Always Install
+Classic Whiterun Walls [2K],2.0.0.0,WHITERUN,Always Install
+Fortified Whiterun,1.5,WHITERUN,Always Install
+Fortified Whiterun - Rob's Bug Fixes,2.1,WHITERUN,Always Install
+Fortified Whiterun - Dawn of Skyrim Patch,1,WHITERUN,Ultra
+Fortified Whiterun - Steps to the Cloud District Fix,1,WHITERUN,Always Install
+Fortified Whiterun - Cloud District Terrain Fix,1,WHITERUN,Always Install
+3D Whiterun Trellis,1.1,WHITERUN,Always Install
+FYX - 3D Whiterun Tree Circle,1.0.1,WHITERUN,Always Install
+FYX - 3D Whiterun Castle Bridge,1.0.2,WHITERUN,Always Install
+FYX - 3D Whiterun Guard Towers,1.0.1,WHITERUN,Always Install
+FYX - Fortified Whiterun Consistency,1.0.8,WHITERUN,Always Install
+FYX - 3D Whiterun Drawbridge Gate - Parallax,1.0.2,WHITERUN,Always Install
+FYX - 3D Whiterun Scaffold,1.0.4,WHITERUN,Always Install
+3D Trellis Improved - Gildergreen Plaza,0.2,WHITERUN,Always Install
+Whiterun Trees - DOS,1,WHITERUN,Ultra
+Whiterun Trees - Fortified Whiterun,1.1,WHITERUN,Redux
+Epic Gate of Whiterun [2K],1.3,WHITERUN,Always Install
+Temple of Kynareth Redone [2K],1.4,WHITERUN,Always Install
+Temple of Kynareth Redone - Parallax Addon,1.4.1,WHITERUN,Always Install
+Rallys Kynareth Mosaic,1,WHITERUN,Always Install
+Pompous Dragonsreach Door [2K],1.1,WHITERUN,Always Install
+Blubbos Whiterun Lanterns,1,WHITERUN,Always Install
+Hall of the Dead Stained Glass Windows,1.5,WHITERUN,Always Install
+Lanterns for Fortified Whiterun,1.2,WHITERUN,Always Install
+Little Touches for Whiterun - Outside,1.1.,WHITERUN,Ultra
+HQ Solitude [2K],1,SOLITUDE,Always Install
+FYX - 3D Solitude SighPost,1.0.4,SOLITUDE,Always Install
+Solitude Objects SMIMed - Festival Ropes,0.4,SOLITUDE,Always Install
+Solitude Objects SMIMed - Solitude Well,0.1,SOLITUDE,Always Install
+Solitude Objects SMIMed - Castle Dour Spire,0.1,SOLITUDE,Always Install
+Solitude Docks,2.1,SOLITUDE,Ultra
+Solitude Docks - RS Children Patch,1,SOLITUDE,Ultra
+Solitude Docks - Rob's Bug Fixes,2,SOLITUDE,Ultra
+Illuminated Blue Palace Dome,1.3,SOLITUDE,Always Install
+Solitude Ivy Replacer [2K],2.0.1,SOLITUDE,Always Install
+Rally's Manhole of Solitude,1.1,SOLITUDE,Always Install
+Glorious Solitude Door [2K],1.31,SOLITUDE,Always Install
+Glorious Solitude Door Replacer [2K],1.4.1,SOLITUDE,Always Install
+Solitude Towers Flags,1.2,SOLITUDE,Always Install
+3D Solitude Trellis,3.1,SOLITUDE,Always Install
+Stones of Solitude - Better Blended Rock Piles,0.2,SOLITUDE,Always Install
+Dlizzio's Mesh Fixes Solitude Patches,2.1,SOLITUDE,Ultra
+Dlizzio's Mesh Fixes Solitude Patches (Redux),2.1,SOLITUDE,Redux
+FYX - Solitude Arch,1.0.1,SOLITUDE,Always Install
+Solitude Statues AIO,1,SOLITUDE,Ultra
+WiZkiD Riften and Ratway Parallax [2K],1.2,RIFTEN,Always Install
+Magnificent Riften Door Replacer [2K],1.1,RIFTEN,Always Install
+Magnificent Riften Mistveil Keep Door [2K],1.1,RIFTEN,Always Install
+Elis Atrocious Riften Texture Fix,2,RIFTEN,Always Install
+Riften Docks Overhaul,2,RIFTEN,Ultra
+Riften Docks Overhaul - Rob's Bug Fixes,2,RIFTEN,Ultra
+Riften Docks Overhaul - SMIM Patch,1,RIFTEN,Ultra
+Riften Bathhouse,1.4,RIFTEN,Ultra
+Deadly Shadows in Riften,1.3,RIFTEN,Ultra
+Make Your Riften,1.0.4,RIFTEN,Ultra
+FYX - Riften Canal and Round Posts,1.0.2,RIFTEN,Ultra
+Consistency of windows in Riften,1.2.1,RIFTEN,Always Install
+JK's Riften Outskirts,1.0.1,RIFTEN,Ultra
+JK's Riften Outskirts Patch Collection,1.2,RIFTEN,Ultra
+Skyland - Markarth,2.5,MARKARTH,Always Install
+Markarth Braziers Improved,0.2.2,MARKARTH,Always Install
+Markarth Outskirts,1.6,MARKARTH,Ultra
+Markarth Outskirts - Flora Patch,1,MARKARTH,Ultra
+Blubbos Markarth 2022,1,MARKARTH,Always Install
+Markarth - City of Stone,1,MARKARTH,Ultra
+Icy Windhelm,2.1,WINDHELM,Always Install
+Windhelm Entrance Fix,1.0.1,WINDHELM,Always Install
+Marvelous Windhelm Gate [2K],1.1,WINDHELM,Always Install
+Marvelous Windhelm Door Replacer [2K],1,WINDHELM,Always Install
+Windhelm Lighthouse,0.9,WINDHELM,Always Install
+Windhelm Bridge Archways and Doors,0.4.1,WINDHELM,Ultra
+Windhelm Fences 3D [2K],0.3.3,WINDHELM,Always Install
+Windhelm Brazier Replacer,2.32,WINDHELM,Ultra
+Windhelm Brazier Replacer (Redux),2.32,WINDHELM,Redux
+FYX - Windhelm Stable Roof,1.0.2,WINDHELM,Always Install
+Gray Quarter Overhaul,2,WINDHELM,Ultra
+Grey Quarter Overhaul - Dawn of Skyrim Patch,1,WINDHELM,Ultra
+JK's Windhelm Outskirts,1.1.0,WINDHELM,Always Install
+JK's Windhelm Outskirts Patch Collection,1.1,WINDHELM,Always Install
+Nolvus Ascension Cities Patch,5.7,WINDHELM,Ultra
+Nolvus Ascension Cities Patch (Redux),5.1,WINDHELM,Redux
+Expanded Towns and Cities,0.7,5.11.2 TOWNS & VILLAGES,Ultra
+The Great Town of Shor's Stone,1.04,5.11.2 TOWNS & VILLAGES,Always Install
+The Great Town of Shor's Stone - Rob's Bug Fixes,1,5.11.2 TOWNS & VILLAGES,Always Install
+The Great Town of Shor's Stone - Modpocalypse NPCs,1,5.11.2 TOWNS & VILLAGES,Always Install
+The Great Town of Shor's Stone Patch Collection,2.3.1,5.11.2 TOWNS & VILLAGES,Always Install
+The Great Town of Ivarstead,1.2,5.11.2 TOWNS & VILLAGES,Always Install
+The Great Town of Ivarstead - Rob's Bug Fixes,1.1,5.11.2 TOWNS & VILLAGES,Always Install
+The Great Town of Ivarstead - Modpocalypse NPCs,1,5.11.2 TOWNS & VILLAGES,Always Install
+The Great Town of Ivarstead Patch Collection,2.8,5.11.2 TOWNS & VILLAGES,Always Install
+The Great Village of Kynesgrove,1.1,5.11.2 TOWNS & VILLAGES,Always Install
+The Great Village of Kynesgrove - Rob's Bug Fixes,1.3,5.11.2 TOWNS & VILLAGES,Always Install
+The Great Village of Kynesgrove - Modpocalypse NPCs,1,5.11.2 TOWNS & VILLAGES,Always Install
+The Great Village of Kynesgrove Patch Collection,1.7,5.11.2 TOWNS & VILLAGES,Always Install
+The Great Town of Karthwasten,1.2,5.11.2 TOWNS & VILLAGES,Always Install
+The Great Town of Karthwasten - Rob's Bug Fixes,1,5.11.2 TOWNS & VILLAGES,Always Install
+The Great Town of Karthwasten - Modpocalypse NPCs,1,5.11.2 TOWNS & VILLAGES,Always Install
+The Great Town of Karthwasten Patch Collection,2.5.1,5.11.2 TOWNS & VILLAGES,Always Install
+The Great Village of Old Hroldan,1.03,5.11.2 TOWNS & VILLAGES,Always Install
+The Great Village of Old Hroldan - Rob's Bug Fixes,1,5.11.2 TOWNS & VILLAGES,Always Install
+The Great Village of Old Hroldan - Modpocalypse NPCs,1,5.11.2 TOWNS & VILLAGES,Always Install
+The Great Village of Old Hroldan Patch Collection,2.3.3,5.11.2 TOWNS & VILLAGES,Always Install
+The Great Village of Mixwater Mill,1.1,5.11.2 TOWNS & VILLAGES,Always Install
+The Great Village of Mixwater Mill - Rob's Bug Fixes,1,5.11.2 TOWNS & VILLAGES,Always Install
+The Great Village of Mixwater Mill - Modpocalypse NPCs,1,5.11.2 TOWNS & VILLAGES,Always Install
+The Great Village of Mixwater Mill - 3DNPC Patch,1,5.11.2 TOWNS & VILLAGES,Always Install
+The Great Village of Mixwater Mill Patch Collection,2.5,5.11.2 TOWNS & VILLAGES,Always Install
+The Great City of Rorikstead,1.2,5.11.2 TOWNS & VILLAGES,Always Install
+The Great City of Rorikstead - Rob's Bug Fixes,1.2,5.11.2 TOWNS & VILLAGES,Always Install
+Rorikstead Basalt Cliffs,1.2,5.11.2 TOWNS & VILLAGES,Always Install
+Cities of the North - Dawnstar,1.3.0.0,5.11.2 TOWNS & VILLAGES,Always Install
+Cities of the North - Dawnstar - Partitioned Meshes for Lighting,2,5.11.2 TOWNS & VILLAGES,Always Install
+Cities of the North - Dawnstar - Skyrim Unbound Patch,1.0.0,5.11.2 TOWNS & VILLAGES,Alternate Start
+Cities of the North - Dawnstar Patch Collection,4.1.0.0,5.11.2 TOWNS & VILLAGES,Always Install
+Cities of the North - Morthal,1.1,5.11.2 TOWNS & VILLAGES,Always Install
+Cities of the North - Morthal - Rob's Bug Fixes,2.4,5.11.2 TOWNS & VILLAGES,Always Install
+Cities of the North - Morthal - Partitioned Meshes for Lighting,1,5.11.2 TOWNS & VILLAGES,Always Install
+Cities of the North - Morthal - Skyrim Unbound Patch,1.0.0,5.11.2 TOWNS & VILLAGES,Alternate Start
+Cities of the North - Morthal Patch Collection,2.12.3,5.11.2 TOWNS & VILLAGES,Always Install
+The Great City of Winterhold,4.0.3,5.11.2 TOWNS & VILLAGES,Always Install
+The Great City of Winterhold Patch Collection,1.8.1,5.11.2 TOWNS & VILLAGES,Always Install
+Cities of the North - Falkreath,1.2,5.11.2 TOWNS & VILLAGES,Always Install
+Cities of the North - Falkreath - Rob's Bug Fixes,2.7,5.11.2 TOWNS & VILLAGES,Always Install
+Cities of the North - Falkreath - Skyrim Unbound Patch,1.0.0,5.11.2 TOWNS & VILLAGES,Alternate Start
+Cities of the North - Falkreath - Ladder Animations Add-On,1.2.0.0,5.11.2 TOWNS & VILLAGES,Always Install
+Cities of the North - Falkreath Patch Collection,1.16.1,5.11.2 TOWNS & VILLAGES,Always Install
+Cities of The North - Simplicity of Snow Patch,0.1.2,5.11.2 TOWNS & VILLAGES,Always Install
+ClefJ's Dragon Bridge Enhanced,1,5.11.2 TOWNS & VILLAGES,Always Install
+Illustrated Town Panels,1.2.3,5.11.2 TOWNS & VILLAGES,Always Install
+Lainalten,1.00.0,5.11.2 TOWNS & VILLAGES,Always Install
+Lainalten - Modpocalypse NPCs,1,5.11.2 TOWNS & VILLAGES,Always Install
+Half-Moon Mill - Cities of the North Addon,1.5,5.11.2 TOWNS & VILLAGES,Always Install
+Half-Moon Mill - Cities of the North Addon Patch Collection,1.2,5.11.2 TOWNS & VILLAGES,Always Install
+Anga's Mill - Cities of the North Addon,1.0.4,5.11.2 TOWNS & VILLAGES,Always Install
+Anga's Mill - Cities of the North Addon Patch Collection,1.1,5.11.2 TOWNS & VILLAGES,Always Install
+The Great Settlement of Darkwater Crossing,1.0.0,5.11.2 TOWNS & VILLAGES,Always Install
+The Great Settlement of Darkwater Crossing Patch Collection,1.2,5.11.2 TOWNS & VILLAGES,Ultra
+The Great Settlement of Darkwater Crossing Patch Collection (Redux),1.2,5.11.2 TOWNS & VILLAGES,Redux
+Sunthgat,1.01.0,5.11.2 TOWNS & VILLAGES,Always Install
+Sunthgat - Modpocalypse NPCs,1,5.11.2 TOWNS & VILLAGES,Always Install
+Oakwood,1.01.2,5.11.2 TOWNS & VILLAGES,Always Install
+Oakwood - Modpocalypse NPCs,1,5.11.2 TOWNS & VILLAGES,Always Install
+Reich Corigate,1.00.0,5.11.2 TOWNS & VILLAGES,Always Install
+Reich Corigate - Modpocalypse NPCs,1,5.11.2 TOWNS & VILLAGES,Always Install
+Granite Hill Village,1.00.0,5.11.2 TOWNS & VILLAGES,Always Install
+Granite Hill Village - Modpocalypse NPCs,1,5.11.2 TOWNS & VILLAGES,Always Install
+Amber Guard,1.09.2,5.11.2 TOWNS & VILLAGES,Always Install
+Amber Guard - Modpocalypse NPCs,1,5.11.2 TOWNS & VILLAGES,Always Install
+Amber Guard - RS Children Patch,1,5.11.2 TOWNS & VILLAGES,Always Install
+Dunpar Wall,1.00.1,5.11.2 TOWNS & VILLAGES,Always Install
+Dunpar Wall - Modpocalypse NPCs,1,5.11.2 TOWNS & VILLAGES,Always Install
+Riften Extension Southwoods District,1,5.11.2 TOWNS & VILLAGES,Ultra
+Riften Extension Southwoods District - Modpocalypse NPCs,1,5.11.2 TOWNS & VILLAGES,Ultra
+Riften Extension Southwoods District - Rob's Bug Fixes,3,5.11.2 TOWNS & VILLAGES,Ultra
+Riften Extension Southwoods District - RS Children Patch,1,5.11.2 TOWNS & VILLAGES,Ultra
+Vernim Wood,1.00.4,5.11.2 TOWNS & VILLAGES,Always Install
+Vernim Wood - RS Children Patch,1,5.11.2 TOWNS & VILLAGES,Always Install
+Nolvus Ascension Towns Patch,5.8,5.11.2 TOWNS & VILLAGES,Ultra
+Nolvus Ascension Towns Patch (Redux),5.2,5.11.2 TOWNS & VILLAGES,Redux
+WiZkiD Parallax Farmhouses [2K],1.4,5.11.3 FARMHOUSES,Always Install
+Vivid Landscapes - Complex Parallax Occlusion - Orc and Farmhouses,1,5.11.3 FARMHOUSES,Always Install
+Farmhouse Stonewall with Complex Parallax,1,5.11.3 FARMHOUSES,Always Install
+SD's Farmhouse Fences [2K],1,5.11.3 FARMHOUSES,Always Install
+CC's HQ Carts [2K],1,5.11.3 FARMHOUSES,Always Install
+CC's HQ Buckets [2K],1.1,5.11.3 FARMHOUSES,Always Install
+HD Wheat,2,5.11.3 FARMHOUSES,Always Install
+Rudy HQ - Hay,1.4,5.11.3 FARMHOUSES,Always Install
+R's Windmill,1,5.11.3 FARMHOUSES,Always Install
+R's Windmill - DynDOLOD patch,1.1,5.11.3 FARMHOUSES,Always Install
+Eli's Breezehome Overhaul,1.6,5.11.4 PLAYER HOME,Always Install
+Eli's Breezehome Overhaul - LoTD - Vanilla Player Homes Displays,1.0.0.0,5.11.4 PLAYER HOME,Always Install
+JK's Riverfall Cottage Family Edition,1.1.3,5.11.4 PLAYER HOME,Always Install
+Ruska,1,5.11.4 PLAYER HOME,Always Install
+Sicarius' Refuge,1.0.0,5.11.4 PLAYER HOME,Always Install
+Wind Path,1.3.1,5.11.4 PLAYER HOME,Always Install
+Crystalwind Estate,5,5.11.4 PLAYER HOME,Always Install
+Elysium Estate,5.0.1,5.11.4 PLAYER HOME,Always Install
+Hjertesten Hall,11,5.11.4 PLAYER HOME,Always Install
+Whitepeak Tower,1,5.11.4 PLAYER HOME,Always Install
+Nolvus Ascension Player Home Patch,5.3,5.11.4 PLAYER HOME,Always Install
+Hearthfire Multiple Adoptions and Custom Home Support,3.0.4,5.11.4 PLAYER HOME,Always Install
+CleverCharff's Raven Rock HD [2K],1.1,5.11.5 OTHER LOCATIONS,Always Install
+CleverCharff's Forgotten Vale [2K],1.1,5.11.5 OTHER LOCATIONS,Always Install
+CleverCharff's Fort Dawnguard [2K],1.1,5.11.5 OTHER LOCATIONS,Always Install
+CleverCharff's SkyHaven HD [2K],1,5.11.5 OTHER LOCATIONS,Always Install
+CleverCharff's Soul Cairn [2K],1,5.11.5 OTHER LOCATIONS,Always Install
+CleverCharff's High Hrothgar [2K],1,5.11.5 OTHER LOCATIONS,Always Install
+Skyrim 3D High Hrothgar Steps,1.0.1,5.11.5 OTHER LOCATIONS,Always Install
+CleverCharff's Sovngard [2K],1.1,5.11.5 OTHER LOCATIONS,Always Install
+CleverCharff's Apocrypha [2K],1,5.11.5 OTHER LOCATIONS,Always Install
+Near Vanilla Project - College of Winterhold Floor,1.1,5.11.5 OTHER LOCATIONS,Always Install
+This Is Jorrvaskr,2.221230.0.0,5.11.5 OTHER LOCATIONS,Always Install
+This Is Jorrvaskr - Dawn of Skyrim Patch,1.22,5.11.5 OTHER LOCATIONS,Ultra
+This Is Jorrvaskr - Sounds of Skyrim Patch,1.1,5.11.5 OTHER LOCATIONS,Always Install
+This Is Jorrvaskr - KASA,2.230804,5.11.5 OTHER LOCATIONS,Always Install
+Covered Bridges of Skyrim,1.0b,5.12.1 LANDS,Always Install
+Drinking Fountains of Skyrim,1.5,5.12.1 LANDS,Always Install
+Drinking Fountains of Skyrim - Cities of the North - Dawnstar Patch,1.01,5.12.1 LANDS,Always Install
+Drinking Fountains of Skyrim - The Great Town of Karthwasten Patch,1,5.12.1 LANDS,Always Install
+Hold Border Banners,1.1,5.12.1 LANDS,Always Install
+Man Those Borders Reborn,1.0.3,5.12.1 LANDS,Always Install
+Road Signs Overhaul,1,5.12.1 LANDS,Always Install
+My Road Signs are Beautiful,1.5,5.12.1 LANDS,Always Install
+Fortified Animated Fort Doors [2K],1.2.1,5.12.1 LANDS,Always Install
+Skyrim 3D Signs,1.2.5,5.12.1 LANDS,Always Install
+Missives,2.03,5.12.1 LANDS,Always Install
+Missives - Solstheim Patch,2.03,5.12.1 LANDS,Always Install
+Missives - Wyrmstooth Patch,2.05,5.12.1 LANDS,Always Install
+Missives - Bruma Patch,2.04c,5.12.1 LANDS,Always Install
+Missives - Dawn of Skyrim Patch,1,5.12.1 LANDS,Ultra
+Missives Notes Retexture,1,5.12.1 LANDS,Always Install
+Missives Notes Retexture - Solstheim Patch,1,5.12.1 LANDS,Always Install
+Missives Notes Retexture - Bruma Patch,1,5.12.1 LANDS,Always Install
+Solitude Temple Frescoes - Complete,1.3,5.12.1 LANDS,Always Install
+Interesting Roads,1.1,5.12.1 LANDS,Always Install
+Sepolcri - A Complete Burial Sites Overhaul,2.0.0.0,5.12.1 LANDS,Always Install
+Sepolcri - Cutting Room Floor Patch,2.0.0.0,5.12.1 LANDS,Always Install
+Sepolcri - Dawn of Skyrim Patch,2.0.0.0,5.12.1 LANDS,Ultra
+HD Remastered Imperial Forts - Meshes,1,5.12.1 LANDS,Always Install
+HD Remastered Imperial Forts [2K],1,5.12.1 LANDS,Always Install
+Skyrim Trading Posts Remastered,3.3,5.12.1 LANDS,Always Install
+Skyrim Trading Posts Remastered - Cutting Room Floor Patch,1,5.12.1 LANDS,Always Install
+Ryn's Lady Stone,1,5.12.1 LANDS,Always Install
+Ryn's Lover Stone,1,5.12.1 LANDS,Always Install
+Ryn's Steed Stone,1,5.12.1 LANDS,Always Install
+Ryn's Tower Stone,1.1,5.12.1 LANDS,Always Install
+Ryn's Lord Stone,1,5.12.1 LANDS,Always Install
+Ryn's Shadow Stone,1,5.12.1 LANDS,Always Install
+Ryn's Apprentice Stone,1,5.12.1 LANDS,Always Install
+Ryn's Serpent Stone,1,5.12.1 LANDS,Always Install
+Ryn's Atronach Stone,1,5.12.1 LANDS,Always Install
+Ryn's Ritual Stone,1,5.12.1 LANDS,Always Install
+Ryn's Lund's Hut,1,5.12.1 LANDS,Always Install
+Ryn's Anise's Cabin,1,5.12.1 LANDS,Always Install
+Ryn's Saarthal,1.1,5.12.1 LANDS,Always Install
+Ryn's White River Watch,1,5.12.1 LANDS,Always Install
+Ryn's Halted Stream Camp,1,5.12.1 LANDS,Always Install
+Ryn's Secunda's Kiss,1,5.12.1 LANDS,Always Install
+Ryn's Bleakwind Basin,1.1,5.12.1 LANDS,Always Install
+Ryn's Bleakwind Basin - USSEP Patch,1,5.12.1 LANDS,Always Install
+Ryn's Goldenglow Estate,1,5.12.1 LANDS,Always Install
+Ryn's Bleak Falls Tower,1,5.12.1 LANDS,Always Install
+Ryn's Crabber's Shanty and Titanclaw Lair,1.1,5.12.1 LANDS,Always Install
+Ryn's Alchemist's Shack,1,5.12.1 LANDS,Always Install
+Ryn's Valtheim Towers,1.2,5.12.1 LANDS,Always Install
+Ryn's Bleak Falls Barrow,1,5.12.1 LANDS,Always Install
+Ryn's Loreius Farm,1.1,5.12.1 LANDS,Always Install
+Ryn's Sarethi Farm,1,5.12.1 LANDS,Always Install
+Tundra Overhaul Tree And Ruins,1.2,5.12.1 LANDS,Ultra
+Strongholds - Narzulbur,2.3,5.12.1 LANDS,Always Install
+Strongholds - Largashbur,1.6.1,5.12.1 LANDS,Always Install
+Skyrims Dead,V1.0.3,5.12.1 LANDS,Always Install
+Nolvus Ascension Land Patch,5.9,5.12.1 LANDS,Always Install
+CleverCharff's Nordic Ruins [2K],1,5.12.2 RUINS,Always Install
+Rustic Relief,1,5.12.2 RUINS,Always Install
+Rustic Relief - Parallax,1.3,5.12.2 RUINS,Always Install
+Gorgeous Ruin Door [2K],1.1,5.12.2 RUINS,Always Install
+Tower Ruins Retexture,1.1,5.12.2 RUINS,Always Install
+Dungeons - Revisited,1,5.13 INTERIORS,Always Install
+Skyrim Underground,4.6.1,5.13 INTERIORS,Always Install
+Skyrim Underground - Add-On,5.1.0.0,5.13 INTERIORS,Always Install
+Skyrim Remastered - Caves Parallax,1,5.13 INTERIORS,Always Install
+Icy Mesh Remaster,2.02,5.13 INTERIORS,Always Install
+Discrepancy Ice Fix for CC Caves,1,5.13 INTERIORS,Always Install
+CC's HQ Caves,1.1,5.13 INTERIORS,Always Install
+CC's HQ Caves Parallax,2.2,5.13 INTERIORS,Always Install
+CC's HQ Mines Redone,1.5,5.13 INTERIORS,Always Install
+CC's HQ Mines Redone Parallax,2.6,5.13 INTERIORS,Always Install
+CC's HQ Barset,1.2,5.13 INTERIORS,Always Install
+Distinct interior,1.82.0.0,5.13 INTERIORS,Always Install
+Distinct Interiors - Fixes,1.3.2,5.13 INTERIORS,Always Install
+The Distinct Cities of the North Interiors,2.1,5.13 INTERIORS,Always Install
+The Distinct Great Old Hroldan Inn,1.1,5.13 INTERIORS,Always Install
+The Distinct Great Ivarstead Interiors,1,5.13 INTERIORS,Always Install
+The Distinct Great Kynesgrove Interiors,1,5.13 INTERIORS,Always Install
+JK's Dragonsreach,1.1.1,5.13 INTERIORS,Always Install
+RedBag's Dragonsreach,1.5,5.13 INTERIORS,Always Install
+Redbag's Dragonsreach - JK's Patch,1.2,5.13 INTERIORS,Always Install
+JK's The Winking Skeever,1.4.0,5.13 INTERIORS,Always Install
+The Distinct JK's Winking Skeever,1.2,5.13 INTERIORS,Always Install
+JK's Angeline's Aromatics,1.0.0,5.13 INTERIORS,Always Install
+JK's Bits and Pieces,1.0.0,5.13 INTERIORS,Always Install
+The Distinct JK's Bits and Pieces,1.1,5.13 INTERIORS,Always Install
+JK's Radiant Raiment,1.0.1,5.13 INTERIORS,Always Install
+The Distinct JK's Radiant Raiment,1,5.13 INTERIORS,Always Install
+JK's Sleeping Giant Inn,1.1.0,5.13 INTERIORS,Always Install
+The Distinct JK's Sleeping Giant Inn,1.01,5.13 INTERIORS,Always Install
+JK's The Bannered Mare,1.1.0,5.13 INTERIORS,Always Install
+The Distinct JK's Bannered Mare,1,5.13 INTERIORS,Always Install
+JK's Arcadia's Cauldron,1.01,5.13 INTERIORS,Always Install
+The Distinct JK's Arcadia's Cauldron,1.1.1,5.13 INTERIORS,Always Install
+JK's Warmaiden's,1.2.0,5.13 INTERIORS,Always Install
+JK's Belethor's General Goods,1.1.0,5.13 INTERIORS,Always Install
+The Distinct JK's Belethor's General Goods,1.1,5.13 INTERIORS,Always Install
+JK's The Drunken Huntsman,1.0.0,5.13 INTERIORS,Always Install
+The Distinct JK's Drunken Huntsman,2,5.13 INTERIORS,Always Install
+JK's White Phial,1.1.1,5.13 INTERIORS,Always Install
+JK's Sadris Used Wares,1.0.1,5.13 INTERIORS,Always Install
+The Distinct JK's Sadri's Used Wares,1,5.13 INTERIORS,Always Install
+JK's New Gnisis Cornerclub,1.1.0,5.13 INTERIORS,Always Install
+The Distinct JK's New Gnisis Cornerclub,2.1,5.13 INTERIORS,Always Install
+JK's Palace of the Kings,1.2.0,5.13 INTERIORS,Always Install
+JK's Blue Palace,1.4.1,5.13 INTERIORS,Always Install
+Drengin's Blue Palace Terrace,1.1,5.13 INTERIORS,Always Install
+Modular Blue Palace Terrace and Solitude Patches,1.0.0,5.13 INTERIORS,Always Install
+JK's Blue Palace Terrace,1.1.2,5.13 INTERIORS,Always Install
+LOTD Museum Dress-Up for Blue Palace Terrace,1,5.13 INTERIORS,Always Install
+Blue Palace Frescoes Simplified,1.3,5.13 INTERIORS,Always Install
+JK's Elgrims Elixirs,1.0.0,5.13 INTERIORS,Always Install
+JK's The Bee and Barb,1.1.1,5.13 INTERIORS,Always Install
+JK's The Bee and Barb - Riften Bathhouse Patch,1,5.13 INTERIORS,Ultra
+JK's The Bee and Barb - Consistency of windows in Riften Patch,1.1,5.13 INTERIORS,Always Install
+The Distinct JK's Bee and Barb,1.1,5.13 INTERIORS,Always Install
+JK's The Pawned Prawn,1.0.1,5.13 INTERIORS,Always Install
+JK's The Pawned Prawn - Riften Docks Overhaul Patch,1.1,5.13 INTERIORS,Ultra
+The Distinct JK's Pawned Prawn,1,5.13 INTERIORS,Always Install
+JK's The Ragged Flagon,1.0.0,5.13 INTERIORS,Always Install
+The Distinct JK's Ragged Flagon,1.3,5.13 INTERIORS,Always Install
+JK's Mistveil Keep,1.0.2,5.13 INTERIORS,Always Install
+JK's The Temple of Mara,1.1,5.13 INTERIORS,Always Install
+The Distinct JK's Temple of Mara,1,5.13 INTERIORS,Always Install
+JK's Silver-Blood Inn,1.0.0,5.13 INTERIORS,Always Install
+JK's Arnleif and Sons Trading Company,1.0.1,5.13 INTERIORS,Always Install
+The Distinct JK's Arnleif and Sons Trading Company,1,5.13 INTERIORS,Always Install
+JK's The Hag's Cure,1.0.0,5.13 INTERIORS,Always Install
+JK's Riverwood Trader,1.1.1,5.13 INTERIORS,Always Install
+The Distinct JK's Riverwood Trader,1,5.13 INTERIORS,Always Install
+JK's Understone Keep,1.1.2,5.13 INTERIORS,Always Install
+JK's Candlehearth Hall,1.0.0,5.13 INTERIORS,Always Install
+The Distinct JK's Candlehearth Hall,1.31,5.13 INTERIORS,Always Install
+JK's Temple of Dibella,1.0.0,5.13 INTERIORS,Always Install
+The Distinct JK's Temple of Dibella,1,5.13 INTERIORS,Always Install
+JK's Temple of Kynareth,1.0.0,5.13 INTERIORS,Always Install
+JK's Temple of Talos,1.1,5.13 INTERIORS,Always Install
+JK's Temple of the Divines,1.2.0.0,5.13 INTERIORS,Always Install
+Dunmeri Furniture in Gray Quarter,1.1,5.13 INTERIORS,Always Install
+JK's Haelga's Bunkhouse,1.1.1,5.13 INTERIORS,Always Install
+JK's Haelga's Bunkhouse - Consistency of windows in Riften Patch,1.1.1,5.13 INTERIORS,Always Install
+The Distinct JK's Haelga's Bunkhouse,1,5.13 INTERIORS,Always Install
+JK's Jorrvaskr,1.1.4,5.13 INTERIORS,Always Install
+JK's High Hrothgar,1.0.1,5.13 INTERIORS,Always Install
+JK's Sky Haven Temple,1.0.0,5.13 INTERIORS,Always Install
+JK's Septimus Signus's Outpost,1.0.1,5.13 INTERIORS,Always Install
+JK's Sinderion's Field Laboratory,1.1.2.0,5.13 INTERIORS,Always Install
+JK's Castle Dour,1.1.0,5.13 INTERIORS,Always Install
+JK's The Bards College,1.0.3,5.13 INTERIORS,Always Install
+JK's College of Winterhold,1.0.2,5.13 INTERIORS,Always Install
+JK's Interiors Patch Collection,5.16,5.13 INTERIORS,Ultra
+JK's Interiors Patch Collection (Redux),5.16,5.13 INTERIORS,Redux
+JKs Guild HQ Interiors Patch Collection,1.11.1,5.13 INTERIORS,Ultra
+JKs Guild HQ Interiors Patch Collection (Redux),1.11.1,5.13 INTERIORS,Redux
+GG's Thieves Guild Headquarters,1.3,5.13 INTERIORS,Always Install
+GG's Thieves Guild Headquarters Patch Collection,1.5.1,5.13 INTERIORS,Ultra
+GG's Thieves Guild Headquarters Patch Collection (Redux),1.5.1,5.13 INTERIORS,Redux
+Peltapalooza,1,5.13 INTERIORS,Always Install
+Rugnarok,1.1,5.13 INTERIORS,Always Install
+Sigils of Skyrim - Banners,1,5.13 INTERIORS,Always Install
+Thrones of Skyrim,1,5.13 INTERIORS,Always Install
+Store Entrance Doorbells,2,5.13 INTERIORS,Always Install
+Snazzy Furniture and Clutter Overhaul,2.1.2,5.13 INTERIORS,Always Install
+Legacy Safehouse Plus,3,5.13 INTERIORS,Always Install
+Statue of Kynareth,1,5.13 INTERIORS,Always Install
+Statue of Kynareth - Xtudo Patch,1.9,5.13 INTERIORS,Always Install
+Nolvus Ascension Interiors Patch,5.8,5.13 INTERIORS,Ultra
+Nolvus Ascension Interiors Patch (Redux),5.8,5.13 INTERIORS,Redux
+3BA Vanilla Clothes and Armor,2.5,5.14.1 ARMORS,Always Install
+3BA Vanilla Armors - No Rim Lighting,1.3,5.14.1 ARMORS,Always Install
+aMidianBorn Book of Silence,1.9.1,5.14.1 ARMORS,Always Install
+Frankly HD Dawnguard Armor and Weapons [2K],1.3,5.14.1 ARMORS,Always Install
+Frankly HD Dawnguard Armor and Weapons - CBBE,1.2,5.14.1 ARMORS,Always Install
+Frankly HD Dragonbone and Dragonscale [2K],1,5.14.1 ARMORS,Always Install
+Frankly HD Dragonbone and Dragonscale - Mesh patch,1.1,5.14.1 ARMORS,Always Install
+Frankly HD Imperial Armor And Weapons [2K],1,5.14.1 ARMORS,Always Install
+Frankly HD Miraak [2K],1,5.14.1 ARMORS,Always Install
+Frankly HD Miraak - CBBE,1.11,5.14.1 ARMORS,Always Install
+Frankly HD Nightingale Armor and Weapons [2K],1.1,5.14.1 ARMORS,Always Install
+Frankly HD Nightingale Armor and Weapons - CBBE,1.1,5.14.1 ARMORS,Always Install
+Frankly HD Thieves Guild Armors [2K],1,5.14.1 ARMORS,Always Install
+Dark Brotherhood Armor,1,5.14.1 ARMORS,Always Install
+Dark Brotherhood Armor - Color Variant,1,5.14.1 ARMORS,Always Install
+Dark Brotherhood Armor - Ancient Shrouded Armor Replacer,1,5.14.1 ARMORS,Always Install
+Dark Brotherhood Armor - CBBE 3BA,1,5.14.1 ARMORS,Always Install
+ElSopa HD - Steel Plate Armor [2K],0.99,5.14.1 ARMORS,Always Install
+Daedric Armor and Weapons Improvment,1.2,5.14.1 ARMORS,Always Install
+Fur Armor Set,1.1,5.14.1 ARMORS,Always Install
+Fur Armor Set - Update,1.1.2.0,5.14.1 ARMORS,Always Install
+Sons of Skyrim,1.5.0,5.14.1 ARMORS,Always Install
+Sons of Skyrim - 4K Textures,2.2,5.14.1 ARMORS,Always Install
+Sons of Skyrim - Xtudo Patch,2.2,5.14.1 ARMORS,Always Install
+Sons of Skyrim - Shield on Back Patch,2.2,5.14.1 ARMORS,Always Install
+Sons of Skyrim - LOTD Patch,2.2,5.14.1 ARMORS,Always Install
+Unplayable Faction Armor,1.07,5.14.1 ARMORS,Always Install
+Unplayable Faction Armor - Legacy of the Dragonborn Patch,1.01,5.14.1 ARMORS,Always Install
+Unplayable Faction Armor - Interesting NPCs Patch,4.1,5.14.1 ARMORS,Always Install
+Unplayable Faction Armor - Immersive Sound Patch,1.1,5.14.1 ARMORS,Always Install
+Unplayable Faction Armors - Vigilant Patch,1.3,5.14.1 ARMORS,Always Install
+New Legion,1,5.14.1 ARMORS,Always Install
+New Legion - HD Textures,1,5.14.1 ARMORS,Always Install
+Armor Variants Expansion,2,5.14.1 ARMORS,Always Install
+Armor Variants Expansion - CBBE,2.1,5.14.1 ARMORS,Always Install
+CC's UHD Stalhrim Weapons and Armor [2K],1,5.14.1 ARMORS,Always Install
+ElSopa HD Shields Part I [2K],1,5.14.1 ARMORS,Always Install
+Remiros' Chitin Armor HD [2K],1,5.14.1 ARMORS,Always Install
+Remiros' Ancient Falmer Armor,1,5.14.1 ARMORS,Always Install
+Sithis Armour - HDT SMP,1.0.1,5.14.1 ARMORS,Advanced Physics
+Nightingale Armor Replacer - HDT SMP,2.1,5.14.1 ARMORS,Advanced Physics
+ESO Altmer Armor - HDT SMP,43,5.14.1 ARMORS,Advanced Physics
+ESO Altmer Armor - HDT SMP - 3BA,1.0.1,5.14.1 ARMORS,Advanced Physics
+Morag Tong Grandmaster Armor,1.3,5.14.1 ARMORS,Always Install
+Pratical Pirate,1.2,5.14.1 ARMORS,Always Install
+Pratical Pirate - CBBE,1,5.14.1 ARMORS,Always Install
+Pratical Pirate - HDT SMP,1,5.14.1 ARMORS,Advanced Physics
+Armor of Intrigue,1.3.2,5.14.1 ARMORS,Always Install
+Rogue Sorceress Outfit - HDT SMP,1,5.14.1 ARMORS,Advanced Physics
+Kozakowy's Falka Armor,1.8.1,5.14.1 ARMORS,Always Install
+Kozakowy's Falka Armor - Ultimate Edition,1.0.0,5.14.1 ARMORS,Always Install
+Kozakowy's Falka Armor - Metallic,3,5.14.1 ARMORS,Always Install
+Kozakowy's Falka Armor - 3BA,1.0.1,5.14.1 ARMORS,Always Install
+DX Ancient Draugr Outfit,2.01,5.14.1 ARMORS,Always Install
+DX Black Widow Outfit,1,5.14.1 ARMORS,Always Install
+DX Cassandra Apocrypha Robes,1.1,5.14.1 ARMORS,Always Install
+DX Cassandra Frost Witch Outfit,3,5.14.1 ARMORS,Always Install
+DX Celes Mercy Outfit,1.1,5.14.1 ARMORS,Always Install
+DX Celes Nightingale Outfit and Weapons,2.01,5.14.1 ARMORS,Always Install
+DX Celes Rogue Armor,1,5.14.1 ARMORS,Always Install
+DX Celes Tarot Outfit,1.01,5.14.1 ARMORS,Always Install
+DX Christmas Bunny Outfit,1,5.14.1 ARMORS,Always Install
+DX Crimson Blood Armor,1,5.14.1 ARMORS,Always Install
+DX Daedric Reaper Armor,2.01,5.14.1 ARMORS,Always Install
+DX Dark Knight Armor,1.1,5.14.1 ARMORS,Always Install
+DX Daughter of the Sea Armor,1,5.14.1 ARMORS,Always Install
+DX Demon Armor,1,5.14.1 ARMORS,Always Install
+DX Druid Armor,1.1,5.14.1 ARMORS,Always Install
+DX Gwelda Dawnguard Outfit,2.01,5.14.1 ARMORS,Always Install
+DX Gwelda Vampire Outfit,1.51,5.14.1 ARMORS,Always Install
+DX Gwelda Witch Outfit,1.1,5.14.1 ARMORS,Always Install
+DX Gwelda Red Riding Hood Outfit,3,5.14.1 ARMORS,Always Install
+DX Merta Assassin Outfit,2,5.14.1 ARMORS,Always Install
+DX Merta Black Rose Outfit,2.01,5.14.1 ARMORS,Always Install
+DX Morenn Outfit,1,5.14.1 ARMORS,Always Install
+DX Necromancer Robes,1,5.14.1 ARMORS,Always Install
+DX Sotteta Huntress Outfit,1,5.14.1 ARMORS,Always Install
+DX Sotteta Necromancer Outfit,2.01,5.14.1 ARMORS,Always Install
+DX Spartan Bard Outfit,1.1,5.14.1 ARMORS,Always Install
+DX Stella Mithril Armor,1.1,5.14.1 ARMORS,Always Install
+DX Tembtra Thief Outfit,2.01,5.14.1 ARMORS,Always Install
+DX Ursine Armor Pack,2,5.14.1 ARMORS,Always Install
+DX Wild Huntress Outfit,1,5.14.1 ARMORS,Always Install
+DX Witch Hunter Armor,1.2,5.14.1 ARMORS,Always Install
+DX Witcher Armor,1,5.14.1 ARMORS,Always Install
+DX Armors and Clothing 3BA Emporium Modular,2.4.0.0,5.14.1 ARMORS,Always Install
+Nibenean Armors and Outfit,3,5.14.1 ARMORS,Always Install
+Nibenean Armors and Outfit - 3BA,3,5.14.1 ARMORS,Always Install
+The Legends Breton Knight,1,5.14.1 ARMORS,Always Install
+The Legends Breton Knight - HDT SMP,1.3,5.14.1 ARMORS,Advanced Physics
+Northern God Armor,1,5.14.1 ARMORS,Always Install
+Northern God Armor - Fixes,1,5.14.1 ARMORS,Always Install
+Northern God Armor - HDT SMP,1,5.14.1 ARMORS,Advanced Physics
+Traveling Mage Armor,1.4,5.14.1 ARMORS,Advanced Physics
+Traveling Mage Armor - HDT SMP,1.3,5.14.1 ARMORS,Advanced Physics
+Traveling Mage Armor - Ultimate Edition,1.1.0,5.14.1 ARMORS,Advanced Physics
+Toxin Doctor Outfit,2.1,5.14.1 ARMORS,Always Install
+Twilight Princess Armor Mashup,4.2,5.14.1 ARMORS,Advanced Physics
+Armors of the Velothi Pt.1,1.2.4,5.14.1 ARMORS,Always Install
+Armors of the Velothi Pt.2,1,5.14.1 ARMORS,Always Install
+Armors of the Velothi Pt.2 - Travelling Merchant Travels,1,5.14.1 ARMORS,Always Install
+Triss Armor Retextured,1.2.1,5.14.1 ARMORS,Always Install
+Silver Knight Armor,2,5.14.1 ARMORS,Always Install
+Blackened Steel Weapon and Armour,1.007,5.14.1 ARMORS,Always Install
+Sovereign's Slayer Armor - HDT SMP,v1.3,5.14.1 ARMORS,Advanced Physics
+Sovereign's Slayer Armor - HDT SMP - CBBE BodySlide,1.2,5.14.1 ARMORS,Advanced Physics
+Sovereign's Slayer Armor - HDT SMP - CBBE Textures,v1.1,5.14.1 ARMORS,Advanced Physics
+Stendarr Paladin Armor,1,5.14.1 ARMORS,Always Install
+Three-eyed Swallow Armor,1,5.14.1 ARMORS,Always Install
+Three-eyed Swallow Armor - HDT SMP,1,5.14.1 ARMORS,Advanced Physics
+Dremora Markynaz Armor,1,5.14.1 ARMORS,Always Install
+Dremora Markynaz Armor - HDT SMP,1,5.14.1 ARMORS,Advanced Physics
+Dremora Markynaz Armor - HDT SMP - CBBE BodySlide,1.0.1,5.14.1 ARMORS,Advanced Physics
+Silver Armor,1,5.14.1 ARMORS,Always Install
+Silver Armor - HDT SMP,1,5.14.1 ARMORS,Advanced Physics
+Dominion Armor,1,5.14.1 ARMORS,Always Install
+Dominion Armor - ESL Flagged,2,5.14.1 ARMORS,Always Install
+Dominion Armor - 3BA Bodyslide,1,5.14.1 ARMORS,Always Install
+Regalia of the Scorned,1.1,5.14.1 ARMORS,Always Install
+EGIL Shadow of Akavir,2022.b,5.14.1 ARMORS,Advanced Physics
+EGIL Shadow of Akavir - Textures [2K],2022.a,5.14.1 ARMORS,Advanced Physics
+EGIL Shadow of Akavir - 3BA BodySlide,1.3,5.14.1 ARMORS,Advanced Physics
+Drifter Armor and Outfit [2K],1,5.14.1 ARMORS,Always Install
+Drifter Armor and Outfit - 3BA Bodyslide,1.2,5.14.1 ARMORS,Always Install
+Grandmaster Ursine Armour - HDT SMP,v1.2,5.14.1 ARMORS,Advanced Physics
+The School of Bear,1,5.14.1 ARMORS,Advanced Physics
+Inquisitor Armor,1.1,5.14.1 ARMORS,Advanced Physics
+Inquisitor Armor - 3BA Bodyslide,1,5.14.1 ARMORS,Advanced Physics
+Viridian Knight Armor,3.4,5.14.1 ARMORS,Always Install
+Viridian Knight Armor - Color Variations,1,5.14.1 ARMORS,Always Install
+Wind Ruler Armor,1,5.14.1 ARMORS,Always Install
+Wind Ruler Armor - Fixes,1,5.14.1 ARMORS,Always Install
+Wind Ruler Armor - HDT SMP,1,5.14.1 ARMORS,Advanced Physics
+Aedes Battle Mage,1.4,5.14.1 ARMORS,Always Install
+Zerofrost Ultimate Armor Collection,1,5.14.1 ARMORS,Always Install
+Zerofrost Bloodwitch 3BA With Cloth Physics,1.1,5.14.1 ARMORS,Advanced Physics
+Rogue Elegance,1,5.14.1 ARMORS,Always Install
+Rogue Elegance - 3BA,1.1b,5.14.1 ARMORS,Always Install
+BDOR Nova Pack,1,5.14.1 ARMORS,Advanced Physics
+COCO Shadow Assassin,1,5.14.1 ARMORS,Advanced Physics
+Regal Paladin Armor,1.4.2,5.14.1 ARMORS,Always Install
+Resplendent Armor and Greatsword,1,5.14.1 ARMORS,Advanced Physics
+Infantry Armor,1,5.14.1 ARMORS,Always Install
+Infantry Armor - HDT SMP,1,5.14.1 ARMORS,Advanced Physics
+Raven Armor,1,5.14.1 ARMORS,Advanced Physics
+Eclipse Mage Outfit - HDT-SMP,1,5.14.1 ARMORS,Advanced Physics
+Eclipse Mage Outfit - Fixed 1st Person,1,5.14.1 ARMORS,Advanced Physics
+Mythic Dawn armor,1,5.14.1 ARMORS,Always Install
+Mythic Dawn armor - HDT SMP,2,5.14.1 ARMORS,Advanced Physics
+Kvetchi Mercenary Set,1,5.14.1 ARMORS,Advanced Physics
+Kvetchi Mercenary Set - 3BA,0.1alpha,5.14.1 ARMORS,Advanced Physics
+League of Assassins Armor,1.4,5.14.1 ARMORS,Advanced Physics
+League of Assassins Armor - Dark Brotherhood Retexture,1.4,5.14.1 ARMORS,Advanced Physics
+League of Assassins Armor - 3BA,1,5.14.1 ARMORS,Advanced Physics
+Colovian Prince Set,1,5.14.1 ARMORS,Advanced Physics
+Colovian Prince Set - 3BA,1.1,5.14.1 ARMORS,Always Install
+Adventurer Armor,1,5.14.1 ARMORS,Advanced Physics
+Dragon Infused Daedric Armor,1,5.14.1 ARMORS,Always Install
+Nolvus Ascension Armors Patch,5.4,5.14.1 ARMORS,Ultra
+Nolvus Ascension Armors Patch (Redux),5.4,5.14.1 ARMORS,Redux
+Rustic Clothing [2K],3,5.14.2 CLOTHES,Always Install
+Weapons Armor Clothing and Clutter Fixes [2K],2.9.2,5.14.2 CLOTHES,Always Install
+Armor and Clothing Extension,1.5,5.14.2 CLOTHES,Always Install
+Weapons Armor Clothing and Clutter Fixes - ISC Patch,3,5.14.2 CLOTHES,Always Install
+Weapons Armor Clothing and Clutter Fixes - Interesting NPC's Patch,1.0.0,5.14.2 CLOTHES,Always Install
+Weapons Armor Clothing and Clutter Fixes - CBBE Patch,1.2,5.14.2 CLOTHES,Always Install
+Weapons Armor Clothing and Clutter Fixes - CRF Patch,1,5.14.2 CLOTHES,Always Install
+Weapons Armor Clothing and Clutter Fixes - Dark Brotherhood Armor Patch,1,5.14.2 CLOTHES,Always Install
+Weapons Armor Clothing and Clutter Fixes - Konahrik's Accoutrements Patch,1.1,5.14.2 CLOTHES,Always Install
+Weapons Armor Clothing and Clutter Fixes - Sons of Skyrim Patch,3.4,5.14.2 CLOTHES,Always Install
+Bandolier Bags and Pouches Classic,1.2.1,5.14.2 CLOTHES,Always Install
+Bandolier - Tighter Female Fit,1,5.14.2 CLOTHES,Always Install
+Bandolier - Tighter Male Fit,1,5.14.2 CLOTHES,Always Install
+Winter is coming - Cloak,2.4,5.14.2 CLOTHES,Always Install
+Cloaks of Skyrim,1.2.1,5.14.2 CLOTHES,Always Install
+Cloaks of Skyrim - Sons of Skyrim Patch,2.2,5.14.2 CLOTHES,Always Install
+Cloaks of Skyrim Retextured [2K],1,5.14.2 CLOTHES,Always Install
+Cloaks Of Skyrim Retextured Mesh Update,1.2,5.14.2 CLOTHES,Always Install
+Cloaks and Capes,1.4,5.14.2 CLOTHES,Always Install
+Ferrymen - New Clothing,2.1,5.14.2 CLOTHES,Always Install
+Artesian Cloaks of Skyrim,1.3.0,5.14.2 CLOTHES,Advanced Physics
+Artesian Cloaks of Skyrim - Retextured,1.4.0,5.14.2 CLOTHES,Advanced Physics
+Artesian Cloaks of Skyrim - XML,1.4,5.14.2 CLOTHES,Advanced Physics
+Artesian Cloaks of Skyrim - Retextured XML,1,5.14.2 CLOTHES,Advanced Physics
+Nolvus Ascension Clothes Patch,5.2,5.14.2 CLOTHES,Always Install
+Nolvus Weapons Keyword,1.2,5.14.3 WEAPONS,Always Install
+LeanWolf's Better-Shaped Weapons,2.1.03,5.14.3 WEAPONS,Always Install
+ElSopa - Iron Weapons Redone [2K],1.1,5.14.3 WEAPONS,Always Install
+Steelthorn Steel Weapon Replacer,v1.1,5.14.3 WEAPONS,Always Install
+Faction Crossbows,1.1,5.14.3 WEAPONS,Always Install
+Nightingale Pride With Gems,1,5.14.3 WEAPONS,Always Install
+Elven Blades Replacer,1,5.14.3 WEAPONS,Always Install
+Skyforge Weapons,1.0b,5.14.3 WEAPONS,Always Install
+Runed Nordic Weapons,1,5.14.3 WEAPONS,Always Install
+Rudy HQ - More lights for ENB - Daedric weapons,1.0j,5.14.3 WEAPONS,Always Install
+Dragon Priest Staff Replacer,0.9,5.14.3 WEAPONS,Always Install
+JS Unique Utopia - Daggers [2K],1.1,5.14.3 WEAPONS,Always Install
+JS Unique Utopia - Daggers - LOTD Patch,1,5.14.3 WEAPONS,Always Install
+JS Unique Utopia - Daggers - WACCF Patch,1,5.14.3 WEAPONS,Always Install
+ElSopa - Quivers Redone [2K],1,5.14.3 WEAPONS,Always Install
+Pickaxe Redone,2,5.14.3 WEAPONS,Always Install
+Sword of the First Ember,1.0.1,5.14.3 WEAPONS,Always Install
+Billyro's Weapons,1,5.14.3 WEAPONS,Always Install
+Baltimore Weapons,1,5.14.3 WEAPONS,Always Install
+Insanity Sorrow Weapons Pack,1.7,5.14.3 WEAPONS,Always Install
+Falchion,1,5.14.3 WEAPONS,Always Install
+Insanity Celtic Katana,1.3,5.14.3 WEAPONS,Always Install
+CL's Rapier,1.2,5.14.3 WEAPONS,Always Install
+Rapier and Dirk,1,5.14.3 WEAPONS,Always Install
+Velothi Warscythe,1.1,5.14.3 WEAPONS,Always Install
+Velothi Warscythe - Warhammer to Battleaxe,1.11,5.14.3 WEAPONS,Always Install
+Sting Spear,1,5.14.3 WEAPONS,Always Install
+Spear of Omicron,1.2,5.14.3 WEAPONS,Always Install
+Spear of Leonidas,1,5.14.3 WEAPONS,Always Install
+Spear of Skyrim,1,5.14.3 WEAPONS,Always Install
+Aegean Sentinel Halberd,v1.0,5.14.3 WEAPONS,Always Install
+Lunar Guard Battleaxe,1,5.14.3 WEAPONS,Always Install
+Quarterstaff,1,5.14.3 WEAPONS,Always Install
+Yol'Kreh - The Infernal Scythes,V1.2,5.14.3 WEAPONS,Always Install
+Cosmo - War Scythe,2.1.0,5.14.3 WEAPONS,Always Install
+Scythe Of The Crow Mother,v1.0,5.14.3 WEAPONS,Always Install
+Silverthorn Weaponry,v1.5,5.14.3 WEAPONS,Always Install
+Imperial Falchion and War Cleaver,1,5.14.3 WEAPONS,Always Install
+Boethiah's Calling,1.1,5.14.3 WEAPONS,Always Install
+Ebony Damascus Blades,1,5.14.3 WEAPONS,Always Install
+CL's Crisseagrim,1.1,5.14.3 WEAPONS,Always Install
+Raven's Beak,1.34,5.14.3 WEAPONS,Always Install
+Bluthund - A Longsword,1.1,5.14.3 WEAPONS,Always Install
+Eikbiter - A Long Axe,1,5.14.3 WEAPONS,Always Install
+Dwueth'Var - The Star Razor,V2.4,5.14.3 WEAPONS,Always Install
+Occiglacies,V1.3,5.14.3 WEAPONS,Always Install
+Ilieh Cry of the Damned,V1.8,5.14.3 WEAPONS,Always Install
+Magicians Judge,V1.0,5.14.3 WEAPONS,Always Install
+Forked Steel Dagger,1,5.14.3 WEAPONS,Always Install
+JaySuS Swords,1.8,5.14.3 WEAPONS,Always Install
+Witcher 3 Weaponry,1.3,5.14.3 WEAPONS,Always Install
+Dragon's fang sword,1.1,5.14.3 WEAPONS,Always Install
+Shields of Glory,1.1,5.14.3 WEAPONS,Always Install
+Shields of Glory - Temper Patch,1,5.14.3 WEAPONS,Always Install
+Legendary Alpha Shields,1,5.14.3 WEAPONS,Always Install
+Silver Knight Shield,2,5.14.3 WEAPONS,Always Install
+Shimmer Dagger,1,5.14.3 WEAPONS,Always Install
+Wolf Warrior's Sword,1,5.14.3 WEAPONS,Always Install
+Wolf Warrior's Seax,1.1,5.14.3 WEAPONS,Always Install
+Wolf Warrior's Axe,1,5.14.3 WEAPONS,Always Install
+Nicos Twinblades,1,5.14.3 WEAPONS,Always Install
+Twinblades of Skyrim,3,5.14.3 WEAPONS,Always Install
+Fettered Fragments,1.1,5.14.3 WEAPONS,Always Install
+Fettered Fragments - Craft at Forge,1.1,5.14.3 WEAPONS,Always Install
+Debaser,1,5.14.3 WEAPONS,Always Install
+Elexorien,1,5.14.3 WEAPONS,Always Install
+Bladestaff of Skyrim,1.1,5.14.3 WEAPONS,Always Install
+Gear Spreader,0.5,5.14.3 WEAPONS,Always Install
+Gear Spreader - Nolvus Settings,1.1,5.14.3 WEAPONS,Always Install
+Nolvus Ascension Weapons Patch,5.1,5.14.3 WEAPONS,Ultra
+Nolvus Ascension Weapons Patch (Redux),5.1,5.14.3 WEAPONS,Redux
+Bellyaches Animal and Creature Pack,1.2,5.15 ANIMALS & CREATURES,Always Install
+Bellyaches HD Dragon Replacer,1.4,5.15 ANIMALS & CREATURES,Always Install
+Diverse Dragons Collection,2.1.3,5.15 ANIMALS & CREATURES,Always Install
+Immersive Dragons,1.4,5.15 ANIMALS & CREATURES,Always Install
+Deadly Dragons,6.5.7,5.15 ANIMALS & CREATURES,Always Install
+Deadly Dragons Patches,6.5.6,5.15 ANIMALS & CREATURES,Always Install
+Dragons Fall Down - Immersive Airborne Death,1.0.1,5.15 ANIMALS & CREATURES,Always Install
+GoT Dragons - Textures,1.4,5.15 ANIMALS & CREATURES,Always Install
+GoT Dragons - Ally,1.2,5.15 ANIMALS & CREATURES,Always Install
+GoT Dragons - Enemy,1.4,5.15 ANIMALS & CREATURES,Always Install
+GoT Dragons - Diverse Dragons,1.3,5.15 ANIMALS & CREATURES,Always Install
+Ash Guardian Retexture,1,5.15 ANIMALS & CREATURES,Always Install
+Ash Spawn Retexture,1,5.15 ANIMALS & CREATURES,Always Install
+Mammoth [2K],1.1,5.15 ANIMALS & CREATURES,Always Install
+Dragon Priest [2K],1.2,5.15 ANIMALS & CREATURES,Always Install
+Draugr [2K],1.1,5.15 ANIMALS & CREATURES,Always Install
+Falmer [2K],1.1,5.15 ANIMALS & CREATURES,Always Install
+Giant [2K],1,5.15 ANIMALS & CREATURES,Always Install
+Hagraven [2K],1,5.15 ANIMALS & CREATURES,Always Install
+Troll [2K],1,5.15 ANIMALS & CREATURES,Always Install
+Wispmother,1,5.15 ANIMALS & CREATURES,Always Install
+Rustic Daedra [2K],2,5.15 ANIMALS & CREATURES,Always Install
+Rustic Death Hound and Gargoyles [2K],1.1,5.15 ANIMALS & CREATURES,Always Install
+Spriggans,1,5.15 ANIMALS & CREATURES,Always Install
+Skeleton and Human Bones [2K],1.2,5.15 ANIMALS & CREATURES,Always Install
+ElSopa HD Strider And Netches [2K],1,5.15 ANIMALS & CREATURES,Always Install
+Ice Wraiths,1,5.15 ANIMALS & CREATURES,Always Install
+Bears of the North,1.1,5.15 ANIMALS & CREATURES,Always Install
+Bears of the North - Bruma Patch,1.1.2.0,5.15 ANIMALS & CREATURES,Always Install
+Realistic Skin and Hair Shaders - Giants,v1.1,5.15 ANIMALS & CREATURES,Always Install
+Realistic Skin Shaders- Falmer and Hagraven,1.05,5.15 ANIMALS & CREATURES,Always Install
+Flying Crows,1.2,5.15 ANIMALS & CREATURES,Always Install
+Seagulls of Skyrim,1.4,5.15 ANIMALS & CREATURES,Always Install
+Fluffworks,1.1f,5.15 ANIMALS & CREATURES,Always Install
+Fluffworks - Bellyaches Patch,1,5.15 ANIMALS & CREATURES,Always Install
+Fluffworks - Bellyaches Horses,1,5.15 ANIMALS & CREATURES,Always Install
+High poly Mudcrab,1,5.15 ANIMALS & CREATURES,Always Install
+Rabbits of Skyrim,2,5.15 ANIMALS & CREATURES,Always Install
+SC Horse,1,5.15 ANIMALS & CREATURES,Always Install
+SC Horse Replacer,1,5.15 ANIMALS & CREATURES,Always Install
+Unique Barbas,1,5.15 ANIMALS & CREATURES,Always Install
+Unique Barbas - Fluffworks - ENB Light Addon,1,5.15 ANIMALS & CREATURES,Always Install
+Spiders of Solstheim - Transparency Fix,0.1,5.15 ANIMALS & CREATURES,Always Install
+Mihail - Ancient Nordic Sentinel,3.1,5.15 ANIMALS & CREATURES,Always Install
+Mihail - Dwarven Colossus,1.3,5.15 ANIMALS & CREATURES,Always Install
+Mihail - Ash Golem,5,5.15 ANIMALS & CREATURES,Always Install
+Mihail - Crystal Golem,2.1,5.15 ANIMALS & CREATURES,Always Install
+Mihail - Storm Golem,2.1,5.15 ANIMALS & CREATURES,Always Install
+Mihail - Bone Colossus,5,5.15 ANIMALS & CREATURES,Always Install
+Mihail - Minotaurs,3,5.15 ANIMALS & CREATURES,Always Install
+Mihail - Wraiths,3.2,5.15 ANIMALS & CREATURES,Always Install
+Mihail - Foglings,2,5.15 ANIMALS & CREATURES,Always Install
+Mihail - Draugr Patrols,3,5.15 ANIMALS & CREATURES,Always Install
+Mihail - Water Hags,2,5.15 ANIMALS & CREATURES,Always Install
+Mihail - Ogrim,3.1,5.15 ANIMALS & CREATURES,Always Install
+Mihail - Draugr Horse Mount,1.1,5.15 ANIMALS & CREATURES,Always Install
+Mihail - Aegis of the sigil,1,5.15 ANIMALS & CREATURES,Always Install
+Mihail - Ruinachs,3.1,5.15 ANIMALS & CREATURES,Always Install
+Mihail - Fiendroth Beetle,1,5.15 ANIMALS & CREATURES,Always Install
+Mihail - Gravelords,2.2,5.15 ANIMALS & CREATURES,Always Install
+Mihail - Banekins,1,5.15 ANIMALS & CREATURES,Always Install
+Mihail - Giantesses,1.1,5.15 ANIMALS & CREATURES,Always Install
+Mihail - Grummites,1.2,5.15 ANIMALS & CREATURES,Always Install
+Mihail - Scamps,1,5.15 ANIMALS & CREATURES,Always Install
+Mihail - Mountain Lions and Panthers,2,5.15 ANIMALS & CREATURES,Always Install
+Mihail - Ogres and Ettins,1,5.15 ANIMALS & CREATURES,Always Install
+Mihail - Ogres and Ettins - Optimized Textures,1,5.15 ANIMALS & CREATURES,Always Install
+Mihail - Doomsday of Blades,1,5.15 ANIMALS & CREATURES,Always Install
+Mihail - Havocrels,1,5.15 ANIMALS & CREATURES,Always Install
+Mihail - Vampire Beasts,1.3,5.15 ANIMALS & CREATURES,Always Install
+JS Emissive Eyes,1.3,5.15 ANIMALS & CREATURES,Always Install
+Magic of Vile Darkness,0.6.4,5.15 ANIMALS & CREATURES,Always Install
+Worn Undead,1.2,5.15 ANIMALS & CREATURES,Always Install
+Playable Draugr,1.01,5.15 ANIMALS & CREATURES,Always Install
+Draugr MCO,1.1,5.15 ANIMALS & CREATURES,Always Install
+Draugr MCO - JS Emissive Eyes Patch,1,5.15 ANIMALS & CREATURES,Always Install
+Dismember Those Mudcrabs,1,5.15 ANIMALS & CREATURES,Always Install
+Dismember Those Chaurus,1,5.15 ANIMALS & CREATURES,Always Install
+Ogres,1,5.15 ANIMALS & CREATURES,Always Install
+Ogres - Fixes,1,5.15 ANIMALS & CREATURES,Always Install
+Flesh Colossus,stitched,5.15 ANIMALS & CREATURES,Always Install
+Flesh Colossus - Xtudo patches,1.1,5.15 ANIMALS & CREATURES,Always Install
+Nolvus Ascension Creatures Patch,5.4,5.15 ANIMALS & CREATURES,Always Install
+Gemling Queen Jewelry,4.1SE,5.16.1 JEWELRY,Always Install
+Gemling Queen Jewelry - USSEP Circlet Fix,1,5.16.1 JEWELRY,Always Install
+Left Hand Rings Modified,4.5,5.16.1 JEWELRY,Always Install
+Amulets of Skyrim,4.061,5.16.1 JEWELRY,Always Install
+Amulets of Skyrim - Tweaks and Fixes,1.7,5.16.1 JEWELRY,Always Install
+Barenziah's Glory,2.1SE,5.16.1 JEWELRY,Always Install
+Barenziah's Glowing,3.1,5.16.1 JEWELRY,Always Install
+Ave's Ring of Bloodlust,1,5.16.1 JEWELRY,Always Install
+Ave's Ring of Instinct,1,5.16.1 JEWELRY,Always Install
+Ave's Ring of the Hunt,1,5.16.1 JEWELRY,Always Install
+Ave's Ring of the Moon,1.0.1,5.16.1 JEWELRY,Always Install
+Ave's Frostmoon Rings,1,5.16.1 JEWELRY,Always Install
+Ave's Interesting NPCs Jewelry Replacer,1.0.1,5.16.1 JEWELRY,Always Install
+Ave's 3DNPC Jewelry Replacer - LOTD Patch,1.0.1,5.16.1 JEWELRY,Always Install
+Iconic's Remastered Paragon Gems [2K],1.4,5.16.1 JEWELRY,Always Install
+Iconic's Remastered Paragon Gems - Particle Light Patch,1.2,5.16.1 JEWELRY,Always Install
+ElSopa Glorious HD Amulets Quality,1,5.16.1 JEWELRY,Always Install
+Elder Council Amulet Replacer [2K],1.2,5.16.1 JEWELRY,Always Install
+Forgotten Retex Project,7.2,5.16.2 CLUTTERS,Always Install
+Rustic Clutter Collection,1,5.16.2 CLUTTERS,Always Install
+Rudy HQ - Miscellaneous,1.02,5.16.2 CLUTTERS,Always Install
+Skyrim 3D Misc - Butterchurn,1.0.1,5.16.2 CLUTTERS,Always Install
+Skyrim 3D Misc - Chopping Block and Axe,1.0.0,5.16.2 CLUTTERS,Always Install
+Skyrim 3D Misc - Mammoth Cheese,1.0.1,5.16.2 CLUTTERS,Always Install
+Skyrim 3D Misc - Traps,1.0.0,5.16.2 CLUTTERS,Always Install
+Medieval Candlehorns and Sconces,2.0.0,5.16.2 CLUTTERS,Always Install
+SD's Horn Candles [2K],1,5.16.2 CLUTTERS,Always Install
+Rally's Nord War Horns,1.2,5.16.2 CLUTTERS,Always Install
+Rudification - Rudy Candles Expanded,1.14,5.16.2 CLUTTERS,Always Install
+Burned Book,1,5.16.2 CLUTTERS,Always Install
+Retexture for The Scroll,2.5.3,5.16.2 CLUTTERS,Always Install
+Ingredients,6,5.16.2 CLUTTERS,Always Install
+Eerie Ectoplasm,v1.0,5.16.2 CLUTTERS,Always Install
+Surreal Spriggan Sap,v1.0,5.16.2 CLUTTERS,Always Install
+Dusty Vampire Dust,v1.0,5.16.2 CLUTTERS,Always Install
+Freezing Cold Frost Salts,v1.0,5.16.2 CLUTTERS,Always Install
+Volatile Void Salts,v1.0,5.16.2 CLUTTERS,Always Install
+JS Bloodstone Chalice [2K],1.02,5.16.2 CLUTTERS,Always Install
+JS Initiate's Ewer [2K],1.1,5.16.2 CLUTTERS,Always Install
+JS Essence Extractor [2K],1.1,5.16.2 CLUTTERS,Always Install
+JS Dwarven Oil [2K],1,5.16.2 CLUTTERS,Always Install
+JS Dwemer Kitchenware [2K],1,5.16.2 CLUTTERS,Always Install
+JS Dwemer Ichor Barrels [2K],1.01,5.16.2 CLUTTERS,Always Install
+JS Torture Tools [2K],1,5.16.2 CLUTTERS,Always Install
+Stunning Statues of Skyrim,v1.5,5.16.3 STATUES & SHRINES,Always Install
+LeanWolf's Better-Shaped Talos with Greatsword,1.3,5.16.3 STATUES & SHRINES,Always Install
+JS Shrines of the Divines [2K],1.3,5.16.3 STATUES & SHRINES,Always Install
+JS Shrines of the Divines - HD Glaze [2K],1.4,5.16.3 STATUES & SHRINES,Always Install
+Statue of Sithis [2K],1,5.16.3 STATUES & SHRINES,Always Install
+Daedric Shrines - Boethia [2K],1.03,5.16.3 STATUES & SHRINES,Always Install
+Daedric Shrines - Clavicus Vile [2K],1.03,5.16.3 STATUES & SHRINES,Always Install
+Daedric Shrines - Mephala [2K],1.02,5.16.3 STATUES & SHRINES,Always Install
+Daedric Shrines - Peryite [2K],1,5.16.3 STATUES & SHRINES,Always Install
+Daedric Shrines - Hircine [2K],1.03,5.16.3 STATUES & SHRINES,Always Install
+Daedric Shrines - Sanguine [2K],1.01,5.16.3 STATUES & SHRINES,Always Install
+Daedric Shrines - Sheogorath [2K],1,5.16.3 STATUES & SHRINES,Always Install
+Daedric Shrines - Malacath [2K],1,5.16.3 STATUES & SHRINES,Always Install
+Daedric Shrines - Namira [2K],1.01,5.16.3 STATUES & SHRINES,Always Install
+Daedric Shrines - Nocturnal [2K],1,5.16.3 STATUES & SHRINES,Always Install
+Daedric Shrines - Molag Bal [2K],1,5.16.3 STATUES & SHRINES,Always Install
+Daedric Shrines - Vaermina [2K],1.01,5.16.3 STATUES & SHRINES,Always Install
+Daedric Shrines - Hermaeus Mora [2K],1,5.16.3 STATUES & SHRINES,Always Install
+Daedric Shrines - Azura [2K],1,5.16.3 STATUES & SHRINES,Always Install
+Daedric Shrines - Mehrunes Dagon [2K],1,5.16.3 STATUES & SHRINES,Always Install
+Daedric Shrines - Meridia [2K],1.01,5.16.3 STATUES & SHRINES,Always Install
+Daedric Shrines - Jyggalag [2K],1,5.16.3 STATUES & SHRINES,Always Install
+Daedric Shrines - Jyggalag - Fixes,1,5.16.3 STATUES & SHRINES,Always Install
+Rally's Solstheim Shrines [2K],1.1,5.16.3 STATUES & SHRINES,Always Install
+Mundus Standing Stones,3,5.16.3 STATUES & SHRINES,Always Install
+Mundus Standing Stones - ENB Light Patch,1.2,5.16.3 STATUES & SHRINES,Always Install
+Sovngarde Watcher Retexture [2K],1,5.16.3 STATUES & SHRINES,Always Install
+Skyrim Unique Treasures,4.6,5.16.4 COLLECTABLES,Always Install
+Oblivion Artifact,V3.0,5.16.4 COLLECTABLES,Always Install
+Skyshards,1.6.0,5.16.4 COLLECTABLES,Always Install
+CC's Enhanced Ore Veins [2K],9.0.1,5.16.5 MISC MODELS,Always Install
+CC's HD Dwemer Automatons - Remastered [2K],1,5.16.5 MISC MODELS,Always Install
+Dwemer Pipework Reworked,4,5.16.5 MISC MODELS,Always Install
+Dwemer Tech Glowmapped,2.2,5.16.5 MISC MODELS,Always Install
+JS Dwemer Puzzle Cube,1,5.16.5 MISC MODELS,Always Install
+JS Dwemer Puzzle Cube - Glowmapped,1,5.16.5 MISC MODELS,Always Install
+JS Dwemer Control Cube,1,5.16.5 MISC MODELS,Always Install
+JS Dwemer Control Cube - Glowmapped,1,5.16.5 MISC MODELS,Always Install
+JS Dwemer Artifacts,1.1,5.16.5 MISC MODELS,Always Install
+JS Dwemer Artifacts - Glowmapped,1,5.16.5 MISC MODELS,Always Install
+JS Attunement Sphere and Lexicons,1.01,5.16.5 MISC MODELS,Always Install
+JS Attunement Sphere and Lexicons - Glowmapped,1,5.16.5 MISC MODELS,Always Install
+Dwemer Tech Glowmapped - ENB Light,2,5.16.5 MISC MODELS,Always Install
+Dwemer Tech Glowmapped - ENB Light - John Skyrim Patch,1,5.16.5 MISC MODELS,Always Install
+ElSopa HD - Dirt Blast [2K],1,5.16.5 MISC MODELS,Always Install
+ElSopa HD - Keys Redone [2K],1,5.16.5 MISC MODELS,Always Install
+ElSopa HD - Giant Mortars Redone [2K],1,5.16.5 MISC MODELS,Always Install
+ElSopa HD - Meridias Beacon [2K],1,5.16.5 MISC MODELS,Always Install
+ElSopa HD - Briarheart,1,5.16.5 MISC MODELS,Always Install
+ElSopa HD - Skeleton Key,1,5.16.5 MISC MODELS,Always Install
+WiZkiD Carriages [2K],1.3,5.16.5 MISC MODELS,Always Install
+Imperial Tents [2K],1.3.0.0,5.16.5 MISC MODELS,Always Install
+Small Nordic Tent [2K],1,5.16.5 MISC MODELS,Always Install
+JS Purses and Septims [2K],1.2,5.16.5 MISC MODELS,Always Install
+JS Dragon Claws AE Anniversary Edition [2K],1.3,5.16.5 MISC MODELS,Always Install
+Unique Skulls HD [2K],1.1,5.16.5 MISC MODELS,Always Install
+Unique Skulls HD - Weapons Armor Clothing and Clutter Fixes Patch,1,5.16.5 MISC MODELS,Always Install
+Metallurgy - Ingots Ore and Veins,1.3,5.16.5 MISC MODELS,Always Install
+Apophysis Dragon Priest Masks,1.11SE,5.16.5 MISC MODELS,Always Install
+Awesome Potions Simplified,2.1,5.16.5 MISC MODELS,Always Install
+Awesome Potions Simplified - Discrepancys Patch,1.1,5.16.5 MISC MODELS,Always Install
+Multilayer Parallax Soul Gems,1,5.16.5 MISC MODELS,Always Install
+Multilayer Parallax Soul Gems - Immersive Sounds Compendium Patch,1,5.16.5 MISC MODELS,Always Install
+DeviantKaled's Nord Ship Texture Replacers,1.1,5.16.5 MISC MODELS,Always Install
+Frankly HD Dragonbones,1,5.16.5 MISC MODELS,Always Install
+Renthal's Workbench,1.4,5.16.5 MISC MODELS,Always Install
+Renthal's Tanningrack,1,5.16.5 MISC MODELS,Always Install
+HD Executioners Block,1.1,5.16.5 MISC MODELS,Always Install
+High Poly Project,v5.3,5.16.5 MISC MODELS,Always Install
+High Poly Project - Fixes,1.01,5.16.5 MISC MODELS,Always Install
+Enhanced Blood Textures,4,5.16.5 MISC MODELS,Always Install
+Enhanced Blood Textures - Immersive Sound Compendium Patch,3.72,5.16.5 MISC MODELS,Always Install
+Gorecap,2.2,5.16.5 MISC MODELS,Always Install
+More Bloodshed,1,5.16.5 MISC MODELS,Always Install
+ElSopa - HD Better Bloody Rags [2K],1,5.16.5 MISC MODELS,Always Install
+HQ Puddle,1,5.16.5 MISC MODELS,Always Install
+Jabber's Archery Targets,1,5.16.5 MISC MODELS,Always Install
+Salmon Roe Replacer,1.1,5.16.5 MISC MODELS,Always Install
+Rustic Maps,2,5.16.5 MISC MODELS,Always Install
+Stalhrim Source [2K],3.1,5.16.5 MISC MODELS,Always Install
+Stalhrim Source - ENB Light Patch,1.3,5.16.5 MISC MODELS,Always Install
+Legacy of the Dragonborn Museum Dome Improved,0.2,5.16.5 MISC MODELS,Always Install
+Legacy of the Dragonborn Dome Retexture,1,5.16.5 MISC MODELS,Always Install
+Legacy of the Dragonborn - SMIM Chests,0.3,5.16.5 MISC MODELS,Always Install
+Legacy of the Dragonborn - Fate Cards Retexture,1,5.16.5 MISC MODELS,Always Install
+Legacy of the Dragonborn - Dwemer Compass Replacer [2K],0.3.1,5.16.5 MISC MODELS,Always Install
+Paintings Replacer for Legacy of the Dragonborn,1.1,5.16.5 MISC MODELS,Always Install
+WiZkiD Hagraven Clutter and Bones [2K],1.1,5.16.5 MISC MODELS,Always Install
+Unreal Mammoth Skeleton ReTexture,1,5.16.5 MISC MODELS,Always Install
+WiZkiD Alchemy Table,1.3,5.16.5 MISC MODELS,Always Install
+Enchanting Stations Candles,2,5.16.5 MISC MODELS,Always Install
+HD Reworked Falmer Architecture,1,5.16.5 MISC MODELS,Always Install
+Strongbox Replacer [2K],1.1.0.0,5.16.5 MISC MODELS,Always Install
+JS Common Cages [2K],f1.03,5.16.5 MISC MODELS,Always Install
+Security Overhaul SKSE - Lock Variations [2K],3.2.0,5.16.5 MISC MODELS,Always Install
+Security Overhaul SKSE - Add-ons [2K],0.1.6,5.16.5 MISC MODELS,Always Install
+Security Overhaul SKSE - Some More Locks,1.0.2.0,5.16.5 MISC MODELS,Always Install
+Security Overhaul SKSE - Regional Locks [2K],1.0.1,5.16.5 MISC MODELS,Always Install
+Security Overhaul SKSE - Project AHO Locks,1.1.0,5.16.5 MISC MODELS,Always Install
+Floating Ash Pile Fix,0.2,5.16.5 MISC MODELS,Always Install
+Daedra Heart,1.1,5.16.5 MISC MODELS,Always Install
+Sprites or Specters - ENB Light,0.3,5.16.5 MISC MODELS,Always Install
+Dwemer Fairies,1.1,5.16.5 MISC MODELS,Always Install
+Dwemer Fairies- LL Dragons,1.1,5.16.5 MISC MODELS,Always Install
+Dwemer Fairies - ENB Particles,2.1,5.16.5 MISC MODELS,Always Install
+Icy Wraith Teeth,v1.0,5.16.5 MISC MODELS,Always Install
+FYX - 3D Stockades,1.0.4,5.16.5 MISC MODELS,Always Install
+FYX - 3D Stockades - Walls and Gate,1.0.3,5.16.5 MISC MODELS,Always Install
+FYX - 3D Shack Kit Walls - Collision,1.0.2.2,5.16.5 MISC MODELS,Always Install
+Particle Lights for ENB - Falmer Things,1,5.16.5 MISC MODELS,Always Install
+Beautiful Sigils of Shalidor [2K],1.1,5.16.5 MISC MODELS,Always Install
+FYX - 3D Dock Ramp,1.0.2,5.16.5 MISC MODELS,Always Install
+FYX - 3D Shack Kit Roofs,1.0.2,5.16.5 MISC MODELS,Always Install
+FYX - 3D Coal in the Shovel,1.0.1,5.16.5 MISC MODELS,Always Install
+FYX - RowBoat,1.0.2,5.16.5 MISC MODELS,Always Install
+Better Chests,1.1.4,5.16.5 MISC MODELS,Always Install
+Detailed Carriages,2.09c,5.16.5 MISC MODELS,Ultra
+Detailed Carriages (Redux),2.09c,5.16.5 MISC MODELS,Redux
+Nolvus Ascension Model Patch,5.2,5.16.5 MISC MODELS,Always Install
+Smoking Torches and Candles,1.76,5.17 LIGHTING EFFECTS & PARTICLES,Always Install
+Burned Corspe,0,5.17 LIGHTING EFFECTS & PARTICLES,Always Install
+Deadly Spell Impacts,1.7,5.17 LIGHTING EFFECTS & PARTICLES,Always Install
+Deadly Spells Impacts Transparency Fix,3.1,5.17 LIGHTING EFFECTS & PARTICLES,Always Install
+Parallax Spell Impacts,2,5.17 LIGHTING EFFECTS & PARTICLES,Always Install
+Electrify,4,5.17 LIGHTING EFFECTS & PARTICLES,Always Install
+Dust Effects,1,5.17 LIGHTING EFFECTS & PARTICLES,Always Install
+Frozen in Time,1.1,5.17 LIGHTING EFFECTS & PARTICLES,Always Install
+Rudy HQ - More Lights for ENB - Deathbells and Nirnroots,1.0b,5.17 LIGHTING EFFECTS & PARTICLES,Always Install
+Rudy HQ - More Lights for ENB - Glowing Mushrooms,1.0a,5.17 LIGHTING EFFECTS & PARTICLES,Always Install
+Rudy HQ - More Lights for ENB - Decal Fix,0.4,5.17 LIGHTING EFFECTS & PARTICLES,Always Install
+Fluffy Moths,1,5.17 LIGHTING EFFECTS & PARTICLES,Always Install
+ENB Particle Lights - Dwemer Lanterns,1.02,5.17 LIGHTING EFFECTS & PARTICLES,Always Install
+ENB Particle Lights - Bugs in a Jar,1.1a,5.17 LIGHTING EFFECTS & PARTICLES,Always Install
+ENB Particle Lights - Undead Creatures,1.1,5.17 LIGHTING EFFECTS & PARTICLES,Always Install
+ENB Particle Lights - Staff Enchanter,1.1,5.17 LIGHTING EFFECTS & PARTICLES,Always Install
+ENB Particle Lights - Nordic Ruins Candles,1.2,5.17 LIGHTING EFFECTS & PARTICLES,Always Install
+ENB Particle Lights - Effect Shaders,2,5.17 LIGHTING EFFECTS & PARTICLES,Always Install
+ENB Particle Lights - Dragon Fly,1,5.17 LIGHTING EFFECTS & PARTICLES,Always Install
+ENB Particle Lights - Light Orbs - Motes,1.1,5.17 LIGHTING EFFECTS & PARTICLES,Always Install
+ENB Particle Lights - Wisps - Witchlight,1.2,5.17 LIGHTING EFFECTS & PARTICLES,Always Install
+ENB Particle Lights - Lava,1.1,5.17 LIGHTING EFFECTS & PARTICLES,Always Install
+ENB Particle Lights - Moon Crests,1.1,5.17 LIGHTING EFFECTS & PARTICLES,Always Install
+ENB Particle Lights - Dwarven Spiders,1.1,5.17 LIGHTING EFFECTS & PARTICLES,Always Install
+ENB Particle Lights - Falmer Drips,1.1,5.17 LIGHTING EFFECTS & PARTICLES,Always Install
+ENB Particle Lights - Fire Traps,1.1,5.17 LIGHTING EFFECTS & PARTICLES,Always Install
+ENB Particle Lights - Spectral Warhound Eyes,1.1,5.17 LIGHTING EFFECTS & PARTICLES,Always Install
+ENB Particle Lights - Riekling Outposts,1.3,5.17 LIGHTING EFFECTS & PARTICLES,Always Install
+ENB Particle Lights - Ayleid Ruins,0.2,5.17 LIGHTING EFFECTS & PARTICLES,Always Install
+ENB Particle Lights - Gemstones,1.3,5.17 LIGHTING EFFECTS & PARTICLES,Always Install
+ENB Particle Lights - Alchemy and Enchanting Tables,1,5.17 LIGHTING EFFECTS & PARTICLES,Always Install
+Hot Lava - Heat Distortion,1.0.2.1,5.17 LIGHTING EFFECTS & PARTICLES,Always Install
+Hot Lava - Heat Distortion - ENB Light,1.0.2.1,5.17 LIGHTING EFFECTS & PARTICLES,Always Install
+Improved Weapon Effect - Sparkles,1.3,5.17 LIGHTING EFFECTS & PARTICLES,Always Install
+Improved Weapon Effect - Sparkles - Immersive Sounds Patch,1,5.17 LIGHTING EFFECTS & PARTICLES,Always Install
+Vibrant weapons,1,5.17 LIGHTING EFFECTS & PARTICLES,Always Install
+Arctic - Frost Effects Redux,2.1,5.17 LIGHTING EFFECTS & PARTICLES,Always Install
+Quick Light,2.2,5.17 LIGHTING EFFECTS & PARTICLES,Always Install
+Quick Light - Patch,1,5.17 LIGHTING EFFECTS & PARTICLES,Always Install
+Quick Light - Followers,0.9,5.17 LIGHTING EFFECTS & PARTICLES,Always Install
+Quick Light - Settings Loader,1,5.17 LIGHTING EFFECTS & PARTICLES,Always Install
+Quick Light - Nolvus Settings,1,5.17 LIGHTING EFFECTS & PARTICLES,Always Install
+Simple Wearable Lanterns,v1.7,5.17 LIGHTING EFFECTS & PARTICLES,Always Install
+ENB Light,0.98Alpha2,5.17 LIGHTING EFFECTS & PARTICLES,Always Install
+Weapon Animation - Dawnbreaker,1.1,5.17 LIGHTING EFFECTS & PARTICLES,Always Install
+Quick Light - Alternate Meshes,2.0.1,5.17 LIGHTING EFFECTS & PARTICLES,Always Install
+ENB Light - Dark Elf Lantern,0.2,5.17 LIGHTING EFFECTS & PARTICLES,Always Install
+Dovahnique's Diverse Dark Elf Lanterns,1,5.17 LIGHTING EFFECTS & PARTICLES,Always Install
+ENB Light - Apocrypha,0.1,5.17 LIGHTING EFFECTS & PARTICLES,Always Install
+ENB Light - Elytra and Bliss Bug,0.4,5.17 LIGHTING EFFECTS & PARTICLES,Always Install
+ENB Light - Misc Effects,1.2.1,5.17 LIGHTING EFFECTS & PARTICLES,Always Install
+Embers XD,2.8.6,5.17 LIGHTING EFFECTS & PARTICLES,Always Install
+Animated Forge Water,0.5,5.17 LIGHTING EFFECTS & PARTICLES,Always Install
+HD Better Dust Piles [2K],1,5.17 LIGHTING EFFECTS & PARTICLES,Always Install
+Improved Dust Particles,1.3,5.17 LIGHTING EFFECTS & PARTICLES,Always Install
+Lux Via,1.7,5.17 LIGHTING EFFECTS & PARTICLES,Ultra
+Lux - Via (Redux),1.7,5.17 LIGHTING EFFECTS & PARTICLES,Redux
+Lux Via - Strongholds - Largashbur Patch,1.6.1,5.17 LIGHTING EFFECTS & PARTICLES,Always Install
+Lux Orbis,3.1.1,5.17 LIGHTING EFFECTS & PARTICLES,Ultra
+Lux Orbis (Redux),3.1.1,5.17 LIGHTING EFFECTS & PARTICLES,Redux
+Lux Orbis - FYX - 3D Whiterun Drawbridge Patch,1.0.2.1,5.17 LIGHTING EFFECTS & PARTICLES,Always Install
+Lux Orbis - Strongholds - Narzulbur Patch,2.3,5.17 LIGHTING EFFECTS & PARTICLES,Always Install
+Lux Orbis - Strongholds - Largashbur Patch,1.6.1,5.17 LIGHTING EFFECTS & PARTICLES,Always Install
+Lux,6.3,5.17 LIGHTING EFFECTS & PARTICLES,Ultra
+Lux (Redux),6.3,5.17 LIGHTING EFFECTS & PARTICLES,Redux
+Lux Variants,1.3,5.17 LIGHTING EFFECTS & PARTICLES,Always Install
+Lux Interiora Distincta - JK's Silver-Blood Inn Variante,1.2,5.17 LIGHTING EFFECTS & PARTICLES,Always Install
+Simple Block Sparks,v0.31,5.17 LIGHTING EFFECTS & PARTICLES,Always Install
+Seriously Improved Sparks,1,5.17 LIGHTING EFFECTS & PARTICLES,Always Install
+Summerset Shadows Banner Fix,1.1,5.17 LIGHTING EFFECTS & PARTICLES,Always Install
+Enhanced Volumetric Lighting and Shadows,1.3.1,5.17 LIGHTING EFFECTS & PARTICLES,Always Install
+ENB Particle Lights - Rudy Candle And Smoking Torch Patch,1.1,5.17 LIGHTING EFFECTS & PARTICLES,Always Install
+Flesh FX,1.1,5.17 LIGHTING EFFECTS & PARTICLES,Always Install
+Dynamic Impact - Slash Effects X,0.201a,5.17 LIGHTING EFFECTS & PARTICLES,Always Install
+Dripping Mist Reduction,1,5.17 LIGHTING EFFECTS & PARTICLES,Always Install
+Spider WIP,0.13,5.17 LIGHTING EFFECTS & PARTICLES,Always Install
+Peltapalooza - Complex Parallax Occlusion,1,5.17 LIGHTING EFFECTS & PARTICLES,Always Install
+Nolvus Ascension Lighting Patch,5.13,5.17 LIGHTING EFFECTS & PARTICLES,Always Install
+XP32 Maximum Skeleton Special Extended,4.81,6.1 CORE ANIMATIONS & FRAMEWORK,Always Install
+XP32 Maximum Skeleton Special Extended - Fixed Scripts,1,6.1 CORE ANIMATIONS & FRAMEWORK,Always Install
+XP32 Maximum Skeleton Special Extended - Nemesis Fix,4.8.4,6.1 CORE ANIMATIONS & FRAMEWORK,Always Install
+XP32 Maximum Skeleton Special Extended - Undeath Skeleton Patch,1.1,6.1 CORE ANIMATIONS & FRAMEWORK,Always Install
+Maximum Skeletons,1.3,6.1 CORE ANIMATIONS & FRAMEWORK,Always Install
+Nemesis Unlimited Behavior Engine,v0.84-beta,6.1 CORE ANIMATIONS & FRAMEWORK,Always Install
+Nemesis - Creatures Behaviour,1.32,6.1 CORE ANIMATIONS & FRAMEWORK,Always Install
+Faster HDT-SMP,1.50.9,6.1 CORE ANIMATIONS & FRAMEWORK,Advanced Physics
+Faster HDT-SMP - KS Hairdos,1.4.3,6.1 CORE ANIMATIONS & FRAMEWORK,Advanced Physics
+Faster HDT-SMP - Perfomance Config,1,6.1 CORE ANIMATIONS & FRAMEWORK,Advanced Physics
+CBPC Equipment Physics,1.3.0,6.1 CORE ANIMATIONS & FRAMEWORK,Always Install
+Dynamic Animation Replacer,1.1.0,6.1 CORE ANIMATIONS & FRAMEWORK,Always Install
+Animation Motion Revolution,1.5.3,6.1 CORE ANIMATIONS & FRAMEWORK,Always Install
+Payload Interpreter,1.1,6.1 CORE ANIMATIONS & FRAMEWORK,Always Install
+Stances - Dynamic Animation Sets,1.4,6.1 CORE ANIMATIONS & FRAMEWORK,Always Install
+Stances - Dynamic Animation Sets - Settings Loader,1.0.1,6.1 CORE ANIMATIONS & FRAMEWORK,Always Install
+Stances - Dynamic Animation Sets - Nolvus Settings,1,6.1 CORE ANIMATIONS & FRAMEWORK,Always Install
+Stances - Based Animations for1st Person Combat,1,6.1 CORE ANIMATIONS & FRAMEWORK,Always Install
+Stances - Animal Themed Combat Icons,1,6.1 CORE ANIMATIONS & FRAMEWORK,Always Install
+True Directional Movement,2.2.3,6.1 CORE ANIMATIONS & FRAMEWORK,Always Install
+True Directional Movement - Boss Ini Tweaks,1.4,6.1 CORE ANIMATIONS & FRAMEWORK,Always Install
+True Directional Movement - LotD Boss Init Tweaks,1.1,6.1 CORE ANIMATIONS & FRAMEWORK,Always Install
+True Directional Movement - Vigilant,1.2,6.1 CORE ANIMATIONS & FRAMEWORK,Always Install
+True Directional Movement - Wheels of Lull,1,6.1 CORE ANIMATIONS & FRAMEWORK,Always Install
+True Directional Movement - Unslaad Boss Bars,V1.0,6.1 CORE ANIMATIONS & FRAMEWORK,Always Install
+True Directional Movement - Nolvus Settings,1,6.1 CORE ANIMATIONS & FRAMEWORK,Always Install
+Stagger Direction Fix,v2.02b,6.1 CORE ANIMATIONS & FRAMEWORK,Always Install
+Disable Turn Animation,1,6.1 CORE ANIMATIONS & FRAMEWORK,Always Install
+OnHit Animations Framework,v1.16,6.1 CORE ANIMATIONS & FRAMEWORK,Always Install
+Flinching,1.4,6.1 CORE ANIMATIONS & FRAMEWORK,Always Install
+Animation Queue Fix,1.0.0.0,6.1 CORE ANIMATIONS & FRAMEWORK,Always Install
+MCO Stance Framework,1.5,6.2.1 ATTACK ANIMATIONS,Always Install
+Elden Rim Moveset collection,1,6.2.1 ATTACK ANIMATIONS,Always Install
+Elden Rim Katana,1,6.2.1 ATTACK ANIMATIONS,Always Install
+AC Valhalla Inspired Animations,1.1.1,6.2.1 ATTACK ANIMATIONS,Always Install
+Aggressive Katana Moveset,1,6.2.1 ATTACK ANIMATIONS,Always Install
+Fancy Sword Moveset,1,6.2.1 ATTACK ANIMATIONS,Always Install
+Akatosh Darkness Great Sword,1.4.4,6.2.1 ATTACK ANIMATIONS,Always Install
+Scythe Moveset,1,6.2.1 ATTACK ANIMATIONS,Always Install
+Edgemaster Animations,1.0.123,6.2.1 ATTACK ANIMATIONS,Always Install
+Reversed Dual Daggers Moveset,1,6.2.1 ATTACK ANIMATIONS,Always Install
+Eskyrim - Combat Animations,1.2,6.2.1 ATTACK ANIMATIONS,Always Install
+Kamisato Ayaka,1,6.2.1 ATTACK ANIMATIONS,Always Install
+Onikiri and Ubadachi,1,6.2.1 ATTACK ANIMATIONS,Always Install
+Akatosh Prometheus,1.2,6.2.1 ATTACK ANIMATIONS,Always Install
+Spears Movesets,1,6.2.1 ATTACK ANIMATIONS,Always Install
+Spear Soldier Animations,1,6.2.1 ATTACK ANIMATIONS,Always Install
+Elden Rim Rapier Moveset,1,6.2.1 ATTACK ANIMATIONS,Always Install
+Rapier Moveset for MCO,1,6.2.1 ATTACK ANIMATIONS,Always Install
+Souls 3 Mace Animations,1.2,6.2.1 ATTACK ANIMATIONS,Always Install
+Unarmed Moveset for MCO,1,6.2.1 ATTACK ANIMATIONS,Always Install
+Skyrim Martial Arts,1,6.2.1 ATTACK ANIMATIONS,Always Install
+MCO Desert Race Animations,1,6.2.1 ATTACK ANIMATIONS,Always Install
+Leviathan Axe ADXP MCO,1,6.2.1 ATTACK ANIMATIONS,Always Install
+Nordic Warhammer Animation,1.0.0,6.2.1 ATTACK ANIMATIONS,Always Install
+ER Mixed Scythe,1,6.2.1 ATTACK ANIMATIONS,Always Install
+Nioh Spear Animation,1,6.2.1 ATTACK ANIMATIONS,Always Install
+ER Twinblades,1,6.2.1 ATTACK ANIMATIONS,Always Install
+Tower of Fantasy XIAZUO Animation,0.95,6.2.1 ATTACK ANIMATIONS,Fantasy Mode
+Mofu EldenRing Attack Animations,1,6.2.1 ATTACK ANIMATIONS,Fantasy Mode
+Dragon Age Staff Moveset,1,6.2.1 ATTACK ANIMATIONS,Always Install
+Eivor - Sprint Attacks,1.1,6.2.1 ATTACK ANIMATIONS,Always Install
+Eivor - Sprint Attacks - Faster Spears,1.1,6.2.1 ATTACK ANIMATIONS,Always Install
+CFPAO,1.0.2,6.2.1 ATTACK ANIMATIONS,Always Install
+Dynamic Bow Animation,1.1,6.2.1 ATTACK ANIMATIONS,Always Install
+Dynamic Animation Casting,1.5.1,6.2.1 ATTACK ANIMATIONS,Always Install
+Smooth Moveset,2.4,6.2.2 MOVEMENT ANIMATIONS,Always Install
+Smooth Moveset - Custom Conditions,1.3,6.2.2 MOVEMENT ANIMATIONS,Always Install
+Smooth Random Sprint Animation,3.1,6.2.2 MOVEMENT ANIMATIONS,Always Install
+Smooth Random Sprint Animation - Custom Conditions,1,6.2.2 MOVEMENT ANIMATIONS,Always Install
+Smooth Random Sprint Animation - Fast Sprinting 15,1,6.2.2 MOVEMENT ANIMATIONS,Always Install
+Smooth Random Jump Animation Rework,1.4,6.2.2 MOVEMENT ANIMATIONS,Always Install
+Parkour in Skyrim - Sprint Jump,1.3,6.2.2 MOVEMENT ANIMATIONS,Always Install
+Parkour in Skyrim - Leap of Faith,1.21,6.2.2 MOVEMENT ANIMATIONS,Always Install
+Smooth Weapon Jump Animation,1.1,6.2.2 MOVEMENT ANIMATIONS,Always Install
+Smooth Weapon Jump Animation - Custom Conditions,1.1,6.2.2 MOVEMENT ANIMATIONS,Always Install
+Sprint Sneak Movement Speed Fix,1.1.1,6.2.2 MOVEMENT ANIMATIONS,Always Install
+Walk And Run Framework,1,6.2.2 MOVEMENT ANIMATIONS,Always Install
+Vanargand Animations - Female Idle Walk and Run,1.3.1,6.2.2 MOVEMENT ANIMATIONS,Always Install
+Vanargand Animations - Male Idle Walk and Run,1.3.1,6.2.2 MOVEMENT ANIMATIONS,Always Install
+mcgFemaleWalk,1,6.2.2 MOVEMENT ANIMATIONS,Always Install
+Smooth Random Blocking Animation,3.2,6.2.2 MOVEMENT ANIMATIONS,Always Install
+Step Dodge Framework,1.1,6.2.2 MOVEMENT ANIMATIONS,Always Install
+Smooth Slip Dodge,2.2.0.0,6.2.2 MOVEMENT ANIMATIONS,Always Install
+Witcher Side Dodge,2,6.2.2 MOVEMENT ANIMATIONS,Always Install
+Nier 2B Dodge,1.1,6.2.2 MOVEMENT ANIMATIONS,Always Install
+Orakin's Left and Right Dodge,1,6.2.2 MOVEMENT ANIMATIONS,Always Install
+Orakin's Forward and Back Dodge,1,6.2.2 MOVEMENT ANIMATIONS,Always Install
+Elden Ring Step Dodge,1,6.2.2 MOVEMENT ANIMATIONS,Always Install
+Simple TKDodge Side Step,1,6.2.2 MOVEMENT ANIMATIONS,Always Install
+Non Combat Sneak Idle,1.2,6.2.2 MOVEMENT ANIMATIONS,Always Install
+BadAss Get-Up Animation,1,6.2.2 MOVEMENT ANIMATIONS,Always Install
+zxlice's ultimate potion animation,1.5.0,6.2.2 MOVEMENT ANIMATIONS,Always Install
+Awesome Potions Simplified ENB Lights - ZUPA Patch,1.1,6.2.2 MOVEMENT ANIMATIONS,Always Install
+Immersive Equipping Animations,2.01,6.2.2 MOVEMENT ANIMATIONS,Always Install
+Animated Poisons,3.2.1,6.2.2 MOVEMENT ANIMATIONS,Always Install
+Don't Sheathe Bound Weapons,1.3,6.2.2 MOVEMENT ANIMATIONS,Always Install
+Sneak Behavior Extensions - True Prone System,1.0.0,6.2.2 MOVEMENT ANIMATIONS,Always Install
+Magical Jumping,2.3,6.2.2 MOVEMENT ANIMATIONS,Fantasy Mode
+Magical Jumping - Hotfix,2.3,6.2.2 MOVEMENT ANIMATIONS,Fantasy Mode
+Magical Jumping - Smooth Jump Addon,1.1,6.2.2 MOVEMENT ANIMATIONS,Fantasy Mode
+Elden Rim Moveset Collection - NPC,1,6.3 NPC's ANIMATIONS,Always Install
+Diverse Equipment Idle,1,6.3 NPC's ANIMATIONS,Always Install
+Diverse Equipment Idle - Custom Conditions,1,6.3 NPC's ANIMATIONS,Always Install
+Conditional Armor Type Animations,1.1,6.3 NPC's ANIMATIONS,Always Install
+Conditional Armor Type Animations - Custom Conditions,1,6.3 NPC's ANIMATIONS,Always Install
+Vanargand Animations - Male Idle Walk Run - CATA Addon,1.3.1,6.3 NPC's ANIMATIONS,Always Install
+Vanargand Animations - Female Idle Walk Run - CATA Addon,1.3.1,6.3 NPC's ANIMATIONS,Always Install
+Vanargand Animations - Sprint - CATA Addon,1.3,6.3 NPC's ANIMATIONS,Always Install
+Leviathan Animations - Male Idle Walk Run -CATA Addon,1.5,6.3 NPC's ANIMATIONS,Always Install
+Leviathan Animations - Female Idle Walk Run - CATA Addon,1.5,6.3 NPC's ANIMATIONS,Always Install
+Leviathan Animations - Sprint - CATA Addon,1,6.3 NPC's ANIMATIONS,Always Install
+Goetia Animations - Male Idle Walk Run - CATA Addon,1.2,6.3 NPC's ANIMATIONS,Always Install
+Goetia Animations - Female Idle Walk Run - CATA Addon,1.2,6.3 NPC's ANIMATIONS,Always Install
+Goetia Animations - Sprint - CATA Addon,1,6.3 NPC's ANIMATIONS,Always Install
+Unbearable Taunt Animation,1.1,6.3 NPC's ANIMATIONS,Always Install
+Gesture Animation Remix,1.9.9,6.3 NPC's ANIMATIONS,Always Install
+Conditional Tavern Cheering,1.0.3,6.3 NPC's ANIMATIONS,Always Install
+Immersive Folded Hands,1.2.0,6.3 NPC's ANIMATIONS,Always Install
+Lively Children Animations,1.0.0,6.3 NPC's ANIMATIONS,Always Install
+Vanargand Animations - Archery,1,6.4 COMMON ANIMATIONS,Always Install
+Vanargand Animations - Crossbows,1,6.4 COMMON ANIMATIONS,Always Install
+Vanargand Animations - Sneak Archery,1.4,6.4 COMMON ANIMATIONS,Always Install
+Vanargand Animations - Sneak Crossbows,1.0b,6.4 COMMON ANIMATIONS,Always Install
+Vanargand Animations - Sneak Idle Walk and Run,1.1,6.4 COMMON ANIMATIONS,Always Install
+Vanargand Animations - Sneak Strike Attacks,1.1,6.4 COMMON ANIMATIONS,Always Install
+Vanargand Animations - Dual Wield Sneak Strikes,1,6.4 COMMON ANIMATIONS,Always Install
+Vanargand Animations - Sneak Thrust Attacks,1.1b,6.4 COMMON ANIMATIONS,Always Install
+Vanargand Animations - Dual Wield Sneak Thrusts,1,6.4 COMMON ANIMATIONS,Always Install
+Goetia Animations - Magic Spell Casting,1.4,6.4 COMMON ANIMATIONS,Always Install
+Goetia Animations - Sneak Magic,1.1,6.4 COMMON ANIMATIONS,Always Install
+Goetia Animations - Conditional Shouts,1.2,6.4 COMMON ANIMATIONS,Always Install
+Goetia Animations - Enchanted Staves,1.51,6.4 COMMON ANIMATIONS,Always Install
+Stronger Swimming Animation,1,6.4 COMMON ANIMATIONS,Always Install
+No Spinning Death Animation,1.311,6.4 COMMON ANIMATIONS,Always Install
+Immersive Interactions - Animated Actions,1.67,6.4 COMMON ANIMATIONS,Always Install
+Immersive Interactions - Animated Actions - Legacy Settings Loader,1.3.0,6.4 COMMON ANIMATIONS,Always Install
+Immersive Interactions - Nolvus Settings,1,6.4 COMMON ANIMATIONS,Always Install
+Dynamic Sitting Idles,1,6.4 COMMON ANIMATIONS,Always Install
+EVG Conditional Idles,1.42,6.4 COMMON ANIMATIONS,Always Install
+EVG Conditional Idles - Settings Loader,2.0.0,6.4 COMMON ANIMATIONS,Always Install
+EVG Conditional Idles - Nolvus Settings,1,6.4 COMMON ANIMATIONS,Always Install
+Conditional Expressions,1.26,6.4 COMMON ANIMATIONS,Always Install
+Sky Idles,4.4.3,6.4 COMMON ANIMATIONS,Always Install
+Underdog Animations,1.9.1,6.4 COMMON ANIMATIONS,Always Install
+Underdog Animations - Serana and Vampire Fix,1,6.4 COMMON ANIMATIONS,Always Install
+Underdog Animations - Death Animation Guarenteed,FINAL,6.4 COMMON ANIMATIONS,Always Install
+Underdog Animations - Death Animations Chance,1,6.4 COMMON ANIMATIONS,Always Install
+Dynamic Female Wall Leaning,1,6.4 COMMON ANIMATIONS,Always Install
+Dynamic Female Wall Leaning - Randomizer,1,6.4 COMMON ANIMATIONS,Always Install
+Improved Table Transition Animations,1.2,6.4 COMMON ANIMATIONS,Always Install
+Dynamic Female Hand Warming,1.3,6.4 COMMON ANIMATIONS,Always Install
+Dynamic Female Ledge Sitting,1,6.4 COMMON ANIMATIONS,Always Install
+Dynamic Female Ledge Sitting - Randomizer,1,6.4 COMMON ANIMATIONS,Always Install
+Dynamic Female Rail Leaning,1.1,6.4 COMMON ANIMATIONS,Always Install
+Dynamic Female Rail Leaning - Randomizer,1.1,6.4 COMMON ANIMATIONS,Always Install
+Random Male Wall Leaning Animations,1.2,6.4 COMMON ANIMATIONS,Always Install
+Ordinator,9.31.0,7.1 PERKS ABILITIES & POWER,Always Install
+Ordinator Reworked - Combat Mod Compatibility,1.07,7.1 PERKS ABILITIES & POWER,Always Install
+Ordinator - Scrambled Bugs compatibility,1.0.1,7.1 PERKS ABILITIES & POWER,Always Install
+Ordinator - Beyond Skyrim Patch,1.0.0.0,7.1 PERKS ABILITIES & POWER,Always Install
+Summermyst,3.07SSE,7.1 PERKS ABILITIES & POWER,Always Install
+Summermyst - Weapons Armors Clothing and Cluther Fix Patch,1.4.1,7.1 PERKS ABILITIES & POWER,Always Install
+Summermyst - Vibrant Weapons Addon,1,7.1 PERKS ABILITIES & POWER,Always Install
+Andromeda Unique Standing Stone of Skyrim,1.1.2,7.1 PERKS ABILITIES & POWER,Always Install
+Apocalypse - Magic of Skyrim,9.45.0,7.1 PERKS ABILITIES & POWER,Always Install
+Apocalypse - Ordinator Patch,9.45.0,7.1 PERKS ABILITIES & POWER,Always Install
+Apocalypse - Project AHO Spell Crafting Patch,2,7.1 PERKS ABILITIES & POWER,Always Install
+Odin,1.9.1,7.1 PERKS ABILITIES & POWER,Always Install
+Odin - Patches,1.6,7.1 PERKS ABILITIES & POWER,Always Install
+Odin - Ordinator Compatibility Patch,9.30.1,7.1 PERKS ABILITIES & POWER,Always Install
+Odin - Misc Audio Tweaks,1.1,7.1 PERKS ABILITIES & POWER,Always Install
+Odin - Spells For NPCS,1.45,7.1 PERKS ABILITIES & POWER,Always Install
+Odin - Summons Redone,1.3,7.1 PERKS ABILITIES & POWER,Always Install
+Odin - Textures Cleaned,1,7.1 PERKS ABILITIES & POWER,Always Install
+Elemental Destruction Magic Redux,1.2.0,7.1 PERKS ABILITIES & POWER,Always Install
+Triumvirate,1.8.0,7.1 PERKS ABILITIES & POWER,Always Install
+Triumvirate - ISC Patch,1.2,7.1 PERKS ABILITIES & POWER,Always Install
+Sonic Magic,1.3,7.1 PERKS ABILITIES & POWER,Always Install
+Miracles of Skyrim,1.3,7.1 PERKS ABILITIES & POWER,Always Install
+Astral Magic 2,2.43,7.1 PERKS ABILITIES & POWER,Always Install
+Storm Calling Magic 2,1.52,7.1 PERKS ABILITIES & POWER,Always Install
+Vulcano,1.0.7,7.1 PERKS ABILITIES & POWER,Always Install
+Arclight,1.0.2,7.1 PERKS ABILITIES & POWER,Always Install
+Constellation Magic,1.21,7.1 PERKS ABILITIES & POWER,Always Install
+Desecration,1.0.5,7.1 PERKS ABILITIES & POWER,Always Install
+Conduit - Short Term Weapon Infusions,2.7,7.1 PERKS ABILITIES & POWER,Always Install
+Conduit - XPMSE Patch,1,7.1 PERKS ABILITIES & POWER,Always Install
+Thunderchild,4.11SSE,7.1 PERKS ABILITIES & POWER,Always Install
+Immersive Spell Learning,1.1,7.1 PERKS ABILITIES & POWER,Always Install
+Strange Runes,3.7.3,7.1 PERKS ABILITIES & POWER,Always Install
+Strange Runes - Settings Loader,1.0.0,7.1 PERKS ABILITIES & POWER,Always Install
+GIST Soul Trap,1.3,7.1 PERKS ABILITIES & POWER,Always Install
+GIST Soul Trap - MultiLayer Parallax Soul Gems Patch,1,7.1 PERKS ABILITIES & POWER,Always Install
+GIST Soul Trap - Multilayer Parallax Soul Gems - ENB Lights Patch,1.1,7.1 PERKS ABILITIES & POWER,Always Install
+Weapon buff,4.6,7.1 PERKS ABILITIES & POWER,Always Install
+Custom Skills - Companions,1.1,7.1 PERKS ABILITIES & POWER,Always Install
+Custom Skills - Legacy of The Dragonborn,0.6,7.1 PERKS ABILITIES & POWER,Always Install
+Custom Skills - Pyromancy,1.0.1,7.1 PERKS ABILITIES & POWER,Always Install
+Custom Skills - Vigilant,2.0.0,7.1 PERKS ABILITIES & POWER,Always Install
+Custom Skills - Hand To Hand,1.1.1,7.1 PERKS ABILITIES & POWER,Always Install
+Custom Skills - Unarmoured Defense,1.1.0,7.1 PERKS ABILITIES & POWER,Always Install
+Custom Skills - Molag's Will,1.1.2,7.1 PERKS ABILITIES & POWER,Always Install
+Custom Skills - Prelude to Purgatory - A Lich Skill Tree,2.3.0,7.1 PERKS ABILITIES & POWER,Always Install
+Custom Skills - Dragonborn Shouts Perk Tree,3.1.0,7.1 PERKS ABILITIES & POWER,Always Install
+Custom Skills - UTF8 Fix,1,7.1 PERKS ABILITIES & POWER,Always Install
+Experience,2.1.1,7.1 PERKS ABILITIES & POWER,Alternate Leveling
+Experience - MCM,1.1.3,7.1 PERKS ABILITIES & POWER,Alternate Leveling
+Experience - Quests Tweak,1,7.1 PERKS ABILITIES & POWER,Alternate Leveling
+Experience - Nolvus Patch,1.1,7.1 PERKS ABILITIES & POWER,Alternate Leveling
+Static Skill Leveling,3.1,7.1 PERKS ABILITIES & POWER,Alternate Leveling
+Static Skill Levelling - AV Edits,1.1,7.1 PERKS ABILITIES & POWER,Alternate Leveling
+The Dark Arts,1.7,7.1 PERKS ABILITIES & POWER,Always Install
+The Dark Arts - Lux Patch,1,7.1 PERKS ABILITIES & POWER,Always Install
+Xyn's Reworked Elemental Cloak Spells,1.1,7.1 PERKS ABILITIES & POWER,Always Install
+Nolvus Ascension Perks Patch,5.4,7.1 PERKS ABILITIES & POWER,Always Install
+Campfire,1.12.1,7.2 SURVIVAL & NEEDS,Always Install
+Campfire - EmbersXD Patch,1.3.0.0,7.2 SURVIVAL & NEEDS,Always Install
+Campfire HD - Elsopa,1,7.2 SURVIVAL & NEEDS,Always Install
+Campfire Backpack HD [2K],1.3,7.2 SURVIVAL & NEEDS,Always Install
+SunHelm,3.1.4,7.2 SURVIVAL & NEEDS,Always Install
+SunHelm - Settings Loader,1.0.0,7.2 SURVIVAL & NEEDS,Always Install
+SunHelm - Nolvus Settings,1.1,7.2 SURVIVAL & NEEDS,Always Install
+SunHelm - Nolvus Settings (Wide Screen),1.1,7.2 SURVIVAL & NEEDS,Ultra Wide
+SunHelm - Compatibility Patches,1.1,7.2 SURVIVAL & NEEDS,Ultra
+SunHelm - Compatibility Patches (Redux),1.1,7.2 SURVIVAL & NEEDS,Redux
+SunHelm - Experience Patch,1.0.1,7.2 SURVIVAL & NEEDS,Alternate Leveling
+SunHelm - Magical Heat Sources,0.1,7.2 SURVIVAL & NEEDS,Always Install
+SunHelm - Drinking Fountains Patch,1,7.2 SURVIVAL & NEEDS,Always Install
+SunHelm - Creation Club Farming Patch,1.1,7.2 SURVIVAL & NEEDS,Always Install
+SunHelm - Waterskins,1.1,7.2 SURVIVAL & NEEDS,Always Install
+Survival Control Panel,1.1.2,7.2 SURVIVAL & NEEDS,Always Install
+Survival Control Panel - Settings Loader,1.0.0,7.2 SURVIVAL & NEEDS,Always Install
+Keep It Clean - A Bathing mod,3.15,7.2 SURVIVAL & NEEDS,Always Install
+Keep It Clean - Widget Addon,1.7.2,7.2 SURVIVAL & NEEDS,Always Install
+Keep It Clean - Widget Addon - Settings Loader,1.0.0,7.2 SURVIVAL & NEEDS,Always Install
+Keep It Clean - Widget Addon - Nolvus Settings,1,7.2 SURVIVAL & NEEDS,Always Install
+Keep It Clean - Riften Bathhouse Patch,1,7.2 SURVIVAL & NEEDS,Ultra
+Keep it Clean - New Dirt Textures,1.6,7.2 SURVIVAL & NEEDS,Always Install
+Keep it Clean - Legacy of the Dragonborn Safehouse Patch,1.0.1,7.2 SURVIVAL & NEEDS,Always Install
+Keep It Clean - Artisan Soaps,1,7.2 SURVIVAL & NEEDS,Always Install
+Keep it Clean - Hjertesten Hall Patch,1,7.2 SURVIVAL & NEEDS,Always Install
+Keep It Clean - Message Patch,1,7.2 SURVIVAL & NEEDS,Always Install
+Hunterborn,1.6.2,7.2 SURVIVAL & NEEDS,Always Install
+Hunterborn - MCM,1.6.8,7.2 SURVIVAL & NEEDS,Always Install
+Hunterborn - Ordinator Bone Arrow Patch,1.2,7.2 SURVIVAL & NEEDS,Always Install
+Hunterborn - Immersive Interactions Patch,1.2.0.0,7.2 SURVIVAL & NEEDS,Always Install
+Hunterborn - Immersive Interactions Animations,1.1,7.2 SURVIVAL & NEEDS,Always Install
+Hunterborn - Experience Patch,1.0.2,7.2 SURVIVAL & NEEDS,Alternate Leveling
+Nordic UI Icons for SunHelm,1.1,7.2 SURVIVAL & NEEDS,Always Install
+Simple Weather Icons for SunHelm,1,7.2 SURVIVAL & NEEDS,Always Install
+Instincts - Animal Taming in Skyrim,1.1.6,7.2 SURVIVAL & NEEDS,Always Install
+Instincts - Animal Taming in Skyrim - Ordinator Patch,1.1.1,7.2 SURVIVAL & NEEDS,Always Install
+Nolvus Ascension Survival Patch,5.2,7.2 SURVIVAL & NEEDS,Always Install
+Complete Crafting Overhaul Remastered,2.5.1,7.3 CRAFTING,Always Install
+Complete Crafting Overhaul Remastered - Audio Overhaul Patch,1.0.0.0,7.3 CRAFTING,Always Install
+Complete Crafting Overhaul Remastered - Amulets of Skyrim Patch,1,7.3 CRAFTING,Always Install
+Complete Crafting Overhaul Remastered - Bandoliers Patch,1.3,7.3 CRAFTING,Always Install
+Complete Crafting Overhaul Remastered - Campfire Patch,1,7.3 CRAFTING,Always Install
+Complete Crafting Overhaul Remastered - Cloaks of Skyrim Patch,1.2,7.3 CRAFTING,Always Install
+Complete Crafting Overhaul Remastered - Faction Crossbows Patch,1,7.3 CRAFTING,Always Install
+Complete Crafting Overhaul Remastered - Ingots and Ore HD Patch,2.1,7.3 CRAFTING,Always Install
+Complete Crafting Overhaul Remastered - Ordinator Patch,1.2,7.3 CRAFTING,Always Install
+Complete Crafting Overhaul Remastered - Winter is Coming Patch,1.1,7.3 CRAFTING,Always Install
+Complete Crafting Overhaul Remastered - Immersive Sounds Patch,1,7.3 CRAFTING,Always Install
+Complete Crafting Overhaul Remastered - New Legion Patch,1.2,7.3 CRAFTING,Always Install
+Complete Crafting Overhaul Remastered - Fishing Patch,1.4,7.3 CRAFTING,Always Install
+Complete Crafting Overhaul Remastered - Beyond Skyrim - Bruma Patch,1.1,7.3 CRAFTING,Always Install
+Complete Crafting Overhaul Remastered - Gemling Queen Jewelry Patch,1,7.3 CRAFTING,Always Install
+Complete Crafting Overhaul Remastered - JaySuS Swords Patch,1.1.0.0,7.3 CRAFTING,Always Install
+Complete Crafting Overhaul Remastered - The Dark Arts Patch,beta,7.3 CRAFTING,Always Install
+Complete Crafting Overhaul Remastered - Sons of Skyrim Patch,beta,7.3 CRAFTING,Always Install
+Complete Alchemy and Cooking Overhaul,2.1.1,7.3 CRAFTING,Always Install
+Complete Alchemy and Cooking Overhaul - SKSE Update,2.0.8,7.3 CRAFTING,Always Install
+Complete Alchemy and Cooking Overhaul - USSEP Patch,1.5,7.3 CRAFTING,Always Install
+Complete Alchemy and Cooking Overhaul - Bruma Patch,1.2.0.0,7.3 CRAFTING,Always Install
+Complete Alchemy and Cooking Overhaul - Cutting Room Floor Patch,1,7.3 CRAFTING,Always Install
+Complete Alchemy and Cooking Overhaul - Ordinator Patch,1.05,7.3 CRAFTING,Always Install
+Complete Alchemy and Cooking Overhaul - Riften Docks Overhaul Patch,1,7.3 CRAFTING,Ultra
+Complete Alchemy and Cooking Overhaul - SunHelm Patch,1.2,7.3 CRAFTING,Always Install
+Complete Alchemy and Cooking Overhaul - Hunterborn MCM Patch,1.05,7.3 CRAFTING,Always Install
+Complete Alchemy and Cooking Overhaul - Wyrmstooth Patch,1.01,7.3 CRAFTING,Always Install
+Complete Alchemy and Cooking Overhaul - Inigo Patch,1.01,7.3 CRAFTING,Always Install
+Complete Alchemy and Cooking Overhaul - Audio Overhaul Patch,1,7.3 CRAFTING,Always Install
+Complete Alchemy and Cooking Overhaul - Bittercup Patch,1.1,7.3 CRAFTING,Always Install
+Complete Alchemy and Cooking Overhaul - Bloodchill Manor Patch,1,7.3 CRAFTING,Always Install
+Complete Alchemy and Cooking Overhaul - Bow of Shadows Patch,1,7.3 CRAFTING,Always Install
+Complete Alchemy and Cooking Overhaul - 3D Mountain Flowers Patch,1,7.3 CRAFTING,Always Install
+Complete Alchemy and Cooking Overhaul - Elysium Estate Patch,1,7.3 CRAFTING,Always Install
+Complete Alchemy and Cooking Overhaul - Fishing Patch,1.3,7.3 CRAFTING,Always Install
+Complete Alchemy and Cooking Overhaul - Forgotten Seasons Patch,1,7.3 CRAFTING,Always Install
+Complete Alchemy and Cooking Overhaul - Goblins Patch,1,7.3 CRAFTING,Always Install
+Complete Alchemy and Cooking Overhaul - Nix-Hound Patch,1,7.3 CRAFTING,Always Install
+Complete Alchemy and Cooking Overhaul - Plague of the Dead Patch,1,7.3 CRAFTING,Always Install
+Complete Alchemy and Cooking Overhaul - Rare Curios Patch,1.01,7.3 CRAFTING,Always Install
+Complete Alchemy and Cooking Overhaul - Saints and Seducers Patch,1,7.3 CRAFTING,Always Install
+Complete Alchemy and Cooking Overhaul - The Cause Patch,1,7.3 CRAFTING,Always Install
+Complete Alchemy and Cooking Overhaul - Undeath Patch,1,7.3 CRAFTING,Always Install
+Complete Alchemy and Cooking Overhaul - The Dark Arts Patch,1,7.3 CRAFTING,Always Install
+Complete Alchemy and Cooking Overhaul - Beyond Reach Patch,1.2,7.3 CRAFTING,Always Install
+Animal Blood Potions for Vampires,1.8,7.3 CRAFTING,Always Install
+Craftable Lockpicks,1,7.3 CRAFTING,Always Install
+Honed Metal,1.23,7.3 CRAFTING,Always Install
+Honed Metal - Additional Materials,1.2,7.3 CRAFTING,Always Install
+Honed Metal - Revoiced,1.7,7.3 CRAFTING,Always Install
+HonedMetal - Ordinator Ini,1.23,7.3 CRAFTING,Always Install
+Vitrium - Spells and Tools Pack,12.4.2,7.3 CRAFTING,Always Install
+Decoction in Skyrim,3,7.3 CRAFTING,Always Install
+Nolvus Ascension Crafting Patch,5.2,7.3 CRAFTING,Always Install
+SmoothCam,1.7,7.4 COMBATS & ENEMIES,Always Install
+SmoothCam - Modern Camera Preset,1.5,7.4 COMBATS & ENEMIES,Always Install
+SmoothCam - Raven's Gaze Valhalla Preset,1,7.4 COMBATS & ENEMIES,Always Install
+SmoothCam - Souls Like Preset,2.1,7.4 COMBATS & ENEMIES,Always Install
+IFrame Generator RE,v1.03,7.4 COMBATS & ENEMIES,Always Install
+ADXP - MCO,1.6.0.6,7.4 COMBATS & ENEMIES,Always Install
+MCO Universal Support,1,7.4 COMBATS & ENEMIES,Always Install
+One Click Power Attack,1.1.3,7.4 COMBATS & ENEMIES,Always Install
+Ultimate Combat,3.5,7.4 COMBATS & ENEMIES,Always Install
+Ultimate Combat - 0 Damage Bug Fix,1,7.4 COMBATS & ENEMIES,Always Install
+Ultimate Combat - Settings Loader,2.0.2,7.4 COMBATS & ENEMIES,Always Install
+Ultimate Combat - Nolvus Settings,1,7.4 COMBATS & ENEMIES,Always Install
+TK Dodge,3.18,7.4 COMBATS & ENEMIES,Always Install
+TK Dodge - Sounds,0,7.4 COMBATS & ENEMIES,Always Install
+TK Dodge RE,v0.48a,7.4 COMBATS & ENEMIES,Always Install
+Smooth TK Dodge Attack,2,7.4 COMBATS & ENEMIES,Always Install
+Valhalla Combat,1.3.3,7.4 COMBATS & ENEMIES,Always Install
+Valhalla Combat - Nolvus Settings,1,7.4 COMBATS & ENEMIES,Always Install
+Valhalla Combat - Draugr MCO Execution Patch,1,7.4 COMBATS & ENEMIES,Always Install
+SCAR - Skyrim Combos AI Revolution,1.06a,7.4 COMBATS & ENEMIES,Always Install
+SCAR - Stamina Limitation,v1.2,7.4 COMBATS & ENEMIES,Always Install
+POISE - Stagger Overhaul,1.0.2,7.4 COMBATS & ENEMIES,Hardcore Mode
+Poisebreaker - A Poise Mod Addon,0.7.0,7.4 COMBATS & ENEMIES,Hardcore Mode
+Precision - Accurate Melee Collisions,2.0.2,7.4 COMBATS & ENEMIES,Always Install
+Precision - Creatures,2,7.4 COMBATS & ENEMIES,Always Install
+Hot Key Skill,0.6,7.4 COMBATS & ENEMIES,Always Install
+Bow Rapid Combo V3 - Archer Combat Overhaul,1.4,7.4 COMBATS & ENEMIES,Always Install
+Bow Charge Plus,0.9,7.4 COMBATS & ENEMIES,Always Install
+3rd Person Camera Stagger Remover,1,7.4 COMBATS & ENEMIES,Always Install
+Unblockable Attacks,1,7.4 COMBATS & ENEMIES,No Hardcore Mode
+Fix Blocking Move,1,7.4 COMBATS & ENEMIES,Always Install
+Wider Block Angle,1,7.4 COMBATS & ENEMIES,Always Install
+Block Enchantments,1,7.4 COMBATS & ENEMIES,Always Install
+Additional Attack,1.1,7.4 COMBATS & ENEMIES,Always Install
+Additional Attack - Sekiro Nightjar Slash Reversal,1,7.4 COMBATS & ENEMIES,Always Install
+Additional Attack - Sekiro Whirlwind Slash,0,7.4 COMBATS & ENEMIES,Always Install
+Crouch Sliding,1,7.4 COMBATS & ENEMIES,Always Install
+Elden Counter,1.6,7.4 COMBATS & ENEMIES,Always Install
+VioLens - A Killmove Mod,2.3,7.4 COMBATS & ENEMIES,Always Install
+VioLens - A Killmove Mod - Settings Loader,1.1.0,7.4 COMBATS & ENEMIES,Always Install
+VioLens - A Killmove Mod - Nolvus Settings,1,7.4 COMBATS & ENEMIES,Always Install
+Dual Wield Parrying Reimplementation,1,7.4 COMBATS & ENEMIES,Always Install
+Dual Wield Parrying Reimplementation - Settings Loader,1.1,7.4 COMBATS & ENEMIES,Always Install
+Dual Wield Parrying Reimplementation - Nolvus Settings,1,7.4 COMBATS & ENEMIES,Always Install
+No BS AI Projectile Dodge,1.3,7.4 COMBATS & ENEMIES,Always Install
+Book Of Shadows,1.2.0,7.4 COMBATS & ENEMIES,Always Install
+Take a Peek - New Stealth Mechanic,1.15,7.4 COMBATS & ENEMIES,Always Install
+Maximum Carnage,7.7,7.4 COMBATS & ENEMIES,Always Install
+Maximum Carnage - MCO,7.7,7.4 COMBATS & ENEMIES,Always Install
+Maximum Carnage - Settings Loader,1.2.0,7.4 COMBATS & ENEMIES,Always Install
+Maximum Carnage - Nolvus Settings,1.2,7.4 COMBATS & ENEMIES,Always Install
+Maximum Carnage - 3BA Patch,1,7.4 COMBATS & ENEMIES,Always Install
+Maximum Carnage - Bears of the North Patch,1,7.4 COMBATS & ENEMIES,Always Install
+Heatnixx Maximum Mending Patch,1,7.4 COMBATS & ENEMIES,Always Install
+Maximum Destruction,1.3.0.0,7.4 COMBATS & ENEMIES,Always Install
+Maximum Destruction - Corpse Explosion Remover,1,7.4 COMBATS & ENEMIES,Always Install
+Action Based Projectiles,1.1a,7.4 COMBATS & ENEMIES,Always Install
+Action Based Projectiles - ISC Patch,1,7.4 COMBATS & ENEMIES,Always Install
+Action Based Projectiles - AOS Patch,1,7.4 COMBATS & ENEMIES,Always Install
+Action Based Projectiles - Odin Patch,1,7.4 COMBATS & ENEMIES,Always Install
+Action Based Projectiles - Faction Crossbows Patch,1,7.4 COMBATS & ENEMIES,Always Install
+Action Based Projectiles - Assorted Patches,1.1.0,7.4 COMBATS & ENEMIES,Always Install
+Obis,2.76,7.4 COMBATS & ENEMIES,Always Install
+Obis - Settings Loader,1,7.4 COMBATS & ENEMIES,Always Install
+Obis - Nolvus Settings,1,7.4 COMBATS & ENEMIES,Always Install
+Obis - Unplayable Faction Armors Patch,1.2,7.4 COMBATS & ENEMIES,Always Install
+Obis - Modpocalypse NPCs,1,7.4 COMBATS & ENEMIES,Always Install
+Smart NPC Potions,1.11,7.4 COMBATS & ENEMIES,Always Install
+Equipment Durability System,1.0.6,7.4 COMBATS & ENEMIES,Always Install
+Modern Combat AI,1,7.4 COMBATS & ENEMIES,Always Install
+Comprehensive Attack Speed Patch,1.0.1.2,7.4 COMBATS & ENEMIES,Always Install
+Thicc Thighs Take Lives,4,7.4 COMBATS & ENEMIES,Always Install
+Armor Rating Redux,2.0.10,7.4 COMBATS & ENEMIES,Always Install
+Skyrim Revamped - Loot and Encounter Zones,2,7.4 COMBATS & ENEMIES,Hardcore Mode
+Skyrim Revamped - Loot and Encounter Zones - Summermyst Patch,2,7.4 COMBATS & ENEMIES,Hardcore Mode
+Skyrim Revamped - Complete Enemy Overhaul,2.43,7.4 COMBATS & ENEMIES,Hardcore Mode
+Skyrim Revamped - Complete Enemy Overhaul - Modpocalypse NPCs,1,7.4 COMBATS & ENEMIES,Hardcore Mode
+Nolvus Ascension Hardcore Patch,5.1,7.4 COMBATS & ENEMIES,Hardcore Mode
+Nolvus Ascension Combat Patch,5,7.4 COMBATS & ENEMIES,Always Install
+Trade and Barter,2,7.5 ECONOMY,Always Install
+Trade and Barter - Bruma Patch,1.1.0.0,7.5 ECONOMY,Always Install
+Imperial Mail - Post and Banking Service Continued,2.22,7.5 ECONOMY,Always Install
+Imperial Mail - Cities of the North - Falkreath Patch,1.0.0,7.5 ECONOMY,Always Install
+Trade Routes - Regional Economy,3.0b,7.5 ECONOMY,Always Install
+COIN - Coins of Interesting Natures,2.1.2,7.5 ECONOMY,Always Install
+COIN - Coins of Interesting Natures - Hardcore Patch,1,7.5 ECONOMY,Hardcore Mode
+COIN - Merchant Exchange,2.1.0,7.5 ECONOMY,Always Install
+LandLord,2.4.3,7.5 ECONOMY,Always Install
+Nolvus Ascension Economy Patch,5.3,7.5 ECONOMY,Always Install
+AI Overhaul,1.8.2,7.6 AI,Always Install
+AI Overhaul - Cutting Room Floor Patch,1.0.3,7.6 AI,Always Install
+AI Overhaul - RS Children Overhaul Patch,AE.0,7.6 AI,Always Install
+AI Overhaul - Interesting NPCs Patch,1.1,7.6 AI,Always Install
+AI Overhaul - Dawn of Skyrim Patch,1.1,7.6 AI,Ultra
+AI Overhaul - Half-Moon Mill Patch,1.11,7.6 AI,Always Install
+Run For Your Lives,4.0.3,7.6 AI,Always Install
+Guard Dialogue Overhaul,2.18,7.6 AI,Always Install
+Relationship Dialogue Overhaul,Final,7.6 AI,Always Install
+Relationship Dialogue Overhaul - Cutting Room Floor Patch,Final,7.6 AI,Always Install
+Relationship Dialogue Overhaul - Complete Alchemy Patch,1,7.6 AI,Always Install
+Relationship Dialogue Overhaul - AI Overhaul Patch,1.0.1,7.6 AI,Always Install
+Realistic Conversations,2.1,7.6 AI,Always Install
+NPC AI Process Position Fix - NG,1.1.1,7.6 AI,Always Install
+Realistic AI Detection,3.1,7.6 AI,Hardcore Mode
+SPID NPC Trap Safety,0.1,7.6 AI,Always Install
+Nolvus Ascension AI Patch,5.2,7.6 AI,Always Install
+Wintersun,3.2.0,7.7 RELIGION,Always Install
+Wintersun - Complete Alchemy and Cooking Overhaul Patch,1.4,7.7 RELIGION,Always Install
+Wintersun - Daedric Shrines - Clavicus Vile Patch,1.01,7.7 RELIGION,Always Install
+Wintersun - Daedric Shrines - Mephala Patch,1,7.7 RELIGION,Always Install
+Wintersun - Daedric Shrines - Hircine Patch,1.02,7.7 RELIGION,Always Install
+Wintersun - Daedric Shrines - Sanguine Patch,1.01,7.7 RELIGION,Always Install
+Wintersun - Daedric Shrines - Sheogorath Patch,1,7.7 RELIGION,Always Install
+Wintersun - Daedric Shrines - Namira Patch,1.01,7.7 RELIGION,Always Install
+Wintersun - Daedric Shrines - Molag Bal Patch,1,7.7 RELIGION,Always Install
+Wintersun - Daedric Shrines - Vaermina Patch,1,7.7 RELIGION,Always Install
+Wintersun - Daedric Shrines - Hermaeus Mora Patch,1,7.7 RELIGION,Always Install
+Wintersun - Daedric Shrines - Azura Patch,1,7.7 RELIGION,Always Install
+Wintersun - Daedric Shrines - Jyggalag,1,7.7 RELIGION,Always Install
+Wintersun - Prelude to Purgatory Patch,1.1.0,7.7 RELIGION,Always Install
+Nether's Follower Framework,2.8.3b,7.8 MISC GAMEPLAY,Always Install
+Nether's Follower Framework - Settings Loader,1,7.8 MISC GAMEPLAY,Always Install
+Nether's Follower Framework - Easy Wheel Menu Patch,1,7.8 MISC GAMEPLAY,Always Install
+Skyrim Reputation,2.4,7.8 MISC GAMEPLAY,Always Install
+Skyrim Reputation - Unofficial Patch,1.2,7.8 MISC GAMEPLAY,Always Install
+Skyrim Reputation Improved,1.3.3,7.8 MISC GAMEPLAY,Always Install
+A Closer Look,1.3.0,7.8 MISC GAMEPLAY,Always Install
+Timing is Everything,2.2,7.8 MISC GAMEPLAY,Always Install
+Smart Optimal Salves - Optimal Potion,0.3,7.8 MISC GAMEPLAY,Always Install
+Smart Optimal Salves - Duration Patch,0.2,7.8 MISC GAMEPLAY,Always Install
+Headhunter - Bounties Redone,1.43,7.8 MISC GAMEPLAY,Always Install
+Disable Follower Collision,1.0.0,7.8 MISC GAMEPLAY,Always Install
+I'm Walkin' Here,1.5.0,7.8 MISC GAMEPLAY,Always Install
+I'm Talkin' Here,1.1,7.8 MISC GAMEPLAY,Always Install
+Simple Offence Suppression,2.2.1,7.8 MISC GAMEPLAY,Always Install
+EVG Animated Traversal,1.0b,7.8 MISC GAMEPLAY,Always Install
+EVG Animated Traversal - Patch Collection,1.3.4,7.8 MISC GAMEPLAY,Always Install
+Maleficus' Traversal,1.8,7.8 MISC GAMEPLAY,Always Install
+Simplest Horses,0.9.5,7.8 MISC GAMEPLAY,Always Install
+Animated Whistling,1.11,7.8 MISC GAMEPLAY,Always Install
+Simplest Horses - Animated Whistling Patch,0.9.5,7.8 MISC GAMEPLAY,Always Install
+Instantly Skip Dialogue NG,1.0.0,7.8 MISC GAMEPLAY,Always Install
+Skyrim's Paraglider,1.5.0,7.8 MISC GAMEPLAY,Always Install
+Skyrim's Paraglider - Fix,1.2,7.8 MISC GAMEPLAY,Always Install
+Skyrim's Paraglider - Vampire And Werewolf Patch,1,7.8 MISC GAMEPLAY,Always Install
+Nolvus Ascension Misc Gameplay Patch,5.1,7.8 MISC GAMEPLAY,Always Install
+Aetherius - A Race Overhaul,2.8.3,7.9 RACES,Always Install
+Growl,3.0.0,7.9 RACES,Always Install
+Growl - Complete Alchemy And Cooking Overhaul Patch,1.1.1,7.9 RACES,Always Install
+Growl - Skyrim Reputation Patch,1,7.9 RACES,Always Install
+Conditional Werewolf Howl,2,7.9 RACES,Always Install
+Sacrosanct,6.0.0,7.9 RACES,Always Install
+Sacrosanct - Complete Alchemy and Cooking Overhaul Patch,2.1,7.9 RACES,Always Install
+Sacrosanct - Skyrim Reputation Patch,1,7.9 RACES,Always Install
+Sacrosanct - Animal Blood Potion Patch,1,7.9 RACES,Always Install
+Equipable Vampire Claws,1,7.9 RACES,Always Install
+Equipable Vampire Claws - Racemenu Slider,1,7.9 RACES,Always Install
+Vampires Cast No Shadow,1.2.1,7.9 RACES,Always Install
+Burning Silver,1.2,7.9 RACES,Always Install
+Nolvus Ascension Races Patch,5.2,7.9 RACES,Always Install
+Simple Dual Sheath,1.5.4,8. IMMERSION,Always Install
+Immersive Equipment Displays,1.6.3,8. IMMERSION,Always Install
+Go to bed,2.0.7.0,8. IMMERSION,Always Install
+Go to bed - Patches,1,8. IMMERSION,Always Install
+Go to bed - Complete Crafting Overhaul Patch,1,8. IMMERSION,Always Install
+No NPC Greetings,2.0a,8. IMMERSION,Always Install
+Simply Knock,1.0.3,8. IMMERSION,Always Install
+Simply Knock - SKSE,4,8. IMMERSION,Always Install
+Simply Knock - Andromeda Patch,1.2,8. IMMERSION,Always Install
+Immersive Speechcraft,1.1,8. IMMERSION,Always Install
+Immersive Speech Dialogue,1,8. IMMERSION,Always Install
+Misc Dialogue Edits,1.8,8. IMMERSION,Always Install
+More Dialogue Options,1.4,8. IMMERSION,Always Install
+YOT - Your Own Thoughts,4.2,8. IMMERSION,Always Install
+The Choice is Yours,2.5,8. IMMERSION,Always Install
+The Choice is Yours - Bittercup,1,8. IMMERSION,Always Install
+The Choice is Yours - Bloodchill Manor,1,8. IMMERSION,Always Install
+The Choice is Yours - Headman's Cleaver,1,8. IMMERSION,Always Install
+The Choice is Yours - Hendraheim,1,8. IMMERSION,Always Install
+The Choice is Yours - Plague of the Dead,1,8. IMMERSION,Always Install
+The Choice is Yours - Saints and Seducers,1.2.0.0,8. IMMERSION,Always Install
+The Choice is Yours - Staff of Sheogorath,1,8. IMMERSION,Always Install
+The Choice is Yours - Sunder and Wraithguard,1,8. IMMERSION,Always Install
+The Choice is Yours - Vigil Enforcer Armor Set,1,8. IMMERSION,Always Install
+The Choice is Yours - Cutting Room Floor Patch,1.1,8. IMMERSION,Always Install
+The Choice is Yours - Wintersun,1.2,8. IMMERSION,Always Install
+SkyRem - Mia,2.1.3,8. IMMERSION,Always Install
+SkyRem - Mia - Settings Loader,1.0.1,8. IMMERSION,Always Install
+Skyrem - Mia - Nolvus Settings,1,8. IMMERSION,Always Install
+Carriage Stops of Skyrim,1.6,8. IMMERSION,Always Install
+Better Courier,1.8.2.0,8. IMMERSION,Always Install
+Dapper Deliveries - A Courier Overhaul,1,8. IMMERSION,Always Install
+ElSopa Big Backpack,1.1,8. IMMERSION,Always Install
+Informed Mail Delivery,1.4,8. IMMERSION,Always Install
+Dynamic Things Alternative,0.2.1,8. IMMERSION,Always Install
+Even Better Quest Objectives,1.9.2,8. IMMERSION,Always Install
+Sleeping Expanded,1.22,8. IMMERSION,Always Install
+Wash That Blood Off 2,2,8. IMMERSION,Always Install
+Realistic Boat Bobbing,8.2,8. IMMERSION,Always Install
+Realistic Boat Bobbing - SMIM Meshes,4,8. IMMERSION,Always Install
+Realistic Boat Bobbing - USSEP Patch,1,8. IMMERSION,Always Install
+Realistic Boat Bobbing - Wyrmstooth Patch,1,8. IMMERSION,Always Install
+Realistic Boat Bobbing - Riften Dock Overhaul Patch,0.7,8. IMMERSION,Ultra
+Bandit Lines Expansion,1.06,8. IMMERSION,Always Install
+Detailed NPCs - Basket Backpacks for NPCs,2,8. IMMERSION,Always Install
+Detailed NPCs - Random Bandages for NPCs,1.2,8. IMMERSION,Always Install
+Seasonal Wildlife Distribution,1.3,8. IMMERSION,Always Install
+Carry My Stuff Horse,2,8. IMMERSION,Always Install
+Whale Bones on Coasts,1,8. IMMERSION,Always Install
+The Coachmen,1.1,8. IMMERSION,Ultra
+The Coachmen (Redux),1.1,8. IMMERSION,Redux
+Carriage Guards,1.1,8. IMMERSION,Ultra
+Carriage Guards (Redux),1.1,8. IMMERSION,Redux
+NPCs React To Necromancy,1.02,8. IMMERSION,Always Install
+NPCs React To Invisibility,1.03,8. IMMERSION,Always Install
+NPCs React To Invisibility - Bow of Shadows Patch,1.03,8. IMMERSION,Always Install
+Ships On The Horizon,1.1,8. IMMERSION,Always Install
+Immersive Death Cycle,1,8. IMMERSION,Always Install
+Nolvus Ascension Immersion Patch,5.4,8. IMMERSION,Always Install
+Legacy of the Dragonborn Patches (Official),2.9.8,9. LATE LOADERS,Ultra
+Legacy of the Dragonborn Patches (Official) (Redux),2.9.8,9. LATE LOADERS,Redux
+The Elder Scrolls Legends - Tweaks and Addons,1.7.1.0,9. LATE LOADERS,Always Install
+Nolvus Ascension Core Patch,5.7,9. LATE LOADERS,Alternate Start
+Nolvus Ascension Core Patch - Vanilla Start,5.7,9. LATE LOADERS,Vanilla Start
+Nolvus Ascension Container Patch,5,9. LATE LOADERS,Always Install
+eFPS - Exterior FPS boost,2.4.2,9. LATE LOADERS,Always Install
+eFPS - AnniversaryEdition,1.1,9. LATE LOADERS,Always Install
+eFPS - Official Patch Hub,1.7a,9. LATE LOADERS,Ultra
+eFPS - Official Patch Hub (Redux),1.7a,9. LATE LOADERS,Redux
+eFPS - Miscellaneous Patches,1.2,9. LATE LOADERS,Always Install
+eFPS - Unofficial Patches,1.35,9. LATE LOADERS,Ultra
+eFPS - Unofficial Patches (Redux),1.35,9. LATE LOADERS,Redux
+eFPS - Strongholds - Narzulbur,2.3,9. LATE LOADERS,Always Install
+eFPS - Strongholds - Largashbur,1.6.1,9. LATE LOADERS,Always Install
+eFPS - Nolvus Patch,1,9. LATE LOADERS,Always Install
+Serana Dialogue Add-On Patch Hub,2.5,9. LATE LOADERS,Always Install
+Serana Dialogue Add-On Custom Patch,1,9. LATE LOADERS,Always Install
+Unofficial Lux Parallax Patch,1.01,9. LATE LOADERS,Always Install
+Regenerated FaceGen,1,9. LATE LOADERS,Always Install
+NOLVUS - Dark Faces Super Patch - Ultra,1.1,9. LATE LOADERS,UltraNo Hardcore Mode
+NOLVUS - Dark Faces Super Patch - Ultra - Hardcore,1.1,9. LATE LOADERS,UltraHardcore Mode
+NOLVUS - Dark Faces Super Patch - Redux,1.1,9. LATE LOADERS,ReduxNo Hardcore Mode
+NOLVUS - Dark Faces Super Patch - Redux - Hardcore,1.1,9. LATE LOADERS,ReduxHardcore Mode
+Nolvus Meshes Patch,1.2,9. LATE LOADERS,Always Install
+Nolvus Ascension Later Loader Patch,5,9. LATE LOADERS,Always Install
+WDAL Patch Collection,1,9. LATE LOADERS,Always Install
+Synthesis Patch,1.9,10. OUTPUTS,Ultra
+Synthesis Patch (Redux),1.7,10. OUTPUTS,Redux
+Nemesis Output (Standard),1.4,10. OUTPUTS,No Hardcore Mode
+Nemesis Output (Hardcore),1.4,10. OUTPUTS,Hardcore Mode
+CBBE-3BA - Physics Armors and Clothes (Dressed),1.4,10. OUTPUTS,Dressed
+CBBE-3BA - Physics Armors and Clothes (Nude),1.4,10. OUTPUTS,Nude
+LODGEN,1.2,10. OUTPUTS,Ultra
+LODGEN (Redux),1.2,10. OUTPUTS,Redux
+DynDOLOD - Textures,1.3,10. OUTPUTS,Ultra
+DynDOLOD - Textures (Redux),1.2,10. OUTPUTS,Redux
+DynDOLOD - Output,1.3,10. OUTPUTS,Ultra | Ultra Lods
+DynDOLOD - Output - Performance,1.3,10. OUTPUTS,Ultra | Performance Lods
+DynDOLOD - Output - Ultra Performance,1.3,10. OUTPUTS,Ultra | Ultra Performance Lods
+DynDOLOD - Output (Redux),1.2,10. OUTPUTS,Redux
+Flat World Map Framework,1.86,10. OUTPUTS,Always Install
+Skyrim Paper Map,1.72,10. OUTPUTS,Always Install
+Dayspring Canyon Paper Map,1.7,10. OUTPUTS,Always Install
+Markarth Paper Map,1.7,10. OUTPUTS,Always Install
+Duncan's Paper Maps,1.73,10. OUTPUTS,Always Install
+Blackreach Paper Map,1.75,10. OUTPUTS,Always Install
+Sovngarde Paper Map,1.72,10. OUTPUTS,Always Install
+Forgotten Vale Paper Map,1.8,10. OUTPUTS,Always Install
+Soul Cairn Paper Map,1.8,10. OUTPUTS,Always Install
+Paper Coldharbour Map,1,10. OUTPUTS,Always Install
+Paper Coldharbour Map - Update,1,10. OUTPUTS,Always Install
+Skuldafn Paper Map,1.1,10. OUTPUTS,Always Install
+Skuldafn Paper Map - Update,1,10. OUTPUTS,Always Install
+Deepwood Vale Paper Map,1.71,10. OUTPUTS,Always Install
+Paper Darkend Map,1,10. OUTPUTS,Always Install
+Paper Darkend Map - Update,1,10. OUTPUTS,Always Install
+ENB Binaries,0.494,11. ENB & RESHADE,Always Install
+ENB Grass Collisions,1.3,11. ENB & RESHADE,Always Install
+ENB Parallax Occlusion Mapping,2,11. ENB & RESHADE,Always Install
+ENB Dynamic Cubemaps,1,11. ENB & RESHADE,Always Install
+Subtle Eye Cubemap,3,11. ENB & RESHADE,Always Install
+PI-CHO ENB,8.1,11. ENB & RESHADE,PI-CHO ENB
+RUDY ENB,1.1a,11. ENB & RESHADE,Rudy ENB
+Rudy ENB NAT Addons,1.1a,11. ENB & RESHADE,Rudy ENB
+BJORN ENB,1,11. ENB & RESHADE,Bjorn ENB
+Bjorn ENB NAT Patch,1,11. ENB & RESHADE,Bjorn ENB
+Bjorn ENB NAT Patch - WDAL Fix,1,11. ENB & RESHADE,Bjorn ENB
+BJORN ENB - DARK AGES,1,11. ENB & RESHADE,Bjorn Dark Ages ENB
+BJORN ENB - DARK AGES INI,1,11. ENB & RESHADE,Bjorn Dark Ages ENB
+Bjorn ENB Dark Ages NAT Patch,1,11. ENB & RESHADE,Bjorn Dark Ages ENB
+Bjorn ENB Dark Ages NAT Patch - WDAL Fix,1,11. ENB & RESHADE,Bjorn Dark Ages ENB
+Bjorn ENB - The White Wolf Cut,1,11. ENB & RESHADE,Bjorn ENB - The White Wolf Cut
+Bjorn ENB - The White Wolf Cut INI,1,11. ENB & RESHADE,Bjorn ENB - The White Wolf Cut
+Bjorn ENB - The White Wolf Cut NAT Patch,1,11. ENB & RESHADE,Bjorn ENB - The White Wolf Cut
+Bjorn ENB - The White Wolf Cut NAT Patch - WDAL Fix,1,11. ENB & RESHADE,Bjorn ENB - The White Wolf Cut
+Reshade Binaries,5.6.0,11. ENB & RESHADE,Always Install
+NOLVUS Reshade,3.0b,11. ENB & RESHADE,PI-CHO ENB
+NOLVUS Reshade (RT),3.0a,11. ENB & RESHADE,PI-CHO ENB | Ray Tracing
+NOLVUS Reshade For Rudy ENB,3,11. ENB & RESHADE,Rudy ENB
+NOLVUS Reshade For Rudy ENB (RT),3,11. ENB & RESHADE,Rudy ENB | Ray Tracing
