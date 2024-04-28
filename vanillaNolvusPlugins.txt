@@ -2509,3 +2509,8 @@ toccata.esp
 wadeinwater.esp
 wavy waters.esp
 yot - keep it clean.esp
+lux - apocrypha patch - rudy enb nat.esp
+nat - patch - rudy enb.esp
+nat 3 weather patch.esp
+wdal_nat 3 weather patch fix.esp
+windhelm - embersxd braziers patch.esp
