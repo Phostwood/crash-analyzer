@@ -33,7 +33,6 @@ skyclimb.esp
 the witcher caranthir by team tal.esp
 the witcher eredin by team tal.esp
 the witcher imlerith by team tal.esp
-disco_odingravelordpatchb.esp
 0kaidan.esp
 0kaidannpcoverhaul - sos light.esp
 0kaidannpcoverhaul.esp
@@ -65,3 +64,56 @@ take a nap.esp
 taunt your enemies.esp
 timeflies.esp
 unlimited training.esp
+untarnishedui_blur.esp
+untarnishedui_subtitle.esp
+disco elysium estate lux mesh patch.esp
+disco_doublemaneremover.esp
+disco_gravelordpatch.esp
+disco_odingravelordpatchb.esp
+disco_instincts speech perk patch.esp
+disco_lostprospectstreamfix_perfo.esp
+disco_luxbptwindowfix.esp
+disco_markarth area tree fix.esp
+disco_ordinator twohand perk patch.esp
+disco_spell_icon_colors.esp
+disco_staticsunhelm.esp
+disco_tigherhorseturning.esp
+discoteatime.esp
+ait.esp
+ak - auto store.esp
+bandit economy lotd patch.esp
+bandit economy.esp
+better skill and quest books names se.esp
+bettercontainercontrols.esl
+containermagic.esp
+cotn - falkreath water for enb - patch - folkvangr patch.esp
+detectlever.esp
+doticu_hide_your_quests.esp
+eli_homeinahat.esp
+hat trick 1.0.7 - eli_homeinahat - phostwoodtweaks.esp
+hidequestitems.esp
+highpoly toccata.esp
+lazyrenamer.esp
+legacywithrealestatetweak.esp
+levitate - morrowind edition.esp
+lux_-_home_in_a_hat_patch.esp
+lvxmagicks-combat inflation.esp
+nmneb.esp
+nostupiddogcomments.esp
+notificationlog.esp
+nv.neovi messages.esl
+re_realestate.esp
+re_realestate_core.esp
+real estate ussep.esp
+realm of lorkhan - custom alternate start - choose your own adventure.esp
+safehouseteleport.esp
+sas sh-sm patch.esl
+sas.esl
+simpletaxes.esp
+trainers_galore.esp
+unlucky loot.esp
+unlucky_loot_caco_patch.esp
+water for enb - patch - darker lod water.esp
+water for enb - patch - fwmf for fantasy paper maps.esp
+water for enb - patch - jks ragged flagon.esp
+water for enb - patch - lux - jks ragged flagon.esp
