@@ -23,7 +23,7 @@
 	<title>Crash Log Analyzer</title>
 
 	<meta charset="UTF-8">
-	<meta name="version" content="0.10.4">
+	<meta name="version" content="0.11.1">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 	<link rel="icon" type="image/x-icon" href="https://phostwood.github.io/crash-analyzer/favicon.ico">
@@ -43,7 +43,7 @@
 		/* Fluid Typography Source: https://fluidtypography.com/  */
 
 		/* SPECS:
-viewport width range: 370 to 4000px
+viewport width range: 370 to 4000 px
 line height range: 1.7 to 1.3 ("Smaller fonts require more line height, which is why you may want to specify a start line height that has a greater value than the end line height (assuming your font size is adjusting proportionally to the viewport's width)." and "For optimal readability and accessibility, try 140% to 180% (that's 1.4 to 1.8)." --> which I'm taking as meaning 1.8 to 1.4)
 
 font size chart:
@@ -81,10 +81,15 @@ h1		24	48	(only heading actually used/specified below)
 		}
 
 		h4 {
+			font-size: clamp(1.188rem, 0.413vw + 1.092rem, 2.125rem);
+			line-height: clamp(2.019rem, 0.328vw + 1.943rem, 2.763rem);
 			margin-top: 2em;
 		}
 
-		h5 {
+		h5,
+		summary {
+			font-size: clamp(1.125rem, 0.331vw + 1.049rem, 1.875rem);
+			line-height: clamp(1.912rem, 0.231vw + 1.859rem, 2.438rem);
 			margin-top: 1em;
 		}
 
@@ -101,7 +106,8 @@ h1		24	48	(only heading actually used/specified below)
 		h3,
 		h4,
 		h5,
-		h6 {
+		h6,
+		summary {
 			font-family: "Marcellus SC", serif;
 			font-weight: 600;
 		}
@@ -136,8 +142,9 @@ h1		24	48	(only heading actually used/specified below)
 			margin-bottom: 1em;
 		}
 
-		li li {
-			margin-bottom: 0.5em;
+		li li,
+		details li {
+			margin-bottom: 0.33em;
 		}
 
 		a {
@@ -190,7 +197,240 @@ h1		24	48	(only heading actually used/specified below)
 		}
 	</style>
 
+<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
+ 	<script>
+		// Function to fetch and parse CSV data
+		async function fetchAndParseCSV(url) {
+			try {
+				const response = await fetch(url);
+				if (!response.ok) {
+					throw new Error(`Failed to fetch CSV data (HTTP status ${response.status})`);
+				}
+				const csvText = await response.text();
+				return Papa.parse(csvText, { header: true, dynamicTyping: true }).data; // Use Papa Parse to parse the CSV data
+			} catch (error) {
+				console.error('Error fetching or parsing CSV:', error.message);
+				return null; // Handle the error as needed
+			}
+		}
+		const csvUrl = 'https://phostwood.github.io/crash-analyzer/NolvusV5FullModsList.csv';
+		fetchAndParseCSV(csvUrl)
+			.then(parsedData => {
+				if (parsedData) {
+					const fiveRows = parsedData.slice(0, 5); // Display only the first 5 rows for demonstration
+					console.log('Parsed CSV data:', fiveRows);
+					const lastRow = parsedData[parsedData.length - 1]; // Get the last row
+            		console.log('Last record in CSV data:', lastRow);
+					// Process the parsed data (e.g., display in a table, manipulate, etc.)
+				} else {
+					console.log('CSV data could not be fetched or parsed.');
+				}
+			});
+		fetchAndParseCSV(csvUrl)
+			.then(parsedData => {
+				if (parsedData) {
+					const optionCounts = {}; // Object to store the counts of each unique option
+					for (const record of parsedData) {
+						const option = record.Option; // Get the "Option" value for this record
+						if (optionCounts.hasOwnProperty(option)) {
+							optionCounts[option]++; // If this option has been seen before, increment its count
+						} else {
+							optionCounts[option] = 1; // If this option hasn't been seen before, initialize its count to 1
+						}
+					}
+					// Convert the optionCounts object to an array of [option, count] pairs
+					const optionCountPairs = Object.entries(optionCounts);
+					// Sort the array first by count in descending order and then by option in ascending order
+					optionCountPairs.sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]));
+					// Create a single string with all the lines and log this string
+					const lines = optionCountPairs.map(([option, count]) => `${option}:\t${count}`);
+					console.log(lines.join('\n'));
+					// Process the parsed data (e.g., display in a table, manipulate, etc.)
+				} else {
+					console.log('CSV data could not be fetched or parsed.');
+				}
+			});
+	</script> -->
+
+
 	<script>
+
+		function hasNolvusUltra(crashLog) {
+			// Convert crashLog to lower case
+			crashLog = crashLog.toLowerCase();
+
+			// List of plugins to check
+			const plugins = [
+				'blubbopines_v3.esp',
+				'treerific.esp',
+				'riften_bathhouse.esp',
+				'dawn of skyrim.esp',
+				'moretreesincities.esp'
+			];
+
+			// Check if crashLog includes any of the plugins
+			for (let plugin of plugins) {
+				if (crashLog.includes(plugin)) {
+					return true;
+				}
+			}
+
+			return false;
+		}
+
+		function hasPhysics(crashLog) {
+			// Convert crashLog to lower case
+			crashLog = crashLog.toLowerCase();
+
+			// List of physics-related plugins to check
+			const physicsPlugins = [
+				'kshairdosSMP.esp',
+				'ursine armour hdt smp se.esp',
+				'1nivwiccloaks_smp_patch.esp',
+				'cloaks&capes_smp_patch.esp',
+				'cloaks_smp_patch.esp'
+			];
+
+			// Check if crashLog includes any of the physics plugins
+			for (let plugin of physicsPlugins) {
+				if (crashLog.includes(plugin)) {
+					return true;
+				}
+			}
+
+			return false;
+		}
+
+		function hasAlternateLeveling(crashLog) {
+			// Convert crashLog to lower case
+			crashLog = crashLog.toLowerCase();
+
+			// List of Alternate Leveling plugins to check
+			const alternateLevelingPlugins = [
+				'experience.esl',
+				'experience.esp',
+				'staticskillleveling.esp'
+			];
+
+			// Check if crashLog includes any of the Alternate Leveling plugins
+			for (let plugin of alternateLevelingPlugins) {
+				if (crashLog.includes(plugin)) {
+					return true;
+				}
+			}
+
+			return false;
+		}
+
+		function hasHardcoreMode(crashLog) {
+			// Convert crashLog to lower case
+			crashLog = crashLog.toLowerCase();
+
+			// List of Hardcore Mode plugins to check
+			const hardcoreModePlugins = [
+				'skyrim revamped.esp',
+				'the_sinister_seven.esp',
+				'realistic ai detection 3 - lite.esp'
+			];
+
+			// Check if crashLog includes any of the Hardcore Mode plugins
+			for (let plugin of hardcoreModePlugins) {
+				if (crashLog.includes(plugin)) {
+					return true;
+				}
+			}
+
+			return false;
+		}
+
+
+		function getNonNolvusGamePlugins(crashLog) {
+			return fetch('https://raw.githubusercontent.com/Phostwood/crash-analyzer/main/vanillaNolvusPlugins - Alphabetized.txt')
+			.then(response => response.text())
+			.then(data => {
+				const vanillaNolvusPluginsLines = data.split('\n').map(line => line.trim());
+
+				const gamePluginsRegex = /Game plugins \(\d+\)\s*\{([\s\S]*?)}/;
+				var gamePluginsMatch = crashLog.match(gamePluginsRegex);
+				var gamePluginsSection = gamePluginsMatch ? gamePluginsMatch[1] : '';
+
+				const gamePluginsLines = gamePluginsSection.split('\n');
+
+				const nonVanillaPlugins = [];
+
+				gamePluginsLines.forEach(line => {
+					if (line.includes(']')) {
+						const pluginName = line.substring(line.indexOf(']') + 1).trim().toLowerCase();
+						if (!vanillaNolvusPluginsLines.includes(pluginName)) {
+							nonVanillaPlugins.push(pluginName);
+						}
+					}
+				});
+
+				nonVanillaPlugins.sort();
+
+				return nonVanillaPlugins;
+			})
+			.catch(error => console.error(error));
+		}
+
+
+		function compareLogToVanillaNolvusPluginsLines(crashLog) {
+			Promise.all([
+				fetch('https://raw.githubusercontent.com/Phostwood/crash-analyzer/main/vanillaNolvusPlugins - Alphabetized.txt'),
+				fetch('https://raw.githubusercontent.com/Phostwood/crash-analyzer/main/nonVanillaPlugins.txt')
+			])
+			.then(responses => Promise.all(responses.map(response => response.text())))
+			.then(data => {
+				// Split the text into lines and trim and convert each line to lower case
+				const vanillaNolvusPluginsLines = data[0].split('\n').map(line => line.trim());
+				const nonVanillaPluginsLines = data[1].split('\n').map(line => line.trim().toLowerCase());
+
+				// Extract the "Possible relevant objects" section
+				const gamePluginsRegex = /Game plugins \(\d+\)\s*\{([\s\S]*?)}/;
+				var gamePluginsMatch = crashLog.match(gamePluginsRegex);
+				var gamePluginsSection = gamePluginsMatch ? gamePluginsMatch[1] : '';
+
+				// Split the gamePluginsSection into lines
+				const gamePluginsLines = gamePluginsSection.split('\n');
+
+				// Create an array to store the non-vanilla plugins
+				const nonVanillaPlugins = [];
+				const possibleReduxFlags = [];
+
+				// Loop through each line in gamePluginsSection
+				gamePluginsLines.forEach(line => {
+					// Check if the line contains ']'
+					if (line.includes(']')) {
+						// Split the line by ']' and take the second part, trim it and convert it to lower case
+						const pluginName = line.substring(line.indexOf(']') + 1).trim().toLowerCase();
+
+						// If the pluginName is not found in vanillaNolvusPluginsLines and nonVanillaPluginsLines, add it to the nonVanillaPlugins array
+						if (!vanillaNolvusPluginsLines.includes(pluginName) && !nonVanillaPluginsLines.includes(pluginName)) {
+							nonVanillaPlugins.push(pluginName);
+						}
+					} else {
+						// Handle the case where the line does not contain ']'
+						console.error('A line does not contain a plugin name:', line);
+					}
+				});
+
+				// Alphabetize the nonVanillaPlugins array
+				nonVanillaPlugins.sort();
+
+				// Convert the nonVanillaPlugins array to a string with new lines for every plugin
+				const nonVanillaPluginsString = nonVanillaPlugins.join('\n');
+
+				// Log the nonVanillaPlugins string along with the count
+				console.log(`Possibly non-vanilla plugins (${nonVanillaPlugins.length}):\n${nonVanillaPluginsString}`);
+
+				// Log the nonVanillaPlugins string along with the count
+				console.log('possibleReduxFlags:', possibleReduxFlags);
+			})
+			.catch(error => console.error(error));
+		}
+
+
 		function getPercentAlphabetized(passedLogFile) {
 			// Extract the "Game plugins" section
 			const pluginsRegex = /Game plugins \(\d+\)\s*\{[\s\S]*?\}/;
@@ -291,11 +531,14 @@ h1		24	48	(only heading actually used/specified below)
 
 
 		// - - - Main Function - - - 
-		function analyzeLog() {
+		async function analyzeLog() {
 			var logFile = document.getElementById('crashLog').value;
 			var diagnoses = '';
 			var diagnosesCount = 0;
 
+			compareLogToVanillaNolvusPluginsLines(logFile);	
+			
+			
 			var logsFirstLine = logFile.split('\n')[0];
 
 			//Extract the entire top part of the crash log (excluding "Modules", "Plugins", and "Game plugins" sections)
@@ -474,9 +717,69 @@ h1		24	48	(only heading actually used/specified below)
 
 
 
-			var insights = '<h5>Log Summary:</h5><ul>';
-			var insightsCount = 0;
 
+			var insights = '';
+			var insightsCount = 0;
+			var isVanillaNolvus = true;
+			var isVanillaNolvusHtml = '';
+			var nonNolvusGamePluginsHtml = '';
+			async function getNonNolvusGamePluginsHtml(logFile) {
+				var outHtml = '';
+				try {
+					var nonVanillaList = await getNonNolvusGamePlugins(logFile);
+					if (nonVanillaList.length > 0) {
+						outHtml += '<details><summary>Non-Vanilla Nolvus Mods Detected (<code>' + nonVanillaList.length + '</code>):</summary><ul>';
+						for (let plugin of nonVanillaList) {
+							outHtml += '<li><code>' + plugin + '</code></li>';
+						}
+						outHtml += '</ul></details>';
+						
+						//Set the flag below the text area field
+						document.getElementById('fileFlags').style.textAlign = "right";
+						if(nonVanillaList.length > 50) {
+							document.getElementById('fileFlags').innerHTML = `<span style="float: right; white-space: nowrap;">🛠️ <code>Customized (<span style="color: red;">${nonVanillaList.length}</span>)<code></span><br>`;
+						} else {
+							document.getElementById('fileFlags').innerHTML = `<span style="float: right; white-space: nowrap;">🛠️ <code>Customized (${nonVanillaList.length})<code></span><br>`;
+						}
+					} else {
+						document.getElementById('fileFlags').style.textAlign = "left";
+						document.getElementById('fileFlags').innerHTML = '';
+					}
+					console.log('nonVanillaList:', nonVanillaList);  //DEBUGGING:
+				} catch (error) {
+					console.error(error);  //DEBUGGING:
+				}
+				return outHtml;
+			}
+
+			try {
+				var nonNolvusGamePluginsHtml = await getNonNolvusGamePluginsHtml(logFile);
+				if(nonNolvusGamePluginsHtml.length > 0) {
+					isVanillaNolvus = false;
+					insightsCount++;
+					isVanillaNolvusHtml = '<span style="display: block; text-align: right;"></span><br>';
+				} else {
+					nonNolvusGamePluginsHtml += '<details><summary>Vanilla Nolvus Detected</summary></details>';
+					isVanillaNolvus = true;
+				}
+				console.log(getNonNolvusGamePluginsHtml); //DEBUGGING:
+			} catch (error) {
+				console.error(error);
+			}
+
+			insights += nonNolvusGamePluginsHtml;
+				
+
+			insights += '<h5>Log Summary:</h5><ul>';
+
+
+			insights += '<li><b>Log Insights:</b> (not 100% accurate)<ul>' +
+				'<li>Vanilla Nolvus: <code>' + isVanillaNolvus + '</code></li>' +
+				'<li>Ultra Variant: <code>' + hasNolvusUltra(logFile) + '</code></li>' +
+				'<li>Advanced Physics: <code>' + hasPhysics(logFile) + '</code></li>' +
+				'<li>Hardcore Mode: <code>' + hasHardcoreMode(logFile) + '</code></li>' +
+				'<li>Alternate Leveling: <code>' + hasAlternateLeveling(logFile) + '</code></li>' +
+				'</ul>';
 
 			// Define the sections to count lines in
 			const sections = [
@@ -619,7 +922,7 @@ h1		24	48	(only heading actually used/specified below)
 				lines.push(line);
 				start = lineEnd + 1;
 			}
-			console.log('lines:', lines);
+			//DEBUGGNG: console.log('lines:', lines);
 
 
 			let allMatches = [];
@@ -1396,26 +1699,12 @@ h1		24	48	(only heading actually used/specified below)
 
 		// - - - TODOs - - -
 
-		// Beta version 0.10.4:
-		// ✅ New Diagnosis test: 12F4797 Physics Crash
-		// ✅ New (promoted) Diagnosis test: NVIDIA Driver Issue (when in first line log)
-		// ✅ New Diagnosis test: Paid FSR3 Upscaler Issue Detected
-		// ✅ Revised Diagnosis test and description: Possible FSR2 Skyrim Upscaler Crash Detected
-		// ✅ Merged PDPerfPlugin test with Upscaler test, and added new advice for updating drivers and checking upscale settings before switching to TAA
-			// https://discord.com/channels/740569699900719145/1168063977029382235/1233209301858779178
-			// https://discord.com/channels/740569699900719145/1168063977029382235/1233204200280821852
-			// Collection of new test descriptions: https://docs.google.com/document/d/1Dy61AblCFjrTJZk9TcUH-zSJMRvPtQvW5U2JhC8hkOw/edit?usp=sharing
-		// ✅ Renamed section from "Mentioned Files and Elements" to "Log Summary"
-		// ✅ Added new Line Counts to the Log Summary, with indication when the count is outside the normal range	
-		// ✅ Improved wording from Discrepancy on Simplest Horses speculated crash
-		// ✅ Reflected description changes in  Simplest Horses into Animated Ice Floes
-		// ✅ Used VS Studio Code to reformat the code
-		// ✅ Added new items to explainersList for the Log Summary section
-		// ✅ Changed use of explainersList to compare with toLowerCase() for case-insensitive matching
-		// ✅ Corrected link in Memory issue (Missing Masters) test
-
-
-
+		// Beta version 0.11.1
+		// ✅ New Advanced Users list of Non-Vanilla Nolvus Mods (PLEASE: let me know if I need to add any mods to my list of vanilla mods)
+		// ✅ New Advanced Users Log Insights: Vanilla Nolvus, Ultra Variant, Advanced Physics, Hardcore Mode, Alternate Leveling
+		// ✅ New for all users: indicator for "🛠️ Customized (#)" directly below text field
+	
+		// ⏸️ Adjust number of expected mods around that ... and add plus or minus numbers for Ultra Wide, or other hardware options, configs etc. Plus add numbers for Skyrim, SE, CC, Dawnguard, Hearthfire, Dragonborn, and any other base mods that are always there
 		// ⏸️ Expanded troubleshooting advice for "Apply Order" with something like: "If this issue persists after a "Apply Order" ... reinstall Nolvus (much faster from Archives)""
 		// ⏸️ Check location of a few mods to ensure they are in the whatever 10th percentile of the load order that they should be. Try to collect a dozen or so such indicators. Maybe  new loadOrderPercentile() test?
 		// ⏸️ More tests for "Apply Order": "Game plugins (81)"" vs "Game plugins (2343)" ... clearly 81 (from Alphabetized - Crash_2024_4_20_22-21-11.txt) is wayyyy too few
@@ -1465,7 +1754,7 @@ h1		24	48	(only heading actually used/specified below)
 			<textarea id="crashLog" rows="10" cols="50"
 				placeholder="Choose file (above), or drag-and-drop your log file onto this field, or copy-paste your Nolvus crash log content here..."></textarea><br>
 			<button onclick="analyzeLog()">Analyze</button> <button id="convert-button" style="display: none;">Copy
-				Diagnoses</button> <span style="white-space: nowrap;"> <input type="checkbox" id="speculativeInsights"
+				Diagnoses</button><span id="fileFlags"></span><span style="white-space: nowrap;"> <input type="checkbox" id="speculativeInsights"
 					name="speculativeInsights" class="advanced" onchange="analyzeLog()">
 				<label for="speculativeInsights" class="advanced">Speculations for Advanced Users</label></span>
 		</section>
