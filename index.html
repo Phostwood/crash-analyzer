@@ -23,7 +23,7 @@
 	<title>Crash Log Analyzer</title>
 
 	<meta charset="UTF-8">
-	<meta name="version" content="0.11.1">
+	<meta name="version" content="0.11.2">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 	<link rel="icon" type="image/x-icon" href="https://phostwood.github.io/crash-analyzer/favicon.ico">
@@ -78,6 +78,12 @@ h1		24	48	(only heading actually used/specified below)
 		h1 {
 			font-size: clamp(1.5rem, 0.661vw + 1.347rem, 3rem);
 			line-height: clamp(2.55rem, 0.595vw + 2.412rem, 3.9rem);
+		}
+
+		h3 {
+			font-size: clamp(1.25rem, 0.496vw + 1.135rem, 2.375rem);
+			line-height: clamp(2.125rem, 0.424vw + 2.027rem, 3.088rem);
+			margin-top: 1em;
 		}
 
 		h4 {
@@ -196,61 +202,6 @@ h1		24	48	(only heading actually used/specified below)
 			/* Light grey background when dragging over */
 		}
 	</style>
-
-<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
- 	<script>
-		// Function to fetch and parse CSV data
-		async function fetchAndParseCSV(url) {
-			try {
-				const response = await fetch(url);
-				if (!response.ok) {
-					throw new Error(`Failed to fetch CSV data (HTTP status ${response.status})`);
-				}
-				const csvText = await response.text();
-				return Papa.parse(csvText, { header: true, dynamicTyping: true }).data; // Use Papa Parse to parse the CSV data
-			} catch (error) {
-				console.error('Error fetching or parsing CSV:', error.message);
-				return null; // Handle the error as needed
-			}
-		}
-		const csvUrl = 'https://phostwood.github.io/crash-analyzer/NolvusV5FullModsList.csv';
-		fetchAndParseCSV(csvUrl)
-			.then(parsedData => {
-				if (parsedData) {
-					const fiveRows = parsedData.slice(0, 5); // Display only the first 5 rows for demonstration
-					console.log('Parsed CSV data:', fiveRows);
-					const lastRow = parsedData[parsedData.length - 1]; // Get the last row
-            		console.log('Last record in CSV data:', lastRow);
-					// Process the parsed data (e.g., display in a table, manipulate, etc.)
-				} else {
-					console.log('CSV data could not be fetched or parsed.');
-				}
-			});
-		fetchAndParseCSV(csvUrl)
-			.then(parsedData => {
-				if (parsedData) {
-					const optionCounts = {}; // Object to store the counts of each unique option
-					for (const record of parsedData) {
-						const option = record.Option; // Get the "Option" value for this record
-						if (optionCounts.hasOwnProperty(option)) {
-							optionCounts[option]++; // If this option has been seen before, increment its count
-						} else {
-							optionCounts[option] = 1; // If this option hasn't been seen before, initialize its count to 1
-						}
-					}
-					// Convert the optionCounts object to an array of [option, count] pairs
-					const optionCountPairs = Object.entries(optionCounts);
-					// Sort the array first by count in descending order and then by option in ascending order
-					optionCountPairs.sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]));
-					// Create a single string with all the lines and log this string
-					const lines = optionCountPairs.map(([option, count]) => `${option}:\t${count}`);
-					console.log(lines.join('\n'));
-					// Process the parsed data (e.g., display in a table, manipulate, etc.)
-				} else {
-					console.log('CSV data could not be fetched or parsed.');
-				}
-			});
-	</script> -->
 
 
 	<script>
@@ -374,6 +325,61 @@ h1		24	48	(only heading actually used/specified below)
 			.catch(error => console.error(error));
 		}
 
+
+		/* function compareLogToVanillaNolvusPluginsLines(crashLog) {
+			Promise.all([
+				fetch('https://raw.githubusercontent.com/Phostwood/crash-analyzer/main/vanillaNolvusPlugins - Alphabetized.txt'),
+				fetch('https://raw.githubusercontent.com/Phostwood/crash-analyzer/main/nonVanillaPlugins.txt')
+			])
+			.then(responses => Promise.all(responses.map(response => response.text())))
+			.then(data => {
+				// Split the text into lines and trim and convert each line to lower case
+				const vanillaNolvusPluginsLines = data[0].split('\n').map(line => line.trim());
+				const nonVanillaPluginsLines = data[1].split('\n').map(line => line.trim().toLowerCase());
+
+				// Extract the "Possible relevant objects" section
+				const gamePluginsRegex = /Game plugins \(\d+\)\s*\{([\s\S]*?)}/;
+				var gamePluginsMatch = crashLog.match(gamePluginsRegex);
+				var gamePluginsSection = gamePluginsMatch ? gamePluginsMatch[1] : '';
+
+				// Split the gamePluginsSection into lines
+				const gamePluginsLines = gamePluginsSection.split('\n');
+
+				// Create an array to store the non-vanilla plugins
+				const nonVanillaPlugins = [];
+				const possibleReduxFlags = [];
+
+				// Loop through each line in gamePluginsSection
+				gamePluginsLines.forEach(line => {
+					// Check if the line contains ']'
+					if (line.includes(']')) {
+						// Split the line by ']' and take the second part, trim it and convert it to lower case
+						const pluginName = line.substring(line.indexOf(']') + 1).trim().toLowerCase();
+
+						// If the pluginName is not found in vanillaNolvusPluginsLines and nonVanillaPluginsLines, add it to the nonVanillaPlugins array
+						if (!vanillaNolvusPluginsLines.includes(pluginName) && !nonVanillaPluginsLines.includes(pluginName)) {
+							nonVanillaPlugins.push(pluginName);
+						}
+					} else {
+						// Handle the case where the line does not contain ']'
+						console.error('A line does not contain a plugin name:', line);
+					}
+				});
+
+				// Alphabetize the nonVanillaPlugins array
+				nonVanillaPlugins.sort();
+
+				// Convert the nonVanillaPlugins array to a string with new lines for every plugin
+				const nonVanillaPluginsString = nonVanillaPlugins.join('\n');
+
+				// Log the nonVanillaPlugins string along with the count
+				console.log(`Possibly non-vanilla plugins (${nonVanillaPlugins.length}):\n${nonVanillaPluginsString}`);
+
+				// Log the nonVanillaPlugins string along with the count
+				console.log('possibleReduxFlags:', possibleReduxFlags);
+			})
+			.catch(error => console.error(error));
+		} */
 
 		function compareLogToVanillaNolvusPluginsLines(crashLog) {
 			Promise.all([
@@ -1013,7 +1019,6 @@ h1		24	48	(only heading actually used/specified below)
 				'd3d11.dll',
 				'D3D12Core.dll',
 				'D3DCOMPILER_47.dll',
-				'dxgi.dll',
 				'kernel32.dll',
 				'kernelbase.dll',
 				'MSVCP140.dll',
@@ -1032,6 +1037,7 @@ h1		24	48	(only heading actually used/specified below)
 			const explainersList = [
 				'cbp.dll', '(Collison Body <b>Physics</b>)',
 				'ccbgssse018-shadowrend.esl', '(<b>see below</b>)',
+				'dxgi.dll', '(graphics <b>driver</b>)',
 				'FWMF.esp', '(<b>Flat World Map</b> Framework)',
 				'gameoverlayrenderer64.dll', '(Steam <b>overlay</b>)',
 				'mihailmmasithis.esp', '(<b>see 🎯 above</b>)', //NOTE: normally doesn't match though
@@ -1699,11 +1705,18 @@ h1		24	48	(only heading actually used/specified below)
 
 		// - - - TODOs - - -
 
-		// Beta version 0.11.1
-		// ✅ New Advanced Users list of Non-Vanilla Nolvus Mods (PLEASE: let me know if I need to add any mods to my list of vanilla mods)
-		// ✅ New Advanced Users Log Insights: Vanilla Nolvus, Ultra Variant, Advanced Physics, Hardcore Mode, Alternate Leveling
-		// ✅ New for all users: indicator for "🛠️ Customized (#)" directly below text field
-	
+		// ✅ Beta version 0.11.2
+		// ✅ Fix right-aligned "Customized" flag on iPhone (overlaps with "Advanced users" checkbox label). Moved "Copy Diagnoses" button to under Diagnoses heading and used new h3 font size for it.
+		// ✅ Moved dxgi.dll from unlikelyCulpritsList to explainersList (I learned it can be involved with reshade issues and Puredark's stuff)
+		// ✅ Slightly improved usability
+
+		// Collect list of vanilla Modules {}
+		// List non-vanilla Modules in list of non-vanilla Game Plugins
+		// ⏸️ Get a better description of dxgi.dll issues
+
+
+		// ?Maybe shorten the Log Insights to just show the true indicators? Skip the false ones?
+		// Do for Modules like I did for Game Plugins? Would, I think, get ENBs and DLSS drivers and such...
 		// ⏸️ Adjust number of expected mods around that ... and add plus or minus numbers for Ultra Wide, or other hardware options, configs etc. Plus add numbers for Skyrim, SE, CC, Dawnguard, Hearthfire, Dragonborn, and any other base mods that are always there
 		// ⏸️ Expanded troubleshooting advice for "Apply Order" with something like: "If this issue persists after a "Apply Order" ... reinstall Nolvus (much faster from Archives)""
 		// ⏸️ Check location of a few mods to ensure they are in the whatever 10th percentile of the load order that they should be. Try to collect a dozen or so such indicators. Maybe  new loadOrderPercentile() test?
@@ -1753,13 +1766,13 @@ h1		24	48	(only heading actually used/specified below)
 			<div id="filename"></div>
 			<textarea id="crashLog" rows="10" cols="50"
 				placeholder="Choose file (above), or drag-and-drop your log file onto this field, or copy-paste your Nolvus crash log content here..."></textarea><br>
-			<button onclick="analyzeLog()">Analyze</button> <button id="convert-button" style="display: none;">Copy
-				Diagnoses</button><span id="fileFlags"></span><span style="white-space: nowrap;"> <input type="checkbox" id="speculativeInsights"
+			<button onclick="analyzeLog()">Analyze</button><span id="fileFlags"></span><span style="white-space: nowrap;"> <input type="checkbox" id="speculativeInsights"
 					name="speculativeInsights" class="advanced" onchange="analyzeLog()">
 				<label for="speculativeInsights" class="advanced">Speculations for Advanced Users</label></span>
 		</section>
-		<h4 class="hidden">Diagnoses:</h4>
-		<article id="result"></article>
+		<h3>Diagnoses:</h3>
+		<button id="convert-button" style="display: none;">Copy Diagnoses</button>
+		<article id="result"><code>(click "Choose File" or copy-paste file contents for analyzing)</code><p>&nbsp;</p></article>
 		<article id="speculation"></article>
 		<h4 class="hidden">Notes:</h4>
 		<aside id="footer">
@@ -1823,7 +1836,7 @@ h1		24	48	(only heading actually used/specified below)
 		// Clear results on any change to the textarea field
 		function clearResult() {
 			// Only clear the result, not the filename
-			document.getElementById('result').innerHTML = '';
+			document.getElementById('result').innerHTML = '<code>(click "Anaylze" button to see results)</code><p>&nbsp;</p>';
 			document.getElementById('speculation').innerHTML = '';
 			hideH4();
 			hideCopyDiagnosesButton();
