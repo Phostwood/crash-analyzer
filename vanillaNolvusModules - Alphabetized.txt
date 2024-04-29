@@ -209,6 +209,7 @@ d3d12.dll
 smoothcam.dll
 dbgcore.dll
 ssedisplaytweaks.dll
+ssefpsstabilizer.dll
 ssmt_fix.dll
 stayatsystempagese.dll
 stormlightning.dll
