@@ -23,7 +23,7 @@
 	<title>Crash Log Analyzer</title>
 
 	<meta charset="UTF-8">
-	<meta name="version" content="0.11.2">
+	<meta name="version" content="0.11.3">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 	<link rel="icon" type="image/x-icon" href="https://phostwood.github.io/crash-analyzer/favicon.ico">
@@ -209,7 +209,6 @@ h1		24	48	(only heading actually used/specified below)
 		function hasNolvusUltra(crashLog) {
 			// Convert crashLog to lower case
 			crashLog = crashLog.toLowerCase();
-
 			// List of plugins to check
 			const plugins = [
 				'blubbopines_v3.esp',
@@ -218,21 +217,18 @@ h1		24	48	(only heading actually used/specified below)
 				'dawn of skyrim.esp',
 				'moretreesincities.esp'
 			];
-
 			// Check if crashLog includes any of the plugins
 			for (let plugin of plugins) {
 				if (crashLog.includes(plugin)) {
 					return true;
 				}
 			}
-
 			return false;
 		}
 
 		function hasPhysics(crashLog) {
 			// Convert crashLog to lower case
 			crashLog = crashLog.toLowerCase();
-
 			// List of physics-related plugins to check
 			const physicsPlugins = [
 				'kshairdosSMP.esp',
@@ -241,58 +237,81 @@ h1		24	48	(only heading actually used/specified below)
 				'cloaks&capes_smp_patch.esp',
 				'cloaks_smp_patch.esp'
 			];
-
 			// Check if crashLog includes any of the physics plugins
 			for (let plugin of physicsPlugins) {
 				if (crashLog.includes(plugin)) {
 					return true;
 				}
 			}
-
 			return false;
 		}
 
 		function hasAlternateLeveling(crashLog) {
 			// Convert crashLog to lower case
 			crashLog = crashLog.toLowerCase();
-
 			// List of Alternate Leveling plugins to check
 			const alternateLevelingPlugins = [
 				'experience.esl',
 				'experience.esp',
 				'staticskillleveling.esp'
 			];
-
 			// Check if crashLog includes any of the Alternate Leveling plugins
 			for (let plugin of alternateLevelingPlugins) {
 				if (crashLog.includes(plugin)) {
 					return true;
 				}
 			}
-
 			return false;
 		}
 
 		function hasHardcoreMode(crashLog) {
 			// Convert crashLog to lower case
 			crashLog = crashLog.toLowerCase();
-
 			// List of Hardcore Mode plugins to check
 			const hardcoreModePlugins = [
 				'skyrim revamped.esp',
 				'the_sinister_seven.esp',
 				'realistic ai detection 3 - lite.esp'
 			];
-
 			// Check if crashLog includes any of the Hardcore Mode plugins
 			for (let plugin of hardcoreModePlugins) {
 				if (crashLog.includes(plugin)) {
 					return true;
 				}
 			}
-
 			return false;
 		}
+
+		function hasSseFpsStabilizer(crashLog) {
+			// Convert crashLog to lower case
+			crashLog = crashLog.toLowerCase();
+			// Check if crashLog includes ssefpsstabilizer.dll
+			if (crashLog.includes('ssefpsstabilizer.dll')) {
+				return true;
+			}
+			return false;
+		}
+
+		function hasPaidUpscaler(crashLog) {
+			// Convert crashLog to lower case
+			crashLog = crashLog.toLowerCase();
+			// Check if crashLog includes indicators
+			if (crashLog.includes('ffx_fsr2_api_x64.dll') || crashLog.includes('nvngx_dlssg.dll') || crashLog.includes('libxess.dll')) {
+				return true;
+			}
+			return false;
+		}
+
+		function hasFSR3(crashLog) {
+			// Convert crashLog to lower case
+			crashLog = crashLog.toLowerCase();
+			// Check if crashLog includes indicators
+			if (crashLog.includes('nvngx_dlssg.dll')) {
+				return true;
+			}
+			return false;
+		}
+		
 
 
 		function getNonNolvusGamePlugins(crashLog) {
@@ -325,61 +344,38 @@ h1		24	48	(only heading actually used/specified below)
 			.catch(error => console.error(error));
 		}
 
-
-		/* function compareLogToVanillaNolvusPluginsLines(crashLog) {
-			Promise.all([
-				fetch('https://raw.githubusercontent.com/Phostwood/crash-analyzer/main/vanillaNolvusPlugins - Alphabetized.txt'),
-				fetch('https://raw.githubusercontent.com/Phostwood/crash-analyzer/main/nonVanillaPlugins.txt')
-			])
-			.then(responses => Promise.all(responses.map(response => response.text())))
+		function getNonNolvusModules(crashLog) {
+			return fetch('https://raw.githubusercontent.com/Phostwood/crash-analyzer/main/vanillaNolvusModules.txt')
+			.then(response => response.text())
 			.then(data => {
-				// Split the text into lines and trim and convert each line to lower case
-				const vanillaNolvusPluginsLines = data[0].split('\n').map(line => line.trim());
-				const nonVanillaPluginsLines = data[1].split('\n').map(line => line.trim().toLowerCase());
+				const vanillaNolvusModulesLines = data.split('\n').map(line => line.trim());
 
-				// Extract the "Possible relevant objects" section
-				const gamePluginsRegex = /Game plugins \(\d+\)\s*\{([\s\S]*?)}/;
-				var gamePluginsMatch = crashLog.match(gamePluginsRegex);
-				var gamePluginsSection = gamePluginsMatch ? gamePluginsMatch[1] : '';
+				const modulesRegex = /Modules\s*\{([\s\S]*?)}/;
+				var modulesMatch = crashLog.match(modulesRegex);
+				var modulesSection = modulesMatch ? modulesMatch[1] : '';
 
-				// Split the gamePluginsSection into lines
-				const gamePluginsLines = gamePluginsSection.split('\n');
+				const modulesLines = modulesSection.split('\n');
 
-				// Create an array to store the non-vanilla plugins
-				const nonVanillaPlugins = [];
-				const possibleReduxFlags = [];
+				const nonVanillaModules = [];
 
-				// Loop through each line in gamePluginsSection
-				gamePluginsLines.forEach(line => {
-					// Check if the line contains ']'
-					if (line.includes(']')) {
-						// Split the line by ']' and take the second part, trim it and convert it to lower case
-						const pluginName = line.substring(line.indexOf(']') + 1).trim().toLowerCase();
-
-						// If the pluginName is not found in vanillaNolvusPluginsLines and nonVanillaPluginsLines, add it to the nonVanillaPlugins array
-						if (!vanillaNolvusPluginsLines.includes(pluginName) && !nonVanillaPluginsLines.includes(pluginName)) {
-							nonVanillaPlugins.push(pluginName);
+				modulesLines.forEach(line => {
+					if (line.includes(':')) {
+						const moduleName = line.substring(0, line.indexOf(':')).trim().toLowerCase();
+						if (!vanillaNolvusModulesLines.includes(moduleName)) {
+							nonVanillaModules.push(moduleName);
 						}
-					} else {
-						// Handle the case where the line does not contain ']'
-						console.error('A line does not contain a plugin name:', line);
 					}
 				});
 
-				// Alphabetize the nonVanillaPlugins array
-				nonVanillaPlugins.sort();
+				nonVanillaModules.sort();
 
-				// Convert the nonVanillaPlugins array to a string with new lines for every plugin
-				const nonVanillaPluginsString = nonVanillaPlugins.join('\n');
-
-				// Log the nonVanillaPlugins string along with the count
-				console.log(`Possibly non-vanilla plugins (${nonVanillaPlugins.length}):\n${nonVanillaPluginsString}`);
-
-				// Log the nonVanillaPlugins string along with the count
-				console.log('possibleReduxFlags:', possibleReduxFlags);
+				return nonVanillaModules;
 			})
 			.catch(error => console.error(error));
-		} */
+		}
+
+
+
 
 		function compareLogToVanillaNolvusPluginsLines(crashLog) {
 			Promise.all([
@@ -403,9 +399,10 @@ h1		24	48	(only heading actually used/specified below)
 				// Create an array to store the non-vanilla plugins
 				const nonVanillaPlugins = [];
 				const possibleReduxFlags = [];
+				const badlyOrderedVanillaPlugins = [];
 
 				// Loop through each line in gamePluginsSection
-				gamePluginsLines.forEach(line => {
+				gamePluginsLines.forEach((line, index) => {
 					// Check if the line contains ']'
 					if (line.includes(']')) {
 						// Split the line by ']' and take the second part, trim it and convert it to lower case
@@ -414,6 +411,12 @@ h1		24	48	(only heading actually used/specified below)
 						// If the pluginName is not found in vanillaNolvusPluginsLines and nonVanillaPluginsLines, add it to the nonVanillaPlugins array
 						if (!vanillaNolvusPluginsLines.includes(pluginName) && !nonVanillaPluginsLines.includes(pluginName)) {
 							nonVanillaPlugins.push(pluginName);
+						} else {
+							// Check if the next item in vanillaNolvusPluginsLines isn't also after in gamePluginsLines
+							const nextVanillaPlugin = vanillaNolvusPluginsLines[vanillaNolvusPluginsLines.indexOf(pluginName) + 1];
+							if (nextVanillaPlugin && !gamePluginsLines.slice(index + 1).some(line => line.toLowerCase().includes(nextVanillaPlugin))) {
+								badlyOrderedVanillaPlugins.push(pluginName);
+							}
 						}
 					} else {
 						// Handle the case where the line does not contain ']'
@@ -422,7 +425,7 @@ h1		24	48	(only heading actually used/specified below)
 				});
 
 				// Alphabetize the nonVanillaPlugins array
-				nonVanillaPlugins.sort();
+				//DEPENDS: nonVanillaPlugins.sort();
 
 				// Convert the nonVanillaPlugins array to a string with new lines for every plugin
 				const nonVanillaPluginsString = nonVanillaPlugins.join('\n');
@@ -432,6 +435,70 @@ h1		24	48	(only heading actually used/specified below)
 
 				// Log the nonVanillaPlugins string along with the count
 				console.log('possibleReduxFlags:', possibleReduxFlags);
+
+				// Log the badlyOrderedVanillaPlugins
+				console.log('Badly ordered vanilla plugins:', badlyOrderedVanillaPlugins);
+			})
+			.catch(error => console.error(error));
+		}
+
+		function compareLogToVanillaNolvusModulesLines(crashLog) {
+			return fetch('https://raw.githubusercontent.com/Phostwood/crash-analyzer/main/vanillaNolvusModules.txt')
+			.then(response => response.text())
+			.then(data => {
+				const vanillaNolvusModulesLines = data.split('\n').map(line => line.trim());
+
+				// Extract the "Possible relevant objects" section
+				const modulesRegex = /Modules\s*\{([\s\S]*?)}/;
+				var modulesMatch = crashLog.match(modulesRegex);
+				var modulesSection = modulesMatch ? modulesMatch[1] : '';
+
+				// Split the modulesSection into lines
+				const modulesLines = modulesSection.split('\n');
+
+				// Create an array to store the non-vanilla Modules
+				const nonVanillaModules = [];
+				// const badlyOrderedVanillaModules = [];
+				const possibleReduxFlags = [];
+
+				// Loop through each line in modulesSection
+				modulesLines.forEach((line, index) => {
+					// Check if the line contains ':'
+					if (line.includes(':')) {
+						// Split the line by ':' and take the first part, trim it and convert it to lower case
+						const moduleName = line.substring(0, line.indexOf(':')).trim().toLowerCase();
+
+						// If the moduleName is not found in vanillaNolvusModulesLines, add it to the nonVanillaModules array
+						if (!vanillaNolvusModulesLines.includes(moduleName)) {
+							nonVanillaModules.push(moduleName);
+						}
+						//  else {
+						// 	// Check if the next item in vanillaNolvusModulesLines isn't also after in modulesLines
+						// 	const nextVanillaModule = vanillaNolvusModulesLines[vanillaNolvusModulesLines.indexOf(moduleName) + 1];
+						// 	if (nextVanillaModule && !modulesLines.slice(index + 1).some(line => line.toLowerCase().includes(nextVanillaModule))) {
+						// 		badlyOrderedVanillaModules.push(moduleName);
+						// 	}
+						// }
+					} else {
+						// Handle the case where the line does not contain ':'
+						console.error('A line does not contain a module name:', line);
+					}
+				});
+
+				// Alphabetize the nonVanillaModules array
+				//LATER: nonVanillaModules.sort();
+
+				// Convert the nonVanillaModules array to a string with new lines for every module
+				const nonVanillaModulesString = nonVanillaModules.join('\n');
+
+				// Log the nonVanillaModules string along with the count
+				console.log(`Possibly non-vanilla modules (${nonVanillaModules.length}):\n${nonVanillaModulesString}`);
+
+				// Log the nonVanillaModules string along with the count
+				console.log('possibleReduxFlags:', possibleReduxFlags);
+
+				// Log the badlyOrderedVanillaModules
+				//console.log('badlyOrderedVanillaModules:', badlyOrderedVanillaModules);
 			})
 			.catch(error => console.error(error));
 		}
@@ -543,7 +610,7 @@ h1		24	48	(only heading actually used/specified below)
 			var diagnosesCount = 0;
 
 			compareLogToVanillaNolvusPluginsLines(logFile);	
-			
+			compareLogToVanillaNolvusModulesLines(logFile);	
 			
 			var logsFirstLine = logFile.split('\n')[0];
 
@@ -651,7 +718,7 @@ h1		24	48	(only heading actually used/specified below)
 					'<li><b>Update your NVIDIA drivers</b> to the latest version. You can download the latest drivers from the <a href="https://www.nvidia.com/Download/index.aspx">NVIDIA website</a>.</li>' +
 					'<li>If you are using one of Puredark\'s <a href="https://www.patreon.com/collection/50002?view=expanded">paid FSR2 or FSR3 Upscalers<a> (rather than his free FSR2 version included with Nolvus): <ol>' +
 						'<li><b>Check hardware compatibility:</b> This issue may also arise due to incompatible hardware (e.g., AMD instead of NVIDIA, GTX instead of RTX, RTX non-40xx instead of RTX 40xx).</li>' +
-						'<li><b>Review settings:</b> Ensure that you follow the recommended settings in the <a href="https://docs.google.com/document/d/1AWONgaoaQiEUS7UMoC3p01Ht7Zfa_ARAHHg1ve7v-iM/edit?usp=sharing">Nolvus DLSS Upscaler Installation Guide</a>. Confirm that you have the correct version and settings for your graphics card.</li>' +
+						'<li><b>Review settings:</b> Ensure that you follow the recommended settings in the <a href="https://www.reddit.com/r/Nolvus/wiki/help/guides/dlss/">Nolvus DLSS Upscaler Installation Guide</a>. Confirm that you have the correct version and settings for your graphics card.</li>' +
 						'</ol></li>' +
 					'<li>Check for any GPU overclocking settings that may be causing instability and reset them to default if necessary.</li>' +
 					'<li>If the above does not resolve the issue, optionally try performing a clean installation of the drivers using a tool like Display Driver Uninstaller (DDU) to remove all traces of the previous drivers before installing the new ones.</li>' +
@@ -665,7 +732,7 @@ h1		24	48	(only heading actually used/specified below)
 			if (logsFirstLine.toLowerCase().includes('nvngx_dlssg.dll')) {
 				diagnoses += '<li>🎯<b>Paid FSR3 Upscaler Issue Detected:</b> Having the "nvngx_dlssg.dll" error showing up in the first line of your crash log is frequently linked to NVIDIA graphics drivers and/or Puredark\'s paid upsclaler (FG Build Alpha 03 and later). To resolve this, try the following steps:<ol>' +
 					'<li><b>Update your NVIDIA drivers</b> to the latest version. You can download the latest drivers from the <a href="https://www.nvidia.com/Download/index.aspx">NVIDIA website</a>.</li>' +
-					'<li><b>Incompatible settings in the upscaler:</b> Choosing a bad upscale type or other setting can cause this issue. Review and verify the recommended settings in <a href="https://docs.google.com/document/d/1AWONgaoaQiEUS7UMoC3p01Ht7Zfa_ARAHHg1ve7v-iM/edit?usp=sharing">Nolvus DLSS Upscaler Installation Guide</a>.</li>' +
+					'<li><b>Incompatible settings in the upscaler:</b> Choosing a bad upscale type or other setting can cause this issue. Review and verify the recommended settings in <a href="https://www.reddit.com/r/Nolvus/wiki/help/guides/dlss/">Nolvus DLSS Upscaler Installation Guide</a>.</li>' +
 					'<li><b>Incompatible hardware:</b> This issue can also be caused by incompatible hardware (AMD instead of NVIDIA, GTX instead of RTX, RTX non-40xx intead of  RTX 40xx, and so on).</li>' +
 					'<li>Check for any GPU overclocking settings that may be causing instability and reset them to default if necessary.</li>' +
 					'<li>If the above does not resolve the issue, try performing a clean installation of the drivers using a tool like Display Driver Uninstaller (DDU) to remove all traces of the previous drivers before installing the new ones.</li>' +
@@ -727,33 +794,34 @@ h1		24	48	(only heading actually used/specified below)
 			var insights = '';
 			var insightsCount = 0;
 			var isVanillaNolvus = true;
-			var isVanillaNolvusHtml = '';
+			//UNUSED? var isVanillaNolvusHtml = '';
+
 			var nonNolvusGamePluginsHtml = '';
 			async function getNonNolvusGamePluginsHtml(logFile) {
 				var outHtml = '';
 				try {
-					var nonVanillaList = await getNonNolvusGamePlugins(logFile);
-					if (nonVanillaList.length > 0) {
-						outHtml += '<details><summary>Non-Vanilla Nolvus Mods Detected (<code>' + nonVanillaList.length + '</code>):</summary><ul>';
-						for (let plugin of nonVanillaList) {
+					var nonVanillaPlugins = await getNonNolvusGamePlugins(logFile);
+					if (nonVanillaPlugins.length > 0) {
+						outHtml += '<details><summary>Non-Vanilla Nolvus Plugins Detected (<code>' + nonVanillaPlugins.length + '</code>):<br><code>(click to see full list)</code></summary><ul>';
+						for (let plugin of nonVanillaPlugins) {
 							outHtml += '<li><code>' + plugin + '</code></li>';
 						}
 						outHtml += '</ul></details>';
 						
 						//Set the flag below the text area field
 						document.getElementById('fileFlags').style.textAlign = "right";
-						if(nonVanillaList.length > 50) {
-							document.getElementById('fileFlags').innerHTML = `<span style="float: right; white-space: nowrap;">🛠️ <code>Customized (<span style="color: red;">${nonVanillaList.length}</span>)<code></span><br>`;
+						if(nonVanillaPlugins.length > 50) {
+							document.getElementById('fileFlags').innerHTML = `<span style="float: right; white-space: nowrap;">🔧 <code>Customized (<span style="color: red;">${nonVanillaPlugins.length}</span>)<code></span><br>`;
 						} else {
-							document.getElementById('fileFlags').innerHTML = `<span style="float: right; white-space: nowrap;">🛠️ <code>Customized (${nonVanillaList.length})<code></span><br>`;
+							document.getElementById('fileFlags').innerHTML = `<span style="float: right; white-space: nowrap;">🔧 <code>Customized (${nonVanillaPlugins.length})<code></span><br>`;
 						}
 					} else {
 						document.getElementById('fileFlags').style.textAlign = "left";
 						document.getElementById('fileFlags').innerHTML = '';
 					}
-					console.log('nonVanillaList:', nonVanillaList);  //DEBUGGING:
+					console.log('nonVanillaPlugins:', nonVanillaPlugins);  //DEBUGGING:
 				} catch (error) {
-					console.error(error);  //DEBUGGING:
+					console.error(error);
 				}
 				return outHtml;
 			}
@@ -763,18 +831,66 @@ h1		24	48	(only heading actually used/specified below)
 				if(nonNolvusGamePluginsHtml.length > 0) {
 					isVanillaNolvus = false;
 					insightsCount++;
-					isVanillaNolvusHtml = '<span style="display: block; text-align: right;"></span><br>';
+					//isVanillaNolvusHtml = '<span style="display: block; text-align: right;"></span><br>';
 				} else {
-					nonNolvusGamePluginsHtml += '<details><summary>Vanilla Nolvus Detected</summary></details>';
+					nonNolvusGamePluginsHtml += '<details><summary>Only Vanilla Nolvus Plugins Detected</summary></details>';
 					isVanillaNolvus = true;
 				}
-				console.log(getNonNolvusGamePluginsHtml); //DEBUGGING:
 			} catch (error) {
 				console.error(error);
 			}
 
 			insights += nonNolvusGamePluginsHtml;
 				
+
+
+			var nonNolvusModulesHtml = '';
+			async function getNonNolvusModulesHtml(logFile) {
+				var outHtml = '';
+				try {
+					var nonVanillaModules = await getNonNolvusModules(logFile);
+					if (nonVanillaModules.length > 0) {
+						outHtml += '<details><summary>Non-Vanilla Nolvus Modules Detected (<code>' + nonVanillaModules.length + '</code>):<br><code>(click to see full list)</code></summary><ul>';
+						for (let module of nonVanillaModules) {
+							outHtml += '<li><code>' + module + '</code></li>';
+						}
+						outHtml += '</ul></details>';
+						
+						//Set the flag below the text area field
+						//document.getElementById('fileFlags').style.textAlign = "right";
+						// if(nonVanillaModules.length > 50) {
+						// 	document.getElementById('fileFlags').innerHTML = `<span style="float: right; white-space: nowrap;">🔧 <code>Customized (<span style="color: red;">${nonVanillaModules.length}</span>)<code></span><br>`;
+						// } else {
+						// 	document.getElementById('fileFlags').innerHTML = `<span style="float: right; white-space: nowrap;">🔧 <code>Customized (${nonVanillaModules.length})<code></span><br>`;
+						// }
+					} else {
+						document.getElementById('fileFlags').style.textAlign = "left";
+						document.getElementById('fileFlags').innerHTML = '';
+					}
+					console.log('nonVanillaModules:', nonVanillaModules);  //DEBUGGING:
+				} catch (error) {
+					console.error(error);
+				}
+				return outHtml;
+			}
+
+			try {
+				var nonNolvusModulesHtml = await getNonNolvusModulesHtml(logFile);
+				if(nonNolvusModulesHtml.length > 0) {
+					//isVanillaNolvus = false;
+					insightsCount++;
+					//isVanillaNolvusHtml = '<span style="display: block; text-align: right;"></span><br>';
+				} else {
+					nonNolvusModulesHtml += '<details><summary>Only Vanilla Nolvus Modules Detected</summary></details>';
+					//isVanillaNolvus = true;
+				}
+			} catch (error) {
+				console.error(error);
+			}
+
+			insights += nonNolvusModulesHtml;
+
+			
 
 			insights += '<h5>Log Summary:</h5><ul>';
 
@@ -785,6 +901,9 @@ h1		24	48	(only heading actually used/specified below)
 				'<li>Advanced Physics: <code>' + hasPhysics(logFile) + '</code></li>' +
 				'<li>Hardcore Mode: <code>' + hasHardcoreMode(logFile) + '</code></li>' +
 				'<li>Alternate Leveling: <code>' + hasAlternateLeveling(logFile) + '</code></li>' +
+				'<li>SSE FPS Stabilizer: <code>' + hasSseFpsStabilizer(logFile) + '</code></li>' +
+				'<li>Paid Upscaler: <code>' + hasPaidUpscaler(logFile) + '</code></li>' +
+				'<li>FSR3: <code>' + hasFSR3(logFile) + '</code></li>' +
 				'</ul>';
 
 			// Define the sections to count lines in
@@ -1353,9 +1472,9 @@ h1		24	48	(only heading actually used/specified below)
 
 			//Upscaler
 			if (logsTopHalf.toLowerCase().includes('upscaler.dll+')) {
-				insights += '<li><b>Upscaler.dll+ Issue Detected:</b> The error involving \'Upscaler.dll+\' suggests a problem with the Upscaler mod, which is designed to improve the game\'s graphics by increasing the resolution of textures. To troubleshoot this issue, consider the following steps:<ol>' +
+				insights += '<li><b>Upscaler.dll+ Issue Detected:</b> The error involving \'Upscaler.dll+\' suggests a problem with the Upscaler mod, which is designed to improve the game\'s graphics by increasing the resolution of textures. If you are using Puredark\'s paid Upscaler, consider the following troubleshooting steps:<ol>' +
 					'<li>Ensure you are using the correct version of the upscaler that is compatible with your GPU.</li>' +
-					'<li>Review the <a href="https://docs.google.com/document/d/1AWONgaoaQiEUS7UMoC3p01Ht7Zfa_ARAHHg1ve7v-iM/edit">Nolvus DLSS Upscaler Installation Guide</a> to confirm that you have followed all the installation steps correctly.</li>' +
+					'<li>Review the <a href="https://www.reddit.com/r/Nolvus/wiki/help/guides/dlss/">Nolvus DLSS Upscaler Installation Guide</a> to confirm that you have followed all the installation steps correctly.</li>' +
 					'<li>Review the <b>SkyrimUpscaler.log</b> file for more detailed information about the error.</li>' +
 					'<li>Temporarily disable the Upscaler mod to determine if it is the source of the crash.</li>' +
 					'<li>Ensure that your system meets the hardware requirements for running the mod, as upscaling can be resource-intensive.</li>' +
@@ -1705,18 +1824,41 @@ h1		24	48	(only heading actually used/specified below)
 
 		// - - - TODOs - - -
 
-		// ✅ Beta version 0.11.2
-		// ✅ Fix right-aligned "Customized" flag on iPhone (overlaps with "Advanced users" checkbox label). Moved "Copy Diagnoses" button to under Diagnoses heading and used new h3 font size for it.
-		// ✅ Moved dxgi.dll from unlikelyCulpritsList to explainersList (I learned it can be involved with reshade issues and Puredark's stuff)
-		// ✅ Slightly improved usability
+		// ✅ Beta version 0.11.3
+		// ✅ Fixed outdated links to DLSS Upscaler Guide to go to https://www.reddit.com/r/Nolvus/wiki/help/guides/dlss/
+		// ✅ Changed use of 🛠️ to 🔧 since on iPhones the hammer has a black-ish handle, so was mostly invisible on black backgound
+		// ✅ Added hasSseFpsStabilizer test and log insight
+		// ✅ Added hasPaidUpscaler test and log insight
+		// ✅ Added hasFSR3 test and log insight
+		// ✅ Added clarification to "Upscaler.dll+ Issue Detected" test description in Advanced Users section.
+		// ✅ Made it so "?advanced" at the end of the url can be "?Advanced" (case-insensitive comparison)
+		// ⭐ WORK IN PROGRESS: "Non-Vanilla Nolvus Modules Detected" listing
 
+		// Do for Modules like I did for Game Plugins? Would, I think, get ENBs and DLSS drivers and such...
 		// Collect list of vanilla Modules {}
 		// List non-vanilla Modules in list of non-vanilla Game Plugins
-		// ⏸️ Get a better description of dxgi.dll issues
+		// NOTE: it looks like Modules are not listed in the same sort order, even subsequent crash logs from the same vanilla-Nolvus user
+			// Single crash log can list same DLL multiple times in the same Modules list
+			// But then again, does load order even matter for the DLLs? (I don't think it does)
+	
+
+	
+		// New ?Helper version with Discord help codes:  https://discord.com/channels/740569699900719145/1229319785758851082/1234882170456375338
+
+		// Catchup at: https://discord.com/channels/740569699900719145/755346172243214376/1234566499629273170
+		// New test for dxgi.dll:
+			//https://discord.com/channels/740569699900719145/1168063977029382235/1234572365262753792
+			//https://discord.com/channels/740569699900719145/1168063977029382235/1234572689054896129
+			// https://discord.com/channels/740569699900719145/1168063977029382235/1234572365262753792
+			// https://discord.com/channels/740569699900719145/1168063977029382235/1234573120657035314
+			// https://discord.com/channels/740569699900719145/1168063977029382235/1234573217591721984
+			// https://discord.com/channels/740569699900719145/1168063977029382235/1234573300815102095
+			// https://discord.com/channels/740569699900719145/1168063977029382235/1234573503727009853
 
 
-		// ?Maybe shorten the Log Insights to just show the true indicators? Skip the false ones?
-		// Do for Modules like I did for Game Plugins? Would, I think, get ENBs and DLSS drivers and such...
+		// ⏸️ Test and log insight for ENB version?
+		// ⏸️ New tests for Dico's patches which are recommended in this analyzer	
+		// ⏸️ ?Maybe shorten the Log Insights to just show the true indicators? Skip the false ones?
 		// ⏸️ Adjust number of expected mods around that ... and add plus or minus numbers for Ultra Wide, or other hardware options, configs etc. Plus add numbers for Skyrim, SE, CC, Dawnguard, Hearthfire, Dragonborn, and any other base mods that are always there
 		// ⏸️ Expanded troubleshooting advice for "Apply Order" with something like: "If this issue persists after a "Apply Order" ... reinstall Nolvus (much faster from Archives)""
 		// ⏸️ Check location of a few mods to ensure they are in the whatever 10th percentile of the load order that they should be. Try to collect a dozen or so such indicators. Maybe  new loadOrderPercentile() test?
@@ -1728,6 +1870,7 @@ h1		24	48	(only heading actually used/specified below)
 		// ⏸️ Link to a user-friendly change log
 
 		// - - - FUTURE FEATURES? - - -
+		// ⏸️ List of removed vanilla Nolvus plugins? https://discord.com/channels/740569699900719145/1168063977029382235/1234896387888517291
 		// ⏸️Special code for Google Analytics conversions and clicks and stuff? (conversion would be a following a diagnosed link to Nolvus.net? CLick would be doing an analysis? Need to read up on the Google Analytics docs.
 		// ⏸️Display the "Game plugins (2343)" line? 
 		// ⏸️[INFEASIBLE?] Color syntaxing? Maybe output the "Possible relevant objects" section and the "Probable callstack" with the non-null single quoted names and filenames? Probably need to collect more crash logs from different sources before deciding? 
@@ -1786,7 +1929,7 @@ h1		24	48	(only heading actually used/specified below)
 			<p>If you would like guidance on modding/patching Nolvus, please watch this <a
 					href="https://youtu.be/YOvug9KP5L4">brief tutorial video</a> for step-by-step instructions.</p>
 			<p>For additional information on installing mods/patches into Nolvus, see <a
-					href="https://www.reddit.com/r/Nolvus/comments/1btic4j/how_to_links_for_modding_skyrim_on_top_of_nolvus/">🛠️How
+					href="https://www.reddit.com/r/Nolvus/comments/1btic4j/how_to_links_for_modding_skyrim_on_top_of_nolvus/">🔧How
 					To: Links for Modding Skyrim on top of Nolvus</a>
 			<p>
 			<p>Please <strong>report any issues</strong> (or share suggestions) in my <a
@@ -1973,7 +2116,7 @@ h1		24	48	(only heading actually used/specified below)
 			var advancedElements = document.getElementsByClassName('advanced');
 
 			// Determine if the URL ends with '?advanced'
-			var shouldDisplay = window.location.href.endsWith('?advanced');
+			var shouldDisplay = window.location.href.toLowerCase().endsWith('?advanced');
 
 			// Loop through the elements and set their display property
 			for (var i = 0; i < advancedElements.length; i++) {
