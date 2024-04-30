@@ -1,16 +1,21 @@
 _nvngx.dll
+acgenral.dll
 acloserlooksse.dll
 additemmenuse.dll
 advapi32.dll
 ahzmorehudinventory.dll
 ahzmorehudplugin.dll
+amdenc64.dll
+amdihk64.dll
+amdxx64.dll
 amsi.dll
 animationmotionrevolution.dll
 animationqueuefix.dll
 apphelp.dll
 aswamsi.dll
 aswhook.dll
-audiodevprops2.dll
+aticfx64.dll
+atidxx64.dll
 audiodevprops2.dll
 audioses.dll
 autoinputswitch.dll
@@ -67,6 +72,7 @@ drvstore.dll
 dsound.dll
 dtrykeyutil.dll
 dwmapi.dll
+dwrite.dll
 dxcore.dll
 dxgi.dll
 dynamicanimationreplacer.dll
@@ -133,6 +139,7 @@ maxsudetectionmeter.dll
 maxsuiframe.dll
 maxsuonhitanimfw.dll
 maxsustaggerdirfix.dll
+mc-sec-plugin-x64.dll
 mcmhelper.dll
 mco.dll
 messagebus.dll
@@ -141,6 +148,7 @@ mmdevapi.dll
 moreinformativeconsole.dll
 mpclient.dll
 mpoav.dll
+mpr.dll
 msasn1.dll
 mscoree.dll
 mscoreei.dll
@@ -201,7 +209,6 @@ po3_washthatbloodoff.dll
 poisoner.dll
 powrprof.dll
 precision.dll
-productinfo.dll
 productinfo.dll
 profapi.dll
 propsys.dll
