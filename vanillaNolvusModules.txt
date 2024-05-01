@@ -307,3 +307,6 @@ xinput1_3.dll
 xinput1_4.dll
 xinput9_1_0.dll
 zxlice's ultimate potion animation.dll
+textshaping.dll
+mdnsnsp.dll
+twbackground.dllplugin
