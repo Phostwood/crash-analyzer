@@ -23,7 +23,7 @@
 	<title>Crash Log Analyzer</title>
 
 	<meta charset="UTF-8">
-	<meta name="version" content="0.11.4">
+	<meta name="version" content="0.11.5">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 	<link rel="icon" type="image/x-icon" href="https://phostwood.github.io/crash-analyzer/favicon.ico">
@@ -211,9 +211,8 @@ h1		24	48	(only heading actually used/specified below)
 			crashLog = crashLog.toLowerCase();
 			// List of plugins to check
 			const plugins = [
-				'blubbopines_v3.esp',
+				//FOUND IN REDUX: 'blubbopines_v3.esp',
 				'treerific.esp',
-				'riften_bathhouse.esp',
 				'dawn of skyrim.esp',
 				'moretreesincities.esp'
 			];
@@ -311,6 +310,15 @@ h1		24	48	(only heading actually used/specified below)
 			}
 			return false;
 		}
+
+		function countNullVoid(crashLog) {
+			// Convert crashLog to lower case
+			crashLog = crashLog.toLowerCase();
+			// Count the number of times "null" or "void" appears in the crashLog
+			const nullCount = (crashLog.match(/null/g) || []).length;
+			const voidCount = (crashLog.match(/void/g) || []).length;
+			return nullCount + voidCount;
+		}
 		
 
 
@@ -330,8 +338,8 @@ h1		24	48	(only heading actually used/specified below)
 
 				gamePluginsLines.forEach(line => {
 					if (line.includes(']')) {
-						const pluginName = line.substring(line.indexOf(']') + 1).trim().toLowerCase();
-						if (!vanillaNolvusPluginsLines.includes(pluginName)) {
+						const pluginName = line.substring(line.indexOf(']') + 1).trim();
+						if (!vanillaNolvusPluginsLines.includes(pluginName.toLowerCase())) {
 							nonVanillaPlugins.push(pluginName);
 						}
 					}
@@ -342,6 +350,30 @@ h1		24	48	(only heading actually used/specified below)
 				return nonVanillaPlugins;
 			})
 			.catch(error => console.error(error));
+		}
+
+		function getMissingVanillaPlugins(crashLog) {
+			return fetch('https://raw.githubusercontent.com/Phostwood/crash-analyzer/main/vanillaNolvusPlugins - Alphabetized.txt')
+				.then(response => response.text())
+				.then(data => {
+					const vanillaNolvusPluginsLines = data.split('\n').map(line => line.trim().toLowerCase());
+
+					const gamePluginsRegex = /Game plugins \(\d+\)\s*\{([\s\S]*?)}/;
+					var gamePluginsMatch = crashLog.match(gamePluginsRegex);
+					var gamePluginsSection = gamePluginsMatch ? gamePluginsMatch[1] : '';
+
+					const gamePluginsLines = gamePluginsSection.split('\n').map(line => {
+						if (line.includes(']')) {
+							return line.substring(line.indexOf(']') + 1).trim().toLowerCase();
+						}
+						return null;
+					}).filter(Boolean);
+
+					const missingVanillaPlugins = vanillaNolvusPluginsLines.filter(plugin => !gamePluginsLines.includes(plugin));
+
+					return missingVanillaPlugins;
+				})
+				.catch(error => console.error(error));
 		}
 
 		function getNonNolvusModules(crashLog) {
@@ -360,8 +392,8 @@ h1		24	48	(only heading actually used/specified below)
 
 				modulesLines.forEach(line => {
 					if (line.includes(':')) {
-						const moduleName = line.substring(0, line.indexOf(':')).trim().toLowerCase();
-						if (!vanillaNolvusModulesLines.includes(moduleName)) {
+						const moduleName = line.substring(0, line.indexOf(':')).trim();
+						if (!vanillaNolvusModulesLines.includes(moduleName.toLowerCase())) {
 							nonVanillaModules.push(moduleName);
 						}
 					}
@@ -378,7 +410,7 @@ h1		24	48	(only heading actually used/specified below)
 			return fetch('https://raw.githubusercontent.com/Phostwood/crash-analyzer/main/vanillaNolvusPlugins.txt')
 				.then(response => response.text())
 				.then(data => {
-					const vanillaNolvusPlugins = data.split('\n').map(line => line.trim());
+					const vanillaNolvusPlugins = data.split('\n').map(line => line.trim().toLowerCase());
 
 					const gamePluginsRegex = /Game plugins \(\d+\)\s*\{([\s\S]*?)}/;
 					var gamePluginsMatch = crashLog.match(gamePluginsRegex);
@@ -389,8 +421,8 @@ h1		24	48	(only heading actually used/specified below)
 					const vanillaPluginsInCrashLog = [];
 					pluginsInCrashLog.forEach((line, index) => {
 						if (line.includes(']')) {
-							const pluginName = line.substring(line.indexOf(']') + 1).trim().toLowerCase();
-							if (vanillaNolvusPlugins.includes(pluginName)) {
+							const pluginName = line.substring(line.indexOf(']') + 1).trim();
+							if (vanillaNolvusPlugins.includes(pluginName.toLowerCase())) {
 								vanillaPluginsInCrashLog.push(pluginName);
 							}
 						}
@@ -398,12 +430,15 @@ h1		24	48	(only heading actually used/specified below)
 
 					const badlyOrderedVanillaPluginsInCrashLog = [];
 					vanillaPluginsInCrashLog.forEach((line, index) => {
-						let pluginVanillaIndex = vanillaNolvusPlugins.indexOf(line);
+						let pluginVanillaIndex = vanillaNolvusPlugins.indexOf(line.toLowerCase());
 						let nextPluginInCrashLog = vanillaPluginsInCrashLog[index + 1];
-						let nextPluginVanillaIndex = vanillaNolvusPlugins.indexOf(nextPluginInCrashLog);
+						
+						if (nextPluginInCrashLog) {
+							let nextPluginVanillaIndex = vanillaNolvusPlugins.indexOf(nextPluginInCrashLog.toLowerCase());
 
-						if (nextPluginInCrashLog && (nextPluginVanillaIndex < pluginVanillaIndex)) {
-							badlyOrderedVanillaPluginsInCrashLog.push(line);
+							if (nextPluginVanillaIndex < pluginVanillaIndex) {
+								badlyOrderedVanillaPluginsInCrashLog.push(line);
+							}
 						}
 					});
 
@@ -411,7 +446,6 @@ h1		24	48	(only heading actually used/specified below)
 				})
 				.catch(error => console.error(error));
 		}
-
 
 		function compareLogToVanillaNolvusPluginsLines(crashLog) {
 			Promise.all([
@@ -651,6 +685,90 @@ h1		24	48	(only heading actually used/specified below)
 			return '<ul>' + wrappedListItems.join('') + '</ul>';
 		}
 
+		// Define the explainers list
+		const explainersMap = new Map([
+			['1three-eyedswallow.esp', '(<b>frequently shifts</b> order with different Nolvus configurations)'],
+			['1ndarmor.esp', '(<b>frequently shifts</b> order with different Nolvus configurations)'],
+			['cbp.dll', '(Collison Body <b>Physics</b>)'],
+			['ccbgssse018-shadowrend.esl', '(<b>see below</b>)'],
+			['concrt140.dll', '(Visual C++ Concurrency Runtime Library) - MS Windows'],
+			['d3d12core.dll', '(Direct3D 12 Core Runtime) - MS Windows'],
+			['d3dscache.dll', '(Direct3D Shader Cache) - MS Windows'],
+			['deviceaccess.dll', '(Device Broker And Policy COM Server) - MS Windows'],
+			['dmenu.dll', '(Dynamic Menu for Skyrim Special Edition Mods) - MS Windows'],
+			['dxgi.dll', '(DirectX Graphics Infrastructure) - MS Windows'],
+			['dxilconv.dll', '(Converter from DXBC to DXIL) - MS Windows'],
+			['ffx_backend_dx12_x64.dll', '(Backend Library for FidelityFX Super Resolution 3.0) - NVIDIA <b>driver</b>'],
+			['ffx_frameinterpolation_x64.dll', '(Frame Interpolation for FidelityFX Super Resolution 3.0) - NVIDIA <b>driver</b>'],
+			['ffx_fsr2_api_dx11_x64.dll', '(FidelityFX Super Resolution 2 API for DirectX 11) - AMD <b>driver</b>'],
+			['ffx_fsr2_api_x64.dll', '(FidelityFX Super Resolution 2 API) - AMD <b>driver</b>'],
+			['ffx_fsr3_x64.dll', '(FidelityFX Super Resolution 3.0 Core Library) - NVIDIA <b>driver</b>'],
+			['ffx_fsr3upscaler_x64.dll', '(FidelityFX Super Resolution 3.0 Upscaler) - NVIDIA <b>driver</b>'],
+			['ffx_opticalflow_x64.dll', '(Optical Flow for FidelityFX Super Resolution 3.0) - NVIDIA <b>driver</b>'],
+			['fwmf.esp', '(<b>Flat World Map</b> Framework)'],
+			['gameoverlayrenderer64.dll', '(Steam <b>overlay</b>)'],
+			['hdtsmp64.dll', '(Skinned Mesh <b>Physics</b>)'],
+			['igd10iumd64.dll', '(Intel Graphics Accelerator <b>Drivers</b> for Windows)'],
+			['igdgmm64.dll', '(Intel HD Graphics <b>Drivers</b> for Windows operating systems)'],
+			['igc64.dll', '(Intel Graphics Compiler for OpenCL) - Intel <b>driver</b>'],
+			['libxess.dll', '(Library for Xe Super Sampling) - NVIDIA <b>driver</b>'],
+			['lux orbis.esp', '(<b>frequently shifts</b> order with different Nolvus configurations)'],
+			['nvapi64.dll', '(NVIDIA Driver API Library) - NVIDIA <b>driver</b>'],
+			['nvlddmkm.sys', '(NVIDIA Windows Kernel Mode Driver) - NVIDIA <b>driver</b>'],
+			['nvngx_dlss.dll', '(NVIDIA DLSS (Deep Learning Super Sampling) Driver) - NVIDIA <b>driver</b>'],
+			['nvngx_dlssg.dll', '(NVIDIA DLSS (Deep Learning Super Sampling) Driver for FSR3) - NVIDIA <b>driver</b>'],
+			['nvoglv32.dll', '(NVIDIA OpenGL Driver for 32-bit systems) - NVIDIA <b>driver</b>'],
+			['nvoglv64.dll', '(NVIDIA OpenGL Driver for 64-bit systems) - NVIDIA <b>driver</b>'],
+			['nvwgf2um.dll', '(NVIDIA D3D10 drivers, part of the User Mode Driver for 32-bit systems) - NVIDIA <b>driver</b>'],
+			['nvwgf2umx.dll', '(NVIDIA D3D10 drivers, part of the User Mode Driver for 64-bit systems) - NVIDIA <b>driver</b>'],
+			['oleacc.dll', '(Active Accessibility Core Component) - MS Windows'],
+			['openanimationreplacer.dll', '(aka OAR)'],
+			['papyrusextender64.dll', '(<b>scripts</b>)'],
+			['papyrusextenderse.dll', '(<b>scripts</b>)'],
+			['papyrusextenderse64.dll', '(<b>scripts</b>)'],
+			['papyrustweaks.dll', '(<b>scripts</b>)'],
+			['papyrusutil.dll', '(<b>scripts</b>)'],
+			['pdperfplugin.dll', '(Puredark\'s Performance Plugin <b>driver</b>)'],
+			['po3_papyrusextender.dll', '(<b>scripts</b>)'],
+			['skee64.dll', '(Skyrim Script Extender (SKSE) <b>scripts</b>)'],
+			['skse64_1_5_97.dll', '(Skyrim Script Extender (SKSE) <b>scripts</b>)'],
+			['skyrimupscaler.dll', '(Puredark\'s Upscaler <b>driver</b>)'],
+			['tbbmalloc.dll', '(Memory allocator library for Threading Building Blocks) - Intel'],
+			['usvfs_x64.dll', '(MO2\'s User Space Virtual <b>File System</b>)'],
+			['vcruntime140.dll', '(Visual C++ Runtime Library) - MS Windows'],
+			['vulkan-1.dll', '(Vulkan Runtime Library) - MS Windows <b>driver</b>'],
+			['vulkaninfo.exe', '(Vulkan Info Utility) - MS Windows'],
+			['d3d11on12.dll', '(Direct3D 11On12 Runtime, maps graphics commands from D3D11 to D3D12) - Windows System'],
+			['nvcuda.dll', '(NVIDIA CUDA Driver, provides GPU acceleration for computing) - NVIDIA <b>driver</b>'],
+			['nvofapi64.dll', '(NVIDIA Optical Flow API, enables applications to use the optical flow capabilities) - NVIDIA <b>driver</b>'],
+			['sl.common.dll', '(Common library for Streamline, used by various NVIDIA technologies) - NVIDIA <b>driver</b>'],
+			['sl.dlss_g.dll', '(NVIDIA DLSS Frame Generation, infers frames for improved performance) - NVIDIA <b>driver</b>'],
+			['sl.interposer.dll', '(Interposer module for NVIDIA Streamline, required for proper functionality) - NVIDIA <b>driver</b>'],
+			['sl.reflex.dll', '(NVIDIA Reflex library, reduces system latency for competitive gaming) - NVIDIA <b>driver</b>'],
+			['mlang.dll', '(Multilanguage Support DLL) - Provides language-related functionality for various applications - MS Windows'],
+			['onecoreuapcommonproxystub.dll', '(OneCore UAP Common Proxy Stub) - Used for internal Windows operations'],
+			['windows.shell.servicehostbuilder.dll', '(Windows Shell Service Host Builder) - Part of the Windows Shell Service - MS Windows'],
+			['windows.system.launcher.dll', '(Windows System Launcher) - Starts the default app associated with a file or URI - MS Windows'],
+			['comctl32.dll', '(Common Controls Library) - Contains user interface controls and utilities used by Windows applications'],
+			['edputil.dll', '(EDP Utility Library) - Provides utility functions for Enterprise Data Protection - MS Windows'],
+			['msiso.dll', '(Isolation Library for Internet Explorer) - Helps to isolate plugins from the main browser process - MS Windows'],
+			['msvcp110_win.dll', '(Microsoft STL110 C++ Runtime Library) - Part of the Visual C++ Redistributable for Visual Studio 2012 - MS Windows'],
+			['windows.staterepositorycore.dll', '(Windows State Repository Core) - Manages state data for application services - MS Windows']
+		]);
+
+
+		function replaceWithExplainers(fileList) {
+			// Append the explanations to the items in fileList
+			for (let i = 0; i < fileList.length; i++) {
+				let lowerCaseFile = fileList[i].toLowerCase();
+				if (explainersMap.has(lowerCaseFile)) {
+					fileList[i] += ' ' + explainersMap.get(lowerCaseFile);
+				}
+			}
+
+			return fileList;
+		}
+
 
 		// - - - Main Function - - - 
 		async function analyzeLog() {
@@ -658,8 +776,8 @@ h1		24	48	(only heading actually used/specified below)
 			var diagnoses = '';
 			var diagnosesCount = 0;
 
-			compareLogToVanillaNolvusPluginsLines(logFile);	
-			compareLogToVanillaNolvusModulesLines(logFile);	
+			//DISABLE UNLESS NEEDED: compareLogToVanillaNolvusPluginsLines(logFile);	
+			//DISABLE UNLESS NEEDED: compareLogToVanillaNolvusModulesLines(logFile);	
 			
 			var logsFirstLine = logFile.split('\n')[0];
 
@@ -693,6 +811,12 @@ h1		24	48	(only heading actually used/specified below)
 			var probableCallstackSection = probableCallstackMatch ? probableCallstackMatch[0] : '';
 			//DEBUGGING: console.log('probableCallstackSection:' + probableCallstackSection);
 
+
+			// Check for proper log file
+			if (!logsTopThird.includes('NetScriptFramework')) {
+				diagnoses += '<li>❌<b>Incompatible Log File:</b> sorry, this analyzer is only compatible with NetScriptFramework logs. If you are using Nolvus, your crash logs should be located at <code>[YOUR_DRIVE]\\Nolvus\\Instances\\Nolvus Ascension\\MODS\\overwrite\\NetScriptFramework\\Crash</code></li>';
+				diagnosesCount++;
+			}
 
 			// Check for .STRINGS crash
 			var R14StringsRegex = /R14.*\.STRINGS/; // Regular expression to match "R14" and ".STRINGS" on the same line
@@ -744,7 +868,7 @@ h1		24	48	(only heading actually used/specified below)
 			}
 
 			//NVIDIA graphics driver
-			if (logsFirstLine.toLowerCase().includes('nvwgf2umx.dll') || logsFirstLine.toLowerCase().includes('nvlddmkm.sys') || logsFirstLine.toLowerCase().includes('nvoglv32.dll') || logsFirstLine.toLowerCase().includes('nvoglv64.dll') || logsFirstLine.toLowerCase().includes('nvwgf2um.dll')) {
+			if (logsFirstLine.toLowerCase().includes('nvwgf2umx.dll') || logsFirstLine.toLowerCase().includes('nvlddmkm.sys') || logsFirstLine.toLowerCase().includes('nvoglv32.dll') || logsFirstLine.toLowerCase().includes('nvoglv64.dll') || logsFirstLine.toLowerCase().includes('nvwgf2um.dll') || logsFirstLine.toLowerCase().includes('nvapi64.dll')) {
 				diagnoses += '<li>🎯<b>NVIDIA Driver Issue Detected:</b> The appearance of NVIDIA driver .dll files in the first line of your crash log is often associated with NVIDIA graphics driver issues. To resolve this, try the following steps:<ol>' +
 					'<li><b>Update your NVIDIA drivers</b> to the latest version. You can download the latest drivers from the <a href="https://www.nvidia.com/Download/index.aspx">NVIDIA website</a>.</li>' +
 					'<li>Check for any GPU overclocking settings that may be causing instability and reset them to default if necessary.</li>' +
@@ -850,8 +974,9 @@ h1		24	48	(only heading actually used/specified below)
 				var outHtml = '';
 				try {
 					var nonVanillaPlugins = await getNonNolvusGamePlugins(logFile);
+					nonVanillaPlugins = replaceWithExplainers(nonVanillaPlugins);
 					if (nonVanillaPlugins.length > 0) {
-						outHtml += '<details><summary>❓ Non-Vanilla Nolvus Plugins Detected (<code>' + nonVanillaPlugins.length + '</code>):<br><code>(click to see full list)</code></summary><ul>';
+						outHtml += '<details><summary>❓ Non-Vanilla Nolvus Plugins Detected (<code>' + nonVanillaPlugins.length + '</code>):<br><code>(click to expand/collapse full list)</code></summary><ul>';
 						for (let plugin of nonVanillaPlugins) {
 							outHtml += '<li><code>' + plugin + '</code></li>';
 						}
@@ -898,8 +1023,9 @@ h1		24	48	(only heading actually used/specified below)
 				var outHtml = '';
 				try {
 					var nonVanillaModules = await getNonNolvusModules(logFile);
+					nonVanillaModules = replaceWithExplainers(nonVanillaModules);
 					if (nonVanillaModules.length > 0) {
-						outHtml += '<details><summary>❓ Non-Vanilla Nolvus Modules Detected (<code>' + nonVanillaModules.length + '</code>):<br><code>(click to see full list)</code></summary><ul>';
+						outHtml += '<details><summary>❓ Non-Vanilla Nolvus Modules Detected (<code>' + nonVanillaModules.length + '</code>):<br><code>(click to expand/collapse full list)</code></summary><ul>';
 						for (let module of nonVanillaModules) {
 							outHtml += '<li><code>' + module + '</code></li>';
 						}
@@ -940,6 +1066,44 @@ h1		24	48	(only heading actually used/specified below)
 			insights += nonNolvusModulesHtml;
 
 
+
+			var missingVanillaPluginsHtml = '';
+			async function getMissingVanillaPluginsHtml(logFile) {
+				var outHtml = '';
+				try {
+					var missingPlugins = await getMissingVanillaPlugins(logFile);
+					missingPlugins = replaceWithExplainers(missingPlugins);
+					if (missingPlugins.length > 0) {
+						outHtml += '<details><summary>❓ Potentially Missing Vanilla Plugins (<code>' + missingPlugins.length + '</code>):<br><code>(click to expand/collapse full list)</code></summary> NOTE: Every Nolvus configuration is likely to be missing  at least a few dozen plugins, which are only installed for specific configurations. It appears that even vanilla configurations will likely be missing anywhere from 50 to over 100 plugins. A vanilla install of the Redux variant can be missing over 200 plugins. Moreover, some crashes won’t include most of the installed plugins in the log file, leading to a list where most, if not all, the vanilla plugins appear as missing. Nonetheless, if you suspect that an important plugin may be missing, this is the place to verify.<ul>';
+						for (let plugin of missingPlugins) {
+							outHtml += '<li><code>' + plugin + '</code></li>';
+						}
+						outHtml += '</ul></details>';
+					} else {
+						outHtml += '<details><summary>✅ No Missing Vanilla Plugins Detected</summary></details>';
+						hasBadlyOrganizedNolvusPlugins = false;
+					}	
+					console.log('missingPlugins:', missingPlugins);  //DEBUGGING:
+				} catch (error) {
+					console.error(error);
+				}
+				return outHtml;
+			}
+
+			try {
+				var missingVanillaPluginsHtml = await getMissingVanillaPluginsHtml(logFile);
+				if(missingVanillaPluginsHtml.length > 0) {
+					insightsCount++;
+				}
+			} catch (error) {
+				console.error(error);
+			}
+
+			insights += missingVanillaPluginsHtml;
+
+
+
+
 			
 			var badlyOrganizedNolvusPluginsHtml = '';
 			var hasBadlyOrganizedNolvusPlugins = false;
@@ -947,8 +1111,9 @@ h1		24	48	(only heading actually used/specified below)
 				var outHtml = '';
 				try {
 					var badlyOrderedVanillaPlugins = await getBadlyOrganizedNolvusPlugins(logFile);
+					badlyOrderedVanillaPlugins = replaceWithExplainers(badlyOrderedVanillaPlugins);
 					if (badlyOrderedVanillaPlugins.length > 0) {
-						outHtml += '<details><summary>❓ Possibly Misordered Vanilla Nolvus Plugins Detected (<code>' + badlyOrderedVanillaPlugins.length + '</code>):<br><code>(click to see full list)</code></summary> NOTE: a few just seem to move a bit with different vanilla configurations (refinements are likely to come in afuture version)<ul>';
+						outHtml += '<details><summary>❓ Possibly Misordered Vanilla Nolvus Plugins (<code>' + badlyOrderedVanillaPlugins.length + '</code>):<br><code>(click to expand/collapse full list)</code></summary> This list identifies Nolvus plugins from your game\'s crash log that may be out of their standard order. It compares the order of plugins in your crash log with the standard order of vanilla Nolvus plugins. The plugins in the list are those that seem to be out of order, which could potentially lead to game crashes. Returning these plugins to their original order may help improve game stability. NOTE: A few may shift slightly with different vanilla configurations.<ul>';
 						for (let plugin of badlyOrderedVanillaPlugins) {
 							outHtml += '<li><code>' + plugin + '</code></li>';
 						}
@@ -991,6 +1156,7 @@ h1		24	48	(only heading actually used/specified below)
 				'<li>SSE FPS Stabilizer: <code>' + hasSseFpsStabilizer(logFile) + '</code></li>' +
 				'<li>Paid Upscaler: <code>' + hasPaidUpscaler(logFile) + '</code></li>' +
 				'<li>FSR3: <code>' + hasFSR3(logFile) + '</code></li>' +
+				'<li>Occurrences of NULL and void: <code>' + countNullVoid(logsTopHalf) + ' (probably meaningless?)</code></li>' +
 				'</ul>';
 
 			// Define the sections to count lines in
@@ -1239,36 +1405,6 @@ h1		24	48	(only heading actually used/specified below)
 				'XINPUT1_3.dll'
 			].map(item => item.toLowerCase());
 
-			// Define the explainers list
-			const explainersList = [
-				'cbp.dll', '(Collison Body <b>Physics</b>)',
-				'ccbgssse018-shadowrend.esl', '(<b>see below</b>)',
-				'dxgi.dll', '(graphics <b>driver</b>)',
-				'FWMF.esp', '(<b>Flat World Map</b> Framework)',
-				'gameoverlayrenderer64.dll', '(Steam <b>overlay</b>)',
-				'mihailmmasithis.esp', '(<b>see 🎯 above</b>)', //NOTE: normally doesn't match though
-				'hdtSMP64.dll', '(Skinned Mesh <b>Physics</b>)',
-				'igc64.dll', '(Intel Graphics Compiler <b>driver</b>)',
-				'nvngx_dlss.dll', '(FSR2 Upscaler DLSS <b>driver</b>)',
-				'nvngx_dlssg.dll', '(FSR3 (Upscaler DLSS <b>driver</b>)',
-				'nvlddmkm.sys', '(NVIDIA graphics <b>driver</b>)',
-				'nvoglv32.dll', '(NVIDIA graphics <b>driver</b>)',
-				'nvoglv64.dll', '(NVIDIA graphics <b>driver</b>)',
-				'nvwgf2umx.dll', '(NVIDIA graphics <b>driver</b>)',
-				'nvwgf2um.dll', '(NVIDIA graphics <b>driver</b>)',
-				'PapyrusExtender64.dll', '(<b>scripts</b>)',
-				'PapyrusExtenderSE.dll', '(<b>scripts</b>)',
-				'PapyrusExtenderSE64.dll', '(<b>scripts</b>)',
-				'PapyrusTweaks.dll', '(<b>scripts</b>)',
-				'PapyrusUtil.dll', '(<b>scripts</b>)',
-				'PDPerfPlugin.dll', '(Puredark\'s Performance Plugin <b>driver</b>)',
-				'po3_PapyrusExtender.dll', '(<b>scripts</b>)',
-				'skee64.dll', '(Skyrim Script Extender (SKSE) <b>scripts</b>)',
-				'skse64_1_5_97.dll', '(Skyrim Script Extender (SKSE) <b>scripts</b>)',
-				'SkyrimUpscaler.dll', '(Puredark\'s Upscaler <b>driver</b>)',
-				'tbbmalloc.dll', '(<b>see below</b>)',
-				'usvfs_x64.dll', '(MO2\'s User Space Virtual <b>File System</b>)',
-			];
 
 			allMatches = allMatches.map(item => {
 				// Remove "File:" and quotes
@@ -1280,13 +1416,9 @@ h1		24	48	(only heading actually used/specified below)
 				}
 
 				// If the item is in the explainers list, append the explanation
-				const explainerIndex = explainersList.findIndex((item, index) => {
-					return index % 2 === 0 && item.toLowerCase() === processedItem.toLowerCase();
-				});
-				if (explainerIndex !== -1 && explainerIndex < explainersList.length - 1) {
-					processedItem += ` ${explainersList[explainerIndex + 1]}`;
+				if (explainersMap.has(processedItem.toLowerCase())) {
+					processedItem += ` ${explainersMap.get(processedItem.toLowerCase())}`;
 				}
-
 				// Check if the line contains any removable lines
 				// const isRemovable = removeList.some(removable => processedItem.toLowerCase().includes(removable));
 				// if (isRemovable) {
@@ -1380,7 +1512,7 @@ h1		24	48	(only heading actually used/specified below)
 			}
 
 			//NVIDIA graphics driver
-			if (logsTopThirdNoHeading.toLowerCase().includes('nvwgf2umx.dll') || logsTopThirdNoHeading.toLowerCase().includes('nvlddmkm.sys') || logsTopThirdNoHeading.toLowerCase().includes('nvoglv32.dll') || logsTopThirdNoHeading.toLowerCase().includes('nvoglv64.dll') || logsTopThirdNoHeading.toLowerCase().includes('nvwgf2um.dll')) {
+			if (logsTopThirdNoHeading.toLowerCase().includes('nvwgf2umx.dll') || logsTopThirdNoHeading.toLowerCase().includes('nvlddmkm.sys') || logsTopThirdNoHeading.toLowerCase().includes('nvoglv32.dll') || logsTopThirdNoHeading.toLowerCase().includes('nvoglv64.dll') || logsTopThirdNoHeading.toLowerCase().includes('nvwgf2um.dll') || logsTopThirdNoHeading.toLowerCase().includes('nvapi64.dll')) {
 				insights += '<li>❗<b>Potential NVIDIA Driver Issue Detected:</b> NVIDIA driver .dll files showing up in the top few sections of a crash log may be linked to NVIDIA graphics driver issues. To resolve this, try the following steps:<ol>' +
 					'<li><b>Update your NVIDIA drivers</b> to the latest version. You can download the latest drivers from the <a href="https://www.nvidia.com/Download/index.aspx">NVIDIA website</a>.</li>' +
 					'<li>If updating does not resolve the issue, perform a clean installation of the drivers using a tool like Display Driver Uninstaller (DDU) to remove all traces of the previous drivers before installing the new ones.</li>' +
@@ -1403,6 +1535,17 @@ h1		24	48	(only heading actually used/specified below)
 			//Missing Master 2
 			if (logsFirstLine.includes('5E1F22') || logsFirstLine.includes('05E1F22')) {
 				insights += '<li>❗<b>Potential Missing Masters Detected:</b> Codes for 5E1F22 or 05E1F22 in the first line of a crash log may suggest a missing master files. MO2 will display a warning icon next to plugins that are missing their masters. This issue can arise from incompatibilities due to a newly added mod, which is sometimes resolvable by installing <a href="https://www.nexusmods.com/skyrimspecialedition/mods/106441">Backported Extended ESL Support (BEES)</a>. It can also occur when one mod is removed (or disabled) while another mod or patch still expects it to be present. In this scenario, refer to the following tutorial on <a href="https://github.com/LivelyDismay/Learn-To-Mod/blob/main/lessons/Remove%20a%20Master.md">How To Remove a Master Requirement From a Plugin</a>.</li>';
+				insightsCount++;
+			}
+
+			// dxgi.dll issue (ReShade and PureDark Upscaler)
+			if (logsTopHalf.includes('dxgi.dll')) {
+				insights += '<li>❗<b>dxgi.dll Issue Detected:</b> The presence of dxgi.dll in the log\'s top half indicates a potential issue between ReShade and the PureDark Upscaler. Common causes and resolutions include:<ol>' +
+					'<li><b>ReShade Version:</b> If you have upgraded your ReShade to a newer version (e.g., 6.11 for the latest Cabbage release), the older and customized dxgi.dll from PureDark might cause issues. See below if you wish to revert to the original Reshade.</li>' +
+					'<li><b>PureDark Upscaler:</b> If you are using newer versions of the PureDark upscaler (specifically for 40xx cards), you need to download a customized version of dxgi.dll from their Discord for compatibility with ReShade.</li>' +
+					'<li><b>Missing dxgi.dll:</b> If you want to revert back from PureDark and don\'t have the original dxgi.dll, you can find it in your archived mods installed from Nolvus. Alternatively, reinstall ReShade following the <a href="https://www.nolvus.net/guide/natl/enb">11.3 Reshade Binaries</a> instructions on the Nolvus site.</li>' +
+					'<li><b>Workaround:</b> Alternatively, you can disable ReShade by pressing the DEL key to turn it on or off.' +
+        			'</ol></li>';
 				insightsCount++;
 			}
 
@@ -1628,13 +1771,13 @@ h1		24	48	(only heading actually used/specified below)
 
 			//SimplestHorses.esp
 			if (relevantObjectsSection.toLowerCase().includes('SimplestHorses.esp'.toLowerCase())) {
-				insights += '<li><b>Potential Conflict with Simplest Horses:</b> This crash occurs on customized lists and is speculated to be the result of a conflict between Simplest Horses and certain additional mods. If issue persists try disabling either your recentlly added mod(s), or these two mods: <ol><li>Simplest Horses</li><li>Simplest Horses - Animated Whistling Patch</li></ol></li>';
+				insights += '<li><b>Potential Conflict with Simplest Horses:</b> This crash occurs on customized lists and is speculated to be the result of a conflict between Simplest Horses and certain additional mods. If issue persists try disabling either your recently added mod(s), or these two mods: <ol><li>Simplest Horses</li><li>Simplest Horses - Animated Whistling Patch</li></ol></li>';
 				insightsCount++;
 			}
 
 			//Animated Ice Floes.esp
 			if (relevantObjectsSection.toLowerCase().includes('Animated Ice Floes.esp'.toLowerCase())) {
-				insights += '<li><b>Potential Conflict with Animated Ice Floes:</b> This crash occurs on customized lists and is speculated to be the result of a conflict between Animated Ice Floes and certain additional mods. If issue persists try disabling either your recentlly added mod(s), or the Animated Ice Floes mod.</li>';
+				insights += '<li><b>Potential Conflict with Animated Ice Floes:</b> This crash occurs on customized lists and is speculated to be the result of a conflict between Animated Ice Floes and certain additional mods. If issue persists try disabling either your recently added mod(s), or the Animated Ice Floes mod.</li>';
 				insightsCount++;
 			}
 
@@ -1926,34 +2069,18 @@ h1		24	48	(only heading actually used/specified below)
 
 		// - - - TODOs - - -
 
-		// ✅ Beta version 0.11.4
-		// ✅ Added alert if trying to upload a non-.txt file (like .log) or something
-		// ✅ New "Non-Vanilla Nolvus Modules Detected" listing
-			// NOTE: it looks like Modules are not listed in the same sort order, even subsequent crash logs from the same vanilla-Nolvus user
-				// Single crash log can list same DLL multiple times in the same Modules list
-				// But then again, does load order even matter for the DLLs? (I don't think it does)
-		// ✅ New "Possibly Misordered Vanilla Nolvus Plugins Detected" listing
-		// ✅ New Speculative "Apply Order" test for vanilla plugins
-		// ✅ Bug fix for when the "Cutomized" flag wasn't being displayed (from prior version)
-		// ✅ Added link to new reddit post about "Apply Order" in regards to Alphabetized Load Order Detected Crash
-		// ✅ Added emojis ✅ and ❓ to the Speculative file collapsable listings
+		// ✅ Beta version 0.11.5
+		// ✅ New Diagnostic Test: "Incompatible Log File" ... with instructions on how to find the NetScriptFramework logs
+		// ✅ New Advanced Users Test: test for dxgi.dll (might be promoted to a Diagnostic test in a future version). Discussion at https://discord.com/channels/740569699900719145/1168063977029382235/1234572365262753792
+		// ✅ Added nvapi64.dll as another graphics driver to test for in the NVIDIA tests
+		// ✅ New list of "Potentially Missing Vanilla Plugins" note: some will always be missing with various configurations
+		// ✅ Expansion and refinements to the explainersList/explainersMap to expalain additional file types, and for usage of the explainers in the expandable lists
+		// ✅ Fixed hasNolvusUltra which was looking for a file also existant in Redux
+		// ✅ Added Occurrences of NULL and void into the Log Summary section (Advanced Users) ... but labeled it as "(probably meaningless?)"
 
 		
 		// FEASIBLE? Gather list of always-install Plugins? List of removed vanilla Nolvus plugins? https://discord.com/channels/740569699900719145/1168063977029382235/1234896387888517291	
 			// Strip out the non-"Always Install" plugins from "vanillaNolvusPlugins - AlwaysInstall.txt"
-
-
-		// todo: Add Diagnosis if unable to find "NetScriptFramework"	
-		// New test for dxgi.dll:
-			//https://discord.com/channels/740569699900719145/1168063977029382235/1234572365262753792
-			//https://discord.com/channels/740569699900719145/1168063977029382235/1234572689054896129
-			// https://discord.com/channels/740569699900719145/1168063977029382235/1234572365262753792
-			// https://discord.com/channels/740569699900719145/1168063977029382235/1234573120657035314
-			// https://discord.com/channels/740569699900719145/1168063977029382235/1234573217591721984
-			// https://discord.com/channels/740569699900719145/1168063977029382235/1234573300815102095
-			// https://discord.com/channels/740569699900719145/1168063977029382235/1234573503727009853
-	
-
 	
 		// New ?Helper version with Discord help codes:  https://discord.com/channels/740569699900719145/1229319785758851082/1234882170456375338
 
@@ -1961,15 +2088,12 @@ h1		24	48	(only heading actually used/specified below)
 
 
 
-		// ⏸️explainerList for "Non-Vanilla Nolvus Modules Detected" and "Non-Vanilla Nolvus Plugins Detected" and "Possibly Misordered Vanilla Nolvus Plugins Detected"
-		// ⏸️ Test and log insight for ENB version?
-		// ⏸️ New tests for Dico's patches which are recommended in this analyzer	
+		// ⏸️ ?Test and log insight for ENB version?
+		// ⏸️ New tests for Disco's patches which are recommended in this analyzer ... and alter diagnosis if patch is already present.
 		// ⏸️ ?Maybe shorten the Log Insights to just show the true indicators? Skip the false ones?
 		// ⏸️ Adjust number of expected mods around that ... and add plus or minus numbers for Ultra Wide, or other hardware options, configs etc. Plus add numbers for Skyrim, SE, CC, Dawnguard, Hearthfire, Dragonborn, and any other base mods that are always there
 		// ⏸️ Expanded troubleshooting advice for "Apply Order" with something like: "If this issue persists after a "Apply Order" ... reinstall Nolvus (much faster from Archives)""
-		// ⏸️ Check location of a few mods to ensure they are in the whatever 10th percentile of the load order that they should be. Try to collect a dozen or so such indicators. Maybe  new loadOrderPercentile() test?
 		// ⏸️ More tests for "Apply Order": "Game plugins (81)"" vs "Game plugins (2343)" ... clearly 81 (from Alphabetized - Crash_2024_4_20_22-21-11.txt) is wayyyy too few
-		// ⏸️Load Order Test: "Apply Order fix?" Generate a mod list from my own with all my custom mods removed, then remove anything that says ultra or whatever, then remove anything that says "patch" or "fix" or "compatibility. then create a skeleton list, which can be compared to the crash log to see if any inmportant files are out of order to each other
 
 
 		//Coming soon:
@@ -1977,18 +2101,12 @@ h1		24	48	(only heading actually used/specified below)
 
 		// - - - FUTURE FEATURES? - - -
 		// ⏸️Special code for Google Analytics conversions and clicks and stuff? (conversion would be a following a diagnosed link to Nolvus.net? CLick would be doing an analysis? Need to read up on the Google Analytics docs.
-		// ⏸️Display the "Game plugins (2343)" line? 
 		// ⏸️[INFEASIBLE?] Color syntaxing? Maybe output the "Possible relevant objects" section and the "Probable callstack" with the non-null single quoted names and filenames? Probably need to collect more crash logs from different sources before deciding? 
-		// ⏸️[INFEASIBLE?] List missing mods? (infeasible without knowing individual install configs?)
-		// ⏸️[INFEASIBLE?] List non-vanilla mods? (infeasible without a single list of all possible vanilla-Nolvus mods from all possible variants and configurations)
-		// ⏸️[INFEASIBLE?] Out of order/sequence vanilla mods? (infeasible without a single list of all possible vanilla-Nolvus mods from all possible variants and configurations)
 		// ⏸️Custom mod found in Probable Callstack:  "In customized you’ll likely find that there will be many direct mod related crashes which will list themselves. Most of the time it’s as simple as disabling or adjusting the load order of referenced mod" (description from Corrupt Bliss)
 		// ⏸ Find new tests/features in any other Skyrim crash-analysis mods?
 		// ⏸ Somehow extract mod names from Probable Callstack and above ... and list the ones that show up with their number of occurences?
-		// ⏸Check for updated version on GitHub? (and alerts user to self-refresh if file is old)
+		// ⏸ [INFEASIBLE?] Check for updated version on GitHub? (and alerts user to self-refresh if file is old)
 		// ⏸ New FaceGen Crash, counting "FaceGen" occurences. Indicate as possible crash. Pending troubleshooting advice. See "maybe Skeleton or Facegen - Crash_2024_4_13_14-6-0.txt"
-		// ⏸️See if I can count mods like the Nolvus Dashboard: https://github.com/vektor9999/NolvusDashboard/blob/main/Vcc.Nolvus.Services/Report/ReportService.cs
-
 
 	</script>
 </head>
