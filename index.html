@@ -23,7 +23,7 @@
 	<title>Crash Log Analyzer</title>
 
 	<meta charset="UTF-8">
-	<meta name="version" content="0.12.1">
+	<meta name="version" content="0.12.2">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 	<link rel="icon" type="image/x-icon" href="https://phostwood.github.io/crash-analyzer/favicon.ico">
@@ -999,7 +999,7 @@ h1		24	48	(only heading actually used/specified below)
 			// Check for Alphabetized Load Order crash
 			var percentAlphabetized = getPercentAlphabetized(logFile);
 			if (percentAlphabetized > 70) {
-				diagnoses += '<li>🎯 <b>Alphabetized Load Order Detected:</b> This log file\'s .esp mods are ' + percentAlphabetized + '% alphabetized in their load order. Open the Nolvus Dashboard, click on "Manage" then "Instance". Once loaded, click on <b>"Apply Order"</b>. For more information and a screenshot, see this r/Nolvus post <a href="https://www.reddit.com/r/Nolvus/comments/1chuod0/how_to_apply_order_button_usage_in_the_nolvus/">🛠️ How To: "Apply Order" button usage in the Nolvus Dashboard</a>. Also, if you have customized Nolvus with additional mods, review information on the <a href="https://www.nolvus.net/catalog/crashlog?acc=accordion-1-7">Load Order Crash</a>. ⚠️NOTE: Any added mods will be disabled and moved to the bottom of your list, so you\'ll have to manually re-order and re-enable those, but your vanilla Nolvus mods will be returned to their intended order.</li>';
+				diagnoses += '<li>🎯 <b>Alphabetized Load Order Detected:</b> This log file\'s .esp mods are ' + percentAlphabetized + '% alphabetized in their load order. Open the Nolvus Dashboard, click on "Manage" then "Instance". Once loaded, click on <b>"Apply Order"</b>. For more information and a screenshot, see this r/Nolvus post <a href="https://www.reddit.com/r/Nolvus/comments/1chuod0/how_to_apply_order_button_usage_in_the_nolvus/">How To: "Apply Order" button usage in the Nolvus Dashboard</a>. Also, if you have customized Nolvus with additional mods, review information on the <a href="https://www.nolvus.net/catalog/crashlog?acc=accordion-1-7">Load Order Crash</a>. ⚠️NOTE: Any added mods will be disabled and moved to the bottom of your list, so you\'ll have to manually re-order and re-enable those, but your vanilla Nolvus mods will be returned to their intended order.</li>';
 				diagnosesCount++;
 			}
 
@@ -1663,7 +1663,7 @@ h1		24	48	(only heading actually used/specified below)
 					'<li>Any disabled vanilla mods will again be enabled.</li>' +
 					'<li>All vanilla Nolvus mods will be restored to their original sorting (load order).</li>' +
 					'<li>This is useful if you are troubleshooting a load order and wish to start from a vanilla Nolvus state without reinstalling, if you accidentally moved one or more mods in Mod Organizer 2 (MO2), or if your load order somehow got corrupted.</li>' +
-					'<li>For more information and a screenshot, see this r/Nolvus post <a href="https://www.reddit.com/r/Nolvus/comments/1chuod0/how_to_apply_order_button_usage_in_the_nolvus/">🛠️ How To: "Apply Order" button usage in the Nolvus Dashboard</a>.</li>' +
+					'<li>For more information and a screenshot, see this r/Nolvus post <a href="https://www.reddit.com/r/Nolvus/comments/1chuod0/how_to_apply_order_button_usage_in_the_nolvus/">How To: "Apply Order" button usage in the Nolvus Dashboard</a>.</li>' +
 					'</ol></li>';
 					
 				insightsCount++;
@@ -2262,26 +2262,8 @@ h1		24	48	(only heading actually used/specified below)
 
 		// - - - TODOs - - -
 
-		// ✅ Beta version 0.12.1
-		// ✅ Added to 12F4797 Physics Crash: "(or possibly from a recent save made from Ancestor Glade)" as per https://discord.com/channels/740569699900719145/755346172243214376/1236221811880890408
-		// ✅ Improved reliability of Apply Order Test (and "Possibly Misordered Vanilla Nolvus Plugins" list). That test now uses a sperate reference file which excludes four plugins that are very frequently in different locations
-		// ✅ new function countPlugins()
-		// ✅ Fixed malformed HTML in Upscaler Issue Detected description
-		// ✅ Enhanced the Discord markdown converting function to handle multple levels of indentations in lists, and to hide the automatic embed previews from showing after posting
-		// ✅ Added files and description tweaks to the explainersMap
-		// ✅ New function reduxOrUltraVariant() with text output
-		// ✅ Moved speculative Upscaler test to the "More Definitive Tests" section
-		// ✅ Removed some accidentally-left AI foot notes from description in "D2B923" issue
-		// ✅ Added discordhook64.dll to the "Potential Overlay Issue Detected" test
-		// ✅ Added space character after 🎯 emoji in results (it was appearing too cramped)
-		// ✅ Tested all markdown produced by test_log.txt
-		// ✅ Fix bug where prior "Customized" flag would sometimes not be cleared with a new file
-		// ✅ New Log Insight for Fantasy Mode
-		// ✅ New advanced users list: "Non-Nolvus Plugins Detected at Bottom"
-		// ✅ New advanced users insight: hasNonNolvusPluginsAtBottom
-		// ✅ If countPlugins too low, no longer displays some meaningless results/insights
-		// ✅ All diagnosis' emojis now have a copy link by clicking on its emoji
-		// ✅ Copied diagnoses now have a shortened header
+		// ✅ Beta version 0.12.2
+		// ✅ Fixed links with 🛠️ emoji that wasn't converting to Discord markdown correctly
 
 
 
