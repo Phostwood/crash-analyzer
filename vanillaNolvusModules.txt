@@ -127,6 +127,11 @@ kernel.appcore.dll
 kernel32.dll
 kernelbase.dll
 keyholepeekmenu.dll
+KiENBExtender.dll
+KiHalloc.dll
+KiLoader.dll
+KiLoaderSatelliteENB.dllplugin
+KiLoaderSatelliteSKSE.dll
 large_sector_fix.dll
 libfire.dll
 libmathf.dll
