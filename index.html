@@ -23,7 +23,7 @@
 	<title>Crash Log Analyzer</title>
 
 	<meta charset="UTF-8">
-	<meta name="version" content="0.12.2">
+	<meta name="version" content="0.12.3">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 	<link rel="icon" type="image/x-icon" href="https://phostwood.github.io/crash-analyzer/favicon.ico">
@@ -1756,6 +1756,12 @@ h1		24	48	(only heading actually used/specified below)
 				insightsCount++;
 			}
 
+			//ENB issue
+			if (logsFirstLine.includes('d3d11.dll')) {
+				insights += '<li>❗ <b>ENB Issue Detected:</b> A crash log\'s first line with <code>d3d11.dll</code> (Direct3D 11 Runtime - MS Windows graphics component), indicates a crash related to graphics processing</b>. If you have recently installed an ENB or Reshader or the like, verify that you used the correct version, and that you have installed it correctly. Documentation for vanilla Nolvus options can be found in the <a href="https://www.nolvus.net/guide/natl/enb">1. ENB & RESHADE</a> guide on Nolvus.net. Documentation for both the new Cabbage ENB and Kauz ENB can be found in <a href="https://www.reddit.com/r/Nolvus/comments/1clurux/nolvus_enb_install_guides_and_info/">Nolvus ENB install guides and info</a> on r/Nolvus.</li>';
+				insightsCount++;
+			}
+
 
 			insights += '</ul><h5>Memory and Image-related Issues:</h5><ul>';
 
@@ -2262,10 +2268,12 @@ h1		24	48	(only heading actually used/specified below)
 
 		// - - - TODOs - - -
 
-		// ✅ Beta version 0.12.2
-		// ✅ Fixed links with 🛠️ emoji that wasn't converting to Discord markdown correctly
+		// ✅ Beta version 0.12.3
+		// ✅ New avanced test: ENB issue (d3d11.dll)
+		// ✅  "1\. ENB & RESHADE" showing up in Discord with the "\" not being an invisible escape character. And removed blank lines that were looking funny.
 
 
+		// ⏸️Make issues like Trishape conform to be all in bulletpoints for better formatting on Discord
 
 		// FEASIBLE? Gather list of always-install Plugins? List of removed vanilla Nolvus plugins? https://discord.com/channels/740569699900719145/1168063977029382235/1234896387888517291	
 			// Strip out the non-"Always Install" plugins from "vanillaNolvusPlugins - AlwaysInstall.txt"
@@ -2348,7 +2356,7 @@ h1		24	48	(only heading actually used/specified below)
 			<p>Please <strong>report any issues</strong> (or share suggestions) in my <a
 					href="https://www.reddit.com/r/Nolvus/comments/1bzwo0z/unofficial_nolvus_crash_log_analyzer/">r/Nolvus
 					reddit post</a>.</p>
-			<p>Thank you to Vektor, Discrepancy, Gaetan, Corrupt Bliss, and CJ for your documentation and/or assistance!
+			<p>Thank you to Vektor, Discrepancy, Gaetan, Corrupt Bliss, CJ, and Demognomicon for your documentation and/or assistance!
 			</p>
 		</aside>
 	</main>
@@ -2482,48 +2490,55 @@ h1		24	48	(only heading actually used/specified below)
 
 		// - - -  "Copy Diagnosis" button - - - 
 
-// Function to convert HTML to Markdown for Discord
-function convertHTMLToMarkdown(html) {
-    var turndownService = new TurndownService({
-        bulletListMarker: '-', // Markdown bullet list marker
-        headingStyle: 'atx'    // Markdown heading style
-    });
+		// Function to convert HTML to Markdown for Discord
+		function convertHTMLToMarkdown(html) {
+			var turndownService = new TurndownService({
+				bulletListMarker: '-', // Markdown bullet list marker
+				headingStyle: 'atx'    // Markdown heading style
+			});
 
-    // Add a rule to handle <a> tags to remove link previews
-    turndownService.addRule('noLinkPreview', {
-        filter: 'a',
-        replacement: function (content, node) {
-            return '[' + content + '](' + '<' + node.href + '>' + ')';
-        }
-    });
+			// Add a rule to handle <a> tags to remove link previews
+			turndownService.addRule('noLinkPreview', {
+				filter: 'a',
+				replacement: function (content, node) {
+					return '[' + content + '](' + '<' + node.href + '>' + ')';
+				}
+			});
 
-    // Add a rule to handle <li> tags for proper line breaks and indentation in Discord
-    turndownService.addRule('listItem', {
-        filter: 'li',
-        replacement: function (content, node) {
-            var prefix = '- ';
-            var parent = node.parentNode;
-            if (parent.nodeName === 'OL' || parent.nodeName === 'UL') {
-                var nestingLevel = 0;
-                while (parent.parentNode) {
-                    if (parent.parentNode.nodeName === 'LI' && (parent.nodeName === 'OL' || parent.nodeName === 'UL')) {
-                        nestingLevel++;
-                    }
-                    parent = parent.parentNode;
-                }
-                prefix = ' '.repeat(nestingLevel * 2) + prefix;
-            }
-            return prefix + content.trim() + '\n';
-        }
-    });
+			// Add a rule to handle <li> tags for proper line breaks and indentation in Discord
+			turndownService.addRule('listItem', {
+				filter: 'li',
+				replacement: function (content, node) {
+					var prefix = '- ';
+					var parent = node.parentNode;
+					if (parent.nodeName === 'OL' || parent.nodeName === 'UL') {
+						var nestingLevel = 0;
+						while (parent.parentNode) {
+							if (parent.parentNode.nodeName === 'LI' && (parent.nodeName === 'OL' || parent.nodeName === 'UL')) {
+								nestingLevel++;
+							}
+							parent = parent.parentNode;
+						}
+						prefix = ' '.repeat(nestingLevel * 2) + prefix;
+					}
+					return prefix + content.trim() + '\n';
+				}
+			});
 
-    // Remove specific emoji characters (🎯❗❓⚠️)
-    //DISABLED:  html = html.replace(/[\uD83C\uDFAF\u2757\u2753\u26A0\uFE0F]/g, '');
-    // Remove all non-ASCII characters
-    //DISABLED:  html = html.replace(/[^\x00-\x7F]/g, '');
+			// Remove specific emoji characters (🎯❗❓⚠️)
+			//DISABLED:  html = html.replace(/[\uD83C\uDFAF\u2757\u2753\u26A0\uFE0F]/g, '');
+			// Remove all non-ASCII characters
+			//DISABLED:  html = html.replace(/[^\x00-\x7F]/g, '');
 
-    return turndownService.turndown(html);
-}
+			var markdown = turndownService.turndown(html);
+			//replace '\.' with '.' to prevent escaping of periods
+			markdown = markdown.replace(/\\./g, '.');
+
+			// Replace multiple consecutive newline characters with a single newline character
+			markdown = markdown.replace(/\n\s*\n/g, '\n');
+			
+			return markdown;
+		}
 
 
 		function getResultsHeader() {
