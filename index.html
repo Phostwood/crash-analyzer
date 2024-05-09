@@ -23,7 +23,7 @@
 	<title>Crash Log Analyzer</title>
 
 	<meta charset="UTF-8">
-	<meta name="version" content="0.12.3">
+	<meta name="version" content="0.13.1">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 	<link rel="icon" type="image/x-icon" href="https://phostwood.github.io/crash-analyzer/favicon.ico">
@@ -153,6 +153,16 @@ h1		24	48	(only heading actually used/specified below)
 			margin-bottom: 0.33em;
 		}
 
+		ol ol,
+		ol ul,
+		ul ol,
+		ul ul {
+			margin-top: 1em;
+			margin-bottom: 1em;
+			margin-left: 2%;
+			margin-right: 0;
+		}
+
 		a {
 			color: #89CFF0;
 			/* Blue color for links */
@@ -200,6 +210,15 @@ h1		24	48	(only heading actually used/specified below)
 		#crashLog.dragover {
 			background-color: #d0d0d0;
 			/* Light grey background when dragging over */
+		}
+
+		.extraInfo {
+			list-style-type: none;
+			margin-left: 2%;
+		}
+
+		.extraInfo li {
+			list-style-type: disc;
 		}
 	</style>
 
@@ -436,7 +455,7 @@ h1		24	48	(only heading actually used/specified below)
 		}
 
 		function getBadlyOrganizedNolvusPlugins(crashLog) {
-			return fetch('https://raw.githubusercontent.com/Phostwood/crash-analyzer/main/vanillaNolvusPlugins%20-%20removed%20those%20that%20vary.txt')
+			return fetch('https://raw.githubusercontent.com/Phostwood/crash-analyzer/main/vanillaNolvusPlugin-WithStableLocation.txt')
 				.then(response => response.text())
 				.then(data => {
 					const vanillaNolvusPlugins = data.split('\n').map(line => line.trim().toLowerCase());
@@ -740,7 +759,7 @@ h1		24	48	(only heading actually used/specified below)
 			});
 
 			// Add <ul> tags before the first <li> and after the last <li>
-			return '<ul>' + wrappedListItems.join('') + '</ul>';
+			return wrappedListItems.join('');
 		}
 
 		// Define the explainers list
@@ -753,6 +772,7 @@ h1		24	48	(only heading actually used/specified below)
 				['asm.plugin.audiodevprops2.dll', '(<b>Nahimic</b> audio component)'],
 				['atcuf64.dll', '(<b>Bitdefender</b> Active Threat Control Userland API)'],
 				['atiuxp64.dll', '(<b>AMD</b> graphics component)'],
+				['atiumd6a.dll', '(<b>AMD</b> graphics component)'],
 				['autohdr64.addon', '(AutoHDR Addon for <b>ReShade</b>)'],
 				['avamsi.dll', '(Avira <b>Antimalware</b> Scan Interface)'],
 				['avamsicli.dll', '(Avira <b>Antimalware</b> Client Interface)'],
@@ -780,6 +800,7 @@ h1		24	48	(only heading actually used/specified below)
 				['detoured.dll', '(<b>Microsoft</b> Detours Library)'],
 				['deviceaccess.dll', '(Device Broker And Policy COM Server) - MS <b>Windows</b>'],
 				['discordhook64.dll', '(Discord In-Game <b>Overlay</b> Library)'],
+				['dkaf.dll', '(Skyrim</b> modding tool for <b>binding keys to actions/animations</b>)'],
 				['dmenu.dll', '(Dynamic Menu for Skyrim SE Mods) - MS <b>Windows</b>'],
 				['dxcompiler.dll', '(Direct3D Shader Compiler) - MS <b>Windows</b>'],
 				['dxgi.dll', '(DirectX Graphics Infrastructure) - MS <b>Windows</b>'],
@@ -848,7 +869,7 @@ h1		24	48	(only heading actually used/specified below)
 				['skee64.dll', '(Skyrim <b>Script</b> Extender)'],
 				['skse64_1_5_97.dll', '(Skyrim <b>Script</b> Extender)'],
 				['skyrimautoreloader.dll', '(<b>recommended</b> bug fix)'],
-				['Skyrim Paper Map by FreelanceCartography (2nd Edition) for FWMF.esp', '(place near <b>bottom</b>)'],
+				['skyrim paper map by freelancecartography (2nd edition) for fwmf.esp', '(place near <b>bottom</b>)'],
 				['skyrimupscaler.dll', '(<b>Puredark\'s Upscaler</b>)'],
 				['sl.common.dll', '(Streamline Common Library) - <b>NVIDIA</b>'],
 				['sl.dlss_g.dll', '(<b>NVIDIA</b> DLSS Frame Generation)'],
@@ -1031,10 +1052,10 @@ h1		24	48	(only heading actually used/specified below)
 			if (logsFirstLine.toLowerCase().includes('nvngx_dlss.dll') || logsFirstLine.toLowerCase().includes('PDPerfPlugin.dll'.toLowerCase()) || logsFirstLine.toLowerCase().includes('SkyrimUpscaler.dll'.toLowerCase())) {
 				diagnoses += '<li>🎯 <b>Upscaler Issue Detected:</b> The appearance of ‘SkyrimUpscaler.dll,’ ‘PDPerfPlugin.dll,’ or ‘nvngx_dlss.dll’ in the first line of your crash log is often associated with NVIDIA graphics drivers and/or Puredark’s upscalers. To resolve this, try the following steps:<ol>' +
 					'<li><b>Update your NVIDIA drivers</b> to the latest version. You can download the latest drivers from the <a href="https://www.nvidia.com/Download/index.aspx">NVIDIA website</a>.</li>' +
-					'<li>If you are using one of Puredark\'s <a href="https://www.patreon.com/collection/50002?view=expanded">paid FSR2 or FSR3 Upscalers</a> (rather than his free FSR2 version included with Nolvus): <ol>' +
+					'<li>If you are using one of Puredark\'s <a href="https://www.patreon.com/collection/50002?view=expanded">paid FSR2 or FSR3 Upscalers</a> (rather than his free FSR2 version included with Nolvus): <a href="#" class="toggleButton">⤴️ hide</a><ul class="extraInfo">' +
 						'<li><b>Check hardware compatibility:</b> This issue may also arise due to incompatible hardware (e.g., AMD instead of NVIDIA, GTX instead of RTX, RTX non-40xx instead of RTX 40xx).</li>' +
 						'<li><b>Review settings:</b> Ensure that you follow the recommended settings in the <a href="https://www.reddit.com/r/Nolvus/wiki/help/guides/dlss/">Nolvus DLSS Upscaler Installation Guide</a>. Confirm that you have the correct version and settings for your graphics card.</li>' +
-						'</ol></li>' +
+					'</ul></li>' +
 					'<li>Check for any GPU overclocking settings that may be causing instability and reset them to default if necessary.</li>' +
 					'<li>If the above does not resolve the issue, optionally try performing a clean installation of the drivers using a tool like Display Driver Uninstaller (DDU) to remove all traces of the previous drivers before installing the new ones.</li>' +
 					'<li>Alternatively, disable the upscaler and opt for TAA (Temporal Anti-Aliasing), as demonstrated on the website under <a href="https://www.nolvus.net/catalog/crashlog?acc=accordion-1-11">PDPerfPlugin Crash</a/>.</li>' +
@@ -1200,13 +1221,15 @@ h1		24	48	(only heading actually used/specified below)
 
 				var nonNolvusGamePluginsBelowSynthesisHtml = '';
 				var hasNonNolvusPluginsAtBottom = false;
+				var countNonNolvusPluginsAtBottom = 0;
 				async function getNonNolvusGamePluginsBelowSynthesisHtml(logFile) {
 					var outHtml = '';
 					try {
 						var nonNolvusPluginsAtBottom = await getNonNolvusGamePluginsBelowSynthesis(logFile);
 						nonNolvusPluginsAtBottom = replaceWithExplainers(nonNolvusPluginsAtBottom);
-						if (nonNolvusPluginsAtBottom.length > 0) {
-							outHtml += '<details><summary>🔎 Non-Nolvus Plugins Detected at Bottom (<code>' + nonNolvusPluginsAtBottom.length + '</code>):<br><code>(click to expand/collapse full list)</code></summary> This list identifies non-Nolvus plugins from your game\'s crash log that might be out of their intended load order. Typically, non-Nolvus plugins should be placed above <code>FNIS.esp</code>, but it seems this is not the case here. Please ensure these plugins are positioned as intended.<ul>';
+						countNonNolvusPluginsAtBottom = nonNolvusPluginsAtBottom.length;
+						if (countNonNolvusPluginsAtBottom > 0) {
+							outHtml += '<details><summary>🔎 Non-Nolvus Plugins Detected at Bottom (<code>' + countNonNolvusPluginsAtBottom + '</code>):<br><code>(click to expand/collapse full list)</code></summary> This list identifies non-Nolvus plugins from your game\'s crash log that might be out of their intended load order. Typically, non-Nolvus plugins should be placed above <code>FNIS.esp</code>, but it seems this is not the case here. Please ensure these plugins are positioned as intended.<ul>';
 							for (let plugin of nonNolvusPluginsAtBottom) {
 								outHtml += '<li><code>' + plugin + '</code></li>';
 							}
@@ -1610,7 +1633,7 @@ h1		24	48	(only heading actually used/specified below)
 			// Create the insights message
 			if (allMatches.length > 0) {
 				insights += '<li>🔎 <b>Files/Elements</b> listed within the heading, "Possible relevant objects", "Probable callstack", and "Registers" sections of the log file. Higher in this list are frequently more likely to have contributed more towards the crash. Pay extra attention to anything related to <b>mods you have added</b> to Nolvus:'
-				insights += processedMatches;
+				insights += '<ul>' + processedMatches + '</ul>'
 				insights += '</li>';
 				insightsCount++;
 			}
@@ -1618,7 +1641,7 @@ h1		24	48	(only heading actually used/specified below)
 
 
 
-			insights += '</ul><h5>More Definitive Test Results:</h5><ul>';
+			insights += '</ul><h5>Higher-Confidence Test Results:</h5><ul>';
 
 			//VRAMr Gorehowl
 			if (logsFirstLine.includes('D6DDDA') && relevantObjectsSection.includes('Gorehowl')) {
@@ -1654,6 +1677,33 @@ h1		24	48	(only heading actually used/specified below)
 				insightsCount++;
 			}
 
+			//ENB issue (long, but collapsable version)
+			if (logsFirstLine.includes('d3d11.dll')) {
+				insights += '<li>❗ <b>ENB Issue Detected:</b> The presence of <code>d3d11.dll</code> in the first line of a crash log indicates a graphics-related crash. If you have recently installed an ENB or Reshader, ensure it is the correct version and consider reinstalling it. Follow the appropriate steps based on your installation method:<ol>' +
+					'<li>❗ <b>For Manual Installers/Modders:</b> If you manually installed an ENB or similar:<a href="#" class="toggleButton">⤴️ hide</a><ul class="extraInfo">' +
+						'<li>For manual installations of standard Nolvus options, refer to the <a href="https://www.nolvus.net/guide/natl/enb">Guide on ENB & RESHADE Installation</a>.</li>' +
+						'<li>For information on the new Cabbage ENB and Kauz ENB, see the <a href="https://www.reddit.com/r/Nolvus/comments/1clurux/nolvus_enb_install_guides_and_info/">Nolvus ENB Installation Guides and Information</a>.</li>' +
+					'</ul></li>' +
+					'<li>❗ <b>For Autoinstallers:</b> Consider the following steps for fixing your ENB-related issue:<a href="#" class="toggleButton">⤴️ hide</a><ul class="extraInfo">' +
+						'<li>For a potential <b>quick fix,</b> standard Nolvus players can try manually reinstalling the <code>d3d11.dll</code> file by following the instructions in the <a href="https://www.nolvus.net/guide/natl/enb">Guide on ENB & RESHADE Installation</a>. If this does not resolve the issue, proceed with the steps below.</li>' +
+						'<li><b>Reinstalling Nolvus</b> may seem daunting, but <b>as long as you archived</b> during installation, the process is straightforward and <b>far faster.</b></li>' +
+						'<li><b>⚠️ CAUTION:</b> Reinstalling Nolvus will delete your save games, character presets, and screenshots. Please <b>back them up</b> first if you wish to keep them! <a href="#" class="toggleButton">⤴️ hide</a><ul class="extraInfo">' +
+							'<li>Game saves (.ess and .skse files) are located in <code>\\Nolvus\\Instances\\Nolvus Ascension\\MODS\\profiles\\Nolvus Ascension\\saves</code></li>' +
+							'<li>Screenshots are saved in <code>\\Nolvus\\Instances\\Nolvus Ascension\\SHOTS</code></li>' +
+							'<li>Character presets are located in <code>\\Nolvus\\Instances\\Nolvus Ascension\\MODS\\overwrite\\SKSE\\Plugins\\Chargen\\Presets</code></li>' +
+							'<li>Character head sculpts are located in <code>\\Nolvus\\Instances\\Nolvus Ascension\\MODS\\overwrite\\SKSE\\Plugins\\Chargen</code></li>' +
+						'</ul></li>' +
+						'<li>Close Mod Organizer 2 (MO2) if it is currently open.</li>' +
+						'<li>Open the Nolvus Dashboard.</li>' +
+						'<li>Click the Manage button and select Delete Instance (see <a href="https://www.nolvus.net/appendix/installer/faq?acc=accordion-1-23">How to Delete an Instance</a>). NOTE: This will NOT delete your archives if you have enabled archiving.</li>' +
+						'<li>Wait for the process to complete - this takes about 2 minutes depending on your system.</li>' +
+						'<li>Once the process is complete, follow the prompts to install a new instance with your preferred settings. Please note that your game saves from another instance will not be compatible unless you choose the same settings.</li>' +
+						'<li>If you previously enabled archiving, make sure the dashboard points to the correct Archive folder to prevent unnecessary re-downloads.</li>' +
+					'</ul></li>' +
+				'</ol></li>';
+				insightsCount++;
+			}
+
 			//Apply Order
 			if (hasBadlyOrganizedNolvusPlugins) {
 				insights += '<li>❗<b>Potentially Misorganized Vanilla Nolvus Plugins:</b> If you are experiencing issues with your load order, you can use the <b>Apply Order</b> button in the Nolvus Dashboard to restore the original sorting of all vanilla Nolvus mods. Here is how to do it:<ol>' +
@@ -1671,18 +1721,20 @@ h1		24	48	(only heading actually used/specified below)
 
 			// Test for Non-Nolvus Plugins at Bottom
 			if (hasNonNolvusPluginsAtBottom) {
-				insights += '<li>❗<b>Non-Nolvus Plugins Detected at Bottom:</b> Non-Nolvus plugins have been detected at the bottom of your load order. This could potentially cause issues with your game. Here is how to address this:<ol>' +
-					'<li>Open Mod Organizer 2 (MO2).</li>' +
-					'<li>In both the left and right-side panes, identify the non-Nolvus plugins at the bottom of your load order.</li>' +
-					'<li>Move these plugins to their correct positions in the load order. Typically, non-Nolvus plugins should be placed above <code>FNIS.esp</code>. If you would like guidance on modding/patching Nolvus, please watch this <a href="https://youtu.be/YOvug9KP5L4">brief tutorial video</a> for step-by-step instructions.</li>' +
-					'<li>Review information on the <a href="https://www.nolvus.net/catalog/crashlog?acc=accordion-1-7">Load Order Crash</a>. If this issue persists, share your crash logs with <a href="https://www.reddit.com/r/Nolvus/">r/Nolvus</a> and/or the <a href="https://discord.gg/Zkh5PwD">Nolvus Discord</a>.</li></ol>' +
-					'List of non-Nolvus plugins at bottom:<ul>';
+				var nonNolvusPluginsAtBottomListItems = '';
 				var nonNolvusPluginsAtBottom = await getNonNolvusGamePluginsBelowSynthesis(logFile);
 				nonNolvusPluginsAtBottom = replaceWithExplainers(nonNolvusPluginsAtBottom);
 				for (let plugin of nonNolvusPluginsAtBottom) {
-					insights += '<li><code>' + plugin + '</code></li>';
+					nonNolvusPluginsAtBottomListItems += '<li><code>' + plugin + '</code></li>';
 				}
-				insights += '</ul></li>';
+				insights += '<li>❗<b>Non-Nolvus Plugins Detected at Bottom:</b> <code>' + countNonNolvusPluginsAtBottom + '</code> Non-Nolvus plugins have been detected at the bottom of your load order. This could potentially cause issues with your game. Here is how to address this:<ol>' +
+					'<li>Open Mod Organizer 2 (MO2).</li>' +
+					'<li>In both the left and right-side panes, identify the non-Nolvus plugins at the bottom of your load order.</li>' +
+					'<li>Move these plugins to their correct positions in the load order. Typically, non-Nolvus plugins should be placed above <code>FNIS.esp</code>. If you would like guidance on modding/patching Nolvus, please watch this <a href="https://youtu.be/YOvug9KP5L4">brief tutorial video</a> for step-by-step instructions.</li>' +
+					'<li>Review information on the <a href="https://www.nolvus.net/catalog/crashlog?acc=accordion-1-7">Load Order Crash</a>. If this issue persists, share your crash logs with <a href="https://www.reddit.com/r/Nolvus/">r/Nolvus</a> and/or the <a href="https://discord.gg/Zkh5PwD">Nolvus Discord</a>.</li>' +
+					'<li>List of non-Nolvus plugins at bottom: <a href="#" class="toggleButton">⤴️ hide</a><ul class="extraInfo">' +
+						nonNolvusPluginsAtBottomListItems +
+					'</ul></ol></li>';
 
 				insightsCount++;
 			}
@@ -1756,12 +1808,6 @@ h1		24	48	(only heading actually used/specified below)
 				insightsCount++;
 			}
 
-			//ENB issue
-			if (logsFirstLine.includes('d3d11.dll')) {
-				insights += '<li>❗ <b>ENB Issue Detected:</b> A crash log\'s first line with <code>d3d11.dll</code> (Direct3D 11 Runtime - MS Windows graphics component), indicates a crash related to graphics processing</b>. If you have recently installed an ENB or Reshader or the like, verify that you used the correct version, and that you have installed it correctly. Documentation for vanilla Nolvus options can be found in the <a href="https://www.nolvus.net/guide/natl/enb">1. ENB & RESHADE</a> guide on Nolvus.net. Documentation for both the new Cabbage ENB and Kauz ENB can be found in <a href="https://www.reddit.com/r/Nolvus/comments/1clurux/nolvus_enb_install_guides_and_info/">Nolvus ENB install guides and info</a> on r/Nolvus.</li>';
-				insightsCount++;
-			}
-
 
 			insights += '</ul><h5>Memory and Image-related Issues:</h5><ul>';
 
@@ -1818,7 +1864,10 @@ h1		24	48	(only heading actually used/specified below)
 
 			//Corrupted NIF
 			if (logsFirstLine.includes('12FDD00')) {
-				insights += '<li>❓ <b>12FDD00 Detected:</b> This code often indicates a crash due to a <b>corrupt NIF file</b>. It\'s recommended to check for any recently installed mods that might have altered or added NIF files and ensure they are uncorrupted. If identifiable, using <a href="https://www.nexusmods.com/skyrimspecialedition/mods/23316">Cathedral Asset Optimizer (CAO)</a> may help fix the problematic NIF file(s). Additionally, consider reaching out to the mod author if a specific mesh is identified as causing issues. List of mentioned meshes:<ul>' + extractNifPathsToListItems(logsTopHalf) + '</ul></li>';
+				insights += '<li>❓ <b>12FDD00 Detected:</b> This code often indicates a crash due to a <b>corrupt NIF file</b>. It\'s recommended to check for any recently installed mods that might have altered or added NIF files and ensure they are uncorrupted. If identifiable, using <a href="https://www.nexusmods.com/skyrimspecialedition/mods/23316">Cathedral Asset Optimizer (CAO)</a> may help fix the problematic NIF file(s). Additionally, consider reaching out to the mod author if a specific mesh is identified as causing issues.<ul>' +
+				'<li>List of mentioned meshes: <a href="#" class="toggleButton">⤴️ hide</a><ul class="extraInfo">' + 
+					extractNifPathsToListItems(logsTopHalf) +
+				'</ul></ul></li>';
 				insightsCount++;
 			}
 
@@ -1829,7 +1878,11 @@ h1		24	48	(only heading actually used/specified below)
 					'<li>Check for updates or patches for the mod that may address the issue.</li>' +
 					'<li>If no updates are available, consider removing the mod and replacing it with an alternative or updated version.</li>' +
 					'<li>If identifiable, using <a href="https://www.nexusmods.com/skyrimspecialedition/mods/23316">Cathedral Asset Optimizer (CAO)</a> may help fix the problematic NIF file(s).</li>' +
-					'</ol>List of mentioned meshes:<ul>' + extractNifPathsToListItems(logsTopHalf) + '</ul></li>';
+
+					'<li>List of mentioned meshes: <a href="#" class="toggleButton">⤴️ hide</a><ul class="extraInfo">' + 
+						 extractNifPathsToListItems(logsTopHalf) +
+					'</ul></ol></li>';
+
 				insightsCount++;
 			}
 
@@ -1840,7 +1893,9 @@ h1		24	48	(only heading actually used/specified below)
 					'<li>Check for updates or compatibility patches for the mods that provide these mesh files.</li>' +
 					'<li>If identifiable, using <a href="https://www.nexusmods.com/skyrimspecialedition/mods/23316">Cathedral Asset Optimizer (CAO)</a> may help fix the problematic NIF file(s).</li>' +
 					'<li>If issues persist, consider removing or replacing the problematic mod with an alternative.</li>' +
-					'</ol>List of mentioned meshes:<ul>' + extractNifPathsToListItems(logsTopHalf) + '</ul></li>';
+					'<li>List of mentioned meshes: <a href="#" class="toggleButton">⤴️ hide</a><ul class="extraInfo">' + 
+						 extractNifPathsToListItems(logsTopHalf) +
+					'</ul></ol></li>';
 				insightsCount++;
 			}
 
@@ -1862,7 +1917,9 @@ h1		24	48	(only heading actually used/specified below)
 					'<li>Run FNIS or Nemesis to regenerate animations, especially if you are using mods that alter character animations.  Follow these instructions for <a href="https://www.nolvus.net/guide/asc/output/nemesis">regenerating Nemesis for Nolvus</a>.</li>' +
 					'<li>Check for any other mods that affect skeletons, not just humanoid but creatures too, and test by disabling them.</li>' +
 					'<li>If identifiable, using <a href="https://www.nexusmods.com/skyrimspecialedition/mods/23316">Cathedral Asset Optimizer (CAO)</a> may help fix the problematic NIF file(s).</li>' +
-					'</ol>List of mentioned meshes:<ul>' + extractNifPathsToListItems(logsTopHalf) + '</ul></li>';
+					'<li>List of mentioned meshes: <a href="#" class="toggleButton">⤴️ hide</a><ul class="extraInfo">' + 
+						 extractNifPathsToListItems(logsTopHalf) +
+					'</ul></ol></li>';
 				insightsCount++;
 			}
 
@@ -1873,7 +1930,9 @@ h1		24	48	(only heading actually used/specified below)
 					'<li>Verify that all head meshes are compatible with the current version of Skyrim and any installed body mods.</li>' +
 					'<li>If a particular mod is identified, consider reinstalling it or checking for updates that address compatibility issues.</li>' +
 					'<li>Regenerate facegen data for the NPC using Creation Kit or other specialized tools if the issue persists.</li>' +
-					'</ol>List of mentioned meshes:<ul>' + extractNifPathsToListItems(logsTopHalf) + '</ul></li>';
+					'<li>List of mentioned meshes: <a href="#" class="toggleButton">⤴️ hide</a><ul class="extraInfo">' + 
+						 extractNifPathsToListItems(logsTopHalf) +
+					'</ul></ol></li>';
 				insightsCount++;
 			}
 
@@ -1894,7 +1953,9 @@ h1		24	48	(only heading actually used/specified below)
 					'<li>Ensure that RaceMenu and all related mods are up to date and compatible with your version of Skyrim and SKSE.</li>' +
 					'<li>Read the descriptions of related mods and ensure the correct load order, and verify that there are no conflicts between mods that modify the same assets. ⚠️Note: Avoid using tools like LOOT with Nolvus.</li>' +
 					'<li>If the problem persists, consider disabling mods one by one to isolate the conflicting mod.</li>' +
-					'</ol>List of mentioned meshes:<ul>' + extractNifPathsToListItems(logsTopHalf) + '</ul></li>';
+					'<li>List of mentioned meshes: <a href="#" class="toggleButton">⤴️ hide</a><ul class="extraInfo">' + 
+						 extractNifPathsToListItems(logsTopHalf) +
+					'</ul></ol></li>';
 				insightsCount++;
 			}
 
@@ -1906,7 +1967,9 @@ h1		24	48	(only heading actually used/specified below)
 					'<li>Temporarily disable texture mods that are associated with the crash location to see if the issue is resolved.</li>' +
 					'<li>Use tools like BSA Browser to safely extract and inspect the contents of "*.BSA" files.</li>' +
 					'<li>Consult mod forums and communities for known issues with specific texture files and recommended solutions.</li>' +
-					'</ol>List of potentially corrupted textures:<ul>' + extractSkyrimTexturePathsToListItems(logsTopHalf) + '</ul></li>';
+					'<li>List of mentioned textures: <a href="#" class="toggleButton">⤴️ hide</a><ul class="extraInfo">' + 
+						extractSkyrimTexturePathsToListItems(logsTopHalf) +
+					'</ul></ol></li>';
 				insightsCount++;
 			}
 
@@ -1919,7 +1982,9 @@ h1		24	48	(only heading actually used/specified below)
 					'<li>Consider using lower resolution texture packs (e.g., 2K textures) if you experience performance or stability issues. High-resolution textures (e.g., 4K) can strain both your system\'s RAM and VRAM.</li>' +
 					'<li>Temporarily disable texture mods associated with the crash location to see if the issue is resolved.</li>' +
 					'<li>Consult Skyrim modding forums and communities for specific advice related to texture troubleshooting.</li>' +
-					'</ol>List of potentially problematic textures:<ul>' + extractSkyrimTexturePathsToListItems(logsTopHalf) + '</ul></li>';
+					'<li>List of mentioned textures: <a href="#" class="toggleButton">⤴️ hide</a><ul class="extraInfo">' + 
+						extractSkyrimTexturePathsToListItems(logsTopHalf) +
+					'</ul></ol></li>';
 				insightsCount++;
 			}
 
@@ -2082,6 +2147,7 @@ h1		24	48	(only heading actually used/specified below)
 					'<li>Check for any recent updates or patches for the mod associated with \'hdtSMP64.dll\'.</li>' +
 					'<li>Review your mod configuration settings, especially those related to HDT/SMP, to ensure they are set up correctly.</li>' +
 					'<li><b>Workaround:</b> Sometimes, wearing all non-physics armor/clothing/wigs/equipment can alleviate problems with physics. Also, if you or a follower has physics-enabled hair, try wearing a non-physics helmet to cover it up.</li>' +
+					'<li><b>Alternatively,</b> reinstall Nolvus without Advanced Physics to prevent any such future issues.</li>' +
 					'<li>If the issue persists, consider disabling mods that use HDT/SMP one by one to identify the source of the problem.</li>' +
 					'</ol></li>';
 				insightsCount++;
@@ -2094,6 +2160,7 @@ h1		24	48	(only heading actually used/specified below)
 					'<li>Check for any recent updates or patches for the mod associated with \'cbp.dll\'.</li>' +
 					'<li>Review your mod configuration settings, especially those related to CBP, to ensure they are set up correctly.</li>' +
 					'<li><b>Workaround:</b> Sometimes, wearing all non-physics armor/clothing/wigs/equipment can alleviate problems with physics. Also, if you or a follower has physics-enabled hair, try wearing a non-physics helmet to cover it up</li>' +
+					'<li><b>Alternatively,</b> reinstall Nolvus without Advanced Physics to prevent any such future issues.</li>' +
 					'<li>If the issue persists, consider disabling mods that use CBP one by one to identify the source of the problem.</li>' +
 					'<li>Some users have reported success by restarting their PC, renaming \'cbp.dll\' to something else to force a different load order, or verifying the integrity of game files on Steam if there\'s a suspicion of file corruption.</li>' +
 					'</ol></li>';
@@ -2268,12 +2335,38 @@ h1		24	48	(only heading actually used/specified below)
 
 		// - - - TODOs - - -
 
-		// ✅ Beta version 0.12.3
-		// ✅ New avanced test: ENB issue (d3d11.dll)
-		// ✅  "1\. ENB & RESHADE" showing up in Discord with the "\" not being an invisible escape character. And removed blank lines that were looking funny.
+		// ✅ Beta version 0.13.1
+		// ✅ TODO: make ?Adnvaced default the checkbox to checked
+		// ✅ replaced "vanillaNolvusPlugins - removed those that vary.txt" with better-named vanillaNolvusPlugin-WithStableLocation.txt
+		// ✅ Improved reliability of Apply Order test by removing "Dynamic Impact - Slash Effects X.esp" from new vanillaNolvusPlugin-WithStableLocation.txt
+			// ✅ Found 5 vanilla-Nolvus examples of it moving around in the load order
+		// ✅ FIX to make the list links clickable again
+		// ✅ For physics-issues, added "Alternatively, reinstall Nolvus without Advanced Physics to prevent any such future issues."
+		// ✅ FIX recently broken feature to supress preview embeds in Discord Markdown
+		// ✅ Add number of mods to ❗Non-Nolvus Plugins Detected at Bottom: ### Non-Nolvus plugins 
+		// ✅ REFACTORED: ❗Non-Nolvus Plugins Detected at Bottom:
+		// ✅ Rename "More Definitive Test Results:" to "Higher-Confidence Test Results:"
+		// ✅ CSS layout tweaks for lists and child lists
+		// ✅ Make issues like Trishape conform to be all in bulletpoints for better formatting on Discord.
+			// ✅ Also, made these lists hidable with new "⤴️ hide" feature
+		// ✅ changed id="extraInfo" to class="extraInfo" as IDs are supposed to be unique
+		// ✅ Remove one of the two working versions of "❗ ENB Issue Detected:"
+		// ✅ Added dkaf.dll and atiumd6a.dll to the list of explainers
+		// ✅ Improved usage instructions for clickable emojis and new  "⤴️ hide" feature
+		// ✅ Minor tweaks to markdown conversion
+		// ✅ Minor refactoring in a few locations
 
 
-		// ⏸️Make issues like Trishape conform to be all in bulletpoints for better formatting on Discord
+		// ⏸️ (NOT EASY?)  New feature that if tests are positive in the first line of the crash log, then elevat that test to the More Definitive tests section.
+			// ⏸️ EASY APPROACH: maybe make two versions of each applicable test? One that tests the first line, and another below that tests more broadly (but not the first line so as to avoid showing duplicates)
+				//👍 But could set a description variable in the High-Confice test, and then just call that variable for the description in the lower confidence test. Best to keep descriptions in one place.
+			// ⏸️⏸️⏸️   BIG REFACTORING APPROACH: maybe switch over to giant mapping of tests like that one analyzer used? That's a big project though. BUt could be easier in the long run?
+			// Move the speculative warning further down the list?
+
+
+		// ⏸️ Potential bug in hasPhysics??? ⭐
+
+		// ⏸️ Review all Advanced insights for formatting fixes, and for applicability to Nolvus.
 
 		// FEASIBLE? Gather list of always-install Plugins? List of removed vanilla Nolvus plugins? https://discord.com/channels/740569699900719145/1168063977029382235/1234896387888517291	
 			// Strip out the non-"Always Install" plugins from "vanillaNolvusPlugins - AlwaysInstall.txt"
@@ -2333,7 +2426,8 @@ h1		24	48	(only heading actually used/specified below)
 				<label for="speculativeInsights" class="advanced">Speculations for Advanced Users</label></span>
 		</section>
 		<br>
-		(Click on any diagnosis' <strong>emoji</strong> to copy it to your clipboard with markdown for Discord.)<br>
+		(Click on any 🎯, ❗, ❓, 🔎, or ✅ <strong>emoji</strong> next to a diagnosis to copy it, along with its markdown formatting, to your clipboard for sharing in the Nolvus Discord. Please note that any sections you've chosen to "⤴️ hide" will not be included in the copied markdown. This includes both the "⤴️ hide" list item and any indented child list items beneath it.)<br>
+		<br>
 		<h3>Diagnoses:</h3>
 		<button id="convert-button" style="display: none;">Copy Diagnoses</button>
 		<article id="result"><code>(click "Choose File" or copy-paste file contents for analyzing)</code><p>&nbsp;</p></article>
@@ -2490,18 +2584,88 @@ h1		24	48	(only heading actually used/specified below)
 
 		// - - -  "Copy Diagnosis" button - - - 
 
+		// Function to remove "⤵️ show more" links and their associated content from HTML
+		function removeMoreInfoLinks(html) {
+			// Create a temporary DOM to manipulate the HTML string
+			var tempDOM = document.createElement('div');
+			tempDOM.innerHTML = html;
+
+			// Remove "⤵️ show more" links and their associated content
+			var moreInfoButtons = tempDOM.querySelectorAll('a.toggleButton');
+			moreInfoButtons.forEach(function(toggleButton) {
+				if (toggleButton.textContent === '⤵️ show more') {
+					var liNode = toggleButton;
+					while (liNode && liNode.nodeName !== 'LI') { // Keep going up until we find an li ancestor
+						liNode = liNode.parentNode;
+					}
+					if (liNode) {
+						// Remove the entire list item that contains the "⤵️ show more" link and its associated content
+						liNode.parentNode.removeChild(liNode);
+					}
+				}
+			});
+
+			return tempDOM.innerHTML;
+		}
+
+		// Function to remove "⤴️ hide" links from HTML
+		function removeSkipTheseStepsLinks(html) {
+			// Create a temporary DOM to manipulate the HTML string
+			var tempDOM = document.createElement('div');
+			tempDOM.innerHTML = html;
+
+			// Remove "⤴️ hide" links
+			var skipStepsButtons = tempDOM.querySelectorAll('a.toggleButton');
+			skipStepsButtons.forEach(function(toggleButton) {
+				if (toggleButton.textContent.trim() === '⤴️ hide') {
+					toggleButton.remove();
+				}
+			});
+
+			return tempDOM.innerHTML;
+		}
+
 		// Function to convert HTML to Markdown for Discord
 		function convertHTMLToMarkdown(html) {
+			html = removeMoreInfoLinks(html);
+			html = removeSkipTheseStepsLinks(html);
+
+			// Convert the modified HTML to Markdown
 			var turndownService = new TurndownService({
 				bulletListMarker: '-', // Markdown bullet list marker
 				headingStyle: 'atx'    // Markdown heading style
 			});
 
 			// Add a rule to handle <a> tags to remove link previews
-			turndownService.addRule('noLinkPreview', {
+				turndownService.addRule('noLinkPreview', {
 				filter: 'a',
 				replacement: function (content, node) {
 					return '[' + content + '](' + '<' + node.href + '>' + ')';
+				}
+			});
+
+			// Create a temporary DOM to manipulate the HTML string
+			var tempDOM = document.createElement('div');
+			tempDOM.innerHTML = html;
+
+			// Add a rule to ignore elements with 'display: none' style
+			turndownService.addRule('ignoreHidden', {
+				filter: function(node) {
+					var style = node.getAttribute('style');
+					if (style) {
+						var styles = style.split(';').reduce(function(obj, styleDeclaration) {
+							var parts = styleDeclaration.split(':');
+							if (parts[0] && parts[1]) {
+								obj[parts[0].trim()] = parts[1].trim();
+							}
+							return obj;
+						}, {});
+						return styles.display === 'none';
+					}
+					return false;
+				},
+				replacement: function (content, node) {
+					return '';
 				}
 			});
 
@@ -2532,11 +2696,14 @@ h1		24	48	(only heading actually used/specified below)
 
 			var markdown = turndownService.turndown(html);
 			//replace '\.' with '.' to prevent escaping of periods
-			markdown = markdown.replace(/\\./g, '.');
+			//markdown = markdown.replace(/\\./g, '.');
 
 			// Replace multiple consecutive newline characters with a single newline character
 			markdown = markdown.replace(/\n\s*\n/g, '\n');
 			
+			// Double up backslashes to prevent escaping
+			// markdown = markdown.replace(/\\/g, '\\\\');
+
 			return markdown;
 		}
 
@@ -2591,31 +2758,36 @@ h1		24	48	(only heading actually used/specified below)
 			var elements = document.querySelectorAll('li, details');
 			elements.forEach(function(element) {
 				// Check if element contains an emoji
-				var regex = /[\u{1F300}-\u{1F5FF}\u{1F600}-\u{1F64F}\u{1F680}-\u{1F6FF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}]/u;
-				var match = element.textContent.match(regex);
-				if (match) {
-					// Wrap the emoji in a span
-					var span = document.createElement('span');
-					span.textContent = match[0];
-					span.style.cursor = 'pointer';
-					span.style.position = 'relative';
-					span.style.zIndex = '1';
+				var regex = /[\u{1F300}-\u{1F5FF}\u{1F600}-\u{1F64F}\u{1F680}-\u{1F6FF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}]/gu;
+				var matches = element.textContent.match(regex);
+				if (matches) {
+					matches.forEach(function(match) {
+						// Create a span for each match
+						var span = document.createElement('span');
+						span.textContent = match;
+						span.style.cursor = 'pointer';
+						span.style.position = 'relative';
+						span.style.zIndex = '1';
 
-					// Replace the emoji with the span
-					element.innerHTML = element.innerHTML.replace(match[0], span.outerHTML);
+						// Replace the emoji text with the span element
+						element.innerHTML = element.innerHTML.replace(new RegExp(match, 'gu'), span.outerHTML);
+					});
 
-					// Select the span elements
+					// Add click event to each span
 					var spans = element.querySelectorAll('span');
 					spans.forEach(function(span) {
-						// Add the event listener to the span
 						span.addEventListener('click', function(event) {
-							// Convert HTML to Markdown
-							var resultsHeader = getResultsHeader();
-							var markdown = convertHTMLToMarkdown(element.outerHTML);
-							var finalMarkdown = resultsHeader + markdown;
-							// Copy to clipboard
-							copyToClipboard(finalMarkdown);
-							alert('Markdown copied to clipboard!');
+							// Find the closest parent li or details element
+							var parentElement = span.closest('li, details');
+							if (parentElement) {
+								// Convert HTML to Markdown
+								var resultsHeader = getResultsHeader();
+								var markdown = convertHTMLToMarkdown(parentElement.outerHTML);
+								var finalMarkdown = resultsHeader + markdown;
+								// Copy to clipboard
+								copyToClipboard(finalMarkdown);
+								alert('Markdown copied to clipboard!');
+							}
 							// Stop event propagation
 							event.stopPropagation();
 						});
@@ -2624,12 +2796,42 @@ h1		24	48	(only heading actually used/specified below)
 			});
 		}
 
+
 		// Call the function when the document is ready
 		if (document.readyState === "loading") {  // Loading hasn't finished yet
 			document.addEventListener('DOMContentLoaded', addEmojiClickEvent);
 		} else {  // `DOMContentLoaded` has already fired
 			addEmojiClickEvent();
 		}
+
+		window.onload = function() {
+			// Set all toggleButtons to display as "⤴️ hide"
+			var toggleButtons = document.querySelectorAll('.toggleButton');
+			toggleButtons.forEach(function(toggleButton) {
+				var extraInfo = toggleButton.nextElementSibling;
+				extraInfo.style.display = 'list-item'; // Display the associated extraInfo
+				toggleButton.textContent = '⤴️ hide'; // Change the link text
+			});
+
+			document.body.addEventListener('click', function(event) {
+				if (event.target.className === 'toggleButton') {
+					var extraInfo = event.target.nextElementSibling;
+					if (extraInfo.style.display === 'none') {
+						extraInfo.style.display = 'list-item';
+						event.target.textContent = '⤴️ hide'; // Change the link text
+					} else {
+						extraInfo.style.display = 'none';
+						event.target.textContent = '⤵️ show more'; // Change the link text
+					}
+					event.preventDefault(); // Prevent the default action of the link
+				}
+			});
+
+			// Default the checkbox to checked if the URL ends with '?advanced'
+			if (window.location.href.toLowerCase().endsWith('?advanced')) {
+				document.getElementById('speculativeInsights').checked = true;
+			}
+		};
 
 	</script>
 
