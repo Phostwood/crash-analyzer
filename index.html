@@ -23,7 +23,7 @@
 	<title>Crash Log Analyzer</title>
 
 	<meta charset="UTF-8">
-	<meta name="version" content="0.13.2">
+	<meta name="version" content="0.13.3">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 	<link rel="icon" type="image/x-icon" href="https://phostwood.github.io/crash-analyzer/favicon.ico">
@@ -1073,6 +1073,24 @@ h1		24	48	(only heading actually used/specified below)
 					'<li>Check for any GPU overclocking settings that may be causing instability and reset them to default if necessary.</li>' +
 					'<li>If the above does not resolve the issue, try performing a clean installation of the drivers using a tool like Display Driver Uninstaller (DDU) to remove all traces of the previous drivers before installing the new ones.</li>' +
 					'</ol></li>';
+				diagnosesCount++;
+			}
+
+			// Check for KERNELBASE JSON Crash
+			if (logsFirstLine.toLowerCase().includes('KERNELBASE.dll'.toLowerCase()) && logsTopHalf.includes('json.exception.parse_error')) {
+				diagnoses += '<li>🎯<b>KERNELBASE JSON Crash Detected:</b> Usually, this issue stems from one of three causes:<ol>' +
+					'<li>Windows <b>permissions</b> have become overly restrictive and are blocking access to necessary mod storage. The usual solution is to reset your file permissions. See <a href="https://www.thewindowsclub.com/how-to-reset-file-folder-permissions-to-default-in-windows-10">How to reset all User Permissions to default in Windows 11/10</a>, or seek assistance from the Nolvus community.' +
+					'<li>Storage files (.json files) have become <b>corrupted/broken.</b> This is especially common if you have manually edited a .json file. After identifying the specific file, either manually repair it, revert the file to a backup, or delete it, allowing the accessing mod(s) to create a new one. Other mods mentioned in the crash log may help to identify the specific storage file, or seek assistance from the Nolvus community.' +
+					'<li>Overwriting or reinstalling <b>SSE Engine Fixes</b> can cause the <code>MaxStdio</code> value to be set too low, which can lead to crashes in Nolvus. For example, an individual who reinstalled papermaps found that it reset their SSE Engine Fixes values. To fix this:<ol>' +
+						'<li>Open Mod Organizer 2 (MO2).</li>' +
+						'<li>In the "1.2 BUG FIXES & TWEAKS" section, right-click on "SSE Engine Fixes" and select "Information...".</li>' +
+						'<li>Click on the "Textfiles" tab.</li>' +
+						'<li>Find and open the file <code>EngineFixes.toml</code>.</li>' +
+						'<li>Locate the line <code>MaxStdio =</code> and restore the value to:  <code>MaxStdio = 8192</code>.</li>' +
+						'<li>Click "Close" and "Yes" to save the changes.</li>' +
+					'</ol></li>' +
+				'</ol>' + 
+				'For the first two issues, an easy <b>workaround</b> is to <a href = "https://support.microsoft.com/en-us/windows/create-a-local-user-or-administrator-account-in-windows-20de74e0-ac7f-3502-a866-32915af2a34d#WindowsVersion=Windows_11">create a new Windows User</a> and create a new Nolvus save (playthrough) from the new user.</li>';
 				diagnosesCount++;
 			}
 
@@ -2335,12 +2353,9 @@ h1		24	48	(only heading actually used/specified below)
 
 		// - - - TODOs - - -
 
-		// ✅ Beta version 0.13.2
-		// ✅ Added bold formatting to the 'be cautious' warning in the second listing of Shadowrend
-		// ✅ Added clarification to the Shadowrend description: ... "frequently NOT the crash culprit when other issues are present."...
-		// ✅ Better wording for "❓Possible Skeleton Issue: Detected 1 potential cause(s). " --> "Detected 1 potential indicators(s). Multiple indicators are more likely to be the cause than just one. Restarting may help if you\'re using vanilla Nolvus. For custom mods, verify your load order. Skeleton Issues are frequently NOT the crash culprit when other issues are present."
-		// ✅ Disabled the URL /?Advanced safety lockout of the "Advanced Users" section (it now seems ready for public use, and has plenty of warnings on it)
-		// ✅ Relabeled "Speculations for Advanced Users" to just "Advanced Users" and slightly softened the warning.
+		// ✅ Beta version 0.13.3
+		// ✅ Removed "Unofficial" from title. This analyzer is now widely accepted and even used by many Novlus Discord Helpers, and it obviously isn't on Nolvus.net, and with it being labeled "Phostwood's" it obviously isn't Vektors...
+		// ✅ New test for KERNELBASE JSON Crash
 
 		// ⭐ Show count for Higher-Confidence Test: ❗Potentially Misorganized Vanilla Nolvus Plugins
 			// Maybe show those files again?
@@ -2396,7 +2411,7 @@ h1		24	48	(only heading actually used/specified below)
 
 <body>
 	<header>
-		<h1>Phostwood's Unofficial Nolvus Crash Log Analyzer</h1>
+		<h1>Phostwood's Nolvus Crash Log Analyzer</h1>
 	</header>
 	<main>
 		<section>
@@ -2443,7 +2458,7 @@ h1		24	48	(only heading actually used/specified below)
 			<p>Please <strong>report any issues</strong> (or share suggestions) in my <a
 					href="https://www.reddit.com/r/Nolvus/comments/1bzwo0z/unofficial_nolvus_crash_log_analyzer/">r/Nolvus
 					reddit post</a>.</p>
-			<p>Thank you to Vektor, Discrepancy, Gaetan, Corrupt Bliss, CJ, and Demognomicon for your documentation and/or assistance!
+			<p>Thank you to Vektor, Discrepancy, Gaetan, Corrupt Bliss, CJ, Demognomicon and Pan for your documentation and/or assistance!
 			</p>
 		</aside>
 	</main>
