@@ -215,32 +215,36 @@
                 who were too rushed to read!</p>
         </section>
 
-        <button id="copyButton">Copy for Discord</button>
+        <button id="copyButton">Copy text for Discord</button>
+
+        <h3>Instructions:</h3>
+        <ol>
+            <li>Click the image and copy it to the clipboard.</li>
+            <li>Paste the image into a Discord post.</li>
+            <li>Use the "Copy text for Discord" button to copy the text.</li>
+            <li>Paste the copied text into the same Discord post.</li>
+        </ol>
 
         <script src="https://www.gstatic.com/firebasejs/8.0.0/firebase-app.js"></script>
         <script src="https://www.gstatic.com/firebasejs/8.0.0/firebase-database.js"></script>
         <script>
-            // Your web app's Firebase configuration
-            var firebaseConfig = {
-                // Your config values
-            };
-            // Initialize Firebase
-            firebase.initializeApp(firebaseConfig);
-            var db = firebase.database();
-            var counterRef = db.ref('counter');
-
-            // Function to increment counter in Firebase
+            // Initialize counter
+            var counter = 0;
+        
+            // Function to increment counter
             function incrementCounter() {
-                counterRef.transaction(function (counter) {
-                    return (counter || 0) + 1;
-                });
+                counter += 1;
+                document.getElementById('counter').textContent = counter;
             }
-
+        
             // Function to copy image and text to clipboard
             document.getElementById('copyButton').addEventListener('click', function () {
-                var counter = document.getElementById('counter').textContent;
+                if (!navigator.clipboard) {
+                    alert('Your browser does not support clipboard operations.');
+                    return;
+                }
                 var imageUrl = document.getElementById('septimImage').src;
-                var copyText = "![](" + imageUrl + ")\n**You owe us a Septim!** So far, we've collected `" + counter + " Septims` from players who were too rushed to read!";
+                var copyText = "**You owe us a Septim!** So far, we've collected `" + counter + " Septims` from players who were too rushed to read!";
                 navigator.clipboard.writeText(copyText).then(function () {
                     alert('Copied to clipboard!');
                     incrementCounter();
@@ -248,17 +252,6 @@
                     console.error('Could not copy text: ', err);
                 });
             });
-
-            // Function to get the current counter value from Firebase and update the text
-            function updateCounterDisplay() {
-                counterRef.on('value', function (snapshot) {
-                    var counter = snapshot.val() || 0;
-                    document.getElementById('counter').textContent = counter;
-                });
-            }
-
-            // Call updateCounterDisplay on page load
-            updateCounterDisplay();
         </script>
 
 </body>
