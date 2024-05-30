@@ -208,7 +208,8 @@
             Discord Helper, please do not use this tool.</h3>
         <p>&nbsp;</p>
         <section id="copyPasteMessage">
-            <img id="septimImage" src="https://phostwood.github.io/crash-analyzer/DidntReadJar/DidntReadJar.png" alt="Didn't Read Jar" />
+            <img id="septimImage" src="https://phostwood.github.io/crash-analyzer/DidntReadJar/DidntReadJar.png"
+                alt="Didn't Read Jar" />
         </section>
 
         <button id="copyButton">Copy image for Discord</button>
@@ -229,7 +230,7 @@
                 // Create a canvas
                 var canvas = document.createElement('canvas');
                 canvas.width = img.width;
-                canvas.height = img.height + 120; // Add extra height for the text
+                canvas.height = img.height + 150; // Add extra height for the text
 
                 // Get the 2D context of the canvas
                 var ctx = canvas.getContext('2d');
@@ -238,17 +239,24 @@
                 ctx.drawImage(img, 0, 0);
 
                 // Set the font properties
-                ctx.font = '50px Arial';
-                ctx.fillStyle = 'red';
+                //ctx.font = '50px Arial';
+                //ctx.fillStyle = 'red';
 
                 // Draw the counter onto the image
-                ctx.fillText('Counter: ' + counter, 10, 50);
+                //ctx.fillText('Counter: ' + counter, 10, 50);
 
                 // Draw the text below the image
                 ctx.fillStyle = 'white';
-                ctx.font = '30px Arial';
-                ctx.fillText('You owe us a Septim!\nSo far, we\'ve collected ' + counter + ' Septims\nfrom players who were too rushed to read!', 10, img.height + 50);
-
+                ctx.font = '50px Arial';
+                var lineHeight = 35; // Adjust as needed
+                var lines = [
+                    'You owe us a Septim!',
+                    'So far, we\'ve collected ' + counter + ' Septims',
+                    'from players who were too rushed to read!'
+                ];
+                for (var i = 0; i < lines.length; i++) {
+                    ctx.fillText(lines[i], 10, img.height + 50 + i * lineHeight);
+                }
                 // Convert the canvas to a data URL and set it as the src of an img element
                 document.getElementById('septimImage').src = canvas.toDataURL();
 
