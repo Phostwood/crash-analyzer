@@ -102,6 +102,9 @@
             // Define the counter variable
             var counter = 0;
 
+            // Define the canvas variable in the global scope
+            var canvas;
+
             // Load the image
             var img = new Image();
             img.src = 'https://phostwood.github.io/crash-analyzer/DidntReadJar/DidntReadJar.png';
@@ -111,7 +114,7 @@
 
             function drawImage(img) {
                 // Create a canvas
-                var canvas = document.createElement('canvas');
+                canvas = document.createElement('canvas');
                 canvas.width = img.width;
                 canvas.height = img.height + 200; // Add extra height for the text
 
