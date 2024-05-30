@@ -91,9 +91,11 @@
                 alt="Didn't Read Jar" />
         </section>
 
-        <button id="copyButton">Copy image for Discord</button>
-        <input type="number" id="counterInput" value="0">
-        <p>Enter a number in the field above to set the counter value.</p>
+        <label for="counterInput">Counter value:</label>
+        <input type="number" id="counterInput" value="0" style="width: 50%;">
+        <button id="updateButton">Update Counter</button>
+
+        <button id="copyButton" style="margin-top: 20px;">Copy image for Discord</button>
 
         <script>
             // Define the counter variable
@@ -154,6 +156,7 @@
                 canvas.toBlob(function (blob) {
                     var item = new ClipboardItem({ "image/png": blob });
                     navigator.clipboard.write([item]);
+                    alert("Image has been copied!");
                     counter++;
                     document.getElementById('counterInput').value = counter;
                 });
@@ -162,6 +165,11 @@
             // Add event listener to input field
             document.getElementById('counterInput').addEventListener('change', function () {
                 counter = parseInt(this.value);
+            });
+
+            // Add event listener to update button
+            document.getElementById('updateButton').addEventListener('click', function () {
+                drawImage(img);
             });
         </script>
     </main>
