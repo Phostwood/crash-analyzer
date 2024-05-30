@@ -208,13 +208,16 @@
             Discord Helper, please do not use this tool.</h3>
         <p>&nbsp;</p>
         <section id="copyPasteMessage">
-            <img id="septimImage" src="./DidntReadJar.png" alt="Didn't Read Jar" />
+            <img id="septimImage" src="https://phostwood.github.io/crash-analyzer/DidntReadJar/DidntReadJar.png" alt="Didn't Read Jar" />
         </section>
 
         <button id="copyButton">Copy image for Discord</button>
 
 
         <script>
+            // Define the counter variable
+            var counter = 0;
+
             // Load the image
             var img = new Image();
             img.src = 'https://phostwood.github.io/crash-analyzer/DidntReadJar/DidntReadJar.png';
@@ -257,6 +260,15 @@
                 document.getElementById('copyButton').addEventListener('click', function () {
                     copyImageToClipboard(canvas);
                 });
+            }
+
+            // Function to copy image to clipboard
+            function copyImageToClipboard(canvas) {
+                var dataUrl = canvas.toDataURL('image/png');
+                var img = new Image();
+                img.src = dataUrl;
+                var item = new ClipboardItem({ "image/png": img });
+                navigator.clipboard.write([item]);
             }
         </script>
 
