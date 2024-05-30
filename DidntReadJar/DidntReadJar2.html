@@ -229,7 +229,7 @@
                 // Create a canvas
                 var canvas = document.createElement('canvas');
                 canvas.width = img.width;
-                canvas.height = img.height + 100; // Add extra height for the text
+                canvas.height = img.height + 120; // Add extra height for the text
 
                 // Get the 2D context of the canvas
                 var ctx = canvas.getContext('2d');
@@ -245,9 +245,9 @@
                 ctx.fillText('Counter: ' + counter, 10, 50);
 
                 // Draw the text below the image
-                // ctx.fillStyle = 'white';
-                // ctx.font = '20px Arial';
-                // ctx.fillText('You owe us a Septim! So far, we\'ve collected ' + counter + ' Septims from players who were too rushed to read!', 10, img.height + 50);
+                ctx.fillStyle = 'white';
+                ctx.font = '30px Arial';
+                ctx.fillText('You owe us a Septim!\nSo far, we\'ve collected ' + counter + ' Septims\nfrom players who were too rushed to read!', 10, img.height + 50);
 
                 // Convert the canvas to a data URL and set it as the src of an img element
                 document.getElementById('septimImage').src = canvas.toDataURL();
