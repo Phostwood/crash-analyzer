@@ -63,7 +63,7 @@
         }
 
         #septimImage {
-            width: 500px; 
+            width: 500px;
             max-width: 100%;
             border: 3px solid #555;
         }
@@ -145,12 +145,13 @@
                 // Add the canvas to the body (hidden)
                 canvas.style.display = 'none';
                 document.body.appendChild(canvas);
-
-                // Add event listener to copy button
-                document.getElementById('copyButton').addEventListener('click', function () {
-                    copyImageToClipboard(canvas);
-                });
             }
+
+            // Add event listener to copy button
+            document.getElementById('copyButton').addEventListener('click', function () {
+                copyImageToClipboard(canvas);
+            });
+
 
             // Function to copy image to clipboard
             function copyImageToClipboard(canvas) {
