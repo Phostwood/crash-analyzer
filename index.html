@@ -23,7 +23,7 @@
 	<title>Crash Log Analyzer</title>
 
 	<meta charset="UTF-8">
-	<meta name="version" content="0.13.3">
+	<meta name="version" content="0.14.1">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 	<link rel="icon" type="image/x-icon" href="https://phostwood.github.io/crash-analyzer/favicon.ico">
@@ -943,41 +943,75 @@ h1		24	48	(only heading actually used/specified below)
 			//DISABLE UNLESS NEEDED: compareLogToVanillaNolvusModulesLines(logFile);	
 			
 			var logsFirstLine = logFile.split('\n')[0];
+			var logsThirdLine = logFile.split('\n')[2];
 
-			//Extract the entire top part of the crash log (excluding "Modules", "Plugins", and "Game plugins" sections)
-			const logsTopHalfRegex = /^([\s\S]*?Stack\s*{[\s\S]*?})/;
-			var logsTopHalfMatch = logFile.match(logsTopHalfRegex);
-			var logsTopHalf = logsTopHalfMatch ? logsTopHalfMatch[0] : '';
-			//DEBUGGING: console.log('logsTopHalf:' + logsTopHalf);
+
+			//logsTopQuarter contains heading, "Possible relevant objects", "Probable callstack" (but excludes "Registers" and the full "Stack")
+			const logsTopQuarterRegex = /^([\s\S]*?Probable callstack\s*{[\s\S]*?})/;
+			var logsTopQuarterMatch = logFile.match(logsTopQuarterRegex);
+			var logsTopQuarter = logsTopQuarterMatch ? logsTopQuarterMatch[0] : '';
+			if(!logsTopQuarter) {
+				logsTopQuarter = logFile;
+			}
 
 			//logsTopThird contains heading, "Possible relevant objects", "Probable callstack", and "Registers" (but excludes the full "Stack")
 			const logsTopThirdRegex = /^([\s\S]*?Registers\s*{[\s\S]*?})/;
-			var logsTopThirdMatch = logsTopHalf.match(logsTopThirdRegex);
+			var logsTopThirdMatch = logFile.match(logsTopThirdRegex);
 			var logsTopThird = logsTopThirdMatch ? logsTopThirdMatch[0] : '';
-			//DEBUGGING: console.log('logsTopThird:' + logsTopThird);
+			if (!logsTopThird) {
+				logsTopThird = logsTopQuarter;
+			}
+
+			//Extract the entire top "half" of the crash log (excluding "Modules", "Plugins", and "Game plugins" sections)
+			const logsTopHalfRegex = /^([\s\S]*?Stack\s*{[\s\S]*?})/;
+			var logsTopHalfMatch = logFile.match(logsTopHalfRegex);
+			var logsTopHalf = logsTopHalfMatch ? logsTopHalfMatch[0] : '';
+			if (!logsTopHalf) {
+				logsTopHalf = logsTopThird;
+			}
 
 			//logsTopThirdNoHeading contains "Possible relevant objects", "Probable callstack", and "Registers"
 			const logsTopThirdNoHeadingRegex = /(Possible relevant objects[\s\S]*)/;
 			var logsTopThirdNoHeadingMatch = logsTopThird.match(logsTopThirdNoHeadingRegex);
 			var logsTopThirdNoHeading = logsTopThirdNoHeadingMatch ? logsTopThirdNoHeadingMatch[0] : '';
-			//DEBUGGING:console.log('logsTopThirdNoHeading:' + logsTopThirdNoHeading);  
 
 			// Extract the "Possible relevant objects" section
 			const relevantObjectsRegex = /Possible relevant objects \(\d+\)\s*\{[\s\S]*?\}/;
-			var relevantObjectsMatch = logsTopThird.match(relevantObjectsRegex);
+			var relevantObjectsMatch = logsTopQuarter.match(relevantObjectsRegex);
 			var relevantObjectsSection = relevantObjectsMatch ? relevantObjectsMatch[0] : '';
-			//DEBUGGING: console.log('relevantObjectsSection:' + relevantObjectsSection);
 
 			// Extract the "Probable callstack" section
 			const probableCallstackRegex = /Probable callstack\s*\{[\s\S]*?\}/;
-			var probableCallstackMatch = logsTopThird.match(probableCallstackRegex);
+			var probableCallstackMatch = logsTopQuarter.match(probableCallstackRegex);
 			var probableCallstackSection = probableCallstackMatch ? probableCallstackMatch[0] : '';
-			//DEBUGGING: console.log('probableCallstackSection:' + probableCallstackSection);
+			
 
+			/* DEBUGGING: 
+			console.log('--- --------- ---');
+			console.log('--- DEBUGGING ---');
+			console.log('--- --------- ---');
+			console.log('logsFirstLine:' + logsFirstLine);
+			console.log('logsThirdLine:' + logsThirdLine);
+			console.log('relevantObjectsSection:' + relevantObjectsSection);
+			console.log('probableCallstackSection:' + probableCallstackSection);
+			console.log('logsTopQuarter:' + logsTopQuarter);
+			console.log('logsTopThird:' + logsTopThird);
+			console.log('logsTopThirdNoHeading:' + logsTopThirdNoHeading);
+			console.log('logsTopHalf:' + logsTopHalf);
+			console.log('--- ------------- ---');
+			console.log('--- END DEBUGGING ---');
+			console.log('--- ------------- ---');
+			*/
 
-			// Check for proper log file
-			if (!logsTopThird.includes('NetScriptFramework')) {
-				diagnoses += '<li>❌ <b>Incompatible Log File:</b> sorry, this analyzer is only compatible with NetScriptFramework logs. If you are using Nolvus, your crash logs should be located at <code>[YOUR_DRIVE]\\Nolvus\\Instances\\Nolvus Ascension\\MODS\\overwrite\\NetScriptFramework\\Crash</code></li>';
+			// Verify NetScriptFramework
+			if (!logsThirdLine.includes('NetScriptFramework')) {
+				diagnoses += '<li>❌ <b>Incompatible Log File:</b> Unfortunately, this analyzer can only process logs from NetScriptFramework. If you\'re using Nolvus, you can find your compatible crash logs at <code>[YOUR_DRIVE]\\Nolvus\\Instances\\Nolvus Ascension\\MODS\\overwrite\\NetScriptFramework\\Crash</code></li>';
+				diagnosesCount++;
+			}
+
+			// Verify NOT IOException type of crash log
+			if (logsFirstLine.includes('Unhandled managed exception (IOException)')) {
+				diagnoses += '<li>❌ <b>Incompatible Log File:</b> Unfortunately, this analyzer cannot process crash logs that start with "Unhandled managed exception (IOException)". These types of logs are rare and currently unsupported.</li>';
 				diagnosesCount++;
 			}
 
@@ -1093,6 +1127,27 @@ h1		24	48	(only heading actually used/specified below)
 				'For the first two issues, an easy <b>workaround</b> is to <a href = "https://support.microsoft.com/en-us/windows/create-a-local-user-or-administrator-account-in-windows-20de74e0-ac7f-3502-a866-32915af2a34d#WindowsVersion=Windows_11">create a new Windows User</a> and create a new Nolvus save (playthrough) from the new user.</li>';
 				diagnosesCount++;
 			}
+
+			// Check for KERNELBASE JContainers Crash
+			if (logsFirstLine.toLowerCase().includes('KERNELBASE.dll'.toLowerCase()) && probableCallstackSection.includes('JContainers64.dll')) {
+				diagnoses += '<li>🎯<b>KERNELBASE JContainers Crash Detected:</b> Usually, this issue stems from one of three causes:<ol>' +
+					'<li>JContainers may need patched. Go to <a href="https://www.nexusmods.com/skyrimspecialedition/mods/108591?tab=files&file_id=458596">Discrepancy\'s patch settings hub</a> and add the <b>JContainers Crash Workaround</b> mod (from the "Files" section) into Mod Organizer 2 (MO2). If you would like guidance on modding/patching Nolvus, please watch this <a href="https://youtu.be/YOvug9KP5L4">brief tutorial video</a> for step-by-step instructions.</li>' +
+					'<li>Windows <b>permissions</b> may have become overly restrictive and are blocking access to necessary mod storage. The usual solution is to reset your file permissions. See <a href="https://www.thewindowsclub.com/how-to-reset-file-folder-permissions-to-default-in-windows-10">How to reset all User Permissions to default in Windows 11/10</a>, or seek assistance from the Nolvus community.</li>' +
+					'<li>Storage files (JContainer\'s .json files) may have become <b>corrupted/broken.</b> These files often reside in your `..\\Documents\\My Games\\Skyrim Special Edition\\JCUser` folder, but can be located in mod-specific locations. This issue is especially common if you have manually edited a .json file. After identifying the specific file, either manually repair it, revert the file to a backup, or delete it, allowing the accessing mod(s) to create a new one. Other mods mentioned in the crash log may help to identify the specific storage file, or seek assistance from the Nolvus community.</li>' +
+				'</ol>' + 
+				'Also, for some of these issues, an easy <b>workaround</b> is to <a href = "https://support.microsoft.com/en-us/windows/create-a-local-user-or-administrator-account-in-windows-20de74e0-ac7f-3502-a866-32915af2a34d#WindowsVersion=Windows_11">create a new Windows User</a> and create a new Nolvus save (playthrough) from the new user.</li>';
+				diagnosesCount++;
+			}
+
+			// Check for KERNELBASE Crash excluding JContainers and JSON parse error
+			if (logsFirstLine.toLowerCase().includes('KERNELBASE.dll'.toLowerCase()) && !probableCallstackSection.includes('JContainers64.dll') && !logsTopHalf.includes('json.exception.parse_error')) {
+				diagnoses += '<li>❗<b>KERNELBASE Crash Detected:</b> This rare issue could be related to a specific added mod, or to hardware or a system-wide issue. Here are some steps you can take:<ol>' +
+					'<li>Check the <b>Windows Event Log</b> for any related issues. You can do this by opening the Event Viewer (search for it in the Start Menu), then navigate to Windows Logs > Application. Look for any recent errors that might be related to your issue. For detailed instructions, see this <a href="https://support.microsoft.com/en-us/windows/open-event-viewer-17d427d2-43d6-5e01-8535-1fc570ea8a14">Microsoft guide</a>.</li>' +
+					'<li>If the issue persists, consider reaching out to the <b>Nolvus Discord</b> for additional help.</li>' +
+				'</ol></li>';
+				diagnosesCount++;
+			}
+
 
 			// Check for D6DDDA crash
 			if (logsFirstLine.toLowerCase().includes('D6DDDA'.toLowerCase())) {
@@ -1247,7 +1302,7 @@ h1		24	48	(only heading actually used/specified below)
 						nonNolvusPluginsAtBottom = replaceWithExplainers(nonNolvusPluginsAtBottom);
 						countNonNolvusPluginsAtBottom = nonNolvusPluginsAtBottom.length;
 						if (countNonNolvusPluginsAtBottom > 0) {
-							outHtml += '<details><summary>🔎 Non-Nolvus Plugins Detected at Bottom (<code>' + countNonNolvusPluginsAtBottom + '</code>):<br><code>(click to expand/collapse full list)</code></summary> This list identifies non-Nolvus plugins from your game\'s crash log that might be out of their intended load order. Typically, non-Nolvus plugins should be placed above <code>FNIS.esp</code>, but it seems this is not the case here. Please ensure these plugins are positioned as intended.<ul>';
+							outHtml += '<details><summary>🔎 Non-Nolvus Plugins Detected at Bottom (<code>' + countNonNolvusPluginsAtBottom + '</code>):<br><code>(click to expand/collapse full list)</code></summary> This list identifies non-Nolvus plugins from your game\'s crash log that are loading below <code>synthesis.esp</code>, and thus might be out of their intended load order. Typically, non-Nolvus plugins should be placed above <code>FNIS.esp</code>, but it seems this is not the case here. Please ensure these plugins are positioned as intended.<ul>';
 							for (let plugin of nonNolvusPluginsAtBottom) {
 								outHtml += '<li><code>' + plugin + '</code></li>';
 							}
@@ -1315,14 +1370,17 @@ h1		24	48	(only heading actually used/specified below)
 
 
 			if (countPlugins(logFile) > 1) {
+				var badlyOrderedVanillaPlugins = '';
 				var badlyOrganizedNolvusPluginsHtml = '';
 				var hasBadlyOrganizedNolvusPlugins = false;
+				var countBadlyOrganizedNolvusPlugins = 0;
 				async function getBadlyOrganizedNolvusPluginsHtml(logFile) {
 					var outHtml = '';
 					try {
-						var badlyOrderedVanillaPlugins = await getBadlyOrganizedNolvusPlugins(logFile);
+						badlyOrderedVanillaPlugins = await getBadlyOrganizedNolvusPlugins(logFile);
 						badlyOrderedVanillaPlugins = replaceWithExplainers(badlyOrderedVanillaPlugins);
-						if (badlyOrderedVanillaPlugins.length > 0) {
+						countBadlyOrganizedNolvusPlugins = badlyOrderedVanillaPlugins.length;
+						if (countBadlyOrganizedNolvusPlugins > 0) {
 							outHtml += '<details><summary>🔎 Possibly Misordered Vanilla Nolvus Plugins (<code>' + badlyOrderedVanillaPlugins.length + '</code>):<br><code>(click to expand/collapse full list)</code></summary> This list identifies Nolvus plugins from your game\'s crash log that may be out of their standard order. It compares the order of plugins in your crash log with the standard order of vanilla Nolvus plugins. The plugins in the list are those that seem to be out of order, which could potentially lead to game crashes. Returning these plugins to their original order may help improve game stability. NOTE: A few may shift slightly with different vanilla configurations.<ul>';
 							for (let plugin of badlyOrderedVanillaPlugins) {
 								outHtml += '<li><code>' + plugin + '</code></li>';
@@ -1722,18 +1780,26 @@ h1		24	48	(only heading actually used/specified below)
 				insightsCount++;
 			}
 
-			//Apply Order
+			// Apply Order
 			if (hasBadlyOrganizedNolvusPlugins) {
-				insights += '<li>❗<b>Potentially Misorganized Vanilla Nolvus Plugins:</b> If you are experiencing issues with your load order, you can use the <b>Apply Order</b> button in the Nolvus Dashboard to restore the original sorting of all vanilla Nolvus mods. Here is how to do it:<ol>' +
-					'<li>Open the dashboard, click on <b>Manage</b> and then <b>Instance</b>.</li>' +
-					'<li>When loaded, click on <b>Apply Order</b>.</li>' +
-					'<li>All non-vanilla mods will be disabled and moved to the bottom of your load order.</li>' +
-					'<li>Any disabled vanilla mods will again be enabled.</li>' +
-					'<li>All vanilla Nolvus mods will be restored to their original sorting (load order).</li>' +
-					'<li>This is useful if you are troubleshooting a load order and wish to start from a vanilla Nolvus state without reinstalling, if you accidentally moved one or more mods in Mod Organizer 2 (MO2), or if your load order somehow got corrupted.</li>' +
-					'<li>For more information and a screenshot, see this r/Nolvus post <a href="https://www.reddit.com/r/Nolvus/comments/1chuod0/how_to_apply_order_button_usage_in_the_nolvus/">How To: "Apply Order" button usage in the Nolvus Dashboard</a>.</li>' +
-					'</ol></li>';
-					
+				var badlyOrderedVanillaPluginsListItems = '';
+				badlyOrderedVanillaPlugins = replaceWithExplainers(badlyOrderedVanillaPlugins);
+				for (let plugin of badlyOrderedVanillaPlugins) {
+					badlyOrderedVanillaPluginsListItems += '<li><code>' + plugin + '</code></li>';
+				}
+				insights += '<li>❗<b>Potential Misorganization of Vanilla Nolvus Plugins:</b>  <code>' + countBadlyOrganizedNolvusPlugins + '</code> standard plugins appear to be out of their usual sequence (relative to each other). A few mods will move around with different configurations of Nolvus, but others can cause problems if they are out of their typical loading order. If you\'re having load order issues, you can use the <b>Apply Order</b> button in the Nolvus Dashboard to restore the original order of all vanilla Nolvus mods. Follow these steps:<ol>' +
+					'<li>Open the dashboard and click on <b>Manage</b>, then <b>Instance</b>.</li>' +
+					'<li>Once loaded, click on <b>Apply Order</b>.</li>' +
+					'<li>Any disabled vanilla mods will be re-enabled.</li>' +
+					'<li>All vanilla Nolvus mods will be returned to their original order (load order).</li>' +
+					'<li>⚠️All non-vanilla mods will be disabled and moved to the end of your load order.</li>' +
+					'<li>Optionally, manually re-enable and reposition your added non-vanilla mods, or start a new game with them disabled.</li>' +
+					'<li>This is helpful if you\'re troubleshooting a load order and want to revert to a vanilla Nolvus state without reinstalling, if you\'ve accidentally rearranged one or more mods in Mod Organizer 2 (MO2), or if your load order has become corrupted.</li>' +
+					'<li>For additional information and a screenshot, refer to this r/Nolvus post <a href="https://www.reddit.com/r/Nolvus/comments/1chuod0/how_to_apply_order_button_usage_in_the_nolvus/">How To: Use the "Apply Order" Button in the Nolvus Dashboard</a>.</li>' +
+					'<li>List of potentially, badly-organized vanilla Nolvus plugins: <a href="#" class="toggleButton">⤴️ hide</a><ul class="extraInfo">' +
+						badlyOrderedVanillaPluginsListItems +
+					'</ul></ol></li>';
+
 				insightsCount++;
 			}
 
@@ -1745,7 +1811,7 @@ h1		24	48	(only heading actually used/specified below)
 				for (let plugin of nonNolvusPluginsAtBottom) {
 					nonNolvusPluginsAtBottomListItems += '<li><code>' + plugin + '</code></li>';
 				}
-				insights += '<li>❗<b>Non-Nolvus Plugins Detected at Bottom:</b> <code>' + countNonNolvusPluginsAtBottom + '</code> Non-Nolvus plugins have been detected at the bottom of your load order. This could potentially cause issues with your game. Here is how to address this:<ol>' +
+				insights += '<li>❗<b>Non-Nolvus Plugins Detected at Bottom:</b> <code>' + countNonNolvusPluginsAtBottom + '</code> Non-Nolvus plugins have been detected at the bottom of your load order (below <code>synthesis.esp</code>). This could potentially cause issues with your game. Here is how to address this:<ol>' +
 					'<li>Open Mod Organizer 2 (MO2).</li>' +
 					'<li>In both the left and right-side panes, identify the non-Nolvus plugins at the bottom of your load order.</li>' +
 					'<li>Move these plugins to their correct positions in the load order. Typically, non-Nolvus plugins should be placed above <code>FNIS.esp</code>. If you would like guidance on modding/patching Nolvus, please watch this <a href="https://youtu.be/YOvug9KP5L4">brief tutorial video</a> for step-by-step instructions.</li>' +
@@ -1823,6 +1889,31 @@ h1		24	48	(only heading actually used/specified below)
 					'<li>Check for updates to the Upscaler mod that may address known issues.</li>' +
 					'<li>If the problem persists, report it to the mod\'s support page, providing details from the log file to assist with troubleshooting.</li>' +
 					'</ol></li>';
+				insightsCount++;
+			}
+
+			// Check for KERNELBASE Crash excluding JContainers and JSON parse error
+			if (logsFirstLine.toLowerCase().includes('KERNELBASE.dll'.toLowerCase()) && !probableCallstackSection.includes('JContainers64.dll') && !logsTopHalf.includes('json.exception.parse_error')) {
+				insights += '<li>❗<b>KERNELBASE Crash Detected:</b> This rare issue could be related to a specific added mod, or to hardware or a system-wide issue such as virus, malware, drive corruption, corrupted Nolvus install, or corrupted file permissions. Here are some steps you can take, ordered from easiest to hardest:<ol>' +
+					'<li>You can restore the original sorting of all vanilla Nolvus mods using the <b>Apply Order</b> button in the Nolvus Dashboard. Here is how to do it:<ol>' +
+						'<li>Open the dashboard, click on <b>Manage</b> and then <b>Instance</b>.</li>' +
+						'<li>When loaded, click on <b>Apply Order</b>.</li>' +
+						'<li>All non-vanilla mods will be disabled and moved to the bottom of your load order.</li>' +
+						'<li>Any disabled vanilla mods will again be enabled.</li>' +
+						'<li>All vanilla Nolvus mods will be restored to their original sorting (load order).</li>' +
+						'<li>This is useful if you are troubleshooting a load order and wish to start from a vanilla Nolvus state without reinstalling, if you accidentally moved one or more mods in Mod Organizer 2 (MO2), or if your load order somehow got corrupted.</li>' +
+						'<li>For more information and a screenshot, see this r/Nolvus post <a href="https://www.reddit.com/r/Nolvus/comments/1chuod0/how_to_apply_order_button_usage_in_the_nolvus/">How To: "Apply Order" button usage in the Nolvus Dashboard</a>.</li>' +
+					'</ol></li>' +
+					'<li>Check the Windows Event Log for any related issues. You can do this by opening the <b>Event Viewer</b> (search for it in the Start Menu), then navigate to Windows Logs > Application. Look for any recent errors that might be related to your issue. For detailed instructions, see this <a href="https://support.microsoft.com/en-us/windows/open-event-viewer-17d427d2-43d6-5e01-8535-1fc570ea8a14">Microsoft guide</a>.</li>' +
+					'<li>Reinstall Nolvus to ensure the installation is not corrupted. Make sure to back up any important data before doing this. For detailed instructions, see this <a href="https://docs.google.com/document/d/1R_AVeneeCiqs0XGYzggXx34v3Ufq5eUHNoCHo3QE-G8/edit">guide</a>.</li>' +
+					'<li>Ensure your Windows is up to date, as well as any drivers. You can check for updates by going to Settings > Update & Security > Windows Update.</li>' +
+					'<li>Run a full system scan for any viruses or malware. We generally recommend using the built-in Windows Defender for this.</li>' +
+					'<li>Try disabling mods you have added one-by-one to see if the issue persists. This can help identify if a specific mod is causing the problem.</li>' +
+					'<li>Reset your file permissions. See <a href="https://www.thewindowsclub.com/how-to-reset-file-folder-permissions-to-default-in-windows-10">How to reset all User Permissions to default in Windows 11/10</a>, or seek assistance from the Nolvus community.</li>' +
+					'<li>Alternatively to resetting permissions, an an easy <b>workaround</b> is to <a href = "https://support.microsoft.com/en-us/windows/create-a-local-user-or-administrator-account-in-windows-20de74e0-ac7f-3502-a866-32915af2a34d#WindowsVersion=Windows_11">create a new Windows User</a> and create a new Nolvus save (playthrough) from the new user.</li>' +
+					'<li>Check your hard drive for any corruption. You can do this by opening the Command Prompt as an administrator and running the command <code>chkdsk /f</code>. Note that you might need to restart your computer for the scan to run. Be aware that frequent use of `chkdsk` on SSDs can potentially shorten their lifespan due to the write operations it performs.</li>' +
+					'<li>Perform a Repair Upgrade using the Windows 11 or Windows 10 ISO file. For detailed instructions, see this <a href="https://answers.microsoft.com/en-us/windows/forum/all/how-to-perform-a-repair-upgrade-using-the-windows/35160fbe-9352-4e70-9887-f40096ec3085">guide</a>.</li>' +
+				'</ol></li>';
 				insightsCount++;
 			}
 
@@ -2353,9 +2444,19 @@ h1		24	48	(only heading actually used/specified below)
 
 		// - - - TODOs - - -
 
-		// ✅ Beta version 0.13.3
-		// ✅ Removed "Unofficial" from title. This analyzer is now widely accepted and even used by many Novlus Discord Helpers, and it obviously isn't on Nolvus.net, and with it being labeled "Phostwood's" it obviously isn't Vektors...
-		// ✅ New test for KERNELBASE JSON Crash
+		// ✅ Beta version 0.14.1
+		// ✅ New test for KERNELBASE JContainers Crash (in top section)
+		// ✅ New test for KERNELBASE Crash excluding JContainers and JSON parse error (in top section)
+		// ✅ New test for KERNELBASE Crash excluding JContainers and JSON parse error (in advanced section)
+		// ✅ New Test_log entries for KERNELBASE JContainers Crash, KERNELBASE JSON Crash, and KERNELBASE Crash excluding JContainers and JSON parse error
+		// ✅ New Test_log2 for crash types that by definition can't co-exist with crashes in Test_log.txt (example: KERNELBASE Crash excluding JContainers and JSON parse error)
+		// ✅ Enhacements for "Apply Order" issue description (in advanced section)
+		// ✅ Fixed rare bug with parsing sections of the log file (when confronted with a truncated logfile)
+			// ✅ Fixed rare bug with false positive on detecting Incompatible Log Files (when confronted with a truncated logfile)
+			// ✅ Fixed rare bug with XAudio Crash detection (when confronted with a truncated logfile)
+		// ✅ New check for incompatible crash log type: IOException (these rare log files are structured in an entirely different way)
+		// ✅ Added Patreon link under submit button, and custom button (narrow banner) at bottom
+
 
 		// ⭐ Show count for Higher-Confidence Test: ❗Potentially Misorganized Vanilla Nolvus Plugins
 			// Maybe show those files again?
@@ -2434,6 +2535,10 @@ h1		24	48	(only heading actually used/specified below)
 				<label for="speculativeInsights" class="advanced">Advanced Users</label></span>
 		</section>
 		<br>
+		<strong><em>Your</em></strong> <a href="https://www.patreon.com/Phostwood" style="font-weight: bold;">support on Patreon</a> can help ensure ongoing development of this tool, enabling me to bring you new features and updates regularly.<br>
+
+
+		<br>
 		(Click on any 🎯, ❗, ❓, 🔎, or ✅ <strong>emoji</strong> next to a diagnosis to copy it, along with its markdown formatting, to your clipboard for sharing in the Nolvus Discord. Please note that any sections you've chosen to "⤴️ hide" will not be included in the copied markdown. This includes both the "⤴️ hide" list item and any indented child list items beneath it.)<br>
 		<br>
 		<h3>Diagnoses:</h3>
@@ -2460,6 +2565,12 @@ h1		24	48	(only heading actually used/specified below)
 					reddit post</a>.</p>
 			<p>Thank you to Vektor, Discrepancy, Gaetan, Corrupt Bliss, CJ, Demognomicon and Pan for your documentation and/or assistance!
 			</p>
+			
+		</aside>
+		<aside id="footer">
+			<a href="https://www.patreon.com/Phostwood" target="_blank">
+				<img src="./Patreon.png" alt="Support me on Patreon" style="height: 113 ;width: 300px;">
+			  </a>
 		</aside>
 	</main>
 

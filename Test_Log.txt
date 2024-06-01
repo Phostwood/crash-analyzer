@@ -46,6 +46,7 @@ Probable callstack
   [1]   0x7FF928A4C8AE     (usvfs_x64.dll+4C8AE)     
   [2]   0x7FF8A3F7C8AE     (usvfs_x64.dll+4C8AE) 
   [5]   0x7FF6141B12F8     (SkyrimSE.exe+D512F8)          BSCullingProcess::unk_D51280+78
+  [7]  JContainers64.dll
 }
 
 
