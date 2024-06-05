@@ -23,7 +23,7 @@
 	<title>Crash Log Analyzer</title>
 
 	<meta charset="UTF-8">
-	<meta name="version" content="0.14.2">
+	<meta name="version" content="0.14.3">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 	<link rel="icon" type="image/x-icon" href="https://phostwood.github.io/crash-analyzer/favicon.ico">
@@ -978,13 +978,30 @@ h1		24	48	(only heading actually used/specified below)
 			// Extract the "Possible relevant objects" section
 			const relevantObjectsRegex = /Possible relevant objects \(\d+\)\s*\{[\s\S]*?\}/;
 			var relevantObjectsMatch = logsTopQuarter.match(relevantObjectsRegex);
-			var relevantObjectsSection = relevantObjectsMatch ? relevantObjectsMatch[0] : '';
+			var logsRelevantObjectsSection = relevantObjectsMatch ? relevantObjectsMatch[0] : '';
 
 			// Extract the "Probable callstack" section
 			const probableCallstackRegex = /Probable callstack\s*\{[\s\S]*?\}/;
 			var probableCallstackMatch = logsTopQuarter.match(probableCallstackRegex);
-			var probableCallstackSection = probableCallstackMatch ? probableCallstackMatch[0] : '';
+			var logsProbableCallstackSection = probableCallstackMatch ? probableCallstackMatch[0] : '';
+
+			// Extract the "Registers" section
+			const registersRegex = /Registers\s*\{[\s\S]*?\}/;
+			var registersMatch = logsTopThird.match(registersRegex);
+			var logsRegistersSection = registersMatch ? registersMatch[0] : '';
+
+			// Extract the "Stack" section
+			const stackRegex = /Stack\s*\{[\s\S]*?\}/;
+			var stackMatch = logsTopHalf.match(stackRegex);
+			var logsStackSection = stackMatch ? stackMatch[0] : '';
 			
+			const logSectionsMap = new Map([
+				[logsFirstLine, 1, '🔴'],
+				[logsRelevantObjectsSection, 2, '🟠'],
+				[logsProbableCallstackSection, 3, '🟡'],
+				[logsRegistersSection, 4, '🔵'],
+				[logsStackSection, 5, '🟣'],
+			]);
 
 			/* DEBUGGING: 
 			console.log('--- --------- ---');
@@ -992,8 +1009,10 @@ h1		24	48	(only heading actually used/specified below)
 			console.log('--- --------- ---');
 			console.log('logsFirstLine:' + logsFirstLine);
 			console.log('logsThirdLine:' + logsThirdLine);
-			console.log('relevantObjectsSection:' + relevantObjectsSection);
-			console.log('probableCallstackSection:' + probableCallstackSection);
+			console.log('logsRelevantObjectsSection:' + logsRelevantObjectsSection);
+			console.log('logsProbableCallstackSection:' + logsProbableCallstackSection);
+			console.log('logsRegistersSection:' + logsRegistersSection);
+			console.log('logsStackSection:' + logsStackSection);
 			console.log('logsTopQuarter:' + logsTopQuarter);
 			console.log('logsTopThird:' + logsTopThird);
 			console.log('logsTopThirdNoHeading:' + logsTopThirdNoHeading);
@@ -1005,13 +1024,13 @@ h1		24	48	(only heading actually used/specified below)
 
 			// Verify NetScriptFramework
 			if (!logsThirdLine.includes('NetScriptFramework')) {
-				diagnoses += '<li>❌ <b>Incompatible Log File:</b> Unfortunately, this analyzer can only process logs from NetScriptFramework. If you\'re using Nolvus, you can find your compatible crash logs at <code>[YOUR_DRIVE]\\Nolvus\\Instances\\Nolvus Ascension\\MODS\\overwrite\\NetScriptFramework\\Crash</code></li>';
+				diagnoses += '<li>❌ <b>Incompatible Log File:</b> Unfortunately, this analyzer can only process logs from NetScriptFramework. If you are not using Nolvus, you will need to install the <a href="https://www.nexusmods.com/skyrimspecialedition/mods/21294">.NET Script Framework mod</a> to obtain compatible crash logs. If you\'re using Nolvus, you can find your compatible crash logs at <code>[YOUR_DRIVE]\\Nolvus\\Instances\\Nolvus Ascension\\MODS\\overwrite\\NetScriptFramework\\Crash</code></li>';
 				diagnosesCount++;
 			}
 
 			// Verify NOT IOException type of crash log
 			if (logsFirstLine.includes('Unhandled managed exception (IOException)')) {
-				diagnoses += '<li>❌ <b>Incompatible Log File:</b> Unfortunately, this analyzer cannot process crash logs that start with "Unhandled managed exception (IOException)". These types of logs are rare and currently unsupported.</li>';
+				diagnoses += '<li>❌ <b>Incompatible IOException Log File:</b> Unfortunately, this analyzer cannot process crash logs that start with "Unhandled managed exception (IOException)". These types of logs are rare and currently unsupported.</li>';
 				diagnosesCount++;
 			}
 
@@ -1023,7 +1042,7 @@ h1		24	48	(only heading actually used/specified below)
 			}
 
 			// Check for VRAMr Gorehowl crash (specific variant of D6DDDA crash)
-			if (logsFirstLine.includes('D6DDDA') && relevantObjectsSection.includes('Gorehowl')) {
+			if (logsFirstLine.includes('D6DDDA') && logsRelevantObjectsSection.includes('Gorehowl')) {
 				diagnoses += '<li>🎯 <b>VRAMr Gorehowl Crash Detected:</b> If you are using VRAMr, try temporarily disabling VRAMr\'s output mod to get past the "Night at the Museum" quest, and then re-enable afterwards. Alternately, delete the "clgorehowl" textures .dds image files. Or, just hide their VRAMr overrides in MO2. <code>NOTE: the VRAMr mod author fixed this issue in his April 19, 2024 version.</code></li>';
 				diagnosesCount++;
 			}
@@ -1047,7 +1066,7 @@ h1		24	48	(only heading actually used/specified below)
 			}
 
 			// Check for USVFS crash
-			if (probableCallstackSection.toLowerCase().includes('usvfs_x64.dll')) {
+			if (logsProbableCallstackSection.toLowerCase().includes('usvfs_x64.dll')) {
 				diagnoses += '<li>🎯 <b>USVFS Crash Detected:</b> An antivirus (most frequently, Webroot or Bitdefender) is blocking the MO2 file system. Either change your antivirus, or disable your antivirus, and/or create an exception for the entire Nolvus directory. More information and troubleshooting tips under <a href="https://www.nolvus.net/catalog/crashlog?acc=accordion-1-12">USVFS Crash</a/>.</li>';
 				diagnosesCount++;
 			}
@@ -1059,7 +1078,7 @@ h1		24	48	(only heading actually used/specified below)
 			}
 
 			// Check for 12F4797 Physics crash
-			if (logsFirstLine.toLowerCase().includes('12F4797'.toLowerCase()) && relevantObjectsSection.toLowerCase().includes("NiCamera(Name: `WorldRoot Camera`)".toLowerCase()) && relevantObjectsSection.toLowerCase().includes("BSMultiBoundRoom(Name: null)".toLowerCase())) {
+			if (logsFirstLine.toLowerCase().includes('12F4797'.toLowerCase()) && logsRelevantObjectsSection.toLowerCase().includes("NiCamera(Name: `WorldRoot Camera`)".toLowerCase()) && logsRelevantObjectsSection.toLowerCase().includes("BSMultiBoundRoom(Name: null)".toLowerCase())) {
 				diagnoses += '<li>🎯 <b>12F4797 Physics Crash Detected:</b> This issue is commonly encountered in Ancestor Glade (or possibly from a recent save made from Ancestor Glade) and may be linked to having a large number of physics-enabled objects active at once, such as the player\'s own armor and hair. The <b>workaround</b> is to swap out these items for non-physics counterparts. Also, if your character or follower has physics enabled hair, you should wear a non-physics helmet to cover cover it up.</li>';
 				diagnosesCount++;
 			}
@@ -1129,7 +1148,7 @@ h1		24	48	(only heading actually used/specified below)
 			}
 
 			// Check for KERNELBASE JContainers Crash
-			if (logsFirstLine.toLowerCase().includes('KERNELBASE.dll'.toLowerCase()) && probableCallstackSection.includes('JContainers64.dll')) {
+			if (logsFirstLine.toLowerCase().includes('KERNELBASE.dll'.toLowerCase()) && logsProbableCallstackSection.includes('JContainers64.dll')) {
 				diagnoses += '<li>🎯<b>KERNELBASE JContainers Crash Detected:</b> Usually, this issue stems from one of three causes:<ol>' +
 					'<li>JContainers may need patched. Go to <a href="https://www.nexusmods.com/skyrimspecialedition/mods/108591?tab=files&file_id=458596">Discrepancy\'s patch settings hub</a> and add the <b>JContainers Crash Workaround</b> mod (from the "Files" section) into Mod Organizer 2 (MO2). If you would like guidance on modding/patching Nolvus, please watch this <a href="https://youtu.be/YOvug9KP5L4">brief tutorial video</a> for step-by-step instructions.</li>' +
 					'<li>Windows <b>permissions</b> may have become overly restrictive and are blocking access to necessary mod storage. The usual solution is to reset your file permissions. See <a href="https://www.thewindowsclub.com/how-to-reset-file-folder-permissions-to-default-in-windows-10">How to reset all User Permissions to default in Windows 11/10</a>, or seek assistance from the Nolvus community.</li>' +
@@ -1140,7 +1159,7 @@ h1		24	48	(only heading actually used/specified below)
 			}
 
 			// Check for KERNELBASE Crash excluding JContainers and JSON parse error
-			if (logsFirstLine.toLowerCase().includes('KERNELBASE.dll'.toLowerCase()) && !probableCallstackSection.includes('JContainers64.dll') && !logsTopHalf.includes('json.exception.parse_error')) {
+			if (logsFirstLine.toLowerCase().includes('KERNELBASE.dll'.toLowerCase()) && !logsProbableCallstackSection.includes('JContainers64.dll') && !logsTopHalf.includes('json.exception.parse_error')) {
 				diagnoses += '<li>❗<b>KERNELBASE Crash Detected:</b> This rare issue could be related to a specific added mod, or to hardware or a system-wide issue. Here are some steps you can take:<ol>' +
 					'<li>Check the <b>Windows Event Log</b> for any related issues. You can do this by opening the Event Viewer (search for it in the Start Menu), then navigate to Windows Logs > Application. Look for any recent errors that might be related to your issue. For detailed instructions, see this <a href="https://support.microsoft.com/en-us/windows/open-event-viewer-17d427d2-43d6-5e01-8535-1fc570ea8a14">Microsoft guide</a>.</li>' +
 					'<li>If the issue persists, consider reaching out to the <b>Nolvus Discord</b> for additional help.</li>' +
@@ -1156,7 +1175,7 @@ h1		24	48	(only heading actually used/specified below)
 			}
 
 			// Check for Shadow Scene Node crash
-			if (probableCallstackSection.toLowerCase().includes('BSCullingProcess::unk_D51280+78'.toLowerCase()) && logsFirstLine.includes('(SkyrimSE.exe+12FDD00)')) {
+			if (logsProbableCallstackSection.toLowerCase().includes('BSCullingProcess::unk_D51280+78'.toLowerCase()) && logsFirstLine.includes('(SkyrimSE.exe+12FDD00)')) {
 				diagnoses += '<li>❗<b>Shadow Scene Node Crash Detected:</b> Load an earlier save, traveling to a different cell from the original crash, and play for a few days in game away from the area. This avoids the Shadow Scene, and hopefully allows the issue to resolve itself. More information and troubleshooting tips under <a href="https://www.nolvus.net/catalog/crashlog?acc=accordion-1-3">Shadow Scene Node crash</a/>.</li>';
 				diagnosesCount++;
 			}
@@ -1165,14 +1184,14 @@ h1		24	48	(only heading actually used/specified below)
 
 			// Check for Skeleton crash
 			var skeletonRegex = /NPC L UpperarmTwist|NPC R UpperarmTwist|skeleton\.nif|skeleton_female\.nif|NPC L Forearm|NPC R Forearm|bisection|NPC SpineX|NPC L Heel|NPC R Heel|NPC L Foot|NPC R Foot|SaddleBone|NPC L Hand|NPC R Hand|NPC L Finger|NPC R Finger/g;
-			var skeletonMatches = relevantObjectsSection.match(skeletonRegex) || [];
+			var skeletonMatches = logsRelevantObjectsSection.match(skeletonRegex) || [];
 			if (skeletonMatches.length > 0) {
 				diagnoses += '<li>❓<b>Possible Skeleton Issue:</b> Detected ' + skeletonMatches.length + ' potential indicators(s). Multiple indicators are more likely to be the cause than just one. Restarting may help if you\'re using vanilla Nolvus. For custom mods, verify your load order. Skeleton Issues are frequently NOT the crash culprit when other issues are present. More information and troubleshooting tips under <a href="https://www.nolvus.net/catalog/crashlog?acc=accordion-1-9">Skeleton Crash</a/> and <a href="https://www.nolvus.net/catalog/crashlog?acc=accordion-1-7">Load Order Crash</a>.</li>';
 				diagnosesCount++;
 			}
 
 			// Check for Shadowrend crash
-			if (relevantObjectsSection.toLowerCase().includes('ccbgssse018-shadowrend.esl')) {
+			if (logsRelevantObjectsSection.toLowerCase().includes('ccbgssse018-shadowrend.esl')) {
 				diagnoses += '<li>❓<b>Possible Shadowrend Issue:</b> Try loading an earlier save and avoid the crash area for a few days. <b>Be cautious</b> when loading a save that previously experienced the Shadowrend crash. Continuing to play on such a save might compound the issue, leading to more frequent crashes. For custom mods, verify your load order. Shadowrend is frequently NOT the crash culprit when other issues are present. More information and troubleshooting tips under <a href="https://www.nolvus.net/catalog/crashlog?acc=accordion-1-6">Shadowrend Crash</a/> and <a href="https://www.nolvus.net/catalog/crashlog?acc=accordion-1-7">Load Order Crash</a>.</li>';
 				diagnosesCount++;
 			}
@@ -1523,12 +1542,48 @@ h1		24	48	(only heading actually used/specified below)
 
 
 			const fileExtensions = [
-				'.bat', '.bik', '.bmp', '.bsa', '.bsl', '.dds', '.dll', '.esl', '.esm',
-				'.esp', '.exe', '.fuz', '.hkx', '.ini', '.lip', '.nif', '.pex', '.psc',
+				'.bat', '.bik', '.bmp', '.bsa', '.bsl', '.cpp', '.dds', '.dll', '.esl', '.esm',
+				'.esp', '.exe', '.fuz', '.hkx', '.ini', '.json', '.lip', '.nif', '.pex', '.psc',
 				'.seq', '.skse', '.skse64', '.swf', '.tga', '.tri'
 			];
 
-			const fileStartCharacter = ['`', '"', ':', '('];
+			const fileStartCharacter = ['`', '"', ':', '(', '['];
+
+			function cleanString(input) {
+				// Ensure input is a string
+				let str = String(input);
+
+				function removeUnpaired(charOpen, charClose) {
+					const stack = [];
+					let result = '';
+					for (const char of str) {
+						if (char === charOpen) {
+							stack.push(result.length);
+							result += char;
+						} else if (char === charClose) {
+							if (stack.length > 0) {
+								stack.pop();
+								result += char;
+							}
+						} else {
+							result += char;
+						}
+					}
+					// Remove unopened charClose using the indices in the stack
+					for (let i = stack.length - 1; i >= 0; i--) {
+						result = result.substring(0, stack[i]) + result.substring(stack[i] + 1);
+					}
+					return result;
+				}
+
+				// Process the string for each pair of characters
+				str = removeUnpaired('(', ')');
+				str = removeUnpaired('[', ']');
+				str = removeUnpaired('{', '}');
+				str = removeUnpaired('<', '>');
+
+				return str;
+			}
 
 			const nameStartCharacter = ['`', '"'];
 
@@ -1545,22 +1600,44 @@ h1		24	48	(only heading actually used/specified below)
 				//'void*',
 			].map(item => item.toLowerCase());
 
+			// List of files to filter
+			const unlikelyCulpritsList = [
+				'clr.dll',
+				//'d3d11.dll',
+				'D3D12Core.dll',
+				'D3DCOMPILER_47.dll',
+				'kernel32.dll',
+				'kernelbase.dll',
+				'MSVCP140.dll',
+				'ntdll.dll',
+				'Runtime.dll',
+				'steamclient64.dll',
+				'System.ni.dll',
+				'ucrtbase.dll',
+				'uiautomationcore.dll',
+				'vcruntime140.dll',
+				'win32u.dll',
+				'XINPUT1_3.dll'
+			].map(item => item.toLowerCase());
+
+
+			//NOTE: This section originally focused on just logsTopThird, but now changed to logsTopHalf (now includes "Stack")
 			// Split the logs into lines
-			//BUG: const lines = logsTopThird.split('\n'); //BUG: creates empty lines in the array where there are way too many characters in a line (Gravelord has a line with 24k+ characters)
+			//BUG: const lines = logsTopHalf.split('\n'); //BUG: creates empty lines in the array where there are way too many characters in a line (Gravelord has a line with 24k+ characters)
 
 			const maxLineLength = 1000; // Adjust this value to your needs
 
-			// Split the logs into chunks of maxLineLength characters (can't use logsTopThird.split('\n') because it is incompatible with extra long log lines)
+			// Split the logs into chunks of maxLineLength characters (can't use logsTopHalf.split('\n') because it is incompatible with extra long log lines)
 			let lines = [];
 			let start = 0;
 			let end = 0;
 			let lineEnd = 0;
 
-			while (start < logsTopThird.length) {
-				lineEnd = logsTopThird.indexOf('\n', start);
+			while (start < logsTopHalf.length) {
+				lineEnd = logsTopHalf.indexOf('\n', start);
 				if (lineEnd === -1) {
-					//If there are no more newlines, then we are at the end of the logsTopThird
-					stringEnd = logsTopThird.length;
+					//If there are no more newlines, then we are at the end of the logsTopHalf
+					stringEnd = logsTopHalf.length;
 					lineEnd = stringEnd;
 				}
 				if (lineEnd > start + maxLineLength) {
@@ -1570,7 +1647,7 @@ h1		24	48	(only heading actually used/specified below)
 					stringEnd = lineEnd;
 				}
 
-				let line = logsTopHalf.substring(start, stringEnd);
+				let line = logsTopHalf.substring(start, stringEnd); //NOTE: was logsTopHalf even when above was logsTopThird
 				lines.push(line);
 				start = lineEnd + 1;
 			}
@@ -1646,6 +1723,7 @@ h1		24	48	(only heading actually used/specified below)
 
 						//Match: the Name/File substring:
 						let potentialMatch = line.slice(start, end);
+						potentialMatch = cleanString(potentialMatch);
 						foundMatchCount += addMatch(potentialMatch, allMatches, removeList);
 					}
 				});
@@ -1658,26 +1736,6 @@ h1		24	48	(only heading actually used/specified below)
 			console.log(' ');
 			console.log('missedMatches:', missedMatches);
 			console.log('allMatches:', allMatches);
-
-			// List of files to filter
-			const unlikelyCulpritsList = [
-				'clr.dll',
-				//'d3d11.dll',
-				'D3D12Core.dll',
-				'D3DCOMPILER_47.dll',
-				'kernel32.dll',
-				'kernelbase.dll',
-				'MSVCP140.dll',
-				'ntdll.dll',
-				'Runtime.dll',
-				'steamclient64.dll',
-				'System.ni.dll',
-				'ucrtbase.dll',
-				'uiautomationcore.dll',
-				'vcruntime140.dll',
-				'win32u.dll',
-				'XINPUT1_3.dll'
-			].map(item => item.toLowerCase());
 
 
 			allMatches = allMatches.map(item => {
@@ -1708,7 +1766,7 @@ h1		24	48	(only heading actually used/specified below)
 
 			// Create the insights message
 			if (allMatches.length > 0) {
-				insights += '<li>🔎 <b>Files/Elements</b> listed within the heading, "Possible relevant objects", "Probable callstack", and "Registers" sections of the log file. Higher in this list are frequently more likely to have contributed more towards the crash. Pay extra attention to anything related to <b>mods you have added</b> to Nolvus:'
+				insights += '<li>🔎 <b>Files/Elements</b> listed within the heading, "Possible relevant objects", "Probable callstack", "Registers" and "Stack" sections of the log file. Higher in this list are frequently more likely to have contributed more towards the crash. Pay extra attention to anything related to <b>mods you have added</b> to Nolvus:'
 				insights += '<ul>' + processedMatches + '</ul>'
 				insights += '</li>';
 				insightsCount++;
@@ -1720,7 +1778,7 @@ h1		24	48	(only heading actually used/specified below)
 			insights += '</ul><h5>Higher-Confidence Test Results:</h5><ul>';
 
 			//VRAMr Gorehowl
-			if (logsFirstLine.includes('D6DDDA') && relevantObjectsSection.includes('Gorehowl')) {
+			if (logsFirstLine.includes('D6DDDA') && logsRelevantObjectsSection.includes('Gorehowl')) {
 				insights += '<li>🎯 <b>VRAMr Gorehowl Crash Detected:</b> The \'D6DDDA\' error, combined with references to the weapon "Gorehowl," indicates a specific issue related to VRAMr and the "Night at the Museum" quest. To address this issue:<ol>' +
 					'<li>If you are using VRAMr, temporarily disable VRAMr\'s output mod.</li>' +
 					'<li>After completing the quest, re-enable VRAMr\'s output mod.</li>' +
@@ -1743,7 +1801,7 @@ h1		24	48	(only heading actually used/specified below)
 			}
 
 			//USVFS (Antivirus)
-			if (probableCallstackSection.includes('usvfs_x64.dll')) {
+			if (logsProbableCallstackSection.includes('usvfs_x64.dll')) {
 				insights += '<li>🎯 <b>USVFS Crash Detected:</b> The presence of \'usvfs_x64.dll\' in the crash log indicates an issue related to the MO2 (Mod Organizer 2) file system. This crash is often caused by <b>antivirus software</b>, particularly Webroot or Bitdefender, blocking MO2\'s file operations. To resolve this issue:<ol>' +
 					'<li>Check if you have Webroot or Bitdefender antivirus installed.</li>' +
 					'<li>Temporarily disable your antivirus or create an exception for the entire Nolvus directory within your antivirus settings.</li>' +
@@ -1893,7 +1951,7 @@ h1		24	48	(only heading actually used/specified below)
 			}
 
 			// Check for KERNELBASE Crash excluding JContainers and JSON parse error
-			if (logsFirstLine.toLowerCase().includes('KERNELBASE.dll'.toLowerCase()) && !probableCallstackSection.includes('JContainers64.dll') && !logsTopHalf.includes('json.exception.parse_error')) {
+			if (logsFirstLine.toLowerCase().includes('KERNELBASE.dll'.toLowerCase()) && !logsProbableCallstackSection.includes('JContainers64.dll') && !logsTopHalf.includes('json.exception.parse_error')) {
 				insights += '<li>❗<b>KERNELBASE Crash Detected:</b> This rare issue could be related to a specific added mod, or to hardware or a system-wide issue such as virus, malware, drive corruption, corrupted Nolvus install, or corrupted file permissions. Here are some steps you can take, ordered from easiest to hardest:<ol>' +
 					'<li>You can restore the original sorting of all vanilla Nolvus mods using the <b>Apply Order</b> button in the Nolvus Dashboard. Here is how to do it:<ol>' +
 						'<li>Open the dashboard, click on <b>Manage</b> and then <b>Instance</b>.</li>' +
@@ -2143,13 +2201,13 @@ h1		24	48	(only heading actually used/specified below)
 			*/
 
 			//SimplestHorses.esp
-			if (relevantObjectsSection.toLowerCase().includes('SimplestHorses.esp'.toLowerCase())) {
+			if (logsRelevantObjectsSection.toLowerCase().includes('SimplestHorses.esp'.toLowerCase())) {
 				insights += '<li>❓ <b>Potential Conflict with Simplest Horses:</b> This crash occurs on customized lists and is speculated to be the result of a conflict between Simplest Horses and certain additional mods. If issue persists try disabling either your recently added mod(s), or these two mods: <ol><li>Simplest Horses</li><li>Simplest Horses - Animated Whistling Patch</li></ol></li>';
 				insightsCount++;
 			}
 
 			//Animated Ice Floes.esp
-			if (relevantObjectsSection.toLowerCase().includes('Animated Ice Floes.esp'.toLowerCase())) {
+			if (logsRelevantObjectsSection.toLowerCase().includes('Animated Ice Floes.esp'.toLowerCase())) {
 				insights += '<li>❓ <b>Potential Conflict with Animated Ice Floes:</b> This crash occurs on customized lists and is speculated to be the result of a conflict between Animated Ice Floes and certain additional mods. If issue persists try disabling either your recently added mod(s), or the Animated Ice Floes mod.</li>';
 				insightsCount++;
 			}
@@ -2158,7 +2216,7 @@ h1		24	48	(only heading actually used/specified below)
 			insights += '</ul><h5>Miscellaneous Issues:</h5><ul>';
 
 			//Shadowrend
-			if (relevantObjectsSection.toLowerCase().includes('ccbgssse018-shadowrend.esl')) {
+			if (logsRelevantObjectsSection.toLowerCase().includes('ccbgssse018-shadowrend.esl')) {
 				insights += '<li>❓ <b>Possible Shadowrend Crash Detected:</b> The presence of \'ccbgssse018-shadowrend.esl\' in the crash log suggests an issue related to the Shadowrend weapon. To address this issue:<ol>' +
 					'<li>Load an earlier save that predates the crash.</li>' +
 					'<li>Travel to a different cell (area) from where the original crash occurred.</li>' +
@@ -2444,8 +2502,27 @@ h1		24	48	(only heading actually used/specified below)
 
 		// - - - TODOs - - -
 
-		// ✅ Beta version 0.14.2
-		// ✅ Slight change to Patreon sentence under the "Analyze" button:  "." --> "!"
+		// ✅ Beta version 0.14.3
+		// ✅ Enhancements to "Files/Elements listed" section
+			// ✅ Added .json and .cpp to fileExtensions list for the "Files/Elements listed" section
+				// ✅ VERIFY
+				// ❌ DO I also want to add those (and the other fileExtensions list) extensions to foundMatchCount keywords? (Answer: no ... that's just a double check)
+			// ✅ Added '[' to fileStartCharacter  
+			// ✅ Changed sections focus from logsTopThird to logsTopHalf (now includes "Stack")
+			// ✅ Added funtion cleanString() to ensure all item ")", "]" etc. had paired opening characters
+			// ✅ TESTED compatibility with wide array of crash types and log examples
+		// ✅ Added "IOException" to its heading for differentiation and clarity: Incompatible IOException Log File
+		// ✅ Added line to Incompatible Log File message: If you are not using Nolvus, you will need to install the <a href="https://www.nexusmods.com/skyrimspecialedition/mods/21294">.NET Script Framework mod</a> to obtain compatible crash logs.
+		// ✅ Added other patreon logo to mention below Analyze button
+		// ✅ Added "Disclaimer" paragraph at very bottom.
+		// ✅ Preparing for future features: (more defined log sections)
+			// ✅ new logsRegistersSection and logsStackSection
+			// ✅ new logSectionsMap
+			// ✅ renamed for consistency: probableCallstackSection to logsProbableCallstackSection
+			// ✅ renamed for consistency:  relevantObjectsSection to logsRelevantObjectsSection
+		
+	
+
 
 		// ⭐ Show count for Higher-Confidence Test: ❗Potentially Misorganized Vanilla Nolvus Plugins
 			// Maybe show those files again?
@@ -2524,7 +2601,7 @@ h1		24	48	(only heading actually used/specified below)
 				<label for="speculativeInsights" class="advanced">Advanced Users</label></span>
 		</section>
 		<br>
-		<strong><em>Your</em></strong> <a href="https://www.patreon.com/Phostwood" style="font-weight: bold;">support on Patreon</a> can help ensure ongoing development of this tool, enabling me to bring you new features and updates regularly!<br>
+		<span style="display: inline-block;"><img width="32" height="32"  alt="patreon" src="https://github.githubassets.com/assets/patreon-96b15b9db4b9.svg"> <em>Your</em> <a href="https://www.patreon.com/Phostwood" style="font-weight: bold;">support on Patreon</a> can help ensure ongoing development of this tool, enabling me to bring you new features and updates regularly!</span><br>
 
 
 		<br>
@@ -2556,11 +2633,19 @@ h1		24	48	(only heading actually used/specified below)
 			</p>
 			
 		</aside>
-		<aside id="footer">
+		<aside id="patreon">
 			<a href="https://www.patreon.com/Phostwood" target="_blank">
 				<img src="./Patreon.png" alt="Support me on Patreon" style="height: 113 ;width: 300px;">
-			  </a>
+			</a>
+			<p>&nbsp;</p>
+			<br>
 		</aside>
+		<aside id="disclaimer">
+			<strong>Disclaimer:</strong>
+			<p>Advice and diagnoses provided by this web application are offered in good faith and are intended to be helpful. However, please be aware that automated crash log analysis may not always be accurate. The developers of this app cannot guarantee the effectiveness or digital well-being resulting from any troubleshooting advice provided. While we strive to assist, we do not claim specialized expertise in troubleshooting specific computer issues or your Skyrim load orders. Users are encouraged to exercise caution and use their own judgment when implementing any recommendations. By using this web application, you accept full responsibility for your actions. Proceed at your own discretion.</p>
+			<p><a href="https://raw.githubusercontent.com/Phostwood/crash-analyzer/main/LICENSE">View the GPL-3.0 license</a> governing this software.</p>
+		</aside>		
+		
 	</main>
 
 
