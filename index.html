@@ -23,7 +23,7 @@
 	<title>Crash Log Analyzer</title>
 
 	<meta charset="UTF-8">
-	<meta name="version" content="0.14.3">
+	<meta name="version" content="0.14.4">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 	<link rel="icon" type="image/x-icon" href="https://phostwood.github.io/crash-analyzer/favicon.ico">
@@ -2200,9 +2200,10 @@ h1		24	48	(only heading actually used/specified below)
 				}
 			*/
 
+
 			//SimplestHorses.esp
 			if (logsRelevantObjectsSection.toLowerCase().includes('SimplestHorses.esp'.toLowerCase())) {
-				insights += '<li>❓ <b>Potential Conflict with Simplest Horses:</b> This crash occurs on customized lists and is speculated to be the result of a conflict between Simplest Horses and certain additional mods. If issue persists try disabling either your recently added mod(s), or these two mods: <ol><li>Simplest Horses</li><li>Simplest Horses - Animated Whistling Patch</li></ol></li>';
+				insights += '<li>❓ <b>Potential Conflict with Simplest Horses:</b> Crashes may occur due to conflicts between Simplest Horses and other mods, especially when custom lists are involved. To address this, you can: <ul><li>Command your horse to wait at a location before fast traveling. Press the "H" hotkey while not targeting your horse to make it wait.</li><li>Disable horse followers in the Mod Configuration Menu (MCM) of your follower framework (e.g., Nether\'s Follower Framework in Nolvus).</li><li>If the issue still persists, consider disabling recently added mods or the following mods: <ol><li>Simplest Horses</li><li>Simplest Horses - Animated Whistling Patch</li></ol></li></ul></li>';
 				insightsCount++;
 			}
 
@@ -2429,6 +2430,15 @@ h1		24	48	(only heading actually used/specified below)
 				insightsCount++;
 			}
 
+			// Horse Follower Pathing Issue
+			if (logsTopHalf.includes('Pathing') &&
+				(logsRelevantObjectsSection.toLowerCase().includes('horse') ||
+					logsRelevantObjectsSection.toLowerCase().includes('pony') ||
+					logsRelevantObjectsSection.toLowerCase().includes('mount'))) {
+				insights += '<li>❓ <b>Horse Follower Pathing Issue:</b> This crash may occur when horse or pony followers encounter pathfinding issues to reach the player character. To mitigate this, consider the following steps: <ul><li>Disable horse followers in the Mod Configuration Menu (MCM) of your follower framework (e.g., Nether\'s Follower Framework in Nolvus).</li><li>Command your horse to wait at a location before initiating fast travel.</li></ul></li>';
+				insightsCount++; // Increment the count of insights detected
+			}
+
 			/*DISABLED UNTIL I CAN FIND EXAMPLES SO I CAN LIST THE MISSING/CORRUPTED OBJECTS:
 				  // Check thought up by AI (MS Bing Copilot):
 				//ObjectReference Issues 2
@@ -2502,24 +2512,9 @@ h1		24	48	(only heading actually used/specified below)
 
 		// - - - TODOs - - -
 
-		// ✅ Beta version 0.14.3
-		// ✅ Enhancements to "Files/Elements listed" section
-			// ✅ Added .json and .cpp to fileExtensions list for the "Files/Elements listed" section
-				// ✅ VERIFY
-				// ❌ DO I also want to add those (and the other fileExtensions list) extensions to foundMatchCount keywords? (Answer: no ... that's just a double check)
-			// ✅ Added '[' to fileStartCharacter  
-			// ✅ Changed sections focus from logsTopThird to logsTopHalf (now includes "Stack")
-			// ✅ Added funtion cleanString() to ensure all item ")", "]" etc. had paired opening characters
-			// ✅ TESTED compatibility with wide array of crash types and log examples
-		// ✅ Added "IOException" to its heading for differentiation and clarity: Incompatible IOException Log File
-		// ✅ Added line to Incompatible Log File message: If you are not using Nolvus, you will need to install the <a href="https://www.nexusmods.com/skyrimspecialedition/mods/21294">.NET Script Framework mod</a> to obtain compatible crash logs.
-		// ✅ Added other patreon logo to mention below Analyze button
-		// ✅ Added "Disclaimer" paragraph at very bottom.
-		// ✅ Preparing for future features: (more defined log sections)
-			// ✅ new logsRegistersSection and logsStackSection
-			// ✅ new logSectionsMap
-			// ✅ renamed for consistency: probableCallstackSection to logsProbableCallstackSection
-			// ✅ renamed for consistency:  relevantObjectsSection to logsRelevantObjectsSection
+		// ✅ Beta version 0.14.4
+		// ✅ More workarounds and clarifications for: SimplestHorses.esp issue (Thanks, Pan!)
+		// ✅ New: Horse Follower Pathing Issue (Thanks, leptafinye!)
 		
 	
 
