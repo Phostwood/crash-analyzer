@@ -23,7 +23,7 @@
 	<title>Crash Log Analyzer</title>
 
 	<meta charset="UTF-8">
-	<meta name="version" content="0.14.4">
+	<meta name="version" content="0.14.5">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 	<link rel="icon" type="image/x-icon" href="https://phostwood.github.io/crash-analyzer/favicon.ico">
@@ -1052,12 +1052,20 @@ h1		24	48	(only heading actually used/specified below)
 				diagnoses += '<li>🎯 <b>JContainers Crash Detected:</b> Go to <a href="https://www.nexusmods.com/skyrimspecialedition/mods/108591?tab=files&file_id=458596">Discrepancy\'s patch settings hub</a> and add the <b>JContainers Crash Workaround</b> mod (from the "Files" section) into Mod Organizer 2 (MO2). If you would like guidance on modding/patching Nolvus, please watch this <a href="https://youtu.be/YOvug9KP5L4">brief tutorial video</a> for step-by-step instructions. More information and troubleshooting tips under <a href="https://www.nolvus.net/catalog/crashlog?acc=accordion-1-4">JContainers Crash</a/>.</li>';
 				diagnosesCount++;
 			}
-			// Check for Gravelord / Mihail Sithis crash
-			var matchGravelordMatches = logsTopHalf.match(/mihailmmasithis\.esp/g) || [];
-			if (matchGravelordMatches && matchGravelordMatches.length >= 1) {
-				diagnoses += '<li>🎯 <b>Gravelord / Mihail Sithis Crash Detected:</b> Go to <a href="https://www.nexusmods.com/skyrimspecialedition/mods/108591">Discrepancy\'s patch settings hub</a> and download the <b>Odin and Gravelords Compatibility Patch﻿</b>. In the installation wizard, for vanilla Nolvus Ascension version 5, choose the top option for the Gravelords Standalone version (mihailmmasithis.esp). This patch can be safely installed mid-game. If you would like guidance on modding/patching Nolvus, please watch this <a href="https://youtu.be/YOvug9KP5L4">brief tutorial video</a> for step-by-step instructions. More information and troubleshooting tips under <a href="https://www.nolvus.net/catalog/crashlog?acc=accordion-1-8">Gravelord / Mihail Sithis Crash</a/>.</li>';
-				diagnosesCount++;
+
+			// Check for Mihail Sithis crash
+			if (logsTopHalf.includes('Wraith of Sithis') && logsTopHalf.includes('mihailmmasithis.esp')) {
+				diagnoses += '<li>🎯 <b>Gravelord / "Wraith of Sithis" Crash Detected:</b> This crash is usually associated with MihailMods\' "Wraith of Sithis" conflicting with Odin - Skyrim Magic Overhaul, and may occur shortly after an encounter where a character or NPC summons a Wraith of Sithis. Despite the name, it is not directly related to Gravelords. To resolve this issue:</li>' +
+							'<ul>' +
+							'<li>Go to <a href="https://www.nexusmods.com/skyrimspecialedition/mods/108591">Discrepancy\'s patch settings hub</a> and download the <b>Odin and Gravelords Compatibility Patch</b>.</li>' +
+							'<li>During installation for Nolvus Ascension version 5, select the option for the Gravelords Standalone version (mihailmmasithis.esp).</li>' +
+							'<li>This patch can be safely installed mid-game.</li>' +
+							'<li>Ensure the plugin is positioned above FNIS.esp. For a guide on modding/patching Nolvus, view this <a href="https://youtu.be/YOvug9KP5L4">tutorial video</a>.</li>' +
+							'<li>Find more information and troubleshooting tips under <a href="https://www.nolvus.net/catalog/crashlog?acc=accordion-1-8">Mihail Sithis Crash</a>.</li>' +
+							'</ul>';
+				diagnosesCount++; // Increment the count of diagnoses detected
 			}
+
 
 			// Check for A0D789 crash
 			if (logsFirstLine.includes('(SkyrimSE.exe+A0D789)')) {
@@ -1081,6 +1089,12 @@ h1		24	48	(only heading actually used/specified below)
 			if (logsFirstLine.toLowerCase().includes('12F4797'.toLowerCase()) && logsRelevantObjectsSection.toLowerCase().includes("NiCamera(Name: `WorldRoot Camera`)".toLowerCase()) && logsRelevantObjectsSection.toLowerCase().includes("BSMultiBoundRoom(Name: null)".toLowerCase())) {
 				diagnoses += '<li>🎯 <b>12F4797 Physics Crash Detected:</b> This issue is commonly encountered in Ancestor Glade (or possibly from a recent save made from Ancestor Glade) and may be linked to having a large number of physics-enabled objects active at once, such as the player\'s own armor and hair. The <b>workaround</b> is to swap out these items for non-physics counterparts. Also, if your character or follower has physics enabled hair, you should wear a non-physics helmet to cover cover it up.</li>';
 				diagnosesCount++;
+			}
+
+			// Check for Medal streaming software
+			if (logFile.includes('medal-hook64.dll')) {
+				diagnoses += '<li>🎯 <b>Medal Streaming Software Detected:</b> Medal streaming software has been frequently reported to cause issues with Nolvus, particularly severe graphical darkness/distortions and crashes to desktop (CTDs). These problems have reportedly been escalating with recent updates to Medal. To prevent these issues, we recommend the following actions: <ul><li>Disable Medal via its settings before running Nolvus.</li><li>If disabling does not work, terminate the Medal process using Windows Task Manager.</li><li>As a last resort, consider uninstalling Medal completely from your system.</li></ul></li>';
+				diagnosesCount++; // Increment the count of diagnoses detected
 			}
 
 			//NVIDIA graphics driver
@@ -2512,9 +2526,10 @@ h1		24	48	(only heading actually used/specified below)
 
 		// - - - TODOs - - -
 
-		// ✅ Beta version 0.14.4
-		// ✅ More workarounds and clarifications for: SimplestHorses.esp issue (Thanks, Pan!)
-		// ✅ New: Horse Follower Pathing Issue (Thanks, leptafinye!)
+		// ✅ Beta version 0.14.5
+		// ✅ BUG FIX: Tighted up Gravelord diagnosis, getting rid of a lot of likely-false-positives. Now specifically checking log for: Wraith of Sithis
+		// ✅ New test for Medal streaming software (thanks CJ!)
+		// ✅ Clarifications to Gravelord / "Wraith of Sithis" Crash
 		
 	
 
