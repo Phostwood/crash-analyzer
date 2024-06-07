@@ -25,6 +25,7 @@ Possible relevant objects (3)
   [  85]    NiNode(Name: `NPC L FootBox`)
   [  87]    BSFadeNode(Name: `skeleton.nif`, Owner: `Character(FormId: 2C1DD45B, File: `arnima.esm`, BaseForm: TESNPC(Name: `Defleshed Combatant`, FormId: 2C1DD447, File: `arnima.esm`))`)
   [  94]    TESNPC(Name: `Exmoor Pony`, FormId: 00068D5B, File: `SimplestHorses.esp <- Skyrim.esm`)
+
   [ 116]    hkpRigidBody(Node: `BSFadeNode(Name: `Gorehowl`)`)
   [ 206]    BSLightingShaderProperty(Name: null)
   [ 358]    BSFadeNode(Name: `Gorehowl`)
@@ -52,6 +53,7 @@ Probable callstack
 
 Registers
 {
+ R12:      0x20465ECE770      (PathingRequest**)
  R14:      0x7FF65C471FE0     (SkyrimSE.exe+1541FE0) (char*) ".STRINGS"
  BX:       0x7FF928B0E300     (usvfs_x64.dll+10E300) (char*) "usvfs::hook_DeleteFileW"
 }
