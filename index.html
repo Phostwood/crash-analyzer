@@ -23,7 +23,7 @@
 	<title>Crash Log Analyzer</title>
 
 	<meta charset="UTF-8">
-	<meta name="version" content="0.14.5">
+	<meta name="version" content="0.14.6">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 	<link rel="icon" type="image/x-icon" href="https://phostwood.github.io/crash-analyzer/favicon.ico">
@@ -703,19 +703,30 @@ h1		24	48	(only heading actually used/specified below)
 		}
 
 		function extractNifPathsToListItems(logText) {
-			const regex = /"([^"]+\.nif)"/g;
+			const fileRegex = /"([^"]+\.nif)"/g;
 			let match;
 			const pathsSet = new Set();
 
-			while ((match = regex.exec(logText)) !== null) {
+			while ((match = fileRegex.exec(logText)) !== null) {
 				pathsSet.add(match[1]);
 			}
 
 			// If no matches were found, add the no meshes found message to the set
 			if (pathsSet.size === 0) {
-				pathsSet.add('(no meshes found in crash log ... consider decompressing relevant .bsa archives)');
+				pathsSet.add('(no mesh files found in crash log ... consider decompressing relevant .bsa archives)');
 			}
 
+			const name1Regex = /BSTriShape\((Name: `[^`]+`)\)/g;
+			const name2Regex = /\(BSTriShape\*\) -> \((Name: `[^`]+`)\)/g;
+
+			 // Check for names using the two regexes and add their group matches to the pathsSet
+			 while ((match = name1Regex.exec(logText)) !== null) {
+				pathsSet.add(match[1]);
+			}
+			while ((match = name2Regex.exec(logText)) !== null) {
+				pathsSet.add(match[1]);
+   			 }
+			
 			// Convert the Set back to an array and process to list items
 			return processListItems([...pathsSet]);
 		}
@@ -2156,7 +2167,7 @@ h1		24	48	(only heading actually used/specified below)
 
 			//Textures
 			if (logsTopHalf.toLowerCase().includes('texture')) {
-				insights += '<li>❓ <b>Texture Issue Detected:</b> The mention of \'textures\' in the crash log indicates a potential problem related to texture files. Textures play a crucial role in the visual quality of Skyrim, affecting everything from character models to landscapes and objects. To address texture-related issues, consider the following steps:<ol>' +
+				insights += '<li>❓ <b>Texture Issue Detected:</b> The mention of \'texture\' in the crash log may indicate a potential problem related to texture files. Textures play a crucial role in the visual quality of Skyrim, affecting everything from character models to landscapes and objects. To address texture-related issues, consider the following steps:<ol>' +
 					'<li><a href="https://www.nexusmods.com/skyrimspecialedition/mods/23316">Cathedral Assets Optimizer (CAO)</a> can often be used to repair damaged image files. CAO ensures that textures are properly formatted and can also reduce their resolution (file size) without noticeably reducing visual quality.</li>' +
 					'<li>Check your mod load order to prevent texture conflicts. Ensure that texture mods are loaded after any mods that alter the same textures.</li>' +
 					'<li>Inspect the list of textures mentioned in the crash log. These textures may be associated with specific mods or locations.</li>' +
@@ -2526,10 +2537,9 @@ h1		24	48	(only heading actually used/specified below)
 
 		// - - - TODOs - - -
 
-		// ✅ Beta version 0.14.5
-		// ✅ BUG FIX: Tighted up Gravelord diagnosis, getting rid of a lot of likely-false-positives. Now specifically checking log for: Wraith of Sithis
-		// ✅ New test for Medal streaming software (thanks CJ!)
-		// ✅ Clarifications to Gravelord / "Wraith of Sithis" Crash
+		// ✅ Beta version 0.14.6
+		// ✅ Expanded information: Now, in addition to listing potentially problematic mesh filenames, it also lists named meshes. This may be useful in helping to isolate bad meshes when they are otherwise unlisted due to being compressed into .bsa files
+		// ✅ Added minor clarification to Texture Issue Detected issue
 		
 	
 

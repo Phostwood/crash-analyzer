@@ -14,6 +14,7 @@ Possible relevant objects (3)
 {
   [best section?] ImprovedCameraSE.dll
   [best section?] (Name: "badMesh.nif")
+  [   0]    BSTriShape(Name: `Book01:1`)
   [   0]    BGSMovableStatic(FormId: FE65D805, File: `Animated Ice Floes.esp`)
   [   0]   0x7FFD26ACF125     (PDPerfPlugin.dll+F125) 
   [   1]   0x7FF8327CB14F     (SkyrimUpscaler.dll+9B14F)    
@@ -56,6 +57,7 @@ Registers
  R12:      0x20465ECE770      (PathingRequest**)
  R14:      0x7FF65C471FE0     (SkyrimSE.exe+1541FE0) (char*) ".STRINGS"
  BX:       0x7FF928B0E300     (usvfs_x64.dll+10E300) (char*) "usvfs::hook_DeleteFileW"
+ R8:       0x1BB0EEF7580      (BSTriShape*) -> (Name: `Book01:1`)
 }
 
 Stack
