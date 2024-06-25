@@ -23,7 +23,7 @@
 	<title>Crash Log Analyzer</title>
 
 	<meta charset="UTF-8">
-	<meta name="version" content="0.14.6">
+	<meta name="version" content="0.14.7">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 	<link rel="icon" type="image/x-icon" href="https://phostwood.github.io/crash-analyzer/favicon.ico">
@@ -773,6 +773,27 @@ h1		24	48	(only heading actually used/specified below)
 			return wrappedListItems.join('');
 		}
 
+		function processColoredListItems(listItems) {
+			const dedupedItems = Array.from(
+				listItems.reduce((map, item) => {
+					if (!map.has(item.match) || item.priority < map.get(item.match).priority) {
+						map.set(item.match, item);
+					}
+					return map;
+				}, new Map()).values()
+			);
+			
+			const truncatedItems = dedupedItems.map(item => {
+				const truncatedMatch = item.match.length > 300 ? item.match.substring(0, 300) + '...' : item.match;
+				return { ...item, match: truncatedMatch };
+			});
+			const wrappedItems = truncatedItems.map(item =>
+				`<li><code><span style="color:${item.color}">[${item.priority}]</span> ${item.match}</code></li>`
+			);
+			return wrappedItems.join('');
+		}
+
+
 		// Define the explainers list
 			const explainersMap = new Map([
 				['_nvngx.dll', '(<b>NVIDIA</b> NGX Runtime Library)'],
@@ -1007,11 +1028,11 @@ h1		24	48	(only heading actually used/specified below)
 			var logsStackSection = stackMatch ? stackMatch[0] : '';
 			
 			const logSectionsMap = new Map([
-				[logsFirstLine, 1, '🔴'],
-				[logsRelevantObjectsSection, 2, '🟠'],
-				[logsProbableCallstackSection, 3, '🟡'],
-				[logsRegistersSection, 4, '🔵'],
-				[logsStackSection, 5, '🟣'],
+				[logsFirstLine, { priority: 1, color: 'red' }],
+				[logsRelevantObjectsSection, { priority: 2, color: 'darkorange' }],
+				[logsProbableCallstackSection, { priority: 3, color: 'gold' }],
+				[logsRegistersSection, { priority: 4, color: 'dodgerblue' }],
+				[logsStackSection, { priority: 5, color: 'blueviolet' }],
 			]);
 
 			/* DEBUGGING: 
@@ -1557,15 +1578,6 @@ h1		24	48	(only heading actually used/specified below)
 				return matchCount;
 			}
 
-			function addMatch(potentialMatch, allMatches, removeList) {
-				if (potentialMatch && !removeList.includes(potentialMatch.toLowerCase())) {
-					allMatches.push(potentialMatch);
-					return 1;
-				}
-				return 0;
-			}
-
-
 			const fileExtensions = [
 				'.bat', '.bik', '.bmp', '.bsa', '.bsl', '.cpp', '.dds', '.dll', '.esl', '.esm',
 				'.esp', '.exe', '.fuz', '.hkx', '.ini', '.json', '.lip', '.nif', '.pex', '.psc',
@@ -1679,123 +1691,125 @@ h1		24	48	(only heading actually used/specified below)
 			//DEBUGGNG: console.log('lines:', lines);
 
 
-			let allMatches = [];
+			let namedElementMatches = [];
 			let missedMatches = [];
-			lines.forEach(line => {
-				if (line === '') return;
-				let foundMatchCount = 0;
-				let words = line.split(' ');
+			async function processLines() {
+				lines.forEach(line => {
+					if (line === '') return;
+					let foundMatchCount = 0;
 
-				function addMatch(potentialMatch, allMatches, removeList) {
-					if (potentialMatch && !removeList.includes(potentialMatch.toLowerCase())) {
-						allMatches.push(potentialMatch);
-						return 1;
-					}
-					return 1; //Was 0, but I think it better if always 1 so that the missedMatches array is more accurate
-				}
-
-				fileExtensions.forEach(extension => {
-					if (line.includes(extension)) {
-						let index = line.lastIndexOf(extension);
-						let end = index + extension.length;
-						let start = index;
-						let tempFileStartCharacter = [...fileStartCharacter];
-						//Find the start by searching backwards:
-						while (start > 0) {
-							let char = line.charAt(start - 1);
-							if (char === ')') {
-								//If we find a closing parenthesis, skip to the matching opening parenthesis
-								tempFileStartCharacter = tempFileStartCharacter.filter(item => item !== '(');
+					function getLogSection(line) {
+						for (const [sectionContent, { priority, color }] of logSectionsMap) {
+							if (sectionContent.includes(line)) {
+								return { priority, color };
 							}
-							if (tempFileStartCharacter.includes(char)) {
-								break;
-							}
-							start--;
 						}
-						let potentialMatch = line.slice(start, end).trim();
-						foundMatchCount += addMatch(potentialMatch, allMatches, removeList);
+						return { priority: 6, color: 'gray' }; // Default if no section found
 					}
-				});
 
-				["Name:", "File:"].forEach(keyword => {
-					if (line.match(new RegExp(`${keyword}`))) {
-						let index = line.indexOf(keyword) + keyword.length;
-						let start = index;
-						let delimiter = '';
-						//Find the start character:
-						while (start < line.length) {
-							let char = line.charAt(start);
-							if (nameStartCharacter.includes(char) || (char >= 'a' && char <= 'z') || (char >= 'A' && char <= 'Z') || (char >= '0' && char <= '9')) {
-								if (nameStartCharacter.includes(char)) {
-									delimiter = char;
+					function addMatch(potentialMatch, removeList, priority, color) {
+						if (potentialMatch && !removeList.includes(potentialMatch.toLowerCase())) {
+							namedElementMatches.push({ match: potentialMatch, priority, color });
+							return 1;
+						}
+						return 0;
+					}
+
+					const { priority, color } = getLogSection(line);
+
+					fileExtensions.forEach(extension => {
+						if (line.includes(extension)) {
+							let index = line.lastIndexOf(extension);
+							let end = index + extension.length;
+							let start = index;
+							let tempFileStartCharacter = [...fileStartCharacter];
+							//Find the start by searching backwards:
+							while (start > 0) {
+								let char = line.charAt(start - 1);
+								if (char === ')') {
+									//If we find a closing parenthesis, skip to the matching opening parenthesis
+									tempFileStartCharacter = tempFileStartCharacter.filter(item => item !== '(');
 								}
-								break;
+								if (tempFileStartCharacter.includes(char)) {
+									break;
+								}
+								start--;
 							}
-							start++;
+							let potentialMatch = line.slice(start, end).trim();
+							foundMatchCount += addMatch(potentialMatch, removeList, priority, color);
 						}
-						if (!/[a-zA-Z0-9]/.test(line.charAt(start))) {
-							start++;
-						}
-						//Find the end character:
-						let end = start;
-						while (end < line.length) {
-							let char = line.charAt(end);
-							if (char === delimiter || char === ',' || char === '\t' || char === '\n' || char === '\r') {
-								break;
-							}
-							end++;
-						}
+					});
 
-						//Match: the Name/File substring:
-						let potentialMatch = line.slice(start, end);
-						potentialMatch = cleanString(potentialMatch);
-						foundMatchCount += addMatch(potentialMatch, allMatches, removeList);
+					["Name:", "File:"].forEach(keyword => {
+						if (line.match(new RegExp(`${keyword}`))) {
+							let index = line.indexOf(keyword) + keyword.length;
+							let start = index;
+							let delimiter = '';
+							//Find the start character:
+							while (start < line.length) {
+								let char = line.charAt(start);
+								if (nameStartCharacter.includes(char) || (char >= 'a' && char <= 'z') || (char >= 'A' && char <= 'Z') || (char >= '0' && char <= '9')) {
+									if (nameStartCharacter.includes(char)) {
+										delimiter = char;
+									}
+									break;
+								}
+								start++;
+							}
+							if (!/[a-zA-Z0-9]/.test(line.charAt(start))) {
+								start++;
+							}
+							//Find the end character:
+							let end = start;
+							while (end < line.length) {
+								let char = line.charAt(end);
+								if (char === delimiter || char === ',' || char === '\t' || char === '\n' || char === '\r') {
+									break;
+								}
+								end++;
+							}
+
+							//Match: the Name/File substring:
+							let potentialMatch = line.slice(start, end);
+							potentialMatch = cleanString(potentialMatch);
+							foundMatchCount += addMatch(potentialMatch, removeList, priority, color);
+						}
+					});
+
+					if (foundMatchCount < containsKeyword(line)) {
+						missedMatches.push(line);
 					}
 				});
 
-				if (foundMatchCount < containsKeyword(line)) {
-					missedMatches.push(line);
-				}
-			});
+				// Sort namedElementMatches by priority
+				namedElementMatches.sort((a, b) => a.priority - b.priority);
 
-			console.log(' ');
-			console.log('missedMatches:', missedMatches);
-			console.log('allMatches:', allMatches);
-
-
-			allMatches = allMatches.map(item => {
-				// Remove "File:" and quotes
-				//REMOVE: let processedItem = item.replace(/File: /i, "").replace(/['`"]/g, "");
-				let processedItem = item;
-				// If the item is in the filter list, wrap it in parentheses and add a note
-				if (unlikelyCulpritsList.includes(processedItem.toLowerCase())) {
-					processedItem = `(${processedItem} ... unlikely culprit)`;
-				}
-
-				// If the item is in the explainers list, append the explanation
-				if (explainersMap.has(processedItem.toLowerCase())) {
-					processedItem += ` ${explainersMap.get(processedItem.toLowerCase())}`;
-				}
-				// Check if the line contains any removable lines
-				// const isRemovable = removeList.some(removable => processedItem.toLowerCase().includes(removable));
-				// if (isRemovable) {
-				// 	return undefined;
-				// } else {
-				// 	return processedItem;
-				// }
-				return processedItem;
-			}).filter(item => item !== undefined);
-
-			// Process the matches
-			const processedMatches = processListItems(allMatches);
-
-			// Create the insights message
-			if (allMatches.length > 0) {
-				insights += '<li>🔎 <b>Files/Elements</b> listed within the heading, "Possible relevant objects", "Probable callstack", "Registers" and "Stack" sections of the log file. Higher in this list are frequently more likely to have contributed more towards the crash. Pay extra attention to anything related to <b>mods you have added</b> to Nolvus:'
-				insights += '<ul>' + processedMatches + '</ul>'
-				insights += '</li>';
-				insightsCount++;
+				namedElementMatches = namedElementMatches.map(item => {
+					let processedItem = item.match;
+					if (unlikelyCulpritsList.includes(processedItem.toLowerCase())) {
+						processedItem = `(${processedItem} ... unlikely culprit)`;
+					}
+					if (explainersMap.has(processedItem.toLowerCase())) {
+						processedItem += ` ${explainersMap.get(processedItem.toLowerCase())}`;
+					}
+					return { ...item, match: processedItem };
+				}).filter(item => item !== undefined);
 			}
+
+		// Call the async function
+		await processLines();
+
+		console.log(' ');
+		console.log('missedMatches:', missedMatches);
+		console.log('namedElementMatches:', namedElementMatches);
+
+		// Create the insights message
+		if (namedElementMatches.length > 0) {
+			insights += '<li>🔎 <b>Files/Elements</b> listed within the heading, "Possible relevant objects", "Probable callstack", "Registers" and "Stack" sections of the log file. Items are sorted by priority, with lower numbers (and higher positions in the list) indicating a higher likelihood of contributing to the crash. Pay extra attention to anything related to <b>mods you have added</b> to Nolvus:';
+			insights += '<ul>' + processColoredListItems(namedElementMatches) + '</ul>';
+			insights += '</li>';
+			insightsCount++;
+		}
 
 
 
@@ -2537,11 +2551,10 @@ h1		24	48	(only heading actually used/specified below)
 
 		// - - - TODOs - - -
 
-		// ✅ Beta version 0.14.6
-		// ✅ Expanded information: Now, in addition to listing potentially problematic mesh filenames, it also lists named meshes. This may be useful in helping to isolate bad meshes when they are otherwise unlisted due to being compressed into .bsa files
-		// ✅ Added minor clarification to Texture Issue Detected issue
-		
-	
+		// ✅ Beta version 0.14.7
+		// ✅ New feature for Named Files/Elements list (which is a useful quick overview of the crash log): added color-coded priority numbers to the left of each item. (1 = highest priority, 2 = second highest, etc.) helping to quickly identify the most important items in the list.
+
+
 
 
 		// ⭐ Show count for Higher-Confidence Test: ❗Potentially Misorganized Vanilla Nolvus Plugins
