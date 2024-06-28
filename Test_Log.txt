@@ -48,7 +48,10 @@ Probable callstack
   [1]   0x7FF928A4C8AE     (usvfs_x64.dll+4C8AE)     
   [2]   0x7FF8A3F7C8AE     (usvfs_x64.dll+4C8AE) 
   [5]   0x7FF6141B12F8     (SkyrimSE.exe+D512F8)          BSCullingProcess::unk_D51280+78
-  [7]  JContainers64.dll
+  [7]  (JContainers64.dll)
+  [8] (discordhook64.dll) Discord overlay
+  [25]  0x7FFA6471AA28     (gameoverlayrenderer64.dll+9AA28)
+  [26]  0x7FFA6471AA28     (testOverlay64.dll+9AA28)
 }
 
 
@@ -58,6 +61,8 @@ Registers
  R14:      0x7FF65C471FE0     (SkyrimSE.exe+1541FE0) (char*) ".STRINGS"
  BX:       0x7FF928B0E300     (usvfs_x64.dll+10E300) (char*) "usvfs::hook_DeleteFileW"
  R8:       0x1BB0EEF7580      (BSTriShape*) -> (Name: `Book01:1`)
+ R9:       0x1BB0EEF7581       (testFileName.dll)
+ R10:      0x1BB0EEF7582       (testJsonFile.json)
 }
 
 Stack
@@ -127,17 +132,232 @@ this section is only included as a marker for parsing. Anything above this is co
 }
 
 
-Game plugins (2035)
-{
-  [00] A.esm
-  [01] B.esp
-  [02] C.esp
-  [03] D.esp
-  [04] honed metal voiced.esp
-  [05] tools.esp
-  [06] skydecoction.esp
-  [07] Synthesis.esp
-  [08] E.esp
-  [09] F.esp
-  [0A] G.esp
+Game plugins (2035) {
+[00] A.esm
+[01] B.esp
+[02] C.esp
+[03] D.esp
+[04] honed metal voiced.esp
+[05] tools.esp
+[06] skydecoction.esp
+[07] Synthesis.esp
+[08] E.esp
+[09] F.esp
+[0A] G.esp
+[ZZ] _nvngx.dll
+[ZZ] a0d789patch.dll
+[ZZ] achievementsenablersse.dll
+[ZZ] addresslibrarysse.dll
+[ZZ] amdxc64.dll
+[ZZ] animationdatasystem.dll
+[ZZ] animationmotion.dll
+[ZZ] antimalware_provider64.dll
+[ZZ] asm.plugin.audiodevprops2.dll
+[ZZ] atcuf64.dll
+[ZZ] atiuxp64.dll
+[ZZ] atiumd6a.dll
+[ZZ] autohdr64.addon
+[ZZ] avamsi.dll
+[ZZ] avamsicli.dll
+[ZZ] avast.dll
+[ZZ] avgui.dll
+[ZZ] backportedeslsupport.dll
+[ZZ] bdcore.dll
+[ZZ] bdhkm64.dll
+[ZZ] binkw64.dll
+[ZZ] bsa.dll
+[ZZ] bufferpatch.dll
+[ZZ] categorizedmodmenu.dll
+[ZZ] cbp.dll
+[ZZ] cef.dll
+[ZZ] chargen.dll
+[ZZ] clib64.dll
+[ZZ] com_antivirus.dll
+[ZZ] comctl32.dll
+[ZZ] concrt140.dll
+[ZZ] comdlg32.dll
+[ZZ] compstui.dll
+[ZZ] con_bypass.dll
+[ZZ] console.dll
+[ZZ] crashlogger.dll
+[ZZ] d3d10.dll
+[ZZ] d3d10_1.dll
+[ZZ] d3d10_1core.dll
+[ZZ] d3d10core.dll
+[ZZ] d3d11.dll
+[ZZ] d3d11on12.dll
+[ZZ] d3d12core.dll
+[ZZ] d3dcompiler_42.dll
+[ZZ] d3dcompiler_46e.dll
+[ZZ] d3dcompiler_47.dll
+[ZZ] d3dscache.dll
+[ZZ] d3dx9_42.dll
+[ZZ] d3dx9_43.dll
+[ZZ] d3dx10_42.dll
+[ZZ] d3dx11_42.dll
+[ZZ] detoured.dll
+[ZZ] deviceaccess.dll
+[ZZ] dinput8.dll
+[ZZ] discordhook64.dll
+[ZZ] dkaf.dll
+[ZZ] dmenu.dll
+[ZZ] dsound.dll
+[ZZ] dxcompiler.dll
+[ZZ] dxgi.dll
+[ZZ] dxil.dll
+[ZZ] dxilconv.dll
+[ZZ] eamsi.dll
+[ZZ] edputil.dll
+[ZZ] egui.dll
+[ZZ] enb123.dll
+[ZZ] enbhelper.dll
+[ZZ] engine_fixes.dll
+[ZZ] equippablekittails.dll
+[ZZ] f4se_1_10_163.dll
+[ZZ] ffx_backend_dx12_x64.dll
+[ZZ] ffx_frameinterpolation_x64.dll
+[ZZ] ffx_fsr2_api_dx11_x64.dll
+[ZZ] ffx_fsr2_api_dx12_x64.dll
+[ZZ] ffx_fsr2_api_x64.dll
+[ZZ] ffx_fsr3_x64.dll
+[ZZ] ffx_fsr3upscaler_x64.dll
+[ZZ] ffx_opticalflow_x64.dll
+[ZZ] fileregistry64.dll
+[ZZ] flexrelease_x64.dll
+[ZZ] fmod.dll
+[ZZ] fnis.dll
+[ZZ] fraps.dll
+[ZZ] freezeprotect.dll
+[ZZ] fsaus.dll
+[ZZ] gamepad++.dll
+[ZZ] gameoverlayrenderer64.dll
+[ZZ] glu32.dll
+[ZZ] gridhud.dll
+[ZZ] havok.dll
+[ZZ] hdtphysicsextensions.dll
+[ZZ] hdtsmp64.dll
+[ZZ] hooksharedsse.dll
+[ZZ] iequip.dll
+[ZZ] igc64.dll
+[ZZ] igd10iumd64.dll
+[ZZ] igd10um64gen11.dll
+[ZZ] igd10um64xe.dll
+[ZZ] igdgmm64.dll
+[ZZ] immersivefp.dll
+[ZZ] inputhook.dll
+[ZZ] intelcontrollib.dll
+[ZZ] jcontainers.dll
+[ZZ] jsproxy.dll
+[ZZ] kavprot.dll
+[ZZ] kerberos.dll
+[ZZ] libxess.dll
+[ZZ] llcbhook.dll
+[ZZ] loadgamefix.dll
+[ZZ] locksys.dll
+[ZZ] maxsu.dll
+[ZZ] mcafee.dll
+[ZZ] mcmhelper.dll
+[ZZ] medal-hook64.dll
+[ZZ] mfgfix.dll
+[ZZ] mlang.dll
+[ZZ] modorganizer.dll
+[ZZ] msacm32.dll
+[ZZ] msiso.dll
+[ZZ] msvcp110_win.dll
+[ZZ] n64hooks.dll
+[ZZ] nativepatch.dll
+[ZZ] netimmerse.dll
+[ZZ] ninput.dll
+[ZZ] npsystem.dll
+[ZZ] nscore64.dll
+[ZZ] nv_ags.dll
+[ZZ] nvapi64.dll
+[ZZ] nvcuda.dll
+[ZZ] nvdxgdmal64.dll
+[ZZ] nvlddmkm.sys
+[ZZ] nvngx_dlss.dll
+[ZZ] nvngx_dlssg.dll
+[ZZ] nvofapi64.dll
+[ZZ] nvoglv32.dll
+[ZZ] nvoglv64.dll
+[ZZ] nvwgf2um.dll
+[ZZ] nvwgf2umx.dll
+[ZZ] nxmhandler.dll
+[ZZ] oleacc.dll
+[ZZ] onecorecommonproxystub.dll
+[ZZ] onecoreuapcommonproxystub.dll
+[ZZ] openanimationreplacer.dll
+[ZZ] opengl32.dll
+[ZZ] overwolf.dll
+[ZZ] ow-graphics-hook64.dll
+[ZZ] owclient.dll
+[ZZ] owexplorer.dll
+[ZZ] owutils.dll
+[ZZ] papyrusextender64.dll
+[ZZ] papyrusextenderse.dll
+[ZZ] papyrusextenderse64.dll
+[ZZ] papyrustweaks.dll
+[ZZ] papyrusutil.dll
+[ZZ] parallaxfix.dll
+[ZZ] particlepatch.dll
+[ZZ] pcb.dll
+[ZZ] pdperfplugin.dll
+[ZZ] pluginmanager.dll
+[ZZ] po3_papyrusextender.dll
+[ZZ] po3_tweaks.dll
+[ZZ] product_info.dll
+[ZZ] quicklootee.dll
+[ZZ] raptr64.dll
+[ZZ] reshade64.dll
+[ZZ] rtsshdrs64.dll
+[ZZ] rtsshooks64.dll
+[ZZ] sandboxingext.dll
+[ZZ] savecleanerpolyfill.dll
+[ZZ] scaleform.dll
+[ZZ] simplemap.dll
+[ZZ] skee64.dll
+[ZZ] skse64_1_5_97.dll
+[ZZ] skse64_steam_loader.dll
+[ZZ] skinshader.dll
+[ZZ] skyrimautoreloader.dll
+[ZZ] skyrimupscaler.dll
+[ZZ] skyprocednpp.dll
+[ZZ] sl.common.dll
+[ZZ] sl.dlss_g.dll
+[ZZ] sl.interposer.dll
+[ZZ] sl.reflex.dll
+[ZZ] spis.dll
+[ZZ] sse-hooks.dll
+[ZZ] streamcore.dll
+[ZZ] subsurfacescattering.dll
+[ZZ] symamsi.dll
+[ZZ] symnav.dll
+[ZZ] symsrv.dll
+[ZZ] tbb.dll
+[ZZ] tbbmalloc.dll
+[ZZ] tes5conv.dll
+[ZZ] threadpoolwinrt.dll
+[ZZ] tmntsrv.dll
+[ZZ] truehud.dll
+[ZZ] uiautomationcore.dll
+[ZZ] usvfs_x64.dll
+[ZZ] vcruntime140.dll
+[ZZ] versionlib.dll
+[ZZ] vsfilter.dll
+[ZZ] vulkan-1.dll
+[ZZ] vulkaninfo.exe
+[ZZ] windows.shell.servicehostbuilder.dll
+[ZZ] windows.staterepositorycore.dll
+[ZZ] windows.system.launcher.dll
+[ZZ] winepulse.drv
+[ZZ] winevulkan.dll
+[ZZ] winex11.drv
+[ZZ] winspool.drv
+[ZZ] wrsvc.dll
+[ZZ] wtsapi32.dll
+[ZZ] xaudio2_7.dll
+[ZZ] xefx.dll
+[ZZ] xefx_loader.dll
+[ZZ] xinput1_3.dll
+[ZZ] zavcore.dll
 }

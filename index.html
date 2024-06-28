@@ -23,7 +23,7 @@
 	<title>Crash Log Analyzer</title>
 
 	<meta charset="UTF-8">
-	<meta name="version" content="0.14.7">
+	<meta name="version" content="0.15.1">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 	<link rel="icon" type="image/x-icon" href="https://phostwood.github.io/crash-analyzer/favicon.ico">
@@ -773,182 +773,260 @@ h1		24	48	(only heading actually used/specified below)
 			return wrappedListItems.join('');
 		}
 
-		function processColoredListItems(listItems) {
-			const dedupedItems = Array.from(
-				listItems.reduce((map, item) => {
-					if (!map.has(item.match) || item.priority < map.get(item.match).priority) {
-						map.set(item.match, item);
-					}
-					return map;
-				}, new Map()).values()
-			);
-			
-			const truncatedItems = dedupedItems.map(item => {
-				const truncatedMatch = item.match.length > 300 ? item.match.substring(0, 300) + '...' : item.match;
-				return { ...item, match: truncatedMatch };
-			});
-			const wrappedItems = truncatedItems.map(item =>
-				`<li><code><span style="color:${item.color}">[${item.priority}]</span> ${item.match}</code></li>`
-			);
-			return wrappedItems.join('');
-		}
-
 
 		// Define the explainers list
-			const explainersMap = new Map([
-				['_nvngx.dll', '(<b>NVIDIA</b> NGX Runtime Library)'],
-				['a0d789patch.dll', '(<b>recommended</b> bug fix)'],
-				['amdxc64.dll', '(<b>AMD</b> component)'],
-				['antimalware_provider64.dll', '(<b>Antimalware</b> Provider)'],
-				['applicationtargetedfeaturedatabase.dll', '(Feature Database) - MS <b>Windows</b>'],
-				['asm.plugin.audiodevprops2.dll', '(<b>Nahimic</b> audio component)'],
-				['atcuf64.dll', '(<b>Bitdefender</b> Active Threat Control Userland API)'],
-				['atiuxp64.dll', '(<b>AMD</b> graphics component)'],
-				['atiumd6a.dll', '(<b>AMD</b> graphics component)'],
-				['autohdr64.addon', '(AutoHDR Addon for <b>ReShade</b>)'],
-				['avamsi.dll', '(Avira <b>Antimalware</b> Scan Interface)'],
-				['avamsicli.dll', '(Avira <b>Antimalware</b> Client Interface)'],
-				['backportedeslsupport.dll', '(aka BEES)'],
-				['bdhkm64.dll', '(<b>Bitdefender</b> Hooking Module)'],
-				['cbp.dll', '(Collision Body <b>Physics</b>)'],
-				['ccbgssse018-shadowrend.esl', '(Refer to <b>diagnosis</b>)'],
-				['com_antivirus.dll', '(Kaspersky Com<b>Antivirus</b> Component)'],
-				['comctl32.dll', '(Common Controls Library) - MS <b>Windows</b>'],
-				['concrt140.dll', '(Concurrency Runtime Library) - MS <b>Windows</b>'],
-				['comdlg32.dll', '(Common Dialog Box Library) - MS <b>Windows</b>'],
-				['compstui.dll', '(Common Property Sheet User Interface) - MS <b>Windows</b> printing component'],
-				['d3d10.dll', '(Direct3D 10 Runtime) - MS <b>Windows</b> graphics component'],
-				['d3d10_1.dll', '(Direct3D 10.1 Runtime) - MS <b>Windows</b> graphics component'],
-				['d3d10_1core.dll', '(Direct3D 10.1 Core Runtime) - MS <b>Windows</b> graphics component'],
-				['d3d10core.dll', '(Direct3D 10 Core Runtime) - MS <b>Windows</b> graphics component'],
-				['d3d11.dll', '(Direct3D 11 Runtime) - MS <b>Windows</b> graphics component'],
-				['d3d11on12.dll', '(Direct3D 11On12 Runtime) - MS <b>Windows</b> graphics component'],
-				['d3d12core.dll', '(Direct3D 12 Core Runtime) - MS <b>Windows</b> graphics component'],
-				['d3dcompiler_42.dll', '(DirectX HLSL Compiler) - MS <b>Windows</b> graphics component'],
-				['d3dscache.dll', '(Direct3D Shader Cache) - MS <b>Windows</b> graphics component'],
-				['d3dx9_43.dll', '(Direct3D 9 Extensions) - MS <b>Windows</b> graphics component'],
-				['d3dx10_42.dll', '(DirectX 10.1 Extensions) - MS <b>Windows</b> graphics component'],
-				['d3dx11_42.dll', '(Direct3D 11 Extensions) - MS <b>Windows</b> graphics component'],
-				['detoured.dll', '(<b>Microsoft</b> Detours Library)'],
-				['deviceaccess.dll', '(Device Broker And Policy COM Server) - MS <b>Windows</b>'],
-				['discordhook64.dll', '(Discord In-Game <b>Overlay</b> Library)'],
-				['dkaf.dll', '(Skyrim</b> modding tool for <b>binding keys to actions/animations</b>)'],
-				['dmenu.dll', '(Dynamic Menu for Skyrim SE Mods) - MS <b>Windows</b>'],
-				['dxcompiler.dll', '(Direct3D Shader Compiler) - MS <b>Windows</b>'],
-				['dxgi.dll', '(DirectX Graphics Infrastructure) - MS <b>Windows</b>'],
-				['dxil.dll', '(DirectX Intermediate Language Library) - MS <b>Windows</b>'],
-				['dxilconv.dll', '(DXBC to DXIL Converter) - MS <b>Windows</b>'],
-				['eamsi.dll', '(ESET <b>Antimalware</b> Scan Interface)'],
-				['edputil.dll', '(EDP Utility Library) - MS <b>Windows</b>'],
-				['ffx_backend_dx12_x64.dll', '(FidelityFX S.R. 3.0 Backend Library) - <b>NVIDIA</b>'],
-				['ffx_frameinterpolation_x64.dll', '(FidelityFX S.R. 3.0 Frame Interpolation) - <b>NVIDIA</b>'],
-				['ffx_fsr2_api_dx11_x64.dll', '(FidelityFX S.R. 2 API for DirectX 11) - <b>AMD</b>'],
-				['ffx_fsr2_api_dx12_x64.dll', '(FidelityFX S.R. 2.0 API for DirectX 12) - <b>AMD</b>'],
-				['ffx_fsr2_api_x64.dll', '(FidelityFX S.R. 2 API) - <b>AMD</b>'],
-				['ffx_fsr3_x64.dll', '(FidelityFX S.R. 3.0 Core Library) - <b>NVIDIA</b> driver'],
-				['ffx_fsr3upscaler_x64.dll', '(FidelityFX S.R. 3.0 <b>Upscaler</b>) - <b>NVIDIA</b>'],
-				['ffx_opticalflow_x64.dll', '(Optical Flow for FidelityFX S.R. 3.0) - <b>NVIDIA</b>'],
-				['fwmf.esp', '(Flat World <b>Map</b> Framework)'],
-				['gameoverlayrenderer64.dll', '(Steam <b>Overlay</b>)'],
-				['glu32.dll', '(OpenGL Utility Library) - <b>graphics</b> component'],
-				['hdtsmp64.dll', '(Skinned Mesh <b>Physics</b>)'],
-				['igc64.dll', '(<b>Intel</b> Graphics Compiler for OpenCL)'],
-				['igd10iumd64.dll', '(<b>Intel</b> Graphics Accelerator Drivers)'],
-				['igd10um64gen11.dll', '(<b>Intel</b> Graphics Accelerator Driver)'],
-				['igd10um64xe.dll','(<b>Intel</b> HD Graphics Driver)'],
-				['igdgmm64.dll', '(<b>Intel</b> HD Graphics Drivers)'],
-				['intelcontrollib.dll', '(<b>Intel</b> Graphics Control Lib Runtime)'],
-				['jsproxy.dll', '(JScript Proxy Auto-Configuration) - associated with <b>Internet Explorer</b>'],
-				['kerberos.dll', '(Kerberos Security Package) - MS <b>Windows</b> security component'],
-				['libxess.dll', '(Xe Super Sampling Library) - <b>NVIDIA</b>'],
-				['markarth outskirts - water for enb (shades of skyrim) patch.esp','(optionally load after <b>DynDOLOD.esp</b>)'],
-				['medal-hook64.dll', '(<b>Medal.tv</b> Hook Library) - used for game recording and streaming features'],
-				['mlang.dll', '(Multilanguage Support DLL) - MS <b>Windows</b>'],
-				['msacm32.dll', '(<b>Microsoft</b> ACM Audio Filter)'],
-				['msiso.dll', '(Internet Explorer Isolation Library) - MS <b>Windows</b>'],
-				['msvcp110_win.dll', '(<b>Microsoft</b> STL110 C++ Runtime Library)'],
-				['n64hooks.dll', '(<b>N64</b> hooks library)'],
-				['ninput.dll', '(<b>Microsoft</b> Pen and Touch Input Component)'],
-				['nscore64.dll', '(<b>Nscore</b> library)'],
-				['nvapi64.dll', '(<b>NVIDIA</b> Driver API Library)'],
-				['nvcuda.dll', '(<b>NVIDIA</b> CUDA Driver)'],
-				['nvlddmkm.sys', '(<b>NVIDIA</b> Windows Kernel Mode Driver)'],
-				['nvngx_dlss.dll', '(<b>NVIDIA</b> DLSS Driver)'],
-				['nvngx_dlssg.dll', '(<b>NVIDIA</b> DLSS Driver for FSR3)'],
-				['nvofapi64.dll', '(<b>NVIDIA</b> Optical Flow API)'],
-				['nvoglv32.dll', '(<b>NVIDIA</b> OpenGL Driver for 32-bit)'],
-				['nvoglv64.dll', '(<b>NVIDIA</b> OpenGL Driver for 64-bit)'],
-				['nvwgf2um.dll', '(<b>NVIDIA</b> D3D10 User Mode Driver for 32-bit)'],
-				['nvwgf2umx.dll', '(<b>NVIDIA</b> D3D10 User Mode Driver for 64-bit)'],
-				['oleacc.dll', '(Active Accessibility Core Component) - MS <b>Windows</b>'],
-				['onecorecommonproxystub.dll', '(<b>Windows</b> system component)'],
-				['onecoreuapcommonproxystub.dll', '(OneCore UAP Common Proxy Stub) - MS <b>Windows</b>'],
-				['openanimationreplacer.dll', '(aka OAR)'],
-				['opengl32.dll', '(OpenGL Client DLL) - <b>graphics</b> component'],
-				['ow-graphics-hook64.dll', '(<b>Overwolf</b> Graphics Hook gaming component)'],
-				['owclient.dll', '(<b>Overwolf</b> gaming component)'],
-				['owexplorer.dll', '(<b>Overwolf</b> gaming component)'],
-				['owutils.dll', '(<b>Overwolf</b> gaming component)'],
-				['papyrusextender64.dll', '(Papyrus <b>Script</b> Extender)'],
-				['papyrusextenderse.dll', '(Papyrus <b>Script</b> Extender)'],
-				['papyrusextenderse64.dll', '(Papyrus <b>Script</b> Extender)'],
-				['papyrustweaks.dll', '(Papyrus <b>Script</b> Tweaks)'],
-				['papyrusutil.dll', '(Papyrus <b>Script</b> Utility)'],
-				['pdperfplugin.dll', '(<b>Puredark\'s</b> Performance Plugin)'],
-				['po3_papyrusextender.dll', '(Papyrus <b>Script</b> Extender)'],
-				['product_info.dll', '(A-Volute 3D Sound Experts) - <b>audio</b> component'],
-				['rtsshooks64.dll', '(RivaTuner Statistics Server Hooks for graphics card <b>monitoring</b>)'],
-				['skee64.dll', '(Skyrim <b>Script</b> Extender)'],
-				['skse64_1_5_97.dll', '(Skyrim <b>Script</b> Extender)'],
-				['skyrimautoreloader.dll', '(<b>recommended</b> bug fix)'],
-				['skyrim paper map by freelancecartography (2nd edition) for fwmf.esp', '(place near <b>bottom</b>)'],
-				['skyrimupscaler.dll', '(<b>Puredark\'s Upscaler</b>)'],
-				['sl.common.dll', '(Streamline Common Library) - <b>NVIDIA</b>'],
-				['sl.dlss_g.dll', '(<b>NVIDIA</b> DLSS Frame Generation)'],
-				['sl.interposer.dll', '(<b>NVIDIA</b> Streamline Interposer Module)'],
-				['sl.reflex.dll', '(<b>NVIDIA</b> Reflex Library)'],
-				['symamsi.dll', '(<b>Antivirus</b> and Internet Security)'],
-				['symsrv.dll', '(Symbol Server) - MS <b>Windows</b> debugging component'],
-				['tbbmalloc.dll', '(Threading Building Blocks Memory Allocator) - <b>Intel</b>'],
-				['threadpoolwinrt.dll', '(<b>Windows</b> Runtime Thread Pool Library)'],
-				['uiautomationcore.dll', '(<b>Microsoft</b> UI Automation Core)'],
-				['usvfs_x64.dll', '(User Space Virtual File System) - <b>MO2</b>'],
-				['vcruntime140.dll', '(Visual C++ Runtime Library) - MS <b>Windows</b>'],
-				['vulkan-1.dll', '(Vulkan Runtime Library) - MS <b>Windows</b>'],
-				['vulkaninfo.exe', '(Vulkan Info Utility) - MS <b>Windows</b>'],
-				['water for enb (shades of skyrim).esp', '(optionally load after <b>DynDOLOD.esp</b> along with patches)'],
-				['water for enb - patch - atlas map markers.esp', '(optionally load after <b>DynDOLOD.esp</b>)'],
-				['water for enb - patch - beyond reach.esp', '(optionally load after <b>DynDOLOD.esp</b>)'],
-				['water for enb - patch - beyond skyrim.esp', '(optionally load after <b>DynDOLOD.esp</b>)'],
-				['water for enb - patch - blue rift water.esp', '(optionally load after <b>DynDOLOD.esp</b>)'],
-				['water for enb - patch - blue volcanic water.esp', '(optionally load after <b>DynDOLOD.esp</b>)'],
-				['water for enb - patch - clear creek water.esp', '(optionally load after <b>DynDOLOD.esp</b>)'],
-				['water for enb - patch - clear interior water.esp', '(optionally load after <b>DynDOLOD.esp</b>)'],
-				['water for enb - patch - clear underwater.esp', '(optionally load after <b>DynDOLOD.esp</b>)'],
-				['water for enb - patch - darker lod water.esp', '(optionally load after <b>DynDOLOD.esp</b>)'],
-				['water for enb - patch - expanded towns and cities.esp', '(optionally load after <b>DynDOLOD.esp</b>)'],
-				['water for enb - patch - folkvangr.esp', '(optionally load after <b>DynDOLOD.esp</b>)'],
-				['water for enb - patch - fwmf for fantasy paper maps.esp', '(Load after <b>FWMF for Fantasy Paper Maps.esp</b>)'],
-				['water for enb - patch - generic landscape patch.esp', '(optionally load after <b>DynDOLOD.esp</b>)'],
-				['water for enb - patch - jks bannered mare.esp', '(optionally load after <b>DynDOLOD.esp</b>)'],
-				['water for enb - patch - jks ragged flagon.esp', '(optionally load after <b>DynDOLOD.esp</b>)'],
-				['water for enb - patch - landscape fixes for grass mods.esp', '(optionally load after <b>DynDOLOD.esp</b>)'],
-				['water for enb - patch - lux - jks ragged flagon.esp', '(optionally load after <b>DynDOLOD.esp</b>)'],
-				['water for enb - patch - muddy creek water.esp', '(optionally load after <b>DynDOLOD.esp</b>)'],
-				['water for enb - patch - transparent horse trough water.esp', '(optionally load after <b>DynDOLOD.esp</b>)'],
-				['water for enb - patch - volcanic water.esp', '(optionally load after <b>DynDOLOD.esp</b>)'],
-				['water for enb - patch - wyrmstooth.esp', '(optionally load after <b>DynDOLOD.esp</b>)'],
-				['windows.shell.servicehostbuilder.dll', '(<b>Windows</b> Shell Service Host Builder)'],
-				['windows.staterepositorycore.dll', '(<b>Windows</b> State Repository Core)'],
-				['windows.system.launcher.dll', '(<b>Windows</b> System Launcher)'],
-				['winepulse.drv', '(Wine PulseAudio Driver) - Windows <b>emulator</b>'],
-				['winevulkan.dll', '(Wine Vulkan Driver) - Windows <b>emulator</b>'],
-				['winex11.drv', '(Wine X11 Driver) - Windows <b>emulator</b>'],
-				['winspool.drv', '(<b>Windows</b> Spooler Driver) - printing subsystem'],
-				['wtsapi32.dll', '(<b>Windows</b> Terminal Server SDK API)'],
-				['xefx.dll', '(<b>Intel</b> Xe Graphics Architecture)'],
-				['xefx_loader.dll', '(<b>Intel</b> Xe Graphics Loader)'],
-			]);
+		const explainersMap = new Map([
+	['_nvngx.dll', '(<b>NVIDIA</b> NGX Runtime Library)'],
+	['a0d789patch.dll', '(<b>recommended</b> bug fix)'],
+	['achievements.dll', '(Achievements Mods Enabler <b>SKSE</b> plugin)'],
+	['addresslibrarysse.dll', '(Address Library for <b>SKSE</b> Plugins)'],
+	['amdxc64.dll', '(AMD <b>graphics</b> component)'],
+	['animationdatasystem.dll', '(<b>Animation</b> Data System SKSE plugin)'],
+	['animationmotion.dll', '(<b>Animation</b> Motion Revolution SKSE plugin)'],
+	['antimalware_provider64.dll', '(<b>antimalware</b> provider)'],
+	['applicationtargetedfeaturedatabase.dll', '(feature database - MS <b>Windows</b>)'],
+	['asm.plugin.audiodevprops2.dll', '(Nahimic <b>audio</b> component)'],
+	['atcuf64.dll', '(<b>Bitdefender</b> Active Threat Control Userland API)'],
+	['atiumd6a.dll', '(AMD <b>graphics</b> component)'],
+	['atiuxp64.dll', '(AMD <b>graphics</b> component)'],
+	['autohdr64.addon', '(AutoHDR Addon for <b>ReShade</b>)'],
+	['avamsi.dll', '(Avira <b>Antimalware</b> Scan Interface)'],
+	['avamsicli.dll', '(Avira <b>Antimalware</b> Client Interface)'],
+	['avast.dll', '(Avast <b>Antivirus</b> Core Component)'],
+	['avgui.dll', '(AVG <b>Antivirus</b> User Interface)'],
+	['backportedeslsupport.dll', '(aka BEES - <b>SKSE</b> plugin)'],
+	['bdcore.dll', '(Bitdefender Core <b>Antivirus</b> Module)'],
+	['bdhkm64.dll', '(Bitdefender Hooking Module - <b>antivirus</b>)'],
+	['bink2w64.dll', '(Bink <b>Video</b> codec - newer version)'],
+	['binkw64.dll', '(Bink <b>Video</b> codec for in-game videos)'],
+	['bsa.dll', '(BSA handling library for <b>mod managers</b>)'],
+	['bufferpatch.dll', '(SSE Display Tweaks <b>SKSE</b> plugin)'],
+	['categorizedmodmenu.dll', '(Categorized Favorite Menu <b>SKSE</b> plugin)'],
+	['cbp.dll', '(Collision Body <b>Physics</b>)'],
+	['ccbgssse018-shadowrend.esl', '(refer to <b>diagnosis</b>)'],
+	['cef.dll', '(Chromium Embedded Framework - used by some <b>UI</b> mods)'],
+	['chargen.dll', '(<b>RaceMenu</b> character generation plugin)'],
+	['clib64.dll', '(CommonLib shared library for <b>SKSE</b> plugins)'],
+	['com_antivirus.dll', '(Comodo <b>Antivirus</b> Component)'],
+	['comctl32.dll', '(Common Controls Library - MS <b>Windows</b>)'],
+	['comdlg32.dll', '(Common Dialog Box Library - MS <b>Windows</b>)'],
+	['compstui.dll', '(Common Property Sheet UI - MS <b>Windows</b> printing)'],
+	['con_bypass.dll', '(Console Bypass <b>SKSE</b> plugin)'],
+	['concrt140.dll', '(Concurrency Runtime Library - MS <b>Windows</b>)'],
+	['console.dll', '(Enhanced Console Commands <b>SKSE</b> plugin)'],
+	['crashfixes.dll', '(Various <b>crash fixes</b> for Skyrim)'],
+	['crashlogger.dll', '(Crash Logger SSE <b>SKSE</b> plugin)'],
+	['d3d10.dll', '(Direct3D 10 Runtime - MS <b>Windows</b> graphics)'],
+	['d3d10_1.dll', '(Direct3D 10.1 Runtime - MS <b>Windows</b> graphics)'],
+	['d3d10_1core.dll', '(Direct3D 10.1 Core Runtime - MS <b>Windows</b> graphics)'],
+	['d3d10core.dll', '(Direct3D 10 Core Runtime - MS <b>Windows</b> graphics)'],
+	['d3d11.dll', '(Direct3D 11 Runtime - MS <b>Windows</b> graphics)'],
+	['d3d11on12.dll', '(Direct3D 11On12 Runtime - MS <b>Windows</b> graphics)'],
+	['d3d12core.dll', '(Direct3D 12 Core Runtime - MS <b>Windows</b> graphics)'],
+	['d3dcompiler_42.dll', '(DirectX HLSL Compiler - MS <b>Windows</b> graphics)'],
+	['d3dcompiler_46e.dll', '(<b>ENB</b> shader compiler)'],
+	['d3dcompiler_47.dll', '(DirectX Shader Compiler - used by some <b>graphics</b> mods)'],
+	['d3dscache.dll', '(Direct3D Shader Cache - MS <b>Windows</b> graphics)'],
+	['d3dx10_42.dll', '(DirectX 10.1 Extensions - MS <b>Windows</b> graphics)'],
+	['d3dx11_42.dll', '(Direct3D 11 Extensions - MS <b>Windows</b> graphics)'],
+	['d3dx9_42.dll', '(DirectX 9 library - sometimes used by older mods)'],
+	['d3dx9_43.dll', '(Direct3D 9 Extensions - MS <b>Windows</b> graphics)'],
+	['detoured.dll', '(Microsoft Detours Library - <b>Windows</b>)'],
+	['deviceaccess.dll', '(Device Broker And Policy COM Server - MS <b>Windows</b>)'],
+	['dinput8.dll', '(DirectInput library - used for <b>input</b> handling)'],
+	['discordhook64.dll', '(Discord <b>Overlay</b> Component)'],
+	['dkaf.dll', '(Skyrim modding tool for binding keys to <b>animations</b>)'],
+	['dmenu.dll', '(Dynamic Menu for Skyrim SE Mods - MS <b>Windows</b>)'],
+	['dsound.dll', '(DirectSound library for <b>audio</b> processing)'],
+	['dxcompiler.dll', '(Direct3D Shader Compiler - MS <b>Windows</b>)'],
+	['dxgi.dll', '(DirectX Graphics Infrastructure - part of <b>Windows</b>)'],
+	['dxil.dll', '(DirectX Intermediate Language Library - MS <b>Windows</b>)'],
+	['dxilconv.dll', '(DXBC to DXIL Converter - MS <b>Windows</b>)'],
+	['eamsi.dll', '(ESET <b>Antimalware</b> Scan Interface)'],
+	['edputil.dll', '(EDP Utility Library - MS <b>Windows</b>)'],
+	['egui.dll', '(ESET Graphical User Interface - <b>antivirus</b>)'],
+	['enb123.dll', '(Older version of <b>ENB</b> graphics mod)'],
+	['enbhelper.dll', '(<b>ENB</b> helper library)'],
+	['engine_fixes.dll', '(SSE Engine Fixes <b>SKSE</b> plugin)'],
+	['equippablekittails.dll', '(Equippable Khajiit Tails <b>SKSE</b> plugin)'],
+	['f4se_1_10_163.dll', '(<b>Fallout 4</b> Script Extender - mistakenly present)'],
+	['ffx_backend_dx12_x64.dll', '(FidelityFX S.R. 3.0 Backend Library - <b>NVIDIA</b>)'],
+	['ffx_frameinterpolation_x64.dll', '(FidelityFX S.R. 3.0 Frame Interpolation - <b>NVIDIA</b>)'],
+	['ffx_fsr2_api_dx11_x64.dll', '(FidelityFX S.R. 2 API for DirectX 11 - <b>AMD</b>)'],
+	['ffx_fsr2_api_dx12_x64.dll', '(FidelityFX S.R. 2.0 API for DirectX 12 - <b>AMD</b>)'],
+	['ffx_fsr2_api_x64.dll', '(FidelityFX S.R. 2 API - <b>AMD</b>)'],
+	['ffx_fsr3_x64.dll', '(FidelityFX S.R. 3.0 Core Library - <b>NVIDIA</b> driver)'],
+	['ffx_fsr3upscaler_x64.dll', '(FidelityFX S.R. 3.0 <b>Upscaler</b> - NVIDIA)'],
+	['ffx_opticalflow_x64.dll', '(Optical Flow for FidelityFX S.R. 3.0 - <b>NVIDIA</b>)'],
+	['fileregistry64.dll', '(<b>File Registry</b> SKSE plugin)'],
+	['flexrelease_x64.dll', '(NVIDIA PhysX library - used by some <b>physics</b> mods)'],
+	['fmod.dll', '(FMOD <b>audio</b> engine used by Skyrim)'],
+	['fnis.dll', '(Fores New Idles in Skyrim <b>animation</b> framework)'],
+	['fraps.dll', '(Fraps Screen Capture and <b>Overlay</b>)'],
+	['freezeprotect.dll', '(Freeze Protection <b>SKSE</b> plugin)'],
+	['fsaus.dll', '(F-Secure <b>Antivirus</b> User-mode Service)'],
+	['fwmf.esp', '(Flat World <b>Map</b> Framework)'],
+	['gameoverlayrenderer64.dll', '(Steam <b>Overlay</b> Component)'],
+	['gamepad++.dll', '(Gamepad++ <b>controller</b> mod)'],
+	['glu32.dll', '(OpenGL Utility Library - <b>graphics</b> component)'],
+	['gridhud.dll', '(Grid HUD interface mod - <b>UI</b>)'],
+	['havok.dll', '(Havok <b>Physics</b> engine used by Skyrim)'],
+	['hdtphysicsextensions.dll', '(HDT-SMP <b>Physics</b> mod)'],
+	['hdtsmp64.dll', '(Skinned Mesh <b>Physics</b>)'],
+	['hooksharedsse.dll', '(HookShare <b>SKSE</b> plugin)'],
+	['iequip.dll', '(iEquip <b>SKSE</b> plugin)'],
+	['igc64.dll', '(Intel Graphics Compiler for OpenCL - <b>graphics</b>)'],
+	['igd10iumd64.dll', '(Intel Graphics Accelerator Drivers - <b>graphics</b>)'],
+	['igd10um64gen11.dll', '(Intel Graphics Accelerator Driver - <b>graphics</b>)'],
+	['igd10um64xe.dll','(Intel HD <b>Graphics</b> Driver)'],
+	['igdgmm64.dll', '(Intel HD <b>Graphics</b> Drivers)'],
+	['immersivefp.dll', '(Immersive First Person View <b>SKSE</b> plugin)'],
+	['inputhook.dll', '(Input hook library used by some <b>controller</b> mods)'],
+	['intelcontrollib.dll', '(Intel <b>Graphics</b> Control Lib Runtime)'],
+	['jcontainers.dll', '(JContainers <b>SKSE</b> plugin for advanced scripting)'],
+	['jsproxy.dll', '(JScript Proxy Auto-Configuration - associated with Internet Explorer)'],
+	['kavprot.dll', '(Kaspersky <b>Antivirus</b> Protection Module)'],
+	['kerberos.dll', '(Kerberos Security Package - MS <b>Windows</b> security)'],
+	['libxess.dll', '(Xe Super Sampling Library - <b>NVIDIA</b>)'],
+	['llcbhook.dll', '(Load Library Copy Back hook for <b>mod managers</b>)'],
+	['loadgamefix.dll', '(Load Game CTD Fix <b>SKSE</b> plugin)'],
+	['locksys.dll', '(Lock System <b>SKSE</b> plugin for enhanced lockpicking)'],
+	['markarth outskirts - water for enb (shades of skyrim) patch.esp','(optionally load after <b>DynDOLOD.esp</b>)'],
+	['maxsu.dll', '(MaxSU <b>SKSE</b> plugin for script utility functions)'],
+	['mcafee.dll', '(McAfee <b>Antivirus</b> Core Component)'],
+	['mcmhelper.dll', '(<b>MCM Helper</b> SKSE plugin for mod configuration)'],
+	['medal-hook64.dll', '(<b>Medal.tv</b> Hook Library - used for game recording)'],
+	['mfgfix.dll', '(<b>SKSE</b> plugin for facial animation fixes)'],
+	['mlang.dll', '(Multilanguage Support DLL - MS <b>Windows</b>)'],
+	['modorganizer.dll', '(Mod Organizer 2 virtual <b>file system</b>)'],
+	['msacm32.dll', '(Microsoft ACM <b>Audio</b> Filter)'],
+	['msiso.dll', '(Internet Explorer Isolation Library - MS <b>Windows</b>)'],
+	['msvcp110_win.dll', '(Microsoft STL110 C++ Runtime Library - <b>Windows</b>)'],
+	['n64hooks.dll', '(N64 hooks library - <b>emulator</b>)'],
+	['nativepatch.dll', '(SSE Native Patch <b>SKSE</b> plugin)'],
+	['nemesis unlimited behavior engine.exe', '(<b>Animation</b> framework, alternative to FNIS)'],
+	['netimmerse.dll', '(NetImmerse Override <b>SKSE</b> plugin)'],
+	['ninput.dll', '(Microsoft Pen and Touch <b>Input</b> Component)'],
+	['npsystem.dll', '(Norton Protection System Component - <b>antivirus</b>)'],
+	['nscore64.dll', '(Nscore library - <b>antivirus</b>)'],
+	['nv_ags.dll', '(<b>NVIDIA</b> Advanced Graphics SDK)'],
+	['nvapi64.dll', '(<b>NVIDIA</b> Driver API Library)'],
+	['nvcuda.dll', '(<b>NVIDIA</b> CUDA Driver)'],
+	['nvdxgdmal64.dll', '(<b>NVIDIA</b> DirectX Graphics Device Memory Allocation Library)'],
+	['nvlddmkm.sys', '(<b>NVIDIA</b> Windows Kernel Mode Driver)'],
+	['nvngx_dlss.dll', '(<b>NVIDIA</b> DLSS Driver)'],
+	['nvngx_dlssg.dll', '(<b>NVIDIA</b> DLSS Driver for FSR3)'],
+	['nvofapi64.dll', '(<b>NVIDIA</b> Optical Flow API)'],
+	['nvoglv32.dll', '(<b>NVIDIA</b> OpenGL Driver for 32-bit)'],
+	['nvoglv64.dll', '(<b>NVIDIA</b> OpenGL Driver for 64-bit)'],
+	['nvwgf2um.dll', '(<b>NVIDIA</b> D3D10 User Mode Driver for 32-bit)'],
+	['nvwgf2umx.dll', '(<b>NVIDIA</b> D3D10 User Mode Driver for 64-bit)'],
+	['nxmhandler.dll', '(Nexus Mod Manager URL handler - <b>mod manager</b>)'],
+	['oleacc.dll', '(Active Accessibility Core Component - MS <b>Windows</b>)'],
+	['onecorecommonproxystub.dll', '(<b>Windows</b> system component)'],
+	['onecoreuapcommonproxystub.dll', '(OneCore UAP Common Proxy Stub - MS <b>Windows</b>)'],
+	['openanimationreplacer.dll', '(aka OAR - <b>animation</b> mod)'],
+	['opengl32.dll', '(OpenGL Client DLL - <b>graphics</b> component)'],
+	['overwolf.dll', '(Overwolf <b>Overlay</b> Component)'],
+	['ow-graphics-hook64.dll', '(Overwolf Graphics Hook gaming component - <b>overlay</b>)'],
+	['owclient.dll', '(Overwolf gaming component - <b>overlay</b>)'],
+	['owexplorer.dll', '(Overwolf gaming component - <b>overlay</b>)'],
+	['owutils.dll', '(Overwolf gaming component - <b>overlay</b>)'],
+	['papyrus compiler.exe', '(Compiler for Skyrim\'s <b>scripting</b> language)'],
+	['papyrusextender64.dll', '(Papyrus <b>Script</b> Extender)'],
+	['papyrusextenderse.dll', '(Papyrus <b>Script</b> Extender)'],
+	['papyrusextenderse64.dll', '(Papyrus <b>Script</b> Extender)'],
+	['papyrustweaks.dll', '(Papyrus <b>Script</b> Tweaks)'],
+	['papyrusutil.dll', '(Papyrus <b>Script</b> Utility)'],
+	['parallaxfix.dll', '(Parallax Fix <b>SKSE</b> plugin)'],
+	['particlepatch.dll', '(Particle Patch for <b>ENB</b>)'],
+	['pcb.dll', '(Payload Control Box used by some <b>SKSE</b> plugins)'],
+	['pdperfplugin.dll', '(<b>Puredark\'s</b> Performance Plugin - SKSE)'],
+	['pluginmanager.dll', '(Plugin Manager for <b>mod organizers</b>)'],
+	['po3_papyrusextender.dll', '(Papyrus <b>Script</b> Extender)'],
+	['po3_tweaks.dll', '(Powerof3\'s Tweaks <b>SKSE</b> plugin)'],
+	['product_info.dll', '(A-Volute 3D Sound Experts - <b>audio</b> component)'],
+	['quicklootee.dll', '(QuickLoot EE <b>SKSE</b> plugin)'],
+	['raptr64.dll', '(Raptr Gaming <b>Overlay</b>)'],
+	['reshade64.dll', '(<b>ReShade</b> post-processing injector)'],
+	['rtsshdrs64.dll', '(RivaTuner Statistics Server Hooks - <b>monitoring</b>)'],
+	['rtsshooks64.dll', '(RivaTuner Statistics Server Hooks for graphics card <b>monitoring</b>)'],
+	['sandboxingext.dll', '(Sandboxing Extended <b>SKSE</b> plugin)'],
+	['savecleanerpolyfill.dll', '(Save Cleaner <b>SKSE</b> plugin)'],
+	['scaleform.dll', '(Scaleform <b>UI</b> middleware used by Skyrim)'],
+	['simplemap.dll', '(Simple Map <b>SKSE</b> plugin)'],
+	['skee64.dll', '(<b>RaceMenu</b> SKSE plugin)'],
+	['skinned mesh physics.dll', '(<b>Physics</b> mod for character models)'],
+	['skinshader.dll', '(Custom skin <b>shader</b> used by some texture mods)'],
+	['skse64_1_5_97.dll', '(Skyrim <b>Script</b> Extender)'],
+	['skse64_steam_loader.dll', '(<b>SKSE</b> Steam loader)'],
+	['skse64_loader.exe', '(<b>SKSE</b> loader executable)'],
+	['skyprocednpp.dll', '(SkyProc Patchers <b>SKSE</b> plugin)'],
+	['skyrim paper map by freelancecartography (2nd edition) for fwmf.esp', '(place near <b>bottom</b> of load order)'],
+	['skyrimautoreloader.dll', '(<b>recommended</b> bug fix)'],
+	['skyrimupscaler.dll', '(Puredark\'s <b>Upscaler</b>)'],
+	['sl.common.dll', '(Streamline Common Library - <b>NVIDIA</b>)'],
+	['sl.dlss_g.dll', '(<b>NVIDIA</b> DLSS Frame Generation)'],
+	['sl.interposer.dll', '(<b>NVIDIA</b> Streamline Interposer Module)'],
+	['sl.reflex.dll', '(<b>NVIDIA</b> Reflex Library)'],
+	['spis.dll', '(Spell Perk Item Distributor <b>SKSE</b> plugin)'],
+	['sse-hooks.dll', '(SSE Fixes <b>SKSE</b> plugin)'],
+	['streamcore.dll', '(Streaming Core library used by some <b>audio</b> mods)'],
+	['subsurfacescattering.dll', '(Subsurface Scattering <b>shader</b> mod)'],
+	['symamsi.dll', '(Windows Defender <b>Antimalware</b> Scan Interface)'],
+	['symnav.dll', '(Symantec <b>Antivirus</b> Core Component)'],
+	['symsrv.dll', '(Symbol Server - MS <b>Windows</b> debugging component)'],
+	['tbb.dll', '(Intel Threading Building Blocks library - <b>performance</b>)'],
+	['tbbmalloc.dll', '(Threading Building Blocks Memory Allocator - <b>Intel</b>)'],
+	['tes5conv.dll', '(TES5Edit Converter library - <b>modding</b> tool)'],
+	['threadpoolwinrt.dll', '(<b>Windows</b> Runtime Thread Pool Library)'],
+	['tmntsrv.dll', '(Trend Micro Network Service - <b>antivirus</b>)'],
+	['truehud.dll', '(TrueHUD <b>SKSE</b> plugin)'],
+	['uiautomationcore.dll', '(Microsoft UI Automation Core - <b>Windows</b>)'],
+	['usvfs_x64.dll', '(User Space Virtual <b>File System</b> - MO2)'],
+	['vcruntime140.dll', '(Visual C++ Runtime Library - MS <b>Windows</b>)'],
+	['versionlib.dll', '(VersionLib <b>SKSE</b> plugin)'],
+	['vsfilter.dll', '(DirectShow subtitle rendering - used by some <b>video</b> mods)'],
+	['vulkan-1.dll', '(Vulkan Runtime Library - MS <b>Windows</b>)'],
+	['vulkaninfo.exe', '(Vulkan Info Utility - MS <b>Windows</b>)'],
+	['water for enb (shades of skyrim).esp', '(optionally load after <b>DynDOLOD.esp</b> along with patches)'],
+	['water for enb - patch - atlas map markers.esp', '(optionally load after <b>DynDOLOD.esp</b>)'],
+	['water for enb - patch - beyond reach.esp', '(optionally load after <b>DynDOLOD.esp</b>)'],
+	['water for enb - patch - beyond skyrim.esp', '(optionally load after <b>DynDOLOD.esp</b>)'],
+	['water for enb - patch - blue rift water.esp', '(optionally load after <b>DynDOLOD.esp</b>)'],
+	['water for enb - patch - blue volcanic water.esp', '(optionally load after <b>DynDOLOD.esp</b>)'],
+	['water for enb - patch - clear creek water.esp', '(optionally load after <b>DynDOLOD.esp</b>)'],
+	['water for enb - patch - clear interior water.esp', '(optionally load after <b>DynDOLOD.esp</b>)'],
+	['water for enb - patch - clear underwater.esp', '(optionally load after <b>DynDOLOD.esp</b>)'],
+	['water for enb - patch - darker lod water.esp', '(optionally load after <b>DynDOLOD.esp</b>)'],
+	['water for enb - patch - expanded towns and cities.esp', '(optionally load after <b>DynDOLOD.esp</b>)'],
+	['water for enb - patch - folkvangr.esp', '(optionally load after <b>DynDOLOD.esp</b>)'],
+	['water for enb - patch - fwmf for fantasy paper maps.esp', '(Load after <b>FWMF for Fantasy Paper Maps.esp</b>)'],
+	['water for enb - patch - generic landscape patch.esp', '(optionally load after <b>DynDOLOD.esp</b>)'],
+	['water for enb - patch - jks bannered mare.esp', '(optionally load after <b>DynDOLOD.esp</b>)'],
+	['water for enb - patch - jks ragged flagon.esp', '(optionally load after <b>DynDOLOD.esp</b>)'],
+	['water for enb - patch - landscape fixes for grass mods.esp', '(optionally load after <b>DynDOLOD.esp</b>)'],
+	['water for enb - patch - lux - jks ragged flagon.esp', '(optionally load after <b>DynDOLOD.esp</b>)'],
+	['water for enb - patch - muddy creek water.esp', '(optionally load after <b>DynDOLOD.esp</b>)'],
+	['water for enb - patch - transparent horse trough water.esp', '(optionally load after <b>DynDOLOD.esp</b>)'],
+	['water for enb - patch - volcanic water.esp', '(optionally load after <b>DynDOLOD.esp</b>)'],
+	['water for enb - patch - wyrmstooth.esp', '(optionally load after <b>DynDOLOD.esp</b>)'],
+	['windows.shell.servicehostbuilder.dll', '(<b>Windows</b> Shell Service Host Builder)'],
+	['windows.staterepositorycore.dll', '(<b>Windows</b> State Repository Core)'],
+	['windows.system.launcher.dll', '(<b>Windows</b> System Launcher)'],
+	['winepulse.drv', '(Wine PulseAudio Driver - Windows <b>emulator</b>)'],
+	['winevulkan.dll', '(Wine Vulkan Driver - Windows <b>emulator</b>)'],
+	['winex11.drv', '(Wine X11 Driver - Windows <b>emulator</b>)'],
+	['winspool.drv', '(<b>Windows</b> Spooler Driver - printing subsystem)'],
+	['wrsvc.dll', '(Webroot SecureAnywhere Service - <b>antivirus</b>)'],
+	['wtsapi32.dll', '(<b>Windows</b> Terminal Server SDK API)'],
+	['xaudio2_7.dll', '(XAudio library for <b>audio</b> processing)'],
+	['xefx.dll', '(Intel Xe <b>Graphics</b> Architecture)'],
+	['xefx_loader.dll', '(Intel Xe <b>Graphics</b> Loader)'],
+	['xinput1_3.dll', '(XInput library for <b>controller</b> support)'],
+	['zavcore.dll', '(ZoneAlarm Core <b>Antivirus</b> Module)'],
+]);
+
 
 
 		function replaceWithExplainers(fileList) {
@@ -1153,7 +1231,7 @@ h1		24	48	(only heading actually used/specified below)
 					'<li><b>Update your NVIDIA drivers</b> to the latest version. You can download the latest drivers from the <a href="https://www.nvidia.com/Download/index.aspx">NVIDIA website</a>.</li>' +
 					'<li>If you are using one of Puredark\'s <a href="https://www.patreon.com/collection/50002?view=expanded">paid FSR2 or FSR3 Upscalers</a> (rather than his free FSR2 version included with Nolvus): <a href="#" class="toggleButton">⤴️ hide</a><ul class="extraInfo">' +
 						'<li><b>Check hardware compatibility:</b> This issue may also arise due to incompatible hardware (e.g., AMD instead of NVIDIA, GTX instead of RTX, RTX non-40xx instead of RTX 40xx).</li>' +
-						'<li><b>Review settings:</b> Ensure that you follow the recommended settings in the <a href="https://www.reddit.com/r/Nolvus/wiki/help/guides/dlss/">Nolvus DLSS Upscaler Installation Guide</a>. Confirm that you have the correct version and settings for your graphics card.</li>' +
+						'<li><b>Review settings:</b> Ensure that you follow the recommended settings in the <a href="https://docs.google.com/document/d/1YVFKcJN2xuvhln9B6vablzOzQu-iKC4EDcbjOW-SEsA/edit?usp=sharing">Nolvus DLSS Upscaler Installation Guide</a>. Confirm that you have the correct version and settings for your graphics card.</li>' +
 					'</ul></li>' +
 					'<li>Check for any GPU overclocking settings that may be causing instability and reset them to default if necessary.</li>' +
 					'<li>If the above does not resolve the issue, optionally try performing a clean installation of the drivers using a tool like Display Driver Uninstaller (DDU) to remove all traces of the previous drivers before installing the new ones.</li>' +
@@ -1167,7 +1245,7 @@ h1		24	48	(only heading actually used/specified below)
 			if (logsFirstLine.toLowerCase().includes('nvngx_dlssg.dll')) {
 				diagnoses += '<li>🎯 <b>Paid FSR3 Upscaler Issue Detected:</b> Having the "nvngx_dlssg.dll" error showing up in the first line of your crash log is frequently linked to NVIDIA graphics drivers and/or Puredark\'s paid upsclaler (FG Build Alpha 03 and later). To resolve this, try the following steps:<ol>' +
 					'<li><b>Update your NVIDIA drivers</b> to the latest version. You can download the latest drivers from the <a href="https://www.nvidia.com/Download/index.aspx">NVIDIA website</a>.</li>' +
-					'<li><b>Incompatible settings in the upscaler:</b> Choosing a bad upscale type or other setting can cause this issue. Review and verify the recommended settings in <a href="https://www.reddit.com/r/Nolvus/wiki/help/guides/dlss/">Nolvus DLSS Upscaler Installation Guide</a>.</li>' +
+					'<li><b>Incompatible settings in the upscaler:</b> Choosing a bad upscale type or other setting can cause this issue. Review and verify the recommended settings in <a href="https://docs.google.com/document/d/1YVFKcJN2xuvhln9B6vablzOzQu-iKC4EDcbjOW-SEsA/edit?usp=sharing">Nolvus DLSS Upscaler Installation Guide</a>.</li>' +
 					'<li><b>Incompatible hardware:</b> This issue can also be caused by incompatible hardware (AMD instead of NVIDIA, GTX instead of RTX, RTX non-40xx intead of  RTX 40xx, and so on).</li>' +
 					'<li>Check for any GPU overclocking settings that may be causing instability and reset them to default if necessary.</li>' +
 					'<li>If the above does not resolve the issue, try performing a clean installation of the drivers using a tool like Display Driver Uninstaller (DDU) to remove all traces of the previous drivers before installing the new ones.</li>' +
@@ -1216,7 +1294,13 @@ h1		24	48	(only heading actually used/specified below)
 
 			// Check for D6DDDA crash
 			if (logsFirstLine.toLowerCase().includes('D6DDDA'.toLowerCase())) {
-				diagnoses += '<li>❗<b>D6DDDA Crash Detected:</b> This may occur when either RAM or VRAM has been exceeded or due to broken/corrupt meshes (.nif) or textures (.dds). Verify that you have correctly <a href="https://www.nolvus.net/appendix/pagefile">set your Windows Pagefile Size</a>. If you are playing vanilla Nolvus, and this issue is persistent, it could (rarely) also be an indicator of hardware issues. More information and troubleshooting tips under <a href="https://www.nolvus.net/catalog/crashlog?acc=accordion-1-2">D6DDDA Crash</a/>.</li>';
+				diagnoses += '<li>❗<b>D6DDDA Crash Detected:</b> This may occur when either RAM or VRAM has been exceeded, or due to broken/corrupt meshes (.nif) or textures (.dds). Here are some steps to address this:<ul>' +
+							'<li>Close any unnecessary applications to free up memory.</li>' +
+							'<li>Verify that you have correctly <a href="https://www.nolvus.net/appendix/pagefile">set your Windows Pagefile Size</a>.</li>' +
+							'<li>If your PC has less than 12GB of VRAM (<a href="https://www.lifewire.com/how-to-check-vram-5235783">how to check</a>), consider running your load order through <a href="https://www.reddit.com/r/Nolvus/comments/1doakj1/psa_use_vramr_if_you_have_12gb_of_vram/">VRAMr</a>.</li>' +
+							'<li>If you are playing vanilla Nolvus and this issue persists, it could (rarely) indicate hardware issues.</li>' +
+							'</ul>' +
+							'For more information and troubleshooting tips, see the <a href="https://www.nolvus.net/catalog/crashlog?acc=accordion-1-2">D6DDDA Crash</a> section and the second instance of this test in the "Advanced Users" section of this analyzer.</li>';
 				diagnosesCount++;
 			}
 
@@ -1239,6 +1323,88 @@ h1		24	48	(only heading actually used/specified below)
 			// Check for Shadowrend crash
 			if (logsRelevantObjectsSection.toLowerCase().includes('ccbgssse018-shadowrend.esl')) {
 				diagnoses += '<li>❓<b>Possible Shadowrend Issue:</b> Try loading an earlier save and avoid the crash area for a few days. <b>Be cautious</b> when loading a save that previously experienced the Shadowrend crash. Continuing to play on such a save might compound the issue, leading to more frequent crashes. For custom mods, verify your load order. Shadowrend is frequently NOT the crash culprit when other issues are present. More information and troubleshooting tips under <a href="https://www.nolvus.net/catalog/crashlog?acc=accordion-1-6">Shadowrend Crash</a/> and <a href="https://www.nolvus.net/catalog/crashlog?acc=accordion-1-7">Load Order Crash</a>.</li>';
+				diagnosesCount++;
+			}
+
+			// Antivirus Warning
+			const antivirusSignatures = {
+				'360 Total Security': ['360safe.dll'],
+				'AhnLab V3': ['v3svc.dll'],
+				'AOL Active Virus Shield': ['aolav.dll'],
+				'ArcaBit': ['arcabitengine.dll'],
+				'AVG': ['avgui.dll'],
+				'Avast': ['avast.dll', 'aswEngineA.dll'],
+				'Avira': ['avamsi.dll', 'avamsicli.dll', 'avcuf32.dll'],
+				'Baidu Antivirus': ['bdhsvc.dll'],
+				'Bitdefender': ['bdcore.dll', 'avc3.dll'],
+				'BullGuard': ['bullguard.dll', 'bgadriver.dll'],
+				'ClamAV': ['libclamav.dll'],
+				'Comodo': ['com_antivirus.dll', 'cavwp.dll'],
+				'Dr.Web': ['dwengine.dll', 'drwebsp.dll'],
+				'Emsisoft': ['a2cmd.dll'],
+				'ESET': ['egui.dll', 'eks.dll'],
+				'F-Secure': ['fsaus.dll', 'fsdfw.dll'],
+				'Fortinet': ['fnetwizard.dll', 'fortinet_krn.dll'],
+				'G Data': ['gdata_avi.dll', 'gdavflt.dll'],
+				'K7 AntiVirus': ['k7sentry.dll', 'k7avgent.dll'],
+				'Kaspersky': ['kavprot.dll', 'klif.dll'],
+				'Malwarebytes': ['mbamswissarmy.dll'],
+				'McAfee': ['mcafee.dll', 'mfehidk.dll'],
+				'Norton': ['npsystem.dll', 'symcorpui.dll'],
+				'Nscore': ['nscore64.dll'],
+				'Panda': ['panda_url_filtering.dll', 'pavbootstartdriver.dll'],
+				'Quick Heal': ['qhsafemain.dll', 'qhwtp.dll'],
+				'Rising': ['ravmon.dll', 'rfapi.dll'],
+				'Sophos': ['sophos_detoured.dll', 'savapi.dll', 'sav.dll'],
+				'Symantec': ['symnav.dll', 'symcheck.dll'],
+				'TotalDefense': ['sbamsvc.dll', 'tdrtac.dll'],
+				'Trend Micro': ['tmntsrv.dll', 'tmwlutil.dll', 'vsapi32.dll'],
+				'VirusBuster': ['vba32core.dll', 'vbadeint.dll'],
+				'Webroot': ['wrsvc.dll', 'wrsa.dll'],
+				'ZoneAlarm': ['zavcore.dll', 'zlclient.dll']
+			};
+
+			let foundAntivirus = '';
+
+			for (const [antivirus, dlls] of Object.entries(antivirusSignatures)) {
+				if (dlls.some(dll => logFile.toLowerCase().includes(dll))) {
+					foundAntivirus = antivirus;
+					break;
+				}
+			}
+
+			if (foundAntivirus) {
+				diagnoses += `<li>⚠️<b>Antivirus Warning:</b> <code>${foundAntivirus}</code> antivirus detected. Third-party antivirus software is a frequent contributor to crashes in heavily-modded Skyrim. Consider adding Nolvus/Skyrim to your antivirus exclusions and/or switching to the built-in Windows Defender for better compatibility.</li>`;
+				diagnosesCount++;
+			} else {
+				// Check for Windows Defender in logsTopHalf if no other antivirus found
+				const windowsDefenderDlls = ['mpsvc.dll', 'mpclient.dll'];
+				if (windowsDefenderDlls.some(dll => logsTopHalf.toLowerCase().includes(dll))) {
+					diagnoses += `<li>⚠️<b>Antivirus Info:</b> Windows Defender detected in the top half of your crash log (above the Modules section). Windows Defender is typically not a problem for Skyrim, but if you're experiencing issues, you might consider adding exclusions for Nolvus/Skyrim.</li>`;
+					diagnosesCount++;
+				}
+			}
+
+			//Overlays Warning
+			let overlayFiles = [];
+			let overlayRegex = /\b(?!discordhook64|overwolf|raptr64|fraps|nv_ags|gameoverlayrenderer64|rtsshdrs64|dxgi)\w+overlay\w+\.dll\b/i;
+			let match = logsTopHalf.match(overlayRegex);
+			if (match) overlayFiles.push(match[0]);
+
+			if (logFile.toLowerCase().includes('discordhook64.dll')) overlayFiles.push('Discord');
+			if (logFile.toLowerCase().includes('overwolf.dll')) overlayFiles.push('Overwolf');
+			if (logFile.toLowerCase().includes('raptr64.dll')) overlayFiles.push('Raptr');
+			if (logFile.toLowerCase().includes('fraps.dll')) overlayFiles.push('Fraps');
+			if (logFile.toLowerCase().includes('nv_ags.dll')) overlayFiles.push('NVIDIA GeForce Experience');
+			if (logsTopHalf.toLowerCase().includes('gameoverlayrenderer64.dll')) overlayFiles.push('Steam');
+			if (logFile.toLowerCase().includes('rtsshdrs64.dll')) overlayFiles.push('RivaTuner Statistics Server');
+			if (logFile.toLowerCase().includes('msiafterburner.dll')) overlayFiles.push('MSI Afterburner');
+
+			if (overlayFiles.length > 0) {
+				diagnoses += '<li>⚠️<b>Overlay Warning:</b> Overlays detected. While some are generally considered safe, others may cause issues in heavily-modded Skyrim. It\'s best to try disabling all overlays temporarily to ensure they aren\'t contributing to your crash.<ul>' +
+					'<li>List of detected overlays: <a href="#" class="toggleButton">⤴️ hide</a><ul class="extraInfo">' +
+					overlayFiles.map(file => `<li>${file}</li>`).join('') +
+					'</ul></li></ul></li>';
 				diagnosesCount++;
 			}
 
@@ -1803,9 +1969,29 @@ h1		24	48	(only heading actually used/specified below)
 		console.log('missedMatches:', missedMatches);
 		console.log('namedElementMatches:', namedElementMatches);
 
+		function processColoredListItems(listItems) {
+			const dedupedItems = Array.from(
+				listItems.reduce((map, item) => {
+					if (!map.has(item.match) || item.priority < map.get(item.match).priority) {
+						map.set(item.match, item);
+					}
+					return map;
+				}, new Map()).values()
+			);
+			
+			const truncatedItems = dedupedItems.map(item => {
+				const truncatedMatch = item.match.length > 300 ? item.match.substring(0, 300) + '...' : item.match;
+				return { ...item, match: truncatedMatch };
+			});
+			const wrappedItems = truncatedItems.map(item =>
+				`<li><code><span style="color:${item.color}">[${item.priority}]</span> ${item.match}</code></li>`
+			);
+			return wrappedItems.join('');
+		}
+
 		// Create the insights message
 		if (namedElementMatches.length > 0) {
-			insights += '<li>🔎 <b>Files/Elements</b> listed within the heading, "Possible relevant objects", "Probable callstack", "Registers" and "Stack" sections of the log file. Items are sorted by priority, with lower numbers (and higher positions in the list) indicating a higher likelihood of contributing to the crash. Pay extra attention to anything related to <b>mods you have added</b> to Nolvus:';
+			insights += '<li>🔎 <b>Files/Elements</b> listed within <code><span style="color:red">[1]</span> the first line</code>, <code><span style="color:darkorange">[2]</span> Possible relevant objects</code>, <code><span style="color:gold">[3]</span> Probable callstack</code>, <code><span style="color:dodgerblue">[4]</span> Registers</code> and/or <code><span style="color:blueviolet">[5]</span> Stack</code> sections of the crash log. Items are sorted by priority, with lower numbers (and higher positions in the list) indicating a higher likelihood of contributing to the crash. Pay extra attention to anything related to <b>mods you have added</b> to Nolvus:';
 			insights += '<ul>' + processColoredListItems(namedElementMatches) + '</ul>';
 			insights += '</li>';
 			insightsCount++;
@@ -1925,7 +2111,7 @@ h1		24	48	(only heading actually used/specified below)
 				insights += '<li>❗<b>D6DDDA Crash Detected:</b> The \'D6DDDA\' error may occur due to one of the following reasons:<ol>' +
 					'<li>Exceeded RAM or VRAM: Ensure that your system has sufficient memory resources:<ol>' +
 					'<li>Check if other applications are consuming excessive memory. Consider closing other applications.</li>' +
-					'<li>Consider running your load order through <a href="https://www.nexusmods.com/skyrimspecialedition/mods/90557">VRAMr</a> to conserve both VRAM and RAM by compressing all/most of your load order\'s texture files in an automated fashion. This can reduce your load order\'s images to a smaller resolution (file size) without a noticeable decrease in image quality, and can lead to smoother performance and fewer memory-related issues.</li>' +
+					'<li>If your PC has less than 12GB of VRAM (<a href="https://www.lifewire.com/how-to-check-vram-5235783">how to check</a>), consider running your load order through <a href="https://www.reddit.com/r/Nolvus/comments/1doakj1/psa_use_vramr_if_you_have_12gb_of_vram/">VRAMr</a> to conserve both VRAM and RAM by compressing all/most of your load order\'s texture files in an automated fashion. This will reduce your load order\'s images to a smaller resolution (file size) without a noticeable decrease in image quality, and typically leads to fewer low-point FPS stutters and fewer memory-related crashes.</li>' +
 					'</ol></li>' +
 					'<li>Broken/Corrupt Meshes (.nif) or Textures (.dds): Verify the integrity of your installed mods. Corrupted files can lead to crashes:<ol>' +
 					'<li><a href="https://www.nexusmods.com/skyrimspecialedition/mods/23316">Cathedral Assets Optimizer (CAO)</a> can often be used to repair damaged image files. CAO ensures that textures are properly formatted and can also reduce their resolution (file size) without noticeably reducing visual quality.</li>' +
@@ -1979,7 +2165,7 @@ h1		24	48	(only heading actually used/specified below)
 			if (logsTopThird.toLowerCase().includes('upscaler.dll') || logsTopThird.toLowerCase().includes('pdperfplugin.dll')) {
 				insights += '<li>❗<b>Potential Upscaler Issue Detected:</b> The error involving \'Upscaler.dll\' or \'PDPerfPlugin.dll\'suggests a problem with the Upscaler mod, which is designed to improve the game\'s graphics by increasing the resolution of textures. If you are using Puredark\'s paid Upscaler, consider the following troubleshooting steps:<ol>' +
 					'<li>Ensure you are using the correct version of the upscaler that is compatible with your GPU.</li>' +
-					'<li>Review the <a href="https://www.reddit.com/r/Nolvus/wiki/help/guides/dlss/">Nolvus DLSS Upscaler Installation Guide</a> to confirm that you have followed all the installation steps correctly.</li>' +
+					'<li>Review the <a href="https://docs.google.com/document/d/1YVFKcJN2xuvhln9B6vablzOzQu-iKC4EDcbjOW-SEsA/edit?usp=sharing">Nolvus DLSS Upscaler Installation Guide</a> to confirm that you have followed all the installation steps correctly.</li>' +
 					'<li>Review the <b>SkyrimUpscaler.log</b> file for more detailed information about the error.</li>' +
 					'<li>Temporarily disable the Upscaler mod to determine if it is the source of the crash.</li>' +
 					'<li>Ensure that your system meets the hardware requirements for running the mod, as upscaling can be resource-intensive.</li>' +
@@ -2025,7 +2211,7 @@ h1		24	48	(only heading actually used/specified below)
 					'<li>Verify that you have correctly <a href="https://www.nolvus.net/appendix/pagefile">set your Windows Pagefile Size</a>.</li>' +
 					'<li>Ensure that your mods are efficiently using memory and not exceeding your system\'s limits.</li>' +
 					'<li>Consider switching to texture packs with lower resolutions (e.g., 1K or 2K instead of 4K) to reduce memory usage. Texture mods that are too large can strain both VRAM and RAM resources.</li>' +
-					'<li>Conserve both VRAM and RAM by compressing all/most of your load order\'s texture (image) files in an automated fashion with <a href="https://www.nexusmods.com/skyrimspecialedition/mods/90557">VRAMr</a> reducing their size without a noticeable decrease in image quality. This can lead to smoother performance and fewer memory-related issues.</li>' +
+					'<li>Consider conserving both VRAM and RAM by compressing all/most of your load order\'s texture (image) files in an automated fashion with <a href="https://www.reddit.com/r/Nolvus/comments/1doakj1/psa_use_vramr_if_you_have_12gb_of_vram/">VRAMr</a> reducing their size without a noticeable decrease in image quality. This can lead to smoother performance and fewer memory-related issues.</li>' +
 					'</ol></li>';
 				insightsCount++;
 			}
@@ -2040,7 +2226,7 @@ h1		24	48	(only heading actually used/specified below)
 					'<li>Keep your mods updated, including any patches that improve memory management.</li>' +
 					'<li>If the issue persists, disable mods one by one to isolate the problematic mod. Re-enable them gradually to maintain system stability.</li>' +
 					'<li>Consider switching to texture packs with lower resolutions (e.g., 1K or 2K instead of 4K) to reduce memory usage. Texture mods that are too large can strain both VRAM and RAM resources.</li>' +
-					'<li>Conserve both VRAM and RAM by compressing all/most of your load order\'s texture (image) files in an automated fashion with <a href="https://www.nexusmods.com/skyrimspecialedition/mods/90557">VRAMr</a> reducing their size without a noticeable decrease in image quality. This can lead to smoother performance and fewer memory-related issues.</li>' +
+					'<li>Consider conserving both VRAM and RAM by compressing all/most of your load order\'s texture (image) files in an automated fashion with <a href="https://www.reddit.com/r/Nolvus/comments/1doakj1/psa_use_vramr_if_you_have_12gb_of_vram/">VRAMr</a> reducing their size without a noticeable decrease in image quality. This can lead to smoother performance and fewer memory-related issues.</li>' +
 					'</ol></li>';
 				insightsCount++;
 			}
@@ -2436,11 +2622,6 @@ h1		24	48	(only heading actually used/specified below)
 				insightsCount++;
 			}
 
-			//Overlays
-			if (logsTopHalf.toLowerCase().includes('overlay') || logsTopHalf.toLowerCase().includes('discordhook64.dll')) {
-				insights += '<li>❓ <b>Potential Overlay Issue Detected:</b> Crashes with \'gameoverlayrenderer64.dll\' or \'discordhook64.dl\' (or the like) in their log files may relate to use of an overlay. Try playing Skyrim with any overlays disabled to see if it helps.</li>';
-				insightsCount++;
-			}
 
 			//DynDOLOD
 			if (logsTopHalf.toLowerCase().includes('DynDOLOD.esm'.toLowerCase())) {
@@ -2551,11 +2732,19 @@ h1		24	48	(only heading actually used/specified below)
 
 		// - - - TODOs - - -
 
-		// ✅ Beta version 0.14.7
-		// ✅ New feature for Named Files/Elements list (which is a useful quick overview of the crash log): added color-coded priority numbers to the left of each item. (1 = highest priority, 2 = second highest, etc.) helping to quickly identify the most important items in the list.
+		// ✅ Beta version 0.15.1
+		// ✅ New Antivirus Warning scans the crash log for 34 different 3rd party antivirus applications, gives a warning, and recommends adding Nolvus/Skyrim to your antivirus exclusions and/or switching to the built-in Windows Defender for better compatibility. Also provides a warning to Windows Defender users if it shows up in the logsTopHalf (above the modules section)
+		// ✅ New Overlays Warning scans the crash log for 8 different overlay applications, gives a warning, and recommends disabling all overlays temporarily to ensure they aren't contributing to your crash. Old version of overlays test (for advanced users) was removed
+		// ✅ Revised and expanded "Explainers List" now provides brief explainers for over 200 different .DLL modules that frequently show up in Skyrim crash logs. Descriptions were reworked some by Claude AI Sonnet plus some manual edits.
+		// ✅ Updated links for DLSS Guide (moved to a Google Doc since prior r/Nolvus wiki page was disabled.
+		// ✅ Updated non-advanced D6DDDA description to include VRAMr, and made rewrote it into bulletpoints
+		// ✅ Changed all links to VRAMr's Nexus page to instead link to r/Nolvus VRAMr page if you have <12GB of VRAM: https://www.reddit.com/r/Nolvus/comments/1doakj1/psa_use_vramr_if_you_have_12gb_of_vram/
+		// ✅ Added more mock test indicators to Test_Log.txt, which will now throw even more errors.
+		// ✅ Added clarification to the Files/Elements section with colored priority indiators matched up to their crash log sections as named in the file.
 
 
-
+		
+		// ⭐ Gather statistics of different crash types and their frequency.
 
 		// ⭐ Show count for Higher-Confidence Test: ❗Potentially Misorganized Vanilla Nolvus Plugins
 			// Maybe show those files again?
