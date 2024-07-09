@@ -1,0 +1,134 @@
+✅ Beta version 0.16.1:
+	✅ Large Refactoring:
+		- cleaned up some symantic HTML
+		- separated out Advanced Users section of JS into nolvusLists.js
+		- separated out Advanced Users section of JS into logSummary.js
+		- separated out many JS functions into utils.js
+		- separated out many JS functions into nolvusUtils.js
+		- separate out overlaySignatures.js
+		- new file: nolvusSigntures.js (and test in analyzeLog.js)
+		- other new files and/or code separations into new files?
+
+	✅ New Features:
+		- new html page (with shared JS code) focused on **non-Nolvus players**: skyrim.html
+			- added compatibility for **Crash Logger logs** (still a work in progress) 
+		- improved Overlay Warning detection and description
+		- improved Missing Masters 2 detection and description (thanks @Discrepancy !)
+		- reordered Kernelbase JSON Crash description to make the most common issues appear first (thanks for the info, @CorruptBliss !)
+		- Squashed a couple of minor/infrequent bugs
+		- Reordered  Potentially Missing Vanilla Plugins list to be at bottom of its section (I think i tmakes more sense there)
+		- Possibly other minor text changes in troubleshooting descriptions.
+
+
+
+
+
+
+BUGS?
+- ✅ Collapsed Overlay still shows steam?
+
+ - ✅What to do with logs like " NVIDIA Overclocked - Crash_2024_5_4_21-52-31.txt" where they have this mark up (or for some reason different) log headings for the first two sectoins:
+		- Possible relevant objects (0)
+			{
+			}
+
+			Probable callstack (old method)
+			{
+		- search for other logs ... there are at least two that do this. For the old log parsing it still sort of worked, but it breaks the new log parsing.
+
+
+- ✅ Files/Elements list isn't using explainersMap. Fix.
+
+- ✅Line Counts are off by 2. Fix.
+	- ✅double checking bugs, both for nsf and cl logs
+	- ✅Game Plugins for nsf is off by 1
+	- ✅Plugins for nsf isn't showing in the list? no match?
+
+- ✅Two missing tests when using the Test Log under the Advanced Users section:
+	- ✅Under "ENB Issue Detected" ... there should be a "Potential Misorganization of Vanilla Nolvus Plugins" section when using the Test Log. Why isn't is showing up? Fix
+
+	- ✅ALSO missing "Non-Nolvus Plugins Detected at Bottom" section with new code. Fix.
+
+- ✅WRONG NUMBER: "❗Non-Nolvus Plugins Detected at Bottom: 0 Non-Nolvus plugins"
+	... ✅should be 219
+	- ✅just needs a second, more thorough QA check
+
+- ✅Finish adding new Missing Masters description:
+	- MO2 warning doesn't always show up
+	- LOOT might be helpful?
+	- Sometimes using the wrong version of a mod (like one meant for Skyrim 1.6 instead of 1.5) can cause this:
+		- https://discord.com/channels/740569699900719145/1168063977029382235/1259668672583041064
+		- https://discord.com/channels/740569699900719145/1168063977029382235/1259706207644418048
+
+- ✅Skryim version should recommend that Nolvus users use the Nolvus-specific version of the analyzer (... )and vice versa?)
+
+- NEXT VERSION: Create a Crash Logger Test Log v0.1
+
+- PAUSE: Why does this say Cusomized, but doesn't list any non-nolvus mods?
+	-	BetterThirdPersonSelection - Crash_2024_4_24_13-16-36.txt
+	- I'm guess they removed some vanilla mods?
+	- LIKELY: Or, since they have zero extras installed, maybe my test is off?
+	- rewrite BGSSaveLoadManager description to be useful, include save cleaning tool link, and don't recommend doing command kill and then potentially continuing on from a save (which could  make it worse)
+   
+
+Todos:
+✅0. Crash Loggers "first line" is actually on line 4. Need to fix this.
+
+
+
+0. ✅?? Crashlogger is usually at this location. C***\Documents\My Games\Skyrim Special Edition\SKSE
+	- soures:
+		-Kreaven6135 says: https://www.reddit.com/r/skyrimmods/comments/1dw07rq/comment/lbr4yeb/?utm_source=share&utm_medium=web3x&utm_name=web3xcss&utm_term=1&utm_content=share_button
+		- RomatebitegeL: "Crash Logger logs are usually located in my documents and settings, my games, Skyrim Special Edition, SKSE folder."
+
+1. SKIP or PAUSE: Skyrim Crash Analyzer probably shouldn't show any diagnoses ... just advanced user stuff?
+
+1. ✅Updated "Mising Master 2" test to include a new potential flag: 'SettingT<INISettingCollection>*'
+	- Apparnetly, [RSP+3E0] 0x7FF605242620     (SettingT<INISettingCollection>*) in the Stack setion is an indication of a Missing Masters: 
+	- test for "SettingT<INISettingCollection>" in tophalf section.
+		- Usually (SettingT<INISettingCollection>*) means missing masters. It can also mean Backported Extended ESL Support mod is needed for downgrades.
+		- In that case [using Vortex], some patch may be broken, or something is still missing. What you can do is open LOOT and see if it mentions anything. Then install what it mentions.
+		- If it still don't work, from experience, some patch may be broken and give this reference. This is what has occurred to others with the same kind of logs.
+		- So you may have to go over your mods in that case.
+	- sources:
+		- RomatebitegeL: https://www.reddit.com/r/skyrimmods/comments/1dw07rq/comment/lbr6013/?utm_source=share&utm_medium=web3x&utm_name=web3xcss&utm_term=1&utm_content=share_button
+		- Appears to also apply to NSF logs: https://www.reddit.com/r/skyrimmods/comments/1dw3xsi/getting_a_ctd_when_launching_skyrim_havent/
+			- Verified as found in Missing Masters Nolvus Log: "Missing Masters - Crash_2024_5_6_16-32-26.txt"
+				- maybe just add this as a second thing to look for in Missing Master test(s)?
+				- More Nolvus examples with it:
+					- missing master - Crash_2024_4_12_20-31-30.txt
+					- MissingMaster - Crash_2024_4_13_2-56-9.txt
+					- Missing Masters - Crash_2024_4_22_8-56-58.txt
+					- MissingMaster - Crash_2024_4_26_4-32-49.txt
+
+
+
+
+- - - PAUSE - - -
+1. New version of Potentially Misorganized Nolvus Plugins test:
+	- A. a version worded for non-Nolvus users for ideas on how to organize their plugins
+	- B. Show how far each plugin is out of order relative to what other vanilla plugins, and which vanilla plugins it expects to be above/below it
+		- indicate like:  modname.esp (out of order by 3, typically located below X and above Y)
+	- C. Show what plugins it expects to be above/below it (to help manually fix the order)
+	- maybe indicate extra info through "i" emoji that user can hover over?
+
+0. New issue interface for refactored tests:
+	- Hovering over the "i" emoji(s) should show additional informaiton:
+		- what indicators the test is looking for
+	- Separate descriptions for both Nolvus and non-Nolvus users
+	- 
+
+1.1. Kernelbase JSON Crash change:
+	- Aparently the go-to fix for this on Nolvus is to edit EngineFixes.toml ... so put #3 as a new #1 so it's the first thing users try.
+	- post graphic to r/Nolvus
+	- link to graphic from the analyzer
+	- related: https://discord.com/channels/740569699900719145/755346172243214376/1260031303064223884
+
+
+
+2. If overlay warning or virsus warning is the only thing, then still show no diagnosis found. Perhaps show it if diagnosis count = 0?
+3. Lots more changes recently to add to Refactoring
+4. Add the word "sequence" into Apply Order descriptions and any mention of load order for clarity? 
+
+5. New Skyrim AE Test: ConsoleUtilSSE.dll in Probable call stack --> ConsoleUtilSSE.dll v1.4 is not compatible. Download v1.5.1 instead here: https://www.nexusmods.com/skyrimspecialedition/mods/76649?tab=files
+

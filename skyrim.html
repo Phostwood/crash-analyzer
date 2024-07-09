@@ -24,11 +24,11 @@
 		}
 	  </script>
 
-	<title>Nolvus Crash Analyzer</title>
-	<meta name="description" content="Analyze Nolvus Skyrim crash logs to identify common issues and provide troubleshooting advice.">
+	<title>Skyrim Crash Analyzer</title>
+	<meta name="description" content="Analyze Skyrim crash logs to identify common issues and provide troubleshooting advice.">
 
 	<meta charset="UTF-8">
-	<meta name="version" content="0.16.1">
+	<meta name="version" content="0.16.1 - <b>Work in Progress</b> for non-Nolvus lists">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 	<link rel="icon" type="image/x-icon" href="https://phostwood.github.io/crash-analyzer/favicon.ico">
@@ -45,61 +45,72 @@
 	<script src="https://cdn.jsdelivr.net/npm/turndown@7.0.0/dist/turndown.js"></script>
 
 
-	<link href="./css/stylesheet.css?v=0.16.1" rel="stylesheet">
+	<link href="./css/stylesheet.css" rel="stylesheet">
 
-	<script src="./js/utils.js?v=0.16.1" defer></script>
-	<script src="./js/explainersMap.js?v=0.16.1" defer></script>
-	<script src="./js/testUtils.js?v=0.16.1" defer></script>
+	<script src="./js/utils.js" defer></script>
+    <script src="./js/explainersMap.js" defer></script>
+    <script src="./js/testUtils.js" defer></script>
 
 	<!-- Independent data/configuration scripts -->
-	<script src="./js/crashPatterns.js?v=0.16.1" defer></script>
-	<script src="./js/antivirusSignatures.js?v=0.16.1" defer></script>
-	<script src="./js/overlaySignatures.js?v=0.16.1" defer></script>
-	<script src="./js/nolvusUtils.js?v=0.16.1" defer></script>
-	<script src="./js/nolvusLists.js?v=0.16.1" defer></script>
+	<script src="./js/crashPatterns.js" defer></script>
+	<script src="./js/explainersMap.js" defer></script>
+	<script src="./js/antivirusSignatures.js" defer></script>
+	<script src="./js/overlaySignatures.js" defer></script>
+	<script src="./js/nolvusSignatures.js"defer></script>
+    <!-- <script src="./js/nolvusUtils.js" defer></script> -->
+	<!-- <script src="./js/nolvusLists.js" defer></script> -->
 
 	<!-- Core functionality scripts -->
-	<script src="./js/logSummary.js?v=0.16.1" defer></script>
-	<script src="./js/insights.js?v=0.16.1" defer></script>
-	<script src="./js/diagnoses.js?v=0.16.1" defer></script>
+	<script src="./js/logSummary.js" defer></script>
+	<script src="./js/insights.js" defer></script>
+	<script src="./js/diagnoses.js" defer></script>
 
 	<!-- Main application script -->
-	<script src="./js/analyzeLog.js?v=0.16.1" defer></script>
+	<script src="./js/analyzeLog.js" defer></script>
 
 	<!-- UI script (should be last) -->
-	<script src="./js/userInterface.js?v=0.16.1" defer></script>
+	<script src="./js/userInterface.js" defer></script>
+
+    <style>
+        #speculativeInsights {
+            display: none;
+        }
+    </style>
 	
 </head>
 
 <body>
 	<header>
-		<h1 id="pageTitle">Phostwood's Nolvus Crash Log Analyzer</h1>
+		<h1 id="pageTitle">Phostwood's Skyrim Crash Log Analyzer</h1>
 	</header>
 	<main>
 		<section>
 			<p id="versionNumber"></p>
+			<div>
+				<label for="logType">Select your log type:</label>
+				<select id="logType" name="logType">
+                    <option value="crashlogger">Crash Logger Logs (Skyrim AE)</option>
+					<option value="netscript">.NET Script Framework logs (Skyrim SE)</option>
+				</select>
+			</div>
 			
 			<p id="logInstructions">
-                <strong>Find your Nolvus crash logs at:</strong><br>
-                <code id="crashDirectory">[Nolvus_Directory]\Instances\Nolvus Ascension\MODS\overwrite\NetScriptFramework\Crash</code><br>
-                Replace [Nolvus_Directory] with your actual Nolvus installation directory.<br>
-                Or, alternately, <a href="#" id="loadTestLog">use the Test Log</a> to simulate almost every possible crash log issue at once.
+                <strong>Find your crash logs at:</strong><br>
+                <code id="crashDirectory">(selecte your log type above for more information)</code><br>
             </p>
 			<input type="file" id="fileInput" style="display:none;" onchange="loadFile(event)" accept=".txt">
 			<button onclick="document.getElementById('fileInput').click();">Choose File</button>
 			<div id="filename"></div>
 			<textarea id="crashLog" rows="10" cols="50"
-				placeholder="Choose file (above), or drag-and-drop your log file onto this field, or copy-paste your Nolvus crash log content here..."></textarea><br>
-			<button onclick="analyzeLog()">Analyze</button><span id="fileFlags"></span><span style="white-space: nowrap;"> <input type="checkbox" id="speculativeInsights"
-					name="speculativeInsights" class="advanced" onchange="analyzeLog()">
-				<label for="speculativeInsights" class="advanced">Advanced Users</label></span>
+				placeholder="Choose file (above), or drag-and-drop your log file onto this field, or copy-paste your Skyrim crash log content here..."></textarea><br>
+			<button onclick="analyzeLog()">Analyze</button><span id="fileFlags"></span><input type="hidden" id="speculativeInsights" name="speculativeInsights" class="advanced" onchange="analyzeLog()" checked style="display: none;">
 		</section>
 		<br>
 		<span style="display: inline-block;"><img width="32" height="32"  alt="patreon" src="https://github.githubassets.com/assets/patreon-96b15b9db4b9.svg"> <em>Your</em> <a href="https://www.patreon.com/Phostwood" style="font-weight: bold;">support on Patreon</a> can help ensure ongoing development of this tool, enabling me to bring you new features and updates regularly!</span><br>
 
 
 		<br>
-		(Click on any 🎯, ❗, ❓, 🔎, or ✅ <strong>emoji</strong> next to a diagnosis to copy it, along with its markdown formatting, to your clipboard for sharing in the Nolvus Discord. Please note that any sections you've chosen to "⤴️ hide" will not be included in the copied markdown. This includes both the "⤴️ hide" list item and any indented child list items beneath it.)<br>
+		(Click on any 🎯, ❗, ❓, 🔎, or ✅ <strong>emoji</strong> next to a diagnosis to copy it, along with its markdown formatting, to your clipboard for sharing in at r/SkyrimMods or any Discord community focused on Skyrim. Please note that any sections you've chosen to "⤴️ hide" will not be included in the copied markdown. This includes both the "⤴️ hide" list item and any indented child list items beneath it.)<br>
 		<br>
 		<h3>Diagnoses:</h3>
 		<button id="convert-button" style="display: none;">Copy Diagnoses</button>
@@ -109,17 +120,8 @@
 		<aside id="footer">
 			<p>Not all crash types can be detected with this tool. This automated analysis is very formulaic, and can
 				miss subtleties which may be caught by humans.</p>
-			<p>For more information on any of these crash types, see <a
-					href="https://www.nolvus.net/catalog/crashlog">Nolvus Crash Log Catalog</a>.</p>
 			<p>For a <strong>human analysis</strong>, share your crash logs with <a
-					href="https://www.reddit.com/r/Nolvus/">r/Nolvus</a> and/or the <a
-					href="https://discord.gg/Zkh5PwD">Nolvus Discord</a>.</p>
-			<p>If you would like guidance on modding/patching Nolvus, please watch this <a
-					href="https://youtu.be/YOvug9KP5L4">brief tutorial video</a> for step-by-step instructions.</p>
-			<p>For additional information on installing mods/patches into Nolvus, see <a
-					href="https://www.reddit.com/r/Nolvus/comments/1btic4j/how_to_links_for_modding_skyrim_on_top_of_nolvus/">🔧How
-					To: Links for Modding Skyrim on top of Nolvus</a>
-			<p>
+					href="https://www.reddit.com/r/SkyrimMods/">r/SkyrimMods</a>.</p>
 			<p>Please <strong>report any issues</strong> (or share suggestions) in my <a
 					href="https://www.reddit.com/r/Nolvus/comments/1bzwo0z/unofficial_nolvus_crash_log_analyzer/">r/Nolvus
 					reddit post</a>.</p>

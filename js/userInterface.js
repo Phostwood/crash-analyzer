@@ -1,5 +1,44 @@
 document.addEventListener('DOMContentLoaded', function () {
 
+	if (Utils.isSkyrimPage) {
+		const logTypeSelect = document.getElementById('logType');
+		const logInstructions = document.getElementById('logInstructions');
+		const crashDirectory = document.getElementById('crashDirectory');
+		const pageTitle = document.getElementById('pageTitle');
+
+		function updateLogTypeInfo() {
+			const selectedValue = logTypeSelect.value;
+			if (selectedValue === 'netscript') {
+				crashDirectory.textContent = '[Skyrim_Directory]\\Data\\SKSE\\Plugins\\NetScriptFramework\\Crash';
+				pageTitle.textContent = "Phostwood's Skyrim SE Crash Log Analyzer";
+				logInstructions.innerHTML = `
+				<strong>Find your crash logs at:</strong><br>
+				<code id="crashDirectory">${crashDirectory.textContent}</code><br>
+				Replace [Skyrim_Directory] with your actual Skyrim installation directory.<br>
+				Or, alternately, <a href="#" id="loadTestLog">use the Test Log</a> to simulate almost every possible crash log issue at once.
+			`;
+			} else if (selectedValue === 'crashlogger') {
+				crashDirectory.textContent = '[Skyrim_Directory]\\Data\\SKSE\\Plugins\\CrashLogger\\Logs<br>-OR- [My_Documents]\\My Games\\Skyrim Special Edition\\SKSE';
+				pageTitle.textContent = "Phostwood's Skyrim AE Crash Log Analyzer";
+				logInstructions.innerHTML = `
+				<strong>Find your crash logs at:</strong><br>
+				<code id="crashDirectory">${crashDirectory.textContent}</code><br>
+				Replace [Skyrim_Directory] with your actual Skyrim installation directory.<br>
+				Or, alternately, <a href="#" id="loadTestLog">use the Test Log</a> to simulate almost every possible crash log issue at once.
+			`;
+			}
+		}
+		logTypeSelect.addEventListener('change', updateLogTypeInfo);
+
+		// Initial call to set default state
+	} else {
+		function updateLogTypeInfo() {
+			// Nolvus-specific code (if any)
+			// This block can be empty if there's no Nolvus-specific initialization needed
+		}
+	}
+	updateLogTypeInfo();
+
 	// Global functions
 	window.getVersionNumber = function () {
 		var versionNumber = document.querySelector('meta[name="version"]').getAttribute('content');
@@ -23,14 +62,13 @@ document.addEventListener('DOMContentLoaded', function () {
 	};
 
 
-
-
 	window.clearResult = function () {
 		document.getElementById('result').innerHTML = '<code>(click "Anaylze" button to see results)</code><p>&nbsp;</p>';
 		document.getElementById('speculation').innerHTML = '';
 		document.getElementById('fileFlags').innerHTML = '';
 		hideH4();
 		hideCopyDiagnosesButton();
+		updateLogTypeInfo(); // Update UI based on the reset
 	};
 
 	// - - -  handle drag-and-drop and "Choose File" button  - - - 
@@ -334,14 +372,25 @@ document.addEventListener('DOMContentLoaded', function () {
 
 	// Add event listener for the Test Log link
 	document.getElementById('loadTestLog').addEventListener('click', function(e) {
-        e.preventDefault();
-        fetch('https://raw.githubusercontent.com/Phostwood/crash-analyzer/main/Test_Log.txt')
-            .then(response => response.text())
-            .then(data => {
-                document.getElementById('crashLog').value = data;
-                displayFilename('Test_Log.txt');
-                analyzeLog();
-            })
-            .catch(error => console.error('Error loading Test Log:', error));
-    });
+		e.preventDefault();
+		loadAndAnalyzeTestLog();
+	});
+	
+	function loadAndAnalyzeTestLog() {
+		Utils.debuggingLog(['userInterface.js'], 'Starting to load test log');
+		fetch('https://raw.githubusercontent.com/Phostwood/crash-analyzer/main/Test_Log.txt')
+			.then(response => response.text())
+			.then(data => {
+				Utils.debuggingLog(['userInterface.js'], 'Test log data received, length:', data.length);
+				document.getElementById('crashLog').value = data;
+				displayFilename('Test_Log.txt');
+				return new Promise(resolve => setTimeout(() => resolve(data), 100)); // 100ms delay
+			})
+			.then((data) => {
+				Utils.debuggingLog(['userInterface.js'], 'About to call analyzeLog, textarea value length:', document.getElementById('crashLog').value.length);
+				analyzeLog();
+				Utils.debuggingLog(['userInterface.js'], 'analyzeLog called');
+			})
+			.catch(error => console.error('Error loading or analyzing Test Log:', error));
+	}
 });
