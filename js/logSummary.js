@@ -98,7 +98,7 @@ window.LogSummary = {
             if (line === '') return;
 
             if (line.toLowerCase().includes('kernel32.dll')) {
-                Utils.debuggingLog(['processLines', 'logSummary.js'], 'Found KERNEL32.DLL line:', line);
+                Utils.debuggingLog(['processLines', 'logSummary.js'], 'Found in line:', line);
             }
 
             let foundMatchCount = 0;
@@ -110,10 +110,6 @@ window.LogSummary = {
 
             if (foundMatchCount < this.containsKeyword(line)) {
                 missedMatches.push(line);
-            }
-
-            if (lineCounter % 100 === 0) {
-                Utils.debuggingLog(['processLines', 'logSummary.js'], `Processed ${lineCounter} lines, current namedElementMatches:`, namedElementMatches.length);
             }
             lineCounter++;
         });

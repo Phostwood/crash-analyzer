@@ -1,24 +1,17 @@
-✅ Beta version 0.16.2:
-	✅ Large Refactoring:
+✅ Beta version 0.16.3:
+	✅ Refactoring:
 		- 
 
 	✅ New Features:
-		- New Utils.hasSkyrimAE flag to indicate if the user has Skyrim AE installed
-		- Missing Masters: now has different tests depdending on Utils.hasSkyrimAE, and checks for AE-specific indicator (as mentioned by r/SkyrimMods automoderator/bot)
-		- Copy-paste link for sharing results:
-			- Skyrim.html now shares the correct skyrim.html link
-		- Improvemed Overlay descriptions: Now only call it a warning if just Steam. Also, if just Steam, doesn't count as a diagnosis, and so still shows "No recognized crash pattern detected"
+		- New test for Simplicity of Snow and JK's Skyrim comaptibility patch
 
 
-DO NOW: set up version control for this project, and hopefully tie it into gitHub.com. Will need to rearch how to do this and/or ask AI for help.
 
 
 
 
 
 BUGS?
-- ✅ Collapsed Overlay still shows steam?
-
  - ✅What to do with logs like " NVIDIA Overclocked - Crash_2024_5_4_21-52-31.txt" where they have this mark up (or for some reason different) log headings for the first two sectoins:
 		- Possible relevant objects (0)
 			{
@@ -29,25 +22,9 @@ BUGS?
 		- search for other logs ... there are at least two that do this. For the old log parsing it still sort of worked, but it breaks the new log parsing.
 
 
-- ✅ Files/Elements list isn't using explainersMap. Fix.
-
-- ✅Line Counts are off by 2. Fix.
-	- ✅double checking bugs, both for nsf and cl logs
-	- ✅Game Plugins for nsf is off by 1
-	- ✅Plugins for nsf isn't showing in the list? no match?
-
-- ✅Two missing tests when using the Test Log under the Advanced Users section:
-	- ✅Under "ENB Issue Detected" ... there should be a "Potential Misorganization of Vanilla Nolvus Plugins" section when using the Test Log. Why isn't is showing up? Fix
-
-	- ✅ALSO missing "Non-Nolvus Plugins Detected at Bottom" section with new code. Fix.
-
-- ✅WRONG NUMBER: "❗Non-Nolvus Plugins Detected at Bottom: 0 Non-Nolvus plugins"
-	... ✅should be 219
-	- ✅just needs a second, more thorough QA check
-
 - ✅Finish adding new Missing Masters description:
 	- MO2 warning doesn't always show up
-	- LOOT might be helpful?
+	- PAUSE FOR Non-NOLVUS DESCRIPTIONS: LOOT might be helpful?
 	- Sometimes using the wrong version of a mod (like one meant for Skyrim 1.6 instead of 1.5) can cause this:
 		- https://discord.com/channels/740569699900719145/1168063977029382235/1259668672583041064
 		- https://discord.com/channels/740569699900719145/1168063977029382235/1259706207644418048
@@ -65,42 +42,20 @@ BUGS?
    
 
 Todos:
-✅0. Crash Loggers "first line" is actually on line 4. Need to fix this.
-
-
-
-0. ✅?? Crashlogger is usually at this location. C***\Documents\My Games\Skyrim Special Edition\SKSE
-	- soures:
-		-Kreaven6135 says: https://www.reddit.com/r/skyrimmods/comments/1dw07rq/comment/lbr4yeb/?utm_source=share&utm_medium=web3x&utm_name=web3xcss&utm_term=1&utm_content=share_button
-		- RomatebitegeL: "Crash Logger logs are usually located in my documents and settings, my games, Skyrim Special Edition, SKSE folder."
 
 1. SKIP or PAUSE: Skyrim Crash Analyzer probably shouldn't show any diagnoses ... just advanced user stuff?
 
-1. ✅Updated "Mising Master 2" test to include a new potential flag: 'SettingT<INISettingCollection>*'
-	- Apparnetly, [RSP+3E0] 0x7FF605242620     (SettingT<INISettingCollection>*) in the Stack setion is an indication of a Missing Masters: 
-	- test for "SettingT<INISettingCollection>" in tophalf section.
-		- Usually (SettingT<INISettingCollection>*) means missing masters. It can also mean Backported Extended ESL Support mod is needed for downgrades.
-		- In that case [using Vortex], some patch may be broken, or something is still missing. What you can do is open LOOT and see if it mentions anything. Then install what it mentions.
-		- If it still don't work, from experience, some patch may be broken and give this reference. This is what has occurred to others with the same kind of logs.
-		- So you may have to go over your mods in that case.
-	- sources:
-		- RomatebitegeL: https://www.reddit.com/r/skyrimmods/comments/1dw07rq/comment/lbr6013/?utm_source=share&utm_medium=web3x&utm_name=web3xcss&utm_term=1&utm_content=share_button
-		- Appears to also apply to NSF logs: https://www.reddit.com/r/skyrimmods/comments/1dw3xsi/getting_a_ctd_when_launching_skyrim_havent/
-			- Verified as found in Missing Masters Nolvus Log: "Missing Masters - Crash_2024_5_6_16-32-26.txt"
-				- maybe just add this as a second thing to look for in Missing Master test(s)?
-				- More Nolvus examples with it:
-					- missing master - Crash_2024_4_12_20-31-30.txt
-					- MissingMaster - Crash_2024_4_13_2-56-9.txt
-					- Missing Masters - Crash_2024_4_22_8-56-58.txt
-					- MissingMaster - Crash_2024_4_26_4-32-49.txt
 
-
-* Fit this code somewhere so if Net Script Framework ever gets updated for AE:
+1.1 Fit this code somewhere so if Net Script Framework ever gets updated for AE:
 			if (Utils.hasSkyrimAE) {
 				pageTitle.textContent = "Phostwood's Skyrim AE Crash Log Analyzer";
 			} else {
 				pageTitle.textContent = "Phostwood's Skyrim SE Crash Log Analyzer";
 			}
+
+1.2 If named elements are from the same line of a crash log, then somehow the list should reflect that. Maybe indentation? Or mabye "firstItem --> secondItem --> thirdItem"?
+	- Maybe collect the lines into an array of arrays? With line number in the first array, and then numbered matches as the second array?
+		- However, I think that would necessitate parsing each line differently. Currently, I'm scraping file extensions from a line, and then scraping File: and Name: from the same line ... loosing their relative order (if within the same line)
 
 
 2. "You can only have one Crash Logger active at a time including NetScriptFramework (disable crash dumps in the config). If you're using NetScriptFramework, it's probably the better logger still unless you need PDB support."

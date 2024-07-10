@@ -9,8 +9,10 @@ Utils.isDebugging = true; // Set this to false to disable debugging (non-error) 
 //Utils.debugBatch = ['ALL'];  // Can be ['ALL'] or any array of specific batchIds
 //Utils.debugBatch = ['analyzeLog', 'logSummary.js'];
 //Utils.debugBatch = ['generateLogSummary', 'processLines', 'splitIntoLines', 'getLogSectionsMap', 'getLogSectionsMap'];
-Utils.debugBatch = ['getLogType', 'userInterface.js'];
+//Utils.debugBatch = ['getLogType', 'userInterface.js'];
 //Utils.debugBatch = ['analyzeLog', 'getBadlyOrganizedNolvusPlugins' ];
+Utils.debugBatch = ['getLogSectionsMap_long'];
+
 
 
 Utils.isSkyrimPage = window.location.href.toLowerCase().includes('skyrim.html');

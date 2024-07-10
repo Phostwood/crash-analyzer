@@ -580,6 +580,27 @@ async function analyzeLog() {
         insightsCount++;
     }
 
+    // Simplicity of Snow + Traverse the Ulvenwald + JK's Skyrim Patch requirement
+    if (sections.gamePlugins) {
+        const lowerCaseLogFile = logFile.toLowerCase();
+        const hasJKsSkyrim = lowerCaseLogFile.includes('jks skyrim.esp');
+        const hasSimplicityOfSnow = lowerCaseLogFile.includes('simplicity of snow.esp');
+        const hasUlvenwald = lowerCaseLogFile.includes('ulvenwald.esp');
+        const hasPatch = lowerCaseLogFile.includes('jks skyrim tree fix.esp');
+
+        //if (hasJKsSkyrim && hasSimplicityOfSnow && hasUlvenwald && !hasPatch) {
+        if (hasJKsSkyrim && hasSimplicityOfSnow && !hasPatch) {
+            insights += '<li>❗ <b>Simplicity of Snow + JK\'s Skyrim Patch Missing:</b> ' +
+                'Your load order includes both JK\'s Skyrim and Simplicity of Snow, but the required patch is missing. To resolve this:<ol>' +
+                '<li>Reinstall Simplicity of Snow\'s FOMOD. During installation, it should automatically detect JK\'s Skyrim and offer the appropriate patch(es).</li>' +
+                '<li>Ensure you select the JK\'s Skyrim compatibility patch during the FOMOD installation process.</li>' +
+                '<li>After reinstalling, verify that the "JKs Skyrim Tree Fix.esp" is present in your load order.</li>' +
+                '</ol>' +
+                'Without this patch, you may experience potential crashes. For more information, see this <a href="https://www.reddit.com/r/skyrimmods/comments/17tqxig/comment/k9184j5/?utm_source=share&utm_medium=web3x&utm_name=web3xcss&utm_term=1&utm_content=share_button">r/SkyrimMods thread</a>.</li>';
+            insightsCount++;
+        }
+    }
+
     // dxgi.dll issue (ReShade and PureDark Upscaler)
     if (sections.topHalf.includes('dxgi.dll')) {
         insights += '<li>❗<b>dxgi.dll Issue Detected:</b> The presence of dxgi.dll in the log\'s top half indicates a potential issue between ReShade and the PureDark Upscaler. Common causes and resolutions include:<ol>' +
