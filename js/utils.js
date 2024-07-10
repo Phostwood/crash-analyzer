@@ -1,6 +1,7 @@
 // Create a global Utils object
 window.Utils = {};
 Utils.logLines = [];
+Utils.hasSkyrimAE = false;
 
 // Constants
 Utils.isDebugging = true; // Set this to false to disable debugging (non-error) output
@@ -8,7 +9,7 @@ Utils.isDebugging = true; // Set this to false to disable debugging (non-error) 
 //Utils.debugBatch = ['ALL'];  // Can be ['ALL'] or any array of specific batchIds
 //Utils.debugBatch = ['analyzeLog', 'logSummary.js'];
 //Utils.debugBatch = ['generateLogSummary', 'processLines', 'splitIntoLines', 'getLogSectionsMap', 'getLogSectionsMap'];
-Utils.debugBatch = ['getLogSectionsMap_long', 'getLogSectionsMap'];
+Utils.debugBatch = ['getLogType', 'userInterface.js'];
 //Utils.debugBatch = ['analyzeLog', 'getBadlyOrganizedNolvusPlugins' ];
 
 
@@ -150,13 +151,16 @@ Utils.getLogType = function(lines) {
     
     if (lines.length > 2 && lines[2].includes('NetScriptFramework')) {
         Utils.debuggingLog(['getLogType'], 'Detected NetScriptFramework log');
+        Utils.hasSkyrimAE = false; 
         return 'NetScriptFramework';
     } else if (lines.length > 1 && lines[1].includes('CrashLoggerSSE')) {
         Utils.debuggingLog(['getLogType'], 'Detected CrashLogger log');
+        Utils.hasSkyrimAE = true;
         return 'CrashLogger';
     } else {
         console.error(['getLogType'], 'ERROR: Unknown log type detected');
         Utils.debuggingLog(['getLogType'], 'First 3 lines of log:', lines.slice(0, 3));
+        Utils.hasSkyrimAE = false; 
         return 'Unknown';
     }
 };
@@ -191,7 +195,8 @@ Utils.getLogSectionsMap = function(logFile) {
 
     const logType = this.getLogType(this.logLines);
     Utils.logType = logType;
-    Utils.debuggingLog(['getLogSectionsMap'], 'Detected log type:', logType);
+    Utils.debuggingLog(['getLogSectionsMap'], 'Detected log type:', Utils.logType);
+    Utils.debuggingLog(['getLogType'], 'hasSkyrimAE flag set to:', Utils.hasSkyrimAE);
 
     const sectionDefinitions = [
         {

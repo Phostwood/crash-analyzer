@@ -1,24 +1,16 @@
-✅ Beta version 0.16.1:
+✅ Beta version 0.16.2:
 	✅ Large Refactoring:
-		- cleaned up some symantic HTML
-		- separated out Advanced Users section of JS into nolvusLists.js
-		- separated out Advanced Users section of JS into logSummary.js
-		- separated out many JS functions into utils.js
-		- separated out many JS functions into nolvusUtils.js
-		- separate out overlaySignatures.js
-		- new file: nolvusSigntures.js (and test in analyzeLog.js)
-		- other new files and/or code separations into new files?
+		- 
 
 	✅ New Features:
-		- new html page (with shared JS code) focused on **non-Nolvus players**: skyrim.html
-			- added compatibility for **Crash Logger logs** (still a work in progress) 
-		- improved Overlay Warning detection and description
-		- improved Missing Masters 2 detection and description (thanks @Discrepancy !)
-		- reordered Kernelbase JSON Crash description to make the most common issues appear first (thanks for the info, @CorruptBliss !)
-		- Squashed a couple of minor/infrequent bugs
-		- Reordered  Potentially Missing Vanilla Plugins list to be at bottom of its section (I think i tmakes more sense there)
-		- Possibly other minor text changes in troubleshooting descriptions.
+		- New Utils.hasSkyrimAE flag to indicate if the user has Skyrim AE installed
+		- Missing Masters: now has different tests depdending on Utils.hasSkyrimAE, and checks for AE-specific indicator (as mentioned by r/SkyrimMods automoderator/bot)
+		- Copy-paste link for sharing results:
+			- Skyrim.html now shares the correct skyrim.html link
+			- 
 
+
+DO NOW: set up version control for this project, and hopefully tie it into gitHub.com. Will need to rearch how to do this and/or ask AI for help.
 
 
 
@@ -69,6 +61,7 @@ BUGS?
 	- I'm guess they removed some vanilla mods?
 	- LIKELY: Or, since they have zero extras installed, maybe my test is off?
 	- rewrite BGSSaveLoadManager description to be useful, include save cleaning tool link, and don't recommend doing command kill and then potentially continuing on from a save (which could  make it worse)
+	- On analyzeLog.js:   "// Check for Nolvus or Nolvus-like modlist" section, either expand the list of mods to test for, or don't make it sound so much like it's mostly Nolvus mods. (Should either be made more complex, or simplified)
    
 
 Todos:
@@ -102,6 +95,23 @@ Todos:
 					- MissingMaster - Crash_2024_4_26_4-32-49.txt
 
 
+* Fit this code somewhere so if Net Script Framework ever gets updated for AE:
+			if (Utils.hasSkyrimAE) {
+				pageTitle.textContent = "Phostwood's Skyrim AE Crash Log Analyzer";
+			} else {
+				pageTitle.textContent = "Phostwood's Skyrim SE Crash Log Analyzer";
+			}
+
+
+2. "You can only have one Crash Logger active at a time including NetScriptFramework (disable crash dumps in the config). If you're using NetScriptFramework, it's probably the better logger still unless you need PDB support."
+	- source: https://www.nexusmods.com/skyrimspecialedition/mods/59818
+	- Test for which version of Skyrim is being used, looking for either of these lines:
+		- Crash Logger Line 1 (0):  Skyrim SSE v1.5.97
+		- NSF Line 8 (7): ApplicationName: SkyrimSE.exe
+		- If not AE, then recommend NSF instead of Crash Logger
+		- If AE, then recommend Crash Logger instead of NSF
+	- Improve the hasSkyrimAE flag to be more accurate with check described above
+	- If possible, test for multiple crash logger mods, and list them, and recommend disabling all but hte right one
 
 
 - - - PAUSE - - -

@@ -111,7 +111,7 @@ async function analyzeLog() {
 
     // Check for 12F4797 Physics crash
     if (sections.firstLine.toLowerCase().includes('12F4797'.toLowerCase()) && sections.relevantObjects.toLowerCase().includes("NiCamera(Name: `WorldRoot Camera`)".toLowerCase()) && sections.relevantObjects.toLowerCase().includes("BSMultiBoundRoom(Name: null)".toLowerCase())) {
-        diagnoses += '<li>🎯 <b>12F4797 Physics Crash Detected:</b> This issue is commonly encountered in Ancestor Glade (or possibly from a recent save made from Ancestor Glade) and may be linked to having a large number of physics-enabled objects active at once, such as the player\'s own armor and hair. The <b>workaround</b> is to swap out these items for non-physics counterparts. Also, if your character or follower has physics enabled hair, you should wear a non-physics helmet to cover cover it up.</li>';
+        diagnoses += '<li>🎯 <b>12F4797 Physics Crash Detected:</b> This issue is commonly encountered in Ancestor Glade (or possibly from a recent save made from Ancestor Glade) and may be linked to having a large number of physics-enabled objects active at once, such as the player\'s own armor and hair. The <b>workaround</b> is to swap out these items for non-physics counterparts. Also, if your character or follower has physics enabled hair, you should wear a non-physics helmet to cover it up.</li>';
         diagnosesCount++;
     }
 
@@ -306,12 +306,16 @@ async function analyzeLog() {
     overlayFiles = overlayFiles.filter(file => file.toLowerCase() !== 'gameoverlayrenderer64.dll');
 
     if (overlayFiles.length > 0) {
-        let warningMessage = overlayInTopHalf
-            ? '❓<b>Possible Overlay Issue:</b> Overlays detected in the top half of your crash log, suggesting they may have contributed towards the crash.'
-            : '⚠️<b>Overlay Warning:</b> Overlays detected. While some are generally considered safe, others may cause issues in heavily-modded Skyrim.';
+        const hasSteam = overlayFiles.some(file => file.toLowerCase().includes('steam'));
+        let warningMessage = '⚠️<b>Overlay Warning:</b> Overlays detected. While some are generally considered safe, others may cause issues in heavily-modded Skyrim.';
+        if ((!hasSteam && overlayFiles.length == 1) || overlayFiles.length > 1) {
+            //If warning is something than other than just Steam ... then upgrade it, and count it as a diagnosis
+            warningMessage = '❓<b>Possible Overlay Issue:</b> Overlays detected in the top half of your crash log, suggesting they may have contributed towards the crash.';
+            diagnosesCount++;
+        }
     
-        let steamNote = overlayFiles.some(file => file.toLowerCase().includes('steam'))
-            ? ' (Note: Steam may show up even if it is disabled, but it may be worth double-checking.)'
+        let steamNote = hasSteam
+            ? ' (Note: Steam may show up even if it is disabled, but it might be worth double-checking.)'
             : '';
     
         diagnoses += `<li>${warningMessage} It's best to try disabling all overlays temporarily to ensure they aren't contributing to your crash.<ul>` +
@@ -319,7 +323,6 @@ async function analyzeLog() {
             overlayFiles.map(file => `<li>${file}</li>`).join('') +
             `<li>${steamNote}</li>` + 
             '</ul></li></ul></li>';
-        diagnosesCount++;
     }
 
 
@@ -351,8 +354,8 @@ async function analyzeLog() {
 
 
     // Default to unknown crash
-    if (diagnoses == '') {
-        diagnoses = '<li>❓<b>No recognized crash pattern detected.</b> If you aren\'t aware of (and diligently following) <b>Jerilith\'s Safe Save Guide</b>, review it at <a href="https://www.nolvus.net/catalog/crashlog?acc=accordion-1-5">Save Bloat Crash</a/>. Also, if you have customized Nolvus with additional mods, review information on the <a href="https://www.nolvus.net/catalog/crashlog?acc=accordion-1-7">Load Order Crash</a>. Also, this crash analyzer\'s <b>Advanced Users</b> section contains additional crash types and insights that may help isolate this issue. If the problem persists, share your crash logs with <a href="https://www.reddit.com/r/Nolvus/">r/Nolvus</a> and/or the <a href="https://discord.gg/Zkh5PwD">Nolvus Discord</a>.</li>';
+    if (diagnosesCount < 1) {
+        diagnoses += '<li>❓<b>No recognized crash pattern detected.</b> If you aren\'t aware of (and diligently following) <b>Jerilith\'s Safe Save Guide</b>, review it at <a href="https://www.nolvus.net/catalog/crashlog?acc=accordion-1-5">Save Bloat Crash</a/>. Also, if you have customized Nolvus with additional mods, review information on the <a href="https://www.nolvus.net/catalog/crashlog?acc=accordion-1-7">Load Order Crash</a>. Also, this crash analyzer\'s <b>Advanced Users</b> section contains additional crash types and insights that may help isolate this issue. If the problem persists, share your crash logs with <a href="https://www.reddit.com/r/Nolvus/">r/Nolvus</a> and/or the <a href="https://discord.gg/Zkh5PwD">Nolvus Discord</a>.</li>';
         //DON'T COUNT: diagnosesCount++;
     }
 
@@ -557,7 +560,9 @@ async function analyzeLog() {
     }
 
     //Missing Master 2
-    if (sections.firstLine.includes('5E1F22') || sections.firstLine.includes('05E1F22') || sections.topHalf.includes('SettingT<INISettingCollection>*') ) {
+    if ((Utils.hasSkyrimAE && sections.firstLine.includes('0198090')) ||
+            (!Utils.hasSkyrimAE && (sections.firstLine.includes('5E1F22') || sections.firstLine.includes('05E1F22') ) ) ||
+            sections.topHalf.includes('SettingT<INISettingCollection>*') ) {
         insights += '<li>❗<b>Potential Missing Masters Detected:</b> Indicators suggest your load order may be missing master files. MO2 usually (but not always) displays warning icons (yellow triangle with exclamation mark) for plugins with missing masters. This issue can arise from several scenarios:<ul>' +
             '<li>If you are using a standard Nolvus install without any added or deleted mods, try using the Nolvus Dashboard\'s "Apply Order" feature as a potential easy fix. For additional information and a screenshot, refer to this r/Nolvus post <a href="https://www.reddit.com/r/Nolvus/comments/1chuod0/how_to_apply_order_button_usage_in_the_nolvus/">How To: Use the "Apply Order" Button in the Nolvus Dashboard</a>.</li>' +
             '<li>Incompatibilities due to a newly added mod: Check if you\'ve recently added any mods. For mods with Skyrim 1.6 (AE) ESL files, consider installing <a href="https://www.nexusmods.com/skyrimspecialedition/mods/106441">Backported Extended ESL Support (BEES)</a>, though this doesn\'t always resolve all incompatibilities.</li>' +

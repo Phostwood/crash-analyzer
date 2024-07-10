@@ -27,6 +27,7 @@ document.addEventListener('DOMContentLoaded', function () {
 				Or, alternately, <a href="#" id="loadTestLog">use the Test Log</a> to simulate almost every possible crash log issue at once.
 			`;
 			}
+			
 		}
 		logTypeSelect.addEventListener('change', updateLogTypeInfo);
 
@@ -177,7 +178,7 @@ document.addEventListener('DOMContentLoaded', function () {
 	dropZone.addEventListener('input', clearResult, false);
 
 	document.getElementById('convert-button').addEventListener('click', function () {
-		var resultsHeader = 'Results from [Crash Log Analyzer ' + getVersionNumber() + '](https://phostwood.github.io/crash-analyzer/):\n\n';
+		const resultsHeader = getResultsHeader();
 		var htmlContent = document.getElementById('result').innerHTML;
 		var markdown = convertHTMLToMarkdown(htmlContent);
 		var finalMarkdown = resultsHeader + markdown;
@@ -314,7 +315,12 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
 	window.getResultsHeader = function()  {
-		return 'Results from [Crash Log Analyzer ' + getVersionNumber() + '](https://phostwood.github.io/crash-analyzer/):\n\n';
+		var resultsHeader = 'Result(s) from [Crash Log Analyzer ' + convertHTMLToMarkdown(getVersionNumber()) + '](https://phostwood.github.io/crash-analyzer/):\n\n';
+		if(Utils.isSkyrimPage) {
+			resultsHeader = 'Result(s) from [Crash Log Analyzer ' + convertHTMLToMarkdown(getVersionNumber()) + '](https://phostwood.github.io/crash-analyzer/skyrim.html):\n\n';
+		}
+		Utils.debuggingLog(['userInterface.js'], 'resultsHeader:', resultsHeader);
+		return resultsHeader;
 	}
 
 	// Function to copy text to clipboard
