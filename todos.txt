@@ -7,7 +7,7 @@
 		- Missing Masters: now has different tests depdending on Utils.hasSkyrimAE, and checks for AE-specific indicator (as mentioned by r/SkyrimMods automoderator/bot)
 		- Copy-paste link for sharing results:
 			- Skyrim.html now shares the correct skyrim.html link
-			- 
+		- Improvemed Overlay descriptions: Now only call it a warning if just Steam. Also, if just Steam, doesn't count as a diagnosis, and so still shows "No recognized crash pattern detected"
 
 
 DO NOW: set up version control for this project, and hopefully tie it into gitHub.com. Will need to rearch how to do this and/or ask AI for help.
