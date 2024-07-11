@@ -322,7 +322,6 @@ MODULES:
 	inputhook.dll
 	intelcontrollib.dll
 	jcontainers.dll
-	jks	skyrim.esp
 	jsproxy.dll
 	kavprot.dll
 	kerberos.dll
@@ -391,7 +390,6 @@ MODULES:
 	savecleanerpolyfill.dll
 	scaleform.dll
 	simplemap.dll
-	simplicity	of	snow.esp
 	skee64.dll
 	skse64_1_5_97.dll
 	skse64_steam_loader.dll
@@ -481,3 +479,5 @@ PLUGINS:
 [09] F.esp
 [0A] G.esp
 [ZZ] autohdr64.addon
+[ZZ] 	simplicity	of	snow.esp
+[ZZ] 	jks	skyrim.esp
