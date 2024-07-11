@@ -120,30 +120,12 @@ plugin (mod)  might have been involved in the crash: "badMod.esp"				//Plugin Is
 record might have been involved in the crash: name: "badrec" formid: 123 		//Record Issue
 Papyrus script (mod) might have been involved in the crash: "badscript.pex"		//Papyrus Script Issue
 
-
-
-
 }
 
 
 Modules
 {
-this section is only included as a marker for parsing. Anything above this is considered in the "logsTopHalf"
-}
-
-
-Game plugins (2035) {
-[00] A.esm
-[01] B.esp
-[02] C.esp
-[03] D.esp
-[04] honed metal voiced.esp
-[05] tools.esp
-[06] skydecoction.esp
-[07] Synthesis.esp
-[08] E.esp
-[09] F.esp
-[0A] G.esp
+Anything above this is considered in the "logsTopHalf"
 [ZZ] _nvngx.dll
 [ZZ] a0d789patch.dll
 [ZZ] achievementsenablersse.dll
@@ -156,7 +138,6 @@ Game plugins (2035) {
 [ZZ] atcuf64.dll
 [ZZ] atiuxp64.dll
 [ZZ] atiumd6a.dll
-[ZZ] autohdr64.addon
 [ZZ] avamsi.dll
 [ZZ] avamsicli.dll
 [ZZ] avast.dll
@@ -247,7 +228,6 @@ Game plugins (2035) {
 [ZZ] inputhook.dll
 [ZZ] intelcontrollib.dll
 [ZZ] jcontainers.dll
-[ZZ] jks skyrim.esp
 [ZZ] jsproxy.dll
 [ZZ] kavprot.dll
 [ZZ] kerberos.dll
@@ -316,7 +296,6 @@ Game plugins (2035) {
 [ZZ] savecleanerpolyfill.dll
 [ZZ] scaleform.dll
 [ZZ] simplemap.dll
-[ZZ] simplicity of snow.esp
 [ZZ] skee64.dll
 [ZZ] skse64_1_5_97.dll
 [ZZ] skse64_steam_loader.dll
@@ -362,4 +341,23 @@ Game plugins (2035) {
 [ZZ] xefx_loader.dll
 [ZZ] xinput1_3.dll
 [ZZ] zavcore.dll
+}
+
+
+Game plugins (2035) {
+[00] A.esm
+[01] B.esp
+[02] C.esp
+[03] D.esp
+[04] honed metal voiced.esp
+[05] tools.esp
+[06] skydecoction.esp
+[07] Synthesis.esp
+[08] E.esp
+[09] F.esp
+[0A] G.esl
+[ZZ] autohdr64.addon
+[ZZ] jks skyrim.esp
+[ZZ] simplicity of snow.esp
+
 }
