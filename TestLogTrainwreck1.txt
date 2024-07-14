@@ -70,6 +70,7 @@ PROBABLE CALL STACK:
   [53] 0x0                (void* -> testOverlay64.dll+9AA28	mov [rsp+0x08], rax)
   [54] 0x0                HG Hairdos 2.esp
   [55] 0x0                HairMaleNord01
+  [56] 0x7FFE172F81CB ConsoleUtilSSE.dll+00281CB
 
 
 REGISTERS:

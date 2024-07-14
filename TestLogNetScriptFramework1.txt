@@ -41,6 +41,8 @@ Possible relevant objects (3)
   [ 209]    NiNode(Name: null)
   [ 213]    BSMultiBoundRoom(Name: null)
   json.exception.parse_error
+  [ 214]  ConsoleUtilSSE.dll+00281CB
+	[ 215]  ConsoleUtilSSE.dll+001624F
 }
 
 Probable callstack

@@ -69,6 +69,8 @@ PROBABLE CALL STACK:
   [51] 0x0                discordhook64.dll (Discord Overlay)
   [52] 0x0                gameoverlayrenderer64.dll+9AA28 (Steam overlay)
   [53] 0x0                (void* -> testOverlay64.dll+9AA28	mov [rsp+0x08], rax)
+  	[54] 0x7FFB6A9381CB ConsoleUtilSSE.dll+00281CB
+	[55] 0x7FFB6A92624F ConsoleUtilSSE.dll+001624F
 
 
 REGISTERS:
