@@ -111,7 +111,113 @@ REGISTERS:
 	R10 0x546C6148         (size_t) [1416388936]
 	R11 0xFFFFFF72AA1827E1 (size_t) [uint: 18446743466677905377 int: -607031646239]
 	R12 0xFFFFFFFF         (size_t) [4294967295]
-	R13 0x23266592248      (void*)
+	R13 0x20FD2BA9680      (BSDynamicTriShape*)
+		Name: "HairMaleNord01"
+		RTTIName: "BSDynamicTriShape"
+		ExtraData[0] Name: "FOD"
+		ExtraData[1] Name: "FMD"
+		Flags: kSelectiveUpdate | kSelectiveUpdateTransforms | kSelectiveUpdateController
+		Full Name: "Prisoner"
+		Checking User Data: -----
+			Object Reference: 
+			File: "Skyrim.esm"
+			Flags: 0x00040009 kDestructible | kInitialized
+			Name: "Prisoner"
+			FormID: 0x00000007
+			FormType: NPC (43)
+			ParentCell: ---
+				File: "Unofficial Skyrim Special Edition Patch.esp"
+				Modified by: Skyrim.esm -> Unofficial Skyrim Special Edition Patch.esp
+				Flags: 0x00040009 
+				EditorID: "ChargenStart"
+				FormID: 0x000098A5
+				FormType: Cell (60)
+		Checking TESObjectREFR: {}
+			Object Reference: 
+			File: "Skyrim.esm"
+			Flags: 0x00040009 kDestructible | kInitialized
+			Name: "Prisoner"
+			FormID: 0x00000007
+			FormType: NPC (43)
+			ParentCell: ---
+				File: "Unofficial Skyrim Special Edition Patch.esp"
+				Modified by: Skyrim.esm -> Unofficial Skyrim Special Edition Patch.esp
+				Flags: 0x00040009 
+				EditorID: "ChargenStart"
+				FormID: 0x000098A5
+				FormType: Cell (60)
+		Checking Parent: 0
+			Name: "BSFaceGenNiNodeSkinned"
+			RTTIName: "BSFaceGenNiNode"
+			Flags: kSelectiveUpdate | kSelectiveUpdateTransforms | kSelectiveUpdateController
+			Full Name: "Prisoner"
+			Checking User Data: -----
+				Object Reference: 
+				File: "Skyrim.esm"
+				Flags: 0x00040009 kDestructible | kInitialized
+				Name: "Prisoner"
+				FormID: 0x00000007
+				FormType: NPC (43)
+				ParentCell: ---
+					File: "Unofficial Skyrim Special Edition Patch.esp"
+					Modified by: Skyrim.esm -> Unofficial Skyrim Special Edition Patch.esp
+					Flags: 0x00040009 
+					EditorID: "ChargenStart"
+					FormID: 0x000098A5
+					FormType: Cell (60)
+			Checking TESObjectREFR: {}
+				Object Reference: 
+				File: "Skyrim.esm"
+				Flags: 0x00040009 kDestructible | kInitialized
+				Name: "Prisoner"
+				FormID: 0x00000007
+				FormType: NPC (43)
+				ParentCell: ---
+					File: "Unofficial Skyrim Special Edition Patch.esp"
+					Modified by: Skyrim.esm -> Unofficial Skyrim Special Edition Patch.esp
+					Flags: 0x00040009 
+					EditorID: "ChargenStart"
+					FormID: 0x000098A5
+					FormType: Cell (60)
+			Checking Parent: 6
+				Name: "skeleton.nif"
+				RTTIName: "BSFadeNode"
+				ExtraData[0] Name: "BOM"
+				ExtraData[1] Name: "BBX"
+				ExtraData[2] Name: "BSX"
+				ExtraData[3] Name: "BSBoneLOD"
+				ExtraData[4] Name: "SkeletonID"
+				Flags: kHidden | kSelectiveUpdate | kSelectiveUpdateTransforms | kSelectiveUpdateController
+				Full Name: "Prisoner"
+				Checking User Data: -----
+					Object Reference: 
+					File: "Skyrim.esm"
+					Flags: 0x00040009 kDestructible | kInitialized
+					Name: "Prisoner"
+					FormID: 0x00000007
+					FormType: NPC (43)
+					ParentCell: ---
+						File: "Unofficial Skyrim Special Edition Patch.esp"
+						Modified by: Skyrim.esm -> Unofficial Skyrim Special Edition Patch.esp
+						Flags: 0x00040009 
+						EditorID: "ChargenStart"
+						FormID: 0x000098A5
+						FormType: Cell (60)
+				Checking TESObjectREFR: {}
+					Object Reference: 
+					File: "Skyrim.esm"
+					Flags: 0x00040009 kDestructible | kInitialized
+					Name: "Prisoner"
+					FormID: 0x00000007
+					FormType: NPC (43)
+					ParentCell: ---
+						File: "Unofficial Skyrim Special Edition Patch.esp"
+						Modified by: Skyrim.esm -> Unofficial Skyrim Special Edition Patch.esp
+						Flags: 0x00040009 
+						EditorID: "ChargenStart"
+						FormID: 0x000098A5
+						FormType: Cell (60)
+		Name: "HairMaleNord01"
 	R14 0x0                (size_t) [0]
 	R15 0x7FF6F3208B00     (void* -> SkyrimSE.exe+3138B00	loopne 0x00007FF6F3208B1C)
   R16 0x0                (PathingRequest**)
