@@ -20,15 +20,6 @@
 		- added some more file types to Named Elements section
 		- Improved console log data dump of sections and sectionsMap
 
-
-
-
-
-
-
-
-
-
 	✅ New Features:
 		- Now experimentally supports Trainwreck logs
 		- New warning to use another log type if using Trainwreck logs (but still makes best effort with Trainwreck logs)
