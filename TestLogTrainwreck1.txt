@@ -74,6 +74,7 @@ PROBABLE CALL STACK:
 
 
 REGISTERS:
+	BX: 0x1F9C0BF2200      (Actor*) -> (FormId: FF0022D7, BaseForm: TESNPC(Name: `Wraith of Sithis`, FormId: FE44780B, File: `mihailmmasithis.esp`))
 	RAX 0x7FF6F03FD850     (void* -> SkyrimSE.exe+032D850	mov [rsp+0x08], rbx)
 	RCX 0x0                (size_t) [0]
 	RDX 0x23266B46438      (BGSListForm*)
