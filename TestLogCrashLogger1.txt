@@ -572,5 +572,5 @@ PLUGINS:
 	[ 9]	F.esp
 	[ A]	G.esp
 	[ZZ]	autohdr64.addon
-	[ZZ]	simplicity of snow.esp
 	[ZZ]	jks skyrim.esp
+	[ZZ]	simplicity of snow.esp
