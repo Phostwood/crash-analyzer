@@ -10,23 +10,30 @@ document.addEventListener('DOMContentLoaded', function () {
 			const selectedValue = logTypeSelect.value;
 			if (selectedValue === 'netscript') {
 				crashDirectory.textContent = '[Skyrim_Directory]\\Data\\SKSE\\Plugins\\NetScriptFramework\\Crash';
-				pageTitle.textContent = "Phostwood's Skyrim SE Crash Log Analyzer";
+				pageTitle.textContent = "Phostwood's Skyrim Crash Log Analyzer";
 				logInstructions.innerHTML = `
 				<strong>Find your crash logs at:</strong><br>
 				<code id="crashDirectory">${crashDirectory.textContent}</code><br>
-				Replace [Skyrim_Directory] with your actual Skyrim installation directory.<br>
-				Or, alternately, <a href="#" id="loadTestLog">use the Test Log</a> to simulate almost every possible crash log issue at once.
+				Replace [Skyrim_Directory] with your actual Skyrim installation directory path.<br>
 			`;
 			} else if (selectedValue === 'crashlogger') {
 				crashDirectory.textContent = '[Skyrim_Directory]\\Data\\SKSE\\Plugins\\CrashLogger\\Logs<br>-OR- [My_Documents]\\My Games\\Skyrim Special Edition\\SKSE';
-				pageTitle.textContent = "Phostwood's Skyrim AE Crash Log Analyzer";
+				pageTitle.textContent = "Phostwood's Skyrim Crash Log Analyzer";
 				logInstructions.innerHTML = `
 				<strong>Find your crash logs at:</strong><br>
 				<code id="crashDirectory">${crashDirectory.textContent}</code><br>
-				Replace [Skyrim_Directory] with your actual Skyrim installation directory.<br>
-				Or, alternately, <a href="#" id="loadTestLog">use the Test Log</a> to simulate almost every possible crash log issue at once.
+				Replace [Skyrim_Directory] or [My_Documents] with your actual directory path.<br>
 			`;
+			} else if (selectedValue === 'trainwreck') {
+				crashDirectory.textContent = '[My_Documents]\\My Games\\Skyrim Special Edition\\SKSE\\Crashlogs';
+				pageTitle.textContent = "Phostwood's Skyrim Crash Log Analyzer";
+				logInstructions.innerHTML = `
+				<strong>Find your crash logs at:</strong><br>
+				<code id="crashDirectory">${crashDirectory.textContent}</code><br>
+				Replace [My_Documents] with your actual directory path.<br>
+				`;
 			}
+
 			
 		}
 		logTypeSelect.addEventListener('change', updateLogTypeInfo);
@@ -109,7 +116,7 @@ document.addEventListener('DOMContentLoaded', function () {
 		var files = evt.dataTransfer.files;
 		if (files.length > 0) {
 			var file = files[0];
-			if (file.type === 'text/plain') {
+			if (file.type === 'text/plain' || file.name.endsWith('.txt') || file.name.endsWith('.log')) {
 				loadFile({ target: { files: [file] } });
 			} else {
 				console.error('Unsupported file type:', file.type);
@@ -315,9 +322,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
 	window.getResultsHeader = function()  {
-		var resultsHeader = 'Result(s) from [Crash Log Analyzer ' + convertHTMLToMarkdown(getVersionNumber()) + '](https://phostwood.github.io/crash-analyzer/):\n\n';
+		var resultsHeader = 'Result(s) from [Nolvus Crash Log Analyzer ' + convertHTMLToMarkdown(getVersionNumber()) + '](https://phostwood.github.io/crash-analyzer/):\n\n';
 		if(Utils.isSkyrimPage) {
-			resultsHeader = 'Result(s) from [Crash Log Analyzer ' + convertHTMLToMarkdown(getVersionNumber()) + '](https://phostwood.github.io/crash-analyzer/skyrim.html):\n\n';
+			resultsHeader = 'Result(s) from [Phostwood\'s Skyrim Crash Log Analyzer ' + convertHTMLToMarkdown(getVersionNumber()) + '](https://phostwood.github.io/crash-analyzer/skyrim.html):\n\n';
 		}
 		Utils.debuggingLog(['userInterface.js'], 'resultsHeader:', resultsHeader);
 		return resultsHeader;
@@ -383,19 +390,37 @@ document.addEventListener('DOMContentLoaded', function () {
 	});
 	
 	function loadAndAnalyzeTestLog() {
-		Utils.debuggingLog(['userInterface.js'], 'Starting to load test log');
-		fetch('https://raw.githubusercontent.com/Phostwood/crash-analyzer/main/Test_Log.txt')
+		let logTypeSelect = null;
+		let selectedValue = "netscriptframework";
+		let testLogUrl;
+		if (Utils.isSkyrimPage) {
+			logTypeSelect = document.getElementById('logType');
+			selectedValue = logTypeSelect.value;
+		} 
+	
+		let testFileName = 'TestLogNetScriptFramework1.txt';
+		if (selectedValue === 'crashlogger') {
+			testFileName = 'TestLogCrashLogger1.txt';
+		} else if (selectedValue === 'trainwreck') {
+			testFileName = 'TestLogTrainwreck1.txt';
+		}
+
+		Utils.debuggingLog(['loadAndAnalyzeTestLog', 'userInterface.js'], 'testFileName:', testFileName );
+		testLogUrl = 'https://raw.githubusercontent.com/Phostwood/crash-analyzer/main/' + testFileName;
+	
+		Utils.debuggingLog(['loadAndAnalyzeTestLog', 'userInterface.js'], 'Starting to load test log');
+		fetch(testLogUrl)
 			.then(response => response.text())
 			.then(data => {
-				Utils.debuggingLog(['userInterface.js'], 'Test log data received, length:', data.length);
+				Utils.debuggingLog(['loadAndAnalyzeTestLog', 'userInterface.js'], 'Test log data received, length:', data.length);
 				document.getElementById('crashLog').value = data;
-				displayFilename('Test_Log.txt');
+				displayFilename(testFileName);
 				return new Promise(resolve => setTimeout(() => resolve(data), 100)); // 100ms delay
 			})
 			.then((data) => {
-				Utils.debuggingLog(['userInterface.js'], 'About to call analyzeLog, textarea value length:', document.getElementById('crashLog').value.length);
+				Utils.debuggingLog(['loadAndAnalyzeTestLog', 'userInterface.js'], 'About to call analyzeLog, textarea value length:', document.getElementById('crashLog').value.length);
 				analyzeLog();
-				Utils.debuggingLog(['userInterface.js'], 'analyzeLog called');
+				Utils.debuggingLog(['loadAndAnalyzeTestLog', 'userInterface.js'], 'analyzeLog called');
 			})
 			.catch(error => console.error('Error loading or analyzing Test Log:', error));
 	}

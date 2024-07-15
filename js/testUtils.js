@@ -39,7 +39,7 @@ if (typeof Utils === 'undefined') {
     };
 
     Utils.extractNifPathsToListItems = function(logText) {
-        const fileRegex = /"([^"]+\.nif)"/g;
+        const fileRegex = /"([^"]+\.(nif|tri))"/g;
         let match;
         const pathsSet = new Set();
 

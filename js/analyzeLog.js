@@ -218,6 +218,59 @@ async function analyzeLog() {
         diagnosesCount++;
     }
 
+    //Missing Master 2.1
+    function checkForMissingMasters(sections) {
+        let diagnoses = '';
+    
+        if ((sections.hasSkyrimAE && sections.firstLine.includes('0198090')) ||
+            (!sections.hasSkyrimAE && (sections.firstLine.includes('5E1F22'))) ||
+            sections.topHalf.includes('SettingT<INISettingCollection>*')) {
+            
+            diagnoses += '<li>❗<b>Potential Missing Masters Detected:</b> Your load order may be missing required master files. This can cause instability and crashes. Here are some possible causes and solutions:<ul>';
+    
+            if (!Utils.isSkyrimPage) {
+                diagnoses += '<li><b>Standard Nolvus Install:</b> If you haven\'t added/updated or removed any mods, try using the Nolvus Dashboard\'s "Apply Order" feature. This often resolves load order issues. For more information, see: <a href="https://www.reddit.com/r/Nolvus/comments/1chuod0/how_to_apply_order_button_usage_in_the_nolvus/">How To: Use the "Apply Order" Button</a>. You can safely ignore the rest of the steps here.</li>';
+            }
+    
+            if (!sections.hasNewEslSupport) {
+                diagnoses += '<li><b>New Mod Incompatibility:</b> Recently added mods may be causing conflicts. If you are using a version of Skyrim before 1.6.1130, but have added a mod designed with the newest type of ESL files, we suggest installing <a href="https://www.nexusmods.com/skyrimspecialedition/mods/106441">Backported Extended ESL Support (BEES)</a>, though this doesn\'t always resolve all incompatibilities.</li>';
+            }
+    
+            diagnoses +=
+                '<li><b>Identifying Missing Masters:</b> Mod Organizer 2 (MO2) typically displays warning icons (yellow triangle with exclamation mark) for plugins with missing masters. <a href="https://imgur.com/izlF0GO">View Screenshot</a>.</li>' +
+    
+                '<li><b>Missing Dependency:</b> If you\'ve recently removed, disabled, or forgot to install a required mod, others may still depend on it. You might need to either install the missing dependency or remove its master requirement from dependent plugins. See this guide on <a href="https://github.com/LivelyDismay/Learn-To-Mod/blob/main/lessons/Remove%20a%20Master.md">Removing a Master Requirement</a>.</li>' +
+    
+                '<li><b>Version Mismatch:</b> Ensure all your mods are compatible with your Skyrim version (SE or AE). Always check the mod\'s description page for version compatibility.</li>';
+            
+            if (Utils.isSkyrimPage) {
+                diagnoses += `
+                <li><b>Using LOOT for diagnostics:</b>
+                    <a href="https://loot.github.io/">LOOT</a> can be a valuable diagnostic tool, but use it with ⚠️CAUTION:
+                    <ul>
+                        <li>LOOT can be effective for identifying missing masters, version incompatibilities, and other issues.</li>
+                        <li>However, it's generally not recommended to use LOOT for reorganizing your entire load order.</li>
+                        <li>LOOT may misplace about 5-10% of mods when sorting, which can be problematic, especially with large mod lists.</li>
+                        <li>For best results, use LOOT as a diagnostic tool only, and avoid letting it automatically rearrange a large, carefully curated load order.</li>
+                    </ul>
+                </li>`;
+            }
+    
+            diagnoses += '</ul></li>';
+        }
+    
+        return diagnoses;
+    }
+    const missingMastersDiagnosis = checkForMissingMasters(sections);
+    Utils.debuggingLog(['missingMastersDiagnosis', 'analyzeLog.js'], `missingMastersDiagnosis for diagnostic section:'`, missingMastersDiagnosis);
+    Utils.debuggingLog(['missingMastersDiagnosis', 'analyzeLog.js'], `Utils.isSkyrimPage for diagnostic section:'`, Utils.isSkyrimPage);
+    if (Utils.isSkyrimPage && missingMastersDiagnosis) {
+        diagnoses += missingMastersDiagnosis;
+        diagnosesCount++;
+        //NOTE: for Nolvus users, this result will still show up in the Advanced User's insights, below
+    }
+
+
     // Check for Shadow Scene Node crash
     if (sections.probableCallstack.toLowerCase().includes('BSCullingProcess::unk_D51280+78'.toLowerCase()) && sections.firstLine.includes('(SkyrimSE.exe+12FDD00)')) {
         diagnoses += '<li>❗<b>Shadow Scene Node Crash Detected:</b> Load an earlier save, traveling to a different cell from the original crash, and play for a few days in game away from the area. This avoids the Shadow Scene, and hopefully allows the issue to resolve itself. More information and troubleshooting tips under <a href="https://www.nolvus.net/catalog/crashlog?acc=accordion-1-3">Shadow Scene Node crash</a/>.</li>';
@@ -326,31 +379,97 @@ async function analyzeLog() {
     }
 
 
-    // Check for Nolvus or Nolvus-like modlist
-    if (Utils.isSkyrimPage) {
-        let nolvusPluginsDetected = 0;
-        for (const plugin of window.nolvusSignatures.Nolvus) {
-            if (logFile.toLowerCase().includes(plugin.toLowerCase())) {
-                nolvusPluginsDetected++;
+    async function checkForNolvusModlist(logFile) {
+        Utils.debuggingLog(['checkForNolvusModlist'], 'Starting Nolvus modlist check');
+    
+        let diagnoses = '';
+    
+        // Fetch and process the Nolvus plugin list
+        let nolvusPlugins = [];
+        if (Utils.isSkyrimPage) {
+            try {
+                const response = await fetch('https://raw.githubusercontent.com/Phostwood/crash-analyzer/main/vanillaNolvusPlugin-WithStableLocation.txt');
+                const text = await response.text();
+                nolvusPlugins = text.split('\n').map(line => line.trim().toLowerCase()).filter(Boolean);
+                Utils.debuggingLog(['checkForNolvusModlist'], 'Fetched Nolvus plugins:', nolvusPlugins.length);
+            } catch (error) {
+                console.error('Error fetching Nolvus plugin list:', error);
+                Utils.debuggingLog(['checkForNolvusModlist'], 'Error fetching Nolvus plugin list:', error);
             }
         }
-
-        if (nolvusPluginsDetected > 0) {
-            const nolvusPercentage = (nolvusPluginsDetected / window.nolvusSignatures.Nolvus.length) * 100;
-            let nolvusMessage = '';
-
-            if (nolvusPercentage >= 80) {
-                nolvusMessage = 'It appears you are using a full or nearly full Nolvus installation.';
-            } else if (nolvusPercentage >= 40) {
-                nolvusMessage = 'It appears you are using a modlist based on or heavily inspired by Nolvus.';
-            } else  if (nolvusPercentage >= 10)  {
-                nolvusMessage = 'It appears you are using some Nolvus plugins or a modlist partially based on Nolvus.';
+    
+        // Check for Nolvus or Nolvus-like modlist
+        if (Utils.isSkyrimPage && nolvusPlugins.length > 0) {
+            let nolvusPluginsDetected = 0;
+            const logFilePlugins = logFile.toLowerCase().split('\n');
+    
+            for (const plugin of nolvusPlugins) {
+                if (logFilePlugins.some(line => line.includes(plugin))) {
+                    nolvusPluginsDetected++;
+                }
             }
-
-            diagnoses += `<li>⚠️<b>Nolvus Detected:</b> ${nolvusMessage} For enhanced analysis with Nolvus-specific features, we recommend using the original <a href="index.html?Advanced">index.html version</a> of this crash analyzer. It provides additional insights tailored to Nolvus installations.</li>`;
-            diagnosesCount++;
+    
+            Utils.debuggingLog(['checkForNolvusModlist'], 'Nolvus plugins detected:', nolvusPluginsDetected);
+    
+            if (nolvusPluginsDetected > 0) {
+                const nolvusPercentage = (nolvusPluginsDetected / nolvusPlugins.length) * 100;
+                Utils.debuggingLog(['checkForNolvusModlist'], 'Nolvus percentage:', nolvusPercentage);
+                
+                if (nolvusPercentage >= 20) {
+                    let nolvusMessage = '';
+                    if (nolvusPercentage >= 80) {
+                        nolvusMessage = 'It appears you are using a full or nearly full Nolvus installation.';
+                    } else if (nolvusPercentage >= 40) {
+                        nolvusMessage = 'It appears you are using a modlist based on or heavily inspired by Nolvus.';
+                    } else if (nolvusPercentage >= 20) {
+                        nolvusMessage = 'It appears you are using some Nolvus plugins or a modlist partially based on Nolvus.';
+                    }
+        
+                    Utils.debuggingLog(['checkForNolvusModlist'], 'Nolvus message:', nolvusMessage);
+        
+                    diagnoses += `<li>⚠️<b>Nolvus Detected:</b> ${nolvusMessage} For enhanced analysis with Nolvus-specific features, we recommend using the original <a href="index.html?Advanced">index.html version</a> of this crash analyzer. It provides additional insights tailored to Nolvus installations.</li>`;
+                }
+            }
         }
+    
+        Utils.debuggingLog(['checkForNolvusModlist'], 'Finished Nolvus modlist check');
+        return diagnoses;
     }
+    Utils.debuggingLog(['checkForNolvusModlist'], 'sections.gamePlugins:', sections.gamePlugins);
+    const nolvusDiagnosis = await checkForNolvusModlist(sections.gamePlugins);
+    diagnoses += nolvusDiagnosis;
+    //EXCLUDED: diagnosesCount++;
+
+    function checkLogTypeAndProvideRecommendations(logType) {
+        let message = '';
+    
+        if (logType === "Trainwreck") {
+            message += "<li>⚠️<b>Trainwreck Log Detected:</b> While Trainwreck provides some crash information, it's generally not as comprehensive as other logging options. ";
+    
+            if (sections.hasSkyrimAE) {
+                message += "For Skyrim AE (version 1.6+), we strongly recommend using <a href='https://www.nexusmods.com/skyrimspecialedition/mods/59818'>Crash Logger</a> instead. It provides more detailed crash information, aiding in better diagnosis. ";
+            } else {
+                message += "For Skyrim SE (version 1.5), we strongly recommend using <a href='https://www.nexusmods.com/skyrimspecialedition/mods/21294'>.NET Script Framework</a> instead. It offers more detailed crash information, which is crucial for accurate diagnosis. ";
+            }
+    
+            message += "Remember to only have one logging mod enabled at a time.</li>";
+        }
+
+        if (logType === "CrashLogger" && !sections.hasSkyrimAE) {
+            message += "<li>⚠️ <b>CrashLogger Log Detected:</b> For Skyrim SE (version 1.5), we recommend using <a href='https://www.nexusmods.com/skyrimspecialedition/mods/21294'>.NET Script Framework</a> instead. It generally offers more detailed crash information, which can be helpful towards the best diagnosis. Remember to only have one logging mod enabled at a time.</li>";
+
+        }
+
+        return message;
+    }
+
+    const logType = sections.logType;
+    const logRecommendations = checkLogTypeAndProvideRecommendations(logType);
+    if (logRecommendations) {
+        diagnoses += logRecommendations;
+        //EXCLUDED: diagnosesCount++;
+    }
+
 
 
     // Default to unknown crash
@@ -559,47 +678,49 @@ async function analyzeLog() {
         insightsCount++;
     }
 
-    //Missing Master 2
-    if ((Utils.hasSkyrimAE && sections.firstLine.includes('0198090')) ||
-            (!Utils.hasSkyrimAE && (sections.firstLine.includes('5E1F22') || sections.firstLine.includes('05E1F22') ) ) ||
-            sections.topHalf.includes('SettingT<INISettingCollection>*') ) {
-        insights += '<li>❗<b>Potential Missing Masters Detected:</b> Indicators suggest your load order may be missing master files. MO2 usually (but not always) displays warning icons (yellow triangle with exclamation mark) for plugins with missing masters. This issue can arise from several scenarios:<ul>' +
-            '<li>If you are using a standard Nolvus install without any added or deleted mods, try using the Nolvus Dashboard\'s "Apply Order" feature as a potential easy fix. For additional information and a screenshot, refer to this r/Nolvus post <a href="https://www.reddit.com/r/Nolvus/comments/1chuod0/how_to_apply_order_button_usage_in_the_nolvus/">How To: Use the "Apply Order" Button in the Nolvus Dashboard</a>.</li>' +
-            '<li>Incompatibilities due to a newly added mod: Check if you\'ve recently added any mods. For mods with Skyrim 1.6 (AE) ESL files, consider installing <a href="https://www.nexusmods.com/skyrimspecialedition/mods/106441">Backported Extended ESL Support (BEES)</a>, though this doesn\'t always resolve all incompatibilities.</li>' +
-            '<li>Removed or disabled mod: If you\'ve recently removed or disabled any mods, other mods or patches might still expect it to be present. If so, refer to this tutorial on <a href="https://github.com/LivelyDismay/Learn-To-Mod/blob/main/lessons/Remove%20a%20Master.md">How To Remove a Master Requirement From a Plugin</a>.</li>' +
-            '<li>Version incompatibility: Ensure all your added mods are intended for your specific version of Skyrim (SE or AE). Check each mod\'s description page for version compatibility.</li>' +
-           /* For NON-NOLVUS ONLY:  '<li>LOOT may be able to help identify missing masters and version incompatibilities, but use caution: for large mod lists like Nolvus, LOOT\'s reordering can potentially break the carefully curated load order.</li>' +  */
-
-            '</ul></li>';
+    // Missing Masters Diagnosis
+    //NOTE: for Skyrim page users, this result shows up in the diagnostic section (above)
+    Utils.debuggingLog(['missingMastersDiagnosis', 'analyzeLog.js'], `missingMastersDiagnosis for Advanced Users section:'`, missingMastersDiagnosis);
+    Utils.debuggingLog(['missingMastersDiagnosis', 'analyzeLog.js'], `Utils.isSkyrimPage for Advanced Users section:'`, Utils.isSkyrimPage);
+    if (!Utils.isSkyrimPage && missingMastersDiagnosis) {
+        insights += missingMastersDiagnosis;
         insightsCount++;
     }
 
     // ConsoleUtilSSE version check
-    if (sections.logType === 'CrashLogger' && sections.probableCallstack.includes('ConsoleUtilSSE.dll')) {
-        insights += '<li>❗<b>Possible ConsoleUtilSSE Version Mismatch:</b> Your crash log suggests an issue with ConsoleUtilSSE.dll, likely due to version incompatibility. ConsoleUtilSSE.dll v1.4 is not compatible with Skyrim AE (v1.6+). If you\'re using Skyrim AE, download and install <a href="https://www.nexusmods.com/skyrimspecialedition/mods/76649?tab=files">ConsoleUtilSSE v1.5.1 or later</a> to potentially resolve this issue.</li > ';
+    if (Utils.isSkyrimPage &&
+        (sections.topQuarter.includes('ConsoleUtilSSE.dll') ||
+            (sections.sksePlugins.includes('ConsoleUtilSSE.dll               v1.4.0') && sections.hasSkyrimAE)
+        )
+    ) {
+        let consoleUtilMessage = '';
+
+        insights += `<li>❗<b>Possibly Incompatible ConsoleUtilSSE Version:</b> Your crash log suggests an issue with ConsoleUtilSSE.dll, likely due to version incompatibility. Download and install <a href="https://www.nexusmods.com/skyrimspecialedition/mods/76649?tab=files">ConsoleUtilSSE NG v1.5.1 or later</a> to potentially resolve this issue.</li>`;
         insightsCount++;
+
+        Utils.debuggingLog(['ConsoleUtilSSE check'], 'Skyrim AE:', sections.hasSkyrimAE);
+        Utils.debuggingLog(['ConsoleUtilSSE check'], 'Message:', consoleUtilMessage);
     }
 
     // Simplicity of Snow + Traverse the Ulvenwald + JK's Skyrim Patch requirement
-    if (sections.gamePlugins) {
-        const lowerCaseLogFile = logFile.toLowerCase();
-        const hasJKsSkyrim = lowerCaseLogFile.includes('jks skyrim.esp');
-        const hasSimplicityOfSnow = lowerCaseLogFile.includes('simplicity of snow.esp');
-        const hasUlvenwald = lowerCaseLogFile.includes('ulvenwald.esp');
-        const hasPatch = lowerCaseLogFile.includes('jks skyrim tree fix.esp');
+    //NOTE: currently, I don't think this can be detected in a Trainwreck log?
+    const hasJKsSkyrim = sections.fullLogFileLowerCase.includes('jks skyrim.esp');
+    const hasSimplicityOfSnow = sections.fullLogFileLowerCase.includes('simplicity of snow.esp');
+    const hasUlvenwald = sections.fullLogFileLowerCase.includes('ulvenwald.esp');
+    const hasPatch = sections.fullLogFileLowerCase.includes('jks skyrim tree fix.esp');
 
-        //if (hasJKsSkyrim && hasSimplicityOfSnow && hasUlvenwald && !hasPatch) {
-        if (hasJKsSkyrim && hasSimplicityOfSnow && !hasPatch) {
-            insights += '<li>❗ <b>Simplicity of Snow + JK\'s Skyrim Patch Missing:</b> ' +
-                'Your load order includes both JK\'s Skyrim and Simplicity of Snow, but the required patch is missing. To resolve this:<ol>' +
-                '<li>Reinstall Simplicity of Snow\'s FOMOD. During installation, it should automatically detect JK\'s Skyrim and offer the appropriate patch(es).</li>' +
-                '<li>Ensure you select the JK\'s Skyrim compatibility patch during the FOMOD installation process.</li>' +
-                '<li>After reinstalling, verify that the "JKs Skyrim Tree Fix.esp" is present in your load order.</li>' +
-                '</ol>' +
-                'Without this patch, you may experience potential crashes. For more information, see this <a href="https://www.reddit.com/r/skyrimmods/comments/17tqxig/comment/k9184j5/?utm_source=share&utm_medium=web3x&utm_name=web3xcss&utm_term=1&utm_content=share_button">r/SkyrimMods thread</a>.</li>';
-            insightsCount++;
-        }
+    //if (hasJKsSkyrim && hasSimplicityOfSnow && hasUlvenwald && !hasPatch) {
+    if (hasJKsSkyrim && hasSimplicityOfSnow && !hasPatch) {
+        insights += '<li>❗ <b>Simplicity of Snow + JK\'s Skyrim Patch Missing:</b> ' +
+            'Your load order includes both JK\'s Skyrim and Simplicity of Snow, but the required patch is missing. To resolve this:<ol>' +
+            '<li>Reinstall Simplicity of Snow\'s FOMOD. During installation, it should automatically detect JK\'s Skyrim and offer the appropriate patch(es).</li>' +
+            '<li>Ensure you select the JK\'s Skyrim compatibility patch during the FOMOD installation process.</li>' +
+            '<li>After reinstalling, verify that the "JKs Skyrim Tree Fix.esp" is present in your load order.</li>' +
+            '</ol>' +
+            'Without this patch, you may experience potential crashes. For more information, see this <a href="https://www.reddit.com/r/skyrimmods/comments/17tqxig/comment/k9184j5/?utm_source=share&utm_medium=web3x&utm_name=web3xcss&utm_term=1&utm_content=share_button">r/SkyrimMods thread</a>.</li>';
+        insightsCount++;
     }
+
 
     // dxgi.dll issue (ReShade and PureDark Upscaler)
     if (sections.topHalf.includes('dxgi.dll')) {
@@ -868,6 +989,100 @@ async function analyzeLog() {
             '</ol></li>';
         insightsCount++;
     }
+
+    // HairMaleNord01
+    function checkHairModCompatibility(sections) {
+        const hairModStrings = [
+            'HairMaleNord', // These would usualy apear with a number at the end. Example: HairMaleNord01
+            'HairFemaleNord',
+            'HairMaleImperial',
+            'HairFemaleImperial',
+            'HairMaleBreton',
+            'HairFemaleBreton',
+            'HairMaleRedguard',
+            'HairFemaleRedguard',
+            'HairMaleElf',
+            'HairFemaleElf',
+            'HairMaleKhajiit',
+            'HairFemaleKhajiit',
+            'HairMaleOrc',
+            'HairFemaleOrc',
+            'Hairdo', // a generic catch all
+            //'Hair', // overly generic, matches on "crosshair"
+            'KS Hairdos.esp', 
+            'ApachiiSkyHair.esm',
+            'SGHairPackAIO.esp',
+            'Dint999HairPack.esp',
+            'SaltAndWind.esp',
+            'StraightHairRetexture.esp',
+            'BedHead.esp',
+            'KaliliesBrows.esp',
+            'HHairstyles.esp',
+            'LovelyHairstyles.esp',
+            'SuperiorLoreFriendlyHair.esp',
+            'HallgarthsAdditionalHair.esp',
+            'HG Hairdos 2.esp',
+        ];
+        
+        const physicsModStrings = [
+            'HDT-SMP',
+            'hdtSMP',
+            'CBPC',
+            'Physics', // a generic catch-all for any physics mod
+        ];
+    
+        const foundHairMods = hairModStrings.filter(str => 
+            sections.topHalf.toLowerCase().includes(str.toLowerCase())
+        );
+    
+        const foundPhysicsMods = physicsModStrings.filter(str => 
+            logFile.toLowerCase().includes(str.toLowerCase())
+        );
+
+        Utils.debuggingLog(['checkHairModCompatibility', 'analyzeLog.js'], 'Found hair mods: ' + foundHairMods.join(', '));
+        Utils.debuggingLog(['checkHairModCompatibility', 'analyzeLog.js'], 'Found physics mods: ' + foundPhysicsMods.join(', '));
+    
+        if (foundHairMods.length > 0) {
+            let insights = '<li>❓ <b>Possible Hair Mod Issue Detected:</b> The following hair-related indicators were found: ' +
+                '<code>' + foundHairMods.join('</code>, <code>') + '</code>. To troubleshoot this issue:<ol>';
+    
+            if (sections.topHalf.includes('NiRTTI_BSDynamicTriShape')) {
+                insights += '<li>The presence of NiRTTI_BSDynamicTriShape suggests a potential issue with dynamic hair meshes. Ensure your hair physics mods are compatible and properly installed.</li>';
+            }
+    
+            insights += '<li>Ensure that all hair mods are up to date and compatible with your version of Skyrim and SKSE.</li>';
+    
+            if (foundPhysicsMods.length > 0) {
+                insights += '<li>Check that installed physics mods are compatible with your hair mods and Skyrim version.</li>';
+            }
+    
+            insights += '<li>Check hair mod pages for known compatibility issues and required patches.</li>';
+    
+            if (Utils.isSkyrimPage) {
+                insights += '<li>Try using <a href="https://loot.github.io/">LOOT</a> as a diagnostic tool. ⚠️Caution: LOOT can safely be used as a diagnostic tool, but for load order reorganizing, it is widely thought to misplace 5 to 10% of mods ... which can be especially problematic with large mod lists.</li>';
+            }
+    
+            insights +=
+                '<li>If the problem persists, try disabling hair mods one by one to isolate the conflict.</li>' +
+                '<li>Consider running your mods directory through <a href="https://www.nexusmods.com/skyrim/mods/75916/">NifScan</a></li><ul><li>especially if any hair indicators show up in this list of mentioned mesh files: <a href="#" class="toggleButton">⤴️ hide</a><ul class="extraInfo">' +
+                    Utils.extractNifPathsToListItems(sections.topHalf) +
+                '</li></ul></ul></ol></li>';
+    
+            return {
+                insights: insights,
+                insightsCount: 1
+            };
+        }
+    
+        return {
+            insights: '',
+            insightsCount: 0
+        };
+    }
+    const hairResult = checkHairModCompatibility(sections);
+    insights += hairResult.insights;
+    insightsCount += hairResult.insightsCount;
+
 
     /* 	DISABLED: as (1) is well tested as part of vanilla Nolvus, (2) doesn't have a specific fix, and (3) is not a common issue (if at all?)
         //Skyrim Unbound

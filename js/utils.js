@@ -1,7 +1,6 @@
 // Create a global Utils object
 window.Utils = {};
 Utils.logLines = [];
-Utils.hasSkyrimAE = false;
 
 // Constants
 Utils.isDebugging = true; // Set this to false to disable debugging (non-error) output
@@ -12,6 +11,13 @@ Utils.isDebugging = true; // Set this to false to disable debugging (non-error) 
 //Utils.debugBatch = ['getLogType', 'userInterface.js'];
 //Utils.debugBatch = ['analyzeLog', 'getBadlyOrganizedNolvusPlugins' ];
 Utils.debugBatch = ['getLogSectionsMap_long'];
+//Utils.debugBatch = ['hasSkyrimAE'];
+//Utils.debugBatch = ['getLogSectionsMap_long', 'getLogType', 'getLogSectionsMap'];
+//Utils.debugBatch = ['loadAndAnalyzeTestLog'];
+//Utils.debugBatch = ['getLogSectionsMap_long', 'hasNewEslSupport'];
+//Utils.debugBatch = ['checkForNolvusModlist', 'getLogSectionsMap_long'];
+//Utils.debugBatch = ['missingMastersDiagnosis'];
+
 
 
 
@@ -89,6 +95,72 @@ Utils.debuggingLog = function(batchIds, message, content) {
     }
 };
 
+Utils.hasSkyrimAE = function(sectionHeader) {
+    const lowerCaseLog = sectionHeader.toLowerCase();
+    let isAE = false;
+    let aeMatch = null;
+    let version = null;
+
+    
+    // Check for Net Script Framework log format
+    const nsfMatch = lowerCaseLog.match(/applicationversion:\s*(\d+\.\d+\.\d+\.\d+)/);
+    if (nsfMatch) {
+        version = nsfMatch[1].split('.').map(Number);
+        isAE = version[0] > 1 || (version[0] === 1 && version[1] >= 6);
+    }
+    
+    // Check for Crash Logger and Trainwreck log formats
+    if (!isAE) {
+        //BUGGED: aeMatch = lowerCaseLog.match(/skyrim(?:se)?\s*v?(\d+\.\d+\.\d+)/);
+        aeMatch = lowerCaseLog.match(/skyrim\s*(?:se|sse)?\s*v?(\d+\.\d+\.\d+)/i);
+        if (aeMatch) {
+            version = aeMatch[1].split('.').map(Number);
+            isAE = version[0] > 1 || (version[0] === 1 && version[1] >= 6);
+        }
+    }
+    
+    Utils.debuggingLog(['hasSkyrimAE'], 'hasSkyrimAE raw sectionHeader:', sectionHeader);
+    Utils.debuggingLog(['hasSkyrimAE'], 'hasSkyrimAE nsfMatch:', nsfMatch);
+    Utils.debuggingLog(['hasSkyrimAE'], 'hasSkyrimAE aeMatch:', aeMatch);
+    Utils.debuggingLog(['hasSkyrimAE'], 'hasSkyrimAE version:', version);
+    Utils.debuggingLog(['hasSkyrimAE'], 'hasSkyrimAE flag set to:', isAE);
+    return isAE;
+};
+
+Utils.hasNewEslSupport = function(sectionHeader) {
+    const lowerCaseLog = sectionHeader.toLowerCase();
+    let hasNewEslSupport = false;
+    let versionMatch = null;
+    let version = null;
+
+    // Check for Net Script Framework log format
+    const nsfMatch = lowerCaseLog.match(/applicationversion:\s*(\d+\.\d+\.\d+\.\d+)/);
+    if (nsfMatch) {
+        version = nsfMatch[1].split('.').map(Number);
+        hasNewEslSupport = version[0] > 1 || 
+                     (version[0] === 1 && version[1] > 6) || 
+                     (version[0] === 1 && version[1] === 6 && version[2] >= 1130);
+    }
+
+    // Check for Crash Logger and Trainwreck log formats
+    if (!hasNewEslSupport) {
+        versionMatch = lowerCaseLog.match(/skyrim\s*(?:se|sse)?\s*v?(\d+\.\d+\.\d+)/i);
+        if (versionMatch) {
+            version = versionMatch[1].split('.').map(Number);
+            hasNewEslSupport = version[0] > 1 || 
+                         (version[0] === 1 && version[1] > 6) || 
+                         (version[0] === 1 && version[1] === 6 && version[2] >= 1130);
+        }
+    }
+
+    Utils.debuggingLog(['hasNewEslSupport'], 'hasNewEslSupport raw sectionHeader:', sectionHeader);
+    Utils.debuggingLog(['hasNewEslSupport'], 'hasNewEslSupport nsfMatch:', nsfMatch);
+    Utils.debuggingLog(['hasNewEslSupport'], 'hasNewEslSupport versionMatch:', versionMatch);
+    Utils.debuggingLog(['hasNewEslSupport'], 'hasNewEslSupport version:', version);
+    Utils.debuggingLog(['hasNewEslSupport'], 'hasNewEslSupport flag set to:', hasNewEslSupport);
+    return hasNewEslSupport;
+};
+
 
 Utils.pluginChecker = function(crashLog, plugins) {
     const lowerCaseLog = crashLog.toLowerCase();
@@ -133,6 +205,25 @@ Utils.countNullVoid = function(crashLog) {
     return (lowerCaseLog.match(/null/g) || []).length + (lowerCaseLog.match(/void/g) || []).length;
 };
 
+
+Utils.countEsmPlugins = function(sectionGamePlugins) {
+    if (!sectionGamePlugins) return 0;
+    const esmMatches = sectionGamePlugins.match(/\.esm/gi);
+    return esmMatches ? esmMatches.length : 0;
+};
+
+Utils.countEspPlugins = function(sectionGamePlugins) {
+    if (!sectionGamePlugins) return 0;
+    const espMatches = sectionGamePlugins.match(/\.esp/gi);
+    return espMatches ? espMatches.length : 0;
+};
+
+Utils.countEslPlugins = function(sectionGamePlugins) {
+    if (!sectionGamePlugins) return 0;
+    const eslMatches = sectionGamePlugins.match(/\.esl/gi);
+    return eslMatches ? eslMatches.length : 0;
+};
+
 Utils.countPlugins = function(crashLog) {
     const match = crashLog.match(/Game plugins \((\d+)\)\s*\{/);
     return match ? parseInt(match[1], 10) : 0;
@@ -153,16 +244,16 @@ Utils.getLogType = function(lines) {
     
     if (lines.length > 2 && lines[2].includes('NetScriptFramework')) {
         Utils.debuggingLog(['getLogType'], 'Detected NetScriptFramework log');
-        Utils.hasSkyrimAE = false; 
         return 'NetScriptFramework';
     } else if (lines.length > 1 && lines[1].includes('CrashLoggerSSE')) {
         Utils.debuggingLog(['getLogType'], 'Detected CrashLogger log');
-        Utils.hasSkyrimAE = true;
         return 'CrashLogger';
+    } else if (lines.length > 1 && lines[1].toLowerCase().includes('trainwreck')) {
+        Utils.debuggingLog(['getLogType'], 'Detected Trainwreck log');
+        return 'Trainwreck';
     } else {
         console.error(['getLogType'], 'ERROR: Unknown log type detected');
-        Utils.debuggingLog(['getLogType'], 'First 3 lines of log:', lines.slice(0, 3));
-        Utils.hasSkyrimAE = false; 
+        Utils.debuggingLog(['getLogType'], 'First 500 characters of passed log:', lines.slice(0, 500));
         return 'Unknown';
     }
 };
@@ -174,6 +265,8 @@ Utils.setLogType = function (logType) {
             document.getElementById('logType').value = 'crashlogger';
         } else if (logType === 'NetScriptFramework') {
             document.getElementById('logType').value = 'netscript';
+        } else if (logType === 'Trainwreck') {
+            document.getElementById('logType').value = 'trainwreck';
         }
         // Trigger the change event to update the UI
         document.getElementById('logType').dispatchEvent(new Event('change'));
@@ -198,20 +291,40 @@ Utils.getLogSectionsMap = function(logFile) {
     const logType = this.getLogType(this.logLines);
     Utils.logType = logType;
     Utils.debuggingLog(['getLogSectionsMap'], 'Detected log type:', Utils.logType);
-    Utils.debuggingLog(['getLogType'], 'hasSkyrimAE flag set to:', Utils.hasSkyrimAE);
 
     const sectionDefinitions = [
         {
-            //LEGEND: "nsf" = .Net Script Framework, "cl" = Crash Logger
+            //LEGEND: "nsf" = .Net Script Framework, "cl" = Crash Logger, "tw" = Trainwreck
+            name: 'header',
+            nsfLabel: 'Header',
+            clLabel: 'Header',
+            twHeader: 'Header',
+            nsfRegex: /^[\s\S]*?(?=Possible relevant objects)/,
+            clRegex: /^[\s\S]*?(?=PROBABLE CALL STACK)/,
+            twRegex: /^[\s\S]*?(?=PROBABLE CALL STACK)/,
+            nsfPriority: 0,
+            clPriority: 0,
+            twPriority: 0,
+            nsfColor: null,
+            clColor: null,
+            twColor: null,
+            nolvusExpectedMin: null,
+            nolvusExpectedMax: null
+        },
+        {
             name: 'firstLine',
             nsfLabel: 'First Line',
             clLabel: 'First Line',
+            twLabel: 'First Line',
             nsfRegex: /^.*$/m,
             clRegex: /^.*$/m,
+            twRegex: /^.*$/m,
             nsfPriority: 1,
             clPriority: 1,
+            twPriority: 1,
             nsfColor: 'red',
             clColor: 'red',
+            twColor: 'red',
             nolvusExpectedMin: 1,
             nolvusExpectedMax: 1
         },
@@ -219,12 +332,16 @@ Utils.getLogSectionsMap = function(logFile) {
             name: 'relevantObjects',
             nsfLabel: 'Possible relevant objects',
             clLabel: null, // CrashLogger logs don't have this section
+            twLabel: null, // Trainwreck logs don't have this section
             nsfRegex: /Possible relevant objects \(\d+\)\s*\{([\s\S]*?)(?=\n*\})/,
             clRegex: null,
+            twRegex: null,
             nsfPriority: 2,
             clPriority: null,
+            twPriority: null,
             nsfColor: 'darkorange',
             clColor: null,
+            twColor: null,
             nolvusExpectedMin: 0,
             nolvusExpectedMax: 50
         },
@@ -232,12 +349,16 @@ Utils.getLogSectionsMap = function(logFile) {
             name: 'probableCallstack',
             nsfLabel: 'Probable callstack',
             clLabel: 'Probable call stack',
+            twLabel: 'Probable call stack',
             nsfRegex: /Probable callstack(?:\s*\(.*?\))?\s*\{([\s\S]*?)(?=\n*\})/,
             clRegex: /PROBABLE CALL STACK:(?:\r?\n)([\s\S]*?)(?=\n\nREGISTERS:)/,
+            twRegex: /PROBABLE CALL STACK:(?:\r?\n)([\s\S]*?)(?=\n\nREGISTERS:)/,
             nsfPriority: 3,
             clPriority: 2,
+            twPriority: 2,
             nsfColor: 'gold',
             clColor: 'darkorange',
+            twColor: 'darkorange',
             nolvusExpectedMin: 0,
             nolvusExpectedMax: 500
         },
@@ -245,12 +366,16 @@ Utils.getLogSectionsMap = function(logFile) {
             name: 'registers',
             nsfLabel: 'Registers',
             clLabel: 'Registers',
+            twLabel: 'Registers',
             nsfRegex: /Registers\s*\{([\s\S]*?)(?=\n*\})/,
             clRegex: /REGISTERS:(?:\r?\n)([\s\S]*?)(?=\n\nSTACK:)/,
+            twRegex: /REGISTERS:(?:\r?\n)([\s\S]*?)(?=\n\nSTACK:)/,
             nsfPriority: 4,
             clPriority: 3,
+            twPriority: 3,
             nsfColor: 'dodgerblue',
             clColor: 'gold',
+            twColor: 'gold',
             nolvusExpectedMin: 0,
             nolvusExpectedMax: 500
         },
@@ -258,12 +383,16 @@ Utils.getLogSectionsMap = function(logFile) {
             name: 'stack',
             nsfLabel: 'Stack',
             clLabel: 'Stack',
+            twLabel: 'Stack',
             nsfRegex: /Stack\s*\{([\s\S]*?)(?=\n*\})/,
             clRegex: /^STACK:(?:\r?\n)([\s\S]*?)(?=\n\nMODULES:)/m,
+            twRegex: /^STACK:(?:\r?\n)([\s\S]*?)(?=\n\nMODULES:)/m,
             nsfPriority: 5,
             clPriority: 4,
+            twPriority: 4,
             nsfColor: 'blueviolet',
             clColor: 'dodgerblue',
+            twColor: 'dodgerblue',
             nolvusExpectedMin: 20,
             nolvusExpectedMax: 600
         },
@@ -271,12 +400,16 @@ Utils.getLogSectionsMap = function(logFile) {
             name: 'modules',
             nsfLabel: 'Modules',
             clLabel: 'Modules',
+            twLabel: 'Modules',
             nsfRegex: /Modules\s*\{([\s\S]*?)(?=\n*\})/,
             clRegex: /^MODULES:(?:\r?\n)([\s\S]*?)(?=\n\nSKSE PLUGINS:)/m,
+            twRegex: /^MODULES:(?:\r?\n)([\s\S]*?)(?=\n\nSCRIPT EXTENDER PLUGINS:)/m,
             nsfPriority: 6,
             clPriority: 5,
+            twPriority: 5,
             nsfColor: null,
             clColor: null,
+            twColor: null,
             nolvusExpectedMin: 270,
             nolvusExpectedMax: 305
         },
@@ -284,12 +417,16 @@ Utils.getLogSectionsMap = function(logFile) {
             name: 'sksePlugins',
             nsfLabel: null, // .NET Script Framework logs don't have this section
             clLabel: 'SKSE Plugins',
+            twLabel: 'Script Extender Plugins',
             nsfRegex: null,
             clRegex: /^SKSE PLUGINS:(?:\r?\n|\s)([\s\S]*?)(?=\r?\n\r?\nPLUGINS:)/m,
+            twRegex: /^SCRIPT EXTENDER PLUGINS:[\r\n]+([\s\S]*)$/m,
             nsfPriority: null,
             clPriority: 6,
+            twPriority: 6,
             nsfColor: null,
             clColor: null,
+            twColor: null,
             nolvusExpectedMin: null,
             nolvusExpectedMax: null
         },
@@ -297,12 +434,16 @@ Utils.getLogSectionsMap = function(logFile) {
             name: 'plugins',
             nsfLabel: 'Plugins',
             clLabel: null, // CrashLogger logs don't have this section (at least not with the same purpose)
+            twLabel: null, // Trainwreck logs don't have this section (at least not with the same purpose)
             nsfRegex: /Plugins\s*\((\d+)\)\s*\{/, //NOTE: this data is different than the rest, so just grabbing the #
             clRegex: null,
+            twRegex: null,
             nsfPriority: 7,
             clPriority: null,
+            twPriority: null,
             nsfColor: null,
             clColor: null,
+            twColor: null,
             nolvusExpectedMin: 2,
             nolvusExpectedMax: 3
         },
@@ -310,12 +451,16 @@ Utils.getLogSectionsMap = function(logFile) {
             name: 'gamePlugins',
             nsfLabel: 'Game plugins',
             clLabel: 'PLUGINS', //NOTE: for Crash Logger, this section is just caled PLUGINS (confusing, but seems unavoidabe)
+            twLabel: null, // Trainwreck logs don't have this section
             nsfRegex: /Game plugins \(\d+\)\s*\{(?:\r?\n)([\s\S]*?)(?=\r?\n\s*\})/,
             clRegex: /^PLUGINS:.*\r?\n.*\r?\n([\s\S]*)/m,
+            twRegex: null,
             nsfPriority: 8,
             clPriority: 7,
+            twPriority: null,
             nsfColor: null,
             clColor: null,
+            twColor: null,
             nolvusExpectedMin: 2215,
             nolvusExpectedMax: 2400
         }
@@ -339,16 +484,16 @@ Utils.getLogSectionsMap = function(logFile) {
     sectionsMap.set('logType', logType);
 
     sectionDefinitions.forEach(def => {
-        const regex = logType === 'NetScriptFramework' ? def.nsfRegex : def.clRegex;
-        const priority = logType === 'NetScriptFramework' ? def.nsfPriority : def.clPriority;
-        const label = logType === 'NetScriptFramework' ? def.nsfLabel : def.clLabel;
-        const color = logType === 'NetScriptFramework' ? def.nsfColor : def.clColor;
+        const regex = logType === 'NetScriptFramework' ? def.nsfRegex : (logType === 'CrashLogger' ? def.clRegex : def.twRegex);
+        const priority = logType === 'NetScriptFramework' ? def.nsfPriority : (logType === 'CrashLogger' ? def.clPriority : def.twPriority);
+        const label = logType === 'NetScriptFramework' ? def.nsfLabel : (logType === 'CrashLogger' ? def.clLabel : def.twLabel);
+        const color = logType === 'NetScriptFramework' ? def.nsfColor : (logType === 'CrashLogger' ? def.clColor : def.twColor);
         const sectionContent = getSection(regex, '', def.name);
         Utils.debuggingLog(['getLogSectionsMap'], `Section ${def.name} content length:`, sectionContent ? sectionContent.length : 0);
         sections[def.name] = sectionContent;
         if (priority !== null) {
-            sectionsMap.set(sectionContent, {
-                name: def.name,
+            sectionsMap.set(def.name, {
+                content: sectionContent,
                 label: label,
                 priority,
                 color: color,
@@ -357,26 +502,70 @@ Utils.getLogSectionsMap = function(logFile) {
             });
         }
     });
+    sections.logType = logType;
+    if(logType === 'CrashLogger' || logType === 'Trainwreck') {
+        sections.firstLine = this.logLines[3]; // NOTE: for Crash Logger (and Trainwreck) logs, what I called the "firstLine" for NSF logs is moved to the 4th line (desinated as the 3rd in the array).
+    }
+    sections.hasSkyrimAE = this.hasSkyrimAE(sections.header);
+    sections.hasNewEslSupport = this.hasNewEslSupport(sections.header);
+    sectionsMap.set('hasNewEslSupport', Utils.hasNewEslSupport(sections.header));
+
+
+    sections.secondLine = this.logLines[1];
+    sections.thirdLine = this.logLines[2];
 
     // Create composite sections
     sections.topQuarter = [sections.firstLine, sections.relevantObjects, sections.probableCallstack].filter(Boolean).join('\n\n');
     sections.topThird = [sections.firstLine, sections.relevantObjects, sections.probableCallstack, sections.registers].filter(Boolean).join('\n\n');
     sections.topHalf = [sections.firstLine, sections.relevantObjects, sections.probableCallstack, sections.registers, sections.stack].filter(Boolean).join('\n\n');
     sections.topThirdNoHeading = [sections.relevantObjects, sections.probableCallstack, sections.registers].filter(Boolean).join('\n\n');
+    sections.fullLogFileLowerCase = logFile.toLowerCase();
+    sections.fullLogFile = logFile;
 
-    sections.logType = logType;
-    if(logType === 'CrashLogger') {
-        sections.firstLine = this.logLines[3]; // NOTE: for Crash Logger logs, what I called the "firstLine" for NSF logs is moved to the 4th line (desinated as the 3rd in the array).
-    }
-    sections.secondLine = this.logLines[1];
-    sections.thirdLine = this.logLines[2];
+
+    // Add some counters to sections.
+    /* SECTION REMOVED AS IT CAN'T WORK (log files can't determine if a ESP is ESL flagged)
+    sections.countEsmPlugins = this.countEsmPlugins(sections.gamePlugins);
+    Utils.debuggingLog(['getLogSectionsMap'], 'ESM Plugins count:', sections.countEsmPlugins);
+    
+    sections.countEspPlugins = this.countEspPlugins(sections.gamePlugins);
+    Utils.debuggingLog(['getLogSectionsMap'], 'ESP Plugins count:', sections.countEspPlugins);
+    
+    sections.countEslPlugins = this.countEslPlugins(sections.gamePlugins);
+    Utils.debuggingLog(['getLogSectionsMap'], 'ESL Plugins count:', sections.countEslPlugins);
+    
+    sections.countTotalPlugins = sections.countEsmPlugins + sections.countEspPlugins;
+    Utils.debuggingLog(['getLogSectionsMap'], 'Total Plugins count (ESM + ESP):', sections.countTotalPlugins);
+    
+    Utils.debuggingLog(['getLogSectionsMap'], 'Note: ESL plugins are not included in the total count as they do not contribute to the 254 plugin limit.');
+    */
+    
 
     // Add debugging output for the entire sections object
     Utils.debuggingLog(['getLogSectionsMap_long'], '-', '-- ------------------ ---');
     Utils.debuggingLog(['getLogSectionsMap_long'], '-', '-- BEGIN LOG SECTIONS ---');
     Utils.debuggingLog(['getLogSectionsMap_long'], '-', '-- ------------------ ---');
-    Utils.debuggingLog(['getLogSectionsMap_long'], 'Sections object:', sections); //I think I prefer it without stringify?
+    //Utils.debuggingLog(['getLogSectionsMap_long'], 'Sections object:', sections); //I think I prefer it without stringify?
     //Utils.debuggingLog(['getLogSectionsMap'], 'Sections object:', JSON.stringify(sections, null, 2));
+    //Utils.debuggingLog(['getLogSectionsMap_long'], 'sectionsMap object:', sectionsMap);
+    Utils.debuggingLog(['getLogSectionsMap_long'], 'Sections object:', 
+        Object.fromEntries(
+            Object.entries(sections).map(([key, value]) => 
+                [key, typeof value === 'string' && value.length > 50 ? value.substring(0, 50) + '...' : value]
+            )
+        )
+    );
+    
+    Utils.debuggingLog(['getLogSectionsMap_long'], 'sectionsMap object:', 
+        Object.fromEntries(
+            Array.from(sectionsMap.entries()).map(([key, value]) => {
+                return [key, {
+                    ...value,
+                    content: value.content && value.content.length > 50 ? value.content.substring(0, 50) + '...' : value.content
+                }];
+            })
+        )
+    );
     Utils.debuggingLog(['getLogSectionsMap_long'], '-', '-- ---------------- ---');
     Utils.debuggingLog(['getLogSectionsMap_long'], '-', '-- END LOG SECTIONS ---');
     Utils.debuggingLog(['getLogSectionsMap_long'], '-', '-- ---------------- ---');

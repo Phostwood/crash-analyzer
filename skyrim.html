@@ -28,7 +28,7 @@
 	<meta name="description" content="Analyze Skyrim crash logs to identify common issues and provide troubleshooting advice.">
 
 	<meta charset="UTF-8">
-	<meta name="version" content="0.16.3 - <b>Work in Progress</b> for non-Nolvus lists">
+	<meta name="version" content="0.17.1 - <b>Work in Progress</b> for non-Nolvus lists">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 	<link rel="icon" type="image/x-icon" href="https://phostwood.github.io/crash-analyzer/favicon.ico">
@@ -45,30 +45,30 @@
 	<script src="https://cdn.jsdelivr.net/npm/turndown@7.0.0/dist/turndown.js"></script>
 
 
-	<link href="./css/stylesheet.css?v=0.16.3" rel="stylesheet">
+	<link href="./css/stylesheet.css?v=0.17.1" rel="stylesheet">
 
-	<script src="./js/utils.js?v=0.16.3" defer></script>
-	<script src="./js/explainersMap.js?v=0.16.3" defer></script>
-	<script src="./js/testUtils.js?v=0.16.3" defer></script>
+	<script src="./js/utils.js?v=0.17.1" defer></script>
+	<script src="./js/explainersMap.js?v=0.17.1" defer></script>
+	<script src="./js/testUtils.js?v=0.17.1" defer></script>
 
 	<!-- Independent data/configuration scripts -->
-	<script src="./js/crashPatterns.js?v=0.16.3" defer></script>
-	<script src="./js/antivirusSignatures.js?v=0.16.3" defer></script>
-	<script src="./js/overlaySignatures.js?v=0.16.3" defer></script>
-	<script src="./js/nolvusSignatures.js?v=0.16.3"defer></script>
-	<!-- DISABLED: <script src="./js/nolvusUtils.js?v=0.16.3" defer></script> -->
-	<!-- DISABLED: <script src="./js/nolvusLists.js?v=0.16.3" defer></script> -->
+	<script src="./js/crashPatterns.js?v=0.17.1" defer></script>
+	<script src="./js/antivirusSignatures.js?v=0.17.1" defer></script>
+	<script src="./js/overlaySignatures.js?v=0.17.1" defer></script>
+	<script src="./js/nolvusSignatures.js?v=0.17.1"defer></script>
+	<!-- DISABLED: <script src="./js/nolvusUtils.js?v=0.17.1" defer></script> -->
+	<!-- DISABLED: <script src="./js/nolvusLists.js?v=0.17.1" defer></script> -->
 
 	<!-- Core functionality scripts -->
-	<script src="./js/logSummary.js?v=0.16.3" defer></script>
-	<script src="./js/insights.js?v=0.16.3" defer></script>
-	<script src="./js/diagnoses.js?v=0.16.3" defer></script>
+	<script src="./js/logSummary.js?v=0.17.1" defer></script>
+	<script src="./js/insights.js?v=0.17.1" defer></script>
+	<script src="./js/diagnoses.js?v=0.17.1" defer></script>
 
 	<!-- Main application script -->
-	<script src="./js/analyzeLog.js?v=0.16.3" defer></script>
+	<script src="./js/analyzeLog.js?v=0.17.1" defer></script>
 
 	<!-- UI script (should be last) -->
-	<script src="./js/userInterface.js?v=0.16.3" defer></script>
+	<script src="./js/userInterface.js?v=0.17.1" defer></script>
 
     <style>
         #speculativeInsights {
@@ -90,6 +90,7 @@
 				<select id="logType" name="logType">
                     <option value="crashlogger">Crash Logger Logs (Skyrim AE)</option>
 					<option value="netscript">.NET Script Framework logs (Skyrim SE)</option>
+					<option value="trainwreck">Trainwreck logs (backup option for Skyrim SE or AE)</option>
 				</select>
 			</div>
 			
@@ -97,6 +98,7 @@
                 <strong>Find your crash logs at:</strong><br>
                 <code id="crashDirectory">(selecte your log type above for more information)</code><br>
             </p>
+			<p>Or, alternately, <a href="#" id="loadTestLog">use the Test Log</a> to simulate almost every possible crash log issue at once.</p>
 			<input type="file" id="fileInput" style="display:none;" onchange="loadFile(event)" accept=".txt">
 			<button onclick="document.getElementById('fileInput').click();">Choose File</button>
 			<div id="filename"></div>
@@ -132,7 +134,8 @@
 			<a href="https://www.patreon.com/Phostwood">
 				<img src="./Patreon.png" alt="Support me on Patreon" style="max-width: 300px; height: auto;">
 			</a>
-		</aside>		
+		</aside>
+		<br>		
 	</main>
 	<footer id="disclaimer">
 		<strong>Disclaimer:</strong>
