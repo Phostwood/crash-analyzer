@@ -560,34 +560,17 @@ SKSE PLUGINS:
 
 PLUGINS:
 	Light: 100	Regular: 79	Total: 179
-	[ 0]     Skyrim.esm
-	[ 1]     Update.esm
-	[ 2]     Dawnguard.esm
-	[ 3]     HearthFires.esm
-	[ 4]     Dragonborn.esm
-	[ 5]     ccBGSSSE001-Fish.esm
-	[ 6]     ccBGSSSE025-AdvDSGS.esm
-	[ 7]     Unofficial Skyrim Special Edition Patch.esp
-	[ 8]     Immersive Wenches.esp
-	[ 9]     LegacyoftheDragonborn.esm
-	[ A]     YurianaWench.esp
-	[ B]     Vigilant.esm
-	[ C]     Unslaad.esm
-	[FE: 60] Twilight Princess Armor.esp
-	[FE: 61] Twilight Princess Armor - Alt Textures and Cloth Addon.esp
-	[FE: 62] Vigilant Voiced.esp
-	[FE: 63] CWIOrdinatorPatchSSE.esp
-[00] A.esm
-[01] B.esp
-[02] C.esp
-[03] D.esp
-[04] honed metal voiced.esp
-[05] tools.esp
-[06] skydecoction.esp
-[07] Synthesis.esp
-[08] E.esp
-[09] F.esp
-[0A] G.esp
-[ZZ] autohdr64.addon
-[ZZ] simplicity of snow.esp
-[ZZ] jks skyrim.esp
+	[ 0]	A.esm
+	[ 1]	B.esp
+	[ 2]	C.esp
+	[ 3]	D.esp
+	[ 4]	honed metal voiced.esp
+	[ 5]	tools.esp
+	[ 6]	skydecoction.esp
+	[ 7]	Synthesis.esp
+	[ 8]	E.esp
+	[ 9]	F.esp
+	[ A]	G.esp
+	[ZZ]	autohdr64.addon
+	[ZZ]	simplicity of snow.esp
+	[ZZ]	jks skyrim.esp
