@@ -557,6 +557,11 @@ SKSE PLUGINS:
 	trainwreck.dll
 	TrueDirectionalMovement.dll v2.2.5
 	TrueHUD.dll v1.1.9
+	ConsoleUtilSSE.dll v1.4.0
+	QuickLootRE.dll v2.15
+	po3_PapyrusExtender.dll v5.6.2.1
+	DynamicAnimationReplacer.dll v1.1.3
+
 
 PLUGINS:
 	Light: 100	Regular: 79	Total: 179

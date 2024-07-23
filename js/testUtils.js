@@ -5,12 +5,15 @@ if (typeof Utils === 'undefined') {
     console.error('Error: Utils object is not defined. Make sure utils.js is loaded before testUtils.js');
 } else {
     // Add new methods to Utils object
-    Utils.getPercentAlphabetized = function(passedLogFile) {
-        const pluginsRegex = /Game plugins \(\d+\)\s*\{[\s\S]*?\}/;
-        var pluginsMatch = passedLogFile.match(pluginsRegex);
-        var pluginsSection = pluginsMatch ? pluginsMatch[0] : '';
+    //OLD METHOD: Utils.getPercentAlphabetized = function(passedLogFile) {
+        //OLD METHOD: const pluginsRegex = /Game plugins \(\d+\)\s*\{[\s\S]*?\}/;
+        //OLD METHOD: var pluginsMatch = passedLogFile.match(pluginsRegex);
+        //OLD METHOD: var pluginsSection = pluginsMatch ? pluginsMatch[0] : '';
+    
+    Utils.getPercentAlphabetized = function(gamePlugins) {
+        Utils.debuggingLog(['getPercentAlphabetized', 'testUtils.js'], 'gamePlugins:', gamePlugins);
 
-        var lines = pluginsSection.split('\n').filter(line => line.includes('.esp'));
+        var lines = gamePlugins.split('\n').filter(line => line.includes('.esp'));
 
         var alphabetizedOrderCount = 0;
         var totalEspPlugins = lines.length - 1;
@@ -67,6 +70,36 @@ if (typeof Utils === 'undefined') {
         return this.processListItems([...pathsSet]);
     };
 
+    Utils.extractHkxPathsToListItems = function(logText) {
+        const fileRegex = /"([^"]+\.hkx)"/g;
+        let match;
+        const pathsSet = new Set();
+    
+        while ((match = fileRegex.exec(logText)) !== null) {
+            pathsSet.add(match[1]);
+        }
+    
+        // If no matches were found, add the no animations found message to the set
+        if (pathsSet.size === 0) {
+            pathsSet.add('(no animation files found in crash log ... consider decompressing relevant .bsa archives)');
+        }
+    
+        const hkbRegex = /hkbBehaviorGraph\((Name: `[^`]+`)\)/g;
+        const animGraphRegex = /BShkbAnimationGraph\((Name: `[^`]+`)\)/g;
+    
+        // Check for names using the two regexes and add their group matches to the pathsSet
+        while ((match = hkbRegex.exec(logText)) !== null) {
+            pathsSet.add(match[1]);
+        }
+        while ((match = animGraphRegex.exec(logText)) !== null) {
+            pathsSet.add(match[1]);
+        }
+    
+        // Convert the Set back to an array and process to list items
+        return this.processListItems([...pathsSet]);
+    };
+
+
     Utils.extractSkyrimTexturePathsToListItems = function(logText) {
         const regex = /"([^"]+\.(dds|tga|bmp))"/g;
         let match;
@@ -118,4 +151,29 @@ if (typeof Utils === 'undefined') {
     };
 
     // You can add more test-related utility functions here
+}
+
+
+// Reusable Diagnosis Strings:
+
+Utils.LootIfSkyrim = '';
+Utils.LootListItemIfSkyrim = '';
+Utils.LootWarningForNolvus = '';
+Utils.NolvusOrSkyrimText = '';
+
+if (Utils.isSkyrimPage) {
+    const lootDescription = 'Try using <a href="https://loot.github.io/">LOOT</a> as a <b>diagnostic tool</b>. ' +
+    '⚠️Caution: LOOT can safely be used as a diagnostic tool or for load order suggestions, ' +
+    'but its automatic load order reorganization is often discouraged. ' +
+    'It\'s widely thought to incorrectly sort 5 to 10% of mods, ' +
+    'which can be especially problematic with large mod lists.';
+
+    Utils.LootIfSkyrim = lootDescription;
+    Utils.LootListItemIfSkyrim = `<li>${lootDescription}</li>`;
+    Utils.NolvusOrSkyrimText = 'Skyrim';
+
+} else {
+   Utils.LootWarningForNolvus = ' ⚠️Note: Avoid auto-sorting Nolvus with tools like LOOT.';
+   Utils.NolvusOrSkyrimText = 'Nolvus';
+
 }

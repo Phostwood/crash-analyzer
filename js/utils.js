@@ -10,13 +10,18 @@ Utils.isDebugging = true; // Set this to false to disable debugging (non-error) 
 //Utils.debugBatch = ['generateLogSummary', 'processLines', 'splitIntoLines', 'getLogSectionsMap', 'getLogSectionsMap'];
 //Utils.debugBatch = ['getLogType', 'userInterface.js'];
 //Utils.debugBatch = ['analyzeLog', 'getBadlyOrganizedNolvusPlugins' ];
-Utils.debugBatch = ['getLogSectionsMap_long'];
+//Utils.debugBatch = ['getLogSectionsMap_long'];
 //Utils.debugBatch = ['hasSkyrimAE'];
 //Utils.debugBatch = ['getLogSectionsMap_long', 'getLogType', 'getLogSectionsMap'];
 //Utils.debugBatch = ['loadAndAnalyzeTestLog'];
 //Utils.debugBatch = ['getLogSectionsMap_long', 'hasNewEslSupport'];
 //Utils.debugBatch = ['checkForNolvusModlist', 'getLogSectionsMap_long'];
 //Utils.debugBatch = ['missingMastersDiagnosis'];
+//Utils.debugBatch = ['getPercentAlphabetized'];
+//Utils.debugBatch = ['hasSkyrimVersionOrHigher', 'hasSkyrimAE', 'hasNewEslSupport'];
+//Utils.debugBatch = ['getDllVersionFromLog', 'hasCompatibleDll', 'checkDllCompatibility', 'compareVersions'];
+Utils.debugBatch = ['hasCompatibleDll', 'checkDllCompatibility'];
+
 
 
 
@@ -77,17 +82,9 @@ Utils.init = function() {
     this.isReady = true;
 };
 
-/*OLD VERSION: Utils.debuggingLog = function(batchIds, message, content) {
-    if (Utils.isDebugging && 
-        (Utils.debugBatch.includes('ALL') || 
-         batchIds.some(id => Utils.debugBatch.includes(id)))) {
-        if (content === undefined) content = ' ';
-        console.log(`[${batchIds.join('|')}]`, message, content);
-    }
-}; */
-
 Utils.debuggingLog = function(batchIds, message, content) {
-    if (Utils.isDebugging && (Utils.debugBatch.includes('ALL') || batchIds.some(id => Utils.debugBatch.includes(id)))) {
+    if (Utils.isDebugging &&
+            (Utils.debugBatch.includes('ALL') || batchIds.some(id => Utils.debugBatch.includes(id)))) {
       if (content === undefined) content = ' ';
       console.groupCollapsed(`[${batchIds.join('|')}]`, message, content);
       console.trace('Caller location');
@@ -95,68 +92,218 @@ Utils.debuggingLog = function(batchIds, message, content) {
     }
 };
 
-Utils.hasSkyrimAE = function(sectionHeader) {
+
+// Helper function to compare version strings
+Utils.compareVersions = function (a, b) {
+    Utils.debuggingLog(['compareVersions'], `Comparing ${a} with ${b}`);
+    let segmentsA = a.split('.').map(Number);
+    let segmentsB = b.split('.').map(Number);
+
+    // Function to get the number of segments
+    function numberOfSegments(segments) {
+        return segments.length;
+    }
+
+    // Function to compare versions with equal number of segments
+    function compareVersionsWithEqualSegments(segmentsA, segmentsB) {
+        for (let i = 0; i < segmentsA.length; i++) {
+            let segmentA = parseInt(segmentsA[i]);
+            let segmentB = parseInt(segmentsB[i]);
+
+            if (segmentA === segmentB) {
+                continue;
+            } else if (segmentA > segmentB) {
+                return 1;
+            } else if (segmentA < segmentB) {
+                return -1;
+            }
+        }
+        return 0;
+    }
+
+    // Function to remove trailing zeros or ones (until both segments have an equal length)
+    function removeTrailingZerosOrOnes(segmentsA, segmentsB) {
+        while (numberOfSegments(segmentsA) > numberOfSegments(segmentsB) && (segmentsA[segmentsA.length - 1] === 0 || segmentsA[segmentsA.length - 1] === 1)) {
+            segmentsA.pop();
+        }
+        while (numberOfSegments(segmentsB) > numberOfSegments(segmentsA) && (segmentsB[segmentsB.length - 1] === 0 || segmentsB[segmentsB.length - 1] === 1)) {
+            segmentsB.pop();
+        }
+        return [segmentsA, segmentsB];
+    }
+
+    // Adjust segments to have equal number of segments if possible
+    [segmentsA, segmentsB] = removeTrailingZerosOrOnes(segmentsA, segmentsB);
+
+    // If A is longer than B
+    if (numberOfSegments(segmentsA) > numberOfSegments(segmentsB)) {
+        const shortenedA = segmentsA.slice(0, numberOfSegments(segmentsB));
+        const result = compareVersionsWithEqualSegments(shortenedA, segmentsB);
+        if (result !== 0) {
+            return result;
+        }
+        return 1; // A is greater if shortened A is equal to B
+    }
+
+    // If B is longer than A
+    if (numberOfSegments(segmentsB) > numberOfSegments(segmentsA)) {
+        const shortenedB = segmentsB.slice(0, numberOfSegments(segmentsA));
+        const result = compareVersionsWithEqualSegments(segmentsA, shortenedB);
+        if (result !== 0) {
+            return result;
+        }
+        return -1; // B is greater if shortened B is equal to A
+    }
+
+    // If both have the same number of segments
+    return compareVersionsWithEqualSegments(segmentsA, segmentsB);
+}
+
+
+
+
+
+
+
+
+
+
+
+function testCompareVersions() {
+    function interpretResult(result, a, b) {
+        if (result === 0) return `${a} is considered equal to ${b}`;
+        if (result > 0) return `${a} is considered greater than ${b}`;
+        return `${a} is considered less than ${b}`;
+    }
+
+    function expectResult(a, b, expectedResult) {
+        const result = Utils.compareVersions(a, b);
+        const interpretation = interpretResult(result, a, b);
+        Utils.debuggingLog(['testCompareVersions'], `   Interpretation: ${interpretation}`);
+
+        if (
+            (expectedResult === 'equal' && result !== 0) ||
+            (expectedResult === 'greater' && result <= 0) ||
+            (expectedResult === 'less' && result >= 0)
+        ) {
+            console.error(`Error: Unexpected result for ${a} vs ${b}. Expected ${expectedResult}, got ${interpretation}`);
+        }
+    }
+
+    const testCases = [
+        //equal cases:
+        ['1.4.0', '1.4', 'equal'],
+        ['1.4.1', '1.4', 'equal'],
+        ['1.4', '1.4.0', 'equal'],
+        ['1.1', '1', 'equal'],
+        ['1.0', '1', 'equal'],
+        ['1.0.0.0.1', '1', 'equal'],
+        ['1', '1.0.0.0', 'equal'],
+        ['1.1', '1', 'equal'],
+        ['1.1', '1.1', 'equal'],
+        ['1', '1.0.0.0.0', 'equal'],
+        ['1', '1.1', 'equal'],
+        ['2.3', '2.3.0.0.0', 'equal'],
+        ['2.3', '2.3.1', 'equal'],
+        ['4.5.6', '4.5.6.0.0.0', 'equal'],
+        ['4.5.6', '4.5.6.1', 'equal'],
+        ['7.8.9.10', '7.8.9.10.0.0.0', 'equal'],
+        ['7.8.9.10', '7.8.9.10.1', 'equal'],
+        ['1.2.3.4.5.6.7.8.9.10', '1.2.3.4.5.6.7.8.9.10.0', 'equal'],
+        ['1.2.3.4.5.6.7.8.9.10', '1.2.3.4.5.6.7.8.9.10.1', 'equal'],
+        //greater than cases:
+        ['1.1', '1.0', 'greater'],
+        ['1.1.1', '1.1.0', 'greater'],
+        ['1.1.1.1', '1.0.1', 'greater'],
+        ['1.2', '1.1.9999', 'greater'],
+        ['1.6.999.1', '1.6.500.999', 'greater'],
+        ['1.0.1.3', '1', 'greater'],
+        ['1.0.1.3', '1.0.1.2', 'greater'],
+        ['1.0.1.3', '1.0.1.2.0.0.0', 'greater'],
+        ['1.1.0.3', '1', 'greater'],
+        ['1.1.0.3', '1.0.1.2', 'greater'],
+        ['1.1.0.3', '1.0.1.2.0.0.0', 'greater'],      
+        //less than cases:
+        ['1.0', '1.1', 'less'],
+        ['1.0.0.0.1', '1.0.0.1', 'less'],
+        ['1.1.9999', '1.2', 'less'],
+        ['1.6.500.999', '1.6.999.1', 'less'],
+    ];
+
+    Utils.debuggingLog(['testCompareVersions'], 'Testing compareVersions function:');
+    Utils.debuggingLog(['testCompareVersions'], '--------------------------------');
+
+    testCases.forEach(([a, b, expected], index) => {
+        Utils.debuggingLog(['testCompareVersions'], `Test ${index + 1}: compareVersions('${a}', '${b}')`);
+        expectResult(a, b, expected);
+    });
+    Utils.debuggingLog(['testCompareVersions'], '--------------------------------');
+}
+
+// Run the test
+testCompareVersions();
+
+
+
+
+
+Utils.getSkyrimVersion = function(sectionHeader) {
     const lowerCaseLog = sectionHeader.toLowerCase();
-    let isAE = false;
-    let aeMatch = null;
     let version = null;
 
-    
     // Check for Net Script Framework log format
     const nsfMatch = lowerCaseLog.match(/applicationversion:\s*(\d+\.\d+\.\d+\.\d+)/);
     if (nsfMatch) {
-        version = nsfMatch[1].split('.').map(Number);
-        isAE = version[0] > 1 || (version[0] === 1 && version[1] >= 6);
+        Utils.debuggingLog(['getSkyrimVersion'], `Skyrim version detected: ${nsfMatch}`);
+        return nsfMatch[1];
+    }
+
+    // Check for Crash Logger and Trainwreck log formats
+    const versionMatch = lowerCaseLog.match(/skyrim\s*(?:se|sse)?\s*v?(\d+\.\d+\.\d+)/i);
+    if (versionMatch) {
+        Utils.debuggingLog(['getSkyrimVersion'], `Skyrim version detected: ${versionMatch}`);
+        return versionMatch[1];
+    }
+
+    console.warn('ERROR: Unable to determine Skyrim version from log.');
+    return null;
+};
+
+Utils.hasSkyrimVersionOrHigher = function(sectionHeader, targetVersion) {
+    const detectedVersion = Utils.getSkyrimVersion(sectionHeader);
+    
+    if (!detectedVersion) {
+        return false;
     }
     
-    // Check for Crash Logger and Trainwreck log formats
-    if (!isAE) {
-        //BUGGED: aeMatch = lowerCaseLog.match(/skyrim(?:se)?\s*v?(\d+\.\d+\.\d+)/);
-        aeMatch = lowerCaseLog.match(/skyrim\s*(?:se|sse)?\s*v?(\d+\.\d+\.\d+)/i);
-        if (aeMatch) {
-            version = aeMatch[1].split('.').map(Number);
-            isAE = version[0] > 1 || (version[0] === 1 && version[1] >= 6);
+    const version = detectedVersion.split('.').map(Number);
+
+    // Compare versions
+    for (let i = 0; i < targetVersion.length; i++) {
+        if (version[i] > targetVersion[i]) {
+            Utils.debuggingLog(['hasSkyrimVersionOrHigher'], `Version ${detectedVersion} is greater than or equal to ${targetVersion.join('.')}`);
+            return true;
+        }
+        if (version[i] < targetVersion[i]) {
+            Utils.debuggingLog(['hasSkyrimVersionOrHigher'], `Version ${detectedVersion} is less than ${targetVersion.join('.')}`);
+            return false;
         }
     }
     
-    Utils.debuggingLog(['hasSkyrimAE'], 'hasSkyrimAE raw sectionHeader:', sectionHeader);
-    Utils.debuggingLog(['hasSkyrimAE'], 'hasSkyrimAE nsfMatch:', nsfMatch);
-    Utils.debuggingLog(['hasSkyrimAE'], 'hasSkyrimAE aeMatch:', aeMatch);
-    Utils.debuggingLog(['hasSkyrimAE'], 'hasSkyrimAE version:', version);
+    Utils.debuggingLog(['hasSkyrimVersionOrHigher'], `Version ${detectedVersion} is equal to ${targetVersion.join('.')}`);
+    return true; // Versions are equal
+};
+
+Utils.hasSkyrimAE = function(sectionHeader) {
+    const isAE = Utils.hasSkyrimVersionOrHigher(sectionHeader, [1, 6, 0, 0]);
+    Utils.debuggingLog(['hasSkyrimAE_long'], 'hasSkyrimAE raw sectionHeader:', sectionHeader);
     Utils.debuggingLog(['hasSkyrimAE'], 'hasSkyrimAE flag set to:', isAE);
     return isAE;
 };
 
 Utils.hasNewEslSupport = function(sectionHeader) {
-    const lowerCaseLog = sectionHeader.toLowerCase();
-    let hasNewEslSupport = false;
-    let versionMatch = null;
-    let version = null;
-
-    // Check for Net Script Framework log format
-    const nsfMatch = lowerCaseLog.match(/applicationversion:\s*(\d+\.\d+\.\d+\.\d+)/);
-    if (nsfMatch) {
-        version = nsfMatch[1].split('.').map(Number);
-        hasNewEslSupport = version[0] > 1 || 
-                     (version[0] === 1 && version[1] > 6) || 
-                     (version[0] === 1 && version[1] === 6 && version[2] >= 1130);
-    }
-
-    // Check for Crash Logger and Trainwreck log formats
-    if (!hasNewEslSupport) {
-        versionMatch = lowerCaseLog.match(/skyrim\s*(?:se|sse)?\s*v?(\d+\.\d+\.\d+)/i);
-        if (versionMatch) {
-            version = versionMatch[1].split('.').map(Number);
-            hasNewEslSupport = version[0] > 1 || 
-                         (version[0] === 1 && version[1] > 6) || 
-                         (version[0] === 1 && version[1] === 6 && version[2] >= 1130);
-        }
-    }
-
-    Utils.debuggingLog(['hasNewEslSupport'], 'hasNewEslSupport raw sectionHeader:', sectionHeader);
-    Utils.debuggingLog(['hasNewEslSupport'], 'hasNewEslSupport nsfMatch:', nsfMatch);
-    Utils.debuggingLog(['hasNewEslSupport'], 'hasNewEslSupport versionMatch:', versionMatch);
-    Utils.debuggingLog(['hasNewEslSupport'], 'hasNewEslSupport version:', version);
+    const hasNewEslSupport = Utils.hasSkyrimVersionOrHigher(sectionHeader, [1, 6, 1130, 0]);
+    Utils.debuggingLog(['hasNewEslSupport_long'], 'hasNewEslSupport raw sectionHeader:', sectionHeader);
     Utils.debuggingLog(['hasNewEslSupport'], 'hasNewEslSupport flag set to:', hasNewEslSupport);
     return hasNewEslSupport;
 };
@@ -206,24 +353,6 @@ Utils.countNullVoid = function(crashLog) {
 };
 
 
-Utils.countEsmPlugins = function(sectionGamePlugins) {
-    if (!sectionGamePlugins) return 0;
-    const esmMatches = sectionGamePlugins.match(/\.esm/gi);
-    return esmMatches ? esmMatches.length : 0;
-};
-
-Utils.countEspPlugins = function(sectionGamePlugins) {
-    if (!sectionGamePlugins) return 0;
-    const espMatches = sectionGamePlugins.match(/\.esp/gi);
-    return espMatches ? espMatches.length : 0;
-};
-
-Utils.countEslPlugins = function(sectionGamePlugins) {
-    if (!sectionGamePlugins) return 0;
-    const eslMatches = sectionGamePlugins.match(/\.esl/gi);
-    return eslMatches ? eslMatches.length : 0;
-};
-
 Utils.countPlugins = function(crashLog) {
     const match = crashLog.match(/Game plugins \((\d+)\)\s*\{/);
     return match ? parseInt(match[1], 10) : 0;
@@ -272,6 +401,53 @@ Utils.setLogType = function (logType) {
         document.getElementById('logType').dispatchEvent(new Event('change'));
     }
 };
+
+Utils.getDllVersionFromLog = function(sections, dllFileName) {
+    if (sections.logType !== 'CrashLogger' && sections.logType !== 'Trainwreck') {
+        console.warn('ERROR: Unsupported log type for getDllVersionFromLog');
+        return null;
+    }
+
+    let version = null;
+
+    // Check modules section (Trainwreck only, as CrashLogger's "MODULES:"" section doesn't list version numbers)
+    if (sections.logType == 'Trainwreck' && sections.modules) {
+        const moduleLines = sections.modules.split('\n');
+        for (let i = 0; i < moduleLines.length; i++) {
+            if (moduleLines[i].includes(dllFileName)) {
+                const versionLine = moduleLines[i + 2]; // Version is typically two lines below the DLL name
+                if (versionLine && versionLine.includes('Version:')) {
+                    version = versionLine.split('Version:')[1].trim().replace('v', '');
+                    break;
+                }
+            }
+        }
+    }
+
+    // Check SKSE plugins section (both CrashLogger and Trainwreck)
+    if (!version && sections.sksePlugins) {
+        const pluginLines = sections.sksePlugins.split('\n');
+        for (const line of pluginLines) {
+            if (line.includes(dllFileName)) {
+                const parts = line.split(/\s+/);
+                version = parts[parts.length - 1].replace('v', '');
+                break;
+            }
+        }
+    }
+
+    if (version) {
+        Utils.debuggingLog(['getDllVersionFromLog'], `Version found in log for ${dllFileName}: ${version}`);
+    } else {
+        Utils.debuggingLog(['getDllVersionFromLog'], `No version found in log for ${dllFileName}`);
+    }
+
+    return version;
+};
+
+
+
+
 
 //Split log files into sections 
 Utils.getLogSectionsMap = function(logFile) {
@@ -515,30 +691,13 @@ Utils.getLogSectionsMap = function(logFile) {
     sections.thirdLine = this.logLines[2];
 
     // Create composite sections
+    sections.header = sections.header; //QUESTION: WHY DO I HAVE TO RE-SPECIFY THIS SECTION?
     sections.topQuarter = [sections.firstLine, sections.relevantObjects, sections.probableCallstack].filter(Boolean).join('\n\n');
     sections.topThird = [sections.firstLine, sections.relevantObjects, sections.probableCallstack, sections.registers].filter(Boolean).join('\n\n');
     sections.topHalf = [sections.firstLine, sections.relevantObjects, sections.probableCallstack, sections.registers, sections.stack].filter(Boolean).join('\n\n');
     sections.topThirdNoHeading = [sections.relevantObjects, sections.probableCallstack, sections.registers].filter(Boolean).join('\n\n');
     sections.fullLogFileLowerCase = logFile.toLowerCase();
     sections.fullLogFile = logFile;
-
-
-    // Add some counters to sections.
-    /* SECTION REMOVED AS IT CAN'T WORK (log files can't determine if a ESP is ESL flagged)
-    sections.countEsmPlugins = this.countEsmPlugins(sections.gamePlugins);
-    Utils.debuggingLog(['getLogSectionsMap'], 'ESM Plugins count:', sections.countEsmPlugins);
-    
-    sections.countEspPlugins = this.countEspPlugins(sections.gamePlugins);
-    Utils.debuggingLog(['getLogSectionsMap'], 'ESP Plugins count:', sections.countEspPlugins);
-    
-    sections.countEslPlugins = this.countEslPlugins(sections.gamePlugins);
-    Utils.debuggingLog(['getLogSectionsMap'], 'ESL Plugins count:', sections.countEslPlugins);
-    
-    sections.countTotalPlugins = sections.countEsmPlugins + sections.countEspPlugins;
-    Utils.debuggingLog(['getLogSectionsMap'], 'Total Plugins count (ESM + ESP):', sections.countTotalPlugins);
-    
-    Utils.debuggingLog(['getLogSectionsMap'], 'Note: ESL plugins are not included in the total count as they do not contribute to the 254 plugin limit.');
-    */
     
 
     // Add debugging output for the entire sections object

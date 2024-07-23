@@ -17,15 +17,6 @@ window.LogSummary = {
             insightsCount++;
         }
 
-        /* THIS SECTION WAS ABONDONED.
-        // NOLVUS has Total Plugins (ESM + ESP): 2,284 where thousands of them are actually ESL flagged ESPs ... which we can't tell by from just the crash log
-        const pluginCountInsights = this.generatePluginCountInsights(sections);
-        if (pluginCountInsights) {
-            insights += pluginCountInsights;
-            insightsCount++;
-        }
-        */
-
         Utils.debuggingLog(['generateLogSummary_long', 'logSummary.js'], 'sectionsMap:', sectionsMap);
         Utils.debuggingLog(['generateLogSummary', 'logSummary.js'], 'Before processLines');
         const { namedElementMatches, missedMatches } = this.processLines(sectionsMap);
@@ -96,34 +87,6 @@ window.LogSummary = {
         return insights;
     },
 
-    generatePluginCountInsights: function (sections) {
-        //THIS SECTION WAS REMOVED.
-        // NOLVUS has Total Plugins (ESM + ESP): 2,284 where thousands of them are actually ESL flagged ESPs ... which we can't tell by from just the crash log
-        let insights = '<li>🔎 <b>Plugin Counts</b> for Plugins section in the log file: <ul>';
-
-        insights += `<li>ESM Plugins: <code>${sections.countEsmPlugins.toLocaleString()}</code></li>`;
-        insights += `<li>ESP Plugins: <code>${sections.countEspPlugins.toLocaleString()}</code></li>`;
-        insights += `<li>ESL Plugins: <code>${sections.countEslPlugins.toLocaleString()}</code></li>`;
-        insights += `<li>Total Plugins (ESM + ESP): <code>${sections.countTotalPlugins.toLocaleString()}</code></li>`;
-
-        insights += '</ul></li>';
-
-        // Add information about plugin limits
-        insights += '<li>ℹ️ <b>Plugin Limit Information</b>:<ul>';
-        insights += '<li>The combined total of ESM and ESP plugins cannot exceed 254.</li>';
-        insights += '<li>ESL (light) plugins do not count towards this 254 limit.</li>';
-
-        // Check if the plugin limit is approaching or exceeded
-        if (sections.countTotalPlugins > 253) {
-            insights += `<li>⚠️ <b>Warning:</b> Your total plugin count (${sections.countTotalPlugins}) exceeds the 254 limit. This may cause odd issues and/or crashes. For more information see <a href="https://www.reddit.com/r/Nolvus/comments/1b041m9/reference_keep_your_active_esmsesps_count_to_254/">REFERENCE: Keep your Active ESMs+ESPs count to 254 or lower!</a></li>`;
-        } else if (sections.countTotalPlugins > 250) {
-            insights += `<li>⚠️ <b>Caution:</b> Your total plugin count (${sections.countTotalPlugins}) is approaching the 254 limit. For more information see <a href="https://www.reddit.com/r/Nolvus/comments/1b041m9/reference_keep_your_active_esmsesps_count_to_254/">REFERENCE: Keep your Active ESMs+ESPs count to 254 or lower!</a></li>`;
-        }
-
-        insights += '</ul></li>';
-
-        return insights;
-    },
 
     processLines: function (sectionsMap) {
         const logType = sectionsMap.get('logType');
@@ -435,6 +398,6 @@ window.LogSummary = {
             }
         }).join(' ');
 
-        return `<li>🔎 <b>Files/Elements</b> listed within ${sectionDescriptions} sections of the crash log. Items are sorted by priority, with lower numbers (and higher positions in the list) indicating a higher likelihood of contributing to the crash. Pay extra attention to anything related to <b>mods you have added</b> to Nolvus:`;
+        return `<li>🔎 <b>Files/Elements</b> listed within ${sectionDescriptions} sections of the crash log. Items are sorted by priority, with lower numbers (and higher positions in the list) indicating a higher likelihood of contributing to the crash. Pay extra attention to anything related to <b>mods you have recently added</b> to ${Utils.NolvusOrSkyrimText}:`;
     }
 };

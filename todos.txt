@@ -1,135 +1,143 @@
-✅ Beta version 0.17.1:
-	✅ Refactoring and code improvements
-		- Improved hasSkyrimAE flag to be more reliable
-			- Turns out that Crash Logger is an unreliable  indicator of Skyrim version as it can be installed onto Skyrim SE, even though the author recommends Net Script Frameword logs instead
-			- Also, longterm, Net Script Framework could potentially be updated by someone to work with AE?
-		- Improvements to Test Log(s)
-			- Changed name of Test Logs to reflect logType
-			- Setup Test Log for CrashLogger logs (a frist draft effort ... some syntax still from NSF logs, but it still simulates the issues)
-			- Updated NSF Test Log with new Simplicity of Snow + JK's Skyrim compatibility patch test
-		- New sections.header log section
-		- New sections.hasSkyrimAE flag
-		- New sections.fullLog
-		- New sections.fullLogLowerCase
-		- clearer syntax to sectionsMap and farily large refactoring of affected code
-		- wrapped some tests into functions (Missing Masters, Check for Novlus List, others?)
-		- Bug fixes for Simplicity of Snow + JK's Skyrim compatibility patch test
-		- Attempted to count ESM/ESP/ESP files ... but abandoned (commented out code) as it's impossible to determine if ESM+ESP count is over since a lot of ESPs are ESL flagged (but you can't see that in the crash log)
-		- Rewrote Named Elements code to be cleaner and more efficient/effective, and fixed some bugs for CrashLogger and Trainwreck logs
-		- Started some mergeIndentedLines() code, but stopped as it got overly complex. I'm still not sure of the best way to communicate the lesser importance of indented lines in CrashLogger and Trainwreck logs. I'm thinking of just using a different color for them, and maybe a different icon? Thought about merging them into into one line, but I'm not sure if that's the best way to go ... and I dind't get it work as intended anyway. Code is still there, but not being used.
-		- added some more file types to Named Elements section
-		- Improved console log data dump of sections and sectionsMap
+✅ Beta version 0.17.2:
 
 	✅ New Features:
-		- Now experimentally supports Trainwreck logs
-		- New warning to use another log type if using Trainwreck logs (but still makes best effort with Trainwreck logs)
-		- Improved, and promoted (for Skyrim.html) Missing Masters description/troubleshooting steps ... sensitive to both skyrim.html usage (vs nolvus) and to specific version of Skyrim used (if it supports latest ESL file formats, or needs BEES)
-		- New test for hair mod issues, and added to Test Logs
-		- Bug fix for new ConsoleUtilSSE.dll test, and added to Test Logs
-		- Added 1 new and one updated text to explainerMap.js
-		- Test for Nolvus-like modlist expanded to check for a percentage of mods that in in list of stable Nolvus mods (used elsewhere for determinign if a bad Nolvus load order)
+		- Tests for common mods that are incompatible with Skyrim AE 1.6.1130 and later
+			- Currently spots and recommends upgrades for ConsoleUtilSSE, QuickLootRE, po3_PapyrusExtender, and DynamicAnimationReplacer
+		- New animation issues test with troubleshooting tips
+		- Merged 7 mesh-related tests into one large, more refined test with better troubleshooting steps.
+		- Alphabetized Load Order test now has a new troubleshooting description for Skyrim.html users (non-Nolvus users)
+
+	✅ Refactoring and code improvements
+		-Removed experimental code for counting ESM+ESP files, since it can never be made accurate from just crash logs due to some ESP files being (invisibly to crash logs) flagged as ESL files. Vanilla Nolvus includes like thousands of these ESL-flagged ESP files.
+		- New contextual, standardized statements for adding to troubleshooting descriptions:
+			- Utils.LootWarningForNolvus
+			- Utils.LootIfSkyrim
+			- Utils.LootListItemIfSkyrim
+		- Using above, shortened Loot description in Missing Masters test
+		- Loosened the test for .STRINGS crash to not be specific to R14 line.
+			- From an "Everything" app search, it appears that ".STRINGS" never occurs in any other context in the log. All occurrences were String crashes. I was concerned that different log types (CrashLogger, Trainwreck) might not keep it on a line with the same "R14" text, so I decided to loosen up the test. If this causes false positives, I'll have to tighten it back up.
+		- Fixed several other tests and Test Logs for better compatibility with CrashLogger/Trainwreck logs
+		- New data-structure for storing crash types:  crashIndicatorsMap.js
+		- Fixed minor layout issue in Overlay test description
+		- Fixed minor layout issue in Physics test description, and removed Nolvus line for Skyrim.html users
+		- New contextual standardized Utils.NolvusOrSkyrimText variable for returning "Nolvus" or "Skyrim" depending on the page being used.
+		- A first round of general changes towards making Skyrim.html mention Nolvus a lot less 
+
+
+NEXT VERSION: WORKING ON:
+1. Remove STEAM from Overlay checks ... it just comes up too much
+
+2. Does "List of mentioned meshes" reflect named and filename meshes from all mesh indicators? It probably should?
+
+
+Revise Animations test text:
+https://www.reddit.com/r/skyrimmods/comments/1e4gy2u/comment/ldp85c5/?utm_source=share&utm_medium=web3x&utm_name=web3xcss&utm_term=1&utm_content=share_button
+
+
+Initial testing of new DLL version checker.
+Add other DLLs for version checking?
+
+I'm guessing code outside of my new Utils.compareVersions() function is causing this? Need to rewrite other sections? The comments and variable/function names don't always make sense, and that is probably throwing off AI code writing, regardless of my outside-of-code instructions?
+	NEW BUG in "update CU and PPE - 3kiuNJZH.txt"
+		"ConsoleUtilSSE.dll v1.5.1: Recommend update to ConsoleUtilSSE NG v1.5.1 "
+
+	NEW BUG in "Incompatible CU - Trainwreck - 2024-07-11-16-13-36.log.txt"
+		1.5.1 already installed, but cited as needing updated:
+	
 
 
 
+
+BUG: Maybe with CrashLogger DLL version detection?
+
+	z5ipuuuK - QuickLootRE and ConsoleUtilSSE.txt 
+	- seems to correctly show QuickLootRE.dll v2.15 and po3_PapyrusExtender.dll v5.6.2.1
+	- but doesn't show error for ConsoleUtilSSE.dll v1.4
+		- it isn't equating 1.4 as being the same as 1.4.0 ... NEEDS FIXED
+		- ABOVE IS FIXED, but now po3_PapyrusExtender.dll v5.6.2.1 isn't showing up
+
+	Gazimir SSE Crash Log - po3_PapyrusExtender.txt
+	- doesn't show error for po3_PapyrusExtender.dll v5.6.1.1 ... which is below the listed '5.6.2.1'
+
+
+IN PROGRESS: 
+Final steps:
+- Update version number
+- Review DIFFs for all changed files
+- Final round of standard new version tests
+- PUSH! Enough features for one version!
+
+- Remove mentions of Nolvus from Skyrim.html version
 
 
 Next:
 
-- ✅Change to version 0.17.1 (instead of  0.16.4)
-- ✅Test NSF on index.html with major crash log types
-	- ✅Redux
-	- ✅Ultra
-- ✅Test a variety of crash logs from other crash log types on Skyrim.html
-	- ✅NSF
-	- ✅Cl
-	- ✅Trainwreck
-- Update list of Refactoring above after reviewing diffs for this version
+See Google Keep notes on:
+- new Animations test
+- Add test for po3_PapyrusExtender version in CL/TW
+	- add new function to get version number of a mod (where available)
+	- refactor ConsoleUtilSSE version check code with the new function as well
+- Adjust shadow description
+
+- merge animation tests (old one into new one, with hexcode in the map)?
+
+- for D6DDDA  test, it mentions broken meshes as a possible cause, but it doesn't list the new troubleshooting steps. Perhaps instead of rehashing them, tell them to look for the Mesh Issue description in the Advance User section for details.
+	- mentioned twice? in normal and Advanced User sections?
+
+
+- feasible to rewrite Named Elements section (again) to show ownership of named elements by specific files (where indicated by the log)?
+	- could also same feature to list of meshes and textures reported on in various tests
+
+- Update version number
 - PUSH! Enough features for one version!
 
 ---
 
-NEXT Version: GraveLord issue isn't showing up in Trainwreck Test Log? Check number of diagnoses from al three log types and make them all match up with the same test results.
+NEXT VERSION? Turns out mod versions can be scraped from Crash Logger Logs, and the ConsoleUtilSSE test can be made a bit smarter:
+(Unsure about Trainwreck logs? Maybe no longer recommend NSF over CL for Skyrim SE 1.5 users?)
+	SKSE PLUGINS:
+		ActorLimitFix.dll
+		AHZmoreHUDInventory.dll v2.1.3
+		AHZmoreHUDPlugin.dll v5.2.2
+		AlternateConversationCamera.dll
+		AnimationQueueFix.dll v1.0.1
+		BetterJumpingSE.dll
+		BugFixesSSE.dll
+		ConsoleUtilSSE.dll v1.4
+
 
 NEXT Version: Utils.extractNifPathsToListItems() might need to be updated with name1Regex and name2Regex values that are compatible with the syntaxes in CrashLogger or Trainwreck logs?
 
-NEXT Version: Merge mesh issues into one test. List the nifscan tool as mentioned in r/Skrim's wiki, and already used in hair test. Also, mention 
-- Most common cause is a faulty mesh that appears in that location. Confirm that all meshes are good by running them through nifscan. If any are not ported you probably can fix them with nif optimizer.
-	source:
-	https://www.reddit.com/r/skyrimmods/wiki/troubleshooting_guide/
-
 NEXT VERSION: For Skyrim.html, upgrade the Advanced User's High-Confidence insights into the upper, Diagnoses section of the page
-	- Will probalby need to wrap them in functions
+	- Will probably need to wrap them in functions
 	- Also, perhaps move them to a different JS file? Maybe diagnoses.js?
 	- or maybe wait to do this with the big diagnoses refactoring with test data being extrapolated into data objects?
 		- or maybe some tests can't be extrapolated into data objects ... making them into functions in diagnoses.js might be a good place to start at least?
 
+NEXT VERSION: Named Elements section has some differences between NSF and CrashLogger logs. Make them match up, or at least map out why each difference exists.
 
-✅WORKING ON:
-✅Isolating Skryim Version number
-✅Currently debugging hasSkyrimAE ()
-✅Need to create a new sections.Header to use with hasSkyrimAE
-  - ✅Don't assign color to it so it doesn't show up on named elements section
-  -
+NEXT VERSION: Alphabetized Load Order Test: Standard, vanilla Nolvus is almost 64% alphabetized by this metric ... perhaps it should include ESM and ESL files to decrease that number and make it a more universally useful metric across other modlists? Theoretically, I think I'd rather have the threshold set from current 70% down to like 50%?
 
-✅- Crash_2024_7_14_2-10-18.txt missing BEES line in Missing Masters test
-✅- CrashLogger - erQyRxDL.tx error!
-✅- When loading Trainwreck, needs to set pulldown to Trainwreck
+- ✅ Shorten LOOT section in Missing Masters test
 
-✅- Working on new Vanilla Hair Remake test as suggested by https://www.reddit.com/r/skyrimmods/comments/1e1ai7t/comment/lcw4urr/?utm_source=share&utm_medium=web3x&utm_name=web3xcss&utm_term=1&utm_content=share_button
-✅- Add to Test Logs: Hair Issue test indicators
+✅~✅ NEXT Version: GraveLord issue isn't showing up in Trainwreck Test Log? Check number of diagnoses from al three log types and make them all match up with the same test results.
 
-✅WORKING ON: clearer syntax to sectionsMap and refactoring of affected code
-- ✅bug fix where uncolorized section (header) was showing up in the Named Elements section of the Log Summary
+✅ Merge mesh issues into one (or two) tests. See in code temporary notes in comment under "General Mesh Issues" List the nifscan tool as mentioned in r/Skyrim's wiki, and already used in hair test. Also, mention "nif optimizer"
+	- Most common cause is a faulty mesh that appears in that location. Confirm that all meshes are good by running them through nifscan, which may also isolate a bad mesh to a specific mod. If any are not ported you probably can fix them with "nif optimizer" or CAO
+	- Can also search log for found names/filenames for meshes and try to isolate them to a specific mod. If found, you can then try disabling that mod to see if it fixes your issue.
+		source:
+		https://www.reddit.com/r/skyrimmods/wiki/troubleshooting_guide/
 
-
-- ✅Skyrim.html logType pulldown needs to include Trainwreck as an option
-- ✅ Make TestLogTrainwreck1 in a more Trainwreck-ish format
-
-- ✅Test new version of Missing Masters 2.1 test (✅and remove old if new is better)
-
-
-- ✅trying to figure out why Trainwreck/CrashLogger logs are producing colorless, "[0]" elements in Named Files/Elements section of the Log Summary
-	- ✅Also, why is firstLine being skipped in this description?
-		✅"listed within [2] Probable call stack, [3] Registers, and/or [4] Stack section"
-	- ✅Also, build a better console log dump for the sections and sectionsMap
-		- ✅needs to include priority, color, etc along with the matched text
-	- ✅And maybe create a better way of building the sections and sectionsMap in a way that makes more sense (and/or can be output more easily to the Console Log?)
-
-- NEVERMIND (it's gamePlugins section is empty due to being a Missing Masters crash): "Needs Bees for translation mods - Crash_2024_7_14_2-10-18.txt" is not showing the Nolvus info when loaded from the Skyrim analyzer
-
-✅- Test changes to ConsoleUtilSSE.dll test
-✅- Add ConsoleUtilSSE.dll test to Test Log for CrashLogger and Trainwreck logs and NSF logs (but not Nolvus, which already has correct version of ConsoleUtilSSE.dll baked in)
-
-- ✅DONE: debugging "use Test Log" link with new feature to detect tye right test log for the right logType
-
-✅Trainwreck compatibility?
-	- ✅define sections for Trainwreck
-	- ✅add to logType
-	- ✅add a diagnosis warning for Trainwreck
-
-✅New Test Logs:
-	- TestLogCrashLogger1.txt
-	- TestLogCrashLogger2.txt
-	- TestLogTrainwreck1.txt
-	- TestLogTrainwreck2.txt
-
-- ✅make Missing Masters a diagnosis for Skyrim.html but keep it an Advanced Users insight for Nolvus
+✅Add to the thank you sections Skyrim.html:
+	u/RomatebitegeL
+	u/Krispyroll
 
 
 
 BUGS?
 
-- ✅Finish adding new Missing Masters description:
-	- MO2 warning doesn't always show up
-	- PAUSE FOR Non-NOLVUS DESCRIPTIONS: LOOT might be helpful?
-	- Sometimes using the wrong version of a mod (like one meant for Skyrim 1.6 instead of 1.5) can cause this:
-		- https://discord.com/channels/740569699900719145/1168063977029382235/1259668672583041064
-		- https://discord.com/channels/740569699900719145/1168063977029382235/1259706207644418048
 
-- ✅Skryim version should recommend that Nolvus users use the Nolvus-specific version of the analyzer (... )and vice versa?)
-
-
-- PAUSE: Why does this say Cusomized, but doesn't list any non-nolvus mods?
+- PAUSE: Why does this say Customized, but doesn't list any non-nolvus mods?
 	-	BetterThirdPersonSelection - Crash_2024_4_24_13-16-36.txt
 	- I'm guess they removed some vanilla mods?
 	- LIKELY: Or, since they have zero extras installed, maybe my test is off?
@@ -142,9 +150,9 @@ BUGS?
 
 - REFACTOR: remove section content from sections? Only use sectionsMap?
 
-- REFACTOR: move all log flags/indentifiers into either sections or sectionsMap?
+- REFACTOR: move all log flags/identifiers into either sections or sectionsMap?
 	- sections.isSkyrimPage
-	- secsectionstoins.hasSkyrimAE
+	- sections.hasSkyrimAE
 	- sections.isNolvus
 	- sections.logType
 	- others?
@@ -171,18 +179,18 @@ BUGS?
 1. New version of Potentially Misorganized Nolvus Plugins test:
 	- A. a version worded for non-Nolvus users for ideas on how to organize their plugins
 	- B. Show how far each plugin is out of order relative to what other vanilla plugins, and which vanilla plugins it expects to be above/below it
-		- indicate like:  modname.esp (out of order by 3, typically located below X and above Y)
+		- indicate like:  mod name.esp (out of order by 3, typically located below X and above Y)
 	- C. Show what plugins it expects to be above/below it (to help manually fix the order)
 	- maybe indicate extra info through "i" emoji that user can hover over?
 
 0. New issue interface for refactored tests:
-	- Hovering over the "i" emoji(s) should show additional informaiton:
+	- Hovering over the "i" emoji(s) should show additional information:
 		- what indicators the test is looking for
 	- Separate descriptions for both Nolvus and non-Nolvus users
 	- 
 
 1.1. Kernelbase JSON Crash change:
-	- Aparently the go-to fix for this on Nolvus is to edit EngineFixes.toml ... so put #3 as a new #1 so it's the first thing users try.
+	- Apparently the go-to fix for this on Nolvus is to edit EngineFixes.toml ... so put #3 as a new #1 so it's the first thing users try.
 	- post graphic to r/Nolvus
 	- link to graphic from the analyzer
 	- related: https://discord.com/channels/740569699900719145/755346172243214376/1260031303064223884

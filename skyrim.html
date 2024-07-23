@@ -28,7 +28,7 @@
 	<meta name="description" content="Analyze Skyrim crash logs to identify common issues and provide troubleshooting advice.">
 
 	<meta charset="UTF-8">
-	<meta name="version" content="0.17.1 - <b>Work in Progress</b> for non-Nolvus lists">
+	<meta name="version" content="0.18.1 - <b>Work in Progress</b> for non-Nolvus lists">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 	<link rel="icon" type="image/x-icon" href="https://phostwood.github.io/crash-analyzer/favicon.ico">
@@ -45,30 +45,33 @@
 	<script src="https://cdn.jsdelivr.net/npm/turndown@7.0.0/dist/turndown.js"></script>
 
 
-	<link href="./css/stylesheet.css?v=0.17.1" rel="stylesheet">
+	<link href="./css/stylesheet.css?v=0.18.1" rel="stylesheet">
 
-	<script src="./js/utils.js?v=0.17.1" defer></script>
-	<script src="./js/explainersMap.js?v=0.17.1" defer></script>
-	<script src="./js/testUtils.js?v=0.17.1" defer></script>
+	<script src="./js/utils.js?v=0.18.1" defer></script>
+	<script src="./js/explainersMap.js?v=0.18.1" defer></script>
+	<script src="./js/crashIndicatorsMap.js?v=0.18.1" defer></script>
+	<script src="./js/dllCompatibleSkyrimVersionsMap.js?v=0.18.1" defer></script>
+
+	<script src="./js/testUtils.js?v=0.18.1" defer></script>
 
 	<!-- Independent data/configuration scripts -->
-	<script src="./js/crashPatterns.js?v=0.17.1" defer></script>
-	<script src="./js/antivirusSignatures.js?v=0.17.1" defer></script>
-	<script src="./js/overlaySignatures.js?v=0.17.1" defer></script>
-	<script src="./js/nolvusSignatures.js?v=0.17.1"defer></script>
-	<!-- DISABLED: <script src="./js/nolvusUtils.js?v=0.17.1" defer></script> -->
-	<!-- DISABLED: <script src="./js/nolvusLists.js?v=0.17.1" defer></script> -->
+	<script src="./js/crashPatterns.js?v=0.18.1" defer></script>
+	<script src="./js/antivirusSignatures.js?v=0.18.1" defer></script>
+	<script src="./js/overlaySignatures.js?v=0.18.1" defer></script>
+	<script src="./js/nolvusSignatures.js?v=0.18.1"defer></script>
+	<!-- DISABLED: <script src="./js/nolvusUtils.js?v=0.18.1" defer></script> -->
+	<!-- DISABLED: <script src="./js/nolvusLists.js?v=0.18.1" defer></script> -->
 
 	<!-- Core functionality scripts -->
-	<script src="./js/logSummary.js?v=0.17.1" defer></script>
-	<script src="./js/insights.js?v=0.17.1" defer></script>
-	<script src="./js/diagnoses.js?v=0.17.1" defer></script>
+	<script src="./js/logSummary.js?v=0.18.1" defer></script>
+	<script src="./js/insights.js?v=0.18.1" defer></script>
+	<script src="./js/diagnoses.js?v=0.18.1" defer></script>
 
 	<!-- Main application script -->
-	<script src="./js/analyzeLog.js?v=0.17.1" defer></script>
+	<script src="./js/analyzeLog.js?v=0.18.1" defer></script>
 
 	<!-- UI script (should be last) -->
-	<script src="./js/userInterface.js?v=0.17.1" defer></script>
+	<script src="./js/userInterface.js?v=0.18.1" defer></script>
 
     <style>
         #speculativeInsights {
@@ -126,7 +129,7 @@
 			<p>Please <strong>report any issues</strong> (or share suggestions) in my <a
 					href="https://www.reddit.com/r/Nolvus/comments/1bzwo0z/unofficial_nolvus_crash_log_analyzer/">r/Nolvus
 					reddit post</a>.</p>
-			<p>Thank you to Vektor, Discrepancy, Gaetan, Corrupt Bliss, CJ, Demognomicon and Pan for your documentation and/or assistance!
+			<p>Many thanks to Vektor, Discrepancy, Corrupt Bliss, RomatebitegeL, Krispyroll, CJ, Demognomicon, Gaetan, and Pan for sharing your expertise and/or suggestions!
 			</p>
 			
 		</aside>
