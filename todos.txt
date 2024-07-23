@@ -1,33 +1,20 @@
-✅ Beta version 0.17.2:
+✅ Beta version 0.18.2
 
-	✅ New Features:
-		- Tests for common mods that are incompatible with Skyrim AE 1.6.1130 and later
-			- Currently spots and recommends upgrades for ConsoleUtilSSE, QuickLootRE, po3_PapyrusExtender, and DynamicAnimationReplacer
-		- New animation issues test with troubleshooting tips
-		- Merged 7 mesh-related tests into one large, more refined test with better troubleshooting steps.
-		- Alphabetized Load Order test now has a new troubleshooting description for Skyrim.html users (non-Nolvus users)
+	BUG FIX: Animations\Patch_1.5\Paired_1HMKillMoveGrappleStab.HKX not listed in list of animations? Why not?
+	https://www.reddit.com/r/skyrimmods/comments/1eaiqvz/comment/lem9rsa/?context=3
 
-	✅ Refactoring and code improvements
-		-Removed experimental code for counting ESM+ESP files, since it can never be made accurate from just crash logs due to some ESP files being (invisibly to crash logs) flagged as ESL files. Vanilla Nolvus includes like thousands of these ESL-flagged ESP files.
-		- New contextual, standardized statements for adding to troubleshooting descriptions:
-			- Utils.LootWarningForNolvus
-			- Utils.LootIfSkyrim
-			- Utils.LootListItemIfSkyrim
-		- Using above, shortened Loot description in Missing Masters test
-		- Loosened the test for .STRINGS crash to not be specific to R14 line.
-			- From an "Everything" app search, it appears that ".STRINGS" never occurs in any other context in the log. All occurrences were String crashes. I was concerned that different log types (CrashLogger, Trainwreck) might not keep it on a line with the same "R14" text, so I decided to loosen up the test. If this causes false positives, I'll have to tighten it back up.
-		- Fixed several other tests and Test Logs for better compatibility with CrashLogger/Trainwreck logs
-		- New data-structure for storing crash types:  crashIndicatorsMap.js
-		- Fixed minor layout issue in Overlay test description
-		- Fixed minor layout issue in Physics test description, and removed Nolvus line for Skyrim.html users
-		- New contextual standardized Utils.NolvusOrSkyrimText variable for returning "Nolvus" or "Skyrim" depending on the page being used.
-		- A first round of general changes towards making Skyrim.html mention Nolvus a lot less 
 
+	
 
 NEXT VERSION: WORKING ON:
+
+
 1. Remove STEAM from Overlay checks ... it just comes up too much
 
 2. Does "List of mentioned meshes" reflect named and filename meshes from all mesh indicators? It probably should?
+	- sane fir Utils.extractHkxPathsToListItems() ... it should also check all Animation Indicators
+
+3. New tests for Test Logs for prior version 18.1's new stuff
 
 
 Revise Animations test text:

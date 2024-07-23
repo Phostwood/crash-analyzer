@@ -71,7 +71,7 @@ if (typeof Utils === 'undefined') {
     };
 
     Utils.extractHkxPathsToListItems = function(logText) {
-        const fileRegex = /"([^"]+\.hkx)"/g;
+        const fileRegex = /"([^"]+\.hkx)"/gi;
         let match;
         const pathsSet = new Set();
     
@@ -84,8 +84,9 @@ if (typeof Utils === 'undefined') {
             pathsSet.add('(no animation files found in crash log ... consider decompressing relevant .bsa archives)');
         }
     
-        const hkbRegex = /hkbBehaviorGraph\((Name: `[^`]+`)\)/g;
-        const animGraphRegex = /BShkbAnimationGraph\((Name: `[^`]+`)\)/g;
+        const hkbRegex = /hkbBehaviorGraph\((Name: `[^`]+`)\)/gi;
+        const animGraphRegex = /BShkbAnimationGraph\((Name: `[^`]+`)\)/gi;
+    
     
         // Check for names using the two regexes and add their group matches to the pathsSet
         while ((match = hkbRegex.exec(logText)) !== null) {
