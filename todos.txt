@@ -1,15 +1,23 @@
-✅ Beta version 0.18.3
-
-Refactoring and Bug fixes:
-- After HKX ended up being upper case ... I've changed some other regexes over to be case-insensitive.
-- Corrected version of po3_PapyrusExtender.dll v5.6.1.1 in TestLogCrashLogger1.txt so it flags the new upgrade issue
-- Verified other new tests are also working from Test Logs
+✅ Beta version 0.18.4
+- Improved instructions when DynDOLOD.esm is detected
+    - Source: https://www.reddit.com/r/skyrimmods/comments/1eaohn9/comment/leollw3/?utm_source=share&utm_medium=web3x&utm_name=web3xcss&utm_term=1&utm_content=share_button
 
 
 
-	
+
 
 NEXT VERSION: WORKING ON:
+
+CombatMusicFix_NG.dll. version check
+Bad version 1
+Fixed version 1.1
+CombatMusicFix_NG.dll crashes.
+Replace it with this working version instead:
+https://www.nexusmods.com/skyrimspecialedition/mods/110459?tab=files
+What version  is the replacement (1.1) show up as?
+
+Source:
+https://www.reddit.com/r/skyrimmods/s/YuWn9nc57t
 
 
 1. ??? Remove STEAM from Overlay checks ... it just comes up too much

@@ -1540,13 +1540,19 @@ async function analyzeLog() {
 
     //DynDOLOD
     if (sections.topHalf.toLowerCase().includes('DynDOLOD.esm'.toLowerCase())) {
-        insights += '<li>❓ <b>DynDOLOD.esm Issue Detected:</b> The \'DynDOLOD.esm\' error is known to cause crashes to desktop (CTDs) when transitioning between locations, especially when autosave occurs concurrently with script execution. This can be due to the mod making extensive changes to the game\'s LOD (Level of Detail) which can be resource-intensive. To mitigate this issue:<ol>' +
-            '<li>Disable autosave in the game settings, particularly when changing locations or fast traveling.</li>' +
-            '<li>Manually save your game at regular intervals to avoid losing progress.</li>' +
-            '<li>Ensure that \'DynDOLOD.esm\' is properly installed and that you have the latest version.</li>' +
-            '<li>Check for any updates or patches that may address known issues with this mod.</li>' +
-            '<li>Consider <a href="https://www.nolvus.net/guide/asc/output/dyndolod">regenning DynDOLOD</a>?</li>' +
-            '<li>If the problem persists, seek assistance on the mod\'s official support forum. Provide detailed information about your issue and any relevant crash logs for further investigation.</li>' +
+        //NOTE: test for topThird instead?
+        //NOTE: test for Occlusion.esp?
+        insights += '<li>❓ <b>DynDOLOD.esm Detected:</b> If you\'re experiencing crashes to desktop (CTDs) or infinite loading screens (ILS) that may be related to DynDOLOD, consider the following steps:<ol>' +
+             '<li>Note that while DynDOLOD and Occlusion plugins may appear frequently in crash logs, they may not be the root cause. Careful analysis of crash logs is often necessary.</li>' +
+            '<li>Ensure you\'re using the latest, compatible version of DynDOLOD and that it was used to generate LOD for your current load order.</li>' +
+            '<li>Consider <a href="https://www.nolvus.net/guide/asc/output/dyndolod">regenning DynDOLOD</a> (Nolvus example).</li>' +
+            '<li>Review DynDOLOD\'s log messages and summary for warnings about issues known to cause CTDs.</li>';
+            if (Utils.isSkyrimPage) {
+                insights += '<li>Avoid using the experimental <code>TreeFullFallBack=0</code> setting unless you fully understand its purpose and effects.</li>' +
+                '<li>For large load orders, consider setting <code>Temporary=1</code> in <code>DynDOLOD_[GameMode].ini</code>, or preferably, convert large new land plugins to ESM.</li>' +
+                '<li>If you\'re having trouble saving in Skyrim SE, install SSE Engine Fixes 4.8+ and set <code>SaveGameMaxSize = true</code> in <code>EngineFixes.toml</code>.</li>';
+            }
+            insights += '<li>For further assistance, consult the <a href="https://dyndolod.info/FAQ">DynDOLOD FAQ</a> or post on the official DynDOLOD support forum with detailed information and crash logs.</li>' +
             '</ol></li>';
         insightsCount++;
     }
