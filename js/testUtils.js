@@ -42,7 +42,7 @@ if (typeof Utils === 'undefined') {
     };
 
     Utils.extractNifPathsToListItems = function(logText) {
-        const fileRegex = /"([^"]+\.(nif|tri))"/g;
+        const fileRegex = /"([^"]+\.(nif|tri))"/gi;
         let match;
         const pathsSet = new Set();
 
@@ -55,8 +55,8 @@ if (typeof Utils === 'undefined') {
             pathsSet.add('(no mesh files found in crash log ... consider decompressing relevant .bsa archives)');
         }
 
-        const name1Regex = /BSTriShape\((Name: `[^`]+`)\)/g;
-        const name2Regex = /\(BSTriShape\*\) -> \((Name: `[^`]+`)\)/g;
+        const name1Regex = /BSTriShape\((Name: `[^`]+`)\)/gi;
+        const name2Regex = /\(BSTriShape\*\) -> \((Name: `[^`]+`)\)/gi;
 
         // Check for names using the two regexes and add their group matches to the pathsSet
         while ((match = name1Regex.exec(logText)) !== null) {
@@ -102,7 +102,7 @@ if (typeof Utils === 'undefined') {
 
 
     Utils.extractSkyrimTexturePathsToListItems = function(logText) {
-        const regex = /"([^"]+\.(dds|tga|bmp))"/g;
+        const regex = /"([^"]+\.(dds|tga|bmp))"/gi;
         let match;
         const pathsSet = new Set();
 

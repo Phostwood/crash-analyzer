@@ -559,7 +559,7 @@ SKSE PLUGINS:
 	TrueHUD.dll v1.1.9
 	ConsoleUtilSSE.dll v1.4.0
 	QuickLootRE.dll v2.15
-	po3_PapyrusExtender.dll v5.6.2.1
+	po3_PapyrusExtender.dll v5.6.1.1
 	DynamicAnimationReplacer.dll v1.1.3
 
 

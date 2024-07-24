@@ -1,7 +1,10 @@
-✅ Beta version 0.18.2
+✅ Beta version 0.18.3
 
-	BUG FIX: Animations\Patch_1.5\Paired_1HMKillMoveGrappleStab.HKX not listed in list of animations? Why not?
-	https://www.reddit.com/r/skyrimmods/comments/1eaiqvz/comment/lem9rsa/?context=3
+Refactoring and Bug fixes:
+- After HKX ended up being upper case ... I've changed some other regexes over to be case-insensitive.
+- Corrected version of po3_PapyrusExtender.dll v5.6.1.1 in TestLogCrashLogger1.txt so it flags the new upgrade issue
+- Verified other new tests are also working from Test Logs
+
 
 
 	
@@ -9,42 +12,11 @@
 NEXT VERSION: WORKING ON:
 
 
-1. Remove STEAM from Overlay checks ... it just comes up too much
+1. ??? Remove STEAM from Overlay checks ... it just comes up too much
 
 2. Does "List of mentioned meshes" reflect named and filename meshes from all mesh indicators? It probably should?
-	- sane fir Utils.extractHkxPathsToListItems() ... it should also check all Animation Indicators
-
-3. New tests for Test Logs for prior version 18.1's new stuff
-
-
-Revise Animations test text:
-https://www.reddit.com/r/skyrimmods/comments/1e4gy2u/comment/ldp85c5/?utm_source=share&utm_medium=web3x&utm_name=web3xcss&utm_term=1&utm_content=share_button
-
-
-Initial testing of new DLL version checker.
-Add other DLLs for version checking?
-
-I'm guessing code outside of my new Utils.compareVersions() function is causing this? Need to rewrite other sections? The comments and variable/function names don't always make sense, and that is probably throwing off AI code writing, regardless of my outside-of-code instructions?
-	NEW BUG in "update CU and PPE - 3kiuNJZH.txt"
-		"ConsoleUtilSSE.dll v1.5.1: Recommend update to ConsoleUtilSSE NG v1.5.1 "
-
-	NEW BUG in "Incompatible CU - Trainwreck - 2024-07-11-16-13-36.log.txt"
-		1.5.1 already installed, but cited as needing updated:
-	
-
-
-
-
-BUG: Maybe with CrashLogger DLL version detection?
-
-	z5ipuuuK - QuickLootRE and ConsoleUtilSSE.txt 
-	- seems to correctly show QuickLootRE.dll v2.15 and po3_PapyrusExtender.dll v5.6.2.1
-	- but doesn't show error for ConsoleUtilSSE.dll v1.4
-		- it isn't equating 1.4 as being the same as 1.4.0 ... NEEDS FIXED
-		- ABOVE IS FIXED, but now po3_PapyrusExtender.dll v5.6.2.1 isn't showing up
-
-	Gazimir SSE Crash Log - po3_PapyrusExtender.txt
-	- doesn't show error for po3_PapyrusExtender.dll v5.6.1.1 ... which is below the listed '5.6.2.1'
+	- same for Utils.extractHkxPathsToListItems() ... it should also check all Animation Indicators
+	- same for Utils.extractSkyrimTexturePathsToListItems ??
 
 
 IN PROGRESS: 
@@ -79,18 +51,6 @@ See Google Keep notes on:
 - PUSH! Enough features for one version!
 
 ---
-
-NEXT VERSION? Turns out mod versions can be scraped from Crash Logger Logs, and the ConsoleUtilSSE test can be made a bit smarter:
-(Unsure about Trainwreck logs? Maybe no longer recommend NSF over CL for Skyrim SE 1.5 users?)
-	SKSE PLUGINS:
-		ActorLimitFix.dll
-		AHZmoreHUDInventory.dll v2.1.3
-		AHZmoreHUDPlugin.dll v5.2.2
-		AlternateConversationCamera.dll
-		AnimationQueueFix.dll v1.0.1
-		BetterJumpingSE.dll
-		BugFixesSSE.dll
-		ConsoleUtilSSE.dll v1.4
 
 
 NEXT Version: Utils.extractNifPathsToListItems() might need to be updated with name1Regex and name2Regex values that are compatible with the syntaxes in CrashLogger or Trainwreck logs?
