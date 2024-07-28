@@ -1,9 +1,6 @@
-✅ Beta version 0.18.4
-- Improved instructions when DynDOLOD.esm is detected
-    - Source: https://www.reddit.com/r/skyrimmods/comments/1eaohn9/comment/leollw3/?utm_source=share&utm_medium=web3x&utm_name=web3xcss&utm_term=1&utm_content=share_button
-
-
-
+✅ Beta version 0.18.5
+- Added new test: "Object Reference: None" for Skyrim.html users (with help from u/RomatebitegeL)
+- Added space character after emojis for consistent formatting in Reddit
 
 
 NEXT VERSION: WORKING ON:
