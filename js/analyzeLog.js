@@ -190,7 +190,7 @@ async function analyzeLog() {
 
     // Check for KERNELBASE JSON Crash
     if (sections.firstLine.toLowerCase().includes('KERNELBASE.dll'.toLowerCase()) && sections.topHalf.includes('json.exception.parse_error')) {
-        diagnoses += `<li>🎯<b>KERNELBASE JSON Crash Detected:</b> Usually, this issue stems from one of three causes:<ol>
+        diagnoses += `<li>🎯 <b>KERNELBASE JSON Crash Detected:</b> Usually, this issue stems from one of three causes:<ol>
             <li>Overwriting or reinstalling <b>SSE Engine Fixes</b> can cause the <code>MaxStdio</code> value to be set too low, which can lead to crashes in ${Utils.NolvusOrSkyrimText}. For example, an individual who reinstalled papermaps found that it reset their SSE Engine Fixes values. To fix this:<ol>
             <li>Open Mod Organizer 2 (MO2).</li>
             <li>In the "1.2 BUG FIXES & TWEAKS" section, right-click on "SSE Engine Fixes" and select "Information...".</li>
@@ -208,7 +208,7 @@ async function analyzeLog() {
 
     // Check for KERNELBASE JContainers Crash
     if (sections.firstLine.toLowerCase().includes('KERNELBASE.dll'.toLowerCase()) && sections.probableCallstack.includes('JContainers64.dll')) {
-        diagnoses += '<li>🎯<b>KERNELBASE JContainers Crash Detected:</b> Usually, this issue stems from one of three causes:<ol>' +
+        diagnoses += '<li>🎯 <b>KERNELBASE JContainers Crash Detected:</b> Usually, this issue stems from one of three causes:<ol>' +
             '<li>JContainers may need patched. Go to <a href="https://www.nexusmods.com/skyrimspecialedition/mods/108591?tab=files&file_id=458596">Discrepancy\'s patch settings hub</a> and add the <b>JContainers Crash Workaround</b> mod (from the "Files" section) into Mod Organizer 2 (MO2). If you would like guidance on modding/patching Nolvus, please watch this <a href="https://youtu.be/YOvug9KP5L4">brief tutorial video</a> for step-by-step instructions.</li>' +
             '<li>Windows <b>permissions</b> may have become overly restrictive and are blocking access to necessary mod storage. The usual solution is to reset your file permissions. See <a href="https://www.thewindowsclub.com/how-to-reset-file-folder-permissions-to-default-in-windows-10">How to reset all User Permissions to default in Windows 11/10</a>, or seek assistance from the Nolvus community.</li>' +
             '<li>Storage files (JContainer\'s .json files) may have become <b>corrupted/broken.</b> These files often reside in your `..\\Documents\\My Games\\Skyrim Special Edition\\JCUser` folder, but can be located in mod-specific locations. This issue is especially common if you have manually edited a .json file. After identifying the specific file, either manually repair it, revert the file to a backup, or delete it, allowing the accessing mod(s) to create a new one. Other mods mentioned in the crash log may help to identify the specific storage file, or seek assistance from the Nolvus community.</li>' +
@@ -216,6 +216,93 @@ async function analyzeLog() {
             'Also, for some of these issues, an easy <b>workaround</b> is to <a href = "https://support.microsoft.com/en-us/windows/create-a-local-user-or-administrator-account-in-windows-20de74e0-ac7f-3502-a866-32915af2a34d#WindowsVersion=Windows_11">create a new Windows User</a> and create a new Nolvus save (playthrough) from the new user.</li>';
         diagnosesCount++;
     }
+
+
+    
+
+// Object Reference None Detection
+function checkForObjectReferenceNone(sections) {
+    let diagnoses = '';
+    
+    // Regular expression to match "Object Reference: None" patterns (case-insensitive)
+    const objectRefNoneRegex = /object reference:\s*none/i;
+    
+    // Function to extract the relevant section
+    function extractRelevantSection(lines, startIndex) {
+        let section = [];
+        let i = startIndex;
+        
+        // Go backwards to find the start of the section (line with one tab)
+        while (i >= 0 && lines[i].startsWith('\t\t')) {
+            i--;
+        }
+        let sectionStart = i;
+        
+        // Go forwards to find the end of the section (last line with two or more tabs)
+        i = startIndex;
+        while (i < lines.length && lines[i].startsWith('\t\t')) {
+            section.push(lines[i]);
+            i++;
+        }
+        
+        return section;
+    }
+    
+    // Function to extract file information
+    function extractFileInfo(section) {
+        let files = section.filter(line => line.toLowerCase().includes('file:'));
+        let firstFile = files.length > 0 ? files[0].split(':')[1].trim() : '';
+        let lastFile = files.length > 0 ? files[files.length - 1].split(':')[1].trim() : '';
+        return { firstFile, lastFile };
+    }
+    
+    // Find all instances of "Object Reference: None"
+    const lines = sections.topHalf.split('\n');
+    const instances = lines.reduce((acc, line, index) => {
+        if (objectRefNoneRegex.test(line)) {
+            acc.push(index);
+        }
+        return acc;
+    }, []);
+    
+    // Set to store unique instances
+    const uniqueInstances = new Set();
+    
+    // Process each instance
+    instances.forEach((instanceIndex) => {
+        const relevantSection = extractRelevantSection(lines, instanceIndex);
+        const { firstFile, lastFile } = extractFileInfo(relevantSection);
+        
+        // Create a unique key for this instance
+        const instanceKey = `${firstFile}|${lastFile}`;
+        
+        // Only process if this is a new unique instance
+        if (!uniqueInstances.has(instanceKey)) {
+            uniqueInstances.add(instanceKey);
+            
+            diagnoses += `<li>🎯 <b>"Object Reference: None" Detected:</b> This typically indicates when a mod attempts to reference a non-existent object, often due to mod conflicts, incompatible mod/patch versions, and/or load order issues. Here's what you need to know:<ul>`;
+            
+            diagnoses += `<li><b>Troubleshooting Steps:</b><ol>
+                <li>The likely culprit is the file: <code>${lastFile}</code>. Disable this mod first.</li>
+                <li>If the issue persists, investigate the file: <code>${firstFile}</code>.</li>
+                <li>In some cases, you may need to disable both mods to resolve the issue.</li>
+                <li>After disabling, re-enable mods one by one to isolate the conflict.</li>
+                <li>Review versions and requirements of both mods to ensure compatibility.</li>
+                </ol></li></ul></li>`;
+        }
+    });
+    
+    return diagnoses;
+}
+
+if(Utils.isSkyrimPage) {
+    const objectRefNoneDiagnosis = checkForObjectReferenceNone(sections);
+    Utils.debuggingLog(['objectRefNoneDiagnosis', 'analyzeLog.js'], `objectRefNoneDiagnosis for diagnostic section:`, objectRefNoneDiagnosis);
+    if (objectRefNoneDiagnosis) {
+        diagnoses += objectRefNoneDiagnosis;
+        diagnosesCount++;
+    }
+}
 
 
 
@@ -334,7 +421,7 @@ async function analyzeLog() {
 
     // Check for KERNELBASE Crash excluding JContainers and JSON parse error
     if (sections.firstLine.toLowerCase().includes('KERNELBASE.dll'.toLowerCase()) && !sections.probableCallstack.includes('JContainers64.dll') && !sections.topHalf.includes('json.exception.parse_error')) {
-        diagnoses += '<li>❗<b>KERNELBASE Crash Detected:</b> This rare issue could be related to a specific added mod, or to hardware or a system-wide issue. Here are some steps you can take:<ol>' +
+        diagnoses += '<li>❗ <b>KERNELBASE Crash Detected:</b> This rare issue could be related to a specific added mod, or to hardware or a system-wide issue. Here are some steps you can take:<ol>' +
             '<li>Check the <b>Windows Event Log</b> for any related issues. You can do this by opening the Event Viewer (search for it in the Start Menu), then navigate to Windows Logs > Application. Look for any recent errors that might be related to your issue. For detailed instructions, see this <a href="https://support.microsoft.com/en-us/windows/open-event-viewer-17d427d2-43d6-5e01-8535-1fc570ea8a14">Microsoft guide</a>.</li>' +
             '<li>If the issue persists, consider reaching out to the <b>Nolvus Discord</b> for additional help.</li>' +
             '</ol></li>';
@@ -344,7 +431,7 @@ async function analyzeLog() {
 
     // Check for D6DDDA crash
     if (sections.firstLine.toLowerCase().includes('D6DDDA'.toLowerCase())) {
-        diagnoses += '<li>❗<b>D6DDDA Crash Detected:</b> This may occur when either RAM or VRAM has been exceeded, or due to broken/corrupt meshes (.nif) or textures (.dds). Here are some steps to address this:<ul>' +
+        diagnoses += '<li>❗ <b>D6DDDA Crash Detected:</b> This may occur when either RAM or VRAM has been exceeded, or due to broken/corrupt meshes (.nif) or textures (.dds). Here are some steps to address this:<ul>' +
             '<li>Close any unnecessary applications to free up memory.</li>' +
             '<li>Verify that you have correctly <a href="https://www.nolvus.net/appendix/pagefile">set your Windows Pagefile Size</a>.</li>' +
             '<li>If your PC has less than 12GB of VRAM (more for wide screen and/or monitors more than 2K) (<a href="https://www.lifewire.com/how-to-check-vram-5235783">how to check how much VRAM you have</a>), consider running your load order through <a href="https://www.reddit.com/r/Nolvus/comments/1doakj1/psa_use_vramr_if_you_have_12gb_of_vram/">VRAMr</a>.</li>' +
@@ -362,7 +449,7 @@ async function analyzeLog() {
             (!sections.hasSkyrimAE && (sections.firstLine.includes('5E1F22'))) ||
             sections.topHalf.includes('SettingT<INISettingCollection>*')) {
             
-            diagnoses += '<li>❗<b>Potential Missing Masters Detected:</b> Your load order might be missing required master files, which can lead to instability and crashes. NOTE: Review other high-likelihood diagnoses first, as some of them can cause (or appear to cause) this issue. Here are some possible causes and solutions:<ul>';
+            diagnoses += '<li>❗ <b>Potential Missing Masters Detected:</b> Your load order might be missing required master files, which can lead to instability and crashes. NOTE: Review other high-likelihood diagnoses first, as some of them can cause (or appear to cause) this issue. Here are some possible causes and solutions:<ul>';
     
             if (!Utils.isSkyrimPage) {
                 diagnoses += '<li><b>Standard Nolvus Install:</b> If you haven\'t added/updated or removed any mods, try using the Nolvus Dashboard\'s "Apply Order" feature. This often resolves load order issues. For more information, see: <a href="https://www.reddit.com/r/Nolvus/comments/1chuod0/how_to_apply_order_button_usage_in_the_nolvus/">How To: Use the "Apply Order" Button</a>. You can safely ignore the rest of the steps here.</li>';
@@ -400,9 +487,10 @@ async function analyzeLog() {
 
     // Check for Shadow Scene Node crash
     if (sections.probableCallstack.toLowerCase().includes('BSCullingProcess::unk_D51280+78'.toLowerCase()) && sections.firstLine.includes('(SkyrimSE.exe+12FDD00)')) {
-        diagnoses += '<li>❗<b>Shadow Scene Node Crash Detected:</b> Load an earlier save, traveling to a different cell from the original crash, and play for a few days in game away from the area. This avoids the Shadow Scene, and hopefully allows the issue to resolve itself. More information and troubleshooting tips under <a href="https://www.nolvus.net/catalog/crashlog?acc=accordion-1-3">Shadow Scene Node crash</a/>.</li>';
+        diagnoses += '<li>❗ <b>Shadow Scene Node Crash Detected:</b> Load an earlier save, traveling to a different cell from the original crash, and play for a few days in game away from the area. This avoids the Shadow Scene, and hopefully allows the issue to resolve itself. More information and troubleshooting tips under <a href="https://www.nolvus.net/catalog/crashlog?acc=accordion-1-3">Shadow Scene Node crash</a/>.</li>';
         diagnosesCount++;
     }
+    
 
 
 
@@ -412,14 +500,14 @@ async function analyzeLog() {
     var skeletonRegex = /NPC L UpperarmTwist|NPC R UpperarmTwist|skeleton\.nif|skeleton_female\.nif|NPC L Forearm|NPC R Forearm|bisection|NPC SpineX|NPC L Heel|NPC R Heel|NPC L Foot|NPC R Foot|SaddleBone|NPC L Hand|NPC R Hand|NPC L Finger|NPC R Finger/g;
     var skeletonMatches = sections.topQuarter.match(skeletonRegex) || [];
     if (skeletonMatches.length > 0) {
-        diagnoses += '<li>❓<b>Possible Skeleton Issue:</b> Detected <code>' + skeletonMatches.length + '</code> potential indicators(s). Multiple indicators are more likely to be the cause than just one. Restarting may help if you\'re using vanilla Nolvus. For custom mods, verify your load order. Skeleton Issues are frequently NOT the crash culprit when other issues are present. More information and troubleshooting tips under <a href="https://www.nolvus.net/catalog/crashlog?acc=accordion-1-9">Skeleton Crash</a/> and <a href="https://www.nolvus.net/catalog/crashlog?acc=accordion-1-7">Load Order Crash</a>.</li>';
+        diagnoses += '<li>❓ <b>Possible Skeleton Issue:</b> Detected <code>' + skeletonMatches.length + '</code> potential indicators(s). Multiple indicators are more likely to be the cause than just one. Restarting may help if you\'re using vanilla Nolvus. For custom mods, verify your load order. Skeleton Issues are frequently NOT the crash culprit when other issues are present. More information and troubleshooting tips under <a href="https://www.nolvus.net/catalog/crashlog?acc=accordion-1-9">Skeleton Crash</a/> and <a href="https://www.nolvus.net/catalog/crashlog?acc=accordion-1-7">Load Order Crash</a>.</li>';
         diagnosesCount++;
     }
 
     // Check for Shadowrend crash
     // NOTE: a second instance of thi issue shows up in the Advanced Users section for non-Nolvus users as well
     if (!Utils.isSkyrimPage && sections.topQuarter.toLowerCase().includes('ccbgssse018-shadowrend.esl')) {
-        diagnoses += '<li>❓<b>Possible Shadowrend Issue:</b> Try loading an earlier save and avoid the crash area for a few days. <b>Be cautious</b> when loading a save that previously experienced the Shadowrend crash. Continuing to play on such a save might compound the issue, leading to more frequent crashes. For custom mods, verify your load order. Shadowrend is frequently NOT the crash culprit when other issues are present. More information and troubleshooting tips under <a href="https://www.nolvus.net/catalog/crashlog?acc=accordion-1-6">Shadowrend Crash</a/> and <a href="https://www.nolvus.net/catalog/crashlog?acc=accordion-1-7">Load Order Crash</a>.</li>';
+        diagnoses += '<li>❓ <b>Possible Shadowrend Issue:</b> Try loading an earlier save and avoid the crash area for a few days. <b>Be cautious</b> when loading a save that previously experienced the Shadowrend crash. Continuing to play on such a save might compound the issue, leading to more frequent crashes. For custom mods, verify your load order. Shadowrend is frequently NOT the crash culprit when other issues are present. More information and troubleshooting tips under <a href="https://www.nolvus.net/catalog/crashlog?acc=accordion-1-6">Shadowrend Crash</a/> and <a href="https://www.nolvus.net/catalog/crashlog?acc=accordion-1-7">Load Order Crash</a>.</li>';
         diagnosesCount++;
     }
 
@@ -433,13 +521,13 @@ async function analyzeLog() {
     }
 
     if (foundAntivirus) {
-        diagnoses += `<li>⚠️<b>Antivirus Warning:</b> <code>${foundAntivirus}</code> antivirus detected. Third-party antivirus software is a frequent contributor to crashes in heavily-modded Skyrim. Consider adding ${Utils.NolvusOrSkyrimText} to your antivirus exclusions and/or switching to the built-in Windows Defender for better compatibility.</li>`;
+        diagnoses += `<li>⚠️ <b>Antivirus Warning:</b> <code>${foundAntivirus}</code> antivirus detected. Third-party antivirus software is a frequent contributor to crashes in heavily-modded Skyrim. Consider adding ${Utils.NolvusOrSkyrimText} to your antivirus exclusions and/or switching to the built-in Windows Defender for better compatibility.</li>`;
         diagnosesCount++;
     } else {
         // Check for Windows Defender in sections.topHalf if no other antivirus found
         const windowsDefenderDlls = ['mpsvc.dll', 'mpclient.dll'];
         if (windowsDefenderDlls.some(dll => sections.topHalf.toLowerCase().includes(dll))) {
-            diagnoses += `<li>⚠️<b>Antivirus Info:</b> Windows Defender detected in the top half of your crash log (above the Modules section). Windows Defender is typically not a problem for Skyrim, but if you're experiencing issues, you might consider adding exclusions for ${Utils.NolvusOrSkyrimText}.</li>`;
+            diagnoses += `<li>⚠️ <b>Antivirus Info:</b> Windows Defender detected in the top half of your crash log (above the Modules section). Windows Defender is typically not a problem for Skyrim, but if you're experiencing issues, you might consider adding exclusions for ${Utils.NolvusOrSkyrimText}.</li>`;
             diagnosesCount++;
         }
     }
@@ -490,10 +578,10 @@ async function analyzeLog() {
 
     if (overlayFiles.length > 0) {
         const hasSteam = overlayFiles.some(file => file.toLowerCase().includes('steam'));
-        let warningMessage = '⚠️<b>Overlay Warning:</b> Overlays detected. While some are generally considered safe, others may cause issues in heavily-modded Skyrim.';
+        let warningMessage = '⚠️ <b>Overlay Warning:</b> Overlays detected. While some are generally considered safe, others may cause issues in heavily-modded Skyrim.';
         if ((!hasSteam && overlayFiles.length == 1) || overlayFiles.length > 1) {
             //If warning is something than other than just Steam ... then upgrade it, and count it as a diagnosis
-            warningMessage = '❓<b>Possible Overlay Issue:</b> Overlays detected in the top half of your crash log, suggesting they may have contributed towards the crash.';
+            warningMessage = '❓ <b>Possible Overlay Issue:</b> Overlays detected in the top half of your crash log, suggesting they may have contributed towards the crash.';
             diagnosesCount++;
         }
     
@@ -549,15 +637,15 @@ async function analyzeLog() {
                     let nolvusMessage = '';
                     if (nolvusPercentage >= 80) {
                         nolvusMessage = 'It appears you are using a full or nearly full Nolvus installation.';
-                    } else if (nolvusPercentage >= 40) {
+                    } else if (nolvusPercentage >= 55) {
                         nolvusMessage = 'It appears you are using a modlist based on or heavily inspired by Nolvus.';
-                    } else if (nolvusPercentage >= 20) {
+                    } else if (nolvusPercentage >= 30) {
                         nolvusMessage = 'It appears you are using some Nolvus plugins or a modlist partially based on Nolvus.';
                     }
         
                     Utils.debuggingLog(['checkForNolvusModlist'], 'Nolvus message:', nolvusMessage);
         
-                    diagnoses += `<li>⚠️<b>Nolvus Detected:</b> ${nolvusMessage} For enhanced analysis with Nolvus-specific features, we recommend using the original <a href="index.html?Advanced">index.html version</a> of this crash analyzer. It provides additional insights tailored to Nolvus installations.</li>`;
+                    diagnoses += `<li>⚠️ <b>Nolvus Detected:</b> ${nolvusMessage} For enhanced analysis with Nolvus-specific features, we recommend using the original <a href="index.html?Advanced">index.html version</a> of this crash analyzer. It provides additional insights tailored to Nolvus installations.</li>`;
                 }
             }
         }
@@ -574,7 +662,7 @@ async function analyzeLog() {
         let message = '';
     
         if (logType === "Trainwreck") {
-            message += "<li>⚠️<b>Trainwreck Log Detected:</b> While Trainwreck provides some crash information, it's generally not as comprehensive as other logging options. ";
+            message += "<li>⚠️ <b>Trainwreck Log Detected:</b> While Trainwreck provides some crash information, it's generally not as comprehensive as other logging options. ";
     
             if (sections.hasSkyrimAE) {
                 message += "For Skyrim AE (version 1.6+), we strongly recommend using <a href='https://www.nexusmods.com/skyrimspecialedition/mods/59818'>Crash Logger</a> instead. It provides more detailed crash information, aiding in better diagnosis. ";
@@ -605,9 +693,9 @@ async function analyzeLog() {
     // Default to unknown crash
     if (diagnosesCount < 1) {
         if (Utils.isSkyrimPage) {
-            diagnoses += '<li>❓<b>No high-confidence crash pattern detected.</b> If you aren\'t aware of (and diligently following) <b>Jerilith\'s Safe Save Guide</b>, review it at <a href="https://www.nolvus.net/catalog/crashlog?acc=accordion-1-5">Save Bloat Crash</a/>. Also, consult <a href="https://www.reddit.com/r/skyrimmods/wiki/begin2/">r/SkyrimMod\'s Beginner\'s Guide to Modding Skyrim</a> for information about arranging your load order, and other troubleshooting tips. Also, this crash analyzer\'s <b>Advanced Users</b> section contains additional crash types and insights that may help isolate this issue. If the problem persists, share your crash logs with <a href="https://www.reddit.com/r/skyrimmods/">r/Skyrim</a>.</li>';
+            diagnoses += '<li>❓ <b>No high-confidence crash pattern detected.</b> If you aren\'t aware of (and diligently following) <b>Jerilith\'s Safe Save Guide</b>, review it at <a href="https://www.nolvus.net/catalog/crashlog?acc=accordion-1-5">Save Bloat Crash</a/>. Also, consult <a href="https://www.reddit.com/r/skyrimmods/wiki/begin2/">r/SkyrimMod\'s Beginner\'s Guide to Modding Skyrim</a> for information about arranging your load order, and other troubleshooting tips. Also, this crash analyzer\'s <b>Advanced Users</b> section contains additional crash types and insights that may help isolate this issue. If the problem persists, share your crash logs with <a href="https://www.reddit.com/r/skyrimmods/">r/Skyrim</a>.</li>';
         } else {
-            diagnoses += '<li>❓<b>No high-confidence crash pattern detected.</b> If you aren\'t aware of (and diligently following) <b>Jerilith\'s Safe Save Guide</b>, review it at <a href="https://www.nolvus.net/catalog/crashlog?acc=accordion-1-5">Save Bloat Crash</a/>. Also, if you have customized Nolvus with additional mods, review information on the <a href="https://www.nolvus.net/catalog/crashlog?acc=accordion-1-7">Load Order Crash</a>. Also, this crash analyzer\'s <b>Advanced Users</b> section contains additional crash types and insights that may help isolate this issue. If the problem persists, share your crash logs with <a href="https://www.reddit.com/r/Nolvus/">r/Nolvus</a> and/or the <a href="https://discord.gg/Zkh5PwD">Nolvus Discord</a>.</li>';
+            diagnoses += '<li>❓ <b>No high-confidence crash pattern detected.</b> If you aren\'t aware of (and diligently following) <b>Jerilith\'s Safe Save Guide</b>, review it at <a href="https://www.nolvus.net/catalog/crashlog?acc=accordion-1-5">Save Bloat Crash</a/>. Also, if you have customized Nolvus with additional mods, review information on the <a href="https://www.nolvus.net/catalog/crashlog?acc=accordion-1-7">Load Order Crash</a>. Also, this crash analyzer\'s <b>Advanced Users</b> section contains additional crash types and insights that may help isolate this issue. If the problem persists, share your crash logs with <a href="https://www.reddit.com/r/Nolvus/">r/Nolvus</a> and/or the <a href="https://discord.gg/Zkh5PwD">Nolvus Discord</a>.</li>';
         }
         //DON'T COUNT: diagnosesCount++;
     }
@@ -731,12 +819,12 @@ async function analyzeLog() {
         let badlyOrderedVanillaPluginsListItems = badlyOrderedVanillaPluginsList
             .map(plugin => `<li><code>${plugin}</code></li>`)
             .join('');
-        insights += '<li>❗<b>Potential Misorganization of Vanilla Nolvus Plugins:</b>  <code>' + badlyOrderedVanillaPlugins.length + '</code> standard plugins appear to be out of their usual sequence (relative to each other). A few mods will move around with different configurations of Nolvus, but others can cause problems if they are out of their typical loading order. If you\'re having load order issues, you can use the <b>Apply Order</b> button in the Nolvus Dashboard to restore the original order of all vanilla Nolvus mods. Follow these steps:<ol>' +
+        insights += '<li>❗ <b>Potential Misorganization of Vanilla Nolvus Plugins:</b>  <code>' + badlyOrderedVanillaPlugins.length + '</code> standard plugins appear to be out of their usual sequence (relative to each other). A few mods will move around with different configurations of Nolvus, but others can cause problems if they are out of their typical loading order. If you\'re having load order issues, you can use the <b>Apply Order</b> button in the Nolvus Dashboard to restore the original order of all vanilla Nolvus mods. Follow these steps:<ol>' +
             '<li>Open the dashboard and click on <b>Manage</b>, then <b>Instance</b>.</li>' +
             '<li>Once loaded, click on <b>Apply Order</b>.</li>' +
             '<li>Any disabled vanilla mods will be re-enabled.</li>' +
             '<li>All vanilla Nolvus mods will be returned to their original order (load order).</li>' +
-            '<li>⚠️All non-vanilla mods will be disabled and moved to the end of your load order.</li>' +
+            '<li>⚠️ All non-vanilla mods will be disabled and moved to the end of your load order.</li>' +
             '<li>Optionally, manually re-enable and reposition your added non-vanilla mods, or start a new game with them disabled.</li>' +
             '<li>This is helpful if you\'re troubleshooting a load order and want to revert to a vanilla Nolvus state without reinstalling, if you\'ve accidentally rearranged one or more mods in Mod Organizer 2 (MO2), or if your load order has become corrupted.</li>' +
             '<li>For additional information and a screenshot, refer to this r/Nolvus post <a href="https://www.reddit.com/r/Nolvus/comments/1chuod0/how_to_apply_order_button_usage_in_the_nolvus/">How To: Use the "Apply Order" Button in the Nolvus Dashboard</a>.</li>' +
@@ -762,7 +850,7 @@ async function analyzeLog() {
         for (let plugin of nonNolvusPluginsAtBottomList) {
             nonNolvusPluginsAtBottomListItems += '<li><code>' + plugin + '</code></li>';
         }
-        insights += '<li>❗<b>Non-Nolvus Plugins Detected at Bottom:</b> <code>' + nonNolvusPluginsAtBottom.length + '</code> Non-Nolvus plugins have been detected at the bottom of your load order (below <code>synthesis.esp</code>). This could potentially cause issues with your game. Here is how to address this:<ol>' +
+        insights += '<li>❗ <b>Non-Nolvus Plugins Detected at Bottom:</b> <code>' + nonNolvusPluginsAtBottom.length + '</code> Non-Nolvus plugins have been detected at the bottom of your load order (below <code>synthesis.esp</code>). This could potentially cause issues with your game. Here is how to address this:<ol>' +
             '<li>Open Mod Organizer 2 (MO2).</li>' +
             '<li>In both the left and right-side panes, identify the non-Nolvus plugins at the bottom of your load order.</li>' +
             '<li>Move these plugins to their correct positions in the load order. Typically, non-Nolvus plugins should be placed above <code>FNIS.esp</code>. If you would like guidance on modding/patching Nolvus, please watch this <a href="https://youtu.be/YOvug9KP5L4">brief tutorial video</a> for step-by-step instructions.</li>' +
@@ -777,7 +865,7 @@ async function analyzeLog() {
 
     //D6DDDA
     if (sections.firstLine.includes('D6DDDA')) {
-        insights += '<li>❗<b>D6DDDA Crash Detected:</b> The \'D6DDDA\' error may occur due to one of the following reasons:<ol>' +
+        insights += '<li>❗ <b>D6DDDA Crash Detected:</b> The \'D6DDDA\' error may occur due to one of the following reasons:<ol>' +
             '<li>Exceeded RAM or VRAM: Ensure that your system has sufficient memory resources:<ol>' +
             '<li>Check if other applications are consuming excessive memory. Consider closing other applications.</li>' +
             '<li>If your PC has less than 12GB of VRAM (more for wide screen and/or monitors more than 2K) (<a href="https://www.lifewire.com/how-to-check-vram-5235783">how to check how much VRAM you have</a>),  consider running your load order through <a href="https://www.reddit.com/r/Nolvus/comments/1doakj1/psa_use_vramr_if_you_have_12gb_of_vram/">VRAMr</a> to conserve both VRAM and RAM by compressing all/most of your load order\'s texture files in an automated fashion. This will reduce your load order\'s images to a smaller resolution (file size) without a noticeable decrease in image quality, and typically leads to fewer low-point FPS stutters and fewer memory-related crashes.</li>' +
@@ -794,7 +882,7 @@ async function analyzeLog() {
 
     //NVIDIA graphics driver
     if (sections.topThirdNoHeading.toLowerCase().includes('nvwgf2umx.dll') || sections.topThirdNoHeading.toLowerCase().includes('nvlddmkm.sys') || sections.topThirdNoHeading.toLowerCase().includes('nvoglv32.dll') || sections.topThirdNoHeading.toLowerCase().includes('nvoglv64.dll') || sections.topThirdNoHeading.toLowerCase().includes('nvwgf2um.dll') || sections.topThirdNoHeading.toLowerCase().includes('nvapi64.dll')) {
-        insights += '<li>❗<b>Potential NVIDIA Driver Issue Detected:</b> NVIDIA driver .dll files showing up in the top few sections of a crash log may be linked to NVIDIA graphics driver issues. To resolve this, try the following steps:<ol>' +
+        insights += '<li>❗ <b>Potential NVIDIA Driver Issue Detected:</b> NVIDIA driver .dll files showing up in the top few sections of a crash log may be linked to NVIDIA graphics driver issues. To resolve this, try the following steps:<ol>' +
             '<li><b>Update your NVIDIA drivers</b> to the latest version. You can download the latest drivers from the <a href="https://www.nvidia.com/Download/index.aspx">NVIDIA website</a>.</li>' +
             '<li>If updating does not resolve the issue, perform a clean installation of the drivers using a tool like Display Driver Uninstaller (DDU) to remove all traces of the previous drivers before installing the new ones.</li>' +
             '<li>Check for any GPU overclocking settings that may be causing instability and reset them to default if necessary.</li>' +
@@ -805,7 +893,7 @@ async function analyzeLog() {
     //Memory issue (Missing Masters)
     // Check thought up by AI (MS Bing Copilot):
     if (sections.topHalf.includes('0xC0000005')) {
-        insights += '<li>❗<b>Memory Access Violation Detected:</b> Error code 0xc0000005 points to memory-related issues, such as invalid memory access operations. Common causes and resolutions include:<ol>' +
+        insights += '<li>❗ <b>Memory Access Violation Detected:</b> Error code 0xc0000005 points to memory-related issues, such as invalid memory access operations. Common causes and resolutions include:<ol>' +
             '<li><b>Missing Master Files:</b> Incompatibilities from a new mod may sometimes be resolved by installing <a href="https://www.nexusmods.com/skyrimspecialedition/mods/106441">Backported Extended ESL Support (BEES)</a>. If a mod was removed while others are still depending on it, see <a href="https://github.com/LivelyDismay/Learn-To-Mod/blob/main/lessons/Remove%20a%20Master.md">How To Remove a Master Requirement From a Plugin</a>.</li>' +
             '<li><b>Incompatible Mods:</b> Review your mod list for conflicts that could affect memory allocation or access.</li>' +
             '<li><b>File Format Versions:</b> Ensure all mods are compatible with your game version to prevent crashes from format mismatches.</li>' +
@@ -843,7 +931,7 @@ async function analyzeLog() {
             consoleUtilMessage = "ConsoleUtilSSE.dll appears very high in the crash log, which likely indicates an incompatibility issue.";
         }
 
-        insights += `<li>❗<b>Likely Incompatible ConsoleUtilSSE Version:</b> ${consoleUtilMessage} Download and install <a href="https://www.nexusmods.com/skyrimspecialedition/mods/76649?tab=files">ConsoleUtilSSE NG v1.5.1 or later</a> to potentially resolve this issue.</li>`;
+        insights += `<li>❗ <b>Likely Incompatible ConsoleUtilSSE Version:</b> ${consoleUtilMessage} Download and install <a href="https://www.nexusmods.com/skyrimspecialedition/mods/76649?tab=files">ConsoleUtilSSE NG v1.5.1 or later</a> to potentially resolve this issue.</li>`;
         insightsCount++;
 
         Utils.debuggingLog(['ConsoleUtilSSE check'], 'Skyrim AE:', sections.hasSkyrimAE);
@@ -873,7 +961,7 @@ async function analyzeLog() {
 
     // dxgi.dll issue (ReShade and PureDark Upscaler)
     if (sections.topHalf.includes('dxgi.dll')) {
-        insights += '<li>❗<b>dxgi.dll Issue Detected:</b> The presence of dxgi.dll in the log\'s top half indicates a potential issue between ReShade and the PureDark Upscaler. Common causes and resolutions include:<ol>' +
+        insights += '<li>❗ <b>dxgi.dll Issue Detected:</b> The presence of dxgi.dll in the log\'s top half indicates a potential issue between ReShade and the PureDark Upscaler. Common causes and resolutions include:<ol>' +
             '<li><b>ReShade Version:</b> If you have upgraded your ReShade to a newer version (e.g., 6.11 for the latest Cabbage release), the older and customized dxgi.dll from PureDark might cause issues. See below if you wish to revert to the original Reshade.</li>' +
             '<li><b>PureDark Upscaler:</b> If you are using newer versions of the PureDark upscaler (specifically for 40xx cards), you need to download a customized version of dxgi.dll from their Discord for compatibility with ReShade.</li>' +
             '<li><b>Missing dxgi.dll:</b> If you want to revert back from PureDark and don\'t have the original dxgi.dll, you can find it in your archived mods installed from Nolvus. Alternatively, reinstall ReShade following the <a href="https://www.nolvus.net/guide/natl/enb">11.3 Reshade Binaries</a> instructions on the Nolvus site.</li>' +
@@ -883,7 +971,7 @@ async function analyzeLog() {
     }
     //Upscaler
     if (sections.topThird.toLowerCase().includes('upscaler.dll') || sections.topThird.toLowerCase().includes('pdperfplugin.dll')) {
-        insights += '<li>❗<b>Potential Upscaler Issue Detected:</b> The error involving \'Upscaler.dll\' or \'PDPerfPlugin.dll\'suggests a problem with the Upscaler mod, which is designed to improve the game\'s graphics by increasing the resolution of textures. If you are using Puredark\'s paid Upscaler, consider the following troubleshooting steps:<ol>' +
+        insights += '<li>❗ <b>Potential Upscaler Issue Detected:</b> The error involving \'Upscaler.dll\' or \'PDPerfPlugin.dll\'suggests a problem with the Upscaler mod, which is designed to improve the game\'s graphics by increasing the resolution of textures. If you are using Puredark\'s paid Upscaler, consider the following troubleshooting steps:<ol>' +
             '<li>Ensure you are using the correct version of the upscaler that is compatible with your GPU.</li>' +
             '<li>Review the <a href="https://docs.google.com/document/d/1YVFKcJN2xuvhln9B6vablzOzQu-iKC4EDcbjOW-SEsA/edit?usp=sharing">Nolvus DLSS Upscaler Installation Guide</a> to confirm that you have followed all the installation steps correctly.</li>' +
             '<li>Review the <b>SkyrimUpscaler.log</b> file for more detailed information about the error.</li>' +
@@ -897,7 +985,7 @@ async function analyzeLog() {
 
     // Check for KERNELBASE Crash excluding JContainers and JSON parse error
     if (sections.firstLine.toLowerCase().includes('KERNELBASE.dll'.toLowerCase()) && !sections.probableCallstack.includes('JContainers64.dll') && !sections.topHalf.includes('json.exception.parse_error')) {
-        insights += '<li>❗<b>KERNELBASE Crash Detected:</b> This rare issue could be related to a specific added mod, or to hardware or a system-wide issue such as virus, malware, drive corruption, corrupted Nolvus install, or corrupted file permissions. Here are some steps you can take, ordered from easiest to hardest:<ol>' +
+        insights += '<li>❗ <b>KERNELBASE Crash Detected:</b> This rare issue could be related to a specific added mod, or to hardware or a system-wide issue such as virus, malware, drive corruption, corrupted Nolvus install, or corrupted file permissions. Here are some steps you can take, ordered from easiest to hardest:<ol>' +
             '<li>You can restore the original sorting of all vanilla Nolvus mods using the <b>Apply Order</b> button in the Nolvus Dashboard.<ul>' +
 
                 '<li>Here is how to do it: <a href="#" class="toggleButton">⤴️ hide</a><ol class="extraInfo">' +
