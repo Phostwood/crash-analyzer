@@ -223,15 +223,30 @@ REGISTERS:
 		Name: "HairMaleNord01"
 	R14 0x0                (size_t) [0]
 	R15 0x7FF6F3208B00     (void* -> SkyrimSE.exe+3138B00	loopne 0x00007FF6F3208B1C)
-  R16 0x0                (PathingRequest**)
-  R17 0x0                (SkyrimSE.exe+1541FE0) (char*) ".STRINGS"
-  R18 0x0                (usvfs_x64.dll+10E300) (char*) "usvfs::hook_DeleteFileW"
-  R19 0x0                (BSTriShape*) -> (Name: `Book01:1`)
-  R20 0x0                (testFileName.dll)
-  R21 0x0                (testJsonFile.json)
-  R22 0x0                
-  R23 0x0                
-
+	R16 0x0                (PathingRequest**)
+	R17 0x0                (SkyrimSE.exe+1541FE0) (char*) ".STRINGS"
+	R18 0x0                (usvfs_x64.dll+10E300) (char*) "usvfs::hook_DeleteFileW"
+	R19 0x0                (BSTriShape*) -> (Name: `Book01:1`)
+	R20 0x0                (testFileName.dll)
+	R21 0x0                (testJsonFile.json)
+	R22 0x0                
+	R23 0x0                
+	RCX 0x22FC49677E0      (TESObjectREFR*)
+		Object Reference: None
+		ParentCell: ---
+			File: "The Great Cities of JK's North - AI Overhaul Patch.esp"
+			Modified by: Skyrim.esm -> Update.esm -> Dawnguard.esm -> HearthFires.esm -> unofficial skyrim special edition patch.esp -> YurianaWench.esp -> The Great Cities - Minor Cities and Towns.esp -> JKs Skyrim.esp -> COTN - Dawnstar.esp -> The Great Cities of JK's North - Patch.esp -> AI Overhaul.esp -> DealingwithDaedra.esp -> OwnCivilWar.esp -> The Great Cities of JK's North - AI Overhaul Patch.esp
+			Flags: 0x00040009 
+			EditorID: "DawnstarExterior01"
+			FormID: 0x00008EB4
+			FormType: Cell (60)
+		File: "The Great Cities of JK's North - Patch.esp"
+		Modified by: The Great Cities - Minor Cities and Towns.esp -> The Great Cities of JK's North - Patch.esp
+		Flags: 0x00008008 kInitialized
+		FormID: 0x3D0231A4
+		FormType: Reference (61)
+	RDX 0x1                (size_t) [1]
+	RBX 0x45B70FEA18       (void*)
 
 STACK:
 	[RSP+0   ] 0x23266B46438      (BGSListForm*)
