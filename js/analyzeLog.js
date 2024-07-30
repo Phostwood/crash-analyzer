@@ -283,9 +283,11 @@ function checkForObjectReferenceNone(sections) {
             diagnoses += `<li>🎯 <b>"Object Reference: None" Detected:</b> This typically indicates when a mod attempts to reference a non-existent object, often due to mod conflicts, incompatible mod/patch versions, and/or load order issues. Here's what you need to know:<ul>`;
             
             diagnoses += `<li><b>Troubleshooting Steps:</b><ol>
-                <li>The likely culprit is the file: <code>${lastFile}</code>. Disable this mod first.</li>
-                <li>If the issue persists, investigate the file: <code>${firstFile}</code>.</li>
-                <li>In some cases, you may need to disable both mods to resolve the issue.</li>
+                <li>The likely culprit is the file: <code>${lastFile}</code>. Disable this mod first.</li>`
+                if (lastFile !== firstFile) {
+                    diagnoses += `<li>If the issue persists, investigate the file: <code>${firstFile}</code>.</li>`
+                }
+                diagnoses += `<li>In some cases, you may need to disable both mods to resolve the issue.</li>
                 <li>After disabling, re-enable mods one by one to isolate the conflict.</li>
                 <li>Review versions and requirements of both mods to ensure compatibility.</li>
                 </ol></li></ul></li>`;

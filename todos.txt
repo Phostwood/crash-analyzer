@@ -1,6 +1,10 @@
-✅ Beta version 0.18.5
-- Added new test: "Object Reference: None" for Skyrim.html users (with help from u/RomatebitegeL)
-- Added space character after emojis for consistent formatting in Reddit
+✅ Beta version 0.18.7
+
+Minor bug fixes:
+- Added more indicators for Bitdefender towards Antivirus Warning
+- "Object Reference: None" test only shows second file if it is different from the first file
+- Logs manually selected and copy-pasted from PasteBin now have inserted space characters removed from log before further processing to avoid messing up regexes
+
 
 
 NEXT VERSION: WORKING ON:

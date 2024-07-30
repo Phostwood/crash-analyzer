@@ -446,6 +446,17 @@ Utils.getDllVersionFromLog = function(sections, dllFileName) {
 };
 
 
+Utils.preProcessLogFile = function(logFile) {
+    // Remove space characters from empty lines
+    logFile = logFile.replace(/^\s+$/gm, '');
+    
+    // Remove any leading or trailing whitespace
+    //DISABLED SINCE CrashLogger and Trainwreck use significant indentations:  logFile = logFile.trim();
+    
+    // Add more pre-processing steps here as needed
+    
+    return logFile;
+};
 
 
 
@@ -453,6 +464,10 @@ Utils.getDllVersionFromLog = function(sections, dllFileName) {
 Utils.getLogSectionsMap = function(logFile) {
     Utils.debuggingLog(['getLogSectionsMap'], 'Entering getLogSectionsMap');
     Utils.debuggingLog(['getLogSectionsMap'], 'logFile length:', logFile.length);
+
+    // Pre-process the logFile
+    logFile = this.preProcessLogFile(logFile);
+    Utils.debuggingLog(['getLogSectionsMap'], 'Processed logFile length:', logFile.length);
     
     // Always call splitLogIntoLines to ensure fresh processing
     this.splitLogIntoLines(logFile);
