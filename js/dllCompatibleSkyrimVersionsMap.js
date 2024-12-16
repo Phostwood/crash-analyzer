@@ -28,7 +28,7 @@ const dllCompatibleSkyrimVersionsMap = {
             url: 'https://www.nexusmods.com/skyrimspecialedition/mods/108262?tab=files'
         }
     },
-    /* PENDING new version number:
+    /* PENDING new version number for ability to verify fixed:
     'QQuickLootEE.dll': {
         '1.2.1': {
             minSkyrim: null,
@@ -40,7 +40,7 @@ const dllCompatibleSkyrimVersionsMap = {
     },
     */
     'po3_PapyrusExtender.dll': {
-        '5.6.1': {
+        '5.6.1.1': {
             minSkyrim: null,
             maxSkyrim: '1.6.1129.9999',
             recommendedVersion: '5.7.0',
@@ -56,7 +56,67 @@ const dllCompatibleSkyrimVersionsMap = {
             modName: 'Open Animation Replacer (OAR)',
             url: 'https://www.nexusmods.com/skyrimspecialedition/mods/92109?tab=files'
         }
+    },
+    
+    'CombatMusicFix_NG.dll': {
+        '1.0.0': {
+            minSkyrim: null,
+            maxSkyrim: '1.6.1129.9999', //verify 1130 is where it breaks?
+            recommendedVersion: '1.1.0',
+            modName: 'Combat Music Fix NG Updated',
+            url: 'https://www.nexusmods.com/skyrimspecialedition/mods/110459?tab=files'
+        }
+    },
+
+    'CombatMusicFix.dll': {
+        '1.0.1': {
+            minSkyrim: null,
+            maxSkyrim: '1.6.1129.9999', //verify 1130 is where it breaks?
+            recommendedVersion: '1.1.0',
+            modName: 'Combat Music Fix NG Updated',
+            url: 'https://www.nexusmods.com/skyrimspecialedition/mods/110459?tab=files'
+        }
+    },
+
+    'MCMHelper.dll': {
+        '1.4.0': {
+            minSkyrim: null,
+            maxSkyrim: '1.6.1129.9999',
+            recommendedVersion: '1.5.0',
+            modName: 'MCM Helper',
+            url: 'https://nexusmods.com/skyrimspecialedition/mods/53000?tab=files'
+        }
+    },
+
+    'QuickLootEE.dll': { //QUESTION: still unable to verify if fixed??
+        '1.2.1': {
+            minSkyrim: null,
+            maxSkyrim: '1.6.1129.9999',
+            recommendedVersion: '2.0.0',
+            modName: 'QuickLoot IE - A QuickLoot EE Fork',
+            url: 'https://www.nexusmods.com/skyrimspecialedition/mods/120075?tab=files'
+        }
+    },
+
+    'SkyClimb.dll': {
+        '0.0.0.1': { //NOTE: incompatible version of SkyClimb actually doesn't report a version number, but 0.001 is default
+            minSkyrim: null,
+            maxSkyrim: '1.6.1129.9999',
+            recommendedVersion: '1.0.0',
+            modName: 'SkyClimb 1.6.1170 Fix',
+            url: 'https://www.nexusmods.com/skyrimspecialedition/mods/124203?tab=files',
+        }
     }
-    /* SkyClimb.dll ... pending new and old version numbers
-        .. if it even report version numbers in CrashLogger and/or Trainwreck?*/
+    
+    /* DISABLED: NEEDS TO BE A SEPARATE TEST which doesn't check for v# ... new version doesn't seem to provide a v#...
+    'CompassNavigationOverhaul.dll': {
+        '0.0.0.1': { //NOTE: incompatible version of SkyClimb actually doesn't report a version number, but 0.001 is default
+            minSkyrim: null,
+            maxSkyrim: '1.6.1129.9999',
+            recommendedVersion: '2.2.0', //QUESTION: does the new version display a v# in crash logs? If not, disable this test...
+            modName: 'Compass Navigation Overhaul',
+            url: 'https://www.nexusmods.com/skyrimspecialedition/mods/74484?tab=files',
+        }
+    }  */
+
 };

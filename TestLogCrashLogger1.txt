@@ -576,6 +576,11 @@ SKSE PLUGINS:
 	QuickLootRE.dll v2.15
 	po3_PapyrusExtender.dll v5.6.1.1
 	DynamicAnimationReplacer.dll v1.1.3
+	SkyClimb.dll
+	CombatMusicFix_NG.dll v1
+	CombatMusicFix.dll v1.0.1
+	MCMHelper.dll v1.4
+	QuickLootEE.dll v1.1
 
 
 PLUGINS:

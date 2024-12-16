@@ -20,7 +20,7 @@ Utils.isDebugging = true; // Set this to false to disable debugging (non-error) 
 //Utils.debugBatch = ['getPercentAlphabetized'];
 //Utils.debugBatch = ['hasSkyrimVersionOrHigher', 'hasSkyrimAE', 'hasNewEslSupport'];
 //Utils.debugBatch = ['getDllVersionFromLog', 'hasCompatibleDll', 'checkDllCompatibility', 'compareVersions'];
-Utils.debugBatch = ['hasCompatibleDll', 'checkDllCompatibility'];
+Utils.debugBatch = ['hasCompatibleDll', 'checkDllCompatibility', 'getDllVersionFromLog'];
 
 
 
@@ -410,37 +410,51 @@ Utils.getDllVersionFromLog = function(sections, dllFileName) {
 
     let version = null;
 
+    // Check SKSE plugins section (both CrashLogger and Trainwreck)
+    if (sections.sksePlugins) {
+        const pluginLines = sections.sksePlugins.split('\n');
+        for (const line of pluginLines) {
+            if (line.includes(dllFileName)) {
+                const parts = line.split(/\s+/);
+                const lastPart = parts[parts.length - 1].trim();
+                if (lastPart && !lastPart.includes(dllFileName)) {
+                    version = lastPart.replace('v', '');
+                    Utils.debuggingLog(['getDllVersionFromLog'], `Version found in log for ${dllFileName}: ${version}`);
+                } else {
+                    version = '0.0.0.1'; // default version number when mod's .DLL is listed, but no version number given
+                    Utils.debuggingLog(['getDllVersionFromLog'], `No version found in log for ${dllFileName}`);
+                }
+                break;
+            }
+        }
+    }
+
+    /* DISABLE CODE? (1) is only for Trainwreck, which we recommend against anyway
+    //  (2) still has a bug where version shows up as the DLL filename
+    //  (3) most mods in Trainwreck's modules section don't have version numbers anyway
+    //  (4) ... so, this is mostly a test for the SKSE section which is already tested for above
     // Check modules section (Trainwreck only, as CrashLogger's "MODULES:"" section doesn't list version numbers)
-    if (sections.logType == 'Trainwreck' && sections.modules) {
+    if (!version && sections.logType == 'Trainwreck' && sections.modules) {
         const moduleLines = sections.modules.split('\n');
         for (let i = 0; i < moduleLines.length; i++) {
             if (moduleLines[i].includes(dllFileName)) {
                 const versionLine = moduleLines[i + 2]; // Version is typically two lines below the DLL name
                 if (versionLine && versionLine.includes('Version:')) {
                     version = versionLine.split('Version:')[1].trim().replace('v', '');
+                    if (version == dllFileName || !version) {
+                        version = '0.0.0.1'; // default version number when mod's .DLL is listed, but no version number given
+                    }
                     break;
                 }
             }
         }
-    }
+    }  
 
-    // Check SKSE plugins section (both CrashLogger and Trainwreck)
-    if (!version && sections.sksePlugins) {
-        const pluginLines = sections.sksePlugins.split('\n');
-        for (const line of pluginLines) {
-            if (line.includes(dllFileName)) {
-                const parts = line.split(/\s+/);
-                version = parts[parts.length - 1].replace('v', '');
-                break;
-            }
-        }
-    }
-
-    if (version) {
+    if (version != "0.0.0.1") {
         Utils.debuggingLog(['getDllVersionFromLog'], `Version found in log for ${dllFileName}: ${version}`);
     } else {
         Utils.debuggingLog(['getDllVersionFromLog'], `No version found in log for ${dllFileName}`);
-    }
+    }*/
 
     return version;
 };

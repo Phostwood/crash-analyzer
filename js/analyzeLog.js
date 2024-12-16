@@ -387,8 +387,13 @@ if(Utils.isSkyrimPage) {
                     .sort((a, b) => Utils.compareVersions(b, a));
                 const dllMostRecentVersion = versionKeys[0]; // Get the latest version
                 const compatData = dllCompatibleSkyrimVersionsMap[dll.dllName][dllMostRecentVersion];
+
+                let outputVersion = dll.dllVersionFromLog;
+                if (dll.dllVersionFromLog == "0.0.0.1") {
+                    outputVersion = '(unspecified)';
+                }
                 
-                diagnoses += `<li><code>${dll.dllName}</code> v${dll.dllVersionFromLog}: 
+                diagnoses += `<li><code>${dll.dllName}</code> v${outputVersion}: 
                             Recommend update to <b>${compatData.modName}</b> v${compatData.recommendedVersion} or later. 
                             <a href="${compatData.url}" target="_blank">Download here</a></li>`;
                 diagnosesCount++;

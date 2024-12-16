@@ -1,13 +1,45 @@
-✅ Beta version 0.18.7
+✅misunderstanding, NOT-A-BUG where QuickLoot RE showing up as QuickLoot EE
 
-Minor bug fixes:
-- Added more indicators for Bitdefender towards Antivirus Warning
-- "Object Reference: None" test only shows second file if it is different from the first file
-- Logs manually selected and copy-pasted from PasteBin now have inserted space characters removed from log before further processing to avoid messing up regexes
+REMOVED: I'm guessing it's impossible to tell by v#: Possible bug (x8?)  with CompassNavigationOverhaul ... or new version doesn't list v# in crashlog (trainwreck)?
+
+✅ FIXED (and deemed minor enough to keep current QA results below) NEW BUG: 2024-08-16-06-37-17.log.txt trainwreck log has SkyClimb without version, but it isn't flagged
+
+✅This log is from Skyrim SSE v1.6.640 ... not AE: NOT-A-BUG: test misses QuickLoot EE in CL log: BbVQCv6Z.txt
+link: https://www.reddit.com/r/skyrimmods/comments/1gc3wea/nature_of_the_wildlands_crashes_windhelm/
 
 
+✅TEST NEW VERSION CHECKER FOR 4 DLLs with real log files from both CrashLogger (CL) and TrainWreck(TW) log types:
 
-NEXT VERSION: WORKING ON:
+CombatMusicFix_NG.dll:		CL✅✅			TW✅✅
+CombatMusicFix.dll			CL✅				TW✅✅
+MCMHelper:					CL✅✅✅✅		TW✅
+QuickLootEE: (testable?)	CL✅✅✅		TW✅
+SkyClimb:					CL✅x10			TW✅✅
+SkyClimb (new v passes):	CL✅			   TW✅
+
+Also test prior DLL types:
+ConsoleUtilSSE				CL✅x5			TW✅✅✅
+QuickLootRE					CL✅x5			TW✅
+po3_PapyrusExtender			CL✅				TW✅✅
+DynamicAnimationReplacer	CL✅✅			TW✅
+
+(note: especially test PO3, as it had a bug fix with this version)
+
+
+✅Beta version 0.19.1
+- Primarily for general Skyrim users (not Nolvus)
+- 5 New Tests: New version number check for 5 mods: CombatMusicFix, CombatMusicFix_NG,  MCMHelper, QuickLootEE, and SkyClimb
+- Bug Fix: for version number check for po3_PapyrusExtender.dll ... increased old version number from 5.6.1.0 to 5.6.1.1 (or before)
+- may be other minor bug fixes related to the "Incompatible DLL Versions Detected" test
+
+NEXT VERSION: WORKING ON:???
+
+Bug fixes/updates for Nolvus
+Wording improvements and such for Nolvus
+Banner ads for Nolvus version
+Banner ads disabled for Patreons (if any active paid subscribers, otherwise do after Discord Helpers)
+Banner ads disabled for Nolvus Discord Helpers (if this is something the Discord API allows?) ... otherwise a shared-but-secret login (if abused, I'll disable)
+
 
 CombatMusicFix_NG.dll. version check
 Bad version 1
