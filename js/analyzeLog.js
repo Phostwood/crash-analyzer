@@ -424,10 +424,26 @@ if(Utils.isSkyrimPage) {
     }
 
 
+    // Check for KERNELBASE Window 24H2 and Upscaler Crash
+    let win24H2UpscalerCrash = false;
+    if (sections.firstLine.toLowerCase().includes('KERNELBASE.dll'.toLowerCase()) && sections.probableCallstack.includes('SkyrimUpscaler.dll')) {
+        diagnoses += '<li>🎯 <b>DLAA Incompatibility Detected:</b> Windows version 24H2 has made DLAA incompatible. Puredark, the author of the Upscaler mods (both free and paid versions), is aware of the issue but not sure how to resolve it at this time. Confusingly, this issue occurs for most such users but seemingly not all. Currently the only resolution is to <strong>disable</strong> the DLAA Upscaler mods and switch to TAA. Here are the steps to do this:<ol>' +
+            '<li>In <strong>Mod Organizer 2</strong> (MO2), towards the top find section "1.1 SKSE PLUGINS" (or whatever location you may have installed your Upscaler mod(s) into).</li>' +
+            '<li>Open the section, and towards the bottom find <code>Upscaler Base Plugin</code> and <code>Skyrim Upscaler</code>. Disable them both. NOTE: paid versions may converge both plugins into one.</li>' +
+            '<li>Then in the top navigation pane of MO2 click on the puzzle icon.</li>' +
+            '<li>Select "INI Editor".</li>' +
+            '<li>Click on <code>skyrimprefs.ini</code> and click inside of the text box.</li>' +
+            '<li>On your keyboard, press <strong>CTRL+F</strong></li>' +
+            '<li>Search for <code>bUseTAA</code> and change the value to match <code>bUseTAA=1</code></li>' +
+            '<li><a href="https://phostwood.github.io/crash-analyzer/images/DLAA-Win24H2-Fix.webp">Click for screenshot.</a></li>' +
+           '</ol></li>';
+        diagnosesCount++;
+        win24H2UpscalerCrash = true;
+    }
 
 
     // Check for KERNELBASE Crash excluding JContainers and JSON parse error
-    if (sections.firstLine.toLowerCase().includes('KERNELBASE.dll'.toLowerCase()) && !sections.probableCallstack.includes('JContainers64.dll') && !sections.topHalf.includes('json.exception.parse_error')) {
+    if (sections.firstLine.toLowerCase().includes('KERNELBASE.dll'.toLowerCase()) && !sections.probableCallstack.includes('JContainers64.dll') && !sections.topHalf.includes('json.exception.parse_error') && !win24H2UpscalerCrash) {
         diagnoses += '<li>❗ <b>KERNELBASE Crash Detected:</b> This rare issue could be related to a specific added mod, or to hardware or a system-wide issue. Here are some steps you can take:<ol>' +
             '<li>Check the <b>Windows Event Log</b> for any related issues. You can do this by opening the Event Viewer (search for it in the Start Menu), then navigate to Windows Logs > Application. Look for any recent errors that might be related to your issue. For detailed instructions, see this <a href="https://support.microsoft.com/en-us/windows/open-event-viewer-17d427d2-43d6-5e01-8535-1fc570ea8a14">Microsoft guide</a>.</li>' +
             '<li>If the issue persists, consider reaching out to the <b>Nolvus Discord</b> for additional help.</li>' +

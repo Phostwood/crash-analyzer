@@ -1,0 +1,43 @@
+⚠️Mocked up log file which contains additional detectable errors which are exclusive to errors in Test_Log.txt ⚠️: Unhandled native exception occurred at 12354 (KERNELBASE.dll+C83EA) on thread 22096!
+
+FrameworkName: NetScriptFramework
+FrameworkVersion: 15
+FrameworkArchitecture: x64
+GameLibrary: SkyrimSE
+GameLibraryVersion: 18
+ApplicationName: SkyrimSE.exe
+ApplicationVersion: 1.5.97.0
+VersionInfo: Successfully loaded
+Time: 15 Mar 2024 19:08:55.589
+
+Possible relevant objects (0)
+{
+}
+
+Probable callstack
+{
+  [0]   0x7FFB1A2683EA     (KERNELBASE.dll+C83EA)         
+  [1]   0x7FFA6333A320     (SkyrimUpscaler.dll+8A320)     
+  [2]   0x5                                               
+}
+
+
+
+Registers
+{
+}
+
+Stack
+{
+}
+
+
+Modules
+{
+this section is only included as a marker for parsing. Anything above this is considered in the "logsTopHalf"
+}
+
+
+Game plugins (2035)
+{
+}
