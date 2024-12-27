@@ -41,37 +41,104 @@ if (typeof Utils === 'undefined') {
         return percentAlphabetized.toFixed(2);
     };
 
-    Utils.extractNifPathsToListItems = function(logText) {
-        const fileRegex = /"([^"]+\.(nif|tri))"/gi;
-        let match;
+
+    // Standalone function to process list items
+    function processListItems(items) {
+        //NOTE this is DIFFERENT from Utils.processListItems()
+        // Check if items is not an array, convert to array by splitting the string using <li> tag
+        if (!Array.isArray(items)) {
+            items = items.split(/<li>|<\/li>/).filter(item => item.trim() !== '');
+        }
+        return items.map(item => `<li>${item}</li>`).join('');
+    }
+
+
+    Utils.extractMemoryRelatedFiles = function(logText) {
         const pathsSet = new Set();
-
-        while ((match = fileRegex.exec(logText)) !== null) {
-            pathsSet.add(match[1]);
+        
+        // Memory-related file patterns
+        const filePatterns = [
+            // Memory dump files
+            /"([^"]+\.(dmp|mdmp))"/gi,
+            // BSAs that might contain memory-intensive resources
+            /"([^"]+\.(bsa))"/gi,
+            // Memory mapped files
+            /"([^"]+\.(mm|pgm))"/gi
+        ];
+    
+        // Memory-related process and module patterns
+        const memoryIndicators = [
+            // Memory manager references
+            /MemoryManager\((Name: `[^`]+`)\)/gi,
+            // Memory heap references
+            /MemoryHeap\((Name: `[^`]+`)\)/gi,
+            // TBB malloc references
+            /tbbmalloc\.dll\((Path: `[^`]+`)\)/gi,
+            // Memory pool references
+            /MemoryPool\((Name: `[^`]+`)\)/gi,
+            // Virtual memory references
+            /VirtualMemory\((Address: `[^`]+`)\)/gi
+        ];
+    
+        // Process each file pattern
+        for (const pattern of filePatterns) {
+            let match;
+            while ((match = pattern.exec(logText)) !== null) {
+                pathsSet.add(match[1]);
+            }
         }
-
-        // If no matches were found, add the no meshes found message to the set
+    
+        // Process each memory indicator pattern
+        for (const pattern of memoryIndicators) {
+            let match;
+            while ((match = pattern.exec(logText)) !== null) {
+                pathsSet.add(match[1]);
+            }
+        }
+    
+        // Extract memory addresses and allocation sizes
+        const memoryAddressPattern = /0x[0-9A-Fa-f]+\s*\(\s*size:\s*\d+\s*bytes\)/gi;
+        let addressMatch;
+        while ((addressMatch = memoryAddressPattern.exec(logText)) !== null) {
+            pathsSet.add(addressMatch[0]);
+        }
+    
+        // Add specific memory-related module information
+        const modulePattern = /((?:DirectX|d3d11|nvwgf2|amd_ags).*?\.dll)/gi;
+        let moduleMatch;
+        while ((moduleMatch = modulePattern.exec(logText)) !== null) {
+            pathsSet.add(moduleMatch[1]);
+        }
+    
+        // If no matches were found, add an explanatory message
         if (pathsSet.size === 0) {
-            pathsSet.add('(no mesh files found in crash log ... consider decompressing relevant .bsa archives)');
+            pathsSet.add('UNLIKELY CAUSE: No specific memory-related files were found in the crash log. However, memory issues can still occur without leaving file traces. Consider monitoring system resource usage during gameplay.');
         }
-
-        const name1Regex = /BSTriShape\((Name: `[^`]+`)\)/gi;
-        const name2Regex = /\(BSTriShape\*\) -> \((Name: `[^`]+`)\)/gi;
-
-        // Check for names using the two regexes and add their group matches to the pathsSet
-        while ((match = name1Regex.exec(logText)) !== null) {
-            pathsSet.add(match[1]);
+    
+        // Check for specific memory allocation indicators
+        const allocationPatterns = [
+            /bad_alloc/i,
+            /no_alloc/i,
+            /tbbmalloc\.dll/i,
+            /out of memory/i,
+            /memory allocation failed/i
+        ];
+    
+        for (const pattern of allocationPatterns) {
+            if (pattern.test(logText)) {
+                pathsSet.add(`Memory allocation indicator found: ${pattern.source}`);
+            }
         }
-        while ((match = name2Regex.exec(logText)) !== null) {
-            pathsSet.add(match[1]);
-        }
-
+    
         // Convert the Set back to an array and process to list items
-        return this.processListItems([...pathsSet]);
+        return Utils.processListItems([...pathsSet]);
     };
 
-    Utils.extractHkxPathsToListItems = function(logText) {
-        const fileRegex = /"([^"]+\.hkx)"/gi;
+
+
+
+    Utils.extractAnimationPathsToListItems = function(logText) {
+        const fileRegex = /"([^"]+\.(hkx|bsa))"/gi;
         let match;
         const pathsSet = new Set();
     
@@ -81,7 +148,7 @@ if (typeof Utils === 'undefined') {
     
         // If no matches were found, add the no animations found message to the set
         if (pathsSet.size === 0) {
-            pathsSet.add('(no animation files found in crash log ... consider decompressing relevant .bsa archives)');
+            pathsSet.add('UNLIKELY CAUSE: Since no animation files were found in crash log, this is less likely to be the culprit. However, as a last resort, consider decompressing relevant <code>.bsa</code> archives.');
         }
     
         const hkbRegex = /hkbBehaviorGraph\((Name: `[^`]+`)\)/gi;
@@ -97,12 +164,12 @@ if (typeof Utils === 'undefined') {
         }
     
         // Convert the Set back to an array and process to list items
-        return this.processListItems([...pathsSet]);
+        return Utils.processListItems([...pathsSet]);
     };
 
 
     Utils.extractSkyrimTexturePathsToListItems = function(logText) {
-        const regex = /"([^"]+\.(dds|tga|bmp))"/gi;
+        const regex = /"([^"]+\.(dds|tga|bmp|bsa))"/gi;
         let match;
         const pathsSet = new Set();
 
@@ -112,14 +179,112 @@ if (typeof Utils === 'undefined') {
 
         // If no matches were found, add the no textures found message to the set
         if (pathsSet.size === 0) {
-            pathsSet.add('(no textures found in crash log ... consider decompressing relevant .bsa archives)');
+            pathsSet.add('UNLIKELY CAUSE: Since no texture files were found in crash log, this is less likely to be the culprit. However, as a last resort, consider decompressing relevant ".bsa" archives.');
         }
 
         // Convert the Set back to an array and process to list items
-        return this.processListItems([...pathsSet]);
+        return Utils.processListItems([...pathsSet]);
     };
 
+
+    Utils.extractNifPathsToListItems = function(logText) {
+        const fileRegex = /"([^"]+\.(nif|tri|bsa))"/gi;
+        let match;
+        const pathsSet = new Set();
+
+        while ((match = fileRegex.exec(logText)) !== null) {
+            pathsSet.add(match[1]);
+        }
+
+        // If no matches were found, add the no meshes found message to the set
+        if (pathsSet.size === 0) {
+            pathsSet.add('UNLIKELY CAUSE: Since no no mesh files were found in crash log, this is less likely to be the culprit. However, as a last resort, consider decompressing relevant ".bsa" archives.');
+        }
+
+        const name1Regex = /BSTriShape\((Name: `[^`]+`)\)/gi;
+        const name2Regex = /\(BSTriShape\*\) -> \((Name: `[^`]+`)\)/gi;
+
+        // Check for names using the two regexes and add their group matches to the pathsSet
+        while ((match = name1Regex.exec(logText)) !== null) {
+            pathsSet.add(match[1]);
+        }
+        while ((match = name2Regex.exec(logText)) !== null) {
+            pathsSet.add(match[1]);
+        }
+
+        // Convert the Set back to an array and process to list items
+        return Utils.processListItems([...pathsSet]);
+    };
+
+
+
+    
+// Function to add insights about mentioned files
+Utils.addMentionedFilesListItems = function(sections, fileType) {
+    // Sub Function to get the appropriate extraction function
+    function getExtractionFunction(fileType) {
+        switch (fileType) {
+            case 'mesh':
+                return Utils.extractNifPathsToListItems;
+            case 'memory':
+                return Utils.extractMemoryRelatedFiles;
+            case 'animation':
+                return Utils.extractAnimationPathsToListItems;
+            case 'texture':
+                return Utils.extractSkyrimTexturePathsToListItems;
+            default:
+                throw new Error('Unsupported file type');
+        }
+    }
+
+    // Get the appropriate extraction function
+    const extractFunction = getExtractionFunction(fileType);
+
+    // Get the list items from the extraction function
+    const listItems = extractFunction(sections.topHalf);
+
+    // Convert the list items to an array if it's not already
+    let arrayListItems;
+    if (Array.isArray(listItems)) {
+        arrayListItems = listItems;
+    } else {
+        arrayListItems = listItems.split(/<li>|<\/li>/).filter(item => item.trim() !== '');
+    }
+
+    const hasFoundFiles = arrayListItems.length > 0;
+
+    // Check if there are any .bsa files in the list items
+    const hasBsaFile = arrayListItems.some(item => item.includes('.bsa') && !item.includes('".bsa"'));
+        //NOTE: remember to keep the quotes on lines like this, otherwise hasBsaFile will be incorrectly set to true
+        // 'UNLIKELY CAUSE: Since no animation files were found in crash log, this is less likely to be the culprit. However, as a last resort, consider decompressing relevant ".bsa" archives.'
+
+    // Process the list items to HTML
+    const processedListItems = Utils.processListItems(arrayListItems);
+
+    // Add the note only if there's a .bsa file
+    let parentListItem = '';
+    if (hasBsaFile) {
+        parentListItem += `<li>Mentioned ${fileType} files (NOTE: <code>.bsa</code> files may or may not contain compressed ${fileType} files): <a href="#" class="toggleButton">⤴️ hide</a><ul class="extraInfo">`;
+    } else {
+        parentListItem += `<li>Mentioned ${fileType} files: <a href="#" class="toggleButton">⤴️ hide</a><ul class="extraInfo">`;
+    }
+    parentListItem += processedListItems;
+    parentListItem += '</ul></li>';
+
+    return { parentListItem: parentListItem, hasFoundFiles: hasFoundFiles };
+};
+
+
+    /* Usage example
+    const meshResults = Utils.addMentionedFilesListItems(sections, 'mesh');
+    const = forMeshInsights = meshResults.parentListItem;
+    const foundMeshFiles = meshResults.foundFiles;
+    */
+
+
+
     Utils.processListItems = function(listItems) {
+        //NOTE this is DIFFERENT from procesListItems() not scoped to Utils
         // Deduplicate the list before truncating
         const dedupedListItemsBeforeTruncate = [...new Set(listItems)];
 

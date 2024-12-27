@@ -1,4 +1,5 @@
 const crashIndicators = {
+    //NOTE: many of these codes were suggested by AI. Some of them may not be the best indicators of the issue type? Also, I don't know if some of these ever show up in Skyrim crash logs, but I didn't see any harm in leaving them in. 
     meshIssues: {
         hexCodes: [
             { hexCode: '132BEF', description: "head mesh issue" },
@@ -35,32 +36,56 @@ const crashIndicators = {
             { code: 'trishape', description: "Triangle shape in mesh" }
         ]
     },
-    textureIssues: [
-        { code: 'bsshadertextureset', description: "Shader texture set problem" },
-        { code: 'nialphaproperty', description: "Alpha property issue" },
-        { code: 'compressedarchivestream', description: "Compressed texture stream error" },
-        { code: 'texture', description: "General texture-related problem" }
-    ],
-    animationIssues: [
-        { code: 'hkbehaviorgraph', description: "Havok behavior graph" },
-        { code: 'animationgraph', description: "Animation graph" },
-        { code: 'hkbclipgenerator', description: "Havok clip generator" },
-        { code: 'hkbvariablebindingset', description: "Havok variable binding set" },
-        { code: '.hkx', description: "Havok animation file" },
-        { code: 'bshkbanimationgraph', description: "BShkb Animation Graph" },
-        { code: 'animation', description: "General animation-related (lower-confidence indicator)" }
-    ],
+    textureIssues: {
+        hexCodes: [
+            //No known hex codes?
+        ],
+        codes: [
+            { code: 'bsshadertextureset', description: "Shader texture set problem" },
+            { code: 'nialphaproperty', description: "Alpha property issue" },
+            { code: 'compressedarchivestream', description: "Compressed texture stream error" },
+            { code: 'texture', description: "General texture-related problem" }
+        ]
+    },
+    animationIssues: {
+        hexCodes: [
+            { hexCode: 'B02235', description: "suspected animation indictor" },
+        ],
+        codes: [
+            { code: 'hkbehaviorgraph', description: "Havok behavior graph" },
+            { code: 'animationgraph', description: "Animation graph" },
+            { code: 'hkbclipgenerator', description: "Havok clip generator" },
+            { code: 'hkbvariablebindingset', description: "Havok variable binding set" },
+            { code: '.hkx', description: "Havok animation file" },
+            { code: 'bshkbanimationgraph', description: "BShkb Animation Graph" },
+            { code: 'animation', description: "General animation-related (lower-confidence indicator)" }
+        ]
+    },
     scriptIssues: [
         { code: 'papyrus vm', description: "Papyrus virtual machine error" },
         { code: 'script', description: "General script-related problem" },
         { code: 'property', description: "Script property issue" },
         { code: 'skse', description: "Skyrim Script Extender problem" }
     ],
-    memoryIssues: [
-        { code: 'memory allocation failed', description: "Failed to allocate memory" },
-        { code: 'out of memory', description: "System ran out of memory" },
-        { code: 'heap corruption', description: "Memory heap corruption detected" }
-    ],
+    memoryIssues: {
+        hexCodes: [
+            { hexCode: 'D6DDDA', description: "VRAM/visual memory allocation failure" },
+            { hexCode: '0xc0000005', description: "Windows memory access violation" }
+        ],
+        codes: [
+            { code: 'memory allocation failed', description: "Failed to allocate memory" },
+            { code: 'out of memory', description: "System ran out of memory" },
+            { code: 'heap corruption', description: "Memory heap corruption detected" },
+            { code: 'bad_alloc', description: "Memory allocation failure" },
+            { code: 'no_alloc', description: "Memory allocation not possible" },
+            { code: 'tbbmalloc.dll', description: "Threading Building Blocks memory allocator issue" },
+            { code: 'virtual memory', description: "Virtual memory management issue" },
+            { code: 'memory leak', description: "Potential memory leak detected" },
+            { code: 'stack overflow', description: "Stack memory overflow" },
+            { code: 'buffer overflow', description: "Buffer memory overflow" },
+            { code: 'memory fragmentation', description: "Memory fragmentation issue" }
+        ]
+    },
     pluginIssues: [
         { code: 'plugin', description: "General plugin-related problem" },
         { code: 'esp', description: "ESP file issue" },

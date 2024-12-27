@@ -64,6 +64,20 @@ window.LogSummary = {
                 lineCounts[sectionName] = 0;
             }
         }
+        // Adding the new section "nonEslPlugins"
+        const gamePluginsSection = sectionsMap.get('gamePlugins');
+        if (gamePluginsSection && gamePluginsSection.content) {
+            // ^Check if 'gamePlugins' exists and has content before adding 'nonEslPlugins'
+            const allPluginsInLogSection = gamePluginsSection.content;
+            const nonEslPluginInfo = Utils.countNonEslPlugins(allPluginsInLogSection);
+            lineCounts['nonEslPlugins'] = nonEslPluginInfo.nonEslPluginsCount;
+
+            // DEBUGGING: lineCounts["test"] = "this is just a test";
+            Utils.debuggingLog(['logLineCounts', 'logSummary.js'], 'allPluginsInLogSection:', allPluginsInLogSection);
+            Utils.debuggingLog(['logLineCounts', 'logSummary.js'], 'nonEslPluginInfo:', nonEslPluginInfo);
+            Utils.debuggingLog(['logLineCounts', 'logSummary.js'], 'lineCounts:', lineCounts);
+        }
+
         return lineCounts;
     },
 
@@ -82,6 +96,13 @@ window.LogSummary = {
             } else {
                 insights += `<li>${sectionInfo.label}:&nbsp; <code>${count.toLocaleString()}</code></li>`;
             }
+        }
+        // Adding the new section "Non-esl plugins"
+        const nonEslPluginsCount = lineCounts["nonEslPlugins"] || 'error';
+        if (nonEslPluginsCount >254) {
+            insights += `<li>Non-esl plugins:&nbsp; <code>${nonEslPluginsCount.toLocaleString()} ⚠️<b>maximum 254!</b>⚠️</code></li>`;
+        } else {
+            insights += `<li>Non-esl plugins:&nbsp; <code>${nonEslPluginsCount.toLocaleString()}</code></li>`;
         }
         insights += '</ul></li>';
         return insights;

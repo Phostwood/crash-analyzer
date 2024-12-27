@@ -1,11 +1,89 @@
-✅Beta version 0.19.2
-- Applies to both Nolvus and non-Nolvus versions of the crash analyzer
-- NEW TEST for Window 24H2 incompatibilty with DLAA Upscaler
-- test log for it is kept in new Test_Log3.txt
-- Thank you Disco, Corrupt Bliss, and Foxy for your help with this test!
+
+1. ✅Standardize errors tested in each 1, 2, 3(?) test log across the three types
+2. Review all changes ... again
+3. ✅ Each update needs testing, indicate testing completed with a ✅ on each bullet point
+
+
+
+✅ New test for too many plugin
+
+
+✅Reorganize issues for most likely on top:
+1. SKIP: Memory Issue detected out of it's own section?
+2.✅ Animation Issue above a bunch of stuff (this item moved to bottom of "Higher-Confidence Test Results:")
+	✅- then Mesh (near top of "Memory and Image-related Issues:")
+	✅- then Texture (lower in "Memory and Image-related Issues:")
+	✅- then Memory Issue? (lower yet in "Memory and Image-related Issues:")
+3. ✅Adapt other reports to the new Utils extract code (prototype is MESH)
+	- ✅ Mesh
+	- ✅ Animations
+	- ✅Textures
+
+✅Beta version 0.19.3
+
+- ✅Remove Overlay warning if just steam ... it just comes up way too frequently as a false flag.
+
+- ✅New Memory Issue test with merged (and in some ways condensed, but other ways expanded) testing and troubleshooting from several prior tests (tbbmalloc, no_alloc, bad_alloc, D6D...)
+	- ✅Include troubleshooting advice specific to memory stuff, and mentions corrupted Mesh Issues and Texture Issues (elsewhere in report) as being possible causes.
+	- ✅Removed separate tests for tbbmalloc, no_alloc, bad_alloc, but kept D6D as a special situation
+	- ✅Started as: Greatly improved memory-issue troubleshooting ideas for:
+		- ✅maybe merge these indicators into memoryIssues in crashIndicatorsMap.js and use it, and list them like I already do for meshes and such?
+		- ✅be sure to include advice to try rebooting and trying to maximize available memory for Skyrim?
+		- ✅Add "In some cases simply re-downloading and reinstalling the mod with a bad mesh or texture, may fix the corrupted file and resolve the issue"
+
+
+  - ✅ BGSSaveLoadManager Issue (Many thanks to Jerilith, RomatebitegeL, Orionis, and Krispyroll!) now has greatly expanded instructions. Decided to directly include Jerilith's safe save guide instructions. Prior permission was obtained from Jerilith.
+
+- (✅) Removed Lanterns Of Skyrim II crash as it may be fixed now? Regardless it rarely comes up, and I've never seen it as a likely cause.
+
+- (✅) ObjectReference Issues COMMENTED OUT as deemed generally unhelpful when it shows up. Check just thought up by AI (MS Bing Copilot anyway)
+
+- (✅) "Many thanks to": Added more names, and alphabetized names
+
+- ✅ Allow .log in addition to .txt in the HTML log file field
+
+- ✅ KERNELBASE Crash: Revised, de-Nolvus-ified instructions for general Skyrim users, added a couple steps for all users, moved to only non-AdvancedUsers section for Skyrim users, and improve instructions overall. Did not change the test itself though.
+
+- ✅where no files specifically listed, for textures, meshes, and animations, say something like:  UNLIKELY CAUSE! (no animation files found in crash log ... as a last resort, consider decompressing relevant .bsa archives)
+
+- ✅ deemphasized Physics Crash with "frequently seen, but usually not the culprit"
+
+- ✅ moved some diagnostic functions out of main code block for better readability and easier maintenance
+
+- ✅ reorganized some diagnoses/insights so the most likely ones will hopefully be displayed higher up the list
+
+- ✅ removed redundant, separate ConsoleUtils version check since that's already well-handled in bulk by the DLL version checker in the top diagnoses section of the report
+
+- ✅".bsa files may or may not contain compressed mesh files" should only show if a BSA file is listed, otherwise it is wasted text.
+	- ⬇️MOVED TO TODO LIST: SMALL BUG carrying over from version 0.19.3 with less common issues showing up with .bsa warning when there are no listed .bsa files:
+		- ⬇️Hair Mod Issue
+		- ⬇️skee64.dll Issue (might want to merge into mesh issues anyway???)
+		- ⬇️CompressedArchiveStream Issue (might want to merge into text issues anyway???)
+
+
+- ✅✅ Removed recommendation to use Net Script Framework logging mod over CrashLoggerSSE, as I'm using CrashLoggerSSE myself, and I'm no longer confident that NSF is better for Skyrim SE
+
+➡️ = unable to test before going live?
+(✅) = minor change, tested only from test log
 
 
 NEXT VERSION: WORKING ON:???
+
+	- make some tests adjust location in report, based on its isHighPriority flag. Texture/Mesh/Animation issues should be listed higher in the report if possibly relevant files were found, and lower if not found.
+		- Maybe get rid of the "Memory and Image-related Issues:" section? If isHighPriority then put into "Higher-Confidence Test Results:" section, otherwise, put into "Miscellaneous Issues:" or perhaps a new "Less Likely Issues:" section?
+
+	- If Mesh and/or Texture (and Animation?) sections are also present (and with supporting files listed), then provide links to those related test sections as often being possible/probable causes of memory issues
+
+    - Add instructions somewhere for finding specific mods/files? Something like: "You can search for mentioned files in MO2 or in your Windows File Manager. Once isolated to a specific mod you can try disabling the mod for a quick test. Or for Mesh and Texture Issue sections of the report: In some cases simply re-downloading and reinstalling the mod with a bad mesh or texture, may fix the corrupted file and resolve the issue."
+
+	- uniformly across appropriate test results, mention NifScan, SSE NIF Optimizer, and CAO for fixing meshes textures
+	- 🎯 (target emoji) doesn't seem to show up right on PC Chrome ... maybe remove them with the click-to-copy function?
+		- However, this one (pasted into Notepad, and then into Reddit markup) works just fine?
+			- https://www.reddit.com/r/skyrimmods/comments/1hl53vl/comment/m3lq7k0/?utm_source=share&utm_medium=web3x&utm_name=web3xcss&utm_term=1&utm_content=share_button
+	- Navmesh/path test(s)? Do they troubleshoot the same?
+
+
+
 
 Bug fixes/updates for Nolvus
 Wording improvements and such for Nolvus

@@ -16,24 +16,11 @@ Possible relevant objects (3)
 
 Probable callstack
 {
-  //DELETE THESE TO SEE: regular kernel base issue
-  [0]   0x7FFB1A2683EA     (KERNELBASE.dll+C83EA)         
-  [1]   0x7FFA6333A320     (SkyrimUpscaler.dll+8A320) 
 }
 
 
 Registers
 {
-
-    bstrishape, trishape   //mesh Indicators
-    compressedarchivestream  // texture indicator, and compressedarchivestream indicator
-    hkbehaviorgraph // animation indicator
-
-    //DELETE THESE to test no files being found for meshes, textures, and/or animation tests
-    "maybe-a-mesh.bsa"
-    "maybe-a-texture.bsa"
-    "maybe-an-animation.bsa"
-
 }
 
 Stack

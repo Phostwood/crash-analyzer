@@ -1,7 +1,7 @@
 Skyrim SSE v1.6.1170
 CrashLoggerSSE v1-14-1-0 May 18 2024 23:00:58
 ⚠️Mocked up log file which contains every detectable error⚠️: NOTE: many of these error codes are borrowed from .Net Script Framework logs and may not be accurate, nor are they likely to be in the correct format for CrashLogger logs, but either way they should trigger the intended test diagnoses and insights from the crash analyzer.
-Unhandled exception "EXCEPTION_ACCESS_VIOLATION" at 0x7FF6F03FD88A SkyrimSE.exe+032D88A	mov rax, [rcx] (SkyrimSE.exe+D6DDDA) (SkyrimSE.exe+D6DDDA) (SkyrimSE.exe+12FDD00) (JContainers64.dll+10AE45) (SkyrimSE.exe+A0D789) (PDPerfPlugin.dll+F125) (FSR2 Upscaler: SkyrimUpscaler.dll+9B14F, +nvngx_dlss.dll) (+D2B923) (+C1315C) (+8BDA97)  (+7428B1) (+67B88B) (+0198090) (+0CB748E) (+5999C7) (+D02C2C) (+12F5590) (+132BEF) (Paid FSR3 Upscaler: +nvngx_dlssg.dll)(NVIDIA graphics drivers: +nvwgf2umx.dll, nvlddmkm.sys, nvoglv32.dll, nvoglv64.dll, nvwgf2um.dll) (12F4797 Physics Crash: SkyrimSE.exe+12F4797) (+dxgi.dll) (+d3d11.dll) (KERNELBASE.dll+)
+Unhandled exception "EXCEPTION_ACCESS_VIOLATION" at 0x7FF6F03FD88A SkyrimSE.exe+032D88A	mov rax, [rcx] (SkyrimSE.exe+D6DDDA) (SkyrimSE.exe+D6DDDA) (SkyrimSE.exe+12FDD00) (JContainers64.dll+10AE45) (SkyrimSE.exe+A0D789) (PDPerfPlugin.dll+F125) (FSR2 Upscaler: SkyrimUpscaler.dll+9B14F, +nvngx_dlss.dll) (+D2B923) (+C1315C) (+8BDA97)  (+7428B1) (+67B88B) (+0198090) (+0CB748E) (+5999C7) (+D02C2C) (+12F5590) (+132BEF) (Paid FSR3 Upscaler: +nvngx_dlssg.dll)(NVIDIA graphics drivers: +nvwgf2umx.dll, nvlddmkm.sys, nvoglv32.dll, nvoglv64.dll, nvwgf2um.dll) (12F4797 Physics Crash: SkyrimSE.exe+12F4797) (+dxgi.dll) (+d3d11.dll) (KERNELBASE.dll+) (+B02235)
 
 SYSTEM SPECS:
 	OS: Microsoft Windows 10 Pro v10.0.19045
@@ -283,6 +283,9 @@ STACK:
   [SP+348]  0x1BE375C5E98      (char*) "textures\blood\BloodEdge01.dds"
   [SP+3F8]  0x1C01B3B96D8      (char*) "textures\weapons\clgorehowl\clgorehowleye_n.dds"
   [SP+A0]   0x2006B085EC0      (char*) "[json.exception.parse_error.101] parse error at line 1, column 1: syntax error while parsing value - unexpected end of input; expected '[', '{', or a literal"
+  [RSP+250 ] 0xD11DEFF0A0       (char*) "Gladys - Textures.bsa" //Texture compressed into a BSA file
+  [RSP+251 ] 0xD11DEFF0A0       (char*) "Gladys - Mesheses.bsa" //3D Mesh compressed into a BSA file
+  [RSP+252 ] 0xD11DEFF0A0       (char*) "Gladys - Animations.bsa" //Animation compressed into a BSA file
   bad_alloc		//Out of RAM
   no_alloc		//Memory allocation failure
   tbbmalloc.dll	//tbbmalloc memory allocation issues
@@ -326,6 +329,13 @@ STACK:
   record might have been involved in the crash: name: "badrec" formid: 123 		//Record Issue
   Papyrus script (mod) might have been involved in the crash: "badscript.pex"		//Papyrus Script Issue
   SettingT<INISettingCollection>*
+  //Animation indicators (plus hexcode at top: B02235)
+  hkbehaviorgraph			//Havok behavior graph
+  animationgraph			//Animation graph
+  hkbclipgenerator			//Havok clip generator
+  hkbvariablebindingset		//Havok variable binding set
+  standup.hkx				//Havok animation file
+  bshkbanimationgraph		//BShkb Animation Graph
 
 MODULES:
 	XINPUT1_3.dll                    0x000000400000
@@ -596,6 +606,7 @@ PLUGINS:
 	[ 8]	E.esp
 	[ 9]	F.esp
 	[ A]	G.esp
-	[ZZ]	autohdr64.addon
-	[ZZ]	jks skyrim.esp
-	[ZZ]	simplicity of snow.esp
+	[ZZ 001]	autohdr64.addon
+	[ZZ 002]	jks skyrim.esp
+	[ZZ 003]	simplicity of snow.esp
+	[FF] OoopsTooManyMods.esp

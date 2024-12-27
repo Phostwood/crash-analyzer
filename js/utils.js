@@ -20,7 +20,9 @@ Utils.isDebugging = true; // Set this to false to disable debugging (non-error) 
 //Utils.debugBatch = ['getPercentAlphabetized'];
 //Utils.debugBatch = ['hasSkyrimVersionOrHigher', 'hasSkyrimAE', 'hasNewEslSupport'];
 //Utils.debugBatch = ['getDllVersionFromLog', 'hasCompatibleDll', 'checkDllCompatibility', 'compareVersions'];
-Utils.debugBatch = ['hasCompatibleDll', 'checkDllCompatibility', 'getDllVersionFromLog'];
+//Utils.debugBatch = ['hasCompatibleDll', 'checkDllCompatibility', 'getDllVersionFromLog'];
+
+Utils.debugBatch = ['logLineCounts', 'generateLogSummary'];
 
 
 
@@ -353,6 +355,36 @@ Utils.countNullVoid = function(crashLog) {
 };
 
 
+
+Utils.countNonEslPlugins = function(crashLogSection) {
+    //NOTE: complicated in that some .esp files are flagged to behave in this manner like .esl files.
+    //NOTE: solution to this (thank you keyf!) is that all non-ESLs have only two characters in their hex number
+    /*Example log file section showing the difference:
+        [00] Skyrim.esm
+        [FE] EldenSkyrim_RimSkills.esp
+        [FF] FNIS.esp
+        [FE 000] ccbgssse002-exoticarrows.esl
+        [FE 001] ccbgssse003-zombies.esl
+    */
+    const nonEslPluginRegex = /\[([0-9A-F]{2})\](?!\s+\d)\s+.*?\.(esp|esm|esl)/gi;
+    let largestHex = "00";
+
+    let matchArray;
+    while ((matchArray = nonEslPluginRegex.exec(crashLogSection)) !== null) {
+        if (parseInt(matchArray[1], 16) > parseInt(largestHex, 16)) {
+            largestHex = matchArray[1];
+        }
+    }
+
+    const nonEslPluginsCount = parseInt(largestHex, 16);
+    
+    return {
+        largestHex: `[${largestHex}]`,
+        nonEslPluginsCount: nonEslPluginsCount
+    };
+};
+
+
 Utils.countPlugins = function(crashLog) {
     const match = crashLog.match(/Game plugins \((\d+)\)\s*\{/);
     return match ? parseInt(match[1], 10) : 0;
@@ -655,7 +687,7 @@ Utils.getLogSectionsMap = function(logFile) {
         {
             name: 'gamePlugins',
             nsfLabel: 'Game plugins',
-            clLabel: 'PLUGINS', //NOTE: for Crash Logger, this section is just caled PLUGINS (confusing, but seems unavoidabe)
+            clLabel: 'PLUGINS', //NOTE: for Crash Logger, this section is just called PLUGINS (confusing, but seems unavoidable)
             twLabel: null, // Trainwreck logs don't have this section
             nsfRegex: /Game plugins \(\d+\)\s*\{(?:\r?\n)([\s\S]*?)(?=\r?\n\s*\})/,
             clRegex: /^PLUGINS:.*\r?\n.*\r?\n([\s\S]*)/m,
