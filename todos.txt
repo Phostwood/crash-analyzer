@@ -1,70 +1,47 @@
+Beta version 0.19.3 is now live:
+https://phostwood.github.io/crash-analyzer/
 
-1. ✅Standardize errors tested in each 1, 2, 3(?) test log across the three types
-2. Review all changes ... again
-3. ✅ Each update needs testing, indicate testing completed with a ✅ on each bullet point
+New tests:
+- Detect too many active plugins (thanks, keyf for helping me understand how to do this!)
 
+UI improvement: Allow .log in addition to .txt in the HTML log file field
 
-
-✅ New test for too many plugin
-
-
-✅Reorganize issues for most likely on top:
-1. SKIP: Memory Issue detected out of it's own section?
-2.✅ Animation Issue above a bunch of stuff (this item moved to bottom of "Higher-Confidence Test Results:")
-	✅- then Mesh (near top of "Memory and Image-related Issues:")
-	✅- then Texture (lower in "Memory and Image-related Issues:")
-	✅- then Memory Issue? (lower yet in "Memory and Image-related Issues:")
-3. ✅Adapt other reports to the new Utils extract code (prototype is MESH)
-	- ✅ Mesh
-	- ✅ Animations
-	- ✅Textures
-
-✅Beta version 0.19.3
-
-- ✅Remove Overlay warning if just steam ... it just comes up way too frequently as a false flag.
-
-- ✅New Memory Issue test with merged (and in some ways condensed, but other ways expanded) testing and troubleshooting from several prior tests (tbbmalloc, no_alloc, bad_alloc, D6D...)
-	- ✅Include troubleshooting advice specific to memory stuff, and mentions corrupted Mesh Issues and Texture Issues (elsewhere in report) as being possible causes.
-	- ✅Removed separate tests for tbbmalloc, no_alloc, bad_alloc, but kept D6D as a special situation
-	- ✅Started as: Greatly improved memory-issue troubleshooting ideas for:
-		- ✅maybe merge these indicators into memoryIssues in crashIndicatorsMap.js and use it, and list them like I already do for meshes and such?
-		- ✅be sure to include advice to try rebooting and trying to maximize available memory for Skyrim?
-		- ✅Add "In some cases simply re-downloading and reinstalling the mod with a bad mesh or texture, may fix the corrupted file and resolve the issue"
+Improved instructions for:
+- Memory Issues
+- BGSSaveLoadManager Issue (Many thanks to Jerilith, RomatebitegeL, Orionis, and Krispyroll!) now has greatly expanded instructions. Decided to directly include Jerilith's safe save guide instructions. Prior permission was obtained from Jerilith.
+- KERNELBASE Crash: Revised, and de-Nolvus-ified instructions for general Skyrim users, added a couple steps for all users, moved to only non-AdvancedUsers section for Skyrim users, and improve instructions overall. Did not change the test itself though.
+- Deemphasized Physics Crash with "frequently seen, but usually not the culprit"
+- Tests where the lack of cooberating files deemphasized the test, added text stating "UNLIKELY CAUSE!"...
 
 
-  - ✅ BGSSaveLoadManager Issue (Many thanks to Jerilith, RomatebitegeL, Orionis, and Krispyroll!) now has greatly expanded instructions. Decided to directly include Jerilith's safe save guide instructions. Prior permission was obtained from Jerilith.
-
-- (✅) Removed Lanterns Of Skyrim II crash as it may be fixed now? Regardless it rarely comes up, and I've never seen it as a likely cause.
-
-- (✅) ObjectReference Issues COMMENTED OUT as deemed generally unhelpful when it shows up. Check just thought up by AI (MS Bing Copilot anyway)
-
-- (✅) "Many thanks to": Added more names, and alphabetized names
-
-- ✅ Allow .log in addition to .txt in the HTML log file field
-
-- ✅ KERNELBASE Crash: Revised, de-Nolvus-ified instructions for general Skyrim users, added a couple steps for all users, moved to only non-AdvancedUsers section for Skyrim users, and improve instructions overall. Did not change the test itself though.
-
-- ✅where no files specifically listed, for textures, meshes, and animations, say something like:  UNLIKELY CAUSE! (no animation files found in crash log ... as a last resort, consider decompressing relevant .bsa archives)
-
-- ✅ deemphasized Physics Crash with "frequently seen, but usually not the culprit"
-
-- ✅ moved some diagnostic functions out of main code block for better readability and easier maintenance
-
-- ✅ reorganized some diagnoses/insights so the most likely ones will hopefully be displayed higher up the list
-
-- ✅ removed redundant, separate ConsoleUtils version check since that's already well-handled in bulk by the DLL version checker in the top diagnoses section of the report
-
-- ✅".bsa files may or may not contain compressed mesh files" should only show if a BSA file is listed, otherwise it is wasted text.
-	- ⬇️MOVED TO TODO LIST: SMALL BUG carrying over from version 0.19.3 with less common issues showing up with .bsa warning when there are no listed .bsa files:
-		- ⬇️Hair Mod Issue
-		- ⬇️skee64.dll Issue (might want to merge into mesh issues anyway???)
-		- ⬇️CompressedArchiveStream Issue (might want to merge into text issues anyway???)
+Improved tests:
+- Reorganized some issues so more likely causes are higher up
+   - Other factors withstanding: animation issues > mesh > textures > memory
+   - NOTE: I will be continuing to make improvements on this in future versions. Soon some tests will prioritize or deprioritize themselve based on specific indicators.
+   
+   
+Merged some tests: Some memory issue related tests have been merged for clarity, better UX, and easier maintability.
 
 
-- ✅✅ Removed recommendation to use Net Script Framework logging mod over CrashLoggerSSE, as I'm using CrashLoggerSSE myself, and I'm no longer confident that NSF is better for Skyrim SE
+Removed:
+- Overlay warning when it was just Steam ... it was an extremely common false flag
+- Removed Lanterns Of Skyrim II crash as it may be fixed now? Regardless it rarely comes up, and I've never seen it as a likely cause.
+- ObjectReference Issues COMMENTED OUT as deemed generally unhelpful when it (rarely) shows up. Check was just thought up by AI anyway (MS Bing Copilot).
+- Removed recommendation to use Net Script Framework logging mod over CrashLoggerSSE, as I'm using CrashLoggerSSE myself, and I'm no longer confident that NSF is better for Skyrim SE
+- Removed redundant, separate ConsoleUtils version check since that's already well-handled in bulk by the DLL version checker in the top diagnoses section of the report
 
+Miscellaneous:
+Also, some code consolidation and reorganizing for better maintainability.
+
+"Many thanks to": Added more names, and alphabetized the list of names
+
+
+
+---
 ➡️ = unable to test before going live?
-(✅) = minor change, tested only from test log
+⬇️ = downgraded and added to TODO List
+✅ = tested and done (may have multiple levels of checkmarks depending on complexity of overall version)
+---
 
 
 NEXT VERSION: WORKING ON:???
