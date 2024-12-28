@@ -1,39 +1,46 @@
-Beta version 0.19.3 is now live:
+✅ Beta version 0.19.4 is now live:
 https://phostwood.github.io/crash-analyzer/
 
-New tests:
-- Detect too many active plugins (thanks, keyf for helping me understand how to do this!)
+1. Missing Masters: Added a tip to help isolate missing dependencies
+2. Plugin limit exceeded tweaks. Changed title of issue. Added link on ESl-ing some ESP mods to squeeze more in.
 
-UI improvement: Allow .log in addition to .txt in the HTML log file field
-
-Improved instructions for:
-- Memory Issues
-- BGSSaveLoadManager Issue (Many thanks to Jerilith, RomatebitegeL, Orionis, and Krispyroll!) now has greatly expanded instructions. Decided to directly include Jerilith's safe save guide instructions. Prior permission was obtained from Jerilith.
-- KERNELBASE Crash: Revised, and de-Nolvus-ified instructions for general Skyrim users, added a couple steps for all users, moved to only non-AdvancedUsers section for Skyrim users, and improve instructions overall. Did not change the test itself though.
-- Deemphasized Physics Crash with "frequently seen, but usually not the culprit"
-- Tests where the lack of cooberating files deemphasized the test, added text stating "UNLIKELY CAUSE!"...
+3. Added Vulken to Thank You list
 
 
-Improved tests:
-- Reorganized some issues so more likely causes are higher up
-   - Other factors withstanding: animation issues > mesh > textures > memory
-   - NOTE: I will be continuing to make improvements on this in future versions. Soon some tests will prioritize or deprioritize themselve based on specific indicators.
-   
-   
-Merged some tests: Some memory issue related tests have been merged for clarity, better UX, and easier maintability.
+
+Beta version 0.19.5 is now live:
+https://phostwood.github.io/crash-analyzer/
+
+2. Broad instructions tweaks to all Windows Pagefile mentions:
+	- Unless you have 64+GB of RAM: Generally set Pagefile to 30 to 40GB  for Minimum and 40GB for Maximum
+	- Also, be sure to clear/leave at least 10-20% free space on SSD. Mention everywhere Windows Pagefile is mentioned.
+3. Removed “unlikely cause” when named elements are included in the list (already removed when files are in the list)
+4. D6DDDA tweaks from Bacmanis
+5. D6DDDA and memory tweaks from Vulkan
+6. Add to "no issues found":
+	- text version of Safe Save Rules (with a reference link?)
+	- set Windows Pagefile
+	- SSD free space
+	- Verify some frequently-incorrect settings ... use BGSSaveLoadManager stuff for much of this
 
 
-Removed:
-- Overlay warning when it was just Steam ... it was an extremely common false flag
-- Removed Lanterns Of Skyrim II crash as it may be fixed now? Regardless it rarely comes up, and I've never seen it as a likely cause.
-- ObjectReference Issues COMMENTED OUT as deemed generally unhelpful when it (rarely) shows up. Check was just thought up by AI anyway (MS Bing Copilot).
-- Removed recommendation to use Net Script Framework logging mod over CrashLoggerSSE, as I'm using CrashLoggerSSE myself, and I'm no longer confident that NSF is better for Skyrim SE
-- Removed redundant, separate ConsoleUtils version check since that's already well-handled in bulk by the DLL version checker in the top diagnoses section of the report
+TODOS:
+1. Navmesh and/or path issues. Same thing? Related enough to include in same test?
+   - Read info at https://www.reddit.com/r/skyrimmods/comments/1d0r0f0/reading_crash_logs/
+   - See also 4 collected Google Keep notes on the subject
+2. New near-top test for first-line errors mentioning specific mods (at least skip Skyrim.esm ones)
+3. Vulken's ideas for Memory Management and D6DDA issues. Good ideas! See note. Also add him to TYs.
 
-Miscellaneous:
-Also, some code consolidation and reorganizing for better maintainability.
 
-"Many thanks to": Added more names, and alphabetized the list of names
+--- COMING SOON! ---
+
+4. Banner ads directly after that!  :-)
+   - Banner free for Nolvus Discord Helpers should be doable!
+      - https://copilot.microsoft.com/chats/gq3e6pKpmhc2DsB5X3d81
+	  - afterwards, since this is also a big gift to Vector, stop donating every month to his Patreon ... save money right there!
+	  - still need to figure out a way for Roma and MaskPlague and Krispyroll though ... maybe make my own Discord for the analyzer and make user rolls for them once they sign in?
+   - Need to find the best, high-paying, but never unethical banner ad service. No popups. No fake user interfaces. Either targeted ads or like video game or generic ads. Nothing not safe for work. Must be truly mobile friendly. Small banners at top and bottom if mobile. If good screen resolution then feel free to put larger vertical ads on the side. Needs to be easy to use in JS/HTML web aps hosted on GitHub Pages. American or European Union based. Must be a big, ethical-ish company (or at least one that everyone is forced to use anyway).
+   - Probalby a tenth of the money I was hoping, but still good experience, and still worth doing :-)
 
 
 

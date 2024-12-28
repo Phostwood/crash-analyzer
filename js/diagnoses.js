@@ -7,9 +7,10 @@ function checkForTooManyNonEslPlugins(crashLogSection) {
     let diagnosis = '';
 
     if (countInfo.nonEslPluginsCount > 254) {
-        diagnosis += `<li>🎯 <b>Too Many Active ESMs+ESPs Plugins Detected:</b> Your load order has <code>${countInfo.nonEslPluginsCount}</code> non-ESL plugins. Skyrim can only handle up to 254 non-ESL plugins. 255 or more will cause game instability and crashes. For more information and a screenshot from Mod Organizer 2 (MO2), refer to this <a href="https://www.reddit.com/r/Nolvus/comments/1b041m9/reference_keep_your_active_esmsesps_count_to_254/">post</a>.
+        diagnosis += `<li>🎯 <b>Exceeded Maximum ESMs+ESPs Plugins Limit!</b> Your load order has <code>${countInfo.nonEslPluginsCount}</code> non-ESL-ed plugins, which is too many. Skyrim can only handle up to 254 non-ESL-ed plugins. 255 or more will cause game instability and crashes. For more information and a screenshot from Mod Organizer 2 (MO2), refer to this <a href="https://www.reddit.com/r/Nolvus/comments/1b041m9/reference_keep_your_active_esmsesps_count_to_254/">post</a>.
         <ul>
             <li>Note: this number excludes <code>.esp</code> plugins that have been <i>flagged</i> as ESL, and are thus are displayed in the log with extra digits in their hex number (example: the uncounted <code>[FE 000]</code> versus the counted <code>[FF]</code>).</li>
+            <li><a href = "${Utils.isSkyrimPage ? 'https://www.nexusmods.com/skyrimspecialedition/mods/21618' : 'https://docs.google.com/spreadsheets/d/10p_ZFCTxXg5ntdsQipOGLcMAnoYDOC4qBEIt5ZAOo-o/'}">Information on safely squeezing in more mods.</a></li>
         </ul></li>`;
     }
 
@@ -217,7 +218,7 @@ function checkForMissingMasters(sections) {
         (!sections.hasSkyrimAE && (sections.firstLine.includes('5E1F22'))) ||
         sections.topHalf.includes('SettingT<INISettingCollection>*')) {
         
-        diagnoses += '<li>❗ <b>Potential Missing Masters Detected:</b> Your load order might be missing required master files, which can lead to instability and crashes. NOTE: Review other high-likelihood diagnoses first, as some of them can cause (or appear to cause) this issue. Here are some possible causes and solutions:<ul>';
+        diagnoses += '<li>❗ <b>Potential Missing Masters Detected:</b> Your load order might be missing required master files or other dependency, which can lead to instability and crashes. NOTE: Review other high-likelihood diagnoses first, as some of them can cause (or appear to cause) this issue. Here are some possible causes and solutions:<ul>';
 
         if (!Utils.isSkyrimPage) {
             diagnoses += '<li><b>Standard Nolvus Install:</b> If you haven\'t added/updated or removed any mods, try using the Nolvus Dashboard\'s "Apply Order" feature. This often resolves load order issues. For more information, see: <a href="https://www.reddit.com/r/Nolvus/comments/1chuod0/how_to_apply_order_button_usage_in_the_nolvus/">How To: Use the "Apply Order" Button</a>. You can safely ignore the rest of the steps here.</li>';
@@ -228,7 +229,7 @@ function checkForMissingMasters(sections) {
         }
 
         diagnoses +=
-            '<li><b>Identifying Missing Masters:</b> Mod Organizer 2 (MO2) typically displays warning icons (yellow triangle with exclamation mark) for plugins with missing masters. <a href="https://imgur.com/izlF0GO">View Screenshot</a>.</li>' +
+            '<li><b>Identifying Missing Masters:</b> Mod Organizer 2 (MO2) typically displays warning icons (yellow triangle with exclamation mark) for plugins with missing masters. <a href="https://imgur.com/izlF0GO">View Screenshot</a>.</br>Or alternately, check the <b>🔎 Files/Elements</b> section of this report and look at mods higher up the list, which could help isolate which mod might be missing something. Review the mod on Nexus and consider reinstalling any likely causal mods to see if you missed a patch or requirement.</li>' +
 
             '<li><b>Missing Dependency:</b> If you\'ve recently removed, disabled, or forgot to install a required mod, others may still depend on it. You might need to either install the missing dependency or remove its master requirement from dependent plugins. See this guide on <a href="https://github.com/LivelyDismay/Learn-To-Mod/blob/main/lessons/Remove%20a%20Master.md">Removing a Master Requirement</a>.</li>' +
 
