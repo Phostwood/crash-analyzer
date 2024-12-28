@@ -300,16 +300,23 @@ async function analyzeLog() {
 
 
     // Check for D6DDDA crash
-    if (sections.firstLine.toLowerCase().includes('D6DDDA'.toLowerCase())) {
-        diagnoses += '<li>❗ <b>D6DDDA Crash Detected:</b> This may occur when either RAM or VRAM has been exceeded, or due to broken/corrupt meshes (.nif) or textures (.dds). Here are some steps to address this:<ul>' +
-            '<li>Close any unnecessary applications to free up memory.</li>' +
-            '<li>Verify that you have correctly <a href="https://www.nolvus.net/appendix/pagefile">set your Windows Pagefile Size</a>.</li>' +
-            '<li>If your PC has less than 12GB of VRAM (more for wide screen and/or monitors more than 2K) (<a href="https://www.lifewire.com/how-to-check-vram-5235783">how to check how much VRAM you have</a>), consider running your load order through <a href="https://www.reddit.com/r/Nolvus/comments/1doakj1/psa_use_vramr_if_you_have_12gb_of_vram/">VRAMr</a>.</li>' +
-            '<li>If you are playing vanilla Nolvus and this issue persists, it could (rarely) indicate hardware issues.</li>' +
-            '</ul>' +
-            'For more information and troubleshooting tips, see the <a href="https://www.nolvus.net/catalog/crashlog?acc=accordion-1-2">D6DDDA Crash</a> section and the second instance of this test in the "Advanced Users" section of this analyzer.</li>';
+    let d6dddaDiagnosis = null;
+    if (Utils.isSkyrimPage) {
+        d6dddaDiagnosis = checkForD6dddaAdvancedVersion(sections); //NOTE: no need for a short version for r/SkyrimMods users and modders
+    } else {
+        d6dddaDiagnosis =checkForD6dddaEasyVersion(sections); //NOTE: long version will still show in Advanced Users section below
+    }
+   
+    if (d6dddaDiagnosis) {
+        diagnoses += d6dddaDiagnosis;
         diagnosesCount++;
     }
+
+
+
+
+
+
 
     
     const missingMastersDiagnosis = checkForMissingMasters(sections);
@@ -627,22 +634,16 @@ async function analyzeLog() {
     }
 
 
-    //D6DDDA
-    if (sections.firstLine.includes('D6DDDA')) {
-        insights += '<li>❗ <b>D6DDDA Crash Detected:</b> The \'D6DDDA\' error may occur due to one of the following reasons:<ol>' +
-            '<li>Exceeded RAM or VRAM: Ensure that your system has sufficient memory resources:<ol>' +
-            '<li>Check if other applications are consuming excessive memory. Consider closing other applications.</li>' +
-            '<li>If your PC has less than 12GB of VRAM (more for wide screen and/or monitors more than 2K) (<a href="https://www.lifewire.com/how-to-check-vram-5235783">how to check how much VRAM you have</a>),  consider running your load order through <a href="https://www.reddit.com/r/Nolvus/comments/1doakj1/psa_use_vramr_if_you_have_12gb_of_vram/">VRAMr</a> to conserve both VRAM and RAM by compressing all/most of your load order\'s texture files in an automated fashion. This will reduce your load order\'s images to a smaller resolution (file size) without a noticeable decrease in image quality, and typically leads to fewer low-point FPS stutters and fewer memory-related crashes.</li>' +
-            '</ol></li>' +
-            '<li>Broken/Corrupt Meshes (.nif) or Textures (.dds): Verify the integrity of your installed mods. Corrupted files can lead to crashes:<ol>' +
-            '<li><a href="https://www.nexusmods.com/skyrimspecialedition/mods/23316">Cathedral Assets Optimizer (CAO)</a> can often be used to repair damaged image files. CAO ensures that textures are properly formatted and can also reduce their resolution (file size) without noticeably reducing visual quality.</li>' +
-            '<li>Additionally, consider reaching out to the mod author if a specific mesh is identified as causing issues.</li>' +
-            '</ol></li>' +
-            '<li>Windows Pagefile Size: Verify that you have correctly <a href="https://www.nolvus.net/appendix/pagefile">set your Windows Pagefile Size</a>.</li>' +
-            '<li>Hardware Issues (Rare): While uncommon, persistent D6DDDA crashes could indicate underlying hardware problems. Run a memory diagnostic tool to check for faulty RAM. Windows Memory Diagnostic or MemTest86 can be used for this purpose. Monitor your system for other signs of instability.</li>' +
-            '</ol>For more detailed information and troubleshooting tips, refer to the <a href="https://www.nolvus.net/catalog/crashlog?acc=accordion-1-2">D6DDDA Crash section</a> on the Nolvus support page.</li>';
-        insightsCount++;
+    // INSERT LONG VERSION OF D6DDDA, but only for Nolvus (already dispalyed for Skyrim users at top)
+    let d6dddaAdvancedDiagnosis = null;
+    if (!Utils.isSkyrimPage) {
+        d6dddaAdvancedDiagnosis =checkForD6dddaAdvancedVersion(sections); //NOTE: long version will still show in Advanced Users section below
+        if (d6dddaAdvancedDiagnosis) {
+            insights += d6dddaAdvancedDiagnosis;
+            insightsCount++;
+        }
     }
+
 
     //NVIDIA graphics driver
     if (sections.topThirdNoHeading.toLowerCase().includes('nvwgf2umx.dll') || sections.topThirdNoHeading.toLowerCase().includes('nvlddmkm.sys') || sections.topThirdNoHeading.toLowerCase().includes('nvoglv32.dll') || sections.topThirdNoHeading.toLowerCase().includes('nvoglv64.dll') || sections.topThirdNoHeading.toLowerCase().includes('nvwgf2um.dll') || sections.topThirdNoHeading.toLowerCase().includes('nvapi64.dll')) {

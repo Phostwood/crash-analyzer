@@ -206,8 +206,57 @@ function checkDllCompatibility(sections) {
 
 
 
+//D6DDDA Crash (short an long versions)
+function checkForD6dddaEasyVersion(sections) {
+    let diagnosis = '';
+    if (sections.firstLine.includes('D6DDDA')) {
+        diagnosis += `<li>❗ <b>D6DDDA Crash Detected:</b> This error typically occurs due to one of these common causes:
+            <ol>
+                <li>Corrupt Texture (.dds) or Mesh (.nif) Files:
+                    <ol>
+                        <li>Compare multiple crash logs if possible. If subsequent crashes list the same texture or mesh files (see "Advanced Users" section below), you likely have a corrupt texture file or, less commonly, a corrupt mesh. Once you've identified the problematic mod, try downloading it again before reinstalling, as the corruption may have occurred during the initial download.</li>
+                    </ol>
+                </li>
+                <li>System Memory Management:
+                    <ol>
+                        <li>Close unnecessary background applications that may be consuming memory.</li>
+                        <li>Ensure your <a href="https://www.nolvus.net/appendix/pagefile">Windows Pagefile Size is properly configured</a>.</li>
+                        <li>Maintain <a href="https://computercity.com/hardware/storage/how-much-space-should-i-leave-on-my-ssd">at least 10-20% free space</a> on your SSD for optimal performance.</li>
+                        <li>Hardware Diagnostics: If crashes persist, run Windows Memory Diagnostic or MemTest86 to check for faulty RAM. While rare, recurring D6DDDA crashes can sometimes indicate hardware issues.</li>
+                    </ol>
+                </li>
+            </ol>
+        </li>`;
+    }
+    return diagnosis;
+}
 
-
+function checkForD6dddaAdvancedVersion(sections) {
+    let diagnosis = '';
+    if (sections.firstLine.includes('D6DDDA')) {
+        diagnosis += `<li>❗ <b>D6DDDA Crash Detected:</b> This error typically occurs due to one of these common causes:
+            <ol>
+                <li>Corrupt Texture (.dds) or Mesh (.nif) Files:
+                    <ol>
+                        <li>Compare multiple crash logs if possible. If subsequent crashes list the same texture or mesh files (see "Advanced Users" section below), you likely have a corrupt texture file or, less commonly, a corrupt mesh. Once you've identified the problematic mod, try downloading it again before reinstalling, as the corruption may have occurred during the initial download.</li>
+                        <li>If the source mod has a corrupted image file, you can try using <a href="https://www.nexusmods.com/skyrimspecialedition/mods/23316">Cathedral Assets Optimizer (CAO)</a> to repair potentially damaged texture/mesh/animation files. This tool can fix formatting issues and also optimize file sizes while maintaining visual quality.</li>
+                        <li>If you identify a specific problematic image file in a source mod, contact the mod author for assistance or potential fixes.</li>
+                    </ol>
+                </li>
+                <li>System Memory Management:
+                    <ol>
+                        <li>Close unnecessary background applications that may be consuming memory.</li>
+                        <li>Ensure your <a href="https://www.nolvus.net/appendix/pagefile">Windows Pagefile Size is properly configured</a>.</li>
+                        <li>Maintain <a href="https://computercity.com/hardware/storage/how-much-space-should-i-leave-on-my-ssd">at least 10-20% free space</a> on your SSD for optimal performance.</li>
+                        <li>For systems with less than 12GB VRAM (or more for ultrawide/high-resolution displays) (<a href="https://www.lifewire.com/how-to-check-vram-5235783">check your VRAM here</a>), consider using <a href="https://www.reddit.com/r/Nolvus/comments/1doakj1/psa_use_vramr_if_you_have_12gb_of_vram/">VRAMr</a>. This tool automatically compresses texture files across your load order, reducing VRAM usage while maintaining visual fidelity and improving stability.</li>
+                        <li>Hardware Diagnostics: If crashes persist, run Windows Memory Diagnostic or MemTest86 to check for faulty RAM. While rare, recurring D6DDDA crashes can sometimes indicate hardware issues.</li>
+                    </ol>
+                </li>
+            </ol>
+        </li>`;
+    }
+    return diagnosis;
+}
 
 
 //Missing Master 2.1
@@ -380,6 +429,7 @@ function analyzeMemoryIssues(sections) {
             <ul>
             <li>Reboot PC and close any unnecessary applications to maximize available RAM for Skyrim.</li>
             <li>Verify your <a href="https://www.nolvus.net/appendix/pagefile">Windows Pagefile Size</a> settings</li>
+            <li>Maintain <a href="https://computercity.com/hardware/storage/how-much-space-should-i-leave-on-my-ssd">at least 10-20% free space</a> on your SSD for optimal performance.</li>
             <li>Consider running memory diagnostic tools (Windows Memory Diagnostic or MemTest86)</li>
             <li>If you frequently encounter memory issues, consider upgrading your system with more RAM as relatively cost-effective upgrade. 32GB is often considered a baseline for high-end Skyrim modding.</li>
             </ul>
@@ -432,7 +482,7 @@ function analyzeMemoryIssues(sections) {
 
         // Add system diagnostic information if available
         if (sections.logType == "TODO (not really going to find this)") { //if = Trainwreck or CrashLogger
-            //TODO: write Utils to identify log types, and extract out RAM usage and pagefile or VRAM usage (depending on log type)
+            //TODO: write Utils to identify log types, and extract out RAM usage and pagefile or VRAM usage from crash log header, (depending on log type)
             memoryInsights += `<li>System diagnostic information: <a href="#" class="toggleButton">⤵️ show more</a><ul class="extraInfo" style="display:none">`;
             memoryInsights += Utils.extractDiagnosticInfo(sections.diagnosticInfo);
             memoryInsights += '</ul></li>';
