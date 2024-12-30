@@ -231,6 +231,20 @@ STACK:
   hkbvariablebindingset		//Havok variable binding set
   standup.hkx				//Havok animation file
   bshkbanimationgraph		//BShkb Animation Graph
+  AiNavigation                         //AI navigation issue
+  AutoRegisterPathBuilderFactory       //Path building system issue
+  BSPathBuilder                        //Base path building system error
+  MovementPathManagerArbiter           //Movement path management issue
+  NavMesh                              //Navigation mesh error
+  NavMeshInfoArea                      //NavMesh info area problem
+  NavMeshInfoMap                       //Navigation mesh information mapping error
+  NavMeshObstacleManager               //Navigation mesh obstacle handling issue
+  PathFinding                          //Path finding issue
+  PathingCell                          //Cell-based pathing error
+  PathingDoor                          //Door-related pathing issue
+  PathingRequest                       //Pathing request failure
+  PathingTaskData                      //Pathing task data error
+  SIC_WERoad07                         //Known issue with Skyrim Immersive Creatures mounted NPCs
 
 MODULES:
     ADVAPI32.dll

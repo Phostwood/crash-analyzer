@@ -270,7 +270,7 @@ function checkForMissingMasters(sections) {
         diagnoses += '<li>❗ <b>Potential Missing Masters Detected:</b> Your load order might be missing required master files or other dependency, which can lead to instability and crashes. NOTE: Review other high-likelihood diagnoses first, as some of them can cause (or appear to cause) this issue. Here are some possible causes and solutions:<ul>';
 
         if (!Utils.isSkyrimPage) {
-            diagnoses += '<li><b>Standard Nolvus Install:</b> If you haven\'t added/updated or removed any mods, try using the Nolvus Dashboard\'s "Apply Order" feature. This often resolves load order issues. For more information, see: <a href="https://www.reddit.com/r/Nolvus/comments/1chuod0/how_to_apply_order_button_usage_in_the_nolvus/">How To: Use the "Apply Order" Button</a>. You can safely ignore the rest of the steps here.</li>';
+            diagnoses += '<li><b>Automated Nolvus Installers:</b> Try using the Nolvus Dashboard\'s "Apply Order" feature. This often resolves load order issues. For more information, see: <a href="https://www.reddit.com/r/Nolvus/comments/1chuod0/how_to_apply_order_button_usage_in_the_nolvus/">How To: Use the "Apply Order" Button</a>. If you have added additional mods, you wil then need to re-enable and reposition them in your load order.</li>';
         }
 
         if (!sections.hasNewEslSupport) {
@@ -412,18 +412,18 @@ function analyzeMemoryIssues(sections) {
 
     const hexCodeIssue = findMemoryHexCodeIssue(sections);
     const memoryCodeIssues = findMemoryCodeIssues(sections);
+    const priorityIssue = (hexCodeIssue || sections.firstLine.includes('tbbmalloc.dll') );
     Utils.debuggingLog(['analyzeMemoryIssues', 'analyzeLog.js'], 'hexCodeIssue:', hexCodeIssue);
     Utils.debuggingLog(['analyzeMemoryIssues', 'analyzeLog.js'], 'memoryCodeIssues:', memoryCodeIssues);
 
     if (hexCodeIssue || memoryCodeIssues.length > 0) {
-
-        memoryInsights += `<li>${hexCodeIssue ? '❗' : '❓'} <b>${hexCodeIssue ? 'Probable' : 'Potential'} Memory Issue ${hexCodeIssue ? 'Detected' : 'Indicators Found'}:</b> `;
+        memoryInsights += `<li>${priorityIssue ? '❗' : '❓'} <b>${priorityIssue ? 'Probable' : 'Potential'} Memory Issue ${priorityIssue ? 'Detected' : 'Indicators Found'}:</b> `;
 
         if (hexCodeIssue) {
             memoryInsights += `Code <code>${hexCodeIssue.hexCode}</code> indicates a ${hexCodeIssue.description}. `;
         }
 
-        memoryInsights += `Follow these steps to resolve the issue:
+        memoryInsights += `
         <ol>
         <li><b>System Resource Management:</b>
             <ul>
@@ -437,8 +437,8 @@ function analyzeMemoryIssues(sections) {
 
         <li><b>Texture and Resource Optimization:</b>
             <ul>
-            <li><strong>Corrupted textures and/or meshes</strong> can exacerbate memory issues. The probability of this being causal is much higher if specific files are listed elsewhere in this report. In some cases simply re-downloading and reinstalling the mod with a bad mesh or texture, may fix the corrupted file and resolve the issue. See related <strong>Mesh Issue</strong>, and/or <strong>Texture Issue</strong> sections of this report for additional troubleshooting advice.
-            <li>Consider switching to <strong>lower resolution texture mods</strong> (1K/2K instead of 4K). Texture mods that are too large can strain both VRAM and RAM resources.<ul>
+            <li><strong>Corrupted textures and/or meshes</strong> can exacerbate memory issues. The probability of this being causal is much higher if specific files are listed elsewhere in this report ... especially when the same image file is found across multiple crash logs. In some cases simply re-downloading and reinstalling the mod with a bad mesh or texture, may fix the corrupted file and resolve the issue. See related <strong>Mesh Issue</strong>, and/or <strong>Texture Issue</strong> sections of this report for additional troubleshooting advice.
+            <li>Consider switching to <strong>lower resolution texture mods</strong> (1K/2K instead of 4K). Image files that are too large can strain both VRAM and RAM resources.<ul>
                 <li>Or use <a href="https://www.nexusmods.com/skyrimspecialedition/mods/23316">Cathedral Assets Optimizer (CAO)</a> to optimize textures in individual mods that don't offer lower resolution options.</li>
                 <li>Alternately, use <a href="https://www.reddit.com/r/Nolvus/comments/1doakj1/psa_use_vramr_if_you_have_12gb_of_vram/">VRAMr</a> to automatically create a custom textures-only mod with optimized texture files that override for your entire load order (besides some problematic exceptions).</li>
                 <li> NOTE: Texture and/or mesh optimization reduces RAM, VRAM, and SSD usage, plus smaller files also load faster. Smaller texture files can be especially helpful in minimizing FPS stutters that are especially prone in outdoor combat and other visually busy situations. Usually, the lowering of image quality is unnoticeable during normal gameplay, especially at 2k, but largely even at 1K unless you walk up close and stare at a large object in game.</li>
@@ -604,7 +604,69 @@ function analyzeMeshIssues(sections) {
 }
 
 
+function analyzeDawnguardHorseIssue(sections) {
+    let diagnosis = '';
+    const dawnguardHorseIssueKeywords = ["Skyrim Immersive Creatures", "Horse", "Celann", "Isran"];
+    const dawnguardHorseIssue = dawnguardHorseIssueKeywords.every(keyword => sections.topHalf.includes(keyword));
+    if (dawnguardHorseIssue) {
+        diagnosis +=  `<li>🎯 <b>Dawnguard Horse Issue Detected:</b> See <a href="https://www.reddit.com/r/skyrimmods/comments/1f5lvdl/comment/lktm5db/?utm_source=share&utm_medium=web3x&utm_name=web3xcss&utm_term=1&utm_content=share_button">Roma's instructions for fixing Dawnguard Horse Issue</a></li>`;
+    }
+    return diagnosis;
+    //TODOS for analyzeDawnguardHorseIssue:
+        // - Insert this into analyzeLog.js towards top of diagnoses section
+        // - Rewrite Roma's instructions
+        // - Give Roma credit.
+}
 
+
+function analyzePathingIssues(sections) {
+    let pathingInsights = '';
+    let isHighPriority = false;
+    function findPathingAndNavMeshIssues(sections) {
+        return crashIndicators.pathingAndNavMeshIssues.codes.filter(({ code }) =>
+            sections.topHalf.toLowerCase().includes(code.toLowerCase())
+        );
+    }
+    const pathingIssueIndicators = findPathingAndNavMeshIssues(sections);
+    Utils.debuggingLog(['analyzePathingIssues', 'diagnoses.js'], 'pathingIssueIndicators:', pathingIssueIndicators);
+
+    function highPriorityIndicators(sections) {
+        return crashIndicators.pathingAndNavMeshIssues.codes.filter(({ code }) =>
+            sections.topThird.toLowerCase().includes(code.toLowerCase()) //NOTE: could adjust to topQuarter?
+        );
+    }
+    isHighPriority = highPriorityIndicators(sections).length > 0;
+    Utils.debuggingLog(['analyzePathingIssues', 'diagnoses.js'], 'highPriorityIndicators:', highPriorityIndicators);
+    Utils.debuggingLog(['analyzePathingIssues', 'diagnoses.js'], 'isHighPriority:', isHighPriority);
+
+    if (pathingIssueIndicators.length > 0) {
+        pathingInsights += `<li>${isHighPriority ? '❗' : '❓'} <b>${isHighPriority ? 'Probable' : 'Possible'} NavMesh/Pathing ${isHighPriority ? 'Issue Detected' : 'Indicators Found'}:</b> 
+            <ol>
+                <li>Potential easy fixes:
+                    <ul>
+                        <li>Some issues can be fixed by reloading an <b>older save</b></li>
+                        <li>Sometimes asking <b>followers</b> to wait behind can get you past a NavMesh Pathing glitch. Some follower mods and/or follower frameworks will allow you to teleport your follower to you afterwards to rejoin your party.</li>
+                        <li>If using a <b>horse</b> or mount, command mount to wait before fast traveling</li>
+                        <li>If using a a horse/mount and a <b>follower framework</b> (like Nether's Follower Framework), try disabling horse followers in its Mod Configuration Menu (MCM)</li>
+                    </ul>
+                </li> 
+                <li>Advanced Troubleshooting:
+                    <ul>
+                        <li>Consider trying the <a href="https://www.nexusmods.com/skyrimspecialedition/mods/52641">Navigator - Navmesh Fixes</a> mod (be sure to read notes on where to insert it in your load order)</li>
+                        <li>Consider disabling relevant location-modifying mods to identify conflicts. Also consider disabling mods that show up in the "Files/Elements" outline (higher up in this report).</li>
+                        <li>Additional advanced ideas and information are included in <a href="https://www.reddit.com/r/skyrimmods/comments/1d0r0f0/reading_crash_logs/##:~:text=These%20are%20Navmesh%20errors">Krispyroll's Reading Crash Logs Guide</a></li>
+                    </ul>
+                </li>`;
+                
+        pathingInsights += `<li>Detected NavMesh/Pathing Issue indicators: <a href="#" class="toggleButton">⤵️ show more</a><ul class="extraInfo" style="display:none">`;
+        pathingIssueIndicators.forEach(({ code, description }) => {
+            pathingInsights += `<li><code>${code}</code> - ${description}</li>`;
+        });
+        
+        pathingInsights += '</ul></li></ol></li>';
+    }
+    return pathingInsights; // TODO: also return isHighPriority
+}
 
 
 
@@ -718,7 +780,7 @@ function analyzeTextureIssues(sections) {
     let isHighPriority = false;
 
     function findTextureHexCodeIssue(sections) {
-        if (!sections.firstLine || typeof sections.firstLine !== 'string') {
+        if (!sections.firstLine || typeof sections.firstLine !== 'string') { //TODO: WHAT IS THIS? DELETE?
             return null;
         }
 

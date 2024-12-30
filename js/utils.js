@@ -22,7 +22,7 @@ Utils.isDebugging = true; // Set this to false to disable debugging (non-error) 
 //Utils.debugBatch = ['getDllVersionFromLog', 'hasCompatibleDll', 'checkDllCompatibility', 'compareVersions'];
 //Utils.debugBatch = ['hasCompatibleDll', 'checkDllCompatibility', 'getDllVersionFromLog'];
 
-Utils.debugBatch = ['logLineCounts', 'generateLogSummary'];
+Utils.debugBatch = ['analyzePathingIssues'];
 
 
 

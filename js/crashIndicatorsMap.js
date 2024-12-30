@@ -86,6 +86,29 @@ const crashIndicators = {
             { code: 'memory fragmentation', description: "Memory fragmentation issue" }
         ]
     },
+    pathingAndNavMeshIssues: {
+        hexCodes: [
+            // Space for future hex codes
+        ],
+        codes: [
+            { code: 'AiNavigation', description: "AI navigation issue" },
+            { code: 'AutoRegisterPathBuilderFactory', description: "Path building system issue" },
+            { code: 'BGSProcedureFollowExecState', description: "May indicate a follower having nav issues" },
+            { code: 'BSPathBuilder', description: "Base path building system error" },
+            { code: 'MovementControllerNPC', description: "May indicate an NPC having nav issues" },
+            { code: 'MovementPathManagerArbiter', description: "Movement path management issue" },
+            { code: 'NavMesh', description: "Navigation mesh error" },
+            { code: 'NavMeshInfoArea', description: "NavMesh info area problem" },
+            { code: 'NavMeshInfoMap', description: "Navigation mesh information mapping error" },
+            { code: 'NavMeshObstacleManager', description: "Navigation mesh obstacle handling issue" },
+            { code: 'PathFinding', description: "Path finding issue" },
+            { code: 'PathingCell', description: "Cell-based pathing error" },
+            { code: 'PathingDoor', description: "Door-related pathing issue" },
+            { code: 'PathingRequest', description: "Pathing request failure" },
+            { code: 'PathingTaskData', description: "Pathing task data error" },
+            { code: 'SIC_WERoad07', description: "Known issue with Skyrim Immersive Creatures mounted NPCs" },
+        ]
+    },
     pluginIssues: [
         { code: 'plugin', description: "General plugin-related problem" },
         { code: 'esp', description: "ESP file issue" },
@@ -127,12 +150,6 @@ const crashIndicators = {
     saveGameIssues: [
         { code: 'savegame', description: "Save game file issue" },
         { code: 'cosave', description: "Co-save file problem" }
-    ],
-    navmeshIssues: [
-        { code: 'navmesh', description: "Navigation mesh problem" },
-        { code: 'pathfinding', description: "Pathfinding issue" },
-        { code: 'navmeshinfoarea', description: "NavMesh info area problem" },
-        { code: 'ainavigation', description: "AI navigation issue" }
     ],
     renderingIssues: [
         { code: 'bsshader', description: "Shader-related problem" },

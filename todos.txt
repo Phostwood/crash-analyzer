@@ -1,27 +1,56 @@
-✅Beta version 0.19.5 is now live:
+✅Beta version 0.19.6 is now live:
 https://phostwood.github.io/crash-analyzer/
 
-1. Revised D6DDDA troubleshooting steps with input from Krispyroll and Vulken (thanks guys!)
-2. Also added note on maintaining 10-20% free space on SSD, everywhere the Windows Pagefile is mentioned (3 spots) ... again, thanks to Vulken for the idea!
-3. Removed "Work in Progress for non-Nolvus lists" from Skyrim version ... it's now a beta too! :-)
+1. New test: NavMesh/Pathing Issue with lots of insights from r/SkyrimMods
+
+2. Memory Issue:
+	- Indicated high priority when `tbbmalloc.dll` is found in crash log's first error line
+	- Tweaked troubleshooting description for Memory Issues concerning isolating corrupted image files
+
+3. Missing Masters: Minor clarification to instructions
+
+4. Separated out analyzeDawnguardHorseIssue() test ... will be implemented next version
+
+5. Alphabetized Load Order: threshold increased to at least 20 mods of which at least 80% are alphabetized
+
+6. KERNELBASE Crash:
+	- Recommended reinstalling/upgrading mods listed in crash log (with specific note on VCRUNTIME) ... and similar instruction for when disabling mods towards isolation causal mod(s)
+	- Added to Windows update to also check for BIOS (or manufacturer) updates
+	- NOLVUS version: shortened "Apply Order" instructions by linking to the Google Docs instructions
+
+7. ENB Issue: Shortened with link to google doc on "How to Reinstall Nolvus".
+
+8. BGSSaveLoadManager: added link to ReSaver instructions within Krispy's Crash Log Guide
+
+
+
 
 
 ---next version---
 
 
-2. Windows Pagefile: Broad instructions tweaks to all Windows Pagefile mentions:
-	- Also, be sure to clear/leave at least 10-20% free space on SSD. Mention everywhere Windows Pagefile is mentioned.
-3. Removed “unlikely cause” when named elements are included in the list (already removed when files are in the list)
+0. Finish analyzeDawnguardHorseIssue:
+	- Insert already written function this into analyzeLog.js towards top of diagnoses section
+	- Rewrite Roma's instructions
+	- Give Roma credit.
 
+1. Trim down and tone down Jerilith's rules
 
+2. Removed “unlikely cause” when named elements are included in the list (already removed when files are in the list)
 
+3. Fix first-line error bug?
 
-TODOS:
-1. Navmesh and/or path issues. Same thing? Related enough to include in same test?
-   - Read info at https://www.reddit.com/r/skyrimmods/comments/1d0r0f0/reading_crash_logs/
-   - See also 4 collected Google Keep notes on the subject
-2. New near-top test for first-line errors mentioning specific mods (at least skip Skyrim.esm ones)
-3. Vulken's ideas for Memory Management and D6DDA issues. Good ideas! See note. Also add him to TYs.
+4. New near-top test for first-line errors mentioning specific mods (at least skip Skyrim.esm ones)
+
+5. KERNELBASE functions with short and long versions.
+	- Long version needs to have Nolvus-only instructions injected into main instructions
+	- consider isolating "Apply Order" and "Reinstall Nolvus" instructions into reusable code to be shared across multiple tests
+	- make sure all instructions are reconciled between Nolvus and non-Nolvus versions
+
+6. KERNELBASE JSON Crash Detected: does the guide need to include the other configuration recommended by Roma?
+
+7. De-Nolvus-ify ENB issue? Unless there are already two versions? And turn it into a function so it isn't so confusing to maintain. Also separate reusable code for reinstalling Nolvus.
+
 
 
 --- COMING SOON! ---

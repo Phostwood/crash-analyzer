@@ -117,7 +117,7 @@ async function analyzeLog() {
     // NOTE: Trainwreck logs don't include a list of mods, and so will never display this error
     var percentAlphabetized = Utils.getPercentAlphabetized(sections.gamePlugins);
     var modCount = sections.gamePlugins.split('\n').length;
-    if (modCount > 10 && percentAlphabetized > 75) {
+    if (modCount > 20 && percentAlphabetized > 80) {
         //NOTE: Standard, vanilla Nolvus is almost 64% alphabetized by this metric ... perhaps it should include ESM and ESL files?
         if (Utils.isSkyrimPage) {
             diagnoses += '<li>🎯 <b>Alphabetized Load Order Detected:</b> This log file\'s .esp mods are <code>' + percentAlphabetized + '%</code> alphabetized in their load order. This can cause issues with mod functionality and game stability. Here are some options to address this:' +
@@ -285,7 +285,8 @@ async function analyzeLog() {
             diagnoses += '<li>❗ <b>KERNELBASE Crash Detected:</b> This rarer issue could be related to a specific added mod, or to hardware or a system-wide issue such as a Windows Update, or a virus, malware, drive corruption, corrupted modlist install, or corrupted file permissions. Here are some steps you can take, ordered from easiest to hardest:<ol>' +
             '<li>Reach out to the <b>Skyrim modding community</b> to see if others are encountering this issue due to a new Windows update or the like.</li>' +
             '<li>Check the <b>Windows Event Log</b> for any related issues. You can do this by opening the <b>Event Viewer</b> (search for it in the Start Menu), then navigate to Windows Logs > Application. Look for any recent errors that might be related to your issue. For detailed instructions, see this <a href="https://support.microsoft.com/en-us/windows/open-event-viewer-17d427d2-43d6-5e01-8535-1fc570ea8a14">Microsoft guide</a>.</li>' +
-            '<li>Ensure your <b>Windows is up to date</b>, as well as any drivers. You can check for updates by going to Settings > Update & Security > Windows Update.</li>' +
+            '<li>Try redownloading and <b>reinstalling/updating</b> mods and Windows components that show up in the <b>Files/Elements</b> section of this report. Sometimes the crash log provides this clue as to what needs updated.<ul><li>CAUTION: Be careful to only install versions known to be compatible with your version of Skyrim and your other mods.</li><li><code>VCRUNTIME140.dll</code> is a common example to look for. If present, download and install the latest correct version for your hardware from <a href="https://learn.microsoft.com/en-us/cpp/windows/latest-supported-vc-redist?view=msvc-170">Microsoft Visual C++ Redistributable</a>.</li></ul>' +
+            '<li>Ensure your <b>Windows is up to date</b>, as well as any drivers and applicable BIOS updates. You can check for Microsoft updates by going to Settings > Update & Security > Windows Update. Many motherboards (or PC manufacturers) will also have important BIOS updates at their websites.</li>' +
             '<li>Run a full system <b>scan for any viruses</b> or malware. We generally recommend using the built-in Windows Defender for this.</li>' +
             '<li>Try <b>disabling mods</b> you have added one-by-one (or in large, gradually smaller and more isolating groups) to see if the issue persists. This can help identify if a specific mod is causing the problem.</li>' +
             '<li>Reset your <b>file permissions</b>. See <a href="https://www.thewindowsclub.com/how-to-reset-file-folder-permissions-to-default-in-windows-10">How to reset all User Permissions to default in Windows 11/10</a>, or seek assistance from the Skyrim community. Alternatively an easy <b>workaround</b> is to <a href = "https://support.microsoft.com/en-us/windows/create-a-local-user-or-administrator-account-in-windows-20de74e0-ac7f-3502-a866-32915af2a34d#WindowsVersion=Windows_11">create a new Windows User</a> and create a new Skyrim save (playthrough) from the new user.</li>' +
@@ -566,19 +567,7 @@ async function analyzeLog() {
             '</ul></li>' +
             '<li>❗ <b>For Autoinstallers:</b> Consider the following steps for fixing your ENB-related issue:<a href="#" class="toggleButton">⤴️ hide</a><ul class="extraInfo">' +
             '<li>For a potential <b>quick fix,</b> standard Nolvus players can try manually reinstalling the <code>d3d11.dll</code> file by following the instructions in the <a href="https://www.nolvus.net/guide/natl/enb">Guide on ENB & RESHADE Installation</a>. If this does not resolve the issue, proceed with the steps below.</li>' +
-            '<li><b>Reinstalling Nolvus</b> may seem daunting, but <b>as long as you archived</b> during installation, the process is straightforward and <b>far faster.</b></li>' +
-            '<li><b>⚠️ CAUTION:</b> Reinstalling Nolvus will delete your save games, character presets, and screenshots. Please <b>back them up</b> first if you wish to keep them! <a href="#" class="toggleButton">⤴️ hide</a><ul class="extraInfo">' +
-            '<li>Game saves (.ess and .skse files) are located in <code>\\Nolvus\\Instances\\Nolvus Ascension\\MODS\\profiles\\Nolvus Ascension\\saves</code></li>' +
-            '<li>Screenshots are saved in <code>\\Nolvus\\Instances\\Nolvus Ascension\\SHOTS</code></li>' +
-            '<li>Character presets are located in <code>\\Nolvus\\Instances\\Nolvus Ascension\\MODS\\overwrite\\SKSE\\Plugins\\Chargen\\Presets</code></li>' +
-            '<li>Character head sculpts are located in <code>\\Nolvus\\Instances\\Nolvus Ascension\\MODS\\overwrite\\SKSE\\Plugins\\Chargen</code></li>' +
-            '</ul></li>' +
-            '<li>Close Mod Organizer 2 (MO2) if it is currently open.</li>' +
-            '<li>Open the Nolvus Dashboard.</li>' +
-            '<li>Click the Manage button and select Delete Instance (see <a href="https://www.nolvus.net/appendix/installer/faq?acc=accordion-1-23">How to Delete an Instance</a>). NOTE: This will NOT delete your archives if you have enabled archiving.</li>' +
-            '<li>Wait for the process to complete - this takes about 2 minutes depending on your system.</li>' +
-            '<li>Once the process is complete, follow the prompts to install a new instance with your preferred settings. Please note that your game saves from another instance will not be compatible unless you choose the same settings.</li>' +
-            '<li>If you previously enabled archiving, make sure the dashboard points to the correct Archive folder to prevent unnecessary re-downloads.</li>' +
+            '<li><b>Reinstall Nolvus</b> to ensure the installation is not corrupted. It may seem daunting, but <b>as long as you archived</b> during installation, the process is straightforward and far faster. <b>⚠️ CAUTION:</b> Reinstalling Nolvus will delete your save games, character presets, and screenshots. Please <b>back them up</b> first if you wish to keep them! Also, your saves will be unusable unless you reinstall with the exact same confgiurations. For detailed instructions, see this <a href="https://docs.google.com/document/d/1R_AVeneeCiqs0XGYzggXx34v3Ufq5eUHNoCHo3QE-G8/edit">Guide to Reinstalling Nolvus</a>.</li>' +
             '</ul></li>' +
             '</ol></li>';
         insightsCount++;
@@ -722,26 +711,17 @@ async function analyzeLog() {
     }
 
     // Check for KERNELBASE Crash excluding JContainers and JSON parse error
-    //NOTE: Nolvus only. equivalent information already shows in the diagnoses sectoion above for Non-Nolvus (general Skyrim) version
+    //NOTE: Nolvus-only version. Equivalent information already shows in the diagnoses sectoion above for Non-Nolvus (general Skyrim) version
     if (!Utils.isSkyrimPage && sections.firstLine.toLowerCase().includes('KERNELBASE.dll'.toLowerCase()) && !sections.probableCallstack.includes('JContainers64.dll') && !sections.topHalf.includes('json.exception.parse_error') && !win24H2UpscalerCrash) {
         insights += '<li>❗ <b>KERNELBASE Crash Detected:</b> This rarer issue could be related to a specific added mod, or to hardware or a system-wide issue such as a Windows Update, or a virus, malware, drive corruption, corrupted modlist install, or corrupted file permissions. Here are some steps you can take, ordered from easiest to hardest:<ol>' +
             '<li>Reach out to the <b>Nolvus community</b> to see if others are encountering this issue due to a new Windows update or the like.</li>' +
-            '<li>You can restore the original sorting of all vanilla Nolvus mods using the <b>Apply Order</b> button in the Nolvus Dashboard.<ul>' +
-
-                '<li>Here is how to do it: <a href="#" class="toggleButton">⤴️ hide</a><ol class="extraInfo">' +
-                    '<li>Open the dashboard, click on <b>Manage</b> and then <b>Instance</b>.</li>' +
-                    '<li>When loaded, click on <b>Apply Order</b>.</li>' +
-                    '<li>All non-vanilla mods will be disabled and moved to the bottom of your load order.</li>' +
-                    '<li>Any disabled vanilla mods will again be enabled.</li>' +
-                    '<li>All vanilla Nolvus mods will be restored to their original sorting (load order).</li>' +
-                    '<li>This is useful if you are troubleshooting a load order and wish to start from a vanilla Nolvus state without reinstalling, if you accidentally moved one or more mods in Mod Organizer 2 (MO2), or if your load order somehow got corrupted.</li>' +
-                    '<li>For more information and a screenshot, see this r/Nolvus post <a href="https://www.reddit.com/r/Nolvus/comments/1chuod0/how_to_apply_order_button_usage_in_the_nolvus/">How To: "Apply Order" button usage in the Nolvus Dashboard</a>.</li>' +
-                '</ol></ul></li>' +
+            '<li>You can restore the original sorting of all vanilla Nolvus mods using the <b>Apply Order</b> button in the Nolvus Dashboard. For more information and a screenshot, see this r/Nolvus post <a href="https://www.reddit.com/r/Nolvus/comments/1chuod0/how_to_apply_order_button_usage_in_the_nolvus/">How To: "Apply Order" button usage in the Nolvus Dashboard</a>.</li>' +
             '<li>Check the <b>Windows Event Log</b> for any related issues. You can do this by opening the <b>Event Viewer</b> (search for it in the Start Menu), then navigate to Windows Logs > Application. Look for any recent errors that might be related to your issue. For detailed instructions, see this <a href="https://support.microsoft.com/en-us/windows/open-event-viewer-17d427d2-43d6-5e01-8535-1fc570ea8a14">Microsoft guide</a>.</li>' +
             '<li><b>Reinstall Nolvus</b> to ensure the installation is not corrupted. Make sure to back up any important data before doing this. For detailed instructions, see this <a href="https://docs.google.com/document/d/1R_AVeneeCiqs0XGYzggXx34v3Ufq5eUHNoCHo3QE-G8/edit">guide</a>.</li>' +
-            '<li>Ensure your <b>Windows is up to date</b>, as well as any drivers. You can check for updates by going to Settings > Update & Security > Windows Update.</li>' +
+            '<li>Try redownloading and <b>reinstalling/updating</b> mods and Windows components that show up in the <b>Files/Elements</b> section of this report. Sometimes the crash log provides this clue as to what needs updated.<ul><li>CAUTION: Be careful to only install versions known to be compatible with your version of Skyrim and your other mods.</li><li><code>VCRUNTIME140.dll</code> is a common example to look for. If present, download and install the latest correct version for your hardware from <a href="https://learn.microsoft.com/en-us/cpp/windows/latest-supported-vc-redist?view=msvc-170">Microsoft Visual C++ Redistributable</a>.</li></ul>' +
+            '<li>Ensure your <b>Windows is up to date</b>, as well as any drivers and applicable BIOS updates. You can check for Microsoft updates by going to Settings > Update & Security > Windows Update. Many motherboards (or PC manufacturers) will also have important BIOS updates at their websites.</li>' +
             '<li>Run a full system <b>scan for any viruses</b> or malware. We generally recommend using the built-in Windows Defender for this.</li>' +
-            '<li>Try <b>disabling mods</b> you have added one-by-one (or in large, gradually smaller and more isolating groups) to see if the issue persists. This can help identify if a specific mod is causing the problem.</li>' +
+            '<li>Try <b>disabling mods</b> you have added one-by-one (or in large, gradually smaller and more isolating groups) to see if the issue persists. Consider starting with mods that show up in the <b>Files/Elements</b> section of this report. This can help identify if a specific mod is causing the problem.</li>' +
             '<li>Reset your <b>file permissions</b>. See <a href="https://www.thewindowsclub.com/how-to-reset-file-folder-permissions-to-default-in-windows-10">How to reset all User Permissions to default in Windows 11/10</a>, or seek assistance from the Nolvus community. Alternatively, an easy <b>workaround</b> is to <a href = "https://support.microsoft.com/en-us/windows/create-a-local-user-or-administrator-account-in-windows-20de74e0-ac7f-3502-a866-32915af2a34d#WindowsVersion=Windows_11">create a new Windows User</a> and create a new Nolvus save (playthrough) from the new user.</li>' +
             '<li><b>Use CHKDSK</b> to scan your hard drive for any corruption. You can do this by opening the Command Prompt as an administrator and running the command <code>chkdsk /f</code>. Note that you might need to restart your computer for the scan to run. Be aware that frequent use of <code>chkdsk</code> on SSDs can potentially shorten their lifespan due to the write operations it performs.</li>' +
             '<li>Perform a <b>Repair Upgrade</b> using the Windows 11 or Windows 10 ISO file. For detailed instructions, see this <a href="https://answers.microsoft.com/en-us/windows/forum/all/how-to-perform-a-repair-upgrade-using-the-windows/35160fbe-9352-4e70-9887-f40096ec3085">guide</a>.</li>' +
@@ -817,6 +797,13 @@ async function analyzeLog() {
     const memoryInsights = analyzeMemoryIssues(sections);
     if (memoryInsights) {
         insights += memoryInsights;
+        insightsCount++;
+    }
+
+    //NavMesh Pathing issues:
+    const pathingInights = analyzePathingIssues(sections);
+    if (pathingInights) {
+        insights += pathingInights;
         insightsCount++;
     }
 
@@ -961,7 +948,7 @@ async function analyzeLog() {
             '</ol></li>' +
             '<li>Regarding the Safe Save Guide (above), there are a few <b>mods you can add</b> that allow you to minimize the risk if you really don’t want to always quit to desktop every time you die: <a href="https://www.nexusmods.com/skyrimspecialedition/mods/88219">Clean Save Auto Reloader</a>, <a href="https://www.nexusmods.com/skyrimspecialedition/mods/85565">SaveUnbaker</a>, and an alternate death mod. See Orionis’ <a href="https://docs.google.com/document/d/1RSCzBUyE0vqZRAtjd4YL2hHrKzf4Q1rgCH0zrjEr-qY/mobilebasic#heading=h.u2ukim1kti09">Safe Save Helpers - a Nolvus Guide</a> (context is Nolvus, but much of it should be generally applicable).</li>' +
             '<li>If crash is repetitive, try loading from your <b>last working save</b>. If possible, identify this file, and load this last save game that worked and try to play from there.</li>' +
-            '<li>Consider using save cleaning tools to remove orphaned scripts and other potential corruption. <a href="https://www.nexusmods.com/skyrim/mods/76776">FallrimTools ReSaver</a> can sometimes fix corrupted save files. See also these <a href="https://www.reddit.com/r/skyrimmods/s/fbMRv343vm">instructions by Krispyroll</a>. NOTE: Always keep backups of your saves before attempting fixes or using cleaning tools.</li>' +
+            '<li>Consider using save cleaning tools to remove orphaned scripts and other potential corruption. <a href="https://www.nexusmods.com/skyrim/mods/76776">FallrimTools ReSaver</a> can sometimes fix corrupted save files. See also these <a href="https://www.reddit.com/r/skyrimmods/s/fbMRv343vm">instructions by Krispyroll</a> and more information in <a href="https://www.reddit.com/r/skyrimmods/comments/1d0r0f0/reading_crash_logs/##:~:text=Resaver">Krispyroll’s Reading Crash Logs Guide</a>. NOTE: Always keep backups of your saves before attempting fixes or using cleaning tools.</li>' +
             '<li>Try <a href="https://www.reddit.com/r/skyrimmods/comments/tpmf8x/crash_on_load_and_save_corruption_finally_solved/">expanding your save file size</a>. Then open the last save that works and play on from there, and hopefully, there will not be any more crashes. Requires the <b>HIGHLY RECOMMENDED</b> foundational mod <a href="https://www.nexusmods.com/skyrimspecialedition/mods/17230">SSE Engine Fixes</a>. Be sure to carefully install the correct versions of both Parts 1 and 2.' +
             '<ul><li>Verify these settings in <code>EngineFixes.toml</code></li>' +
             '<ul><li><code>SaveGameMaxSize = true</code></li>' +
