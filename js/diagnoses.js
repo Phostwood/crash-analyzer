@@ -604,19 +604,25 @@ function analyzeMeshIssues(sections) {
 }
 
 
+
 function analyzeDawnguardHorseIssue(sections) {
     let diagnosis = '';
     const dawnguardHorseIssueKeywords = ["Skyrim Immersive Creatures", "Horse", "Celann", "Isran"];
     const dawnguardHorseIssue = dawnguardHorseIssueKeywords.every(keyword => sections.topHalf.includes(keyword));
     if (dawnguardHorseIssue) {
-        diagnosis +=  `<li>🎯 <b>Dawnguard Horse Issue Detected:</b> See <a href="https://www.reddit.com/r/skyrimmods/comments/1f5lvdl/comment/lktm5db/?utm_source=share&utm_medium=web3x&utm_name=web3xcss&utm_term=1&utm_content=share_button">Roma's instructions for fixing Dawnguard Horse Issue</a></li>`;
+        diagnosis +=  `
+        <li>🎯 <b>Dawnguard Horse Issue Detected:</b> This is a specific variant of NavMesh/Pathing Issues (see below). The Dawnguard Horse from Skyrim Immersive Creatures is a common example. You can fix the issue with the following steps:
+        <ol>
+            <li>Download and install <a href="https://www.nexusmods.com/skyrimspecialedition/mods/164" target="_blank">SSEEdit</a>.</li>
+            <li>Open SSEEdit, enable "Skyrim Immersive Creatures" mod, and click "Open Plugins Selected."</li>
+            <li>Once finished loading, search for Editor ID: <code>SIC_WERoad07</code> and delete this whole form ID.</li>
+            <li>Save changes and close SSEEdit.</li>
+            <li>Open an earlier save from before the NPCs spawned and play to verify no crashes.</li>
+        </ol></li>`;
     }
     return diagnosis;
-    //TODOS for analyzeDawnguardHorseIssue:
-        // - Insert this into analyzeLog.js towards top of diagnoses section
-        // - Rewrite Roma's instructions
-        // - Give Roma credit.
 }
+
 
 
 function analyzePathingIssues(sections) {

@@ -22,7 +22,7 @@ Utils.isDebugging = true; // Set this to false to disable debugging (non-error) 
 //Utils.debugBatch = ['getDllVersionFromLog', 'hasCompatibleDll', 'checkDllCompatibility', 'compareVersions'];
 //Utils.debugBatch = ['hasCompatibleDll', 'checkDllCompatibility', 'getDllVersionFromLog'];
 
-Utils.debugBatch = ['analyzePathingIssues'];
+Utils.debugBatch = ['processLines', 'logSummary.js'];
 
 
 
@@ -742,6 +742,10 @@ Utils.getLogSectionsMap = function(logFile) {
     sections.logType = logType;
     if(logType === 'CrashLogger' || logType === 'Trainwreck') {
         sections.firstLine = this.logLines[3]; // NOTE: for Crash Logger (and Trainwreck) logs, what I called the "firstLine" for NSF logs is moved to the 4th line (desinated as the 3rd in the array).
+        sectionsMap.set('firstLine', {  // NOTE: update sectionsMap
+            ...sectionsMap.get('firstLine'),
+            content: this.logLines[3]
+        });
     }
     sections.hasSkyrimAE = this.hasSkyrimAE(sections.header);
     sections.hasNewEslSupport = this.hasNewEslSupport(sections.header);

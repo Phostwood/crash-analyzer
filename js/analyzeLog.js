@@ -197,6 +197,8 @@ async function analyzeLog() {
         diagnosesCount++;
     }
 
+
+
     // Check for KERNELBASE JSON Crash
     if (sections.firstLine.toLowerCase().includes('KERNELBASE.dll'.toLowerCase()) && sections.topHalf.includes('json.exception.parse_error')) {
         diagnoses += `<li>🎯 <b>KERNELBASE JSON Crash Detected:</b> Usually, this issue stems from one of three causes:<ol>
@@ -285,7 +287,7 @@ async function analyzeLog() {
             diagnoses += '<li>❗ <b>KERNELBASE Crash Detected:</b> This rarer issue could be related to a specific added mod, or to hardware or a system-wide issue such as a Windows Update, or a virus, malware, drive corruption, corrupted modlist install, or corrupted file permissions. Here are some steps you can take, ordered from easiest to hardest:<ol>' +
             '<li>Reach out to the <b>Skyrim modding community</b> to see if others are encountering this issue due to a new Windows update or the like.</li>' +
             '<li>Check the <b>Windows Event Log</b> for any related issues. You can do this by opening the <b>Event Viewer</b> (search for it in the Start Menu), then navigate to Windows Logs > Application. Look for any recent errors that might be related to your issue. For detailed instructions, see this <a href="https://support.microsoft.com/en-us/windows/open-event-viewer-17d427d2-43d6-5e01-8535-1fc570ea8a14">Microsoft guide</a>.</li>' +
-            '<li>Try redownloading and <b>reinstalling/updating</b> mods and Windows components that show up in the <b>Files/Elements</b> section of this report. Sometimes the crash log provides this clue as to what needs updated.<ul><li>CAUTION: Be careful to only install versions known to be compatible with your version of Skyrim and your other mods.</li><li><code>VCRUNTIME140.dll</code> is a common example to look for. If present, download and install the latest correct version for your hardware from <a href="https://learn.microsoft.com/en-us/cpp/windows/latest-supported-vc-redist?view=msvc-170">Microsoft Visual C++ Redistributable</a>.</li></ul>' +
+            '<li>Try redownloading and <b>reinstalling/updating</b> mods (and some Windows components where easy to update) that show up in the <b>Files/Elements</b> section of this report. Sometimes the crash log provides this clue as to what needs updated.<ul><li>CAUTION: Be careful to only install versions known to be compatible with your version of Skyrim and your other mods.</li><li><code>VCRUNTIME140.dll</code> is a common example to look for. If present, download and install the latest correct version for your hardware from <a href="https://learn.microsoft.com/en-us/cpp/windows/latest-supported-vc-redist?view=msvc-170">Microsoft Visual C++ Redistributable</a>.</li></ul>' +
             '<li>Ensure your <b>Windows is up to date</b>, as well as any drivers and applicable BIOS updates. You can check for Microsoft updates by going to Settings > Update & Security > Windows Update. Many motherboards (or PC manufacturers) will also have important BIOS updates at their websites.</li>' +
             '<li>Run a full system <b>scan for any viruses</b> or malware. We generally recommend using the built-in Windows Defender for this.</li>' +
             '<li>Try <b>disabling mods</b> you have added one-by-one (or in large, gradually smaller and more isolating groups) to see if the issue persists. This can help identify if a specific mod is causing the problem.</li>' +
@@ -313,7 +315,12 @@ async function analyzeLog() {
         diagnosesCount++;
     }
 
-
+    //Check for Dawnguard Horse navmesh/pathing issue
+    const DawnguardHorseDiagnosis = analyzeDawnguardHorseIssue(sections)
+    if (DawnguardHorseDiagnosis) {
+        diagnoses += DawnguardHorseDiagnosis;
+        diagnosesCount++;
+    }
 
 
 
@@ -718,7 +725,7 @@ async function analyzeLog() {
             '<li>You can restore the original sorting of all vanilla Nolvus mods using the <b>Apply Order</b> button in the Nolvus Dashboard. For more information and a screenshot, see this r/Nolvus post <a href="https://www.reddit.com/r/Nolvus/comments/1chuod0/how_to_apply_order_button_usage_in_the_nolvus/">How To: "Apply Order" button usage in the Nolvus Dashboard</a>.</li>' +
             '<li>Check the <b>Windows Event Log</b> for any related issues. You can do this by opening the <b>Event Viewer</b> (search for it in the Start Menu), then navigate to Windows Logs > Application. Look for any recent errors that might be related to your issue. For detailed instructions, see this <a href="https://support.microsoft.com/en-us/windows/open-event-viewer-17d427d2-43d6-5e01-8535-1fc570ea8a14">Microsoft guide</a>.</li>' +
             '<li><b>Reinstall Nolvus</b> to ensure the installation is not corrupted. Make sure to back up any important data before doing this. For detailed instructions, see this <a href="https://docs.google.com/document/d/1R_AVeneeCiqs0XGYzggXx34v3Ufq5eUHNoCHo3QE-G8/edit">guide</a>.</li>' +
-            '<li>Try redownloading and <b>reinstalling/updating</b> mods and Windows components that show up in the <b>Files/Elements</b> section of this report. Sometimes the crash log provides this clue as to what needs updated.<ul><li>CAUTION: Be careful to only install versions known to be compatible with your version of Skyrim and your other mods.</li><li><code>VCRUNTIME140.dll</code> is a common example to look for. If present, download and install the latest correct version for your hardware from <a href="https://learn.microsoft.com/en-us/cpp/windows/latest-supported-vc-redist?view=msvc-170">Microsoft Visual C++ Redistributable</a>.</li></ul>' +
+            '<li>Try redownloading and <b>reinstalling/updating</b> mods (and some Windows components where easy to update) that show up in the <b>Files/Elements</b> section of this report. Sometimes the crash log provides this clue as to what needs updated.<ul><li>CAUTION: Be careful to only install versions known to be compatible with your version of Skyrim and your other mods.</li><li><code>VCRUNTIME140.dll</code> is a common example to look for. If present, download and install the latest correct version for your hardware from <a href="https://learn.microsoft.com/en-us/cpp/windows/latest-supported-vc-redist?view=msvc-170">Microsoft Visual C++ Redistributable</a>.</li></ul>' +
             '<li>Ensure your <b>Windows is up to date</b>, as well as any drivers and applicable BIOS updates. You can check for Microsoft updates by going to Settings > Update & Security > Windows Update. Many motherboards (or PC manufacturers) will also have important BIOS updates at their websites.</li>' +
             '<li>Run a full system <b>scan for any viruses</b> or malware. We generally recommend using the built-in Windows Defender for this.</li>' +
             '<li>Try <b>disabling mods</b> you have added one-by-one (or in large, gradually smaller and more isolating groups) to see if the issue persists. Consider starting with mods that show up in the <b>Files/Elements</b> section of this report. This can help identify if a specific mod is causing the problem.</li>' +
