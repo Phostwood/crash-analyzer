@@ -1,46 +1,37 @@
-✅Beta version 0.19.6 is now live:
+✅Beta version 0.19.7 is now live:
 https://phostwood.github.io/crash-analyzer/
 
-1. New test: NavMesh/Pathing Issue with lots of insights from r/SkyrimMods
+1. ✅New test: Dawnguard Horse Issue, a specific variant of NavMesh/Pathing Issue (Many thanks to: RomatebitegeL and Krispyroll!)
 
-2. Memory Issue:
-	- Indicated high priority when `tbbmalloc.dll` is found in crash log's first error line
-	- Tweaked troubleshooting description for Memory Issues concerning isolating corrupted image files
+2. ✅Added d3d10warp.dll to explainersMap: (⚠️CPU <b>emulation</b> of GPU - MS <b>Windows</b> graphics) ... and added a note to make a new test for this
 
-3. Missing Masters: Minor clarification to instructions
+3. ✅Added occlusion.esp file to explainersMap: (DynDOLOD occlusion <b>optimization</b> file)
 
-4. Separated out analyzeDawnguardHorseIssue() test ... will be implemented next version
+4. ✅Softened ccbgssse018-shadowrend.esl explainersMap: (Indicator for potential Shadowrend issue?)
 
-5. Alphabetized Load Order: threshold increased to at least 20 mods of which at least 80% are alphabetized
+5. ✅KERNELBASE: instructions clarification
 
-6. KERNELBASE Crash:
-	- Recommended reinstalling/upgrading mods listed in crash log (with specific note on VCRUNTIME) ... and similar instruction for when disabling mods towards isolation causal mod(s)
-	- Added to Windows update to also check for BIOS (or manufacturer) updates
-	- NOLVUS version: shortened "Apply Order" instructions by linking to the Google Docs instructions
-
-7. ENB Issue: Shortened with link to google doc on "How to Reinstall Nolvus".
-
-8. BGSSaveLoadManager: added link to ReSaver instructions within Krispy's Crash Log Guide
+6. Fixed bug were first-line errors weren't showing up for CrashLoggerSSE or Trainwreck logs
+	- Now have a new associated bug, but it's better than displaying nothing
 
 
+--- next version ---
+1. Fix new first-line error bug?
+
+2. New near-top test for first-line errors mentioning specific mods (at least skip Skyrim.esm ones)
+
+3. Possibly refactor logSummar.js with Claude AI assistance?
 
 
 
 ---next version---
 
 
-0. Finish analyzeDawnguardHorseIssue:
-	- Insert already written function this into analyzeLog.js towards top of diagnoses section
-	- Rewrite Roma's instructions
-	- Give Roma credit.
+
 
 1. Trim down and tone down Jerilith's rules
 
 2. Removed “unlikely cause” when named elements are included in the list (already removed when files are in the list)
-
-3. Fix first-line error bug?
-
-4. New near-top test for first-line errors mentioning specific mods (at least skip Skyrim.esm ones)
 
 5. KERNELBASE functions with short and long versions.
 	- Long version needs to have Nolvus-only instructions injected into main instructions
