@@ -149,6 +149,8 @@ PathingDoor                          //Door-related pathing issue
 PathingRequest                       //Pathing request failure
 PathingTaskData                      //Pathing task data error
 SIC_WERoad07                         //Known issue with Skyrim Immersive Creatures mounted NPCs
+Skyrim Immersive Creatures, Horse, Celann, Isran //Indicators for Dawnguard Horse Issue
+BSImagespace, NiCamera, WorldRoot Camera, WorldRoot Node, Block (  //Indicators for Dragon's Eye Minimap Issue
 
 }
 
@@ -371,6 +373,7 @@ xefx.dll:                                          0x7A8B9C
 xefx_loader.dll:                                   0x0D1E2F
 xinput1_3.dll:                                     0x3A4B5C
 zavcore.dll:                                       0x6D7E8F
+DragonsEyeMinimap.dll:                             0xblahbb
 }
 
 

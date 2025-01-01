@@ -29,76 +29,81 @@ console.log(diagnosisResult);
 function checkForObjectReferenceNone(sections) {
     let diagnoses = '';
     
-    // Regular expression to match "Object Reference: None" patterns (case-insensitive)
-    const objectRefNoneRegex = /object reference:\s*none/i;
-    
-    // Function to extract the relevant section
-    function extractRelevantSection(lines, startIndex) {
-        let section = [];
-        let i = startIndex;
+    if(sections.logType  === "CrashLogger") {
+        // Regular expression to match "Object Reference: None" patterns (case-insensitive)
+        const objectRefNoneRegex = /object reference:\s*none/i;
         
-        // Go backwards to find the start of the section (line with one tab)
-        while (i >= 0 && lines[i].startsWith('\t\t')) {
-            i--;
-        }
-        let sectionStart = i;
-        
-        // Go forwards to find the end of the section (last line with two or more tabs)
-        i = startIndex;
-        while (i < lines.length && lines[i].startsWith('\t\t')) {
-            section.push(lines[i]);
-            i++;
-        }
-        
-        return section;
-    }
-    
-    // Function to extract file information
-    function extractFileInfo(section) {
-        let files = section.filter(line => line.toLowerCase().includes('file:'));
-        let firstFile = files.length > 0 ? files[0].split(':')[1].trim() : '';
-        let lastFile = files.length > 0 ? files[files.length - 1].split(':')[1].trim() : '';
-        return { firstFile, lastFile };
-    }
-    
-    // Find all instances of "Object Reference: None"
-    const lines = sections.topHalf.split('\n');
-    const instances = lines.reduce((acc, line, index) => {
-        if (objectRefNoneRegex.test(line)) {
-            acc.push(index);
-        }
-        return acc;
-    }, []);
-    
-    // Set to store unique instances
-    const uniqueInstances = new Set();
-    
-    // Process each instance
-    instances.forEach((instanceIndex) => {
-        const relevantSection = extractRelevantSection(lines, instanceIndex);
-        const { firstFile, lastFile } = extractFileInfo(relevantSection);
-        
-        // Create a unique key for this instance
-        const instanceKey = `${firstFile}|${lastFile}`;
-        
-        // Only process if this is a new unique instance
-        if (!uniqueInstances.has(instanceKey)) {
-            uniqueInstances.add(instanceKey);
+        // Function to extract the relevant section
+        function extractRelevantSection(lines, startIndex) {
+            let section = [];
+            let i = startIndex;
             
-            diagnoses += `<li>🎯 <b>"Object Reference: None" Detected:</b> This typically indicates when a mod attempts to reference a non-existent object, often due to mod conflicts, incompatible mod/patch versions, and/or load order issues. Here's what you need to know:<ul>`;
+            // Go backwards to find the start of the section (line with one tab)
+            while (i >= 0 && lines[i].startsWith('\t\t')) {
+                i--;
+            }
+            let sectionStart = i;
             
-            diagnoses += `<li><b>Troubleshooting Steps:</b><ol>
-                <li>The likely culprit is the file: <code>${lastFile}</code>. Disable this mod first.</li>`
-                if (lastFile !== firstFile) {
-                    diagnoses += `<li>If the issue persists, investigate the file: <code>${firstFile}</code>.</li>`
+            // Go forwards to find the end of the section (last line with two or more tabs)
+            i = startIndex;
+            while (i < lines.length && lines[i].startsWith('\t\t')) {
+                section.push(lines[i]);
+                i++;
+            }
+            
+            return section;
+        }
+        
+        // Function to extract file information
+        function extractFileInfo(section) {
+            let files = section.filter(line => line.toLowerCase().includes('file:'));
+            let firstFile = files.length > 0 ? files[0].split(':')[1].trim() : '';
+            let lastFile = files.length > 0 ? files[files.length - 1].split(':')[1].trim() : '';
+            return { firstFile, lastFile };
+        }
+        
+        // Find all instances of "Object Reference: None"
+        const lines = sections.topHalf.split('\n');
+        const instances = lines.reduce((acc, line, index) => {
+            if (objectRefNoneRegex.test(line)) {
+                acc.push(index);
+            }
+            return acc;
+        }, []);
+        
+        // Set to store unique instances
+        const uniqueInstances = new Set();
+        
+        // Process each instance
+        instances.forEach((instanceIndex) => {
+            const relevantSection = extractRelevantSection(lines, instanceIndex);
+            const { firstFile, lastFile } = extractFileInfo(relevantSection);
+            
+            // Create a unique key for this instance
+            const instanceKey = `${firstFile}|${lastFile}`;
+            
+            // Only process if this is a new unique instance
+            if (!uniqueInstances.has(instanceKey)) {
+                uniqueInstances.add(instanceKey);
+
+                if (firstFile || lastFile) {
+                    diagnoses += `<li>🎯 <b>"Object Reference: None" Detected:</b> This typically indicates when a mod attempts to reference a non-existent object, often due to mod conflicts, incompatible mod/patch versions, and/or load order issues. Here's what you need to know:<ul>`;
+                    
+                    diagnoses += `<li><b>Troubleshooting Steps:</b><ol>
+                        <li>The likely culprit is the file: <code>${lastFile}</code>. Disable this mod first.</li>`
+                        if (firstFile && lastFile && (lastFile !== firstFile)) {
+                            //NOTE: only show these steps if both files are found
+                            diagnoses += `<li>If the issue persists, disable the file: <code>${firstFile}</code>.</li>
+                            <li>In some cases, you may need to disable both mods to resolve the issue.</li>
+                            <li>After disabling, re-enable mods one by one to isolate the conflict.</li>`
+                        }
+
+                        diagnoses += `<li>Review versions and requirements of related mods to ensure compatibility.</li>
+                        </ol></li></ul></li>`;
                 }
-                diagnoses += `<li>In some cases, you may need to disable both mods to resolve the issue.</li>
-                <li>After disabling, re-enable mods one by one to isolate the conflict.</li>
-                <li>Review versions and requirements of both mods to ensure compatibility.</li>
-                </ol></li></ul></li>`;
-        }
-    });
-    
+            }
+        });
+    }
     return diagnoses;
 }
 
@@ -455,7 +460,7 @@ function analyzeMemoryIssues(sections) {
             <li>If issues persist:
                 <ul>
                 <li>Disable resource-intensive mods</li>
-                <li>Test with smaller mod groups</li>
+                <li>Isolate by disabling/testing progressively smaller mod groups</li>
                 <li>Monitor system resources while testing</li>
                 </ul>
             </li>
@@ -493,6 +498,48 @@ function analyzeMemoryIssues(sections) {
 
     return memoryInsights;
 }
+
+
+
+function analyzeDragonsEyeMinimapIssue(sections) {
+    let insights = '';
+    const dllFileName = 'DragonsEyeMinimap.dll';
+
+    if (sections.bottomHalf.toLowerCase().includes(dllFileName.toLowerCase())) {
+        const dllVersion = Utils.getDllVersionFromLog(sections, dllFileName);
+        if (Utils.compareVersions(dllVersion, '1.1') < 1) {
+            //IF installed version of DragonsEyeMinimap.dll is equal to or less than version 1.1, then continue
+            
+            // Get matching dragon's eye indicators
+            const matchingDragonEyeCodes = crashIndicators.dragonsEyeMinimapIssues.codes.filter(
+                ({ code }) => sections.topHalf.toLowerCase().includes(code.toLowerCase())
+            );
+
+            // Check if we have 2 or more matching dragon's eye indicators
+            if (matchingDragonEyeCodes.length >= 1) {
+                insights += `
+                <li>❗ <b>Dragon's Eye Minimap Issue Detected:</b> Indicators in this log are often linked to the Dragon's Eye Minimap causing crashes.
+                    <ol>
+                        <li>Toggle off Dragon's Eye Minimap with the hotkey (defaults to "L" key) and progress until you leave the current Cell.</li>
+                        <li>If this issue frequently occurs in future crash logs, consider checking for an updated version or disabling the mod. NOTE: issue still exists as of version 1.1</li>
+                        <li>Mentioned indicators: <a href="#" class="toggleButton">⤵️ show more</a>
+                            <ul class="extraInfo" style="display:none">
+                                <li><code>${dllFileName}</code> - mod version <code>${dllVersion}</code> is installed and enabled</li>`;
+                                matchingDragonEyeCodes.forEach(({ code, description }) => {
+                                    insights += `<li><code>${code}</code> - ${description}</li>`;
+                                });
+                        insights += `
+                            </ul>
+                        </li>
+                    </ol>
+                </li>`;
+            }
+        }
+    }
+    
+    return insights;
+}
+
 
 
 
@@ -957,5 +1004,47 @@ function checkHairModCompatibility(sections, logFile) {
         insights: '',
         insightsCount: 0
     };
+}
+
+
+
+//BGSSaveLoadManager
+function analyzeBGSSaveLoadManagerIssue(sections) {
+    let insights = '';
+    if (sections.topHalf.toLowerCase().includes('BGSSaveLoadManager'.toLowerCase())) {
+        const checkSaveFileSize = `
+        <li>Try <a href="https://www.reddit.com/r/skyrimmods/comments/tpmf8x/crash_on_load_and_save_corruption_finally_solved/">expanding your save file size</a>. Then open the last save that works and play on from there, and hopefully, there will not be any more crashes. Requires the <b>HIGHLY RECOMMENDED</b> foundational mod <a href="https://www.nexusmods.com/skyrimspecialedition/mods/17230">SSE Engine Fixes</a>. Be sure to carefully install the correct versions of both Parts 1 and 2.
+            <ul>
+                <li>Verify these settings in <code>EngineFixes.toml</code></li>
+                <ul>
+                    <li><code>SaveGameMaxSize = true</code></li>
+                    <li><code>MaxStdio = 8192</code></li>
+                </ul>
+            </ul>
+        </li>`;
+
+        insights += `
+        <li>❓ <b>BGSSaveLoadManager Issue Detected:</b> This error is associated with problems either saving and/or loading game save files.
+        <ol>
+            <li>If the crash <b>only occurs while <i>saving</i></b>, you may have a Missing Masters. You will likely see separate troubleshooting steps for that higher up in this report, and if not, you can find them by using this analyzer's "use the Test Log" link at the top.</li>
+            ${Utils.isSkyrimPage ? checkSaveFileSize : ''}
+            <li>If crash is repetitive, try loading from your <b>last working save</b>. If possible, identify this file, and load this last save game that worked and try to play from there.</li>
+            <li>Consider using save cleaning tools to remove orphaned scripts and other potential corruption. <a href="https://www.nexusmods.com/skyrim/mods/76776">FallrimTools ReSaver</a> can sometimes fix corrupted save files. See also these <a href="https://www.reddit.com/r/skyrimmods/s/fbMRv343vm">instructions by Krispyroll</a> and more information in <a href="https://www.reddit.com/r/skyrimmods/comments/1d0r0f0/reading_crash_logs/##:~:text=Resaver">Krispyroll's Reading Crash Logs Guide</a>. NOTE: Always keep backups of your saves before attempting fixes or using cleaning tools.</li>
+            <li>Consider following <b>Jerilith’s Safe Save Guide</b> (quoted below). Not adhering to these guidelines over time may contribute to broken save files. NOTE: The effectiveness of some of these rules is <a href="https://www.reddit.com/r/skyrimmods/comments/1hntsnl/thoughts_on_jeriliths_safe_save_guide/">debated</a> and often considered overemphasized. Additionally, I have provided a clarification at the end. However, many believe these rules can help prevent issues when other causes are unknown.
+            <ol>
+                <li>Never, ever save in combat.</li>
+                <li>When you die, EXIT the whole game, go to dashboard, start Skyrim again, wait for the load, continue that way.</li>
+                <li>Don't ever enable and or use autosaves.</li>
+                <li>Do not remove mods mid-game*</li>
+                <li>Do not add mods mid-game*</li>
+                <li>Wait 30s after sleeping or entering a new zone before saving.</li>
+                <li>Never save more than once per minute.</li>
+                <li>(* = exceptions apply when a mod author states otherwise, or when a specific mod is known to be safe)</li>
+            </ol></li>
+            <li>Regarding the Safe Save Guide (above), there are a few <b>mods you can add</b> to minimize risk if you prefer not to always quit to the desktop after dying: <a href="https://www.nexusmods.com/skyrimspecialedition/mods/88219">Clean Save Auto Reloader</a>, <a href="https://www.nexusmods.com/skyrimspecialedition/mods/85565">SaveUnbaker</a>, and an alternate death mod. See Orionis' <a href="https://docs.google.com/document/d/1RSCzBUyE0vqZRAtjd4YL2hHrKzf4Q1rgCH0zrjEr-qY/mobilebasic#heading=h.u2ukim1kti09">Safe Save Helpers - a Nolvus Guide</a>. Although this guide's original context is Nolvus, most of the information should be broadly applicable.</li>
+            ${!Utils.isSkyrimPage ? checkSaveFileSize : ''}
+        </ol></li>`;
+    }
+    return insights;
 }
 

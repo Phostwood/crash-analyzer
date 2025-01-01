@@ -145,9 +145,9 @@ document.addEventListener('DOMContentLoaded', function () {
                     span.addEventListener('click', function (event) {
                         var parentElement = span.closest('li, details');
                         if (parentElement) {
-                            var resultsHeader = getResultsHeader();
+                            var analyzerCitation = getAnalyzerCitation();
                             var markdown = convertHTMLToMarkdown(parentElement.outerHTML);
-                            var finalMarkdown = resultsHeader + markdown;
+                            var finalMarkdown =  markdown + analyzerCitation;
                             copyToClipboard(finalMarkdown);
                             alert('Markdown copied to clipboard!');
                         }
@@ -185,10 +185,10 @@ document.addEventListener('DOMContentLoaded', function () {
 	dropZone.addEventListener('input', clearResult, false);
 
 	document.getElementById('convert-button').addEventListener('click', function () {
-		const resultsHeader = getResultsHeader();
+		const analyzerCitation = getAnalyzerCitation();
 		var htmlContent = document.getElementById('result').innerHTML;
 		var markdown = convertHTMLToMarkdown(htmlContent);
-		var finalMarkdown = resultsHeader + markdown;
+		var finalMarkdown = markdown + analyzerCitation;
 		copyToClipboard(finalMarkdown);
 		alert('Markdown copied to clipboard!');
 	});
@@ -287,7 +287,7 @@ document.addEventListener('DOMContentLoaded', function () {
 					}
 					parent = parent.parentNode;
 				}
-				prefix = ' '.repeat(nestingLevel * 2) + prefix;
+				prefix = ' '.repeat(nestingLevel * 3) + prefix; //Adds nested space before list items
 			}
 			return prefix + content.trim() + '\n';
 		}
@@ -321,13 +321,13 @@ document.addEventListener('DOMContentLoaded', function () {
 	}
 
 
-	window.getResultsHeader = function()  {
-		var resultsHeader = 'Result(s) from [Nolvus Crash Log Analyzer ' + convertHTMLToMarkdown(getVersionNumber()) + '](https://phostwood.github.io/crash-analyzer/):\n\n';
+	window.getAnalyzerCitation = function()  {
+		var analyzerCitation = '\n\n~~\n\nResult(s) from Nolvus Crash Log Analyzer ' + convertHTMLToMarkdown(getVersionNumber()) + ':\n\nhttps://phostwood.github.io/crash-analyzer/';
 		if(Utils.isSkyrimPage) {
-			resultsHeader = 'Result(s) from [Phostwood\'s Skyrim Crash Log Analyzer ' + convertHTMLToMarkdown(getVersionNumber()) + '](https://phostwood.github.io/crash-analyzer/skyrim.html):\n\n';
+			analyzerCitation = '\n\n~~\n\nResult(s) from Phostwood\'s Skyrim Crash Log Analyzer ' + convertHTMLToMarkdown(getVersionNumber()) + ':\n\nhttps://phostwood.github.io/crash-analyzer/skyrim.html';
 		}
-		Utils.debuggingLog(['userInterface.js'], 'resultsHeader:', resultsHeader);
-		return resultsHeader;
+		Utils.debuggingLog(['userInterface.js'], 'analyzerCitation:', analyzerCitation);
+		return analyzerCitation;
 	}
 
 	// Function to copy text to clipboard
@@ -343,10 +343,10 @@ document.addEventListener('DOMContentLoaded', function () {
 	// Event listener for the "Copy Diagnosis" button
 	document.getElementById('convert-button').addEventListener('click', function () {
 		// Markdown link to be added at the top of the results
-		var resultsHeader = getResultsHeader();
+		var analyzerCitation = getAnalyzerCitation();
 		var htmlContent = document.getElementById('result').innerHTML;
 		var markdown = convertHTMLToMarkdown(htmlContent);
-		var finalMarkdown = resultsHeader + markdown;
+		var finalMarkdown = markdown + analyzerCitation;
 		copyToClipboard(finalMarkdown);
 		alert('Markdown copied to clipboard!');
 	});

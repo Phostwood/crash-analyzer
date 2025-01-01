@@ -245,6 +245,8 @@ STACK:
   PathingRequest                       //Pathing request failure
   PathingTaskData                      //Pathing task data error
   SIC_WERoad07                         //Known issue with Skyrim Immersive Creatures mounted NPCs
+  Skyrim Immersive Creatures, Horse, Celann, Isran //Indicators for Dawnguard Horse Issue
+  BSImagespace, NiCamera, WorldRoot Camera, WorldRoot Node, Block (  //Indicators for Dragon's Eye Minimap Issue
 
 MODULES:
     ADVAPI32.dll
@@ -510,3 +512,4 @@ SCRIPT EXTENDER PLUGINS:
     QuickLootEE.dll                                  v1.1
 	CombatMusicFix.dll                               v1.0.1
 	MCMHelper.dll                                    v1.4
+	DragonsEyeMinimap.dll

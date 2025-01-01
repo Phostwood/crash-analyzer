@@ -229,13 +229,12 @@ async function analyzeLog() {
     }
 
 
-    if(Utils.isSkyrimPage) {
-        const objectRefNoneDiagnosis = checkForObjectReferenceNone(sections);
-        Utils.debuggingLog(['objectRefNoneDiagnosis', 'analyzeLog.js'], `objectRefNoneDiagnosis for diagnostic section:`, objectRefNoneDiagnosis);
-        if (objectRefNoneDiagnosis) {
-            diagnoses += objectRefNoneDiagnosis;
-            diagnosesCount++;
-        }
+    //"Object Reference: None" test
+    const objectRefNoneDiagnosis = checkForObjectReferenceNone(sections);
+    Utils.debuggingLog(['objectRefNoneDiagnosis', 'analyzeLog.js'], `objectRefNoneDiagnosis for diagnostic section:`, objectRefNoneDiagnosis);
+    if (objectRefNoneDiagnosis) {
+        diagnoses += objectRefNoneDiagnosis;
+        diagnosesCount++;
     }
 
 
@@ -322,7 +321,12 @@ async function analyzeLog() {
         diagnosesCount++;
     }
 
-
+    //Check for Dawnguard Horse navmesh/pathing issue
+    const dragonsEyeMinimapDiagnosis = analyzeDragonsEyeMinimapIssue(sections)
+    if (dragonsEyeMinimapDiagnosis) {
+        diagnoses += dragonsEyeMinimapDiagnosis;
+        diagnosesCount++;
+    }
 
 
 
@@ -472,9 +476,9 @@ async function analyzeLog() {
     // Default to unknown crash
     if (diagnosesCount < 1) {
         if (Utils.isSkyrimPage) {
-            diagnoses += '<li>❓ <b>No high-confidence crash pattern detected.</b> If you aren\'t aware of (and diligently following) <b>Jerilith\'s Safe Save Guide</b>, review it at <a href="https://www.nolvus.net/catalog/crashlog?acc=accordion-1-5">Save Bloat Crash</a/>. Also, consult <a href="https://www.reddit.com/r/skyrimmods/wiki/begin2/">r/SkyrimMod\'s Beginner\'s Guide to Modding Skyrim</a> for information about arranging your load order, and other troubleshooting tips. Also, this crash analyzer\'s <b>Advanced Users</b> section contains additional crash types and insights that may help isolate this issue. If the problem persists, share your crash logs with <a href="https://www.reddit.com/r/skyrimmods/">r/Skyrim</a>.</li>';
+            diagnoses += '<li>❓ <b>No high-confidence crash pattern detected.</b> If you aren\'t aware of (and generally following) <b>Jerilith\'s Safe Save Guide</b>, review it at <a href="https://www.nolvus.net/catalog/crashlog?acc=accordion-1-5">Save Bloat Crash</a/>. Also, consult <a href="https://www.reddit.com/r/skyrimmods/wiki/begin2/">r/SkyrimMod\'s Beginner\'s Guide to Modding Skyrim</a> for information about arranging your load order, and other troubleshooting tips. Also, this crash analyzer\'s <b>Advanced Users</b> section contains additional crash types and insights that may help isolate this issue. If the problem persists, share your crash logs with <a href="https://www.reddit.com/r/skyrimmods/">r/Skyrim</a>.</li>';
         } else {
-            diagnoses += '<li>❓ <b>No high-confidence crash pattern detected.</b> If you aren\'t aware of (and diligently following) <b>Jerilith\'s Safe Save Guide</b>, review it at <a href="https://www.nolvus.net/catalog/crashlog?acc=accordion-1-5">Save Bloat Crash</a/>. Also, if you have customized Nolvus with additional mods, review information on the <a href="https://www.nolvus.net/catalog/crashlog?acc=accordion-1-7">Load Order Crash</a>. Also, this crash analyzer\'s <b>Advanced Users</b> section contains additional crash types and insights that may help isolate this issue. If the problem persists, share your crash logs with <a href="https://www.reddit.com/r/Nolvus/">r/Nolvus</a> and/or the <a href="https://discord.gg/Zkh5PwD">Nolvus Discord</a>.</li>';
+            diagnoses += '<li>❓ <b>No high-confidence crash pattern detected.</b> If you aren\'t aware of (and generally following) <b>Jerilith\'s Safe Save Guide</b>, review it at <a href="https://www.nolvus.net/catalog/crashlog?acc=accordion-1-5">Save Bloat Crash</a/>. Also, if you have customized Nolvus with additional mods, review information on the <a href="https://www.nolvus.net/catalog/crashlog?acc=accordion-1-7">Load Order Crash</a>. Also, this crash analyzer\'s <b>Advanced Users</b> section contains additional crash types and insights that may help isolate this issue. If the problem persists, share your crash logs with <a href="https://www.reddit.com/r/Nolvus/">r/Nolvus</a> and/or the <a href="https://discord.gg/Zkh5PwD">Nolvus Discord</a>.</li>';
         }
         //DON'T COUNT: diagnosesCount++;
     }
@@ -934,35 +938,19 @@ async function analyzeLog() {
 
     //Save game issues
     if (sections.firstLine.includes('D2B923')) {
-        insights += '<li>❓ <b>D2B923 Detected:</b> This error is often linked to <b>save game issues</b>. It may be associated with mods that alter the save system, such as "Save System Overhaul (SSO)" or "Alternate Start - Live Another Life (LAL)". A potential fix for users experiencing flashing savegame entries with SkyUI SE is the "SkyUI SE - Flashing Savegames Fix". If you\'re using a version of Skyrim SE or AE before v1.6.1130, this fix should work. For later versions, the "SkyUI SE - Difficulty Persistence Fix" is recommended, which includes the flashing savegames fix. Also, if you aren\'t aware of (and diligently following) <b>Jerilith\'s Safe Save Guide</b>, review it at <a href="https://www.nolvus.net/catalog/crashlog?acc=accordion-1-5">Save Bloat Crash</a/>.</li>';
+        insights += '<li>❓ <b>D2B923 Detected:</b> This error is often linked to <b>save game issues</b>. It may be associated with mods that alter the save system, such as "Save System Overhaul (SSO)" or "Alternate Start - Live Another Life (LAL)". A potential fix for users experiencing flashing savegame entries with SkyUI SE is the "SkyUI SE - Flashing Savegames Fix". If you\'re using a version of Skyrim SE or AE before v1.6.1130, this fix should work. For later versions, the "SkyUI SE - Difficulty Persistence Fix" is recommended, which includes the flashing savegames fix. Also, if you aren\'t aware of (and generally following) <b>Jerilith\'s Safe Save Guide</b>, review it at <a href="https://www.nolvus.net/catalog/crashlog?acc=accordion-1-5">Save Bloat Crash</a/>.</li>';
         insightsCount++;
     }
 
 
-    //Save game issue 2
-    if (sections.topHalf.toLowerCase().includes('BGSSaveLoadManager'.toLowerCase())) {
-        insights += '<li>❓ <b>BGSSaveLoadManager Issue Detected:</b> This error is associated with problems either saving and/or loading game save files. <ol>' +
-            '<li>If the crash <b>only occurs while <i>saving</i></b>, you may have a Missing Masters. You will likely see separate troubleshooting steps for that higher up in this report, and if not, you can find them by using this analyzer\'s "use the Test Log" link at the top.</li>' +
-            '<li>Follow <b>Jerilith’s Safe Save Guide</b> (quoted below). Not following these rules may manifest as corrupted saves or issues when loading games.' +
-                '<ol>' +
-                '<li>Never, ever save in combat.</li>' +
-                '<li>When you die, EXIT the whole game, go to dashboard, start Skyrim again, wait for the load, continue that way.</li>' +
-                '<li>Don’t ever enable and or use autosaves.</li>' +
-                '<li>Do not remove mods mid-game*</li>' +
-                '<li>Do not add mods mid-game*</li>' +
-                '<li>Wait 30s after sleeping or entering a new zone before saving.</li>' +
-                '<li>Never save more than once per minute.</li>' +
-            '</ol></li>' +
-            '<li>Regarding the Safe Save Guide (above), there are a few <b>mods you can add</b> that allow you to minimize the risk if you really don’t want to always quit to desktop every time you die: <a href="https://www.nexusmods.com/skyrimspecialedition/mods/88219">Clean Save Auto Reloader</a>, <a href="https://www.nexusmods.com/skyrimspecialedition/mods/85565">SaveUnbaker</a>, and an alternate death mod. See Orionis’ <a href="https://docs.google.com/document/d/1RSCzBUyE0vqZRAtjd4YL2hHrKzf4Q1rgCH0zrjEr-qY/mobilebasic#heading=h.u2ukim1kti09">Safe Save Helpers - a Nolvus Guide</a> (context is Nolvus, but much of it should be generally applicable).</li>' +
-            '<li>If crash is repetitive, try loading from your <b>last working save</b>. If possible, identify this file, and load this last save game that worked and try to play from there.</li>' +
-            '<li>Consider using save cleaning tools to remove orphaned scripts and other potential corruption. <a href="https://www.nexusmods.com/skyrim/mods/76776">FallrimTools ReSaver</a> can sometimes fix corrupted save files. See also these <a href="https://www.reddit.com/r/skyrimmods/s/fbMRv343vm">instructions by Krispyroll</a> and more information in <a href="https://www.reddit.com/r/skyrimmods/comments/1d0r0f0/reading_crash_logs/##:~:text=Resaver">Krispyroll’s Reading Crash Logs Guide</a>. NOTE: Always keep backups of your saves before attempting fixes or using cleaning tools.</li>' +
-            '<li>Try <a href="https://www.reddit.com/r/skyrimmods/comments/tpmf8x/crash_on_load_and_save_corruption_finally_solved/">expanding your save file size</a>. Then open the last save that works and play on from there, and hopefully, there will not be any more crashes. Requires the <b>HIGHLY RECOMMENDED</b> foundational mod <a href="https://www.nexusmods.com/skyrimspecialedition/mods/17230">SSE Engine Fixes</a>. Be sure to carefully install the correct versions of both Parts 1 and 2.' +
-            '<ul><li>Verify these settings in <code>EngineFixes.toml</code></li>' +
-            '<ul><li><code>SaveGameMaxSize = true</code></li>' +
-            '<li><code>MaxStdio = 8192</code></li></ul></ul></li>' +
-            '</ol></li>';
+
+    const bgsSaveLoadInsights = analyzeBGSSaveLoadManagerIssue(sections);
+    if (bgsSaveLoadInsights) {
+        insights += bgsSaveLoadInsights;
         insightsCount++;
     }
+
+    
 
 
     //SKSE

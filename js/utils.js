@@ -22,7 +22,7 @@ Utils.isDebugging = true; // Set this to false to disable debugging (non-error) 
 //Utils.debugBatch = ['getDllVersionFromLog', 'hasCompatibleDll', 'checkDllCompatibility', 'compareVersions'];
 //Utils.debugBatch = ['hasCompatibleDll', 'checkDllCompatibility', 'getDllVersionFromLog'];
 
-Utils.debugBatch = ['processLines', 'logSummary.js'];
+Utils.debugBatch = [''];
 
 
 
@@ -760,6 +760,7 @@ Utils.getLogSectionsMap = function(logFile) {
     sections.topQuarter = [sections.firstLine, sections.relevantObjects, sections.probableCallstack].filter(Boolean).join('\n\n');
     sections.topThird = [sections.firstLine, sections.relevantObjects, sections.probableCallstack, sections.registers].filter(Boolean).join('\n\n');
     sections.topHalf = [sections.firstLine, sections.relevantObjects, sections.probableCallstack, sections.registers, sections.stack].filter(Boolean).join('\n\n');
+    sections.bottomHalf = [sections.modules, sections.sksePlugins, sections.plugins, sections.gamePlugins].filter(Boolean).join('\n\n');
     sections.topThirdNoHeading = [sections.relevantObjects, sections.probableCallstack, sections.registers].filter(Boolean).join('\n\n');
     sections.fullLogFileLowerCase = logFile.toLowerCase();
     sections.fullLogFile = logFile;

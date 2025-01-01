@@ -31,7 +31,7 @@ if (typeof Utils === 'undefined') {
                     this.debuggingLog(['getPercentAlphabetized', 'testUtils.js'], currentPlugin + ' is alphabetized before ' + nextPlugin);
                 }
             } else {
-                console.error('A line does not contain a .esp file name:', lines[i]);
+                this.debuggingLog(['getPercentAlphabetized', 'testUtils.js'], 'A line does not contain a .esp file name:', lines[i]);
             }
         }
 

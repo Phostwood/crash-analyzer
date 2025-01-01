@@ -1,4 +1,16 @@
 const crashIndicators = {
+    dragonsEyeMinimapIssues: {
+        hexCodes: [
+            // Space for future hex codes
+        ],
+        codes: [
+            { code: 'BSImagespace', description: "Image space shader issue" },
+            { code: 'NiCamera', description: "Camera issue" },
+            { code: 'WorldRoot Camera', description: "World root camera issue" },
+            { code: 'WorldRoot Node', description: "World root node issue" },
+            { code: 'Block (', description: "Indicates cell block reference" }
+        ]        
+    },
     //NOTE: many of these codes were suggested by AI. Some of them may not be the best indicators of the issue type? Also, I don't know if some of these ever show up in Skyrim crash logs, but I didn't see any harm in leaving them in. 
     meshIssues: {
         hexCodes: [
