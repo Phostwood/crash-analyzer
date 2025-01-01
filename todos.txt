@@ -1,27 +1,12 @@
-✅Beta version 0.19.8 is now live:
+v0.19.8.2: rush bug fix where Dragon's Eye Minimap test was crashing in Net Script Framework logs (due to it lacking version numbers for .dll files)
+
+Also, changed it so that Dragon's Eye Map version 1.2 won't be assumed to have fixed this bug
+
+✅Beta version 0.19.9 is now live:
 https://phostwood.github.io/crash-analyzer/
 
-1. ✅New test: DragonsEyeMinimap Issue (thanks Krispyroll,Roma, and MaskPlague!)
+1. New test: Verify if Engine Fixes is installed
 
-2. ✅New test:  finished adding Dawnguard Horse navmesh/pathing issue (thanks Roma and Krispyroll!)
-
-3. ✅ Click to copy-to-clipboard: Fixed Reddit issue with markup formatting of nested lists
-	- seems better on Reddit than Discord, but I don't think any worse on Discord, and really these multi-level list ones are too long for Discord anyway (but still new Google Keep note made to fix the bug)
-
-4. ✅bgsSaveLoadInsights: improved wording, with rearrangement of toml file changes, based on if it's Skyrim or Nolvus
-	- Also refactored this into a function in diagnoses.js
-
-5. ✅"Object Reference: None" test: Fixed extra instructions bug when only one file found
-	- ALSO: this test now available to Nolvus users if they are using CrashLoggerSSE (only logger that supports identifying this issue)
-
-6. ✅Fixed bug were first-line errors weren't showing up for CrashLoggerSSE or Trainwreck logs
-	- Now have a new associated bug, but it's better than displaying nothing
-
-7. ✅ Minor description tweaks: A couple other small wording clarifications in a test or two
-
-8. ✅ getPercentAlphabetized: Fixed an invisible debugging issue, where a debugging log was going straight into console.error ... for no reason I could discern ... so I moved it to debuggingLog
-
-9. ✅ Minor citation change: Changed my analyzer's click-to-copy-to-clipboard's citation to be a footer instead of a header. Thank you Roma for the idea!
 
 
 

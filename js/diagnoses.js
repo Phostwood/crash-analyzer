@@ -507,7 +507,8 @@ function analyzeDragonsEyeMinimapIssue(sections) {
 
     if (sections.bottomHalf.toLowerCase().includes(dllFileName.toLowerCase())) {
         const dllVersion = Utils.getDllVersionFromLog(sections, dllFileName);
-        if (Utils.compareVersions(dllVersion, '1.1') < 1) {
+        //FUTURE CODE: if (Utils.compareVersions(dllVersion, '1.1') < 1) {
+            //NOTE: above code is already supported, but in case new versions don't fix this bug, I decided to not automatically remove this test's message.
             //IF installed version of DragonsEyeMinimap.dll is equal to or less than version 1.1, then continue
             
             // Get matching dragon's eye indicators
@@ -534,7 +535,7 @@ function analyzeDragonsEyeMinimapIssue(sections) {
                     </ol>
                 </li>`;
             }
-        }
+        //FUTURE CODE: }
     }
     
     return insights;

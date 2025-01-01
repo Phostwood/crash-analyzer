@@ -437,7 +437,7 @@ Utils.setLogType = function (logType) {
 Utils.getDllVersionFromLog = function(sections, dllFileName) {
     if (sections.logType !== 'CrashLogger' && sections.logType !== 'Trainwreck') {
         console.warn('ERROR: Unsupported log type for getDllVersionFromLog');
-        return null;
+        return '(unlisted in NSF logs)';
     }
 
     let version = null;
