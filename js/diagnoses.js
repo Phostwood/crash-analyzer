@@ -1087,9 +1087,10 @@ function analyzeWin24H2UpscalerCrash(sections) {
 
 function analyzeEngineFixes(sections) {
     let insights = '';
+    const hasMods = sections.bottomHalf.split('\n').filter(line => line.trim() !== '').length > 10;
     
     // Check if Engine Fixes is missing
-    if (!sections.bottomHalf.toLowerCase().includes('EngineFixes.dll'.toLowerCase())) {
+    if (hasMods && !sections.bottomHalf.toLowerCase().includes('EngineFixes.dll'.toLowerCase())) {
         insights += `<li>🎯 <b>Missing SSE Engine Fixes:</b> This foundational mod is usually essential for a stable modded game.
             <ol>
                 <li><strong>⚠️ Warnings:</strong>

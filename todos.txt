@@ -1,3 +1,5 @@
+Beta version 0.19.9.3: Rush Bug Fix: Fixed issue where Missing SSE Engine Fixes would even for Missing Masters and/or KERNELBASE logs where no mods were appearing. Currently set it to require at least 10 non-empty lines in the sections.bottomHalf. It might need to be increased later?
+
 Beta version 0.19.9.2: Rush Bug Fix: Fixed JS error for KERNELBASE DLAA Windows 24H2 issue (and prior KERNELBASE issue)
 
 
