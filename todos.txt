@@ -1,3 +1,6 @@
+Beta version 0.19.9.2: Rush Bug Fix: Fixed JS error for KERNELBASE DLAA Windows 24H2 issue (and prior KERNELBASE issue)
+
+
 ✅Beta version 0.19.9 is now live:
 https://phostwood.github.io/crash-analyzer/
 

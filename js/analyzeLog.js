@@ -265,9 +265,9 @@ async function analyzeLog() {
 
 
     // Check for KERNELBASE DLAA Windows 24H2 issue
-    const diagnosisWin24H2UpscalerCrash = analyzeWin24H2UpscalerCrash(sections);
-    if(diagnosisWin24H2UpscalerCrash) {
-        diagnoses += diagnosisWin24H2UpscalerCrash;
+    const win24H2UpscalerCrash = analyzeWin24H2UpscalerCrash(sections);
+    if(win24H2UpscalerCrash) {
+        diagnoses += win24H2UpscalerCrash;
         diagnosesCount++;
     }
 
