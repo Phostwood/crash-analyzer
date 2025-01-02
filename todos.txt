@@ -1,11 +1,9 @@
-v0.19.8.2: rush bug fix where Dragon's Eye Minimap test was crashing in Net Script Framework logs (due to it lacking version numbers for .dll files)
-
-Also, changed it so that Dragon's Eye Map version 1.2 won't be assumed to have fixed this bug
-
 ✅Beta version 0.19.9 is now live:
 https://phostwood.github.io/crash-analyzer/
 
-1. New test: Verify if Engine Fixes is installed
+1. New test: Verify SSE Engine Fixes is installed
+
+2. Win24H2UpscalerCrash: revise to include two alternative mods, and refactored as function
 
 
 
