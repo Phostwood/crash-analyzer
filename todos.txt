@@ -1,21 +1,24 @@
-Beta version 0.19.9.3: Rush Bug Fix: Fixed issue where Missing SSE Engine Fixes would even for Missing Masters and/or KERNELBASE logs where no mods were appearing. Currently set it to require at least 10 non-empty lines in the sections.bottomHalf. It might need to be increased later?
-
-Beta version 0.19.9.2: Rush Bug Fix: Fixed JS error for KERNELBASE DLAA Windows 24H2 issue (and prior KERNELBASE issue)
-
-
-✅Beta version 0.19.9 is now live:
+✅Beta version 0.19.10 is now live:
 https://phostwood.github.io/crash-analyzer/
 
-1. New test: Verify SSE Engine Fixes is installed
+1. explainersMap.js: Added new explainers:
+		['skeleton_female.nif', '(less likely culprit)'],
+        ['skeleton_male.nif', '(less likely culprit)'],
+		['skse64_1_6_1170.dll', '(Skyrim <b>Script</b> Extender)'],
 
-2. Win24H2UpscalerCrash: revise to include two alternative mods, and refactored as function
+2. logSummary.js: (Invisible changes) Light refactoring so file's constants could be moved to top of the file
+
+
+--
+
+1. 2. New near-top test for first-line errors mentioning specific mods (at least skip Skyrim.esm ones)
 
 
 
 
 1. Fix new first-line error bug?
 
-2. New near-top test for first-line errors mentioning specific mods (at least skip Skyrim.esm ones)
+
 
 3. Possibly refactor logSummary.js with Claude AI assistance?
 

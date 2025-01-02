@@ -1,5 +1,20 @@
-// logSummary.js
+// logSummary.js  (old version!)
 window.LogSummary = {
+
+    // Constants
+    fileExtensions: ['.bat', '.bik', '.bmp', '.bsa', '.bsl', '.cpp', '.dds', '.dll', '.esl', '.esm',
+        '.esp', '.exe', '.fuz', '.hkx', '.ini', '.json', '.lip', '.nif', '.pex', '.psc',
+        '.seq', '.skse', '.skse64', '.swf', '.tga', '.tri', '.txt', '.wav', '.xml', '.xwm'],
+    
+    fileStartCharacters: ['`', '"', ':', '(', '['],
+    nameStartCharacters: ['`', '"'],
+    unlikelyCulprits: ['clr.dll', 'd3d12core.dll', 'd3dcompiler_47.dll', 'kernel32.dll', 'kernelbase.dll', 
+        'msvcp140.dll', 'ntdll.dll', 'runtime.dll', 'steamclient64.dll', 'system.ni.dll', 
+        'ucrtbase.dll', 'uiautomationcore.dll', 'win32u.dll', 'xinput1_3.dll'], //REMOVED: 'vcruntime140.dll',
+    removeList: ['Dawnguard.esm', 'Dragonborn.esm', 'null', 'null)', 'NetScriptFramework', 'SkyrimSE.exe', 'skyrim.esm'].map(item => item.toLowerCase()),
+
+
+
     generateLogSummary: function (logFile, sections, sectionsMap, isVanillaNolvus) {
         Utils.debuggingLog(['generateLogSummary', 'logSummary.js'], 'generateLogSummary started, sections:', Object.keys(sections));
         Utils.debuggingLog(['generateLogSummary', 'logSummary.js'], 'sections.topHalf length:', sections.topHalf.length);
@@ -246,17 +261,13 @@ window.LogSummary = {
 
     processFileExtensions: function (line, priority, color, namedElementMatches) {
         let foundMatchCount = 0;
-        const fileExtensions = ['.bat', '.bik', '.bmp', '.bsa', '.bsl', '.cpp', '.dds', '.dll', '.esl', '.esm',
-            '.esp', '.exe', '.fuz', '.hkx', '.ini', '.json', '.lip', '.nif', '.pex', '.psc',
-            '.seq', '.skse', '.skse64', '.swf', '.tga', '.tri', '.txt', '.wav', '.xml', '.xwm'];
-        const fileStartCharacter = ['`', '"', ':', '(', '['];
 
-        fileExtensions.forEach(extension => {
+        this.fileExtensions.forEach(extension => {
             if (line.toLowerCase().includes(extension)) {
                 let index = line.toLowerCase().lastIndexOf(extension);
                 let end = index + extension.length;
                 let start = index;
-                let tempFileStartCharacter = [...fileStartCharacter];
+                let tempFileStartCharacter = [...this.fileStartCharacters];
 
                 while (start > 0) {
                     let char = line.charAt(start - 1);
@@ -279,7 +290,6 @@ window.LogSummary = {
 
     processNameAndFile: function (line, priority, color, namedElementMatches) {
         let foundMatchCount = 0;
-        const nameStartCharacter = ['`', '"'];
 
         ["Name:", "File:"].forEach(keyword => {
             if (line.match(new RegExp(`${keyword}`))) {
@@ -289,8 +299,8 @@ window.LogSummary = {
 
                 while (start < line.length) {
                     let char = line.charAt(start);
-                    if (nameStartCharacter.includes(char) || (char >= 'a' && char <= 'z') || (char >= 'A' && char <= 'Z') || (char >= '0' && char <= '9')) {
-                        if (nameStartCharacter.includes(char)) {
+                    if (this.nameStartCharacters.includes(char) || (char >= 'a' && char <= 'z') || (char >= 'A' && char <= 'Z') || (char >= '0' && char <= '9')) {
+                        if (this.nameStartCharacters.includes(char)) {
                             delimiter = char;
                         }
                         break;
@@ -327,8 +337,7 @@ window.LogSummary = {
             potentialMatch = potentialMatch.replace(/^void\*\s+->\s+/, '');
             potentialMatch = potentialMatch.trim();
         }
-        const removeList = ['Dawnguard.esm', 'Dragonborn.esm', 'null', 'null)', 'NetScriptFramework', 'SkyrimSE.exe', 'skyrim.esm'].map(item => item.toLowerCase());
-        if (potentialMatch && !removeList.includes(potentialMatch.toLowerCase())) {
+        if (potentialMatch && !this.removeList.includes(potentialMatch.toLowerCase())) {
             namedElementMatches.push({ match: potentialMatch, priority, color });
             return 1;
         }
@@ -364,12 +373,10 @@ window.LogSummary = {
     },
 
     processNamedElementMatches: function (namedElementMatches) {
-        const unlikelyCulpritsList = ['clr.dll', 'd3d12core.dll', 'd3dcompiler_47.dll', 'kernel32.dll', 'kernelbase.dll', 'msvcp140.dll', 'ntdll.dll', 'runtime.dll', 'steamclient64.dll', 'system.ni.dll', 'ucrtbase.dll', 'uiautomationcore.dll', 'vcruntime140.dll', 'win32u.dll', 'xinput1_3.dll'];
-
         return namedElementMatches.map(item => {
             let processedItem = item.match.toLowerCase();
             let originalItem = item.match;
-            if (unlikelyCulpritsList.includes(processedItem)) {
+            if (this.unlikelyCulprits.includes(processedItem)) {
                 processedItem = `(${originalItem} ... unlikely culprit)`;
             }
             else if (Utils.explainersMap && Utils.explainersMap.has(processedItem)) {
