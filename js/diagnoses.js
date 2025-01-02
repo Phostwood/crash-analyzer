@@ -1049,3 +1049,100 @@ function analyzeBGSSaveLoadManagerIssue(sections) {
     return insights;
 }
 
+function analyzeWin24H2UpscalerCrash(sections) {
+    let insights = '';
+    
+    if (sections.firstLine.toLowerCase().includes('KERNELBASE.dll'.toLowerCase()) && 
+        sections.probableCallstack.includes('SkyrimUpscaler.dll')) {
+        
+        insights += `<li>🎯 <b>DLAA Incompatibility KERNELBASE Crash Detected:</b> Windows version 24H2 has made a popular DLAA mod incompatible. Puredark, the author of the Upscaler mods (both free and paid versions), is aware of the issue but not sure how to resolve it at this time. Confusingly, this issue occurs for most such users but seemingly not all. Currently there are several possible solutions:
+
+            <ol>
+                <li><strong>Solution 1: Disable DLAA and Switch to TAA</strong>
+                    <ol>
+                        <li>In <strong>Mod Organizer 2</strong> (MO2), towards the top find section "1.1 SKSE PLUGINS" (or whatever location you may have installed your Upscaler mod(s) into).</li>
+                        <li>Open the section, and towards the bottom find <code>Upscaler Base Plugin</code> and <code>Skyrim Upscaler</code>. Disable them both. NOTE: paid versions may converge both plugins into one.</li>
+                        <li>Then in the top navigation pane of MO2 click on the puzzle icon.</li>
+                        <li>Select "INI Editor".</li>
+                        <li>Click on <code>skyrimprefs.ini</code> and click inside of the text box.</li>
+                        <li>On your keyboard, press <strong>CTRL+F</strong></li>
+                        <li>Search for <code>bUseTAA</code> and change the value to match <code>bUseTAA=1</code></li>
+                        <li><a href="https://phostwood.github.io/crash-analyzer/images/DLAA-Win24H2-Fix.webp">Click for screenshot.</a></li>
+                    </ol>
+                </li>
+
+                <li><strong>Solution 2: Try Alternative Mods</strong>
+                    <ol>
+                        <li>Some users report success by switching to a different version of Puredark's mod(s): <a href="https://www.nexusmods.com/skyrimspecialedition/mods/80343">Skyrim Upscaler - DLSS FSR2 XeSS</a>.</li>
+                        <li>Others have reported success switching to a newer alternative mod: <a href="https://www.nexusmods.com/skyrimspecialedition/mods/130669">ENB Anti-Aliasing - AMD FSR 3.1 - NVIDIA DLAA</a>.</li>
+                    </ol>
+                </li>
+            </ol>
+        </li>`;
+    }
+    
+    return insights;
+}
+
+
+function analyzeEngineFixes(sections) {
+    let insights = '';
+    
+    // Check if Engine Fixes is missing
+    if (!sections.bottomHalf.toLowerCase().includes('EngineFixes.dll'.toLowerCase())) {
+        insights += `<li>🎯 <b>Missing SSE Engine Fixes:</b> This foundational mod is usually essential for a stable modded game.
+            <ol>
+                <li><strong>⚠️ Warnings:</strong>
+                    <ul>
+                        <li>Your save file could become permanently unplayable without SSE Engine Fixes installed</li>
+                        <li>SSE Engine Fixes is a foundational mod required by over 100+ other mods on Nexus</li>
+                        <li>It is also considered an <a href="https://www.reddit.com/r/skyrimmods/wiki/essential_mods/#wiki_essential_bugfixes">Essential Bugfix</a> by r/SkyrimMods wiki authors</li>
+                    </ul>
+                </li>
+                
+                <li><strong>Required Steps:</strong>
+                    <ol>
+                        <li>Install <a href="https://www.nexusmods.com/skyrimspecialedition/mods/17230">SSE Engine Fixes</a>
+                            <ul>
+                                <li>WARNING: This mod is <strong>frequently misinstalled</strong>, so be careful to follow instructions on Nexus page to install the correct versions of BOTH parts:
+                                    <ul>
+                                        <li>Part 1: The SKSE plugin (install via mod manager)</li>
+                                        <li>Part 2: The DLL files (must be manually placed in Skyrim root folder)</li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                        
+                        <li>Configure SSE Engine Fixes properly:
+                            <ul>
+                                <li>Option 1 (Recommended): Download the <a href="https://www.nexusmods.com/skyrimspecialedition/mods/108069">pre-configured TOML file</a></li>
+                                <li>Option 2: Manually configure following this <a href="https://www.reddit.com/r/skyrimmods/comments/tpmf8x/crash_on_load_and_save_corruption_finally_solved/">settings guide</a>
+                                    <ul>
+                                        <li>Verify these settings in <code>EngineFixes.toml</code></li>
+                                        <ul>
+                                            <li><code>SaveGameMaxSize = true</code></li>
+                                            <li><code>MaxStdio = 8192</code></li>
+                                        </ul>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                    </ol>
+                </li>
+
+                <li><strong>Important Notes:</strong>
+                    <ul>
+                        <li>SSE Engine Fixes is essential for most Skyrim modlists</li>
+                        <li>This mod fixes numerous engine-level bugs and is often important for game stability</li>
+                        ${sections.bottomHalf.toLowerCase().includes('wheeler.dll'.toLowerCase()) ? 
+                            `<li><strong>Wheeler.dll Detected:</strong> Wheeler.dll v1 specifically has been confirmed to crash without SSE Engine Fixes on 1.6.1170</li>` : 
+                            ''}
+                        <li>If you experience crashes with <code>tbb.dll</code>, reinstall SSE Engine Fixes completely</li>
+                    </ul>
+                </li>
+            </ol>
+        </li>`;
+    }
+    
+    return insights;
+}
