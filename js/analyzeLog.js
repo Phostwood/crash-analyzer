@@ -299,6 +299,16 @@ async function analyzeLog() {
         diagnosesCount++;
     }
 
+    // Check for first-line error
+    let firstLineDiagnosis = null;
+    if (Utils.isSkyrimPage) { //Goes into top section for Skyrim users and bottom section for Nolvus users
+        firstLineDiagnosis = analyzeFirstLine(sections);
+        if (firstLineDiagnosis) {
+            diagnoses += firstLineDiagnosis;
+            diagnosesCount++;
+        }
+    }
+
 
     // Check for D6DDDA crash
     let d6dddaDiagnosis = null;
@@ -633,6 +643,16 @@ async function analyzeLog() {
     }
 
 
+    // Check for first-line error
+    let firstLineInsight = null;
+    if (!Utils.isSkyrimPage) { //Goes into top section for Skyrim users and bottom section for Nolvus users
+        firstLineInsight = analyzeFirstLine(sections);
+        if (firstLineInsight) {
+            insights += firstLineInsight;
+            insightsCount++;
+        }
+    }
+
     // INSERT LONG VERSION OF D6DDDA, but only for Nolvus (already dispalyed for Skyrim users at top)
     let d6dddaAdvancedDiagnosis = null;
     if (!Utils.isSkyrimPage) {
@@ -642,6 +662,7 @@ async function analyzeLog() {
             insightsCount++;
         }
     }
+    
 
 
     //NVIDIA graphics driver

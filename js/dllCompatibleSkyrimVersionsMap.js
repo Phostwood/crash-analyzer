@@ -23,9 +23,13 @@ const dllCompatibleSkyrimVersionsMap = {
         '2.15': {
             minSkyrim: null,
             maxSkyrim: '1.6.1129.9999',
-            recommendedVersion: '2.16.0',
+            /* UNABLE TO DETECT FIX UNLESS SEPARATE TEST: recommendedVersion: '2.16.0',
             modName: 'Quick Loot RE for 1.6.1130',
-            url: 'https://www.nexusmods.com/skyrimspecialedition/mods/108262?tab=files'
+            url: 'https://www.nexusmods.com/skyrimspecialedition/mods/108262?tab=files' */
+            //AND QuickLoot IE is supposed to be better anyway
+            recommendedVersion: '2.0.0',
+            modName: 'QuickLoot IE - A QuickLoot EE Fork',
+            url: 'https://www.nexusmods.com/skyrimspecialedition/mods/120075?tab=files'
         }
     },
     /* PENDING new version number for ability to verify fixed:

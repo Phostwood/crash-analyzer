@@ -44,7 +44,7 @@ window.LogSummary = {
 
         if (namedElementMatches.length > 0) {
             insights += this.generateSectionDescriptions(sectionsMap);
-            insights += '<ul>' + this.processColoredListItems(namedElementMatches) + '</ul>';
+            insights += '<ul>' + this.highlightFilenames(this.processColoredListItems(namedElementMatches)) + '</ul>';
             insights += '</li>';
             insightsCount++;
         }
@@ -331,6 +331,9 @@ window.LogSummary = {
     },
 
     addMatch: function (potentialMatch, priority, color, namedElementMatches) {
+        // Remove hex codes at the start of lines like "[1] at 0x7FF70D9FE703"
+        potentialMatch = String(potentialMatch).replace(/\s*at\s+0x[0-9A-Fa-f]+\s*/, '');
+
         if (Utils.logType === 'CrashLogger' || Utils.logType === 'Trainwreck') {
             //OLD: potentialMatch = potentialMatch.replace(/^\d+\]\s+0x[0-9A-Fa-f]+\s+/, '');
             potentialMatch = potentialMatch.replace(/^\d+\s*\]\s+0x[0-9A-Fa-f]+\s+/, '');
@@ -426,6 +429,11 @@ window.LogSummary = {
             }
         }).join(' ');
 
-        return `<li>🔎 <b>Files/Elements</b> listed within ${sectionDescriptions} sections of the crash log. Items are sorted by priority, with lower numbers (and higher positions in the list) indicating a higher likelihood of contributing to the crash. Pay extra attention to anything related to <b>mods you have recently added</b> to ${Utils.NolvusOrSkyrimText}:`;
-    }
+        return `<li>🔎 <b>Files/Elements</b> listed within ${sectionDescriptions} sections of the crash log. Items are sorted by priority, with lower numbers (and higher positions in the list) indicating a higher likelihood of contributing to the crash. <code><span style="color:#FF0000">[1]</span> First Line</code> files are nearly always involved in (and frequently the cause of) the crash. Pay extra attention to anything related to <b>mods you have recently added</b> to ${Utils.NolvusOrSkyrimText}:`;
+    },
+
+    highlightFilenames: function(html) {
+        //TODO: make this work someday? Right now Claude AI doesn't seem up to it....
+        return html;
+     }
 };

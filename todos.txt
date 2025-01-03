@@ -1,26 +1,19 @@
-✅Beta version 0.19.10 is now live:
+✅Beta version 0.19.11 is now live:
 https://phostwood.github.io/crash-analyzer/
 
-1. explainersMap.js: Added new explainers:
-		['skeleton_female.nif', '(less likely culprit)'],
-        ['skeleton_male.nif', '(less likely culprit)'],
-		['skse64_1_6_1170.dll', '(Skyrim <b>Script</b> Extender)'],
 
-2. logSummary.js: (Invisible changes) Light refactoring so file's constants could be moved to top of the file
+1. New near-top test for first-line errors mentioning non-ignoredList mods. Special thanks to RomatebitegeL!
 
+2. Files/Elements: BUG FIX: Fixed new first-line error bug. And added another line to the its troubleshooting tips. 
 
---
+3. Fixed QuickLoot BUG FIX: RE bug by recommending QuickLoot IE (instead of the RE patch, which would require new code for me to verify it's been patched). QuickLoot IE is supposed to be a better QuickLoot anyway, and I  already detect the absence of the old mod.
 
-1. 2. New near-top test for first-line errors mentioning specific mods (at least skip Skyrim.esm ones)
-
+4. checkHairModCompatibility: BUG FIX: Added two most generic indicators that I could think of that would not throw many false-positives (unlike just "hair" which also flags on "crosshair"). These should prevent my analyzer from missing more of these diagnoses:
+	- `HairFemale`
+	- `HairMale`
 
 
 
-1. Fix new first-line error bug?
-
-
-
-3. Possibly refactor logSummary.js with Claude AI assistance?
 
 
 

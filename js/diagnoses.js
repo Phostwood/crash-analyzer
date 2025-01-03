@@ -936,6 +936,8 @@ function checkHairModCompatibility(sections, logFile) {
         'HairFemaleKhajiit',
         'HairMaleOrc',
         'HairFemaleOrc',
+        'HairFemale',
+        'HairMale',
         'Hairdo', // a generic catch all
         //'Hair', // overly generic, matches on "crosshair"
         'KS Hairdos.esp', 
@@ -1139,6 +1141,76 @@ function analyzeEngineFixes(sections) {
                             `<li><strong>Wheeler.dll Detected:</strong> Wheeler.dll v1 specifically has been confirmed to crash without SSE Engine Fixes on 1.6.1170</li>` : 
                             ''}
                         <li>If you experience crashes with <code>tbb.dll</code>, reinstall SSE Engine Fixes completely</li>
+                    </ul>
+                </li>
+            </ol>
+        </li>`;
+    }
+    
+    return insights;
+}
+
+
+function analyzeFirstLine(sections) {
+    let insights = '';
+    const ignoreFiles = ['Dawnguard.esm', 'Dragonborn.esm', 'null', 'null)', 'SkyrimSE.exe', 'skyrim.esm'];
+    
+    // Extract filename from sections.firstLine (actual location can vary between log types) if it exists
+    const firstLine = sections.firstLine || '';
+    const fileMatch = firstLine.match(/\b([^\/\\\s]+\.(?:esm|exe|esp|esl|dll|pex|skse|skse64))\b/i);
+    const detectedFile = fileMatch ? fileMatch[1] : null;
+    
+    if (detectedFile && !ignoreFiles.includes(detectedFile)) {
+        insights += `<li>❗ <b>Critical First-Line Error Detected:</b>  <span style='color:red'>${detectedFile}</span>
+            <ol>
+                <li><strong>What This Means:</strong>
+                    <ul>
+                        <li>First-line errors often indicate a serious compatibility or installation issue</li>
+                        <li>The file "${detectedFile}" is directly involved in the crash sequence</li>
+                        <li>While this file is related to the crash, it may not be the root cause</li>
+                        <li>This type of error often indicates missing masters, incorrect load order, or version mismatches</li>
+                    </ul>
+                </li>
+                
+                <li><strong>Recommended Troubleshooting Steps:</strong>
+                    <ol>
+                        <li>First Steps:
+                            <ul>
+                                <li>Review other sections of this report to see if a more specific first-line error shows up with its own recommended troubleshooting steps</li>
+                                <li>As a potentially easy fix, consider disabling the mod (and any and all mods that depend upon it)</li>
+                                <li>Carefully review the associated mod's installation instructions</li>
+                                <li>Check if a mod update is available on Nexus</li>
+                                <li>Verify you have installed all of the mod's dependencies, and that they are all enabled</li>
+                                <li>Verify you have all required patches installed for compatibility with other mods you are using</li>
+                            </ul>
+                        </li>
+                        
+                        <li>Version Verification:
+                            <ul>
+                                <li>Confirm the mod is compatible with your Skyrim version</li>
+                                <li>Check version requirements of other mods that interact with it</li>
+                                <li>Verify your SKSE version matches your Skyrim version</li>
+                            </ul>
+                        </li>
+                        
+                        <li>Advanced Troubleshooting:
+                            <ul>
+                                <li>Check the mod author's bug reports section and/or forum</li>
+                                <li>Google the mod and/or ask the Skyrim Modding Community to confirm the mod is generaly considered stable with your version of Skyrim and your other mods</li>
+                                <li>Try a clean reinstall of the mod</li>
+                                <li>Identifying Missing Masters: Mod Organizer 2 (MO2) typically displays warning icons (yellow triangle with exclamation mark) for plugins with missing masters. <a href="https://imgur.com/izlF0GO">View Screenshot</a>.</li>
+                                <li>Use xEdit to check for missing masters or conflicts</li>
+                               ${Utils.LootListItemIfSkyrim}
+                            </ul>
+                        </li>
+                    </ol>
+                </li>
+
+                <li><strong>Additional Considerations:</strong>
+                    <ul>
+                        <li>First-line errors are usually reproducible and not random</li>
+                        <li>The error might be caused by a dependency rather than the named file</li>
+                        <li>Some first-line errors can be resolved by verifying game files through Steam</li>
                     </ul>
                 </li>
             </ol>
