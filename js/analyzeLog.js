@@ -73,12 +73,10 @@ async function analyzeLog() {
     }
     
 
-
-    // Check for .STRINGS crash
-    //OLD METHOD: var R14StringsRegex = /R14.*\.STRINGS/; // Regular expression to match "R14" and ".STRINGS" on the same line
-    //OLD METHOD: if (R14StringsRegex.test(sections.topHalf)) {
-    if (sections.topThird.includes('.STRINGS')) {
-        diagnoses += '<li>🎯 <b>.STRINGS Crash Detected:</b> Remove any unique character in your <b>skyrim.ini</b> file\'s <code>sLanguage=ENGLISH</code> line.  More information and troubleshooting tips under <a href="https://www.nolvus.net/catalog/crashlog?acc=accordion-1-1">.STRINGS Crash</a/>.</li>';
+    //STRINGS crash
+    const stringsCrashDiagnosis = analyzeStringsCrash(sections);
+    if(stringsCrashDiagnosis) {
+        diagnoses += stringsCrashDiagnosis;
         diagnosesCount++;
     }
 
@@ -485,8 +483,9 @@ async function analyzeLog() {
     // Default to unknown crash
     if (diagnosesCount < 1) {
         if (Utils.isSkyrimPage) {
-            diagnoses += '<li>❓ <b>No high-confidence crash pattern detected.</b> If you aren\'t aware of (and generally following) <b>Jerilith\'s Safe Save Guide</b>, review it at <a href="https://www.nolvus.net/catalog/crashlog?acc=accordion-1-5">Save Bloat Crash</a/>. Also, consult <a href="https://www.reddit.com/r/skyrimmods/wiki/begin2/">r/SkyrimMod\'s Beginner\'s Guide to Modding Skyrim</a> for information about arranging your load order, and other troubleshooting tips. Also, this crash analyzer\'s <b>Advanced Users</b> section contains additional crash types and insights that may help isolate this issue. If the problem persists, share your crash logs with <a href="https://www.reddit.com/r/skyrimmods/">r/Skyrim</a>.</li>';
+            diagnoses += '<li>❓ <b>No high-confidence crash pattern detected.</b> Consider adding any applicable <a href="https://www.reddit.com/r/skyrimmods/wiki/essential_mods/#wiki_essential_bugfixes">Essential Bugfixes</a> to your load order. Also, consult <a href="https://www.reddit.com/r/skyrimmods/wiki/begin2/">r/SkyrimMod\'s Beginner\'s Guide to Modding Skyrim</a> for information about arranging your load order, and other troubleshooting tips. Also, if you are modding this list yourself, PLEASE also consult this crash analyzer\'s <b>Advanced Users</b> section (below) for additional crash types and insights that may help isolate this issue. If the problem persists, share your crash logs with <a href="https://www.reddit.com/r/skyrimmods/">r/Skyrim</a>.</li>';
         } else {
+            //NOLVUS VERSION:
             diagnoses += '<li>❓ <b>No high-confidence crash pattern detected.</b> If you aren\'t aware of (and generally following) <b>Jerilith\'s Safe Save Guide</b>, review it at <a href="https://www.nolvus.net/catalog/crashlog?acc=accordion-1-5">Save Bloat Crash</a/>. Also, if you have customized Nolvus with additional mods, review information on the <a href="https://www.nolvus.net/catalog/crashlog?acc=accordion-1-7">Load Order Crash</a>. Also, this crash analyzer\'s <b>Advanced Users</b> section contains additional crash types and insights that may help isolate this issue. If the problem persists, share your crash logs with <a href="https://www.reddit.com/r/Nolvus/">r/Nolvus</a> and/or the <a href="https://discord.gg/Zkh5PwD">Nolvus Discord</a>.</li>';
         }
         //DON'T COUNT: diagnosesCount++;
@@ -554,18 +553,7 @@ async function analyzeLog() {
             '</ol></li>';
         insightsCount++;
     }
-    //Strings
-    //OLD METHOD: if (R14StringsRegex.test(sections.topHalf)) {
-    if (sections.topThird.includes('.STRINGS')) {
-        insights += '<li>🎯 <b>.STRINGS Crash Detected:</b> This error typically occurs when there is a unique or non-standard character in the <code>sLanguage</code> line of your <b>skyrim.ini</b> file. To resolve this issue:<ol>' +
-            '<li>Open your <b>skyrim.ini</b> file located in the Documents/My Games/Skyrim folder.</li>' +
-            '<li>Locate the line that reads <code>sLanguage=ENGLISH</code>.</li>' +
-            '<li>Ensure that there are no unique characters or typos in this line. It should only contain standard text.</li>' +
-            '<li>Save the changes and restart Skyrim to see if the issue has been resolved.</li>' +
-            '<li>More information and troubleshooting tips under <a href="https://www.nolvus.net/catalog/crashlog?acc=accordion-1-1">.STRINGS Crash</a/>.</li>' +
-            '</ol></li>';
-        insightsCount++;
-    }
+
 
     //USVFS (Antivirus)
     if (sections.probableCallstack.includes('usvfs_x64.dll')) {
@@ -985,37 +973,6 @@ async function analyzeLog() {
         insightsCount++;
     }
 
-    //HDT-SMP (Skinned Mesh Physics)
-    if (sections.topHalf.toLowerCase().includes('hdtSMP64.dll'.toLowerCase())) {
-        insights += '<li>❓ <b>hdtSMP64.dll Physics Issue Detected:</b> These indicators are frequently seen in crash logs, but are typically not the culprit. However, frequent occurrences of this error might suggest a configuration issue or indicate <b>physics</b> issues with NPCs wearing <b>HDT/SMP</b> enabled armor/clothing/hair. To troubleshoot this issue:<ol>' +
-            '<li>Ensure that <code>hdtSMP64.dll</code> is compatible with your installed versions of SkyrimSE.exe and SKSE. Incompatible DLLs can lead to crashes.</li>' +
-            '<li>Check for any recent updates or patches for the mod associated with <code>hdtSMP64.dll</code>.</li>' +
-            '<li>Review your mod configuration settings, especially those related to HDT/SMP, to ensure they are set up correctly.</li>' +
-            '<li><b>Workaround:</b> Sometimes, wearing all non-physics armor/clothing/wigs/equipment can alleviate problems with physics. Also, if you or a follower has physics-enabled hair, try wearing a non-physics helmet to cover it up.</li>';
-            if (!Utils.isSkyrimPage) {
-                insights += '<li><b>Alternatively,</b> reinstall Nolvus without Advanced Physics to prevent any such future issues.</li>';
-            }
-            insights += '<li>If the issue persists, consider disabling mods that use HDT/SMP one by one to identify the source of the problem.</li>' +
-            '</ol></li>';
-        insightsCount++;
-    }
-
-    //cbp.dll Issue
-    if (sections.topHalf.toLowerCase().includes('cbp.dll')) {
-        insights += '<li>❓ <b>cbp.dll Physics Issue Detected:</b> These indicators are frequently seen in crash logs, but are typically not the culprit. However, frequent appearances of this error might suggest a configuration issue or indicate <b>physics</b> issues with NPCs are wearing <b>SMP/CBP</b> enabled clothing. To troubleshoot this issue:<ol>' +
-            '<li>Ensure that <code>cbp.dll</code> is compatible with your installed versions of SkyrimSE.exe and SKSE. Incompatible DLLs can lead to crashes.</li>' +
-            '<li>Check for any recent updates or patches for the mod associated with <code>cbp.dll</code>.</li>' +
-            '<li>Review your mod configuration settings, especially those related to CBP, to ensure they are set up correctly.</li>' +
-            '<li><b>Workaround:</b> Sometimes, wearing all non-physics armor/clothing/wigs/equipment can alleviate problems with physics. Also, if you or a follower has physics-enabled hair, try wearing a non-physics helmet to cover it up</li>';
-            if (!Utils.isSkyrimPage) {
-                insights += '<li><b>Alternatively,</b> reinstall Nolvus without Advanced Physics to prevent any such future issues.</li>';
-            }
-            insights += '<li>If the issue persists, consider disabling mods that use CBP one by one to identify the source of the problem.</li>' +
-            '<li>Some users have reported success by restarting their PC, renaming <code>cbp.dll</code> to something else to force a different load order, or verifying the integrity of game files on Steam if there\'s a suspicion of file corruption.</li>' +
-            '</ol></li>';
-        insightsCount++;
-    }
-
 
     //0x0 on thread (Lighting or Shadows)
     if (sections.topHalf.toLowerCase().includes('0x0 on thread')) {
@@ -1110,6 +1067,41 @@ async function analyzeLog() {
             '</ul></li>';
         insightsCount++; // Increment the count of insights detected
     }
+
+    
+
+    //HDT-SMP (Skinned Mesh Physics)
+    if (sections.topHalf.toLowerCase().includes('hdtSMP64.dll'.toLowerCase())) {
+        insights += '<li>❓ <b>hdtSMP64.dll Physics Issue Detected:</b> These indicators are frequently seen in crash logs, but are <b>typically not the culprit</b>. However, frequent occurrences of this error might suggest a configuration issue or indicate <b>physics</b> issues with NPCs wearing <b>HDT/SMP</b> enabled armor/clothing/hair. To troubleshoot this issue:<ol>' +
+            '<li>Ensure that <code>hdtSMP64.dll</code> is compatible with your installed versions of SkyrimSE.exe and SKSE. Incompatible DLLs can lead to crashes.</li>' +
+            '<li>Check for any recent updates or patches for the mod associated with <code>hdtSMP64.dll</code>.</li>' +
+            '<li>Review your mod configuration settings, especially those related to HDT/SMP, to ensure they are set up correctly.</li>' +
+            '<li><b>Workaround:</b> Sometimes, wearing all non-physics armor/clothing/wigs/equipment can alleviate problems with physics. Also, if you or a follower has physics-enabled hair, try wearing a non-physics helmet to cover it up.</li>';
+            if (!Utils.isSkyrimPage) {
+                insights += '<li><b>Alternatively,</b> reinstall Nolvus without Advanced Physics to prevent any such future issues.</li>';
+            }
+            insights += '<li>If the issue persists, consider disabling mods that use HDT/SMP one by one to identify the source of the problem.</li>' +
+            '</ol></li>';
+        insightsCount++;
+    }
+
+    //cbp.dll Issue
+    if (sections.topHalf.toLowerCase().includes('cbp.dll')) {
+        insights += '<li>❓ <b>cbp.dll Physics Issue Detected:</b> These indicators are frequently seen in crash logs, but are <b>typically not the culprit</b>. However, frequent appearances of this error might suggest a configuration issue or indicate <b>physics</b> issues with NPCs are wearing <b>SMP/CBP</b> enabled clothing. To troubleshoot this issue:<ol>' +
+            '<li>Ensure that <code>cbp.dll</code> is compatible with your installed versions of SkyrimSE.exe and SKSE. Incompatible DLLs can lead to crashes.</li>' +
+            '<li>Check for any recent updates or patches for the mod associated with <code>cbp.dll</code>.</li>' +
+            '<li>Review your mod configuration settings, especially those related to CBP, to ensure they are set up correctly.</li>' +
+            '<li><b>Workaround:</b> Sometimes, wearing all non-physics armor/clothing/wigs/equipment can alleviate problems with physics. Also, if you or a follower has physics-enabled hair, try wearing a non-physics helmet to cover it up</li>';
+            if (!Utils.isSkyrimPage) {
+                insights += '<li><b>Alternatively,</b> reinstall Nolvus without Advanced Physics to prevent any such future issues.</li>';
+            }
+            insights += '<li>If the issue persists, consider disabling mods that use CBP one by one to identify the source of the problem.</li>' +
+            '<li>Some users have reported success by restarting their PC, renaming <code>cbp.dll</code> to something else to force a different load order, or verifying the integrity of game files on Steam if there\'s a suspicion of file corruption.</li>' +
+            '</ol></li>';
+        insightsCount++;
+    }
+
+
 
     /*DISABLED UNTIL I CAN FIND EXAMPLES SO I CAN LIST THE MISSING/CORRUPTED OBJECTS:
           // Check thought up by AI (MS Bing Copilot):

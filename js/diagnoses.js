@@ -26,10 +26,44 @@ console.log(diagnosisResult);
 
 
 // Object Reference None Detection
+// Base game files that don't need investigation as they're part of Skyrim itself
+const neverDisplay = [
+    'Skyrim.esm',
+    'Update.esm',
+    'Dawnguard.esm',
+    'HearthFires.esm',
+    'Dragonborn.esm'
+];
+
 function checkForObjectReferenceNone(sections) {
+    /* Log Examples:
+
+        --- Relevant portion of an example CL log: ---
+
+        RSI 0x2326C9C1AE0      (TESObjectREFR*)
+            Object Reference: None
+            ParentCell: ---
+                File: "SDA DX Crimson Blood Patch.esp"
+                Modified by: Skyrim.esm -> Dawnguard.esm -> Unofficial Skyrim Special Edition Patch.esp -> LegacyoftheDragonborn.esm -> YurianaWench.esp -> Crimson Blood Armor.esp -> SDA DX Crimson Blood Patch.esp
+                Flags: 0x00040009 
+                Name: "Bloodlet Throne"
+                EditorID: "BloodletThrone01"
+                FormID: 0x00016EA1
+                FormType: Cell (60)
+            File: "SDA DX Crimson Blood Patch.esp"
+            Modified by: Crimson Blood Armor.esp -> SDA DX Crimson Blood Patch.esp
+            Flags: 0x00400408 kInitialized
+            FormID: 0x2C08C78A
+            FormType: Reference (61)
+
+        --- Relevant portion of an example NSF log: --- 
+
+            [   1]    TESObjectREFR(FormId: E308C78A, File: SDA DX Crimson Blood Patch.esp <- Crimson Blood Armor.esp, BaseForm: null)
+
+    */
     let diagnoses = '';
-    
-    if(sections.logType  === "CrashLogger") {
+    let crashTitle = 'Object Reference: None'; //Defaults to Crash Logger SSE's title
+    if (sections.logType === "CrashLogger") {
         // Regular expression to match "Object Reference: None" patterns (case-insensitive)
         const objectRefNoneRegex = /object reference:\s*none/i;
         
@@ -57,9 +91,9 @@ function checkForObjectReferenceNone(sections) {
         // Function to extract file information
         function extractFileInfo(section) {
             let files = section.filter(line => line.toLowerCase().includes('file:'));
-            let firstFile = files.length > 0 ? files[0].split(':')[1].trim() : '';
-            let lastFile = files.length > 0 ? files[files.length - 1].split(':')[1].trim() : '';
-            return { firstFile, lastFile };
+            let otherFiles = files.length > 0 ? files[0].split(':')[1].trim() : '';
+            let mostLikelyFile = files.length > 0 ? files[files.length - 1].split(':')[1].trim() : '';
+            return { otherFiles, mostLikelyFile };
         }
         
         // Find all instances of "Object Reference: None"
@@ -77,36 +111,107 @@ function checkForObjectReferenceNone(sections) {
         // Process each instance
         instances.forEach((instanceIndex) => {
             const relevantSection = extractRelevantSection(lines, instanceIndex);
-            const { firstFile, lastFile } = extractFileInfo(relevantSection);
+            const { otherFiles, mostLikelyFile } = extractFileInfo(relevantSection);
             
             // Create a unique key for this instance
-            const instanceKey = `${firstFile}|${lastFile}`;
+            const instanceKey = `${otherFiles}|${mostLikelyFile}`;
             
             // Only process if this is a new unique instance
             if (!uniqueInstances.has(instanceKey)) {
                 uniqueInstances.add(instanceKey);
-
-                if (firstFile || lastFile) {
-                    diagnoses += `<li>🎯 <b>"Object Reference: None" Detected:</b> This typically indicates when a mod attempts to reference a non-existent object, often due to mod conflicts, incompatible mod/patch versions, and/or load order issues. Here's what you need to know:<ul>`;
-                    
-                    diagnoses += `<li><b>Troubleshooting Steps:</b><ol>
-                        <li>The likely culprit is the file: <code>${lastFile}</code>. Disable this mod first.</li>`
-                        if (firstFile && lastFile && (lastFile !== firstFile)) {
-                            //NOTE: only show these steps if both files are found
-                            diagnoses += `<li>If the issue persists, disable the file: <code>${firstFile}</code>.</li>
-                            <li>In some cases, you may need to disable both mods to resolve the issue.</li>
-                            <li>After disabling, re-enable mods one by one to isolate the conflict.</li>`
-                        }
-
-                        diagnoses += `<li>Review versions and requirements of related mods to ensure compatibility.</li>
-                        </ol></li></ul></li>`;
+                
+                if (otherFiles || mostLikelyFile) {
+                    diagnoses += generateDiagnosis(crashTitle, otherFiles, mostLikelyFile);
+                }
+            }
+        });
+    } else if (sections.logType === "NetScriptFramework") {
+        // Regular expression for NSF null BaseForm references
+        const nsfNullBaseFormRegex = /\(FormId.+BaseForm:\s*null/;  //OLD VERSION didn't catch enough: /TESObjectREFR.*BaseForm:\s*null/ 
+        
+        // Function to extract file information from NSF format
+        function extractNSFFileInfo(line) {
+            const fileMatch = line.match(/File:\s*`([^`]+)`/);
+            if (fileMatch) {
+                const files = fileMatch[1].split(' <- ').map(f => f.trim());
+                
+                // Filter out neverDisplay files from the otherFiles list
+                const relevantOtherFiles = files.slice(1).filter(file => !neverDisplay.includes(file));
+                
+                return {
+                    mostLikelyFile: files[0],
+                    otherFiles: files.length === 1 ? files[0] : 
+                               relevantOtherFiles.length > 0 ? relevantOtherFiles.join(' <- ') : ''
+                };
+            }
+            return { otherFiles: '', mostLikelyFile: '' };
+        }
+        
+        // Find all instances of null BaseForm references
+        const lines = sections.topHalf.split('\n');
+        const uniqueInstances = new Set();
+        
+        lines.forEach(line => {
+            if (nsfNullBaseFormRegex.test(line)) {
+                const { otherFiles, mostLikelyFile } = extractNSFFileInfo(line);
+                
+                // Create a unique key for this instance
+                const instanceKey = `${otherFiles}|${mostLikelyFile}`;
+                
+                // Only process if this is a new unique instance
+                if (!uniqueInstances.has(instanceKey) && (otherFiles || mostLikelyFile)) {
+                    uniqueInstances.add(instanceKey);
+                    crashTitle = 'BaseForm: null';
+                    diagnoses += generateDiagnosis(crashTitle, otherFiles, mostLikelyFile);
                 }
             }
         });
     }
+    
     return diagnoses;
 }
 
+// Helper function to generate consistent diagnosis text
+function generateDiagnosis(crashTitle, otherFiles, mostLikelyFile) {
+    if (neverDisplay.includes(mostLikelyFile)) {
+        return '';
+    }
+
+    let diagnosis = `<li>🎯 <b>"${crashTitle}" Detected:</b> This suggests a mod is attempting to reference a non-existent object. This can happen due to mod conflicts, incompatible versions, or load order issues. Here's what you need to know:<ul>`;
+    
+    diagnosis += `<li><b>Troubleshooting Steps:</b><ol>
+        <li>Check for other high-priority issues in this report first, as they might be causing this problem.</li>
+        <li>The primary file to investigate is: <code>${mostLikelyFile}</code>. As a quick fix, consider disabling the mod. Or, towards deeper troubleshooting:<ul>
+            <li>Verify it's the correct version for your Skyrim, and your other mods</li>
+            <li>Check for missing required files, or recommended patches</li>
+            <li>Verify its in the correct load order (check mod author's recommendation)</li>
+            <li>Check any configurations or configuration files (or for some mod types it may need to be regenerated)</li>
+            <li>Consider re-downloading in case the first download was corrupted</li>
+            </ul>Try reinstalling it carefully, or temporarily disable it and its dependencies to isolate the issue.</li>`;
+    
+    if (otherFiles && mostLikelyFile && (mostLikelyFile !== otherFiles)) {
+        diagnosis += `<li>This issue also involves: <code>${otherFiles}</code>. Check for:<ul>
+            <li>Known conflicts between the primary file (further above) and relevant related mod(s)</li>
+            <li>Missing compatibility patches</li>
+            <li>Correct load order</li>
+            </ul></li>
+        <li>For thorough testing:<ul>
+            <li>Disable both mods and their dependencies</li>
+            <li>Start with a clean save</li>
+            <li>Re-enable them one at a time, testing between each</li>
+            <li>Pay attention to the installation order</li>
+            </ul></li>`;
+    }
+    
+    diagnosis += `<li>Additional steps:<ul>
+        <li>Review each mod's pages and forum for any known conflicts and compatibility requirements</li>
+        <li>Search for other users reporting similar issues with these mods</li>
+        ${Utils.LootListItemIfSkyrim}
+        </ul></li>
+        </ol></li></ul></li>`;
+    
+    return diagnosis;
+}
 
 
 
@@ -370,7 +475,7 @@ function checkLogTypeAndProvideRecommendations(logType, sections) {
         message += "<li>⚠️ <b>Trainwreck Log Detected:</b> While Trainwreck provides some crash information, it's generally not as comprehensive as other logging options. ";
 
         if (sections.hasSkyrimAE) {
-            message += "For Skyrim AE (version 1.6+), we strongly recommend using <a href='https://www.nexusmods.com/skyrimspecialedition/mods/59818'>Crash Logger</a> instead. It provides more detailed crash information, aiding in better diagnosis. ";
+            message += "For Skyrim AE (version 1.6+), we strongly recommend using <a href='https://www.nexusmods.com/skyrimspecialedition/mods/59818'>Crash Logger SSE</a> (newest version) instead. It provides more detailed crash information, aiding in better diagnosis. ";
         } else {
             message += "For Skyrim SE (version 1.5), we strongly recommend using <a href='https://www.nexusmods.com/skyrimspecialedition/mods/21294'>.NET Script Framework</a> instead. It offers more detailed crash information, which is crucial for accurate diagnosis. ";
         }
@@ -922,7 +1027,7 @@ function analyzeTextureIssues(sections) {
 // HairMaleNord01
 function checkHairModCompatibility(sections, logFile) {
     const hairModStrings = [
-        'HairMaleNord', // These would usualy apear with a number at the end. Example: HairMaleNord01
+        'HairMaleNord', // These would ussualy appear with a number at the end. Example: HairMaleNord01
         'HairFemaleNord',
         'HairMaleImperial',
         'HairFemaleImperial',
@@ -936,9 +1041,8 @@ function checkHairModCompatibility(sections, logFile) {
         'HairFemaleKhajiit',
         'HairMaleOrc',
         'HairFemaleOrc',
-        'HairFemale',
-        'HairMale',
-        'Hairdo', // a generic catch all
+        'HairFemale', // a generic catch all for other versions of the above
+        'HairMale', // a generic catch all
         //'Hair', // overly generic, matches on "crosshair"
         'KS Hairdos.esp', 
         'ApachiiSkyHair.esm',
@@ -953,6 +1057,7 @@ function checkHairModCompatibility(sections, logFile) {
         'SuperiorLoreFriendlyHair.esp',
         'HallgarthsAdditionalHair.esp',
         'HG Hairdos 2.esp',
+        'Hairdo' // a generic catch all for some of above
     ];
     
     const physicsModStrings = [
@@ -984,7 +1089,8 @@ function checkHairModCompatibility(sections, logFile) {
         insights += '<li>Ensure that all hair mods are up to date and compatible with your version of Skyrim and SKSE.</li>';
 
         if (foundPhysicsMods.length > 0) {
-            insights += '<li>Check that installed physics mods are compatible with your hair mods and Skyrim version.</li>';
+            insights += '<li>Check that installed physics mods are compatible with your hair mods and Skyrim version.</li>' +
+            '<li>Consider trying the <a href="https://www.nexusmods.com/skyrimspecialedition/mods/91616">SMP-NPC crash fix</a> mod, which fixes a random crash when loading NPCs with SMP hair.</li>';
         }
 
         insights += '<li>Check hair mod pages for known compatibility issues and required patches.</li>';
@@ -1217,5 +1323,23 @@ function analyzeFirstLine(sections) {
         </li>`;
     }
     
+    return insights;
+}
+
+
+//Strings
+//OLD METHOD: if (R14StringsRegex.test(sections.topHalf)) {
+function analyzeStringsCrash(sections) {
+    let insights = '';
+    if (sections.topThird.includes('.STRINGS')) {
+        insights += `<li>🎯 <b>.STRINGS Crash Detected:</b> This error typically occurs when there is a unique or non-standard character in the <code>sLanguage</code> line of your <b>skyrim.ini</b> file. To resolve this issue:<ol>
+            <li>Locate your <b>skyrim.ini</b> file.</li>
+            <li>Optionally, make a quick backup copy of this file and store it outside your ${Utils.SkyrimOrNolvusText} installation.</li>
+            <li>Open the original file for editing, and locate the line that reads <code>sLanguage=ENGLISH</code>.</li>
+            <li>Ensure that there are no unique characters or typos in this line. It should only contain standard text.</li>
+            <li>Save the changes and restart ${Utils.SkyrimOrNolvusText} to see if the issue has been resolved.</li>
+            <li>More information and troubleshooting tips under <a href="https://www.nolvus.net/catalog/crashlog?acc=accordion-1-1">.STRINGS Crash</a/>.</li>
+            </ol></li>`;
+    }
     return insights;
 }

@@ -112,12 +112,12 @@ window.LogSummary = {
                 insights += `<li>${sectionInfo.label}:&nbsp; <code>${count.toLocaleString()}</code></li>`;
             }
         }
-        // Adding the new section "Non-esl plugins"
+        // Adding the new section "Non-ESL-ed plugins"
         const nonEslPluginsCount = lineCounts["nonEslPlugins"] || 'error';
         if (nonEslPluginsCount >254) {
-            insights += `<li>Non-esl plugins:&nbsp; <code>${nonEslPluginsCount.toLocaleString()} ⚠️<b>maximum 254!</b>⚠️</code></li>`;
+            insights += `<li>Non-ESL-ed plugins:&nbsp; <code>${nonEslPluginsCount.toLocaleString()} ⚠️<b>maximum 254!</b>⚠️</code></li>`;
         } else {
-            insights += `<li>Non-esl plugins:&nbsp; <code>${nonEslPluginsCount.toLocaleString()}</code></li>`;
+            insights += `<li>Non-ESL-ed plugins:&nbsp; <code>${nonEslPluginsCount.toLocaleString()}</code></li>`;
         }
         insights += '</ul></li>';
         return insights;

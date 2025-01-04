@@ -1,19 +1,57 @@
-✅Beta version 0.19.11 is now live:
+✅Beta version 0.19.12 is now live:
+https://phostwood.github.io/crash-analyzer/
+
+1. ✅Bug fix on Non-Esl plugins count. Many thanks to Blackread!
+
+
+2. ✅Adding Net Script Framework (NSF) log support to Object Reference: None issue
+
+3. ✅Move Physics crashes to very bottom.
+
+4. ✅Strings Crash: Refactored into single function with Nolvus/Skyrim distinguish-ers. Now always shows up top (no separate advanced user's version)
+
+5. ✅Catch up on on TestLogs from prior version:
+	- ✅Missing SSE Engine Fixes
+	- (To be Continued in next version)
+
+
+
+---
+
+1. Double-check (including their linked log files and guru determined diagnoses) on all my related Google Keep notes
+2. Close out Google Keep notes for all double-checked additions/fixes
+3. Review remaining GK Notes to verify there aren't any additional fixes that need done before monetization
+4. New "Low on Memory" test? 
+	- report back to Krispyroll when done, and for his review of its troubleshooting text
+
+
+
+6. Catch up on on TestLogs (from at least one if not from a couple prior versions?)
+	- 
+	- 
+
+
+
+
+
+
+
+✅Beta version 0.20:
 https://phostwood.github.io/crash-analyzer/
 
 
-1. New near-top test for first-line errors mentioning non-ignoredList mods. Special thanks to RomatebitegeL!
+#The Great Monetization?
 
-2. Files/Elements: BUG FIX: Fixed new first-line error bug. And added another line to the its troubleshooting tips. 
-
-3. Fixed QuickLoot BUG FIX: RE bug by recommending QuickLoot IE (instead of the RE patch, which would require new code for me to verify it's been patched). QuickLoot IE is supposed to be a better QuickLoot anyway, and I  already detect the absence of the old mod.
-
-4. checkHairModCompatibility: BUG FIX: Added two most generic indicators that I could think of that would not throw many false-positives (unlike just "hair" which also flags on "crosshair"). These should prevent my analyzer from missing more of these diagnoses:
-	- `HairFemale`
-	- `HairMale`
-
-
-
+1  Banner ads directly after that!  :-)
+   - Banner free for Nolvus Discord Helpers should be doable!
+      - https://copilot.microsoft.com/chats/gq3e6pKpmhc2DsB5X3d81
+	  - still need to figure out a way for Roma and MaskPlague and Krispyroll though ... maybe make my own Discord for the analyzer and make user rolls for them once they sign in?
+   - Need to find the best, high-paying, but never unethical banner ad service. No popups. No fake user interfaces. Either targeted ads or like video game or generic ads. Nothing not safe for work. Must be truly mobile friendly. Small banners at top and bottom if mobile. If good screen resolution then feel free to put larger vertical ads on the side. Needs to be easy to use in JS/HTML web aps hosted on GitHub Pages. American or European Union based. Must be a big, ethical-ish company (or at least one that everyone is forced to use anyway).
+2. Code to disable banners for Nolvus Discord Helpers
+3. Create my own Phostwood Crash Log Analyzer Discord, with a group called Helpers. And offer to add Roma, and Krispyroll, and Mask
+4. Paypal and KoFi buttons
+5. Patreon subscribers get no ads (currently none of these, so a lower priority)
+6. KoFi subscribers get no ads to, if possible?
 
 
 
@@ -33,19 +71,13 @@ https://phostwood.github.io/crash-analyzer/
 
 6. KERNELBASE JSON Crash Detected: does the guide need to include the other configuration recommended by Roma?
 
-7. De-Nolvus-ify ENB issue? Unless there are already two versions? And turn it into a function so it isn't so confusing to maintain. Also separate reusable code for reinstalling Nolvus.
+7. De-Nolvus-ify ENB issue? Unless there are already two versions? And turn it into a function so it isn't so confusing to maintain. Also separate reusable code for reinstalling Nolvus (or not if I'm just linking to google doc?).
 
 
 
 --- COMING SOON! ---
 
-4. Banner ads directly after that!  :-)
-   - Banner free for Nolvus Discord Helpers should be doable!
-      - https://copilot.microsoft.com/chats/gq3e6pKpmhc2DsB5X3d81
-	  - afterwards, since this is also a big gift to Vector, stop donating every month to his Patreon ... save money right there!
-	  - still need to figure out a way for Roma and MaskPlague and Krispyroll though ... maybe make my own Discord for the analyzer and make user rolls for them once they sign in?
-   - Need to find the best, high-paying, but never unethical banner ad service. No popups. No fake user interfaces. Either targeted ads or like video game or generic ads. Nothing not safe for work. Must be truly mobile friendly. Small banners at top and bottom if mobile. If good screen resolution then feel free to put larger vertical ads on the side. Needs to be easy to use in JS/HTML web aps hosted on GitHub Pages. American or European Union based. Must be a big, ethical-ish company (or at least one that everyone is forced to use anyway).
-   - Probalby a tenth of the money I was hoping, but still good experience, and still worth doing :-)
+
 
 
 

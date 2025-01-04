@@ -188,8 +188,9 @@ if (typeof Utils === 'undefined') {
         ['scaleform.dll', '(Scaleform <b>UI</b> middleware used by Skyrim)'],
         ['simplemap.dll', '(Simple Map <b>SKSE</b> plugin)'],
         ['skee64.dll', '(<b>RaceMenu</b> SKSE plugin)'],
+        ['skeleton.nif', '(less likely culprit)'],
         ['skeleton_female.nif', '(less likely culprit)'],
-        ['skeleton_male.nif', '(less likely culprit)'],
+        ['skeleton_male.nif', '(less likely culprit)'], //Does this exist? Or is it just skeleton.nif (as above)?
         ['skinned mesh physics.dll', '(<b>Physics</b> mod for character models)'],
         ['skinshader.dll', '(Custom skin <b>shader</b> used by some texture mods)'],
         ['skse64_1_5_97.dll', '(Skyrim <b>Script</b> Extender)'],

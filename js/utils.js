@@ -30,6 +30,8 @@ Utils.debugBatch = [''];
 
 Utils.isSkyrimPage = window.location.href.toLowerCase().includes('skyrim.html');
 
+Utils.SkyrimOrNolvusText = Utils.isSkyrimPage ? 'Skyrim' : 'Nolvus';
+
 Utils.nolvusUltraPlugins = [
     'treerific.esp',
     'dawn of skyrim.esp',
@@ -359,14 +361,18 @@ Utils.countNullVoid = function(crashLog) {
 Utils.countNonEslPlugins = function(crashLogSection) {
     //NOTE: complicated in that some .esp files are flagged to behave in this manner like .esl files.
     //NOTE: solution to this (thank you keyf!) is that all non-ESLs have only two characters in their hex number
-    /*Example log file section showing the difference:
-        [00] Skyrim.esm
-        [FE] EldenSkyrim_RimSkills.esp
-        [FF] FNIS.esp
-        [FE 000] ccbgssse002-exoticarrows.esl
-        [FE 001] ccbgssse003-zombies.esl
+    /*  Example log file section showing the difference:
+            [00] Skyrim.esm
+            [FE] EldenSkyrim_RimSkills.esp
+            [FF] FNIS.esp
+            [FE 000] ccbgssse002-exoticarrows.esl
+            [FE 001] ccbgssse003-zombies.esl
+        2nd Example which broke my initially published implementation of this with the "1" at the beginning of the filename. The regex is loosened up considerably now (but I don't think it will give any overly high counts):
+            [FE] HotKeySkill.esp
+            [FF] 1Ogres.esp
+            [FE 000] ccbgssse002-exoticarrows.esl
     */
-    const nonEslPluginRegex = /\[([0-9A-F]{2})\](?!\s+\d)\s+.*?\.(esp|esm|esl)/gi;
+    const nonEslPluginRegex = /\[([0-9A-F]{2})\].+\.(esp|esm|esl)/gi;
     let largestHex = "00";
 
     let matchArray;
