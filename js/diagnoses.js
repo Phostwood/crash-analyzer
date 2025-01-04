@@ -1343,3 +1343,56 @@ function analyzeStringsCrash(sections) {
     }
     return insights;
 }
+
+
+
+
+
+function generateNoCrashDetectedMessage() {
+    let diagnoses = '<li>❓ <b>No highest-confidence crash indicators detected.</b><ul>';
+
+    if (Utils.isSkyrimPage) {
+        diagnoses += `<li>Recommended steps:
+            <ul>
+                <li>First, review the <b>Advanced Users</b> section below for potential crash indicators that might apply to your situation</li>
+                <li>Second, verify that you have already correctly installed and configured <b>SSE Engine Fixes</b>:
+                    <ul>
+                        <li>Install <a href="https://www.nexusmods.com/skyrimspecialedition/mods/17230">SSE Engine Fixes</a> (both parts):
+                            <ul>
+                                <li>Part 1: SKSE plugin via mod manager</li>
+                                <li>Part 2: DLL files manually into Skyrim folder</li>
+                            </ul>
+                        </li>
+                        <li>Configure <code>EngineFixes.toml</code> with:
+                            <ul>
+                                <li><code>SaveGameMaxSize = true</code></li>
+                                <li><code>MaxStdio = 8192</code></li>
+                            </ul>
+                        </li>
+                        <li>For easier setup, use this <a href="https://www.nexusmods.com/skyrimspecialedition/mods/108069">pre-configured TOML file</a></li>
+                    </ul>
+                </li>
+                <li>Review and install any missing <a href="https://www.reddit.com/r/skyrimmods/wiki/essential_mods/#wiki_essential_bugfixes">Essential Bugfixes</a> applicable to your modlist</li>
+                <li>Check your load order against <a href="https://www.reddit.com/r/skyrimmods/wiki/begin2/">r/SkyrimMod's Beginner's Guide</a> guidelines</li>
+                <li>If issues persist, share your logs with <a href="https://www.reddit.com/r/skyrimmods/">r/Skyrim</a></li>
+                <li><b>As a last resort:</b> Try disabling groups of mods at a time (being mindful of masters and dependencies) until the crash stops. While tedious, this can help isolate problematic mod combinations</li>
+            </ul></li>`;
+    } else {
+        diagnoses += `<li>Recommended steps:
+            <ul>
+                <li>First, if comfortable, check the <b>Advanced Users</b> box above, and review that section below for potential crash indicators that might apply to your situation</li>
+                <li>Review <b>Jerilith's Safe Save Guide</b> at <a href="https://www.nolvus.net/catalog/crashlog?acc=accordion-1-5">Save Bloat Crash</a></li>
+                <li>If using custom mods, check the <a href="https://www.nolvus.net/catalog/crashlog?acc=accordion-1-7">Load Order Crash</a> guide</li>
+                <li>If issues persist, seek help at:
+                    <ul>
+                        <li><a href="https://www.reddit.com/r/Nolvus/">r/Nolvus</a></li>
+                        <li><a href="https://discord.gg/Zkh5PwD">Nolvus Discord</a></li>
+                    </ul>
+                </li>
+                <li><b> As a last resort:</b>  Try disabling any <b>mods that you have added to Nolvus</b>, a few at a time (being mindful of masters and dependencies) until the crash stops. While tedious, this can help isolate problematic mod combinations</li>
+            </ul></li>`;
+    }
+
+    diagnoses += '</ul></li>';
+    return diagnoses;
+}

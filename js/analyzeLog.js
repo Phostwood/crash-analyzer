@@ -482,12 +482,7 @@ async function analyzeLog() {
 
     // Default to unknown crash
     if (diagnosesCount < 1) {
-        if (Utils.isSkyrimPage) {
-            diagnoses += '<li>❓ <b>No high-confidence crash pattern detected.</b> Consider adding any applicable <a href="https://www.reddit.com/r/skyrimmods/wiki/essential_mods/#wiki_essential_bugfixes">Essential Bugfixes</a> to your load order. Also, consult <a href="https://www.reddit.com/r/skyrimmods/wiki/begin2/">r/SkyrimMod\'s Beginner\'s Guide to Modding Skyrim</a> for information about arranging your load order, and other troubleshooting tips. Also, if you are modding this list yourself, PLEASE also consult this crash analyzer\'s <b>Advanced Users</b> section (below) for additional crash types and insights that may help isolate this issue. If the problem persists, share your crash logs with <a href="https://www.reddit.com/r/skyrimmods/">r/Skyrim</a>.</li>';
-        } else {
-            //NOLVUS VERSION:
-            diagnoses += '<li>❓ <b>No high-confidence crash pattern detected.</b> If you aren\'t aware of (and generally following) <b>Jerilith\'s Safe Save Guide</b>, review it at <a href="https://www.nolvus.net/catalog/crashlog?acc=accordion-1-5">Save Bloat Crash</a/>. Also, if you have customized Nolvus with additional mods, review information on the <a href="https://www.nolvus.net/catalog/crashlog?acc=accordion-1-7">Load Order Crash</a>. Also, this crash analyzer\'s <b>Advanced Users</b> section contains additional crash types and insights that may help isolate this issue. If the problem persists, share your crash logs with <a href="https://www.reddit.com/r/Nolvus/">r/Nolvus</a> and/or the <a href="https://discord.gg/Zkh5PwD">Nolvus Discord</a>.</li>';
-        }
+        diagnoses += generateNoCrashDetectedMessage();
         //DON'T COUNT: diagnosesCount++;
     }
 

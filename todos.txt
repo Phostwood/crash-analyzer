@@ -1,34 +1,27 @@
-✅Beta version 0.19.12 is now live:
+✅Beta version 0.19.13 is now live:
 https://phostwood.github.io/crash-analyzer/
 
-1. ✅Bug fix on Non-Esl plugins count. Many thanks to Blackread!
+1. Moved "No highest-confidence crash indicators" into it's own function and greatly improved upon troubleshooting suggestions with ideas from Krispyroll. Many thanks, Krispyroll!
 
+-- 
 
-2. ✅Adding Net Script Framework (NSF) log support to Object Reference: None issue
-
-3. ✅Move Physics crashes to very bottom.
-
-4. ✅Strings Crash: Refactored into single function with Nolvus/Skyrim distinguish-ers. Now always shows up top (no separate advanced user's version)
-
-5. ✅Catch up on on TestLogs from prior version:
-	- ✅Missing SSE Engine Fixes
-	- (To be Continued in next version)
-
-
-
----
-
-1. Double-check (including their linked log files and guru determined diagnoses) on all my related Google Keep notes
-2. Close out Google Keep notes for all double-checked additions/fixes
-3. Review remaining GK Notes to verify there aren't any additional fixes that need done before monetization
-4. New "Low on Memory" test? 
+1. New "Low on Memory" test
+    - as a new indicator for memory issues
+	- new line in log summary
 	- report back to Krispyroll when done, and for his review of its troubleshooting text
 
+2. Google Keep Notes:
+	- Double-check (including their linked log files and guru determined diagnoses) on related notes
+	- Close out notes for all double-checked additions/fixes
+	- Review remaining GK Notes to verify there aren't any additional fixes that need done before monetization
 
+3. Check for Nolvus v6, and turn off a lot of report sections when it is found
+	- this is driving me crazy when using it....
 
-6. Catch up on on TestLogs (from at least one if not from a couple prior versions?)
-	- 
-	- 
+4. Catch up on on TestLogs (from at least one if not from a couple prior versions?)
+	- Baseform: null (?) for NSF Test Log
+	-
+
 
 
 
