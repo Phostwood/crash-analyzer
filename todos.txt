@@ -1,35 +1,29 @@
-✅Beta version 0.19.14 is now live:
+✅Beta version 0.19.15 is now live:
 https://phostwood.github.io/crash-analyzer/
 
-✅1. Overlays: Bug Fix. Made it so both Steam and Discord overlays were not counted towards deciding if to show overlays. They are both false-positives way too often. (note: Steam was already previously excluded, but not Discord)
-	- NOTE: I could return this in the Advanced Users section, maybe in Log Summary? But for now, I'm leaving them out...
-	- Also refactored Overlays into a function in diagnoses.js
+✅1. De-Nolvus-ified the Skyrim version of th A0D789 Crash. I saw it show up today on a non-Nolvus list:
+https://old.reddit.com/r/skyrimmods/comments/1htrapd/newbie_help_skyrim_keeps_crashing_while_playing/
 
-✅3. KERNELBASE crashes: More and improved troubleshooting steps, info, and clarifications. (Thanks Krispyroll!)
-
-✅4. Improved Nolvus v6 Beta compatibility. Report sections and info which were specific to v5 have been removed for V6 logs. I'll likely attempt to rebuild them for V6 once out ot Beta, but for now those report sections were incorrect and were requiring a ton of needless scrolling.
-
-✅5. Memory issues: added bullet point to reset overclocked hardware to stock settings.
+✅2. Removed "Skeleton Crash" from Diagnoses (it's usually just a false-positive without troubleshooting steps). Also, for the "Advanced Users" Insights version, separated troubleshooting steps between Nolvus and Skyrim, and improved instructions a bit too.
 
 
 
 
-
-3. Check for Nolvus v6, and turn off a lot of report sections when it is found
-	- seems to be working (treats non v6 like general skyrim), BUT I need ot double-check that
-		- I can't (currently) include any of the Nolvus reports for v6
-			- this seems to be the case, as I don't have defining lists of v6 vanilla mods, nor do I know what reliable indicators are for the different variants and configs, nor do I think I should try to reverse engineer those while its in Beta (and maybe never ... Vektor can just give me that stuff this time, or I'll likely skip those reports. Besides, we can already verify all that stuff from the Nolvus Dasboard's PDF reports)
-		- Nolvus v5 logs still work as expected (they seem to? do a few side-by-side comparisons between DEV nad PROD)
-
-
-
---
+---
 
 1. New test to recommend deleting FormIDs with ReSaver:
 https://www.reddit.com/r/skyrimmods/comments/1hufzrw/instability_out_of_nowhere/
 
-1. De-Nolvus-ify the Skyrim version of th A0D7 (??) Crash with the patch you download for animations. I saw it show up today on a non-Nolvus list:
-https://old.reddit.com/r/skyrimmods/comments/1htrapd/newbie_help_skyrim_keeps_crashing_while_playing/
+
+
+1. New Regenerate Behavioral Animations test? https://www.reddit.com/r/skyrimmods/comments/1htjvbc/comment/m5fc2hn/?utm_source=share&utm_medium=web3x&utm_name=web3xcss&utm_term=1&utm_content=share_button
+
+	Claude AI: From my knowledge, some key indicators that suggest you need to regenerate animations via FNIS, Nemesis, or Project Proteus (correct spelling) include:
+		- References to "behavior" files or "_behavior.txt" in the crash log
+		- Error messages mentioning missing or corrupted animation files
+		- Logs showing "havok behavior" related errors
+		- References to "FNIS_" files in error traces
+	
 
 3. New sections. variables for:
 	- sections.RamTotal		    (CLSSE or Trainwreck?)
@@ -42,6 +36,8 @@ https://old.reddit.com/r/skyrimmods/comments/1htrapd/newbie_help_skyrim_keeps_cr
 
 	- NOTE: decided to put these into Sections. variables instead of Utils.? I think I could then pass just Sections.Head to the above extractions, which would make them faster and possibly more accurate...
 	- Create new high priority Memory Issues section for Diagnoses section of report (see GK note)
+	- Consider making the existing Memory Issues troubleshooting steps de-emphasize RAM and stuff if there is plenty of it in there?
+
 
 
 3. New "Low on Memory" test
@@ -53,10 +49,8 @@ https://old.reddit.com/r/skyrimmods/comments/1htrapd/newbie_help_skyrim_keeps_cr
 --
 
 
-1. New Regenerate Animations test? https://www.reddit.com/r/skyrimmods/comments/1htjvbc/comment/m5fc2hn/?utm_source=share&utm_medium=web3x&utm_name=web3xcss&utm_term=1&utm_content=share_button
 
-
-1. Add new indicators to Skeleton test's indicators. ... But remove it from the diagnoses section, because its just too common. Or maybe mix XMPSE with Skelton test? MIght be able to mix in regeneration test too ... or maybe not?
+❌1. Add new indicators to Skeleton test's indicators. ... But remove it from the diagnoses section✅, because its just too common. Or maybe mix XMPSE with Skelton test? MIght be able to mix in regeneration test too ... or maybe not?
 	-	UpperarmTwist, UpperArm, Clavicle, Shoulder, Spine
 
 4. Google Keep Notes:

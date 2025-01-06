@@ -108,7 +108,13 @@ async function analyzeLog() {
 
     // Check for A0D789 crash
     if (sections.firstLine.includes('(SkyrimSE.exe+A0D789)')) {
-        diagnoses += '<li>🎯 <b>A0D789 Crash Detected:</b> Reload game and continue playing, or alternatively, add the <a href="https://www.patreon.com/posts/se-ae-69951525">[SE/AE]A0D789patch</a> patch by kingeric1992 into Mod Organizer (MO2). If you would like guidance on modding/patching Nolvus, please watch this <a href="https://youtu.be/YOvug9KP5L4">brief tutorial video</a> for step-by-step instructions. NOTE: this specific patch does NOT have a plugin that shows up in the right side of MO2. More information and troubleshooting tips under <a href="https://www.nolvus.net/catalog/crashlog?acc=accordion-1-10">A0D789 Crash</a/>.</li>';
+        if(!Utils.isSkyrimPage) {
+            //NOLVUS version:
+            diagnoses += '<li>🎯 <b>A0D789 Crash Detected:</b> Reload game and continue playing, or alternatively, for added stability, add the <a href="https://www.patreon.com/posts/se-ae-69951525">[SE/AE]A0D789patch</a> patch by kingeric1992 into Mod Organizer (MO2). If you would like guidance on modding/patching Nolvus, please watch this <a href="https://youtu.be/YOvug9KP5L4">brief tutorial video</a> for step-by-step instructions. NOTE: this specific patch does NOT have a plugin that shows up in the right side of MO2. More information and troubleshooting tips under <a href="https://www.nolvus.net/catalog/crashlog?acc=accordion-1-10">A0D789 Crash</a/>.</li>';
+        } else {
+            //Skyrim version:
+            diagnoses += '<li>🎯 <b>A0D789 Crash Detected:</b> For added stability, add the <a href="https://www.patreon.com/posts/se-ae-69951525">[SE/AE]A0D789patch</a> patch by kingeric1992. More information under <a href="https://www.nolvus.net/catalog/crashlog?acc=accordion-1-10">A0D789 Crash</a/>.</li>';
+        }
         diagnosesCount++;
     }
 
@@ -341,13 +347,6 @@ async function analyzeLog() {
 
     //TODO: Custom mod found in Probable Callstack:  In customized you’ll likely find that there will be many direct mod related crashes which will list themselves. Most of the time it’s as simple as disabling or adjusting the load order of referenced mod
 
-    // Check for Skeleton crash
-    var skeletonRegex = /NPC L UpperarmTwist|NPC R UpperarmTwist|skeleton\.nif|skeleton_female\.nif|NPC L Forearm|NPC R Forearm|bisection|NPC SpineX|NPC L Heel|NPC R Heel|NPC L Foot|NPC R Foot|SaddleBone|NPC L Hand|NPC R Hand|NPC L Finger|NPC R Finger/g;
-    var skeletonMatches = sections.topQuarter.match(skeletonRegex) || [];
-    if (skeletonMatches.length > 0) {
-        diagnoses += '<li>❓ <b>Possible Skeleton Issue:</b> Detected <code>' + skeletonMatches.length + '</code> potential indicators(s). Multiple indicators are more likely to be the cause than just one. Restarting may help if you\'re using vanilla Nolvus. For custom mods, verify your load order. Skeleton Issues are frequently NOT the crash culprit when other issues are present. More information and troubleshooting tips under <a href="https://www.nolvus.net/catalog/crashlog?acc=accordion-1-9">Skeleton Crash</a/> and <a href="https://www.nolvus.net/catalog/crashlog?acc=accordion-1-7">Load Order Crash</a>.</li>';
-        diagnosesCount++;
-    }
 
     // Check for Shadowrend crash
     // NOTE: a second instance of thi issue shows up in the Advanced Users section for non-Nolvus users as well
@@ -736,15 +735,18 @@ async function analyzeLog() {
         insightsCount++;
     }
 
-    //Skeleton
+    // Skeleton crash
+    //(moved to only be near bottom of Insights section, no longer in Diagnoses section ... its usually a false-positive)
+    //NOTE: this may largely be replaced by an upcoming Regen Behavior Animations test?
+    var skeletonRegex = /NPC L UpperarmTwist|NPC R UpperarmTwist|skeleton\.nif|skeleton_female\.nif|NPC L Forearm|NPC R Forearm|bisection|NPC SpineX|NPC L Heel|NPC R Heel|NPC L Foot|NPC R Foot|SaddleBone|NPC L Hand|NPC R Hand|NPC L Finger|NPC R Finger/g;
+    var skeletonMatches = sections.topQuarter.match(skeletonRegex) || [];
     if (skeletonMatches.length > 0) {
-        insights += '<li>❓ <b>Possible Skeleton Crash Detected:</b> The crash log suggests <code>' + skeletonMatches.length + '</code> potential skeleton integrity issues. Skeleton Issues are frequently NOT the crash culprit when other issues are present. However, skeleton files are crucial for character and creature animations in Skyrim, and a corrupted or incompatible skeleton file can lead to game instability. To address this:<ol>' +
-            '<li>Verify the integrity of skeleton-related mods. Ensure that mods like XPMSSE are properly installed and not overwritten by other mods.</li>' +
-            '<li>Check the load order for mods affecting skeletons. Use a mod manager to resolve conflicts and ensure proper priority.</li>' +
-            '<li>Utilize tools such as FNIS or Nemesis to rebuild animations, particularly if you have mods that modify character or creature animations. Follow these instructions for <a href="https://www.nolvus.net/guide/asc/output/nemesis">regenerating Nemesis for Nolvus</a>.</li>' +
-            '<li>Inspect other mods that may alter skeleton structures. Disable them sequentially to pinpoint the issue.</li>' +
+        insights += '<li>❓ <b>Possible Skeleton Crash Detected:</b> The crash log suggests <code>' + skeletonMatches.length + '</code> potential skeleton integrity issues. Skeleton Issues are FREQUENTLY NOT the crash culprit when other issues are present. To address this:<ol>' +
+            '<li>Verify that mods like XPMSSE are properly installed and not overwritten by other mods.</li>' +
+            `<li>Utilize tools such as FNIS or Nemesis to rebuild animations, particularly if you have added mods that modify character or creature animations. ${!Utils.isSkyrimPage ? 'Follow these' : 'As an example, consider these'} instructions for <a href="https://www.nolvus.net/guide/asc/output/nemesis">regenerating Nemesis for Nolvus</a>.</li>` +
+            '<li>Inspect other mods that may alter skeleton structures. Disable them in gradually shrinking groups to pinpoint the issue.</li>' +
             '<li>If identifiable, using <a href="https://www.nexusmods.com/skyrimspecialedition/mods/23316">Cathedral Asset Optimizer (CAO)</a> may help fix the problematic NIF file(s)</li>' +
-            '</ol>For detailed steps and more troubleshooting advice, visit the <a href="https://www.nolvus.net/catalog/crashlog?acc=accordion-1-9">Skeleton Crash</a> and <a href="https://www.nolvus.net/catalog/crashlog?acc=accordion-1-7">Load Order Crash</a> sections on Nolvus.</li>';
+            `</ol>${!Utils.isSkyrimPage ? 'For detailed steps and more troubleshooting advice, visit the <a href="https://www.nolvus.net/catalog/crashlog?acc=accordion-1-9">Skeleton Crash</a> and <a href="https://www.nolvus.net/catalog/crashlog?acc=accordion-1-7">Load Order Crash</a> sections on Nolvus.' : ''}</li>`;
         insightsCount++;
     }
 
