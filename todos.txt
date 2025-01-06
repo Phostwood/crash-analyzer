@@ -1,24 +1,72 @@
-✅Beta version 0.19.13 is now live:
+✅Beta version 0.19.14 is now live:
 https://phostwood.github.io/crash-analyzer/
 
-1. Moved "No highest-confidence crash indicators" into it's own function and greatly improved upon troubleshooting suggestions with ideas from Krispyroll. Many thanks, Krispyroll!
+✅1. Overlays: Bug Fix. Made it so both Steam and Discord overlays were not counted towards deciding if to show overlays. They are both false-positives way too often. (note: Steam was already previously excluded, but not Discord)
+	- NOTE: I could return this in the Advanced Users section, maybe in Log Summary? But for now, I'm leaving them out...
+	- Also refactored Overlays into a function in diagnoses.js
 
--- 
+✅3. KERNELBASE crashes: More and improved troubleshooting steps, info, and clarifications. (Thanks Krispyroll!)
 
-1. New "Low on Memory" test
+✅4. Improved Nolvus v6 Beta compatibility. Report sections and info which were specific to v5 have been removed for V6 logs. I'll likely attempt to rebuild them for V6 once out ot Beta, but for now those report sections were incorrect and were requiring a ton of needless scrolling.
+
+✅5. Memory issues: added bullet point to reset overclocked hardware to stock settings.
+
+
+
+
+
+3. Check for Nolvus v6, and turn off a lot of report sections when it is found
+	- seems to be working (treats non v6 like general skyrim), BUT I need ot double-check that
+		- I can't (currently) include any of the Nolvus reports for v6
+			- this seems to be the case, as I don't have defining lists of v6 vanilla mods, nor do I know what reliable indicators are for the different variants and configs, nor do I think I should try to reverse engineer those while its in Beta (and maybe never ... Vektor can just give me that stuff this time, or I'll likely skip those reports. Besides, we can already verify all that stuff from the Nolvus Dasboard's PDF reports)
+		- Nolvus v5 logs still work as expected (they seem to? do a few side-by-side comparisons between DEV nad PROD)
+
+
+
+--
+
+1. New test to recommend deleting FormIDs with ReSaver:
+https://www.reddit.com/r/skyrimmods/comments/1hufzrw/instability_out_of_nowhere/
+
+1. De-Nolvus-ify the Skyrim version of th A0D7 (??) Crash with the patch you download for animations. I saw it show up today on a non-Nolvus list:
+https://old.reddit.com/r/skyrimmods/comments/1htrapd/newbie_help_skyrim_keeps_crashing_while_playing/
+
+3. New sections. variables for:
+	- sections.RamTotal		    (CLSSE or Trainwreck?)
+	- sections.RamUsed			(CLSSE or Trainwreck?)
+	- sections.VramTotal		(CLSSE only?)
+	- sections.VramUsed			(CLSSE only?)
+	- sections.PagefileTotal	(Trainwreck only?)
+	- sections.PagefileUsed		(Trainwreck only?)
+
+
+	- NOTE: decided to put these into Sections. variables instead of Utils.? I think I could then pass just Sections.Head to the above extractions, which would make them faster and possibly more accurate...
+	- Create new high priority Memory Issues section for Diagnoses section of report (see GK note)
+
+
+3. New "Low on Memory" test
     - as a new indicator for memory issues
 	- new line in log summary
 	- report back to Krispyroll when done, and for his review of its troubleshooting text
 
-2. Google Keep Notes:
+
+--
+
+
+1. New Regenerate Animations test? https://www.reddit.com/r/skyrimmods/comments/1htjvbc/comment/m5fc2hn/?utm_source=share&utm_medium=web3x&utm_name=web3xcss&utm_term=1&utm_content=share_button
+
+
+1. Add new indicators to Skeleton test's indicators. ... But remove it from the diagnoses section, because its just too common. Or maybe mix XMPSE with Skelton test? MIght be able to mix in regeneration test too ... or maybe not?
+	-	UpperarmTwist, UpperArm, Clavicle, Shoulder, Spine
+
+4. Google Keep Notes:
 	- Double-check (including their linked log files and guru determined diagnoses) on related notes
 	- Close out notes for all double-checked additions/fixes
 	- Review remaining GK Notes to verify there aren't any additional fixes that need done before monetization
 
-3. Check for Nolvus v6, and turn off a lot of report sections when it is found
-	- this is driving me crazy when using it....
 
-4. Catch up on on TestLogs (from at least one if not from a couple prior versions?)
+
+6. Catch up on on TestLogs (from at least one if not from a couple prior versions?)
 	- Baseform: null (?) for NSF Test Log
 	-
 
