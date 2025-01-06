@@ -331,6 +331,7 @@ function checkForD6dddaEasyVersion(sections) {
                     <ol>
                         <li>Close unnecessary background applications that may be consuming memory.</li>
                         <li>Ensure your <a href="https://www.nolvus.net/appendix/pagefile">Windows Pagefile Size is properly configured</a>.</li>
+                        <li>Return any overclocked hardware to stock speeds, as unstable overclocks are known for causing crashes that can look like memory issues in crash logs.</li>
                         <li>Maintain <a href="https://computercity.com/hardware/storage/how-much-space-should-i-leave-on-my-ssd">at least 10-20% free space</a> on your SSD for optimal performance.</li>
                         <li>Hardware Diagnostics: If crashes persist, run Windows Memory Diagnostic or MemTest86 to check for faulty RAM. While rare, recurring D6DDDA crashes can sometimes indicate hardware issues.</li>
                     </ol>
@@ -357,6 +358,7 @@ function checkForD6dddaAdvancedVersion(sections) {
                     <ol>
                         <li>Close unnecessary background applications that may be consuming memory.</li>
                         <li>Ensure your <a href="https://www.nolvus.net/appendix/pagefile">Windows Pagefile Size is properly configured</a>.</li>
+                        <li>Return any overclocked hardware to stock speeds, as unstable overclocks are known for causing crashes that can look like memory issues in crash logs.</li>
                         <li>Maintain <a href="https://computercity.com/hardware/storage/how-much-space-should-i-leave-on-my-ssd">at least 10-20% free space</a> on your SSD for optimal performance.</li>
                         <li>For systems with less than 12GB VRAM (or more for ultrawide/high-resolution displays) (<a href="https://www.lifewire.com/how-to-check-vram-5235783">check your VRAM here</a>), consider using <a href="https://www.reddit.com/r/Nolvus/comments/1doakj1/psa_use_vramr_if_you_have_12gb_of_vram/">VRAMr</a>. This tool automatically compresses texture files across your load order, reducing VRAM usage while maintaining visual fidelity and improving stability.</li>
                         <li>Hardware Diagnostics: If crashes persist, run Windows Memory Diagnostic or MemTest86 to check for faulty RAM. While rare, recurring D6DDDA crashes can sometimes indicate hardware issues.</li>
@@ -443,19 +445,19 @@ async function checkForNolvusModlist(logFile) {
             const nolvusPercentage = (nolvusPluginsDetected / nolvusPlugins.length) * 100;
             Utils.debuggingLog(['checkForNolvusModlist'], 'Nolvus percentage:', nolvusPercentage);
             
-            if (nolvusPercentage >= 20) {
+            if (nolvusPercentage >= 50) {
                 let nolvusMessage = '';
-                if (nolvusPercentage >= 80) {
+                if (nolvusPercentage >= 90) {
                     nolvusMessage = 'It appears you are using a full or nearly full Nolvus installation.';
-                } else if (nolvusPercentage >= 55) {
+                } else if (nolvusPercentage >= 70) {
                     nolvusMessage = 'It appears you are using a modlist based on or heavily inspired by Nolvus.';
-                } else if (nolvusPercentage >= 30) {
-                    nolvusMessage = 'It appears you are using some Nolvus plugins or a modlist partially based on Nolvus.';
+                } else {
+                    nolvusMessage = 'It appears you are using many Nolvus-shared plugins or a modlist partially based on Nolvus.';
                 }
     
                 Utils.debuggingLog(['checkForNolvusModlist'], 'Nolvus message:', nolvusMessage);
     
-                diagnoses += `<li>⚠️ <b>Nolvus Detected:</b> ${nolvusMessage} For enhanced analysis with Nolvus-specific features, we recommend using the original <a href="index.html?Advanced">index.html version</a> of this crash analyzer. It provides additional insights tailored to Nolvus installations.</li>`;
+                diagnoses += `<li>⚠️ <b>Nolvus Detected:</b> ${nolvusMessage} For enhanced analysis with Nolvus-specific features and Nolvus-specific advice, we recommend using the original <a href="index.html?Advanced">index.html version</a> of this crash analyzer. It provides additional insights tailored to Nolvus installations.</li>`;
             }
         }
     }
@@ -539,6 +541,7 @@ function analyzeMemoryIssues(sections) {
             <ul>
             <li>Reboot PC and close any unnecessary applications to maximize available RAM for Skyrim.</li>
             <li>Verify your <a href="https://www.nolvus.net/appendix/pagefile">Windows Pagefile Size</a> settings</li>
+            <li>Return any overclocked hardware to stock speeds, as unstable overclocks are known for causing crashes that can look like memory issues in crash logs.</li>
             <li>Maintain <a href="https://computercity.com/hardware/storage/how-much-space-should-i-leave-on-my-ssd">at least 10-20% free space</a> on your SSD for optimal performance.</li>
             <li>Consider running memory diagnostic tools (Windows Memory Diagnostic or MemTest86)</li>
             <li>If you frequently encounter memory issues, consider upgrading your system with more RAM as relatively cost-effective upgrade. 32GB is often considered a baseline for high-end Skyrim modding.</li>
@@ -550,7 +553,7 @@ function analyzeMemoryIssues(sections) {
             <li><strong>Corrupted textures and/or meshes</strong> can exacerbate memory issues. The probability of this being causal is much higher if specific files are listed elsewhere in this report ... especially when the same image file is found across multiple crash logs. In some cases simply re-downloading and reinstalling the mod with a bad mesh or texture, may fix the corrupted file and resolve the issue. See related <strong>Mesh Issue</strong>, and/or <strong>Texture Issue</strong> sections of this report for additional troubleshooting advice.
             <li>Consider switching to <strong>lower resolution texture mods</strong> (1K/2K instead of 4K). Image files that are too large can strain both VRAM and RAM resources.<ul>
                 <li>Or use <a href="https://www.nexusmods.com/skyrimspecialedition/mods/23316">Cathedral Assets Optimizer (CAO)</a> to optimize textures in individual mods that don't offer lower resolution options.</li>
-                <li>Alternately, use <a href="https://www.reddit.com/r/Nolvus/comments/1doakj1/psa_use_vramr_if_you_have_12gb_of_vram/">VRAMr</a> to automatically create a custom textures-only mod with optimized texture files that override for your entire load order (besides some problematic exceptions).</li>
+                <li>Alternately, use <a href="https://www.reddit.com/r/Nolvus/comments/1doakj1/psa_use_vramr_if_you_have_12gb_of_vram/">VRAMr</a> to automatically create a custom textures-only mod with optimized texture files that override for your entire load order (minus some problematic exceptions which are automatically excluded).</li>
                 <li> NOTE: Texture and/or mesh optimization reduces RAM, VRAM, and SSD usage, plus smaller files also load faster. Smaller texture files can be especially helpful in minimizing FPS stutters that are especially prone in outdoor combat and other visually busy situations. Usually, the lowering of image quality is unnoticeable during normal gameplay, especially at 2k, but largely even at 1K unless you walk up close and stare at a large object in game.</li>
             </ul></li>
             <li><strong>Limit usage of object-adding mods</strong> which increase the number of 3D objects in any one view by adding additional objects/npcs/grass/trees/etc to already dense locations of Skyrim. Common examples include exterior city mods, and mods which add many extra trees. Each object has a 3D mesh and a texture file wrapped over it. Adding too many objects can tax any PC.</li>
@@ -1193,6 +1196,99 @@ function analyzeWin24H2UpscalerCrash(sections) {
 }
 
 
+
+// Check for KERNELBASE Crash excluding JContainers and JSON parse error
+function checkKernelbaseCrash(sections, Utils, win24H2UpscalerCrash, isDiagnosesSection = false) {
+    let diagnoses = '';
+
+    // Check for KERNELBASE Crash excluding JContainers and JSON parse error
+    if (sections.firstLine.toLowerCase().includes('KERNELBASE.dll'.toLowerCase()) && 
+        !sections.probableCallstack.includes('JContainers64.dll') && 
+        !sections.topHalf.includes('json.exception.parse_error') && 
+        !win24H2UpscalerCrash) {
+        
+        if (!Utils.isSkyrimPage && isDiagnosesSection) { // SHORT VERSION - Only for Nolvus in diagnoses section
+            diagnoses += `
+                <li>❗ <b>KERNELBASE Crash Detected:</b> This rare issue could be related to a specific added mod, or to hardware or a system-wide issue. Here are some steps you can try:
+                    <ol>
+                        <li><b>First</b>, try to reproduce the crash by playing the game again. If this was a one-time occurrence, you probably don't need to follow the more intensive troubleshooting steps below.</li>
+                        <li>Check with the <b>Nolvus community</b> to see if others are encountering this issue due to a new Windows update or the like.</li>
+                        <li>You can restore the original sorting of all vanilla Nolvus mods using the <b>Apply Order</b> button in the Nolvus Dashboard. For more information and a screenshot, see this r/Nolvus post <a href="https://www.reddit.com/r/Nolvus/comments/1chuod0/how_to_apply_order_button_usage_in_the_nolvus/">How To: "Apply Order" button usage in the Nolvus Dashboard</a>.</li>
+                        <li><b>Reinstall Nolvus</b> to ensure the installation is not corrupted. Make sure to back up any important data before doing this. For detailed instructions, see this <a href="https://docs.google.com/document/d/1R_AVeneeCiqs0XGYzggXx34v3Ufq5eUHNoCHo3QE-G8/edit">guide</a>.</li>
+                        <li>Check the <b>Windows Event Log</b> for any related issues. You can do this by opening the Event Viewer (search for it in the Start Menu), then navigate to Windows Logs > Application. Look for any recent errors that might be related to your issue. For detailed instructions, see this <a href="https://support.microsoft.com/en-us/windows/open-event-viewer-17d427d2-43d6-5e01-8535-1fc570ea8a14">Microsoft guide</a>.</li>
+                        <li>If the issue persists, consider reaching out to the <b>Nolvus Discord</b> for additional help.</li>
+                        <li>NOTE: Many more details for this issue are available in the "Advanced Users" section of this report.</li>
+                    </ol>
+                </li>`;
+        } else if ((Utils.isSkyrimPage && isDiagnosesSection) || (!Utils.isSkyrimPage && !isDiagnosesSection) ) { // LONG VERSION - For non-Nolvus or when not in diagnoses section
+            diagnoses += `
+                <li>❗ <b>KERNELBASE Crash Detected:</b> This issue can be caused by many different factors: a specific mod, hardware problems, or system-wide issues like Windows Updates, malware, drive corruption, or corrupted file permissions. Here are troubleshooting steps to try, ordered from easiest to most difficult (and most likely to help):
+                    <ol>
+                        <li><b>First</b>, try to reproduce the crash by playing the game again. If this was a one-time occurrence, you probably don't need to follow the more intensive troubleshooting steps below.</li>
+
+                        <li>Check with the <b>${!Utils.isSkyrimPage ? 'Nolvus community' : 'Skyrim modding community'}</b> to see if others are encountering this issue due to a new Windows update or the like.</li>
+
+                        ${!Utils.isSkyrimPage ? `
+                        <li>You can restore the original sorting of all vanilla Nolvus mods using the <b>Apply Order</b> button in the Nolvus Dashboard. For more information and a screenshot, see this r/Nolvus post <a href="https://www.reddit.com/r/Nolvus/comments/1chuod0/how_to_apply_order_button_usage_in_the_nolvus/">How To: "Apply Order" button usage in the Nolvus Dashboard</a>.</li>
+                        ` : ''}
+                        
+                        ${!Utils.isSkyrimPage ? `
+                        <li><b>Reinstall Nolvus</b> to ensure the installation is not corrupted. Make sure to back up any important data before doing this. For detailed instructions, see this <a href="https://docs.google.com/document/d/1R_AVeneeCiqs0XGYzggXx34v3Ufq5eUHNoCHo3QE-G8/edit">guide</a>.</li>
+                        ` : ''}
+
+
+                        <li>Try disabling, updating, or redownloading and reinstalling mods ${!Utils.isSkyrimPage ? 'you may have added to Nolvus' : ''} that appear in the 🔎<b>Files/Elements</b> section, especially SKSE plugins:
+                            <ul>
+                                <li><b>Start with SKSE plugins</b> (those ending in <code>.dll</code>) as they're particularly sensitive to Windows updates and system changes. They can be usually be safely disabled in groups of 5-10 to identify issues (except for Engine Fixes, which should stay enabled).</li>
+                                <li>Other ${!Utils.isSkyrimPage ? 'added ' : ''}<b>suspect mods</b> (and their dependencies) can also be temporarily disabled to test if they're causing the crash.</li>
+                                <li><b>CAUTION:</b> When downloading and reinstalling mods, only use versions compatible with your Skyrim version and other mods.</li>
+                                <li>If you see <code>VCRUNTIME140.dll</code> in the report, download and install the latest version for your hardware from <a href="https://learn.microsoft.com/en-us/cpp/windows/latest-supported-vc-redist?view=msvc-170">Microsoft Visual C++ Redistributable</a>.</li>
+                            </ul>
+                        </li>
+
+
+                        <li><b>Run DISM and SFC scans:</b> Run built-in Windows command line "tools that can repair corrupted or missing system files and restore the health of your computer." See instructions and screenshots in step 1 of <a href="Kernelbase.dll: What It Is & How To Fix Errors">Kernelbase.dll: What It Is & How To Fix Errors</a>.
+                            <ul>
+                                <li>As administrator, run these commands:
+                                    <ol>
+                                        <li><code>dism /online /cleanup-image /restorehealth</code></li>
+                                        <li><code>sfc /scannow</code></li>
+                                    </ol>
+                                </li>
+                                <li>Reboot your PC and play. If it crashes again, check your new crash log.</li>
+                            </ul>
+                        </li>
+
+                        <li>Check the <b>Windows Event Log</b> for any related issues. You can do this by opening the <b>Event Viewer</b> (search for it in the Start Menu), then navigate to Windows Logs > Application. Look for any recent errors that might be related to your issue. For detailed instructions, see this <a href="https://support.microsoft.com/en-us/windows/open-event-viewer-17d427d2-43d6-5e01-8535-1fc570ea8a14">Microsoft guide</a>.</li>
+                        
+                        <li>Ensure your <b>Windows is up to date</b>, as well as any drivers and applicable BIOS updates. You can check for Microsoft updates by going to Settings > Update & Security > Windows Update. Many motherboards (or PC manufacturers) will also have important <b>BIOS</b> firmware updates at their websites, and/or accesible from their own update application.</li>
+                        
+                        <li>Run a full system <b>scan for any viruses</b> or malware. We generally recommend using the built-in Windows Defender for this.</li>
+                        
+                        <li>Try <b>disabling mods</b> ${!Utils.isSkyrimPage ? 'you may have added to Nolvus' : ''} in large, gradually smaller and more isolating groups to see if the issue persists. <b>Start with SKSE plugins</b> (those ending in <code>.dll</code>) as they're particularly sensitive to Windows updates and system changes. They can be usually be safely disabled in groups of 5-10 to identify issues (except for Engine Fixes, which should stay enabled). If you didn't already above, consider starting with mods that show up in the 🔎<b>Files/Elements</b> section of this report. This can help identify if a specific mod is causing the problem.</li>
+                        
+                        <li>Reset your <b>file permissions</b>. See <a href="https://www.thewindowsclub.com/how-to-reset-file-folder-permissions-to-default-in-windows-10">How to reset all User Permissions to default in Windows 11/10</a>, or seek assistance from the ${Utils.SkyrimOrNolvusText} community. Alternatively, an easy <b>workaround</b> is to <a href = "https://support.microsoft.com/en-us/windows/create-a-local-user-or-administrator-account-in-windows-20de74e0-ac7f-3502-a866-32915af2a34d#WindowsVersion=Windows_11">create a new Windows User</a> and create a new ${Utils.SkyrimOrNolvusText} save (playthrough) from the new user.</li>
+                        
+                        <li><b>Use CHKDSK</b> to scan your hard drive for any corruption. You can do this by opening the Command Prompt as an administrator and running the command <code>chkdsk /f</code>. Note that you might need to restart your computer for the scan to run. Be aware that frequent use of <code>chkdsk</code> on SSDs can potentially shorten its lifespan due to the intensive write operations it performs.</li>
+                        
+                        ${Utils.isSkyrimPage ? `
+                        <li>If you are using an auto-installed modlist (like a Wabbajack) <b>consider reinstalling</b> it to ensure your current installation is not corrupted. Make certain to backup any important data before doing this.</li>
+                        ` : ''}
+                        
+                        <li>Perform a <b>Repair Upgrade</b> using the Windows 11 or Windows 10 ISO file. For detailed instructions, see this <a href="https://answers.microsoft.com/en-us/windows/forum/all/how-to-perform-a-repair-upgrade-using-the-windows/35160fbe-9352-4e70-9887-f40096ec3085">guide</a>.</li>
+
+                        <li>If you are still encountering this issue (and after also consulting with the ${!Utils.isSkyrimPage ? 'Nolvus community' : 'Skyrim modding community'}), review the remaining ideas in <a href="https://malwaretips.com/blogs/kernelbase-dll-what-it-is-how-to-fix-errors/">Kernelbase.dll: What It Is & How To Fix Errors</a>. ⚠️CAUTION: it is probably best to avoid doing a full Sytem Restore or Resetting your PC unless you know what you are doing, and you are encountering kernel errors with additional software besides just Skyrim.</li>
+                    </ol>
+                </li>`;
+        }
+    }
+
+    return diagnoses;
+}
+
+
+
+
 function analyzeEngineFixes(sections) {
     let insights = '';
     const hasMods = sections.bottomHalf.split('\n').filter(line => line.trim() !== '').length > 10;
@@ -1395,4 +1491,86 @@ function generateNoCrashDetectedMessage() {
 
     diagnoses += '</ul></li>';
     return diagnoses;
+}
+
+
+
+
+function analyzeOverlayIssues(sections, logFile) {
+    let diagnosis = '';
+    let overlayFiles = [];
+    let overlayInTopHalf = false;
+    
+    // Helper function to add unique overlay to list
+    function addUniqueOverlay(overlay) {
+        if (!overlayFiles.includes(overlay)) {
+            overlayFiles.push(overlay);
+        }
+    }
+
+    // Check for overlay DLLs in top half
+    const simplifiedOverlayRegex = /\b\w*overlay\w*\.dll\b/gi;
+    const matches = sections.topHalf.match(simplifiedOverlayRegex) || [];
+
+    // Process regex matches
+    for (const match of matches) {
+        overlayInTopHalf = true;
+        let found = false;
+        for (const [overlay, files] of Object.entries(window.overlaySignatures)) {
+            if (files.some(file => file.toLowerCase() === match.toLowerCase())) {
+                addUniqueOverlay(overlay);
+                found = true;
+                break;
+            }
+        }
+        if (!found) {
+            addUniqueOverlay(match);
+        }
+    }
+
+    // Check known overlay signatures
+    for (const [overlay, files] of Object.entries(window.overlaySignatures)) {
+        if (files.some(file => logFile.toLowerCase().includes(file.toLowerCase()))) {
+            addUniqueOverlay(overlay);
+            if (overlay !== 'Steam' && files.some(file => sections.topHalf.toLowerCase().includes(file.toLowerCase()))) {
+                overlayInTopHalf = true;
+            }
+        }
+    }
+
+    // Special case for Steam
+    if (sections.topHalf.toLowerCase().includes('gameoverlayrenderer64.dll')) {
+        addUniqueOverlay('Steam');
+    }
+
+    // Remove explicit mention of gameoverlayrenderer64.dll
+    overlayFiles = overlayFiles.filter(file => file.toLowerCase() !== 'gameoverlayrenderer64.dll');
+
+    if (overlayFiles.length > 0) {
+        const hasSteamOverlay = overlayFiles.some(file => file.toLowerCase().includes('steam'));
+        const remainingOverlays = overlayFiles.filter(file => 
+            !file.toLowerCase().includes('steam') && 
+            !file.toLowerCase().includes('discord')
+        );
+
+        if (remainingOverlays.length > 0) {
+            let warningMessage = '⚠️ <b>Overlay Warning:</b> Overlays detected. While some are generally considered safe, others may cause issues in heavily-modded Skyrim.';
+            
+            if ((!hasSteamOverlay && overlayFiles.length == 1) || overlayFiles.length > 1) {
+                warningMessage = '❓ <b>Possible Overlay Issue:</b> Overlays detected in the top half of your crash log, suggesting they may have contributed towards the crash.';
+            }
+
+            const steamNote = hasSteamOverlay
+                ? '<li>(Note: <code>Steam</code> frequently shows up even when disabled, but it might be worth double-checking.)</li>'
+                : '';
+
+            diagnosis = `<li>${warningMessage} It's best to try disabling all overlays temporarily to ensure they aren't contributing to your crash.<ul>` +
+                `<li>List of detected overlays: <a href="#" class="toggleButton">⤴️ hide</a> <ul class="extraInfo">` +
+                overlayFiles.map(file => `<li><code>${file}</code></li>`).join('') +
+                steamNote + 
+                '</ul></li></ul></li>';
+        }
+    }
+
+    return diagnosis;
 }

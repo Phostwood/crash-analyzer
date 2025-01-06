@@ -160,7 +160,7 @@ async function analyzeLog() {
     if (sections.firstLine.toLowerCase().includes('nvwgf2umx.dll') || sections.firstLine.toLowerCase().includes('nvlddmkm.sys') || sections.firstLine.toLowerCase().includes('nvoglv32.dll') || sections.firstLine.toLowerCase().includes('nvoglv64.dll') || sections.firstLine.toLowerCase().includes('nvwgf2um.dll') || sections.firstLine.toLowerCase().includes('nvapi64.dll')) {
         diagnoses += '<li>🎯 <b>NVIDIA Driver Issue Detected:</b> The appearance of NVIDIA driver .dll files in the first line of your crash log is often associated with NVIDIA graphics driver issues. To resolve this, try the following steps:<ol>' +
             '<li><b>Update your NVIDIA drivers</b> to the latest version. You can download the latest drivers from the <a href="https://www.nvidia.com/Download/index.aspx">NVIDIA website</a>.</li>' +
-            '<li>Check for any GPU overclocking settings that may be causing instability and reset them to default if necessary.</li>' +
+            '<li>Check for any GPU overclocking settings that may be causing instability and reset them to stock speeds.</li>' +
             '<li>If the above does not resolve the issue, try performing a clean installation of the drivers using a tool like Display Driver Uninstaller (DDU) to remove all traces of the previous drivers before installing the new ones.</li>' +
             '</ol></li>';
         diagnosesCount++;
@@ -182,7 +182,7 @@ async function analyzeLog() {
             '<li><b>Check hardware compatibility:</b> This issue may also arise due to incompatible hardware (e.g., AMD instead of NVIDIA, GTX instead of RTX, RTX non-40xx instead of RTX 40xx).</li>' +
             '<li><b>Review settings:</b> Ensure that you follow the recommended settings in the <a href="https://docs.google.com/document/d/1YVFKcJN2xuvhln9B6vablzOzQu-iKC4EDcbjOW-SEsA/edit?usp=sharing">Nolvus DLSS Upscaler Installation Guide</a>. Confirm that you have the correct version and settings for your graphics card.</li>' +
             '</ul></li>' +
-            '<li>Check for any GPU overclocking settings that may be causing instability and reset them to default if necessary.</li>' +
+            '<li>Check for any GPU overclocking settings that may be causing instability and reset them to stock speeds.</li>' +
             '<li>If the above does not resolve the issue, optionally try performing a clean installation of the drivers using a tool like Display Driver Uninstaller (DDU) to remove all traces of the previous drivers before installing the new ones.</li>' +
             '<li>Alternatively, disable the upscaler and opt for TAA (Temporal Anti-Aliasing), as demonstrated on the website under <a href="https://www.nolvus.net/catalog/crashlog?acc=accordion-1-11">PDPerfPlugin Crash</a/>.</li>' +
             '<li>If issue persists, share your crash logs with <a href="https://www.reddit.com/r/Nolvus/">r/Nolvus</a> and/or the <a href="https://discord.gg/Zkh5PwD">Nolvus Discord</a></li>' +
@@ -196,7 +196,7 @@ async function analyzeLog() {
             '<li><b>Update your NVIDIA drivers</b> to the latest version. You can download the latest drivers from the <a href="https://www.nvidia.com/Download/index.aspx">NVIDIA website</a>.</li>' +
             '<li><b>Incompatible settings in the upscaler:</b> Choosing a bad upscale type or other setting can cause this issue. Review and verify the recommended settings in <a href="https://docs.google.com/document/d/1YVFKcJN2xuvhln9B6vablzOzQu-iKC4EDcbjOW-SEsA/edit?usp=sharing">Nolvus DLSS Upscaler Installation Guide</a>.</li>' +
             '<li><b>Incompatible hardware:</b> This issue can also be caused by incompatible hardware (AMD instead of NVIDIA, GTX instead of RTX, RTX non-40xx instead of  RTX 40xx, and so on).</li>' +
-            '<li>Check for any GPU overclocking settings that may be causing instability and reset them to default if necessary.</li>' +
+            '<li>Check for any GPU overclocking settings that may be causing instability and reset them to stock speeds.</li>' +
             '<li>If the above does not resolve the issue, try performing a clean installation of the drivers using a tool like Display Driver Uninstaller (DDU) to remove all traces of the previous drivers before installing the new ones.</li>' +
             '</ol></li>';
         diagnosesCount++;
@@ -272,28 +272,10 @@ async function analyzeLog() {
 
 
     // Check for KERNELBASE Crash excluding JContainers and JSON parse error
-    if (sections.firstLine.toLowerCase().includes('KERNELBASE.dll'.toLowerCase()) && !sections.probableCallstack.includes('JContainers64.dll') && !sections.topHalf.includes('json.exception.parse_error') && !win24H2UpscalerCrash) {
-        if (!Utils.isSkyrimPage) { //NOLVUS VERSION ONLY
-            diagnoses += '<li>❗ <b>KERNELBASE Crash Detected:</b> This rare issue could be related to a specific added mod, or to hardware or a system-wide issue. Here are some steps you can take:<ol>' +
-                '<li>Check the <b>Windows Event Log</b> for any related issues. You can do this by opening the Event Viewer (search for it in the Start Menu), then navigate to Windows Logs > Application. Look for any recent errors that might be related to your issue. For detailed instructions, see this <a href="https://support.microsoft.com/en-us/windows/open-event-viewer-17d427d2-43d6-5e01-8535-1fc570ea8a14">Microsoft guide</a>.</li>' +
-                '<li>If the issue persists, consider reaching out to the <b>Nolvus Discord</b> for additional help.</li>' +
-                '<li>NOTE: Many more details for this issue are avaliable in the "Advanced Users" section of this report.</li>' +
-                '</ol></li>';
-        } else { //Non-Nolvus version
-            diagnoses += '<li>❗ <b>KERNELBASE Crash Detected:</b> This rarer issue could be related to a specific added mod, or to hardware or a system-wide issue such as a Windows Update, or a virus, malware, drive corruption, corrupted modlist install, or corrupted file permissions. Here are some steps you can take, ordered from easiest to hardest:<ol>' +
-            '<li>Reach out to the <b>Skyrim modding community</b> to see if others are encountering this issue due to a new Windows update or the like.</li>' +
-            '<li>Check the <b>Windows Event Log</b> for any related issues. You can do this by opening the <b>Event Viewer</b> (search for it in the Start Menu), then navigate to Windows Logs > Application. Look for any recent errors that might be related to your issue. For detailed instructions, see this <a href="https://support.microsoft.com/en-us/windows/open-event-viewer-17d427d2-43d6-5e01-8535-1fc570ea8a14">Microsoft guide</a>.</li>' +
-            '<li>Try redownloading and <b>reinstalling/updating</b> mods (and some Windows components where easy to update) that show up in the <b>Files/Elements</b> section of this report. Sometimes the crash log provides this clue as to what needs updated.<ul><li>CAUTION: Be careful to only install versions known to be compatible with your version of Skyrim and your other mods.</li><li><code>VCRUNTIME140.dll</code> is a common example to look for. If present, download and install the latest correct version for your hardware from <a href="https://learn.microsoft.com/en-us/cpp/windows/latest-supported-vc-redist?view=msvc-170">Microsoft Visual C++ Redistributable</a>.</li></ul>' +
-            '<li>Ensure your <b>Windows is up to date</b>, as well as any drivers and applicable BIOS updates. You can check for Microsoft updates by going to Settings > Update & Security > Windows Update. Many motherboards (or PC manufacturers) will also have important BIOS updates at their websites.</li>' +
-            '<li>Run a full system <b>scan for any viruses</b> or malware. We generally recommend using the built-in Windows Defender for this.</li>' +
-            '<li>Try <b>disabling mods</b> you have added one-by-one (or in large, gradually smaller and more isolating groups) to see if the issue persists. This can help identify if a specific mod is causing the problem.</li>' +
-            '<li>Reset your <b>file permissions</b>. See <a href="https://www.thewindowsclub.com/how-to-reset-file-folder-permissions-to-default-in-windows-10">How to reset all User Permissions to default in Windows 11/10</a>, or seek assistance from the Skyrim community. Alternatively an easy <b>workaround</b> is to <a href = "https://support.microsoft.com/en-us/windows/create-a-local-user-or-administrator-account-in-windows-20de74e0-ac7f-3502-a866-32915af2a34d#WindowsVersion=Windows_11">create a new Windows User</a> and create a new Skyrim save (playthrough) from the new user.</li>' +
-            '<li><b>Use CHKDSK</b> to scan your hard drive for any corruption. You can do this by opening the Command Prompt as an administrator and running the command <code>chkdsk /f</code>. Note that you might need to restart your computer for the scan to run. Be aware that frequent use of <code>chkdsk</code> on SSDs can potentially shorten its lifespan due to the write operations it performs.</li>' +
-            '<li>If you are using an auto-installed modlist (like a Wabbajack) <b>consider reinstalling</b> it to ensure your current installation is not corrupted. Make certain to backup any important data before doing this.</li>' +
-            '<li>Perform a <b>Repair Upgrade</b> using the Windows 11 or Windows 10 ISO file. For detailed instructions, see this <a href="https://answers.microsoft.com/en-us/windows/forum/all/how-to-perform-a-repair-upgrade-using-the-windows/35160fbe-9352-4e70-9887-f40096ec3085">guide</a>.</li>' +
-            'Link for additional ideas:  <a href="https://malwaretips.com/blogs/kernelbase-dll-what-it-is-how-to-fix-errors/">Kernelbase.dll: What It Is & How To Fix Errors</a>. NOTE: it is probably best to avoid the more extreme ideas unless you are encountering kernel errors with additional software besides just Skyrim.' +
-            '</ol></li>';
-        }
+    
+    const kernelBaseDiagnosis = checkKernelbaseCrash(sections, Utils, win24H2UpscalerCrash,  true);
+    if(kernelBaseDiagnosis) {
+        diagnoses += kernelBaseDiagnosis;
         diagnosesCount++;
     }
 
@@ -395,72 +377,15 @@ async function analyzeLog() {
         }
     }
 
-    //Overlays Warning
-    let overlayFiles = [];
-    let overlayInTopHalf = false;
-    let simplifiedOverlayRegex = /\b\w*overlay\w*\.dll\b/gi;
-    let matches = sections.topHalf.match(simplifiedOverlayRegex) || [];
 
-    for (const match of matches) {
-        overlayInTopHalf = true;
-        let found = false;
-        for (const [overlay, files] of Object.entries(window.overlaySignatures)) {
-            if (files.some(file => file.toLowerCase() === match.toLowerCase())) {
-                if (!overlayFiles.includes(overlay)) {
-                    overlayFiles.push(overlay);
-                }
-                found = true;
-                break;
-            }
-        }
-        if (!found) {
-            overlayFiles.push(match);
-        }
+
+    //Check for Overlay issue
+    const overlayDiagnoses = analyzeOverlayIssues(sections, logFile);
+    if (overlayDiagnoses) {
+        diagnoses += overlayDiagnoses;
+        diagnosesCount++;
     }
-
-    for (const [overlay, files] of Object.entries(window.overlaySignatures)) {
-        if (files.some(file => logFile.toLowerCase().includes(file.toLowerCase()))) {
-            if (!overlayFiles.includes(overlay)) {
-                overlayFiles.push(overlay);
-            }
-            if (overlay !== 'Steam' && files.some(file => sections.topHalf.toLowerCase().includes(file.toLowerCase()))) {
-                overlayInTopHalf = true;
-            }
-        }
-    }
-
-    // Special case for Steam as it checks only sections.topHalf
-    if (sections.topHalf.toLowerCase().includes('gameoverlayrenderer64.dll')) {
-        if (!overlayFiles.includes('Steam')) {
-            overlayFiles.push('Steam');
-        }
-    }
-
-    // Remove explicit mention of gameoverlayrenderer64.dll
-    overlayFiles = overlayFiles.filter(file => file.toLowerCase() !== 'gameoverlayrenderer64.dll');
-
-    if (overlayFiles.length > 0) {
-        const hasSteam = overlayFiles.some(file => file.toLowerCase().includes('steam'));
-        if ( (hasSteam && overlayFiles.length > 1) || (!hasSteam && overlayFiles.length > 0)) {
-            //^NOTE: don't post Steam as an overlay by itself. It shows up WAY too often as a false positive
-            let warningMessage = '⚠️ <b>Overlay Warning:</b> Overlays detected. While some are generally considered safe, others may cause issues in heavily-modded Skyrim.';
-            if ((!hasSteam && overlayFiles.length == 1) || overlayFiles.length > 1) {
-                //If warning is something than other than just Steam ... then upgrade it, and count it as a diagnosis
-                warningMessage = '❓ <b>Possible Overlay Issue:</b> Overlays detected in the top half of your crash log, suggesting they may have contributed towards the crash.';
-                diagnosesCount++;
-            }
-        
-            let steamNote = hasSteam
-                ? '<li>(Note: <code>Steam</code> frequently shows up even when disabled, but it might be worth double-checking.)</li>'
-                : '';
-        
-            diagnoses += `<li>${warningMessage} It's best to try disabling all overlays temporarily to ensure they aren't contributing to your crash.<ul>` +
-                `<li>List of detected overlays: <a href="#" class="toggleButton">⤴️ hide</a> <ul class="extraInfo">` +
-                overlayFiles.map(file => `<li><code>${file}</code></li>`).join('') +
-                ((steamNote) ? steamNote : '' ) + 
-                '</ul></li></ul></li>';
-        }
-    }
+    
 
 
     
@@ -508,7 +433,7 @@ async function analyzeLog() {
     let badlyOrderedVanillaPlugins = [];
     let nonNolvusPluginsBelowSynthesis = [];
 
-    if (!Utils.isSkyrimPage) {
+    if (!Utils.isSkyrimPage && (Utils.getNolvusVersion(sections) == 5) ) {
         Utils.debuggingLog(['analyzeLog', 'analyzeLog.js'], 'Generating Nolvus Lists')
         nolvusListsResult = await NolvusLists.generateNolvusLists(logFile);
         insights += nolvusListsResult.insights;
@@ -653,7 +578,7 @@ async function analyzeLog() {
         insights += '<li>❗ <b>Potential NVIDIA Driver Issue Detected:</b> NVIDIA driver .dll files showing up in the top few sections of a crash log may be linked to NVIDIA graphics driver issues. To resolve this, try the following steps:<ol>' +
             '<li><b>Update your NVIDIA drivers</b> to the latest version. You can download the latest drivers from the <a href="https://www.nvidia.com/Download/index.aspx">NVIDIA website</a>.</li>' +
             '<li>If updating does not resolve the issue, perform a clean installation of the drivers using a tool like Display Driver Uninstaller (DDU) to remove all traces of the previous drivers before installing the new ones.</li>' +
-            '<li>Check for any GPU overclocking settings that may be causing instability and reset them to default if necessary.</li>' +
+            '<li>Check for any GPU overclocking settings that may be causing instability and reset them to stock speeds.</li>' +
             '</ol></li>';
         insightsCount++;
     }
@@ -726,24 +651,14 @@ async function analyzeLog() {
 
     // Check for KERNELBASE Crash excluding JContainers and JSON parse error
     //NOTE: Nolvus-only version. Equivalent information already shows in the diagnoses sectoion above for Non-Nolvus (general Skyrim) version
-    if (!Utils.isSkyrimPage && sections.firstLine.toLowerCase().includes('KERNELBASE.dll'.toLowerCase()) && !sections.probableCallstack.includes('JContainers64.dll') && !sections.topHalf.includes('json.exception.parse_error') && !win24H2UpscalerCrash) {
-        insights += '<li>❗ <b>KERNELBASE Crash Detected:</b> This rarer issue could be related to a specific added mod, or to hardware or a system-wide issue such as a Windows Update, or a virus, malware, drive corruption, corrupted modlist install, or corrupted file permissions. Here are some steps you can take, ordered from easiest to hardest:<ol>' +
-            '<li>Reach out to the <b>Nolvus community</b> to see if others are encountering this issue due to a new Windows update or the like.</li>' +
-            '<li>You can restore the original sorting of all vanilla Nolvus mods using the <b>Apply Order</b> button in the Nolvus Dashboard. For more information and a screenshot, see this r/Nolvus post <a href="https://www.reddit.com/r/Nolvus/comments/1chuod0/how_to_apply_order_button_usage_in_the_nolvus/">How To: "Apply Order" button usage in the Nolvus Dashboard</a>.</li>' +
-            '<li>Check the <b>Windows Event Log</b> for any related issues. You can do this by opening the <b>Event Viewer</b> (search for it in the Start Menu), then navigate to Windows Logs > Application. Look for any recent errors that might be related to your issue. For detailed instructions, see this <a href="https://support.microsoft.com/en-us/windows/open-event-viewer-17d427d2-43d6-5e01-8535-1fc570ea8a14">Microsoft guide</a>.</li>' +
-            '<li><b>Reinstall Nolvus</b> to ensure the installation is not corrupted. Make sure to back up any important data before doing this. For detailed instructions, see this <a href="https://docs.google.com/document/d/1R_AVeneeCiqs0XGYzggXx34v3Ufq5eUHNoCHo3QE-G8/edit">guide</a>.</li>' +
-            '<li>Try redownloading and <b>reinstalling/updating</b> mods (and some Windows components where easy to update) that show up in the <b>Files/Elements</b> section of this report. Sometimes the crash log provides this clue as to what needs updated.<ul><li>CAUTION: Be careful to only install versions known to be compatible with your version of Skyrim and your other mods.</li><li><code>VCRUNTIME140.dll</code> is a common example to look for. If present, download and install the latest correct version for your hardware from <a href="https://learn.microsoft.com/en-us/cpp/windows/latest-supported-vc-redist?view=msvc-170">Microsoft Visual C++ Redistributable</a>.</li></ul>' +
-            '<li>Ensure your <b>Windows is up to date</b>, as well as any drivers and applicable BIOS updates. You can check for Microsoft updates by going to Settings > Update & Security > Windows Update. Many motherboards (or PC manufacturers) will also have important BIOS updates at their websites.</li>' +
-            '<li>Run a full system <b>scan for any viruses</b> or malware. We generally recommend using the built-in Windows Defender for this.</li>' +
-            '<li>Try <b>disabling mods</b> you have added one-by-one (or in large, gradually smaller and more isolating groups) to see if the issue persists. Consider starting with mods that show up in the <b>Files/Elements</b> section of this report. This can help identify if a specific mod is causing the problem.</li>' +
-            '<li>Reset your <b>file permissions</b>. See <a href="https://www.thewindowsclub.com/how-to-reset-file-folder-permissions-to-default-in-windows-10">How to reset all User Permissions to default in Windows 11/10</a>, or seek assistance from the Nolvus community. Alternatively, an easy <b>workaround</b> is to <a href = "https://support.microsoft.com/en-us/windows/create-a-local-user-or-administrator-account-in-windows-20de74e0-ac7f-3502-a866-32915af2a34d#WindowsVersion=Windows_11">create a new Windows User</a> and create a new Nolvus save (playthrough) from the new user.</li>' +
-            '<li><b>Use CHKDSK</b> to scan your hard drive for any corruption. You can do this by opening the Command Prompt as an administrator and running the command <code>chkdsk /f</code>. Note that you might need to restart your computer for the scan to run. Be aware that frequent use of <code>chkdsk</code> on SSDs can potentially shorten their lifespan due to the write operations it performs.</li>' +
-            '<li>Perform a <b>Repair Upgrade</b> using the Windows 11 or Windows 10 ISO file. For detailed instructions, see this <a href="https://answers.microsoft.com/en-us/windows/forum/all/how-to-perform-a-repair-upgrade-using-the-windows/35160fbe-9352-4e70-9887-f40096ec3085">guide</a>.</li>' +
-            '<li>Link for additional ideas:  <a href="https://malwaretips.com/blogs/kernelbase-dll-what-it-is-how-to-fix-errors/">Kernelbase.dll: What It Is & How To Fix Errors</a>. NOTE: it is probably best to avoid the more extreme ideas unless you are encountering kernel errors with additional software besides just Skyrim.</li>' +
-            '</ol></li>';
+    const kernelBaseInsights = checkKernelbaseCrash(sections, Utils, win24H2UpscalerCrash,  false);
+    if(kernelBaseInsights) {
+        insights += kernelBaseInsights;
         insightsCount++;
     }
 
+
+    // Animations
     const animationInsights = analyzeAnimationIssues(sections);
     if (animationInsights) {
         insights += animationInsights;

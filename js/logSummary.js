@@ -28,7 +28,7 @@ window.LogSummary = {
 
         const lineCounts = this.generateLineCounts(sections, sectionsMap);
         if (Object.keys(lineCounts).length > 0) {
-            insights += this.generateLineCountInsights(sectionsMap, lineCounts);
+            insights += this.generateLineCountInsights(sections, sectionsMap, lineCounts);
             insightsCount++;
         }
 
@@ -54,18 +54,33 @@ window.LogSummary = {
     },
 
     generateLogInsights: function (logFile, sections, isVanillaNolvus) {
-        return '<li>🔎 <b>Log Insights:</b> (not 100% accurate)<ul>' +
-            '<li>Vanilla or Customized: <code><b>' + (isVanillaNolvus ? 'vanilla' : 'customized') + '</b></code></li>' +
-            '<li>Nolvus Variant: <code><b>' + Utils.reduxOrUltraVariant(logFile) + '</b></code></li>' +
-            '<li>Advanced Physics: <code>' + Utils.hasPhysics(logFile) + '</code></li>' +
-            '<li>Hardcore Mode: <code>' + Utils.hasHardcoreMode(logFile) + '</code></li>' +
-            '<li>Fantasy Mode: <code>' + Utils.hasFantasyMode(logFile) + '</code></li>' +
-            '<li>Alternate Leveling: <code>' + Utils.hasAlternateLeveling(logFile) + '</code></li>' +
-            '<li>SSE FPS Stabilizer: <code>' + Utils.hasSseFpsStabilizer(logFile) + '</code></li>' +
-            '<li>Paid Upscaler: <code>' + Utils.hasPaidUpscaler(logFile) + '</code></li>' +
-            '<li>FSR3: <code>' + Utils.hasFSR3(logFile) + '</code></li>' +
-            '<li>Occurrences of NULL and void: <code>' + Utils.countNullVoid(sections.topHalf) + ' (probably meaningless?)</code></li>' +
-            '</ul>';
+        const nolvusVersion = Utils.getNolvusVersion(sections);
+        // Only show these for v5
+        let insights = '';
+        if (nolvusVersion == 5) {
+            insights += '<li>🔎 <b>Log Insights:</b> (not 100% accurate)<ul>' +
+                '<li>Nolvus version: <code><b>' + nolvusVersion + '</b></code></li>' +
+                '<li>Vanilla or Customized: <code><b>' + (isVanillaNolvus ? 'vanilla' : 'customized') + '</b></code></li>' +
+                '<li>Nolvus Variant: <code><b>' + Utils.reduxOrUltraVariant(logFile) + '</b></code></li>' +
+                '<li>Advanced Physics: <code>' + Utils.hasPhysics(logFile) + '</code></li>' +
+                '<li>Hardcore Mode: <code>' + Utils.hasHardcoreMode(logFile) + '</code></li>' +
+                '<li>Fantasy Mode: <code>' + Utils.hasFantasyMode(logFile) + '</code></li>' +
+                '<li>Alternate Leveling: <code>' + Utils.hasAlternateLeveling(logFile) + '</code></li>' +
+                '<li>SSE FPS Stabilizer: <code>' + Utils.hasSseFpsStabilizer(logFile) + '</code></li>' +
+                '<li>Paid Upscaler: <code>' + Utils.hasPaidUpscaler(logFile) + '</code></li>' +
+                '<li>FSR3: <code>' + Utils.hasFSR3(logFile) + '</code></li>' +
+                '<li>Occurrences of NULL and void: <code>' + Utils.countNullVoid(sections.topHalf) + ' (probably meaningless?)</code></li>' +
+                '</ul></li>';
+        } else if (nolvusVersion == 6) {
+            insights += '<li>🔎 <b>Log Insights:</b> (check <b>PDF Report</b> from Nolvus Dashboard for more information and better accuracy!)<ul>' +
+                '<li>Nolvus version: <code><b>' + nolvusVersion + '</b></code></li>' +
+                '<li>SSE FPS Stabilizer: <code>' + Utils.hasSseFpsStabilizer(logFile) + '</code></li>' +
+                '<li>Paid Upscaler: <code>' + Utils.hasPaidUpscaler(logFile) + '</code></li>' +
+                '<li>FSR3: <code>' + Utils.hasFSR3(logFile) + '</code></li>' +
+                '<li>Occurrences of NULL and void: <code>' + Utils.countNullVoid(sections.topHalf) + ' (probably meaningless?)</code></li>' +
+                '</ul></li>';
+        }
+        return insights;
     },
 
     generateLineCounts: function (sections, sectionsMap) {
@@ -96,14 +111,17 @@ window.LogSummary = {
         return lineCounts;
     },
 
-    generateLineCountInsights: function (sectionsMap, lineCounts) {
+    generateLineCountInsights: function (sections, sectionsMap, lineCounts) {
         let insights = '<li>🔎 <b>Line Counts</b> for each section in the log file: <ul>';
+        const nolvusVersion = Utils.getNolvusVersion(sections);
+        //DEBUGGING: alert(`Utils.getNolvusVersion = ${nolvusVersion}`);
         for (const [sectionName, sectionInfo] of sectionsMap) {
             if (sectionName === 'logType' || sectionName === 'firstLine' || sectionInfo.label === undefined) continue;
             let count = lineCounts[sectionName] || 0;
             let min = sectionInfo.nolvusExpectedMin;
             let max = sectionInfo.nolvusExpectedMax;
-            if (!Utils.isSkyrimPage
+            if ((!Utils.isSkyrimPage)
+                && (nolvusVersion != 6)
                 && (min !== null && max !== null)
                 && (count < min || count > max)
             ) {
@@ -333,6 +351,8 @@ window.LogSummary = {
     addMatch: function (potentialMatch, priority, color, namedElementMatches) {
         // Remove hex codes at the start of lines like "[1] at 0x7FF70D9FE703"
         potentialMatch = String(potentialMatch).replace(/\s*at\s+0x[0-9A-Fa-f]+\s*/, '');
+        //Remove remaining non-filename part from lines like "Unhandled exception at 0x7FF70D9FE703 badMod.dll"
+        potentialMatch = String(potentialMatch).replace('Unhandled exception', '');
 
         if (Utils.logType === 'CrashLogger' || Utils.logType === 'Trainwreck') {
             //OLD: potentialMatch = potentialMatch.replace(/^\d+\]\s+0x[0-9A-Fa-f]+\s+/, '');

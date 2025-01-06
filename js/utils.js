@@ -404,6 +404,30 @@ Utils.reduxOrUltraVariant = function(crashLog) {
     return '???';
 };
 
+Utils.getNolvusVersion = function(sections) {
+    // First check if this is even a complete-ish NSF log
+    if (!sections.bottomHalf) {
+        Utils.debuggingLog(['getNolvusVersion'], 'No bottomHalf section found in log');
+        return null;
+    }
+
+    const isNolvusLog = !Utils.isSkyrimPage; //FOR NOW assume all usage of the Nolvus Crash Log Analyzer is for Nolvus
+
+    // Check for version 6 marker
+    if (isNolvusLog && sections.bottomHalf.toLowerCase().includes('northern roads - nolvus fixes.esp')) {
+        Utils.debuggingLog(['getNolvusVersion'], 'Detected Nolvus version 6');
+        return 6;
+    }
+
+    if (isNolvusLog) {
+        Utils.debuggingLog(['getNolvusVersion'], 'Detected Nolvus version 5');
+        return 5;
+    }
+
+    Utils.debuggingLog(['getNolvusVersion'], 'No Nolvus version detected');
+    return null;
+};
+
 
 Utils.getLogType = function(lines) {
     Utils.debuggingLog(['getLogType'], 'Entering getLogType');
