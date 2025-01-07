@@ -1,54 +1,38 @@
-✅Beta version 0.19.16 is now live:
+✅Beta version 0.19.17 is now live:
 https://phostwood.github.io/crash-analyzer/
 
-1. New test: Animation Loader/Behavior Engine Issue Detected (Thanks, Krispyroll!)
+1. Animation Loader issue: small improvements to troubleshooting steps, and four additional reference links (Thanks, RomatebitegeL!)
 
-2. Version Compatibility Notice: Title (previously "Incompatible DLL Versions Detected") and description softened. Moved slightly down the list from bottom of 🎯, toward top of ❗ section. Also changed threshold for QuickLootEE from 1.2.1 down to 1.1 due to reported issues that the mod under reports its version number in crash logs (or something like that?), as per Roma. (Thanks, RomatebitegeL!)
-
-3. Hair Mod Issue: Moved up the list into bottom of "Higher Confidence" "Advanced Users" section. Description made more confident. Added note specifically about Vanilla Hair Remake. (Thanks, RomatebitegeL!)
-
-4. Animation Mod Issues: added note about rerunning behavior engine after each change. (Thanks, Krispyroll!)
-
-5. No highest-confidence indicators: Added mention of LOOT (to Skyrim Version). 
-
-
-
----
-
-
-New Regenerate Behavioral Animations test ? https://www.reddit.com/r/skyrimmods/comments/1htjvbc/comment/m5fc2hn/?utm_source=share&utm_medium=web3x&utm_name=web3xcss&utm_term=1&utm_content=share_button
-
-	
-	Krispyroll's best indicators:
-		- DAR/OAR showing in the Probable stack
-		- Behavior
-		- .hkb
-		- .hkx
-		- 0_Master.hkb
-		- BShkbAnimationGraph 
-
-	Krispyroll's notes:
-		- "animation loader needs to be rerun"
-
+2. Fixed bug where some Incompatible versions of SkyClimb were not being flagged (Thanks, RomatebitegeL!)
 
 
 --
 
-1. Review overlaps between Animations and Animation Loader tests. Consider reducing the overlap.
 
-1. Add LOOT to "no highest-confidence" steps.
+Roma:
+https://old.reddit.com/r/skyrimmods/comments/1hvhdcs/can_someone_please_help_me_with_my_random_crash/
 
-1. Possible bug in recommending that QuickLootEE 1.2 be upgraded? Maybe change it to 1.1? Apparently there is a bug in a newer version where it reports itself incorrectly in the crash logs :-\
+One more thing I would want to add to your analyzer - and that I have wanted to add for some time - is this crash:
 
-1. Move hair issue higher up the list if Roma says is still a likely indicator?
+"BloodSprayArrowImpact01"
 
-2. Consider adding System Management section (from D6DDDA issue or other?) to the "No highest0-confidence indictors found" suggestions? Or just leave that to a upcoming memory issues test?
+"ImpactArrowDust01"
 
-1. New test to recommend deleting FormIDs with ReSaver:
-https://www.reddit.com/r/skyrimmods/comments/1hufzrw/instability_out_of_nowhere/
+"BloodHitEffectBlunt"
+
+"1hBloodHitEffectCut"
+
+It is pretty common and is caused by the mod SSE Fixes (FpsFixPlugin.dll).
+
+The fix when any of these above indicators shows up is simply to remove the mod SSE Fixes.
+
+"BloodSprayArrowImpact01" is by far the most common indicator in the logs for this crash, but "ImpactArrowDust01" is also fairly common. The other two are more rare but I have seen them from time to time. There may be more indicators for this crash, but I am not currently aware of any more than these four.
 
 
-	
+
+
+
+--
 
 3. New sections. variables for:
 	- sections.RamTotal		    (CLSSE or Trainwreck?)
@@ -70,6 +54,23 @@ https://www.reddit.com/r/skyrimmods/comments/1hufzrw/instability_out_of_nowhere/
     - as a new indicator for memory issues
 	- new line in log summary
 	- report back to Krispyroll when done, and for his review of its troubleshooting text
+
+
+
+
+1. Review overlaps between Animations and Animation Loader tests. Consider reducing the overlap.
+
+1. WAITING ON ROMA: Possible bug in recommending that QuickLootEE 1.2 be upgraded? Maybe change it to 1.1? Apparently there is a bug in a newer version where it reports itself incorrectly in the crash logs :-\
+
+2. Consider adding System Management section (from D6DDDA issue or other?) to the "No highest0-confidence indictors found" suggestions? OR just leave that to a upcoming memory issues test?
+
+1. New test to recommend deleting FormIDs with ReSaver:
+https://www.reddit.com/r/skyrimmods/comments/1hufzrw/instability_out_of_nowhere/
+
+
+	
+
+
 
 
 --

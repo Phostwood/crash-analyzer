@@ -1608,13 +1608,18 @@ function analyzeAnimationLoaderIssues(sections) {
             <ul>
             <li>Regenerate/patch your animations using your behavior engine:
                 <ul>
-                <li>If using FNIS: Run GenerateFNISforUsers.exe</li>
-                <li>If using Nemesis: Run Nemesis Unlimited Behavior Engine (note: <a href="https://www.reddit.com/r/skyrimmods/comments/t2rk34/nemesis_pro_tip/">guide to clearing Nemesis cache</a>)</li>
-                <li>If using Pandora: Run Pandora Behavior Engine</li>
+                <li>If using <a href="https://www.nexusmods.com/skyrimspecialedition/mods/3038">FNIS</a>: Run GenerateFNISforUsers.exe</li>
+                <li>If using <a href="https://www.nexusmods.com/skyrimspecialedition/mods/60033">Nemesis</a>: Run Nemesis Unlimited Behavior Engine
+                    <ul>
+                        <li>reference: <a href="https://www.reddit.com/r/skyrimmods/comments/t2rk34/nemesis_pro_tip/">guide to clearing Nemesis cache</a></li>
+                        <li>reference: <a href="https://www.nolvus.net/guide/asc/output/nemesis">example instructions from Nolvus</a> (with numerous screenshots)</li>
+                    </ul>
+                <li>If using <a href="https://www.nexusmods.com/skyrimspecialedition/mods/133232">Pandora</a>: Run Pandora Behavior Engine</li>
                 </ul>
             </li>
             <li>Ensure you're running the behavior engine as Administrator</li>
             <li>Clear the behavior engine's cache before regenerating</li>
+            <li>Remember to check/enable all relevant boxes/options in your behavior engine's interface (FNIS/Nemesis/Pandora) to generate all the correct files for your installed mods.</li>
             </ul>
         </li>
         

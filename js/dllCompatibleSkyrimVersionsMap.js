@@ -103,7 +103,7 @@ const dllCompatibleSkyrimVersionsMap = {
     },
 
     'SkyClimb.dll': {
-        '0.0.0.1': { //NOTE: incompatible version of SkyClimb actually doesn't report a version number, but 0.001 is default
+        '1.1.1': { //NOTE: incompatible version of SkyClimb actually doesn't report a version number, but 0.001 is default
             minSkyrim: null,
             maxSkyrim: '1.6.1129.9999',
             recommendedVersion: '1.0.0',
