@@ -73,6 +73,22 @@ const crashIndicators = {
             { code: 'animation', description: "General animation-related (lower-confidence indicator)" }
         ]
     },
+    animationLoaderIssues: {
+        hexCodes: [
+            // Space for future hex codes
+        ],
+        codes: [
+            { code: 'dynamicanimationreplacer.dll', description: "DAR loader detected" },
+            { code: 'dynamicanimationreplacer.ini', description: "DAR configuration file" },
+            { code: 'openanimationreplacer.dll', description: "OAR loader detected" },
+            { code: 'openanimationreplacer.pdb', description: "OAR debug symbols" },
+            { code: 'behavior', description: "Generic behavior file reference" },
+            { code: '.hkb', description: "Havok behavior file" },
+            { code: '.hkx', description: "Havok animation file" },
+            { code: '0_master.hkb', description: "Master behavior file" },
+            { code: 'bshkbanimationgraph', description: "Bethesda Havok animation graph" }
+        ]
+    },
     scriptIssues: [
         { code: 'papyrus vm', description: "Papyrus virtual machine error" },
         { code: 'script', description: "General script-related problem" },

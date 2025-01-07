@@ -250,24 +250,6 @@ async function analyzeLog() {
 
 
 
-    if (Utils.hasNewEslSupport(sections.header)) {
-        //TODO: eventually, this could be expanded to test for DLL compatibility with prior versions of Skyrim, but then would have to also figure out which version of each DLL to recommend for each version of Skyrim? Might be more effort that it's worth? Most users are either using downgraded Skyrim 1.5.91, and know what they are doing, or are using the latest version of Skyrim.
-        // Call checkDllCompatibility once and store the result
-        
-        const dllCompatibilityResult = checkDllCompatibility(sections);
-
-        // Log the result
-        Utils.debuggingLog(['checkDllCompatibility_long', 'analyzeLog.js'], 'DLL Compatibility Result:', dllCompatibilityResult);
-
-        // Add the diagnoses and count to the main results
-        if (dllCompatibilityResult.diagnoses) {
-            diagnoses += dllCompatibilityResult.diagnoses;
-            diagnosesCount += dllCompatibilityResult.diagnosesCount;
-        }
-    }
-
-
-
     // Check for KERNELBASE DLAA Windows 24H2 issue
     const win24H2UpscalerCrash = analyzeWin24H2UpscalerCrash(sections);
     if(win24H2UpscalerCrash) {
@@ -292,6 +274,23 @@ async function analyzeLog() {
         if (firstLineDiagnosis) {
             diagnoses += firstLineDiagnosis;
             diagnosesCount++;
+        }
+    }
+
+    // Version Compatibility Notice
+    if (Utils.hasNewEslSupport(sections.header)) {
+        //TODO: eventually, this could be expanded to test for DLL compatibility with prior versions of Skyrim, but then would have to also figure out which version of each DLL to recommend for each version of Skyrim? Might be more effort that it's worth? Most users are either using downgraded Skyrim 1.5.91, and know what they are doing, or are using the latest version of Skyrim.
+        // Call checkDllCompatibility once and store the result
+        
+        const dllCompatibilityResult = checkDllCompatibility(sections);
+
+        // Log the result
+        Utils.debuggingLog(['checkDllCompatibility_long', 'analyzeLog.js'], 'DLL Compatibility Result:', dllCompatibilityResult);
+
+        // Add the diagnoses and count to the main results
+        if (dllCompatibilityResult.diagnoses) {
+            diagnoses += dllCompatibilityResult.diagnoses;
+            diagnosesCount += dllCompatibilityResult.diagnosesCount;
         }
     }
 
@@ -664,6 +663,21 @@ async function analyzeLog() {
         insightsCount++;
     }
 
+    // Animation Loader/Behavior Engine
+    const loaderResults = analyzeAnimationLoaderIssues(sections);
+    if (loaderResults.insights) {
+        insights += loaderResults.insights;
+        // if (loaderResults.isHighPriority) {
+        //     highPriorityCount++;
+        // }
+        insightsCount++;
+    }
+
+    //Hair Mod Issue
+    const hairResult = checkHairModCompatibility(sections, logFile);
+    insights += hairResult.insights;
+    insightsCount += hairResult.insightsCount;
+
 
     insights += '</ul><h5>Memory and Image-related Issues:</h5><ul>';
 
@@ -774,11 +788,6 @@ async function analyzeLog() {
             '</ol></li>';
         insightsCount++;
     }
-
- 
-    const hairResult = checkHairModCompatibility(sections, logFile);
-    insights += hairResult.insights;
-    insightsCount += hairResult.insightsCount;
 
 
     /* 	DISABLED: as (1) is well tested as part of vanilla Nolvus, (2) doesn't have a specific fix, and (3) is not a common issue (if at all?)

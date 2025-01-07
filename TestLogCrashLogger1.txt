@@ -352,6 +352,15 @@ STACK:
   SIC_WERoad07                         //Known issue with Skyrim Immersive Creatures mounted NPCs
   Skyrim Immersive Creatures, Horse, Celann, Isran //Indicators for Dawnguard Horse Issue
   BSImagespace, NiCamera, WorldRoot Camera, WorldRoot Node, Block (  //Indicators for Dragon's Eye Minimap Issue
+  dynamicanimationreplacer.dll         //DAR loader detected
+  dynamicanimationreplacer.ini         //DAR configuration file
+  openanimationreplacer.dll            //OAR loader detected
+  openanimationreplacer.pdb            //OAR debug symbols
+  behavior                             //Generic behavior file reference
+  troublesome.hkb                      //Havok behavior file
+  troublesome.hkx                      //Havok animation file
+  0_master.hkb                         //Master behavior file
+  bshkbanimationgraph                  //Bethesda Havok animation graph
 
 
 MODULES:

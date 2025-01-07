@@ -93,7 +93,7 @@ const dllCompatibleSkyrimVersionsMap = {
     },
 
     'QuickLootEE.dll': { //QUESTION: still unable to verify if fixed??
-        '1.2.1': {
+        '1.1': { //WAS 1.2.1, but wasn't able to verify any fixes, and reportedly that version can potentially be working
             minSkyrim: null,
             maxSkyrim: '1.6.1129.9999',
             recommendedVersion: '2.0.0',

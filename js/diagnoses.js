@@ -289,7 +289,7 @@ function checkDllCompatibility(sections) {
     }
 
     if (incompatibleDlls.length > 0) {
-        diagnoses += `<li>🎯<b>Incompatible DLL Versions Detected:</b> The following detected DLLs are not compatible with your Skyrim version (${skyrimVersion}):<ul>`;
+        diagnoses += `<li>❗ <b>Version Compatibility Notice:</b> The following DLLs are not fully compatible with your Skyrim version ${skyrimVersion} and many may cause crashes, although please note that, for a few mods, version detection isn't always accurate:<ul>`;
         for (const dll of incompatibleDlls) {
             const versionKeys = Object.keys(dllCompatibleSkyrimVersionsMap[dll.dllName])
                 .sort((a, b) => Utils.compareVersions(b, a));
@@ -909,7 +909,7 @@ function analyzeAnimationIssues(sections) {
 
         <li>If issues persist:
             <ul>
-            <li>Consider removing or replacing problematic animation mods.</li>
+            <li>Consider removing or replacing problematic animation mods. NOTE: When disabling animation mods for testing, remember to run your behavior engine after each change to properly update animations (otherwise you may see T-posing or other animation issues).</li>
             <li>Seek help on modding forums, providing your full mod list and load order.</li>
             </ul>
         </li>`;
@@ -1082,14 +1082,15 @@ function checkHairModCompatibility(sections, logFile) {
     Utils.debuggingLog(['checkHairModCompatibility', 'analyzeLog.js'], 'Found physics mods: ' + foundPhysicsMods.join(', '));
 
     if (foundHairMods.length > 0) {
-        let insights = '<li>❓ <b>Possible Hair Mod Issue Detected:</b> The following hair-related indicators were found: ' +
+        let insights = '<li>❗ <b>Probable Hair Mod Issue Detected:</b> The following hair-related indicators were found: ' +
             '<code>' + foundHairMods.join('</code>, <code>') + '</code>. To troubleshoot this issue:<ol>';
 
         if (sections.topHalf.includes('NiRTTI_BSDynamicTriShape')) {
             insights += '<li>The presence of NiRTTI_BSDynamicTriShape suggests a potential issue with dynamic hair meshes. Ensure your hair physics mods are compatible and properly installed.</li>';
         }
 
-        insights += '<li>Ensure that all hair mods are up to date and compatible with your version of Skyrim and SKSE.</li>';
+        insights += '<li>NOTE: as of its version 1.0.2 or 1.0.3, <a href="https://www.nexusmods.com/skyrimspecialedition/mods/63979">Vanilla Hair Remake</a> is reportedly a common cause of this issue.</li>' +
+        '<li>Ensure that all hair mods are up to date and compatible with your version of Skyrim and SKSE.</li>';
 
         if (foundPhysicsMods.length > 0) {
             insights += '<li>Check that installed physics mods are compatible with your hair mods and Skyrim version.</li>' +
@@ -1470,6 +1471,7 @@ function generateNoCrashDetectedMessage() {
                 </li>
                 <li>Review and install any missing <a href="https://www.reddit.com/r/skyrimmods/wiki/essential_mods/#wiki_essential_bugfixes">Essential Bugfixes</a> applicable to your modlist</li>
                 <li>Check your load order against <a href="https://www.reddit.com/r/skyrimmods/wiki/begin2/">r/SkyrimMod's Beginner's Guide</a> guidelines</li>
+                <li>${Utils.LootIfSkyrim}</li>
                 <li>If issues persist, share your logs with <a href="https://www.reddit.com/r/skyrimmods/">r/Skyrim</a></li>
                 <li><b>As a last resort:</b> Try disabling groups of mods at a time (being mindful of masters and dependencies) until the crash stops. While tedious, this can help isolate problematic mod combinations</li>
             </ul></li>`;
@@ -1573,4 +1575,84 @@ function analyzeOverlayIssues(sections, logFile) {
     }
 
     return diagnosis;
+}
+
+
+
+
+
+
+
+
+
+// Add new indicators for animation loader issues
+
+function analyzeAnimationLoaderIssues(sections) {
+    let loaderInsights = '';
+    let isHighPriority = false;
+
+    function findLoaderCodeIssues(sections) {
+        return crashIndicators.animationLoaderIssues.codes.filter(({ code }) =>
+            sections.topHalf.toLowerCase().includes(code.toLowerCase())
+        );
+    }
+
+    const loaderCodeIssues = findLoaderCodeIssues(sections);
+    Utils.debuggingLog(['analyzeAnimationLoaderIssues', 'analyzeLog.js'], 'loaderCodeIssues:', loaderCodeIssues);
+
+    if (loaderCodeIssues.length > 0) {
+        isHighPriority = true;
+        loaderInsights += `<li>❗ <b>Animation Loader/Behavior Engine Issue Detected:</b> To fix this, please follow these steps:
+        <ol>
+        <li>First steps:
+            <ul>
+            <li>Regenerate/patch your animations using your behavior engine:
+                <ul>
+                <li>If using FNIS: Run GenerateFNISforUsers.exe</li>
+                <li>If using Nemesis: Run Nemesis Unlimited Behavior Engine (note: <a href="https://www.reddit.com/r/skyrimmods/comments/t2rk34/nemesis_pro_tip/">guide to clearing Nemesis cache</a>)</li>
+                <li>If using Pandora: Run Pandora Behavior Engine</li>
+                </ul>
+            </li>
+            <li>Ensure you're running the behavior engine as Administrator</li>
+            <li>Clear the behavior engine's cache before regenerating</li>
+            </ul>
+        </li>
+        
+        <li>If regeneration fails:
+            <ul>
+            <li>Check if any animation mods were recently added or updated</li>
+            <li>When disabling animation mods for testing, remember to run your behavior engine after each change to properly update animations (otherwise you may see T-posing or other animation issues)</li>
+            <li>Verify your animation frameworks (DAR/OAR) is installed and up to date</li>
+            <li>Ensure your skeleton mod matches your animation requirements</li>
+            </ul>
+        </li>
+
+        <li>Common issues to check:
+            <ul>
+            <li>Incompatible animation mods between different behavior engines</li>
+            <li>Incorrect load order for animation frameworks</li>
+            <li>Corrupted behavior files from incomplete downloads or updates</li>
+            </ul>
+        </li>`;
+
+        // Add mention of potential overlap with animation issues
+        loaderInsights += `<li>Note: These issues may overlap with general animation issues. If animation regeneration doesn't solve the problem, check for an "Animation Issue" section directly above for additional troubleshooting ideas.</li>`;
+
+        if (loaderCodeIssues.length > 0) {
+            loaderInsights += `<li>Detected animation loader indicators: <a href="#" class="toggleButton">⤵️ show more</a><ul class="extraInfo" style="display:none">`;
+            loaderCodeIssues.forEach(({ code, description }) => {
+                loaderInsights += `<li><code>${code}</code> - ${description}</li>`;
+            });
+            loaderInsights += '</ul></li>';
+        }
+
+        //NOTE: thought about adding addMentionedFilesListItems() for it, but I don't think this an issue where we need to isolate any mods ... just regen/rerun the engine
+
+        loaderInsights += '</ol></li>';
+    }
+
+    return {
+        insights: loaderInsights,
+        isHighPriority: isHighPriority
+    };
 }
