@@ -1692,7 +1692,7 @@ function analyzeSSEFixesIssues(sections) {
     const issuesFound = findSSEFixesIssues(sections);
     Utils.debuggingLog(['analyzeSSEFixesIssues', 'analyzeLog.js'], 'issues:', issuesFound);
 
-    if (issuesFound.impactEffects.length > 0 && issuesFound.files.length > 0) {
+    if (issuesFound.impactEffects.length > 0 && issuesFound.files.length > 0 && sections.hasSkyrimAE) {
         isHighPriority = true;
         fixesInsights += `<li>❗ <b>SSE Fixes Compatibility Issue Detected:</b> 
         <ol>
