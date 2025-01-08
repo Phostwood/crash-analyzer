@@ -1,13 +1,15 @@
-✅Beta version 0.19.17 is now live:
+✅Beta version 0.19.18 is now live:
 https://phostwood.github.io/crash-analyzer/
 
-1. Animation Loader issue: small improvements to troubleshooting steps, and four additional reference links (Thanks, RomatebitegeL!)
+1. New test for SSE Fixes Issue (thanks RomatebitegeL and Krispyroll!)
 
-2. Fixed bug where some Incompatible versions of SkyClimb were not being flagged (Thanks, RomatebitegeL!)
+2. Dragon's Eye Minimap issue: fixed bug where when "DragonsEyeMinimap.dll" is in Probable Call Stack this issue gets displayed even if there are no other indicators found. Also added "HUDMenu" as another possible sections.topHalf indicator.
 
 
---
+3. Meshes and Textures sections: added in text about comparing multiple crash logs for consistent bad files before trying to troubleshoot the files.
 
+
+--- notes for this version ---
 
 Roma:
 https://old.reddit.com/r/skyrimmods/comments/1hvhdcs/can_someone_please_help_me_with_my_random_crash/
@@ -22,17 +24,61 @@ One more thing I would want to add to your analyzer - and that I have wanted to 
 
 "1hBloodHitEffectCut"
 
-It is pretty common and is caused by the mod SSE Fixes (FpsFixPlugin.dll).
+It is pretty common and is caused by the mod SSE Fixes (FpsFixPlugin.dll). ["FPSFixPlugin.dll"]
+
+Link to "SSE Fixes" mod: https://www.nexusmods.com/skyrimspecialedition/mods/10547?tab=files
+
+NOTE: this is a completely different mod from the highly recommended (many say essential) mod, [SSE Engine Fixes](https://www.nexusmods.com/skyrimspecialedition/mods/17230?tab=description)
 
 The fix when any of these above indicators shows up is simply to remove the mod SSE Fixes.
 
 "BloodSprayArrowImpact01" is by far the most common indicator in the logs for this crash, but "ImpactArrowDust01" is also fairly common. The other two are more rare but I have seen them from time to time. There may be more indicators for this crash, but I am not currently aware of any more than these four.
 
 
+...
+
+Krispyroll mentions in his guide:
+https://www.reddit.com/r/skyrimmods/comments/1d0r0f0/reading_crash_logs/
+
+RDI 0x149FDC2F100 (BSFadeNode*)
+Name: "BloodSprayImpact01"
+RTTIName: "BSFadeNode"
+ExtraData[0] Name: "BSX"
+
+This sort of error I've noticed on two occasions, and both of the users had both SSE Fixes, and Precision installed. Seeing this specific term may not be evidence of this particular issue, but if you have both of these installed and you're experiencing crashes on combat hits, please note, SSE Fixes only works up to 1.5.97, while both users were running 1.6.1170. That is another reason why you should make sure to check the version numbers of the mods that you install. Solution is to remove SSE Fixes.
+
+There has been one case where the issue was solely due to SSE Fixes, which is denoted from it's DLL, FpsFixPlugin.dll. If you are on a version other than 1.5.97, the only reason why you would use SSE Fixes by meh321 is for the mutex locking. So, either disable every other tweak in the config, or just remove it.
 
 
 
---
+https://www.reddit.com/r/skyrimmods/s/vXT5d3Wdxj
+
+•	⁠"BloodSprayImpact01"
+
+Remove SSE Fixes, since it is the cause of this crash.
+
+
+https://www.reddit.com/r/skyrimmods/s/K11TNlAVV7
+
+“
+"BloodSprayArrowImpact01"
+
+Remove SSE Fixes, since it is the cause of this crash.
+“
+
+
+and another example
+https://www.reddit.com/r/skyrimmods/s/mUpNfjcDwU
+
+
+
+
+
+
+
+---
+
+1. Interface/Quest_Journal.swf issue (see GK notes)
 
 3. New sections. variables for:
 	- sections.RamTotal		    (CLSSE or Trainwreck?)
@@ -60,12 +106,11 @@ The fix when any of these above indicators shows up is simply to remove the mod 
 
 1. Review overlaps between Animations and Animation Loader tests. Consider reducing the overlap.
 
-1. WAITING ON ROMA: Possible bug in recommending that QuickLootEE 1.2 be upgraded? Maybe change it to 1.1? Apparently there is a bug in a newer version where it reports itself incorrectly in the crash logs :-\
-
 2. Consider adding System Management section (from D6DDDA issue or other?) to the "No highest0-confidence indictors found" suggestions? OR just leave that to a upcoming memory issues test?
 
 1. New test to recommend deleting FormIDs with ReSaver:
 https://www.reddit.com/r/skyrimmods/comments/1hufzrw/instability_out_of_nowhere/
+- seek out replies from Krispyroll, MaskPlague, and RomatebitegeL
 
 
 	

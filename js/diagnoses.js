@@ -612,6 +612,7 @@ function analyzeMemoryIssues(sections) {
 function analyzeDragonsEyeMinimapIssue(sections) {
     let insights = '';
     const dllFileName = 'DragonsEyeMinimap.dll';
+    const dllFileNameTopSection = sections.probableCallstack.toLowerCase().includes(dllFileName.toLowerCase());
 
     if (sections.bottomHalf.toLowerCase().includes(dllFileName.toLowerCase())) {
         const dllVersion = Utils.getDllVersionFromLog(sections, dllFileName);
@@ -625,7 +626,7 @@ function analyzeDragonsEyeMinimapIssue(sections) {
             );
 
             // Check if we have 2 or more matching dragon's eye indicators
-            if (matchingDragonEyeCodes.length >= 1) {
+            if (matchingDragonEyeCodes.length >= 1 || dllFileNameTopSection) {
                 insights += `
                 <li>❗ <b>Dragon's Eye Minimap Issue Detected:</b> Indicators in this log are often linked to the Dragon's Eye Minimap causing crashes.
                     <ol>
@@ -633,7 +634,7 @@ function analyzeDragonsEyeMinimapIssue(sections) {
                         <li>If this issue frequently occurs in future crash logs, consider checking for an updated version or disabling the mod. NOTE: issue still exists as of version 1.1</li>
                         <li>Mentioned indicators: <a href="#" class="toggleButton">⤵️ show more</a>
                             <ul class="extraInfo" style="display:none">
-                                <li><code>${dllFileName}</code> - mod version <code>${dllVersion}</code> is installed and enabled</li>`;
+                                <li><code>${dllFileName}</code> - mod version <code>${dllVersion}</code> is installed and enabled ${dllFileNameTopSection ? 'and listed in "Probable Call Stack"' : ''}</li>`;
                                 matchingDragonEyeCodes.forEach(({ code, description }) => {
                                     insights += `<li><code>${code}</code> - ${description}</li>`;
                                 });
@@ -693,7 +694,7 @@ function analyzeMeshIssues(sections) {
             isHighPriority = true;
         }
 
-        meshInsights += `Investigate using these steps:
+        meshInsights += `Try comparing multiple crash logs, but if you see this message again with the same "Mentioned mesh files" (bottom bullet point) then investigate using these steps:
         <ol>
         <li>Identify problematic meshes/mods:
             <ul>
@@ -980,6 +981,7 @@ function analyzeTextureIssues(sections) {
         <li>Identify problem textures:
             <ul>
             <li>Check the list of mentioned textures below to identify which mod(s) might be causing issues.</li>
+            <li>Try comparing multiple crash logs, but if you see this message again with the same "Mentioned texture files" then continue investigating using the steps below...
             <li>Temporarily disable suspect texture mods (or temporarily remove their suspected texture files) one at a time to isolate the problem.</li>
             <li>Pay special attention to mods affecting the area where the crash occurred.</li>
             </ul>
@@ -1002,7 +1004,7 @@ function analyzeTextureIssues(sections) {
         </li>`;
 
         if (textureCodeIssues.length > 0) {
-            textureInsights += `<li>Detected texture issue indicators: <a href="#" class="toggleButton">⤵️ show more</a><ul class="extraInfo" style="display:none">`;
+            textureInsights += `<li>Mentioned texture files: <a href="#" class="toggleButton">⤵️ show more</a><ul class="extraInfo" style="display:none">`;
             textureCodeIssues.forEach(({ code, description }) => {
                 textureInsights += `<li><code>${code}</code> - ${description}</li>`;
             });
@@ -1658,6 +1660,85 @@ function analyzeAnimationLoaderIssues(sections) {
 
     return {
         insights: loaderInsights,
+        isHighPriority: isHighPriority
+    };
+}
+
+
+
+
+//SSE Fixes issues
+function analyzeSSEFixesIssues(sections) {
+    let fixesInsights = '';
+    let isHighPriority = false;
+
+    function findSSEFixesIssues(sections) {
+        // Check for impact effect indicators
+        const impactEffectsFound = crashIndicators.sseFixesIssues.impactEffects.filter(({ name }) =>
+            sections.topHalf.includes(name)
+        );
+        
+        // Check for SSE Fixes dll
+        const filesFound = crashIndicators.sseFixesIssues.files.filter(({ name }) =>
+            sections.bottomHalf.toLowerCase().includes(name.toLowerCase())
+        );
+
+        return {
+            impactEffects: impactEffectsFound,
+            files: filesFound
+        };
+    }
+
+    const issuesFound = findSSEFixesIssues(sections);
+    Utils.debuggingLog(['analyzeSSEFixesIssues', 'analyzeLog.js'], 'issues:', issuesFound);
+
+    if (issuesFound.impactEffects.length > 0 && issuesFound.files.length > 0) {
+        isHighPriority = true;
+        fixesInsights += `<li>❗ <b>SSE Fixes Compatibility Issue Detected:</b> 
+        <ol>
+        <li>Recommendation:
+            <ul>
+                <li><b>Remove SSE Fixes mod</b> (the one containing FpsFixPlugin.dll - <a href="https://www.nexusmods.com/skyrimspecialedition/mods/10547">this mod</a>)</li>
+                <li>Note: This is <i>not</i> the same as the essential <a href="https://www.nexusmods.com/skyrimspecialedition/mods/17230">SSE Engine Fixes</a> mod</li>
+                <li>Note: If you specifically need SSE Fixes' mutex locking feature on newer Skyrim versions, consider either:
+                    <ul>
+                        <li>Disabling all other tweaks in the SSE Fixes config, or</li>
+                        <li>Finding an alternative mod for mutex locking</li>
+                    </ul>
+                </li>
+            </ul>
+        </li>
+
+        <li>Why this happens:
+            <ul>
+                <li>SSE Fixes is only compatible with Skyrim version 1.5.97</li>
+                <li>Using it with newer versions can cause crashes, especially during combat</li>
+                <li>These crashes often manifest as blood spray or impact effect issues</li>
+            </ul>
+        </li>
+
+        <li>Additional notes:
+            <ul>
+                <li>This issue is particularly common when both SSE Fixes and Precision are installed</li>
+            </ul>
+        </li>`;
+
+        if (issuesFound.impactEffects.length > 0 || issuesFound.files.length > 0) {
+            fixesInsights += `<li>Detected issue indicators: <a href="#" class="toggleButton">⤵️ show more</a><ul class="extraInfo" style="display:none">`;
+            issuesFound.files.forEach(({ name, description }) => {
+                fixesInsights += `<li><code>${name}</code> - ${description}</li>`;
+            });
+            issuesFound.impactEffects.forEach(({ name, description }) => {
+                fixesInsights += `<li><code>${name}</code> - ${description}</li>`;
+            });
+            fixesInsights += '</ul></li>';
+        }
+
+        fixesInsights += '</ol></li>';
+    }
+
+    return {
+        insights: fixesInsights,
         isHighPriority: isHighPriority
     };
 }

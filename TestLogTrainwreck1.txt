@@ -256,6 +256,12 @@ STACK:
   troublesome.hkx                      //Havok animation file
   0_master.hkb                         //Master behavior file
   bshkbanimationgraph                  //Bethesda Havok animation graph
+  BloodSprayArrowImpact01              //Blood spray impact effect 
+  ImpactArrowDust01                    //Arrow dust impact effect 
+  BloodHitEffectBlunt                  //Blunt blood impact effect 
+  1hBloodHitEffectCut                  //Cut blood impact effect 
+  BloodSprayImpact01                   //Blood spray impact
+
 
 
 MODULES:
@@ -523,3 +529,4 @@ SCRIPT EXTENDER PLUGINS:
 	CombatMusicFix.dll                               v1.0.1
 	MCMHelper.dll                                    v1.4
 	DragonsEyeMinimap.dll
+	FpsFixPlugin.dll

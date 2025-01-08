@@ -322,6 +322,16 @@ async function analyzeLog() {
         diagnosesCount++;
     }
 
+    // SSE Fixes issues
+    const sseFixesResults = analyzeSSEFixesIssues(sections);
+    if (sseFixesResults.insights) {
+        diagnoses += sseFixesResults.insights;
+        // if (sseFixesResults.isHighPriority) {
+        //     highPriorityCount++;
+        // }
+        diagnosesCount++;
+    }
+
 
 
     

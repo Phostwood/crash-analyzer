@@ -8,9 +8,28 @@ const crashIndicators = {
             { code: 'NiCamera', description: "Camera issue" },
             { code: 'WorldRoot Camera', description: "World root camera issue" },
             { code: 'WorldRoot Node', description: "World root node issue" },
-            { code: 'Block (', description: "Indicates cell block reference" }
+            { code: 'Block (', description: "Indicates cell block reference" },
+            { code: 'HUDMenu', description: "Indicates heads-up display issue"}
         ]        
     },
+
+    sseFixesIssues: {
+        hexCodes: [
+            // Space for future hex codes
+        ],
+        impactEffects: [
+            { name: 'BloodSprayArrowImpact01', description: "Blood spray impact effect" },
+            { name: 'ImpactArrowDust01', description: "Arrow dust impact effect" },
+            { name: 'BloodHitEffectBlunt', description: "Blunt blood impact effect" },
+            { name: '1hBloodHitEffectCut', description: "Cut blood impact effect" },
+            { name: 'BloodSprayImpact01', description: "Blood spray impact" }
+        ],
+        files: [
+            { name: 'FpsFixPlugin.dll', description: "SSE Fixes plugin file" }
+        ]
+    },
+
+
     //NOTE: many of these codes were suggested by AI. Some of them may not be the best indicators of the issue type? Also, I don't know if some of these ever show up in Skyrim crash logs, but I didn't see any harm in leaving them in. 
     meshIssues: {
         hexCodes: [

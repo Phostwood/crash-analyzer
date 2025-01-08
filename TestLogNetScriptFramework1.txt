@@ -160,6 +160,11 @@ troublesome.hkb                      //Havok behavior file
 troublesome.hkx                      //Havok animation file
 0_master.hkb                         //Master behavior file
 bshkbanimationgraph                  //Bethesda Havok animation graph
+BloodSprayArrowImpact01                //Blood spray impact effect 
+ImpactArrowDust01                      //Arrow dust impact effect 
+BloodHitEffectBlunt                    //Blunt blood impact effect 
+1hBloodHitEffectCut                    //Cut blood impact effect 
+BloodSprayImpact01                     //Blood spray impact
 
 }
 
@@ -383,6 +388,7 @@ xefx_loader.dll:                                   0x0D1E2F
 xinput1_3.dll:                                     0x3A4B5C
 zavcore.dll:                                       0x6D7E8F
 DragonsEyeMinimap.dll:                             0xblahbb
+FpsFixPlugin.dll:                                  0x0D1E3A
 }
 
 
