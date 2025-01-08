@@ -1742,3 +1742,34 @@ function analyzeSSEFixesIssues(sections) {
         isHighPriority: isHighPriority
     };
 }
+
+
+
+
+
+function analyzeQuestJournalCrash(sections) {
+    let insights = '';
+    if (sections.topHalf.includes('Interface/Quest_Journal.swf')) {
+        insights += `<li>🎯 <b>Quest Journal UI Crash Detected:</b> This is a known SkyUI interface issue. Here's how to resolve it:<ol>
+            <li>Recommended fix - install one of these mods:
+                <ul>
+                <li><a href="https://www.nexusmods.com/skyrimspecialedition/mods/60837">Dear Diary Dark Mode - SkyUI Menus Replacer SE</a> (or its variant <a href="https://www.nexusmods.com/skyrimspecialedition/mods/23010">Dear Diary - Paper SkyUI Menus Replacer SE</a>)
+                    <ul>
+                    <li>Make sure to select the journal option during FOMOD installation</li>
+                    <li>If menus appear squished, also install <a href="https://www.nexusmods.com/skyrimspecialedition/mods/136793">Widescreen Scale Removed for 1-6-1130 and higher</a></li>
+                    </ul>
+                </li>
+                </ul>
+            </li>
+            <li>Alternative fix (less reliable):
+                <ul>
+                <li>Try installing <a href="https://www.nexusmods.com/skyrimspecialedition/mods/108618">Quest Journal Fix for SkyUI</a></li>
+                </ul>
+            </li>
+            <li>Detected indicator: <a href="#" class="toggleButton">⤵️ show more</a><ul class="extraInfo" style="display:none">
+               <li><code>Interface/Quest_Journal.swf</code> - SkyUI journal interface file</li>
+            </ul></li>
+            </ol></li>`;
+    }
+    return insights;
+}

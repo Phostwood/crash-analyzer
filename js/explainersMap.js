@@ -153,7 +153,7 @@ if (typeof Utils === 'undefined') {
         ['nvwgf2um.dll', '(<b>NVIDIA</b> D3D10 User Mode Driver for 32-bit)'],
         ['nvwgf2umx.dll', '(<b>NVIDIA</b> D3D10 User Mode Driver for 64-bit)'],
         ['nxmhandler.dll', '(Nexus Mod Manager URL handler - <b>mod manager</b>)'],
-        ['occlusion.esp', '(DynDOLOD occlusion <b>optimization</b> file)'],
+        ['occlusion.esp', '(<b>DynDOLOD</b> occlusion optimization file)'],
         ['oleacc.dll', '(Active Accessibility Core Component - MS <b>Windows</b>)'],
         ['onecorecommonproxystub.dll', '(<b>Windows</b> system component)'],
         ['onecoreuapcommonproxystub.dll', '(OneCore UAP Common Proxy Stub - MS <b>Windows</b>)'],

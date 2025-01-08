@@ -261,6 +261,7 @@ STACK:
   BloodHitEffectBlunt                  //Blunt blood impact effect 
   1hBloodHitEffectCut                  //Cut blood impact effect 
   BloodSprayImpact01                   //Blood spray impact
+  Occlusion.esp						   //DynDOLOD occlusion optimization file
 
 
 

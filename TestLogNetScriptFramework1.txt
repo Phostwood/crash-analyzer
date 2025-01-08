@@ -160,11 +160,12 @@ troublesome.hkb                      //Havok behavior file
 troublesome.hkx                      //Havok animation file
 0_master.hkb                         //Master behavior file
 bshkbanimationgraph                  //Bethesda Havok animation graph
-BloodSprayArrowImpact01                //Blood spray impact effect 
-ImpactArrowDust01                      //Arrow dust impact effect 
-BloodHitEffectBlunt                    //Blunt blood impact effect 
-1hBloodHitEffectCut                    //Cut blood impact effect 
-BloodSprayImpact01                     //Blood spray impact
+BloodSprayArrowImpact01              //Blood spray impact effect 
+ImpactArrowDust01                    //Arrow dust impact effect 
+BloodHitEffectBlunt                  //Blunt blood impact effect 
+1hBloodHitEffectCut                  //Cut blood impact effect 
+BloodSprayImpact01                   //Blood spray impact
+Occlusion.esp						             //DynDOLOD occlusion optimization file
 
 }
 

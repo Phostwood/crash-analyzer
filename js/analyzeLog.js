@@ -172,6 +172,14 @@ async function analyzeLog() {
         diagnosesCount++;
     }
 
+    
+    //🎯Quest Journal UI Crash Detected
+    const questJournalDiagnosis = analyzeQuestJournalCrash(sections);
+    if(questJournalDiagnosis) {
+        diagnoses += questJournalDiagnosis;
+        diagnosesCount++;
+    }
+
 
     //SkyrimUpscaler crash
     // Files names from Puredark's Upscalers:

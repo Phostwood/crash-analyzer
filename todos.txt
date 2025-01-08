@@ -1,7 +1,88 @@
-✅Beta version 0.19.18.1 is now live:
+✅Beta version 0.19.19 is now live:
 https://phostwood.github.io/crash-analyzer/
 
-1. SSE Fixes Issue: theoretical bug fix: added version check, so Skyrim 1.6 users wouldn't get false-positives
+1. ✅New Test: Interface/Quest_Journal.swf issue
+
+2. ✅Occlusion.esp reformatted in Explainers list (and also added to Test Logs ... which I previously forgot to do)
+
+
+~~ NOTES: ~~
+
+
+Also, recently from Roma:
+https://www.reddit.com/r/skyrimmods/comments/1hw8jtg/new_modder_need_help/
+
+"Interface/Quest_Journal.swf"
+
+This specific crash can be fixed by installing this mod:
+
+https://www.nexusmods.com/skyrimspecialedition/mods/108618
+
+If it did not work, this should work:
+
+https://www.nexusmods.com/skyrimspecialedition/mods/23010
+
+https://www.nexusmods.com/skyrimspecialedition/mods/107216
+
+
+...
+
+https://www.reddit.com/r/skyrimmods/s/qZkp0APBWq
+
+You need to install Quest Journal Fix for SkyUI.
+
+https://www.nexusmods.com/skyrimspecialedition/mods/108618
+
+
+More in it from Roma:
+
+https://www.reddit.com/r/skyrimmods/s/WsgelsZ6Ib
+
+“
+
+"Interface/Quest_Journal.swf"
+
+This crash may be fixed by installing "SkyUI Quest Journal Fix", but this does not always work, however.
+
+So to fix it, install Dear Diary Dark Mode and make sure to install the journal in the fomod installer:
+
+https://www.nexusmods.com/skyrimspecialedition/mods/60837
+
+If your menu is squished after installing it, use this as well:
+
+https://www.nexusmods.com/skyrimspecialedition/mods/107216
+
+
+“
+
+
+Roma 11/21 with another mod that is incompatible with the fix mod?
+
+https://www.reddit.com/r/skyrimmods/s/v8GorDOprn
+
+
+Roma 12/27:
+
+https://www.reddit.com/r/skyrimmods/s/ZwsWUdStmj
+
+“
+
+"Interface/Quest_Journal.swf"
+
+Installing this should fix this crash:
+
+https://www.nexusmods.com/skyrimspecialedition/mods/108618
+
+If that did not work, this should work as well:
+
+https://www.nexusmods.com/skyrimspecialedition/mods/60837?tab=files
+
+https://www.nexusmods.com/skyrimspecialedition/mods/107216
+“
+
+..
+
+
 
 
 
@@ -10,7 +91,33 @@ https://phostwood.github.io/crash-analyzer/
 
 ---
 
-1. Interface/Quest_Journal.swf issue (see GK notes)
+1. Gamepad issue (see GK notes)
+
+	verify these fix wouldn't apply to Nolvus/SkyrimSE ... just AE?
+
+	Indicators:
+	(BSWin32GamepadDevice*)(BSPCGamepadDeviceHandler*)
+
+	After the updates, you now need a new controlmap or else you will crash when you have a gamepad plugged in. The log indicates this is an issue.
+
+	What you can do to fix this is to download this working controlmap and install it:
+
+
+
+	[Modern Controlmap (Gamepad and Keyboard)](https://www.nexusmods.com/skyrimspecialedition/mods/89649)
+
+	..
+
+	Just in case, download a controlmap compatible for 1.6.1170:
+
+	[Modern Controlmap (Gamepad and Keyboard)](https://www.nexusmods.com/skyrimspecialedition/mods/89649)
+
+	See if that works.
+
+
+
+
+
 
 3. New sections. variables for:
 	- sections.RamTotal		    (CLSSE or Trainwreck?)
