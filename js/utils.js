@@ -312,6 +312,13 @@ Utils.hasNewEslSupport = function(sectionHeader) {
     return hasNewEslSupport;
 };
 
+Utils.hasSkyrimAE1170 = function(sectionHeader) {
+    const hasSkyrimAE1170 = Utils.hasSkyrimVersionOrHigher(sectionHeader, [1, 6, 1170, 0]);
+    Utils.debuggingLog(['hasSkyrimAE1170_long'], 'hasSkyrimAE1170 raw sectionHeader:', sectionHeader);
+    Utils.debuggingLog(['hasSkyrimAE1170'], 'hasSkyrimAE1170 flag set to:', hasSkyrimAE1170);
+    return hasSkyrimAE1170;
+};
+
 
 Utils.pluginChecker = function(crashLog, plugins) {
     const lowerCaseLog = crashLog.toLowerCase();
@@ -771,7 +778,7 @@ Utils.getLogSectionsMap = function(logFile) {
     });
     sections.logType = logType;
     if(logType === 'CrashLogger' || logType === 'Trainwreck') {
-        sections.firstLine = this.logLines[3]; // NOTE: for Crash Logger (and Trainwreck) logs, what I called the "firstLine" for NSF logs is moved to the 4th line (desinated as the 3rd in the array).
+        sections.firstLine = this.logLines[3]; // NOTE: for Crash Logger (and Trainwreck) logs, what I called the "firstLine" for NSF logs is moved to the 4th line (designated as the 3rd in the array).
         sectionsMap.set('firstLine', {  // NOTE: update sectionsMap
             ...sectionsMap.get('firstLine'),
             content: this.logLines[3]
@@ -779,7 +786,9 @@ Utils.getLogSectionsMap = function(logFile) {
     }
     sections.hasSkyrimAE = this.hasSkyrimAE(sections.header);
     sections.hasNewEslSupport = this.hasNewEslSupport(sections.header);
-    sectionsMap.set('hasNewEslSupport', Utils.hasNewEslSupport(sections.header));
+    //wrong way to set since not already set before?: sectionsMap.set('hasNewEslSupport', Utils.hasNewEslSupport(sections.header));
+    sections.hasSkyrimAE1170 = this.hasSkyrimAE1170(sections.header);
+    //wrong way to set since not already set before?: sectionsMap.set('hasSkyrimAE1170', Utils.hasSkyrimAE1170(sections.header));
 
 
     sections.secondLine = this.logLines[1];

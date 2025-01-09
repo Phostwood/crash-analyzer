@@ -367,6 +367,7 @@ STACK:
   1hBloodHitEffectCut                  //Cut blood impact effect 
   BloodSprayImpact01                   //Blood spray impact
   Occlusion.esp						   //DynDOLOD occlusion optimization file
+  Interface/Quest_Journal.swf          // SkyUI journal interface file
 
 
 MODULES:

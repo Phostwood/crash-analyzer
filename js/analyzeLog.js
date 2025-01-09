@@ -64,13 +64,6 @@ async function analyzeLog() {
         diagnoses += tooManyNonEslPluginsResult;
         diagnosesCount++;
     }
-
-    //Verify SSE Engine Fixes is installed
-    const missingEngineFixes = analyzeEngineFixes(sections);
-    if(missingEngineFixes) {
-        diagnoses += missingEngineFixes;
-        diagnosesCount++;
-    }
     
 
     //STRINGS crash
@@ -342,7 +335,7 @@ async function analyzeLog() {
 
 
 
-    
+    //❗ Potential Missing Masters Detected: 
     const missingMastersDiagnosis = checkForMissingMasters(sections);
     Utils.debuggingLog(['missingMastersDiagnosis', 'analyzeLog.js'], `missingMastersDiagnosis for diagnostic section:'`, missingMastersDiagnosis);
     Utils.debuggingLog(['missingMastersDiagnosis', 'analyzeLog.js'], `Utils.isSkyrimPage for diagnostic section:'`, Utils.isSkyrimPage);
@@ -350,6 +343,13 @@ async function analyzeLog() {
         diagnoses += missingMastersDiagnosis;
         diagnosesCount++;
         //NOTE: for Nolvus users, this result will still show up in the Advanced User's insights, below
+    }
+
+    //❗ Missing SSE Engine Fixes:
+    const missingEngineFixes = analyzeEngineFixes(sections);
+    if(missingEngineFixes) {
+        diagnoses += missingEngineFixes;
+        diagnosesCount++;
     }
 
 

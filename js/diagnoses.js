@@ -370,8 +370,7 @@ function checkForD6dddaAdvancedVersion(sections) {
     return diagnosis;
 }
 
-
-//Missing Master 2.1
+//❗ Potential Missing Masters Detected:
 function checkForMissingMasters(sections) {
     let diagnoses = '';
 
@@ -389,6 +388,36 @@ function checkForMissingMasters(sections) {
             diagnoses += '<li><b>New Mod Incompatibility:</b> Recently added mods may be causing conflicts. If you are using a version of Skyrim before 1.6.1130, but have added a mod designed with the newest type of ESL files, we suggest installing <a href="https://www.nexusmods.com/skyrimspecialedition/mods/106441">Backported Extended ESL Support (BEES)</a>, though this doesn\'t always resolve all incompatibilities.</li>';
         }
 
+        diagnoses += `<li><b>Creations Menu Conflicts:</b> Never use the in-game Creations menu (accessed from the main menu) while using an external mod manager like MO2 or Vortex. The Creations menu acts as its own mod manager and can conflict with your external one, causing missing masters and other issues. Always manage all mods exclusively through your chosen mod manager.</li>`;
+
+        
+
+
+        if (Utils.isSkyrimPage && sections.hasNewEslSupport && sections.bottomHalf.toLowerCase().includes('EngineFixes.dll'.toLowerCase())) {
+            diagnoses += `
+            <li><b>Consider reinstalling:</b> <a href="https://www.nexusmods.com/skyrimspecialedition/mods/17230">SSE Engine Fixes</a>
+                <ul>
+                    <li>WARNING: This mod is <strong>frequently misinstalled</strong>, so be careful to follow instructions on Nexus page to install BOTH parts:
+                        <ul>
+                            <li>Part 1: The SKSE plugin. Be sure to download the <b>updated</b> version for Skyrim ${Utils.getSkyrimVersion(sections.header)} and install via your mod manager</li>
+                            <li>Part 2: The DLL files. Must be manually placed in Skyrim root folder</li>
+                        </ul>
+                    </li>
+                    <li>Configure SSE Engine Fixes properly:
+                        <ul>
+                            <li>Option 1 (Recommended): Download the <a href="https://www.nexusmods.com/skyrimspecialedition/mods/108069">pre-configured TOML file</a></li>
+                            <li>Option 2: Manually configure following this <a href="https://www.reddit.com/r/skyrimmods/comments/tpmf8x/crash_on_load_and_save_corruption_finally_solved/">settings guide</a>. Verify/Edit these settings in <code>EngineFixes.toml</code> :
+                                <ul>
+                                    <li><code>SaveGameMaxSize = true</code></li>
+                                    <li><code>MaxStdio = 8192</code></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>`;
+        }
+
         diagnoses +=
             '<li><b>Identifying Missing Masters:</b> Mod Organizer 2 (MO2) typically displays warning icons (yellow triangle with exclamation mark) for plugins with missing masters. <a href="https://imgur.com/izlF0GO">View Screenshot</a>.</br>Or alternately, check the <b>🔎 Files/Elements</b> section of this report and look at mods higher up the list, which could help isolate which mod might be missing something. Review the mod on Nexus and consider reinstalling any likely causal mods to see if you missed a patch or requirement.</li>' +
 
@@ -397,8 +426,6 @@ function checkForMissingMasters(sections) {
             '<li><b>Version Mismatch:</b> Ensure all your mods are compatible with your Skyrim version (SE or AE). Always check the mod\'s description page for version compatibility.</li>' +
             
             Utils.LootListItemIfSkyrim;
-
-            diagnoses += '</ul></li>';
 
         diagnoses += '</ul></li>';
     }
@@ -1291,14 +1318,15 @@ function checkKernelbaseCrash(sections, Utils, win24H2UpscalerCrash, isDiagnoses
 
 
 
-
+//❗Missing SSE Engine Fixes:
 function analyzeEngineFixes(sections) {
     let insights = '';
     const hasMods = sections.bottomHalf.split('\n').filter(line => line.trim() !== '').length > 10;
     
     // Check if Engine Fixes is missing
     if (hasMods && !sections.bottomHalf.toLowerCase().includes('EngineFixes.dll'.toLowerCase())) {
-        insights += `<li>🎯 <b>Missing SSE Engine Fixes:</b> This foundational mod is usually essential for a stable modded game.
+        insights += `
+        <li>❗ <b>Missing SSE Engine Fixes:</b> This foundational mod is usually essential for a stable modded game.
             <ol>
                 <li><strong>⚠️ Warnings:</strong>
                     <ul>
@@ -1308,29 +1336,25 @@ function analyzeEngineFixes(sections) {
                     </ul>
                 </li>
                 
-                <li><strong>Required Steps:</strong>
+                <li><strong>Required Steps:</strong>    
                     <ol>
                         <li>Install <a href="https://www.nexusmods.com/skyrimspecialedition/mods/17230">SSE Engine Fixes</a>
                             <ul>
-                                <li>WARNING: This mod is <strong>frequently misinstalled</strong>, so be careful to follow instructions on Nexus page to install the correct versions of BOTH parts:
+                                <li>WARNING: This mod is <strong>frequently misinstalled</strong>, so be careful to follow instructions on Nexus page to install BOTH parts:
                                     <ul>
-                                        <li>Part 1: The SKSE plugin (install via mod manager)</li>
-                                        <li>Part 2: The DLL files (must be manually placed in Skyrim root folder)</li>
+                                        <li>Part 1: The SKSE plugin. Be sure to download the correct version for your Skyrim ${Utils.getSkyrimVersion(sections.header)} and install via your mod manager</li>
+                                        <li>Part 2: The DLL files. Must be manually placed in Skyrim root folder</li>
                                     </ul>
                                 </li>
                             </ul>
                         </li>
-                        
                         <li>Configure SSE Engine Fixes properly:
                             <ul>
                                 <li>Option 1 (Recommended): Download the <a href="https://www.nexusmods.com/skyrimspecialedition/mods/108069">pre-configured TOML file</a></li>
-                                <li>Option 2: Manually configure following this <a href="https://www.reddit.com/r/skyrimmods/comments/tpmf8x/crash_on_load_and_save_corruption_finally_solved/">settings guide</a>
+                                <li>Option 2: Manually configure following this <a href="https://www.reddit.com/r/skyrimmods/comments/tpmf8x/crash_on_load_and_save_corruption_finally_solved/">settings guide</a>. Verify/Edit these settings in <code>EngineFixes.toml</code> :
                                     <ul>
-                                        <li>Verify these settings in <code>EngineFixes.toml</code></li>
-                                        <ul>
-                                            <li><code>SaveGameMaxSize = true</code></li>
-                                            <li><code>MaxStdio = 8192</code></li>
-                                        </ul>
+                                        <li><code>SaveGameMaxSize = true</code></li>
+                                        <li><code>MaxStdio = 8192</code></li>
                                     </ul>
                                 </li>
                             </ul>
@@ -1356,6 +1380,8 @@ function analyzeEngineFixes(sections) {
 }
 
 
+
+//❗Critical First-Line Error Detected:
 function analyzeFirstLine(sections) {
     let insights = '';
     const ignoreFiles = ['Dawnguard.esm', 'Dragonborn.esm', 'null', 'null)', 'SkyrimSE.exe', 'skyrim.esm'];
@@ -1426,7 +1452,7 @@ function analyzeFirstLine(sections) {
 }
 
 
-//Strings
+//🎯.STRINGS Crash Detected:
 //OLD METHOD: if (R14StringsRegex.test(sections.topHalf)) {
 function analyzeStringsCrash(sections) {
     let insights = '';
@@ -1446,7 +1472,7 @@ function analyzeStringsCrash(sections) {
 
 
 
-
+//❓No highest-confidence crash indicators detected.
 function generateNoCrashDetectedMessage() {
     let diagnoses = '<li>❓ <b>No highest-confidence crash indicators detected.</b><ul>';
 
@@ -1474,7 +1500,7 @@ function generateNoCrashDetectedMessage() {
                 <li>Review and install any missing <a href="https://www.reddit.com/r/skyrimmods/wiki/essential_mods/#wiki_essential_bugfixes">Essential Bugfixes</a> applicable to your modlist</li>
                 <li>Check your load order against <a href="https://www.reddit.com/r/skyrimmods/wiki/begin2/">r/SkyrimMod's Beginner's Guide</a> guidelines</li>
                 <li>${Utils.LootIfSkyrim}</li>
-                <li>If issues persist, share your logs with <a href="https://www.reddit.com/r/skyrimmods/">r/Skyrim</a></li>
+                <li>If issues persist, share your logs with <a href="https://www.reddit.com/r/skyrimmods/">r/SkyrimMods</a></li>
                 <li><b>As a last resort:</b> Try disabling groups of mods at a time (being mindful of masters and dependencies) until the crash stops. While tedious, this can help isolate problematic mod combinations</li>
             </ul></li>`;
     } else {
@@ -1499,7 +1525,7 @@ function generateNoCrashDetectedMessage() {
 
 
 
-
+//Overlays Issue/Warning
 function analyzeOverlayIssues(sections, logFile) {
     let diagnosis = '';
     let overlayFiles = [];
@@ -1587,7 +1613,7 @@ function analyzeOverlayIssues(sections, logFile) {
 
 
 
-// Add new indicators for animation loader issues
+//❗Animation Loader/Behavior Engine Issue Detected
 
 function analyzeAnimationLoaderIssues(sections) {
     let loaderInsights = '';
@@ -1667,7 +1693,7 @@ function analyzeAnimationLoaderIssues(sections) {
 
 
 
-//SSE Fixes issues
+//❗SSE Fixes Compatibility Issue Detected
 function analyzeSSEFixesIssues(sections) {
     let fixesInsights = '';
     let isHighPriority = false;
@@ -1694,34 +1720,35 @@ function analyzeSSEFixesIssues(sections) {
 
     if (issuesFound.impactEffects.length > 0 && issuesFound.files.length > 0 && sections.hasSkyrimAE) {
         isHighPriority = true;
-        fixesInsights += `<li>❗ <b>SSE Fixes Compatibility Issue Detected:</b> 
-        <ol>
-        <li>Recommendation:
-            <ul>
-                <li><b>Remove SSE Fixes mod</b> (the one containing FpsFixPlugin.dll - <a href="https://www.nexusmods.com/skyrimspecialedition/mods/10547">this mod</a>)</li>
-                <li>Note: This is <i>not</i> the same as the essential <a href="https://www.nexusmods.com/skyrimspecialedition/mods/17230">SSE Engine Fixes</a> mod</li>
-                <li>Note: If you specifically need SSE Fixes' mutex locking feature on newer Skyrim versions, consider either:
-                    <ul>
-                        <li>Disabling all other tweaks in the SSE Fixes config, or</li>
-                        <li>Finding an alternative mod for mutex locking</li>
-                    </ul>
-                </li>
-            </ul>
-        </li>
+        fixesInsights += `
+            <li>❗ <b>SSE Fixes Compatibility Issue Detected:</b> 
+                <ol>
+                    <li>Recommendation:
+                        <ul>
+                            <li><b>Remove SSE Fixes mod</b> (the one containing FpsFixPlugin.dll - <a href="https://www.nexusmods.com/skyrimspecialedition/mods/10547">this mod</a>)</li>
+                            <li>Note: This is <i>not</i> the same as the essential <a href="https://www.nexusmods.com/skyrimspecialedition/mods/17230">SSE Engine Fixes</a> mod</li>
+                            <li>Note: If you specifically need SSE Fixes' mutex locking feature on newer Skyrim versions, consider either:
+                                <ul>
+                                    <li>Disabling all other tweaks in the SSE Fixes config, or</li>
+                                    <li>Finding an alternative mod for mutex locking</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
 
-        <li>Why this happens:
-            <ul>
-                <li>SSE Fixes is only compatible with Skyrim version 1.5.97</li>
-                <li>Using it with newer versions can cause crashes, especially during combat</li>
-                <li>These crashes often manifest as blood spray or impact effect issues</li>
-            </ul>
-        </li>
+                    <li>Why this happens:
+                        <ul>
+                            <li>SSE Fixes is only compatible with Skyrim version 1.5.97</li>
+                            <li>Using it with newer versions can cause crashes, especially during combat</li>
+                            <li>These crashes often manifest as blood spray or impact effect issues</li>
+                        </ul>
+                    </li>
 
-        <li>Additional notes:
-            <ul>
-                <li>This issue is particularly common when both SSE Fixes and Precision are installed</li>
-            </ul>
-        </li>`;
+                    <li>Additional notes:
+                        <ul>
+                            <li>This issue is particularly common when both SSE Fixes and Precision are installed</li>
+                        </ul>
+                    </li>`;
 
         if (issuesFound.impactEffects.length > 0 || issuesFound.files.length > 0) {
             fixesInsights += `<li>Detected issue indicators: <a href="#" class="toggleButton">⤵️ show more</a><ul class="extraInfo" style="display:none">`;
@@ -1746,7 +1773,7 @@ function analyzeSSEFixesIssues(sections) {
 
 
 
-
+//🎯Quest Journal UI Crash Detected:
 function analyzeQuestJournalCrash(sections) {
     let insights = '';
     if (sections.topHalf.includes('Interface/Quest_Journal.swf')) {

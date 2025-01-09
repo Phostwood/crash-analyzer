@@ -1,89 +1,60 @@
-✅Beta version 0.19.19 is now live:
+✅Beta version 0.19.20 is now live:
 https://phostwood.github.io/crash-analyzer/
 
-1. ✅New Test: Interface/Quest_Journal.swf issue
+1. ✅No highest-confidence: fixed typo in link title
 
-2. ✅Occlusion.esp reformatted in Explainers list (and also added to Test Logs ... which I previously forgot to do)
+2. ✅Missing Masters: added additional information and ideas from Krispyroll
+	https://old.reddit.com/r/skyrimmods/comments/1hwv1it/can_someone_please_tell_me_whats_causing_my_game/m64ww9j/?context=3
+
+3. ✅Missing SSE Engine Fixes: took some summarizing/reformatting from new work done in Missing Masters (above)
+
+4. ✅Added to Test Logs:
+	Interface/Quest_Journal.swf     // SkyUI journal interface file
+
 
 
 ~~ NOTES: ~~
 
+	Hmm, a missing master issue would usually be caused by these possibilities:
 
-Also, recently from Roma:
-https://www.reddit.com/r/skyrimmods/comments/1hw8jtg/new_modder_need_help/
+	- Using the in-game Creations menu with an external mod manager
+	- Having the wrong version of Engine Fixes for 1.6.1170
+	- Missing an actual master for a plugin
+	- Not having BEES installed
 
-"Interface/Quest_Journal.swf"
-
-This specific crash can be fixed by installing this mod:
-
-https://www.nexusmods.com/skyrimspecialedition/mods/108618
-
-If it did not work, this should work:
-
-https://www.nexusmods.com/skyrimspecialedition/mods/23010
-
-https://www.nexusmods.com/skyrimspecialedition/mods/107216
+	So the absence of Engine Fixes doesn't immediately make me think that it's the culprit here,
 
 
-...
-
-https://www.reddit.com/r/skyrimmods/s/qZkp0APBWq
-
-You need to install Quest Journal Fix for SkyUI.
-
-https://www.nexusmods.com/skyrimspecialedition/mods/108618
+	...
 
 
-More in it from Roma:
+	I think you can do something like this:
 
-https://www.reddit.com/r/skyrimmods/s/WsgelsZ6Ib
+		- If Engine fixes is detected and the user is on 1.6.1170, to make sure they either edit the TOML or download the correct version, and set as the highest priority, the other advice except BEES installed would apply here.
 
-“
+		- If Engine Fixes is detected and the user is lower than 1.6.1170, then it's probably one of the other three possibilities.
 
-"Interface/Quest_Journal.swf"
+		- If there's no Engine Fixes at all, then I'd say it's one of the three other issues, but Missing Engine Fixes can still be a recommendation in the next priority.
 
-This crash may be fixed by installing "SkyUI Quest Journal Fix", but this does not always work, however.
+		If they're above 1.6.1170, BEES can be excluded, but below would be needed.
 
-So to fix it, install Dear Diary Dark Mode and make sure to install the journal in the fomod installer:
-
-https://www.nexusmods.com/skyrimspecialedition/mods/60837
-
-If your menu is squished after installing it, use this as well:
-
-https://www.nexusmods.com/skyrimspecialedition/mods/107216
+	*NOTE: actually BEES only needs to be installed for prior to 1.6.1130
 
 
-“
-
-
-Roma 11/21 with another mod that is incompatible with the fix mod?
-
-https://www.reddit.com/r/skyrimmods/s/v8GorDOprn
-
-
-Roma 12/27:
-
-https://www.reddit.com/r/skyrimmods/s/ZwsWUdStmj
-
-“
-
-"Interface/Quest_Journal.swf"
-
-Installing this should fix this crash:
-
-https://www.nexusmods.com/skyrimspecialedition/mods/108618
-
-If that did not work, this should work as well:
-
-https://www.nexusmods.com/skyrimspecialedition/mods/60837?tab=files
-
-https://www.nexusmods.com/skyrimspecialedition/mods/107216
-“
-
-..
-
-
-
+	-DONE: but still needs tested and approved by Krispyroll
+		How are these 4 versions?
+		See screenshots with captions at: https://imgur.com/a/9idWSd4
+			1. Missing Masters with Pre-1130 (Skyrim 1.5.97?) and with SSE Engine Fixes
+				- includes BEES
+			2. Missing Masters with 1130 and with SSE Engine Fixes
+				- no BEES
+				- no mention of Engine Fixes
+			3. Missing Masters with 1170 and with SSE Engine Fixes
+				- no BEES
+				- mentions Engine Fixes in Missing Masters troubleshooting steps
+			4. Missing Masters with 1170 but without SSE Engine Fixes
+				- no BEES
+				- Engine Fixes mentioned separately, below
 
 
 
@@ -114,6 +85,24 @@ https://www.nexusmods.com/skyrimspecialedition/mods/107216
 
 	See if that works.
 
+	..
+
+	\[RSP+60 \] 0x16C622BCE00 (BSWin32GamepadDevice\*)
+
+	You're crashing because you have a controller connected. If you don't generally use one, either disconnect it or download a compatible controller map for 1170. You can find any number of them on Nexus, like this:
+	https://www.nexusmods.com/skyrimspecialedition/mods/18333?tab=files
+
+	..
+
+	You crash because of (BSWin32GamepadDevice\*).
+
+	You need to install a new control map after the most recent updates when having a game pad connected, or else you will crash.
+
+	Please install this one, as it works:
+
+	https://www.nexusmods.com/skyrimspecialedition/mods/89649
+
+    ..
 
 
 
@@ -150,9 +139,15 @@ https://www.nexusmods.com/skyrimspecialedition/mods/107216
 1. New test to recommend deleting FormIDs with ReSaver:
 https://www.reddit.com/r/skyrimmods/comments/1hufzrw/instability_out_of_nowhere/
 - seek out replies from Krispyroll, MaskPlague, and RomatebitegeL
-
-
+	- https://reddit.com/r/skyrimmods/comments/1hupget/skyrim_crashes_when_entering_world/m5qej0o/?context=3
+	- https://reddit.com/r/skyrimmods/comments/1hufzrw/instability_out_of_nowhere/m5mjntb/?context=3
+	- https://reddit.com/r/skyrimmods/comments/1hsekqz/saves_and_new_games_crash/m58ec9o/?context=3
+	- https://reddit.com/r/skyrimmods/comments/1ht4aof/skyrim_crashes_when_getting_close_to_arcwind_point/m5qpzha/?context=3
+	- "Form IDs that start with 0xFF are generated dynamically at run time which means that the NPC is generic and that Form ID is specific to that save." - MaskPlague
 	
+	- Possible mod idea? https://www.nexusmods.com/skyrimspecialedition/mods/136456
+		- Doesn't allow editing, but to a technical-ish person it would probably help find a navmesh issue and isolate the mod responsible for it
+
 
 
 
