@@ -603,7 +603,7 @@ function analyzeMemoryIssues(sections) {
         </li>`;
 
         if (hexCodeIssue || memoryCodeIssues.length > 0) {
-            memoryInsights += `<li>Detected memory issue indicators: <a href="#" class="toggleButton">⤵️ show more</a><ul class="extraInfo" style="display:none">`;
+            memoryInsights += `<li>Detected indicators: <a href="#" class="toggleButton">⤵️ show more</a><ul class="extraInfo" style="display:none">`;
             if(hexCodeIssue) {
                 memoryInsights += `<li><code>${hexCodeIssue.hexCode}</code> - ${hexCodeIssue.description}</li>`;
             };
@@ -848,7 +848,7 @@ function analyzePathingIssues(sections) {
                     </ul>
                 </li>`;
                 
-        pathingInsights += `<li>Detected NavMesh/Pathing Issue indicators: <a href="#" class="toggleButton">⤵️ show more</a><ul class="extraInfo" style="display:none">`;
+        pathingInsights += `<li>Detected indicators: <a href="#" class="toggleButton">⤵️ show more</a><ul class="extraInfo" style="display:none">`;
         pathingIssueIndicators.forEach(({ code, description }) => {
             pathingInsights += `<li><code>${code}</code> - ${description}</li>`;
         });
@@ -943,7 +943,7 @@ function analyzeAnimationIssues(sections) {
         </li>`;
 
         if (animationCodeIssues.length > 0) {
-            animationInsights += `<li>Detected animation issue indicators: <a href="#" class="toggleButton">⤵️ show more</a><ul class="extraInfo" style="display:none">`;
+            animationInsights += `<li>Detected indicators: <a href="#" class="toggleButton">⤵️ show more</a><ul class="extraInfo" style="display:none">`;
             animationCodeIssues.forEach(({ code, description }) => {
                 animationInsights += `<li><code>${code}</code> - ${description}</li>`;
             });
@@ -1672,7 +1672,7 @@ function analyzeAnimationLoaderIssues(sections) {
         loaderInsights += `<li>Note: These issues may overlap with general animation issues. If animation regeneration doesn't solve the problem, check for an "Animation Issue" section directly above for additional troubleshooting ideas.</li>`;
 
         if (loaderCodeIssues.length > 0) {
-            loaderInsights += `<li>Detected animation loader indicators: <a href="#" class="toggleButton">⤵️ show more</a><ul class="extraInfo" style="display:none">`;
+            loaderInsights += `<li>Detected indicators: <a href="#" class="toggleButton">⤵️ show more</a><ul class="extraInfo" style="display:none">`;
             loaderCodeIssues.forEach(({ code, description }) => {
                 loaderInsights += `<li><code>${code}</code> - ${description}</li>`;
             });
@@ -1751,7 +1751,7 @@ function analyzeSSEFixesIssues(sections) {
                     </li>`;
 
         if (issuesFound.impactEffects.length > 0 || issuesFound.files.length > 0) {
-            fixesInsights += `<li>Detected issue indicators: <a href="#" class="toggleButton">⤵️ show more</a><ul class="extraInfo" style="display:none">`;
+            fixesInsights += `<li>Detected indicators: <a href="#" class="toggleButton">⤵️ show more</a><ul class="extraInfo" style="display:none">`;
             issuesFound.files.forEach(({ name, description }) => {
                 fixesInsights += `<li><code>${name}</code> - ${description}</li>`;
             });
@@ -1798,5 +1798,38 @@ function analyzeQuestJournalCrash(sections) {
             </ul></li>
             </ol></li>`;
     }
+    return insights;
+}
+
+
+
+
+//🎯Gamepad Compatibility Issue Detected:
+function analyzeGamepadCrash(sections) {
+    let insights = '';
+
+    const foundIndicators = crashIndicators.gamepadIssues.indicators.filter(({ name }) =>
+        sections.topHalf.includes(name)
+    );
+
+    if (foundIndicators.length > 0) {
+        insights += `<li>🎯 <b>Gamepad Compatibility Issue Detected:</b> A gamepad/controller is likley causing crashes with your Skyrim version. To resolve this:<ol>
+            <li>Choose one of these options:
+                <ul>
+                <li>Update (Recommended): Install any compatible controllmap, for example: <a href="https://www.nexusmods.com/skyrimspecialedition/mods/89649">Modern Controlmap (Gamepad and Keyboard)</a></li>
+                <li>Workaround: Temporarily disconnect your gamepad/controller if you don't use it</li>
+                </ul>
+            </li>
+            ${sections.hasNewEslSupport ? `<li>This issue frequently affects newer Skyrim versions that need an updated controlmap for gamepad support</li>` : ''}
+            <li>Detected indicators: <a href="#" class="toggleButton">⤵️ show more</a><ul class="extraInfo" style="display:none">`;
+
+        foundIndicators.forEach(({ name, description }) => {
+            insights += `<li><code>${name}</code> - ${description}</li>`;
+        });
+
+        insights += `</ul></li>
+            </ol></li>`;
+    }
+
     return insights;
 }

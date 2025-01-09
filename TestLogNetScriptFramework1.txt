@@ -167,6 +167,8 @@ BloodHitEffectBlunt                  //Blunt blood impact effect
 BloodSprayImpact01                   //Blood spray impact
 Occlusion.esp						             //DynDOLOD occlusion optimization file
 Interface/Quest_Journal.swf          // SkyUI journal interface file
+BSWin32GamepadDevice                 // Windows gamepad device handler
+BSPCGamepadDeviceHandler             // PC gamepad device handler
 
 }
 

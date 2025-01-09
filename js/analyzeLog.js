@@ -173,6 +173,16 @@ async function analyzeLog() {
         diagnosesCount++;
     }
 
+    //🎯Gamepad Compatibility Issue Detected:
+    const gamepadCrashDiagnosis = analyzeGamepadCrash(sections);
+    if(gamepadCrashDiagnosis) {
+        diagnoses += gamepadCrashDiagnosis;
+        diagnosesCount++;
+    }
+
+
+
+
 
     //SkyrimUpscaler crash
     // Files names from Puredark's Upscalers:

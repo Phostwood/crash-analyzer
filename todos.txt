@@ -1,73 +1,18 @@
-✅Beta version 0.19.20 is now live:
+✅Beta version 0.19.21 is now live:
 https://phostwood.github.io/crash-analyzer/
 
-1. ✅No highest-confidence: fixed typo in link title
+1. New test: Gamepad Compatibility Issue Detected (Thanks RomatebitegeL and Krispyroll!)
 
-2. ✅Missing Masters: added additional information and ideas from Krispyroll
-	https://old.reddit.com/r/skyrimmods/comments/1hwv1it/can_someone_please_tell_me_whats_causing_my_game/m64ww9j/?context=3
-
-3. ✅Missing SSE Engine Fixes: took some summarizing/reformatting from new work done in Missing Masters (above)
-
-4. ✅Added to Test Logs:
-	Interface/Quest_Journal.swf     // SkyUI journal interface file
+2. Standardized on using "Detected indicators:" instead of unique versions for each, something like "Detected memory indicators". Minor text change to 5 tests in Diagnosis.js
 
 
-
-~~ NOTES: ~~
-
-	Hmm, a missing master issue would usually be caused by these possibilities:
-
-	- Using the in-game Creations menu with an external mod manager
-	- Having the wrong version of Engine Fixes for 1.6.1170
-	- Missing an actual master for a plugin
-	- Not having BEES installed
-
-	So the absence of Engine Fixes doesn't immediately make me think that it's the culprit here,
-
-
-	...
-
-
-	I think you can do something like this:
-
-		- If Engine fixes is detected and the user is on 1.6.1170, to make sure they either edit the TOML or download the correct version, and set as the highest priority, the other advice except BEES installed would apply here.
-
-		- If Engine Fixes is detected and the user is lower than 1.6.1170, then it's probably one of the other three possibilities.
-
-		- If there's no Engine Fixes at all, then I'd say it's one of the three other issues, but Missing Engine Fixes can still be a recommendation in the next priority.
-
-		If they're above 1.6.1170, BEES can be excluded, but below would be needed.
-
-	*NOTE: actually BEES only needs to be installed for prior to 1.6.1130
-
-
-	-DONE: but still needs tested and approved by Krispyroll
-		How are these 4 versions?
-		See screenshots with captions at: https://imgur.com/a/9idWSd4
-			1. Missing Masters with Pre-1130 (Skyrim 1.5.97?) and with SSE Engine Fixes
-				- includes BEES
-			2. Missing Masters with 1130 and with SSE Engine Fixes
-				- no BEES
-				- no mention of Engine Fixes
-			3. Missing Masters with 1170 and with SSE Engine Fixes
-				- no BEES
-				- mentions Engine Fixes in Missing Masters troubleshooting steps
-			4. Missing Masters with 1170 but without SSE Engine Fixes
-				- no BEES
-				- Engine Fixes mentioned separately, below
-
-
-
-
-
----
-
-1. Gamepad issue (see GK notes)
+~~~ NOTES: ~~~
 
 	verify these fix wouldn't apply to Nolvus/SkyrimSE ... just AE?
 
 	Indicators:
-	(BSWin32GamepadDevice*)(BSPCGamepadDeviceHandler*)
+	- BSWin32GamepadDevice
+	- BSPCGamepadDeviceHandler
 
 	After the updates, you now need a new controlmap or else you will crash when you have a gamepad plugged in. The log indicates this is an issue.
 
@@ -90,23 +35,63 @@ https://phostwood.github.io/crash-analyzer/
 	\[RSP+60 \] 0x16C622BCE00 (BSWin32GamepadDevice\*)
 
 	You're crashing because you have a controller connected. If you don't generally use one, either disconnect it or download a compatible controller map for 1170. You can find any number of them on Nexus, like this:
-	https://www.nexusmods.com/skyrimspecialedition/mods/18333?tab=files
+	[More Intuitive Controller Mapping](https://www.nexusmods.com/skyrimspecialedition/mods/18333)
 
 	..
 
-	You crash because of (BSWin32GamepadDevice\*).
+	You crash because of BSWin32GamepadDevice.
 
 	You need to install a new control map after the most recent updates when having a game pad connected, or else you will crash.
 
 	Please install this one, as it works:
 
-	https://www.nexusmods.com/skyrimspecialedition/mods/89649
-
-    ..
+	[Modern Controlmap (Gamepad and Keyboard)](https://www.nexusmods.com/skyrimspecialedition/mods/89649)
 
 
+~~~
 
 
+
+❌1. Add new indicators to Skeleton test's indicators. ... But remove it from the diagnoses section✅, because its just too common. Or maybe mix XMPSE with Skelton test? MIght be able to mix in regeneration test too ... or maybe not?
+	-	UpperarmTwist, UpperArm, Clavicle, Shoulder, Spine
+
+4. Google Keep Notes:
+	- Double-check (including their linked log files and guru determined diagnoses) on related notes
+	- Close out notes for all double-checked additions/fixes
+	- Review remaining GK Notes to verify there aren't any additional fixes that need done before monetization
+
+
+6. Catch up on on TestLogs (from at least one if not from a couple prior versions?)
+	- Baseform: null (?) for NSF Test Log
+	-
+
+
+
+
+
+
+
+
+✅Beta version 0.20:
+https://phostwood.github.io/crash-analyzer/
+
+
+#The Great Monetization?
+
+1  Banner ads directly after that!  :-)
+   - Banner free for Nolvus Discord Helpers should be doable!
+      - https://copilot.microsoft.com/chats/gq3e6pKpmhc2DsB5X3d81
+	  - still need to figure out a way for Roma and MaskPlague and Krispyroll though ... maybe make my own Discord for the analyzer and make user rolls for them once they sign in?
+   - Need to find the best, high-paying, but never unethical banner ad service. No popups. No fake user interfaces. Either targeted ads or like video game or generic ads. Nothing not safe for work. Must be truly mobile friendly. Small banners at top and bottom if mobile. If good screen resolution then feel free to put larger vertical ads on the side. Needs to be easy to use in JS/HTML web aps hosted on GitHub Pages. American or European Union based. Must be a big, ethical-ish company (or at least one that everyone is forced to use anyway).
+2. Code to disable banners for Nolvus Discord Helpers
+3. Create my own Phostwood Crash Log Analyzer Discord, with a group called Helpers. And offer to add Roma, and Krispyroll, and Mask
+4. Paypal and KoFi buttons
+5. Patreon subscribers get no ads (currently none of these, so a lower priority)
+6. KoFi subscribers get no ads to, if possible?
+
+
+
+--- for future versions ---
 
 3. New sections. variables for:
 	- sections.RamTotal		    (CLSSE or Trainwreck?)
@@ -149,56 +134,7 @@ https://www.reddit.com/r/skyrimmods/comments/1hufzrw/instability_out_of_nowhere/
 		- Doesn't allow editing, but to a technical-ish person it would probably help find a navmesh issue and isolate the mod responsible for it
 
 
-
-
-
 --
-
-
-
-❌1. Add new indicators to Skeleton test's indicators. ... But remove it from the diagnoses section✅, because its just too common. Or maybe mix XMPSE with Skelton test? MIght be able to mix in regeneration test too ... or maybe not?
-	-	UpperarmTwist, UpperArm, Clavicle, Shoulder, Spine
-
-4. Google Keep Notes:
-	- Double-check (including their linked log files and guru determined diagnoses) on related notes
-	- Close out notes for all double-checked additions/fixes
-	- Review remaining GK Notes to verify there aren't any additional fixes that need done before monetization
-
-
-
-6. Catch up on on TestLogs (from at least one if not from a couple prior versions?)
-	- Baseform: null (?) for NSF Test Log
-	-
-
-
-
-
-
-
-
-
-✅Beta version 0.20:
-https://phostwood.github.io/crash-analyzer/
-
-
-#The Great Monetization?
-
-1  Banner ads directly after that!  :-)
-   - Banner free for Nolvus Discord Helpers should be doable!
-      - https://copilot.microsoft.com/chats/gq3e6pKpmhc2DsB5X3d81
-	  - still need to figure out a way for Roma and MaskPlague and Krispyroll though ... maybe make my own Discord for the analyzer and make user rolls for them once they sign in?
-   - Need to find the best, high-paying, but never unethical banner ad service. No popups. No fake user interfaces. Either targeted ads or like video game or generic ads. Nothing not safe for work. Must be truly mobile friendly. Small banners at top and bottom if mobile. If good screen resolution then feel free to put larger vertical ads on the side. Needs to be easy to use in JS/HTML web aps hosted on GitHub Pages. American or European Union based. Must be a big, ethical-ish company (or at least one that everyone is forced to use anyway).
-2. Code to disable banners for Nolvus Discord Helpers
-3. Create my own Phostwood Crash Log Analyzer Discord, with a group called Helpers. And offer to add Roma, and Krispyroll, and Mask
-4. Paypal and KoFi buttons
-5. Patreon subscribers get no ads (currently none of these, so a lower priority)
-6. KoFi subscribers get no ads to, if possible?
-
-
-
----next version---
-
-
 
 
 1. Trim down and tone down Jerilith's rules

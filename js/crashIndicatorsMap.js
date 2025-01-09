@@ -13,6 +13,16 @@ const crashIndicators = {
         ]        
     },
 
+    gamepadIssues: {
+        hexCodes: [
+            // Space for future hex codes
+        ],
+        indicators: [
+            { name: 'BSWin32GamepadDevice', description: "Windows gamepad device handler" },
+            { name: 'BSPCGamepadDeviceHandler', description: "PC gamepad device handler" }
+        ]
+     },
+
     sseFixesIssues: {
         hexCodes: [
             // Space for future hex codes
