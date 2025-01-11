@@ -111,11 +111,6 @@ async function analyzeLog() {
         diagnosesCount++;
     }
 
-    // Check for USVFS crash
-    if (sections.probableCallstack.toLowerCase().includes('usvfs_x64.dll')) {
-        diagnoses += `<li>🎯 <b>USVFS Crash Detected:</b> An antivirus (most frequently, Webroot or Bitdefender) is blocking the MO2 file system. Either change your antivirus, or disable your antivirus, and/or create an exception for the entire ${Utils.NolvusOrSkyrimText} directory. More information and troubleshooting tips under <a href="https://www.nolvus.net/catalog/crashlog?acc=accordion-1-12">USVFS Crash</a/>.</li>`;
-        diagnosesCount++;
-    }
 
     // Check for Alphabetized Load Order crash
     // NOTE: Trainwreck logs don't include a list of mods, and so will never display this error
@@ -382,23 +377,13 @@ async function analyzeLog() {
         diagnosesCount++;
     }
 
-    // Antivirus Warning
-    let foundAntivirus = '';
-    for (const [antivirus, dlls] of Object.entries(antivirusSignatures)) {
-        if (dlls.some(dll => logFile.toLowerCase().includes(dll))) {
-            foundAntivirus = antivirus;
-            break;
-        }
-    }
-
-    if (foundAntivirus) {
-        diagnoses += `<li>⚠️ <b>Antivirus Warning:</b> <code>${foundAntivirus}</code> antivirus detected. Third-party antivirus software is a frequent contributor to crashes in heavily-modded Skyrim. Consider adding ${Utils.NolvusOrSkyrimText} to your antivirus exclusions and/or switching to the built-in Windows Defender for better compatibility.</li>`;
-        diagnosesCount++;
-    } else {
-        // Check for Windows Defender in sections.topHalf if no other antivirus found
-        const windowsDefenderDlls = ['mpsvc.dll', 'mpclient.dll'];
-        if (windowsDefenderDlls.some(dll => sections.topHalf.toLowerCase().includes(dll))) {
-            diagnoses += `<li>⚠️ <b>Antivirus Info:</b> Windows Defender detected in the top half of your crash log (above the Modules section). Windows Defender is typically not a problem for Skyrim, but if you're experiencing issues, you might consider adding exclusions for ${Utils.NolvusOrSkyrimText}.</li>`;
+    
+    //🎯 Antivirus Issue Detected:
+    // or ⚠️ Antivirus Warning:
+    const antivirusResults = analyzeAntivirusIssues(sections);
+    if(antivirusResults.diagnoses) {
+        diagnoses += antivirusResults.diagnoses;
+        if (antivirusResults.isHighPriority) {
             diagnosesCount++;
         }
     }
@@ -500,17 +485,6 @@ async function analyzeLog() {
         insightsCount++;
     }
 
-
-    //USVFS (Antivirus)
-    if (sections.probableCallstack.includes('usvfs_x64.dll')) {
-        insights += '<li>🎯 <b>USVFS Crash Detected:</b> The presence of \'usvfs_x64.dll\' in the crash log indicates an issue related to the MO2 (Mod Organizer 2) file system. This crash is often caused by <b>antivirus software</b>, particularly Webroot or Bitdefender, blocking MO2\'s file operations. To resolve this issue:<ol>' +
-            '<li>Check if you have Webroot or Bitdefender antivirus installed.</li>' +
-            `<li>Temporarily disable your antivirus or create an exception for the entire ${Utils.NolvusOrSkyrimText} directory within your antivirus settings.</li>` +
-            '<li>Ensure that MO2 has the necessary permissions to access and modify files without interference from the antivirus.</li>' +
-            '<li>For detailed troubleshooting tips, refer to the <a href="https://www.nolvus.net/catalog/crashlog?acc=accordion-1-12">USVFS Crash section</a> on the Nolvus support page.</li>' +
-            '</ol></li>';
-        insightsCount++;
-    }
 
     //ENB issue (long, but collapsable version)
     if (sections.firstLine.includes('d3d11.dll')) {
@@ -900,7 +874,7 @@ async function analyzeLog() {
     }
 
 
-
+    //❓ BGSSaveLoadManager Issue Detected: 
     const bgsSaveLoadInsights = analyzeBGSSaveLoadManagerIssue(sections);
     if (bgsSaveLoadInsights) {
         insights += bgsSaveLoadInsights;
@@ -972,15 +946,10 @@ async function analyzeLog() {
     }
 
 
-    //keyboard
-    if (sections.topHalf.toLowerCase().includes('bswin32keyboarddevice')) {
-        insights += '<li>❓ <b>bswin32keyboarddevice Issue Detected:</b> The error related to \'bswin32keyboarddevice\' typically indicates a problem with the keyboard input system within the game. While this issue can sometimes be resolved with a simple computer restart, there are additional steps you can take if the problem persists:<ol>' +
-            '<li>Restart your computer to refresh the system and potentially resolve any temporary conflicts.</li>' +
-            '<li>Check for update	s to your keyboard drivers and install them if available.</li>' +
-            '<li>Ensure that Skyrim and any related mods are up to date.</li>' +
-            '<li>If you are using mods that affect keyboard inputs or hotkeys, verify their compatibility and settings.</li>' +
-            '<li>Consult the modding community forums for any known issues with \'bswin32keyboarddevice\' and potential fixes.</li>' +
-            '</ol></li>';
+    //❓ Keyboard Input Issue Detected: 
+    const keyboardCrashInsight = analyzeKeyboardCrash(sections);
+    if (keyboardCrashInsight) {
+        insights += keyboardCrashInsight;
         insightsCount++;
     }
 

@@ -74,6 +74,21 @@ PROBABLE CALL STACK:
 
 
 REGISTERS:
+	RSI 0x2326C9C1AE0      (TESObjectREFR*) //REAL EXAMPLE of File with "Object Reference: None"
+		Object Reference: None
+		ParentCell: ---
+			File: "SDA DX Crimson Blood Patch.esp"
+			Modified by: Skyrim.esm -> Dawnguard.esm -> Unofficial Skyrim Special Edition Patch.esp -> LegacyoftheDragonborn.esm -> YurianaWench.esp -> Crimson Blood Armor.esp -> SDA DX Crimson Blood Patch.esp
+			Flags: 0x00040009 
+			Name: "Bloodlet Throne"
+			EditorID: "BloodletThrone01"
+			FormID: 0x00016EA1
+			FormType: Cell (60)
+		File: "SDA DX Crimson Blood Patch.esp"
+		Modified by: Crimson Blood Armor.esp -> SDA DX Crimson Blood Patch.esp
+		Flags: 0x00400408 kInitialized
+		FormID: 0x2C08C78A
+		FormType: Reference (61)
 	BX: 0x1F9C0BF2200      (Actor*) -> (FormId: FF0022D7, BaseForm: TESNPC(Name: `Wraith of Sithis`, FormId: FE44780B, File: `mihailmmasithis.esp`))
 	RAX 0x7FF6F03FD850     (void* -> SkyrimSE.exe+032D850	mov [rsp+0x08], rbx)
 	RCX 0x0                (size_t) [0]

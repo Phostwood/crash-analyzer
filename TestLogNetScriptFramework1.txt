@@ -12,6 +12,7 @@ Time: 15 Mar 2024 19:08:55.589
 
 Possible relevant objects (3)
 {
+   [   4]    TESObjectREFR(FormId: FE4836E0, File: `Lux - JK's DB Sanctuary patch.esp <- JK's Dark Brotherhood Sanctuary.esp`, BaseForm: null)
   [best section?] ImprovedCameraSE.dll
   [best section?] (Name: "badMesh.nif")
   [   0]    BSTriShape(Name: `Book01:1`)

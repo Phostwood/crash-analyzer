@@ -1,69 +1,51 @@
-✅Beta version 0.19.21 is now live:
+✅Beta version 0.19.22 is now live:
 https://phostwood.github.io/crash-analyzer/
 
-1. New test: Gamepad Compatibility Issue Detected (Thanks RomatebitegeL and Krispyroll!)
+1. Revised and added a new step to bswin32keyboarddevice Issue Detected (now renamed to "❓ Keyboard Input Issue Detected:")
 
-2. Standardized on using "Detected indicators:" instead of unique versions for each, something like "Detected memory indicators". Minor text change to 5 tests in Diagnosis.js
+2. New unified top-section Antivirus Issues function replacing three prior tests/sections. Also includes link to instructions for Bitdefender (Thanks, "/_-syzygy-"!)
 
+3. Tweaks to Missing Engine fixes for a more meaningful and more prioritized response when Wheeler is also present
 
-~~~ NOTES: ~~~
-
-	verify these fix wouldn't apply to Nolvus/SkyrimSE ... just AE?
-
-	Indicators:
-	- BSWin32GamepadDevice
-	- BSPCGamepadDeviceHandler
-
-	After the updates, you now need a new controlmap or else you will crash when you have a gamepad plugged in. The log indicates this is an issue.
-
-	What you can do to fix this is to download this working controlmap and install it:
+4. Mesh Issues: Added a new nif tool, and a troubleshooting suggestion from another section that I forgot to put under meshes. (Thanks rachelcurren!)
 
 
 
-	[Modern Controlmap (Gamepad and Keyboard)](https://www.nexusmods.com/skyrimspecialedition/mods/89649)
+--- notes ---
 
-	..
+2. Updated Bitdefender issue with link to post with instructions and screenshots.
 
-	Just in case, download a controlmap compatible for 1.6.1170:
+1. ✅add troubleshooting steps to bswin32keyboarddevice Issue Detected
+	- https://www.reddit.com/r/skyrimmods/comments/1hogu2h/unhandled_exception_exception_access_violation_at/
+	- https://www.nexusmods.com/skyrimspecialedition/mods/89649
+		- Consider adding a modern control map, such as above, but don't use two control maps if you already have one
 
-	[Modern Controlmap (Gamepad and Keyboard)](https://www.nexusmods.com/skyrimspecialedition/mods/89649)
+2. Merge three Virus sections into one top-section issue, starting from the "Antivirus Warning". Basically, make this section also point out of the usvfs_x64.dll is present in the topHalf ... and that it being there may indicate that their antivirus may be bblocking access to MO2 (Mod Organizer 2) file system, adding further weight to this warning.
+	- also refactor it into a function (if not already)
+	- maybe report what section of the log usvfs_x64.dll is in, and the higher up, the more likely this is to be contributing towards the crash
 
-	See if that works.
+4. Question/Suggestion: I have just had a consistent crash loading a save, which your logger pointed at a bad mesh in a specific mod. I followed through the advice/suggestions in the advanced section - scanning meshes to check for errors, attempting to fix using CAO, which didn't work. I carried on reading the rest of Advanced to see if there was anything else, and in the Memory Issue Indicators section, in the Textures and Resource Optimization, it suggested that simply downloading the mod again and re-installing may fix the issue. I tried that and it did indeed work.
 
-	..
-
-	\[RSP+60 \] 0x16C622BCE00 (BSWin32GamepadDevice\*)
-
-	You're crashing because you have a controller connected. If you don't generally use one, either disconnect it or download a compatible controller map for 1170. You can find any number of them on Nexus, like this:
-	[More Intuitive Controller Mapping](https://www.nexusmods.com/skyrimspecialedition/mods/18333)
-
-	..
-
-	You crash because of BSWin32GamepadDevice.
-
-	You need to install a new control map after the most recent updates when having a game pad connected, or else you will crash.
-
-	Please install this one, as it works:
-
-	[Modern Controlmap (Gamepad and Keyboard)](https://www.nexusmods.com/skyrimspecialedition/mods/89649)
+Would it be sensible to include this advice up front in the Possible Mesh Issue Indicators Found (and ditto for Textures)? The scanning/try fix steps with Nifscan and CAO are quite technical, I work in IT (though not a programmer) and I took quite some time to work exactly what I needed to do. In fact, I gave up on Nifscan, which needs command line bat files etc. and used SNIFF-Nif-Checker (linked on the Nifscan Nexus page by mod author, is in Fallout NV section but works on various Bethesda titles) which has a GUI so a LOT easier. CAO was simpler, but still required me to download something new, add it to Windows Defender exceptions, and read carefully the various options.
 
 
-~~~
 
 
+--- Next Version ---
 
 ❌1. Add new indicators to Skeleton test's indicators. ... But remove it from the diagnoses section✅, because its just too common. Or maybe mix XMPSE with Skelton test? MIght be able to mix in regeneration test too ... or maybe not?
 	-	UpperarmTwist, UpperArm, Clavicle, Shoulder, Spine
+
+2. Review Crash Log Library and try to classify everything
 
 4. Google Keep Notes:
 	- Double-check (including their linked log files and guru determined diagnoses) on related notes
 	- Close out notes for all double-checked additions/fixes
 	- Review remaining GK Notes to verify there aren't any additional fixes that need done before monetization
 
-
 6. Catch up on on TestLogs (from at least one if not from a couple prior versions?)
-	- Baseform: null (?) for NSF Test Log
-	-
+	- ✅Baseform: null (?) for NSF Test Log
+	- 
 
 
 

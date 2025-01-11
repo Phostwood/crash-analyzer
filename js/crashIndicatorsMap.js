@@ -23,6 +23,15 @@ const crashIndicators = {
         ]
      },
 
+     keyboardIssues: {
+        hexCodes: [
+            // Space for future hex codes
+        ],
+        indicators: [
+            { name: 'bswin32keyboarddevice', description: "Windows keyboard device handler" }
+        ]
+     },
+
     sseFixesIssues: {
         hexCodes: [
             // Space for future hex codes

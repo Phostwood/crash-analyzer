@@ -25,7 +25,8 @@ console.log(diagnosisResult);
 
 
 
-// Object Reference None Detection
+// Object Reference None Detection (for Crash Logger SSE logs)
+// Baseform: Null Detection (same thing, but for NSF logs)
 // Base game files that don't need investigation as they're part of Skyrim itself
 const neverDisplay = [
     'Skyrim.esm',
@@ -180,14 +181,17 @@ function generateDiagnosis(crashTitle, otherFiles, mostLikelyFile) {
     let diagnosis = `<li>🎯 <b>"${crashTitle}" Detected:</b> This suggests a mod is attempting to reference a non-existent object. This can happen due to mod conflicts, incompatible versions, or load order issues. Here's what you need to know:<ul>`;
     
     diagnosis += `<li><b>Troubleshooting Steps:</b><ol>
-        <li>Check for other high-priority issues in this report first, as they might be causing this problem.</li>
-        <li>The primary file to investigate is: <code>${mostLikelyFile}</code>. As a quick fix, consider disabling the mod. Or, towards deeper troubleshooting:<ul>
-            <li>Verify it's the correct version for your Skyrim, and your other mods</li>
-            <li>Check for missing required files, or recommended patches</li>
-            <li>Verify its in the correct load order (check mod author's recommendation)</li>
-            <li>Check any configurations or configuration files (or for some mod types it may need to be regenerated)</li>
-            <li>Consider re-downloading in case the first download was corrupted</li>
-            </ul>Try reinstalling it carefully, or temporarily disable it and its dependencies to isolate the issue.</li>`;
+        <li>Check for other high-priority issues in this report first, as they might potentially be causing this problem.</li>
+        <li>The primary file to investigate is: <code>${mostLikelyFile}</code>. As a quick fix, consider disabling the mod. Or, towards deeper troubleshooting:
+            <ul>
+                <li>Consider temporarily disabling it (and all its dependencies) to isolate the issue.</li>
+                <li>Verify it's the correct version for your Skyrim, and your other mods</li>
+                <li>Check for missing required files, or recommended patches</li>
+                <li>Verify its in the correct load order (check mod author's recommendation)</li>
+                <li>Check any configurations or configuration files (or for some mod types it may need to be regenerated)</li>
+                <li>Consider re-downloading (and carefully reinstalling) in case the first download was corrupted</li>
+            </ul>
+        </li>`;
     
     if (otherFiles && mostLikelyFile && (mostLikelyFile !== otherFiles)) {
         diagnosis += `<li>This issue also involves: <code>${otherFiles}</code>. Check for:<ul>
@@ -577,7 +581,7 @@ function analyzeMemoryIssues(sections) {
 
         <li><b>Texture and Resource Optimization:</b>
             <ul>
-            <li><strong>Corrupted textures and/or meshes</strong> can exacerbate memory issues. The probability of this being causal is much higher if specific files are listed elsewhere in this report ... especially when the same image file is found across multiple crash logs. In some cases simply re-downloading and reinstalling the mod with a bad mesh or texture, may fix the corrupted file and resolve the issue. See related <strong>Mesh Issue</strong>, and/or <strong>Texture Issue</strong> sections of this report for additional troubleshooting advice.
+            <li><strong>Corrupted textures and/or meshes</strong> can sometimes cause memory issues. The probability of this being the cause is much higher if specific files are listed elsewhere in this report ... especially when the same image file is found across multiple crash logs. In some cases simply re-downloading and reinstalling the mod with a bad mesh or texture, may fix the corrupted file and resolve the issue. See related <strong>Mesh Issue</strong>, and/or <strong>Texture Issue</strong> sections of this report for additional troubleshooting advice.
             <li>Consider switching to <strong>lower resolution texture mods</strong> (1K/2K instead of 4K). Image files that are too large can strain both VRAM and RAM resources.<ul>
                 <li>Or use <a href="https://www.nexusmods.com/skyrimspecialedition/mods/23316">Cathedral Assets Optimizer (CAO)</a> to optimize textures in individual mods that don't offer lower resolution options.</li>
                 <li>Alternately, use <a href="https://www.reddit.com/r/Nolvus/comments/1doakj1/psa_use_vramr_if_you_have_12gb_of_vram/">VRAMr</a> to automatically create a custom textures-only mod with optimized texture files that override for your entire load order (minus some problematic exceptions which are automatically excluded).</li>
@@ -659,7 +663,7 @@ function analyzeDragonsEyeMinimapIssue(sections) {
                     <ol>
                         <li>Toggle off Dragon's Eye Minimap with the hotkey (defaults to "L" key) and progress until you leave the current Cell.</li>
                         <li>If this issue frequently occurs in future crash logs, consider checking for an updated version or disabling the mod. NOTE: issue still exists as of version 1.1</li>
-                        <li>Mentioned indicators: <a href="#" class="toggleButton">⤵️ show more</a>
+                        <li>Detected indicators: <a href="#" class="toggleButton">⤵️ show more</a>
                             <ul class="extraInfo" style="display:none">
                                 <li><code>${dllFileName}</code> - mod version <code>${dllVersion}</code> is installed and enabled ${dllFileNameTopSection ? 'and listed in "Probable Call Stack"' : ''}</li>`;
                                 matchingDragonEyeCodes.forEach(({ code, description }) => {
@@ -721,16 +725,22 @@ function analyzeMeshIssues(sections) {
             isHighPriority = true;
         }
 
-        meshInsights += `Try comparing multiple crash logs, but if you see this message again with the same "Mentioned mesh files" (bottom bullet point) then investigate using these steps:
+        meshInsights += `Try comparing multiple crash logs, but if you see this message again with any of the same "Mentioned mesh files" (bottom bullet point) then investigate using these steps:
         <ol>
         <li>Identify problematic meshes/mods:
             <ul>
-            <li>Use <a href="https://www.nexusmods.com/skyrim/mods/75916/">NifScan</a> to check all meshes and identify issues and source mods.</li>
-            <li>Or, check the list of mentioned meshes below and search the crash log for clues as to their source mod(s).</li>
+                <li>Check the list of mentioned meshes below and do a file search in your mods folder for clues as to their source mod(s).</li>
+                <li>Or try using one of these tools that can scan through all your mesh files and report issues:
+                    <ul>
+                        <li><a href="https://www.nexusmods.com/skyrim/mods/75916/">NifScan</a> which is a command line tool.</li>
+                        <li><a href="https://www.nexusmods.com/newvegas/mods/67829">S'Lanter's NIF Helper Tool (SNIFF)</a> which is listed in Nexus under Fallout, but reportedly also works great for Skyrim, and has a graphical user interface, (GUI), so it's easier to use!</li>
+                    </ul>
+                </li>
             </ul>
         </li>
         <li>Fix mesh issues:
             <ul>
+            <li>In some cases simply re-downloading and reinstalling the mod with a bad mesh, may fix the corrupted file and resolve the issue.</li>
             <li>Check for updates or compatibility patches for mods providing these mesh files. Or, use <a href="https://www.nexusmods.com/skyrimspecialedition/mods/4089">SSE NIF Optimizer</a> or <a href="https://www.nexusmods.com/skyrimspecialedition/mods/23316">Cathedral Assets Optimizer (CAO)</a> to attempt fixes.</li>
             <li>Ensure correct load order, especially for mods affecting meshes and skeletons.</li>
             ${Utils.LootListItemIfSkyrim}
@@ -747,7 +757,7 @@ function analyzeMeshIssues(sections) {
                         <ul>
                             <li>Review NPCs mentioned in the top section of your log file (labeled "Possible relevant objects" or "PROBABLE CALL STACK").</li>
                             <li>For suspect NPCs: reinstall/update their mod, or regenerate facegen data in Creation Kit.</li>
-                            <li>Check for version incompatibilies and conflicts between mods modifying NPCs or facial features.</li>
+                            <li>Check for version incompatibilities and conflicts between mods modifying NPCs or facial features.</li>
                         </ul>
                     </li>`;
                 }
@@ -758,15 +768,8 @@ function analyzeMeshIssues(sections) {
             </li>`;
         }
 
-        meshInsights += `<li>Test and isolate:
-            <ul>
-            <li>If you've identified a specific problematic mod, try disabling it.</li>
-            <li>If issues persist, consider removing or replacing problematic mods.</li>
-            </ul>
-        </li>`;
-
         if (meshCodeIssues.length > 0) {
-            meshInsights += `<li>Mentioned mesh indicators: <a href="#" class="toggleButton">⤵️ show more</a><ul class="extraInfo" style="display:none">`;
+            meshInsights += `<li>Mentioned indicators: <a href="#" class="toggleButton">⤵️ show more</a><ul class="extraInfo" style="display:none">`;
             meshCodeIssues.forEach(({ code, description }) => {
                 meshInsights += `<li><code>${code}</code> - ${description}</li>`;
             });
@@ -965,6 +968,7 @@ function analyzeAnimationIssues(sections) {
 }
 
 
+
 function analyzeTextureIssues(sections) {
     let textureInsights = '';
     let isHighPriority = false;
@@ -1008,7 +1012,7 @@ function analyzeTextureIssues(sections) {
         <li>Identify problem textures:
             <ul>
             <li>Check the list of mentioned textures below to identify which mod(s) might be causing issues.</li>
-            <li>Try comparing multiple crash logs, but if you see this message again with the same "Mentioned texture files" then continue investigating using the steps below...
+            <li>Try comparing multiple crash logs, but if you see this message again with any of the same "Mentioned texture files" then continue investigating using the steps below...
             <li>Temporarily disable suspect texture mods (or temporarily remove their suspected texture files) one at a time to isolate the problem.</li>
             <li>Pay special attention to mods affecting the area where the crash occurred.</li>
             </ul>
@@ -1322,11 +1326,12 @@ function checkKernelbaseCrash(sections, Utils, win24H2UpscalerCrash, isDiagnoses
 function analyzeEngineFixes(sections) {
     let insights = '';
     const hasMods = sections.bottomHalf.split('\n').filter(line => line.trim() !== '').length > 10;
+    const hasWheelerAndIs1170 = (sections.hasSkyrimAE1170 && sections.bottomHalf.toLowerCase().includes('wheeler.dll'.toLowerCase()));
     
     // Check if Engine Fixes is missing
     if (hasMods && !sections.bottomHalf.toLowerCase().includes('EngineFixes.dll'.toLowerCase())) {
         insights += `
-        <li>❗ <b>Missing SSE Engine Fixes:</b> This foundational mod is usually essential for a stable modded game.
+        <li>${hasWheelerAndIs1170 ? '🎯' : '❗'} <b>Missing SSE Engine Fixes:</b> This foundational mod is usually essential for a stable modded game.
             <ol>
                 <li><strong>⚠️ Warnings:</strong>
                     <ul>
@@ -1366,8 +1371,8 @@ function analyzeEngineFixes(sections) {
                     <ul>
                         <li>SSE Engine Fixes is essential for most Skyrim modlists</li>
                         <li>This mod fixes numerous engine-level bugs and is often important for game stability</li>
-                        ${sections.bottomHalf.toLowerCase().includes('wheeler.dll'.toLowerCase()) ? 
-                            `<li><strong>Wheeler.dll Detected:</strong> Wheeler.dll v1 specifically has been confirmed to crash without SSE Engine Fixes on 1.6.1170</li>` : 
+                        ${hasWheelerAndIs1170 ? 
+                            `<li>🎯<strong>Wheeler.dll Detected:</strong> Wheeler.dll v1 specifically has been confirmed to crash without SSE Engine Fixes on Skyrim 1.6.1170</li>` : 
                             ''}
                         <li>If you experience crashes with <code>tbb.dll</code>, reinstall SSE Engine Fixes completely</li>
                     </ul>
@@ -1832,4 +1837,141 @@ function analyzeGamepadCrash(sections) {
     }
 
     return insights;
+}
+
+
+
+//❓ Keyboard Input Issue Detected: 
+function analyzeKeyboardCrash(sections) {
+    let insights = '';
+
+    const foundIndicators = crashIndicators.keyboardIssues.indicators.filter(({ name }) =>
+        sections.topHalf.toLowerCase().includes(name.toLowerCase())
+    );
+
+    if (foundIndicators.length > 0) {
+        insights += `<li>❓ <b>Keyboard Input Issue Detected:</b> This indicates a problem with the game's keyboard input system. To resolve this:<ol>
+            <li>First steps:
+                <ul>
+                <li>Restart your computer to refresh the system</li>
+                <li>Check for and install any keyboard driver updates</li>
+                </ul>
+            </li>
+            <li>If issue persists:
+                <ul>
+                <li>Install or update your controlmap to any suitable mod, for example: <a href="https://www.nexusmods.com/skyrimspecialedition/mods/89649">Modern Controlmap (Gamepad and Keyboard)</a>
+                    <ul>
+                        <li>Read to verify compatibility with your version of Skyrim</li>
+                        <li>Note: remove any old controlmap mod first</li>
+                    </ul>
+                </li>
+                <li>Verify any keyboard input or hotkey mods are compatible</li>
+                </ul>
+            </li>
+            <li>Detected indicators: <a href="#" class="toggleButton">⤵️ show more</a><ul class="extraInfo" style="display:none">`;
+            
+        foundIndicators.forEach(({ name, description }) => {
+            insights += `<li><code>${name}</code> - ${description}</li>`;
+        });
+
+        insights += `</ul></li>
+            </ol></li>`;
+    }
+
+    return insights;
+}
+
+
+
+
+//🎯 Antivirus Issue Detected:
+// or ⚠️ Antivirus Warning:
+function analyzeAntivirusIssues(sections) {
+    let diagnoses = '';
+    
+    // Find which antivirus is present in the log
+    let foundAntivirus = '';
+    for (const [antivirus, dlls] of Object.entries(antivirusSignatures)) {
+        if (dlls.some(dll => sections.fullLogFileLowerCase.includes(dll))) {
+            foundAntivirus = antivirus;
+            break;
+        }
+    }
+
+    // Check for USVFS in different sections to determine severity
+    const usvfsInProbableCallstack = sections.probableCallstack.toLowerCase().includes('usvfs_x64.dll');
+    const usvfsInTopHalf = sections.topHalf.toLowerCase().includes('usvfs_x64.dll');
+    
+    // Special check for Windows Defender in topHalf if no other antivirus found
+    const windowsDefenderInTopHalf = !foundAntivirus && ['mpsvc.dll', 'mpclient.dll'].some(dll => 
+        sections.topHalf.toLowerCase().includes(dll)
+    );
+
+    const hasBitdefender = foundAntivirus === 'Bitdefender';
+
+    // If we have any antivirus indicators, USVFS issues, or Windows Defender in top half
+    if (foundAntivirus || usvfsInProbableCallstack || windowsDefenderInTopHalf) {
+        diagnoses += `<li>${usvfsInProbableCallstack ? '🎯 <b>Antivirus Issue Detected:</b>' : '⚠️ <b>Antivirus Warning:</b>'} `;
+        
+        // Build main description based on findings
+        diagnoses += '<ol>';
+        
+        if (foundAntivirus) {
+            diagnoses += `<li><b>${foundAntivirus} detected</b> - Third-party antivirus software frequently contributes to crashes in heavily-modded Skyrim. Consider switching to Windows Defender for better compatibility.</li>`;
+        } else if (windowsDefenderInTopHalf) {
+            diagnoses += '<li><b>Windows Defender detected</b> in crash log - While usually not problematic, you may need to add exclusions if issues persist.</li>';
+        }
+
+        if (usvfsInTopHalf || usvfsInProbableCallstack) {
+            diagnoses += `<li><b>MO2 file system interference detected</b> - Your antivirus may be blocking Mod Organizer 2's virtual file system (USVFS)${usvfsInProbableCallstack ? ' - this appears to be a direct cause of the crash' : ''}.</li>`;
+        }
+
+        diagnoses += `<li>${(usvfsInProbableCallstack || hasBitdefender) ? 'Recommended actions:' : 'Suggestions:' }
+            <ul>
+            <li>Create antivirus exclusions for your entire ${Utils.NolvusOrSkyrimText} directory</li>`;
+            
+        if (hasBitdefender) {
+            diagnoses += `<li><b>For Bitdefender:</b> Follow this <a href="https://www.reddit.com/r/skyrimmods/comments/1hwp5ki/crashing_to_desktop_ctd_only_on_any_type_of/">guide with screenshots</a> for setting up proper exclusions</li>`;
+        }
+
+        diagnoses += `<li>Alternatively, consider switching to the built-in Windows Defender. Originally rudimentary, Windows Defender has evolved considerably, and when using it there is usually no need to set up any exclusions for Skyrim - helping to ensure Skyrim mods continue to be monitored for malicious activity.</li>
+            </ul>
+        </li>`;
+
+        // Add technical details in expandable section
+        diagnoses += '<li>Detected indicators: <a href="#" class="toggleButton">⤵️ show more</a><ul class="extraInfo" style="display:none">';
+
+        if (foundAntivirus) {
+            diagnoses += `<li><code>${foundAntivirus}</code> indicators found:`;
+            diagnoses += '<ul>';
+            antivirusSignatures[foundAntivirus].forEach(dll => {
+                if (sections.fullLogFileLowerCase.includes(dll)) {
+                    diagnoses += `<li><code>${dll}</code></li>`;
+                }
+            });
+            diagnoses += '</ul></li>';
+        }
+        if (usvfsInProbableCallstack) {
+            diagnoses += '<li><code>usvfs_x64.dll</code> found in probable call stack - high likelihood of antivirus interference</li>';
+        } else if (usvfsInTopHalf) {
+            diagnoses += '<li><code>usvfs_x64.dll</code> found in top half of log - possible antivirus interference</li>';
+        }
+        if (windowsDefenderInTopHalf) {
+            diagnoses += '<li><code>Windows Defender</code> signatures found in top half of log:';
+            diagnoses += '<ul>';
+            ['mpsvc.dll', 'mpclient.dll'].forEach(dll => {
+                if (sections.topHalf.toLowerCase().includes(dll)) {
+                    diagnoses += `<li><code>${dll}</code></li>`;
+                }
+            });
+            diagnoses += '</ul></li>';
+        }
+        
+        diagnoses += '</ol></li>';
+    }
+
+    return {
+        diagnoses: diagnoses,
+        isHighPriority: usvfsInProbableCallstack // true if it's an "Issue Detected", false if just a "Warning"
+    };
 }
