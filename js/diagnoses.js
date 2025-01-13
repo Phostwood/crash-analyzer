@@ -326,18 +326,19 @@ function checkForD6dddaEasyVersion(sections) {
     if (sections.firstLine.includes('D6DDDA')) {
         diagnosis += `<li>❗ <b>D6DDDA Crash Detected:</b> This error typically occurs due to one of these common causes:
             <ol>
-                <li>Corrupt Texture (.dds) or Mesh (.nif) Files:
-                    <ol>
-                        <li>Compare multiple crash logs if possible. If subsequent crashes list the same texture or mesh files (see "Advanced Users" section below), you likely have a corrupt texture file or, less commonly, a corrupt mesh. Once you've identified the problematic mod, try downloading it again before reinstalling, as the corruption may have occurred during the initial download.</li>
-                    </ol>
-                </li>
                 <li>System Memory Management:
                     <ol>
                         <li>Close unnecessary background applications that may be consuming memory.</li>
                         <li>Ensure your <a href="https://www.nolvus.net/appendix/pagefile">Windows Pagefile Size is properly configured</a>.</li>
                         <li>Return any overclocked hardware to stock speeds, as unstable overclocks are known for causing crashes that can look like memory issues in crash logs.</li>
                         <li>Maintain <a href="https://computercity.com/hardware/storage/how-much-space-should-i-leave-on-my-ssd">at least 10-20% free space</a> on your SSD for optimal performance.</li>
+                        <li>Review your modlist's (or individual mods') recommended hardware requirements to verify you aren't overly below their system recommendations.</li>
                         <li>Hardware Diagnostics: If crashes persist, run Windows Memory Diagnostic or MemTest86 to check for faulty RAM. While rare, recurring D6DDDA crashes can sometimes indicate hardware issues.</li>
+                    </ol>
+                </li>
+                <li>Corrupt Texture (.dds) or Mesh (.nif) Files:
+                    <ol>
+                        <li>Compare multiple crash logs if possible. If subsequent crashes list the same texture or mesh files (see "Advanced Users" section below), you likely have a corrupt texture file or, less commonly, a corrupt mesh. Once you've identified the problematic mod, try downloading it again before reinstalling, as the corruption may have occurred during the initial download. For more details, see the Texture Issues and Mesh Issues sections in this report (in the Advanced Users section, below).</li>
                     </ol>
                 </li>
             </ol>
@@ -351,13 +352,6 @@ function checkForD6dddaAdvancedVersion(sections) {
     if (sections.firstLine.includes('D6DDDA')) {
         diagnosis += `<li>❗ <b>D6DDDA Crash Detected:</b> This error typically occurs due to one of these common causes:
             <ol>
-                <li>Corrupt Texture (.dds) or Mesh (.nif) Files:
-                    <ol>
-                        <li>Compare multiple crash logs if possible. If subsequent crashes list the same texture or mesh files (see "Advanced Users" section below), you likely have a corrupt texture file or, less commonly, a corrupt mesh. Once you've identified the problematic mod, try downloading it again before reinstalling, as the corruption may have occurred during the initial download.</li>
-                        <li>If the source mod has a corrupted image file, you can try using <a href="https://www.nexusmods.com/skyrimspecialedition/mods/23316">Cathedral Assets Optimizer (CAO)</a> to repair potentially damaged texture/mesh/animation files. This tool can fix formatting issues and also optimize file sizes while maintaining visual quality.</li>
-                        <li>If you identify a specific problematic image file in a source mod, contact the mod author for assistance or potential fixes.</li>
-                    </ol>
-                </li>
                 <li>System Memory Management:
                     <ol>
                         <li>Close unnecessary background applications that may be consuming memory.</li>
@@ -365,7 +359,15 @@ function checkForD6dddaAdvancedVersion(sections) {
                         <li>Return any overclocked hardware to stock speeds, as unstable overclocks are known for causing crashes that can look like memory issues in crash logs.</li>
                         <li>Maintain <a href="https://computercity.com/hardware/storage/how-much-space-should-i-leave-on-my-ssd">at least 10-20% free space</a> on your SSD for optimal performance.</li>
                         <li>For systems with less than 12GB VRAM (or more for ultrawide/high-resolution displays) (<a href="https://www.lifewire.com/how-to-check-vram-5235783">check your VRAM here</a>), consider using <a href="https://www.reddit.com/r/Nolvus/comments/1doakj1/psa_use_vramr_if_you_have_12gb_of_vram/">VRAMr</a>. This tool automatically compresses texture files across your load order, reducing VRAM usage while maintaining visual fidelity and improving stability.</li>
+                        <li>Review your modlist's (or individual mods') recommended hardware requirements to verify you aren't overly below their system recommendations.</li>
                         <li>Hardware Diagnostics: If crashes persist, run Windows Memory Diagnostic or MemTest86 to check for faulty RAM. While rare, recurring D6DDDA crashes can sometimes indicate hardware issues.</li>
+                    </ol>
+                </li>
+                <li>Corrupt Texture (.dds) or Mesh (.nif) Files:
+                    <ol>
+                        <li>Compare multiple crash logs if possible. If subsequent crashes list the same texture or mesh files (see their own sections, also in "Advanced Users"), you likely have a corrupt texture file or, less commonly, a corrupt mesh. Once you've identified the problematic mod, try downloading it again before reinstalling, as the corruption may have occurred during the initial download.</li>
+                        <li>If the source mod has a corrupted image file, you can try using <a href="https://www.nexusmods.com/skyrimspecialedition/mods/23316">Cathedral Assets Optimizer (CAO)</a> to repair potentially damaged texture/mesh/animation files. This tool can fix formatting issues and also optimize file sizes while maintaining visual quality.</li>
+                        <li>If you identify a specific problematic image file in a source mod, contact the mod author for assistance or potential fixes.</li>
                     </ol>
                 </li>
             </ol>
@@ -423,7 +425,7 @@ function checkForMissingMasters(sections) {
         }
 
         diagnoses +=
-            '<li><b>Identifying Missing Masters:</b> Mod Organizer 2 (MO2) typically displays warning icons (yellow triangle with exclamation mark) for plugins with missing masters. <a href="https://imgur.com/izlF0GO">View Screenshot</a>.</br>Or alternately, check the <b>🔎 Files/Elements</b> section of this report and look at mods higher up the list, which could help isolate which mod might be missing something. Review the mod on Nexus and consider reinstalling any likely causal mods to see if you missed a patch or requirement.</li>' +
+            '<li><b>Identifying Missing Masters:</b> Mod Organizer 2 (MO2) typically displays warning icons (yellow triangle with exclamation mark) for plugins with missing masters. <a href="https://imgur.com/izlF0GO">View Screenshot</a>. Or alternately, check the <b>🔎 Files/Elements</b> section of this report and look at mods higher up the list, which could help isolate which mod might be missing something. Review the mod on Nexus and consider reinstalling any likely causal mods to see if you missed a patch or requirement.</li>' +
 
             '<li><b>Missing Dependency:</b> If you\'ve recently removed, disabled, or forgot to install a required mod, others may still depend on it. You might need to either install the missing dependency or remove its master requirement from dependent plugins. See this guide on <a href="https://github.com/LivelyDismay/Learn-To-Mod/blob/main/lessons/Remove%20a%20Master.md">Removing a Master Requirement</a>.</li>' +
 
@@ -574,6 +576,7 @@ function analyzeMemoryIssues(sections) {
             <li>Verify your <a href="https://www.nolvus.net/appendix/pagefile">Windows Pagefile Size</a> settings</li>
             <li>Return any overclocked hardware to stock speeds, as unstable overclocks are known for causing crashes that can look like memory issues in crash logs.</li>
             <li>Maintain <a href="https://computercity.com/hardware/storage/how-much-space-should-i-leave-on-my-ssd">at least 10-20% free space</a> on your SSD for optimal performance.</li>
+            <li>Review your modlist's (or individual mods') recommended hardware requirements to verify you aren't overly below their system recommendations.</li>
             <li>Consider running memory diagnostic tools (Windows Memory Diagnostic or MemTest86)</li>
             <li>If you frequently encounter memory issues, consider upgrading your system with more RAM as relatively cost-effective upgrade. 32GB is often considered a baseline for high-end Skyrim modding.</li>
             </ul>
@@ -784,7 +787,7 @@ function analyzeMeshIssues(sections) {
        
         meshInsights += meshResults.parentListItem;
         
-        meshInsights += '</ul></li></ol>';
+        meshInsights += '</li></ol>';
     }
 
     return meshInsights; //TODO: also return isHighPriority
@@ -1050,7 +1053,7 @@ function analyzeTextureIssues(sections) {
 
         textureInsights += textureResults.parentListItem;
 
-        textureInsights += '</ul></li></ol></li>';
+        textureInsights += '</li></ol></li>';
     }
 
     return textureInsights; //TODO: also return isHighPriority
@@ -1818,7 +1821,7 @@ function analyzeGamepadCrash(sections) {
     );
 
     if (foundIndicators.length > 0) {
-        insights += `<li>🎯 <b>Gamepad Compatibility Issue Detected:</b> A gamepad/controller is likley causing crashes with your Skyrim version. To resolve this:<ol>
+        insights += `<li>🎯 <b>Gamepad Compatibility Issue Detected:</b> A gamepad/controller is likely causing crashes with your Skyrim version. To resolve this:<ol>
             <li>Choose one of these options:
                 <ul>
                 <li>Update (Recommended): Install any compatible controllmap, for example: <a href="https://www.nexusmods.com/skyrimspecialedition/mods/89649">Modern Controlmap (Gamepad and Keyboard)</a></li>

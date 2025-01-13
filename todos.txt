@@ -1,60 +1,55 @@
-✅Beta version 0.19.22 is now live:
+✅Beta version 0.19.23 is now live:
 https://phostwood.github.io/crash-analyzer/
 
-1. Revised and added a new step to bswin32keyboarddevice Issue Detected (now renamed to "❓ Keyboard Input Issue Detected:")
+1. D6DDDA advice tweaks:
+	- swapped sections "System Memory Management" and "Corrupt Texture (.dds) or Mesh (.nif) Files" so the memory ideas were on top
+		- NOTE: discovered later that this is I think against advice from bachmanis? but jumping to it being a corrupt texture (especially for Nolvus) seems a bit much. Otherwise bachmanis' ideas have still been kept.
+		- https://www.reddit.com/r/skyrimmods/s/14J816JW4m
+	- added line about checking modlist's/mods' system requirements
+	- clarified reference to Texture Issue and Mesh Issue sections.
 
-2. New unified top-section Antivirus Issues function replacing three prior tests/sections. Also includes link to instructions for Bitdefender (Thanks, "/_-syzygy-"!)
+2. Memory Issues: added same line about system requirements: "Review your modlist's (or individual mods') recommended hardware requirements to verify you aren't overly below their system recommendations."
 
-3. Tweaks to Missing Engine fixes for a more meaningful and more prioritized response when Wheeler is also present
+3. Mesh Issues:
+	- added mesh file extensions (.tri and .nif) as indicators in themselves
 
-4. Mesh Issues: Added a new nif tool, and a troubleshooting suggestion from another section that I forgot to put under meshes. (Thanks rachelcurren!)
+4. HTML List formatting fix for both Mesh Issue and Texture Issue sections
 
+5. Gamepad Compatibility Issue: corrected typo (thanks, RomatebitgeL!)
 
+6. SSE Fixes Compatibility Issue: 
+	- Added 1 more found (and confirmed) indicator
+		- source: https://www.reddit.com/r/skyrimmods/comments/1gcf634/ctd_when_hitting_something_while_using_engine/
+	- Added 5 more theorized indicators from Claude AI 
+	- NOTE: the additional indicators should be totally safe, as the test already confirms the incompatible SSE Fixes mod with and having an incompatible version of Skyrim. So, looking for any indicators at all really might be unnecessary...
 
---- notes ---
+7. Missing Masters: Reddit markdown formatting fix (it doesn't like a new line in a <li></li> ... so I just removed the <br> for a simple fix. Perhaps not quote as easy to read, but good enough.)
 
-2. Updated Bitdefender issue with link to post with instructions and screenshots.
-
-1. ✅add troubleshooting steps to bswin32keyboarddevice Issue Detected
-	- https://www.reddit.com/r/skyrimmods/comments/1hogu2h/unhandled_exception_exception_access_violation_at/
-	- https://www.nexusmods.com/skyrimspecialedition/mods/89649
-		- Consider adding a modern control map, such as above, but don't use two control maps if you already have one
-
-2. Merge three Virus sections into one top-section issue, starting from the "Antivirus Warning". Basically, make this section also point out of the usvfs_x64.dll is present in the topHalf ... and that it being there may indicate that their antivirus may be bblocking access to MO2 (Mod Organizer 2) file system, adding further weight to this warning.
-	- also refactor it into a function (if not already)
-	- maybe report what section of the log usvfs_x64.dll is in, and the higher up, the more likely this is to be contributing towards the crash
-
-4. Question/Suggestion: I have just had a consistent crash loading a save, which your logger pointed at a bad mesh in a specific mod. I followed through the advice/suggestions in the advanced section - scanning meshes to check for errors, attempting to fix using CAO, which didn't work. I carried on reading the rest of Advanced to see if there was anything else, and in the Memory Issue Indicators section, in the Textures and Resource Optimization, it suggested that simply downloading the mod again and re-installing may fix the issue. I tried that and it did indeed work.
-
-Would it be sensible to include this advice up front in the Possible Mesh Issue Indicators Found (and ditto for Textures)? The scanning/try fix steps with Nifscan and CAO are quite technical, I work in IT (though not a programmer) and I took quite some time to work exactly what I needed to do. In fact, I gave up on Nifscan, which needs command line bat files etc. and used SNIFF-Nif-Checker (linked on the Nifscan Nexus page by mod author, is in Fallout NV section but works on various Bethesda titles) which has a GUI so a LOT easier. CAO was simpler, but still required me to download something new, add it to Windows Defender exceptions, and read carefully the various options.
+8. Project Tracking:
+	- Closed out, downgraded, or paused all 5-star ideas in my notes
+	- Reviewed 4-star ideas, and either downgraded, closed, or concluded they can wait for v1.0.0
 
 
+-- NOTES on this version ---
+
+❌1. ConsoleUtilSSE bug fix: no bug found. Only 1 other crash log out of 1030 showing ConsoleUtilSSE version displays as v1.0.1
 
 
 --- Next Version ---
-
-❌1. Add new indicators to Skeleton test's indicators. ... But remove it from the diagnoses section✅, because its just too common. Or maybe mix XMPSE with Skelton test? MIght be able to mix in regeneration test too ... or maybe not?
-	-	UpperarmTwist, UpperArm, Clavicle, Shoulder, Spine
-
-2. Review Crash Log Library and try to classify everything
-
-4. Google Keep Notes:
-	- Double-check (including their linked log files and guru determined diagnoses) on related notes
-	- Close out notes for all double-checked additions/fixes
-	- Review remaining GK Notes to verify there aren't any additional fixes that need done before monetization
 
 6. Catch up on on TestLogs (from at least one if not from a couple prior versions?)
 	- ✅Baseform: null (?) for NSF Test Log
 	- 
 
+2. Review Crash Log Library and try to classify everything
 
 
 
+❌1. Add new indicators to Skeleton test's indicators. ... But remove it from the diagnoses section✅, because its just too common. Or maybe mix XMPSE with Skelton test? MIght be able to mix in regeneration test too ... or maybe not?
+	-	UpperarmTwist, UpperArm, Clavicle, Shoulder, Spine
 
 
-
-
-✅Beta version 0.20:
+✅Version 1.0.0:
 https://phostwood.github.io/crash-analyzer/
 
 

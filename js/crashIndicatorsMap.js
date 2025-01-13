@@ -40,8 +40,14 @@ const crashIndicators = {
             { name: 'BloodSprayArrowImpact01', description: "Blood spray impact effect" },
             { name: 'ImpactArrowDust01', description: "Arrow dust impact effect" },
             { name: 'BloodHitEffectBlunt', description: "Blunt blood impact effect" },
-            { name: '1hBloodHitEffectCut', description: "Cut blood impact effect" },
-            { name: 'BloodSprayImpact01', description: "Blood spray impact" }
+            { name: 'BloodHitEffectCut', description: "Cut blood impact effect" },
+            { name: 'BloodSprayImpact01', description: "Blood spray impact" },
+            { name: 'FistBloodSm', description: "Small blood impact effect for unarmed attacks" },
+            { name: 'FistBloodMed', description: "Medium blood impact effect for unarmed attacks" },
+            { name: 'FistBloodLg', description: "Large blood impact effect for unarmed attacks" },
+            { name: 'FirstBloodSm', description: "Small blood impact effect for weapon attacks" },
+            { name: 'FirstBloodMed', description: "Medium blood impact effect for weapon attacks" },
+            { name: 'FirstBloodLg', description: "Large blood impact effect for weapon attacks" }
         ],
         files: [
             { name: 'FpsFixPlugin.dll', description: "SSE Fixes plugin file" }
@@ -83,7 +89,9 @@ const crashIndicators = {
             { code: 'nitribasedgeom', description: "Triangle-based geometry" },
             { code: 'nitrishape', description: "NiTriShape node" },
             { code: 'nitristrips', description: "NiTriStrips node" },
-            { code: 'trishape', description: "Triangle shape in mesh" }
+            { code: 'trishape', description: "Triangle shape in mesh" },
+            { code: '.tri', description: "Mesh file for 3D wireframe" },
+            { code: '.nif', description: "Mesh file for 3D wireframe" }            
         ]
     },
     textureIssues: {
