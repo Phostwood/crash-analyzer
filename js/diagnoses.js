@@ -399,7 +399,7 @@ function checkForMissingMasters(sections) {
         
 
 
-        if (Utils.isSkyrimPage && sections.hasNewEslSupport && sections.bottomHalf.toLowerCase().includes('EngineFixes.dll'.toLowerCase())) {
+        if (Utils.isSkyrimPage && sections.hasNewEslSupport && (sections.bottomHalf.toLowerCase().includes('EngineFixes.dll'.toLowerCase()) || sections.bottomHalf.toLowerCase().includes('EngineFixesVR.dll'.toLowerCase()) )) {
             diagnoses += `
             <li><b>Consider reinstalling:</b> <a href="https://www.nexusmods.com/skyrimspecialedition/mods/17230">SSE Engine Fixes</a>
                 <ul>
@@ -687,10 +687,86 @@ function analyzeDragonsEyeMinimapIssue(sections) {
 
 
 
+function analyzeVCRuntimeIssue(sections) {
+    let insights = '';
+    
+    // Validate input
+    if (!sections?.firstLine) {
+        console.warn('analyzeVCRuntimeIssue received invalid sections parameter: missing firstLine');
+        return insights;
+    }
+
+    // Store toLowerCase() results for performance
+    const firstLineLower = sections.firstLine.toLowerCase();
+    const topHalfLower = sections.topHalf?.toLowerCase() || '';
+    
+    // Get matching VC Runtime indicators from first line
+    const matchingVCCodes = crashIndicators.vcRuntimeIssues.codes.filter(
+        ({ code }) => firstLineLower.includes(code.toLowerCase())
+    );
+
+    // Check for KERNELBASE.dll in first line and VC Runtime indicators in top half
+    const hasKernelBase = firstLineLower.includes('kernelbase.dll');
+    Utils.debuggingLog(['analyzeVCRuntimeIssue', 'diagnoses.js'], 'hasKernelBase:', hasKernelBase);
+
+    const topHalfVCCodes = hasKernelBase ? crashIndicators.vcRuntimeIssues.codes.filter(
+        ({ code }) => topHalfLower.includes(code.toLowerCase())
+    ) : [];
+    Utils.debuggingLog(['analyzeVCRuntimeIssue', 'diagnoses.js'], 'topHalfVCCodes:', topHalfVCCodes);
+
+    // Proceed if we have either direct VC++ matches or KERNELBASE + VC++ combination
+    if (matchingVCCodes.length >= 1 || (hasKernelBase && topHalfVCCodes.length >= 1)) {
+        insights += `
+        <li>❗ <b>Possible Visual C++ Runtime DLL Issue${(matchingVCCodes.length + topHalfVCCodes.length) > 1 ? 's' : ''} Detected:</b>
+            <ol>
+                <li>Consider reinstalling/updating your Visual C++ Redistributable
+                    <ul>
+                        <li>To prevent crashes caused by outdated or corrupted components, download and install the latest, compatible version of Visual C++ Redistributable package from <a href="https://learn.microsoft.com/en-us/cpp/windows/latest-supported-vc-redist?view=msvc-170">Microsoft's official website</a>.</li>
+                        <li>After installation, restart your system before launching the application again.</li>
+                    </ul>
+                <li>Try disabling, updating, and/or redownloading and reinstalling mods ${!Utils.isSkyrimPage ? 'you may have added to Nolvus' : ''} that appear in the 🔎<b>Files/Elements</b> section, especially SKSE plugins:
+                    <ul>
+                        <li><b>Start with SKSE plugins</b> (those ending in <code>.dll</code>) - these plugins rely on Visual C++ Runtime components, so while related crashes can sometimes be fixed by updating Visual C++ Redistributables, many issues may require checking the plugins themselves. They can usually be safely disabled in gradually-shrinking groups starting with 5-10 towards isolating issues (except for Engine Fixes, which should stay enabled)</li>
+                        <li>Other ${!Utils.isSkyrimPage ? 'added ' : ''}<b>suspect mods</b> (and their dependencies) can also be temporarily disabled to test if they're causing the crash.</li>
+                        <li>Generally either test with a new character, and/or avoid keeping saves made while testing with an existing character.</li>
+                        <li><b>CAUTION:</b> When downloading and reinstalling mods, only use versions compatible with your Skyrim version and other mods.</li>
+                        <li>After you've disabled and tested the mods that were found in the 🔎<b>Files/Elements</b> section, consider testing your other mods${!Utils.isSkyrimPage ? ' you have added to Nolvus.' : '.'}</li>
+                    </ul>
+                </li>
+                <li>Mentioned indicator${(matchingVCCodes.length + (hasKernelBase ? 1 : 0)) > 1 ? 's' : ''} in the <b>first error line</b> of crash log${topHalfVCCodes.length ? ' and related DLLs found in the log' : ''}: <a href="#" class="toggleButton">⤵️ show more</a>
+                    <ul class="extraInfo" style="display:none">`;
+        
+        // Add first line indicators
+        if (hasKernelBase) {
+            insights += `<li><code>KERNELBASE.dll</code> - Windows Kernel Base DLL</li>`;
+        }
+        matchingVCCodes.forEach(({ code, description }) => {
+            insights += `<li><code>${code}</code> - ${description}</li>`;
+        });
+        
+        // Add top half indicators if we found KERNELBASE
+        if (hasKernelBase && topHalfVCCodes.length > 0) {
+            topHalfVCCodes.forEach(({ code, description }) => {
+                if (!matchingVCCodes.some(vc => vc.code === code)) { // Avoid duplicates
+                    insights += `<li><code>${code}</code> - ${description} (found in crash log)</li>`;
+                }
+            });
+        }
+        
+        insights += `
+                    </ul>
+                </li>
+            </ol>
+        </li>`;
+    }
+
+    return insights;
+}
 
 
 
-//General mesh issues (seven related tests merged together)
+
+//❗/❓ Mesh Issue (seven related tests merged together)
 function analyzeMeshIssues(sections) {
     let meshInsights = '';
     let isHighPriority = false;
@@ -1243,12 +1319,13 @@ function checkKernelbaseCrash(sections, Utils, win24H2UpscalerCrash, isDiagnoses
         !sections.probableCallstack.includes('JContainers64.dll') && 
         !sections.topHalf.includes('json.exception.parse_error') && 
         !win24H2UpscalerCrash) {
-        
+    
         if (!Utils.isSkyrimPage && isDiagnosesSection) { // SHORT VERSION - Only for Nolvus in diagnoses section
             diagnoses += `
                 <li>❗ <b>KERNELBASE Crash Detected:</b> This rare issue could be related to a specific added mod, or to hardware or a system-wide issue. Here are some steps you can try:
                     <ol>
                         <li><b>First</b>, try to reproduce the crash by playing the game again. If this was a one-time occurrence, you probably don't need to follow the more intensive troubleshooting steps below.</li>
+                        <li>Ensure your <a href="https://www.nolvus.net/appendix/pagefile">Windows Pagefile Size is properly configured</a>.</li>
                         <li>Check with the <b>Nolvus community</b> to see if others are encountering this issue due to a new Windows update or the like.</li>
                         <li>You can restore the original sorting of all vanilla Nolvus mods using the <b>Apply Order</b> button in the Nolvus Dashboard. For more information and a screenshot, see this r/Nolvus post <a href="https://www.reddit.com/r/Nolvus/comments/1chuod0/how_to_apply_order_button_usage_in_the_nolvus/">How To: "Apply Order" button usage in the Nolvus Dashboard</a>.</li>
                         <li><b>Reinstall Nolvus</b> to ensure the installation is not corrupted. Make sure to back up any important data before doing this. For detailed instructions, see this <a href="https://docs.google.com/document/d/1R_AVeneeCiqs0XGYzggXx34v3Ufq5eUHNoCHo3QE-G8/edit">guide</a>.</li>
@@ -1262,6 +1339,8 @@ function checkKernelbaseCrash(sections, Utils, win24H2UpscalerCrash, isDiagnoses
                 <li>❗ <b>KERNELBASE Crash Detected:</b> This issue can be caused by many different factors: a specific mod, hardware problems, or system-wide issues like Windows Updates, malware, drive corruption, or corrupted file permissions. Here are troubleshooting steps to try, ordered from easiest to most difficult (and most likely to help):
                     <ol>
                         <li><b>First</b>, try to reproduce the crash by playing the game again. If this was a one-time occurrence, you probably don't need to follow the more intensive troubleshooting steps below.</li>
+
+                        <li>Ensure your <a href="https://www.nolvus.net/appendix/pagefile">Windows Pagefile Size is properly configured</a> to be at least 40,000 MB.</li>
 
                         <li>Check with the <b>${!Utils.isSkyrimPage ? 'Nolvus community' : 'Skyrim modding community'}</b> to see if others are encountering this issue due to a new Windows update or the like.</li>
 
@@ -1288,7 +1367,11 @@ function checkKernelbaseCrash(sections, Utils, win24H2UpscalerCrash, isDiagnoses
                             <ul>
                                 <li>As administrator, run these commands:
                                     <ol>
-                                        <li><code>dism /online /cleanup-image /restorehealth</code></li>
+                                        <li><code>dism /online /cleanup-image /restorehealth</code>
+                                            <ul>
+                                                <li>CAUTION: in some cases it is best to have all important files backed up before running this command</li>
+                                            </ul>
+                                        </li>
                                         <li><code>sfc /scannow</code></li>
                                     </ol>
                                 </li>
@@ -1332,7 +1415,7 @@ function analyzeEngineFixes(sections) {
     const hasWheelerAndIs1170 = (sections.hasSkyrimAE1170 && sections.bottomHalf.toLowerCase().includes('wheeler.dll'.toLowerCase()));
     
     // Check if Engine Fixes is missing
-    if (hasMods && !sections.bottomHalf.toLowerCase().includes('EngineFixes.dll'.toLowerCase())) {
+    if (hasMods && !sections.bottomHalf.toLowerCase().includes('EngineFixes.dll'.toLowerCase()) && !sections.bottomHalf.toLowerCase().includes('EngineFixesVR.dll'.toLowerCase())) {
         insights += `
         <li>${hasWheelerAndIs1170 ? '🎯' : '❗'} <b>Missing SSE Engine Fixes:</b> This foundational mod is usually essential for a stable modded game.
             <ol>
@@ -1392,7 +1475,7 @@ function analyzeEngineFixes(sections) {
 //❗Critical First-Line Error Detected:
 function analyzeFirstLine(sections) {
     let insights = '';
-    const ignoreFiles = ['Dawnguard.esm', 'Dragonborn.esm', 'null', 'null)', 'SkyrimSE.exe', 'skyrim.esm'];
+    const ignoreFiles = ['Dawnguard.esm', 'Dragonborn.esm', 'null', 'null)', 'SkyrimSE.exe', 'skyrim.esm', 'SkyrimVR.exe'];
     
     // Extract filename from sections.firstLine (actual location can vary between log types) if it exists
     const firstLine = sections.firstLine || '';
@@ -1505,16 +1588,25 @@ function generateNoCrashDetectedMessage() {
                         <li>For easier setup, use this <a href="https://www.nexusmods.com/skyrimspecialedition/mods/108069">pre-configured TOML file</a></li>
                     </ul>
                 </li>
-                <li>Review and install any missing <a href="https://www.reddit.com/r/skyrimmods/wiki/essential_mods/#wiki_essential_bugfixes">Essential Bugfixes</a> applicable to your modlist</li>
+                <li>Third, ensure your system is setup and maintained within general recommendations:
+                    <ul>
+                        <li><a href="https://www.nolvus.net/appendix/pagefile">Windows Pagefile Size is properly configured</a> to be at least 40,000 MB.</li>
+                        <li>Return any overclocked hardware to stock speeds.</li>
+                        <li>Maintain <a href="https://computercity.com/hardware/storage/how-much-space-should-i-leave-on-my-ssd">at least 10-20% free space</a> on your SSD for optimal performance.</li>
+                    </ul>
+                </li>
+                <li>Fourth, towards isolating the cause, try individually disabling any mods listed in the "🔎 Files/Elements" section of this report (see below). Be mindful of any dependencies when doing so. Generally either test with a new character, and/or avoid saving while testing with an existing character.</li>
+                <li>Also, review and install any missing <a href="https://www.reddit.com/r/skyrimmods/wiki/essential_mods/#wiki_essential_bugfixes">Essential Bugfixes</a> applicable to your modlist</li>
                 <li>Check your load order against <a href="https://www.reddit.com/r/skyrimmods/wiki/begin2/">r/SkyrimMod's Beginner's Guide</a> guidelines</li>
                 <li>${Utils.LootIfSkyrim}</li>
                 <li>If issues persist, share your logs with <a href="https://www.reddit.com/r/skyrimmods/">r/SkyrimMods</a></li>
                 <li><b>As a last resort:</b> Try disabling groups of mods at a time (being mindful of masters and dependencies) until the crash stops. While tedious, this can help isolate problematic mod combinations</li>
             </ul></li>`;
     } else {
+        //NOLVUS version:
         diagnoses += `<li>Recommended steps:
             <ul>
-                <li>First, if comfortable, check the <b>Advanced Users</b> box above, and review that section below for potential crash indicators that might apply to your situation</li>
+                <li>First, if comfortable, check the <b>Advanced Users</b> box above, and review that section below for potential crash indicators that might apply to your situation. NOTE: If you have added or subtracted any mods to/from Nolvus, then you need to consider yourself an "Advanced User".</li>
                 <li>Review <b>Jerilith's Safe Save Guide</b> at <a href="https://www.nolvus.net/catalog/crashlog?acc=accordion-1-5">Save Bloat Crash</a></li>
                 <li>If using custom mods, check the <a href="https://www.nolvus.net/catalog/crashlog?acc=accordion-1-7">Load Order Crash</a> guide</li>
                 <li>If issues persist, seek help at:
@@ -1523,7 +1615,7 @@ function generateNoCrashDetectedMessage() {
                         <li><a href="https://discord.gg/Zkh5PwD">Nolvus Discord</a></li>
                     </ul>
                 </li>
-                <li><b> As a last resort:</b>  Try disabling any <b>mods that you have added to Nolvus</b>, a few at a time (being mindful of masters and dependencies) until the crash stops. While tedious, this can help isolate problematic mod combinations</li>
+                <li><b>If you've customized Nolvus:</b> Towards isolating the cause, try individually disabling any <b>mods that you have added to Nolvus</b>, starting with ones listed in the "🔎 Files/Elements" section of this report (see Advanced Users portion). Then try disabling a few of these mods a few at a time (being mindful of masters and dependencies) until the crash stops. While tedious, this can help isolate problematic mod combinations</li>
             </ul></li>`;
     }
 
@@ -1621,7 +1713,7 @@ function analyzeOverlayIssues(sections, logFile) {
 
 
 
-//❗Animation Loader/Behavior Engine Issue Detected
+//❓Animation Loader/Behavior Engine Issue Detected
 
 function analyzeAnimationLoaderIssues(sections) {
     let loaderInsights = '';
@@ -1637,8 +1729,8 @@ function analyzeAnimationLoaderIssues(sections) {
     Utils.debuggingLog(['analyzeAnimationLoaderIssues', 'analyzeLog.js'], 'loaderCodeIssues:', loaderCodeIssues);
 
     if (loaderCodeIssues.length > 0) {
-        isHighPriority = true;
-        loaderInsights += `<li>❗ <b>Animation Loader/Behavior Engine Issue Detected:</b> To fix this, please follow these steps:
+        //isHighPriority = true;
+        loaderInsights += `<li>❓ <b>Possible Animation Loader/Behavior Engine Issue Detected:</b> To fix this, please follow these steps:
         <ol>
         <li>First steps:
             <ul>

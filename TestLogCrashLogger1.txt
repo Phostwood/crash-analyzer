@@ -1,7 +1,7 @@
 Skyrim SSE v1.6.1170
 CrashLoggerSSE v1-14-1-0 May 18 2024 23:00:58
 ⚠️Mocked up log file which contains every detectable error⚠️: NOTE: many of these error codes are borrowed from .Net Script Framework logs and may not be accurate, nor are they likely to be in the correct format for CrashLogger logs, but either way they should trigger the intended test diagnoses and insights from the crash analyzer.
-Unhandled exception "EXCEPTION_ACCESS_VIOLATION" at 0x7FF6F03FD88A SkyrimSE.exe+032D88A	mov rax, [rcx] (SkyrimSE.exe+D6DDDA) (SkyrimSE.exe+D6DDDA) (SkyrimSE.exe+12FDD00) (JContainers64.dll+10AE45) (SkyrimSE.exe+A0D789) (PDPerfPlugin.dll+F125) (FSR2 Upscaler: SkyrimUpscaler.dll+9B14F, +nvngx_dlss.dll) (+D2B923) (+C1315C) (+8BDA97)  (+7428B1) (+67B88B) (+0198090) (+0CB748E) (+5999C7) (+D02C2C) (+12F5590) (+132BEF) (Paid FSR3 Upscaler: +nvngx_dlssg.dll)(NVIDIA graphics drivers: +nvwgf2umx.dll, nvlddmkm.sys, nvoglv32.dll, nvoglv64.dll, nvwgf2um.dll) (12F4797 Physics Crash: SkyrimSE.exe+12F4797) (+dxgi.dll) (+d3d11.dll) (KERNELBASE.dll+) (+B02235)
+Unhandled exception "EXCEPTION_ACCESS_VIOLATION" at 0x7FF6F03FD88A SkyrimSE.exe+032D88A	mov rax, [rcx] (SkyrimSE.exe+D6DDDA) (SkyrimSE.exe+D6DDDA) (SkyrimSE.exe+12FDD00) (JContainers64.dll+10AE45) (SkyrimSE.exe+A0D789) (PDPerfPlugin.dll+F125) (FSR2 Upscaler: SkyrimUpscaler.dll+9B14F, +nvngx_dlss.dll) (+D2B923) (+C1315C) (+8BDA97)  (+7428B1) (+67B88B) (+0198090) (+0CB748E) (+5999C7) (+D02C2C) (+12F5590) (+132BEF) (Paid FSR3 Upscaler: +nvngx_dlssg.dll)(NVIDIA graphics drivers: +nvwgf2umx.dll, nvlddmkm.sys, nvoglv32.dll, nvoglv64.dll, nvwgf2um.dll) (12F4797 Physics Crash: SkyrimSE.exe+12F4797) (+dxgi.dll) (+d3d11.dll) (KERNELBASE.dll+) (+B02235) (Visual C++ Runtime files: msvcp100.dll, msvcp110.dll, msvcp110_win.dll, msvcp140.dll, vcruntime140.dll, ucrtbase.dll)
 
 SYSTEM SPECS:
 	OS: Microsoft Windows 10 Pro v10.0.19045
@@ -264,6 +264,77 @@ REGISTERS:
 	RBX 0x45B70FEA18       (void*)
 
 STACK:
+	[RSP+3A0 ] 0x20E5E098340      (NiSourceTexture*)
+		Name: "textures\Actors\Character\Overlays\Community Overlays\CO 3\61 Body Belly 1.dds"
+		RTTIName: "NiSourceTexture"
+	[RSP+2CF8] 0x1E06D733C00      (hkpRigidBody*)
+		Full Name: ""
+		File: "Landscape\Mountains\MountainCliffSm01.nif"
+		Checking User Data: -----
+			Object Reference: 
+			File: "Skyrim.esm"
+			Flags: 0x00038809 kDestructible | kInitialized
+			FormID: 0x00050DC1
+			FormType: Static (34)
+			ParentCell: ---
+				Flags: 0x00002008 
+				EditorID: "Wilderness"
+				FormID: 0xFF000B4D
+				FormType: Cell (60)
+	[RSP+8  ] 0x23292FD6E80      (ShadowSceneNode*)
+		Name: "shadow scene node"
+		RTTIName: "ShadowSceneNode"
+		Flags: kSelectiveUpdate | kSelectiveUpdateTransforms | kSelectiveUpdateController
+		Checking Parent: 1
+			Name: "WorldRoot Node"
+			RTTIName: "SceneGraph"
+			Flags: kSelectiveUpdate | kSelectiveUpdateTransforms | kSelectiveUpdateController
+		Name: "shadow scene node"
+	[RSP+10 ] 0x23590C99480      (BSFadeNode*)
+		Name: "skeleton_female.nif"
+		RTTIName: "BSFadeNode"
+		ExtraData[0] Name: "BSBoneLOD"
+		ExtraData[1] Name: "BOM"
+		ExtraData[2] Name: "BBX"
+		ExtraData[3] Name: "BSX"
+		ExtraData[4] Name: "SkeletonID"
+		ExtraData[5] Name: "BNDT"
+		Flags: kSelectiveUpdate | kSelectiveUpdateTransforms | kSelectiveUpdateController
+		Full Name: "Toccata"
+		Checking User Data: -----
+			Object Reference: 
+			File: "Toccata.esp"
+			Flags: 0x00440008 kInitialized
+			Name: "Toccata"
+			FormID: 0xA1000D62
+			FormType: NPC (43)
+		Checking TESObjectREFR: {}
+			Object Reference: 
+			File: "Toccata.esp"
+			Flags: 0x00440008 kInitialized
+			Name: "Toccata"
+			FormID: 0xA1000D62
+			FormType: NPC (43)
+		Checking Parent: 10
+			RTTIName: "NiNode"
+			Flags: kSelectiveUpdate | kSelectiveUpdateTransforms | kSelectiveUpdateController
+			Checking Parent: 0
+				RTTIName: "BSMultiBoundNode"
+				Flags: kSelectiveUpdate | kSelectiveUpdateTransforms | kSelectiveUpdateController
+				Checking Parent: 2
+					Name: "ObjectLODRoot"
+					RTTIName: "NiNode"
+					Flags: kSelectiveUpdate | kSelectiveUpdateTransforms | kSelectiveUpdateController
+					Checking Parent: 3
+						Name: "shadow scene node"
+						RTTIName: "ShadowSceneNode"
+						Flags: kSelectiveUpdate | kSelectiveUpdateTransforms | kSelectiveUpdateController
+						Checking Parent: 1
+							Name: "WorldRoot Node"
+							RTTIName: "SceneGraph"
+							Flags: kSelectiveUpdate | kSelectiveUpdateTransforms | kSelectiveUpdateController
+		Name: "skeleton_female.nif"
+	[RSP+468 ] 0xD6F557F140       (char*) "textures\Actors\Character\Overlays\Community Overlays\CO 3\61 Body Belly 2.dds"
 	[RSP+0   ] 0x23266B46438      (BGSListForm*)
 		File: "Skyrim.esm"
 		Flags: 0x00000009 kDestructible | kInitialized
@@ -279,6 +350,24 @@ STACK:
 		ParentCell: ---
 			File: "SDA DX Crimson Blood Patch.esp"
 			Modified by: Skyrim.esm -> Dawnguard.esm -> Unofficial Skyrim Special Edition Patch.esp -> LegacyoftheDragonborn.esm -> YurianaWench.esp -> Crimson Blood Armor.esp -> SDA DX Crimson Blood Patch.esp
+			Flags: 0x00040009 
+			Name: "Bloodlet Throne"
+			EditorID: "BloodletThrone01"
+			FormID: 0x00016EA1
+			FormType: Cell (60)
+		File: "Skyrim.esm"
+		Flags: 0x00000409 kDestructible | kInitialized
+		FormID: 0x0005E4D6
+		FormType: Reference (61)
+[RSP+11  ] 0x23265402140      (TESObjectREFR*)
+		Object Reference: 
+		File: "Skyrim.esm"
+		Flags: 0x00000009 kDestructible | kInitialized
+		FormID: 0x0001F828
+		FormType: TextureSet (07)
+		ParentCell: ---
+			File: "SDA DX Crimson Blood Patch.esp"
+			Modified by: Skyrim.esm -> mod2.esp -> mod3.esp -> mod4.esp -> mod5.esp -> mod6.esp -> mod7.esp -> mod8.esp -> mod9.esp -> mod10.esp -> mod11.esp -> mod12.esp -> mod13.esp -> mod14.esp -> mod15.esp -> mod16.esp -> mod17.esp -> mod18.esp -> mod19.esp -> mod20.esp -> mod21.esp -> mod22.esp -> mod23.esp -> mod24.esp -> mod25.esp -> mod26.esp -> mod27.esp -> mod28.esp -> mod29.esp -> mod30.esp -> mod31.esp -> mod32.esp -> mod33.esp -> mod34.esp -> mod35.esp -> mod36.esp -> mod37.esp -> mod38.esp -> mod39.esp -> mod40.esp -> mod41.esp -> mod42.esp -> mod43.esp -> mod44.esp -> mod45.esp -> mod46.esp -> mod47.esp -> mod48.esp -> mod49.esp -> mod50.esp -> mod51.esp -> mod52.esp -> mod53.esp -> mod54.esp -> mod55.esp -> mod56.esp -> mod57.esp -> mod58.esp -> mod59.esp -> mod60.esp -> mod61.esp -> mod62.esp -> mod63.esp -> mod64.esp -> mod65.esp -> mod66.esp -> mod67.esp -> mod68.esp -> mod69.esp -> mod70.esp -> mod71.esp -> mod72.esp -> mod73.esp -> mod74.esp -> mod75.esp -> mod76.esp -> mod77.esp -> mod78.esp -> mod79.esp -> mod80.esp -> mod81.esp -> mod82.esp -> mod83.esp -> mod84.esp -> mod85.esp -> mod86.esp -> mod87.esp -> mod88.esp -> mod89.esp -> mod90.esp -> mod91.esp -> mod92.esp -> mod93.esp -> mod94.esp -> mod95.esp -> mod96.esp -> mod97.esp -> mod98.esp -> mod99.esp -> mod100.esp -> mod101.esp -> mod102.esp -> mod103.esp -> mod104.esp -> mod105.esp -> mod106.esp -> mod107.esp -> mod108.esp -> mod109.esp -> mod110.esp -> mod111.esp -> mod112.esp -> mod113.esp -> mod114.esp -> mod115.esp -> mod116.esp -> mod117.esp -> mod118.esp -> mod119.esp -> mod120.esp -> mod121.esp -> mod122.esp -> mod123.esp -> mod124.esp -> mod125.esp -> mod126.esp -> mod127.esp -> mod128.esp -> mod129.esp -> mod130.esp -> mod131.esp -> mod132.esp -> mod133.esp -> mod134.esp -> mod135.esp -> mod136.esp -> mod137.esp -> mod138.esp -> mod139.esp -> mod140.esp -> mod141.esp -> mod142.esp -> mod143.esp -> mod144.esp -> mod145.esp -> mod146.esp -> mod147.esp -> mod148.esp -> mod149.esp -> mod150.esp
 			Flags: 0x00040009 
 			Name: "Bloodlet Throne"
 			EditorID: "BloodletThrone01"
@@ -385,6 +474,23 @@ STACK:
   Interface/Quest_Journal.swf          // SkyUI journal interface file
   BSWin32GamepadDevice                 // Windows gamepad device handler
   BSPCGamepadDeviceHandler             // PC gamepad device handler
+  msvcp100.dll            			   // Microsoft Visual C++ 2010 Redistributable   
+  msvcp110.dll             			   // Microsoft Visual C++ 2012 Redistributable   
+  msvcp110_win.dll             	  	   // Microsoft Visual C++ 2015 Redistributable   
+  msvcp140.dll                         // Microsoft Visual C++ 2015 Redistributable   
+  vcruntime140.dll                     // Visual C++ Runtime Library   
+  ucrtbase.dll                         // Universal C Runtime Library
+  badMeshOptimizationFile.bto          // Bethesda mesh optimization file 
+  badtexture.dds                       // DirectDraw Surface texture file
+  badTexture2.tga                      // Targa format texture file           //theoretical according to AI ... but not in my library
+  badBitmap.bmp                        // Bitmap texture file                 //rare
+  badTextureReferenceFile.btr          // Bethesda texture reference file     //rare
+  `meshWithBackticksTest.nif` and `meshWithBackticksTest.tri` and `meshWithBackticksTest.bto`and `meshWithBackticksTest.bsa`
+  `textureWithBacktickstest.dds` and `textureWithBacktickstest.btr` and `textureWithBacktickstest.tga` and `textureWithBacktickstest.bmp` and `textureWithBacktickstest.bsa`
+  `animationWithBackticksTest.hkx` and `animationWithBackticksTest.bsa` 
+  meshWithoutDelimiters.nif and meshWithoutDelimiters.tri and meshWWithoutDelimiters.bto and meshWithoutDelimiters.bsa 
+  textureWithoutDelimiters.dds and textureWithoutDelimiters.btr and textureWithoutDelimiters.tga and textureWithoutDelimiters.bmp and textureWithoutDelimiters.bsa 
+  animationWithoutDelimiters.hkx and animationWithoutDelimiters.bsa
 
 
 MODULES:
@@ -662,3 +768,11 @@ PLUGINS:
 	[ZZ 002]	jks skyrim.esp
 	[ZZ 003]	simplicity of snow.esp
 	[FF] OoopsTooManyMods.esp
+	[FE 53C] [ETH]AllDeathAnimations.esp
+	[FE 629] [COCO] Shadow Assassin.esp
+	[FE 64B] Modpocalypse NPCs (v3) Carved Brink.esp
+	[FE 653] The Dark Arts + CACO.esp
+	[FE 6BA] Beyond Reach - Fixed .nif Records.esp
+	[FE 6BF] [LM] Arnima - Baby Ogre Inventory Fix.esp
+	[FE 7BA] WDAL_[xPatch] Modpocalypse NPCs (v3) SSE - Cutting Room Floor Fix.esp
+	

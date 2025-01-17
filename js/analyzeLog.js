@@ -339,6 +339,15 @@ async function analyzeLog() {
     }
 
 
+    
+    //❗Possible Visual C++ Runtime DLL Issue Detected:
+    const vCRuntimeDiagnosis = analyzeVCRuntimeIssue(sections)
+    if (vCRuntimeDiagnosis) {
+        diagnoses += vCRuntimeDiagnosis;
+        diagnosesCount++;
+    }
+
+
 
     //❗ Potential Missing Masters Detected: 
     const missingMastersDiagnosis = checkForMissingMasters(sections);
@@ -665,7 +674,7 @@ async function analyzeLog() {
         insightsCount++;
     }
 
-    // Animation Loader/Behavior Engine
+    // ❓Animation Loader/Behavior Engine
     const loaderResults = analyzeAnimationLoaderIssues(sections);
     if (loaderResults.insights) {
         insights += loaderResults.insights;

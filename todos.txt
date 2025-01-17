@@ -1,39 +1,60 @@
-✅Beta version 0.19.23 is now live:
+✅Beta version 0.19.24 is now live:
 https://phostwood.github.io/crash-analyzer/
 
-1. D6DDDA advice tweaks:
-	- swapped sections "System Memory Management" and "Corrupt Texture (.dds) or Mesh (.nif) Files" so the memory ideas were on top
-		- NOTE: discovered later that this is I think against advice from bachmanis? but jumping to it being a corrupt texture (especially for Nolvus) seems a bit much. Otherwise bachmanis' ideas have still been kept.
-		- https://www.reddit.com/r/skyrimmods/s/14J816JW4m
-	- added line about checking modlist's/mods' system requirements
-	- clarified reference to Texture Issue and Mesh Issue sections.
+✅1. New test: ❗ Possible Visual C++ Runtime DLL Issue Detected
 
-2. Memory Issues: added same line about system requirements: "Review your modlist's (or individual mods') recommended hardware requirements to verify you aren't overly below their system recommendations."
+✅2. 🔎Files/Elements:
+	- Made file extensions pink to aid in quicker visual scanning
+	- Added detection of some new rarer file types
 
-3. Mesh Issues:
-	- added mesh file extensions (.tri and .nif) as indicators in themselves
+✅3. Added 8 new filenames to the Explainers list
 
-4. HTML List formatting fix for both Mesh Issue and Texture Issue sections
+✅4. Mesh Issues and Texture Issues and Animation Issues:
+	- ✅Added detection of some new rarer file types
+	- ✅(Where not already) Added file extensions to list of indicators, so tests flag when related files are found, even without any other indicators present
+		- ✅Texture Issues
+		- ✅Mesh Issues
+		- ✅Animation Issues
 
-5. Gamepad Compatibility Issue: corrected typo (thanks, RomatebitgeL!)
+✅5. analyzeFirstLine: added SkyrimVR.exe to list of ones to skip (just as Skyrim.exe)
 
-6. SSE Fixes Compatibility Issue: 
-	- Added 1 more found (and confirmed) indicator
-		- source: https://www.reddit.com/r/skyrimmods/comments/1gcf634/ctd_when_hitting_something_while_using_engine/
-	- Added 5 more theorized indicators from Claude AI 
-	- NOTE: the additional indicators should be totally safe, as the test already confirms the incompatible SSE Fixes mod with and having an incompatible version of Skyrim. So, looking for any indicators at all really might be unnecessary...
+✅6. No highest-confidence crash indicators:
+	- ✅added line about disabling mods listed in the Files/Elements section
+	- ✅added section on "ensure your system is setup and maintained within general recommendations" ... some easy changes that most modders should follow anyway....
 
-7. Missing Masters: Reddit markdown formatting fix (it doesn't like a new line in a <li></li> ... so I just removed the <br> for a simple fix. Perhaps not quote as easy to read, but good enough.)
+✅7. KERNELBASE Crash: Added Windows pagefile link/instructions to troubleshooting steps, as it reportedly fixed this person's issue:
+https://old.reddit.com/r/skyrimmods/comments/1hxps4g/can_someone_explain_this_crash_thanks_3/
 
-8. Project Tracking:
-	- Closed out, downgraded, or paused all 5-star ideas in my notes
-	- Reviewed 4-star ideas, and either downgraded, closed, or concluded they can wait for v1.0.0
+8. ✅testUtils.js:
+	- Refactored new getMatchingFilePaths() function for consolidating how I search for filenames/paths 
+		- ✅Currently still using old regex, but now also added matching on backticks (instead of just quotes) as filename/path delimiters
+			- example:  `folder/myTexture.dds`
+		- ✅QA testing
+			- ✅has been added to all three Test Logs
+		- ✅Currently only implemented for:
+			- ✅Texture Issue 
+			- ✅Mesh Issue
+			- ✅Animation Issue
+			- ⏸️ maybe others?
+
+-
+
+❌10. 🔎Files/Elements: Attempted improvement of truncating shortened lines in a smarter way ... reverted and tabled for now
+
+❌11. 🔎Files/Elements: Attempted to implement FormIDs ... tabled for now.
 
 
--- NOTES on this version ---
+--- next version ---
 
-❌1. ConsoleUtilSSE bug fix: no bug found. Only 1 other crash log out of 1030 showing ConsoleUtilSSE version displays as v1.0.1
+- Line truncating fix:  when truncating a line with <-- it makes sense to truncate at the end (current behavior), but for --> arrows, it should truncate keep the last 1,000 characters ... not the first 1,000
 
+- POSSIBLE BUG where sections.topHalf doesn't include "stack" for NSF logs?
+
+➡️4. Consider loosening up regexes in extractNifPathsToListItems and TEXTURE and ANIMATION versions to allow other word delimiters via looser regex
+
+	- NEEDS THOROUGH TESTING
+
+	- Speed Optimization? Consider making a new log sections called allFilesInTopHalf and allFilesInBottomHalf. And from there, when I want a file, just search it? However, the list wouldn't contain any information about what section it was found in....
 
 --- Next Version ---
 

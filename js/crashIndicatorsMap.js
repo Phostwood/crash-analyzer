@@ -13,6 +13,20 @@ const crashIndicators = {
         ]        
     },
 
+    vcRuntimeIssues: {
+        hexCodes: [
+            // Space for future hex codes
+        ],
+        codes: [
+            { code: 'msvcp100.dll', description: "Microsoft Visual C++ 2010 Redistributable" },
+            { code: 'msvcp110.dll', description: "Microsoft Visual C++ 2012 Redistributable" },
+            { code: 'msvcp110_win.dll', description: "Microsoft Visual C++ 2015 Redistributable" },
+            { code: 'msvcp140.dll', description: "Microsoft Visual C++ 2015 Redistributable" },
+            { code: 'vcruntime140.dll', description: "Visual C++ Runtime Library" },
+            { code: 'ucrtbase.dll', description: "Universal C Runtime Library" }
+        ]        
+    },
+
     gamepadIssues: {
         hexCodes: [
             // Space for future hex codes
@@ -91,7 +105,8 @@ const crashIndicators = {
             { code: 'nitristrips', description: "NiTriStrips node" },
             { code: 'trishape', description: "Triangle shape in mesh" },
             { code: '.tri', description: "Mesh file for 3D wireframe" },
-            { code: '.nif', description: "Mesh file for 3D wireframe" }            
+            { code: '.nif', description: "Mesh file for 3D wireframe" },
+            { code: '.bto', description: "Bethesda mesh optimization file" }            
         ]
     },
     textureIssues: {
@@ -102,7 +117,12 @@ const crashIndicators = {
             { code: 'bsshadertextureset', description: "Shader texture set problem" },
             { code: 'nialphaproperty', description: "Alpha property issue" },
             { code: 'compressedarchivestream', description: "Compressed texture stream error" },
-            { code: 'texture', description: "General texture-related problem" }
+            { code: 'texture', description: "General texture-related problem" },
+            { code: '.dds', description: "DirectDraw Surface texture file" },
+            { code: '.tga', description: "Targa format texture file" }, //theoretical according to AI ... but not in my library
+            { code: '.bmp', description: "Bitmap texture file" }, //rare
+            { code: '.btr', description: "Bethesda texture reference file" } //rare
+            //{ code: '.texcache', description: "Texture cache data file" } //theoretical according to Claude AI ... but not in my library, but improperly searched for returns way too much?
         ]
     },
     animationIssues: {

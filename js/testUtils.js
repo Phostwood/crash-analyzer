@@ -137,23 +137,45 @@ if (typeof Utils === 'undefined') {
 
 
 
-    Utils.extractAnimationPathsToListItems = function(logText) {
-        const fileRegex = /"([^"]+\.(hkx|bsa))"/gi;
+    Utils.getMatchingFilePaths = function(logText, fileExtensions) {
+        Utils.debuggingLog(['getMatchingFilePaths', 'Utils.js'], 'Input fileExtensions:', fileExtensions);
+        Utils.debuggingLog(['getMatchingFilePaths', 'Utils.js'], 'Sample of logText:', logText.substring(0, 200));
+    
+        const fileRegex = new RegExp(`[\`"]([^"\`]+\\.(${fileExtensions}))[\`"]`, 'gi');
+        Utils.debuggingLog(['getMatchingFilePaths', 'Utils.js'], 'Generated regex:', fileRegex);
+    
         let match;
-        const pathsSet = new Set();
+        let pathsSet = new Set();
+        let matchCount = 0;
     
         while ((match = fileRegex.exec(logText)) !== null) {
-            pathsSet.add(match[1]);
+            matchCount++;
+            Utils.debuggingLog(['getMatchingFilePaths', 'Utils.js'], `Match ${matchCount}:`, {
+                fullMatch: match[0],
+                captureGroup: match[1],
+                matchIndex: match.index
+            });
+            
+            const trimmedMatch = match[1].trim();
+            pathsSet.add(trimmedMatch);
         }
     
-        // If no matches were found, add the no animations found message to the set
+        Utils.debuggingLog(['getMatchingFilePaths', 'Utils.js'], 'Total matches found:', matchCount);
+        Utils.debuggingLog(['getMatchingFilePaths', 'Utils.js'], 'Final pathsSet:', [...pathsSet]);
+        return [...pathsSet];
+    };
+    
+    Utils.extractAnimationPathsToListItems = function(logText) {
+        const fileExtensions = "hkx|bsa";
+        let pathsSet = new Set(Utils.getMatchingFilePaths(logText, fileExtensions));
+    
         if (pathsSet.size === 0) {
             pathsSet.add('UNLIKELY CAUSE: Since no animation files were found in crash log, this is less likely to be the culprit. However, as a last resort, consider decompressing relevant <code>.bsa</code> archives.');
         }
     
         const hkbRegex = /hkbBehaviorGraph\((Name: `[^`]+`)\)/gi;
         const animGraphRegex = /BShkbAnimationGraph\((Name: `[^`]+`)\)/gi;
-    
+        let match;
     
         // Check for names using the two regexes and add their group matches to the pathsSet
         while ((match = hkbRegex.exec(logText)) !== null) {
@@ -166,44 +188,35 @@ if (typeof Utils === 'undefined') {
         // Convert the Set back to an array and process to list items
         return Utils.processListItems([...pathsSet]);
     };
-
-
+    
+    
     Utils.extractSkyrimTexturePathsToListItems = function(logText) {
-        const regex = /"([^"]+\.(dds|tga|bmp|bsa))"/gi;
-        let match;
-        const pathsSet = new Set();
-
-        while ((match = regex.exec(logText)) !== null) {
-            pathsSet.add(match[1]);
-        }
-
-        // If no matches were found, add the no textures found message to the set
+        const fileExtensions = "dds|btr|tga|bmp|bsa";
+        
+        let pathsSet = new Set(Utils.getMatchingFilePaths(logText, fileExtensions));
+    
         if (pathsSet.size === 0) {
+            Utils.debuggingLog(['extractSkyrimTexturePathsToListItems', 'Utils.js'], 'No texture files found, adding default message');
             pathsSet.add('UNLIKELY CAUSE: Since no texture files were found in crash log, this is less likely to be the culprit. However, as a last resort, consider decompressing relevant ".bsa" archives.');
         }
-
-        // Convert the Set back to an array and process to list items
-        return Utils.processListItems([...pathsSet]);
+        
+        const result = Utils.processListItems([...pathsSet]);
+        Utils.debuggingLog(['extractSkyrimTexturePathsToListItems', 'Utils.js'], 'Final processed result:', result);
+        return result;
     };
-
-
+    
     Utils.extractNifPathsToListItems = function(logText) {
-        const fileRegex = /"([^"]+\.(nif|tri|bsa))"/gi;
-        let match;
-        const pathsSet = new Set();
-
-        while ((match = fileRegex.exec(logText)) !== null) {
-            pathsSet.add(match[1]);
-        }
-
-        // If no matches were found, add the no meshes found message to the set
+        const fileExtensions = "nif|tri|bto|bsa";
+        let pathsSet = new Set(Utils.getMatchingFilePaths(logText, fileExtensions));
+    
         if (pathsSet.size === 0) {
-            pathsSet.add('UNLIKELY CAUSE: Since no no mesh files were found in crash log, this is less likely to be the culprit. However, as a last resort, consider decompressing relevant ".bsa" archives.');
+            pathsSet.add('UNLIKELY CAUSE: Since no mesh files were found in crash log, this is less likely to be the culprit. However, as a last resort, consider decompressing relevant ".bsa" archives.');
         }
-
+    
         const name1Regex = /BSTriShape\((Name: `[^`]+`)\)/gi;
         const name2Regex = /\(BSTriShape\*\) -> \((Name: `[^`]+`)\)/gi;
-
+        let match;
+    
         // Check for names using the two regexes and add their group matches to the pathsSet
         while ((match = name1Regex.exec(logText)) !== null) {
             pathsSet.add(match[1]);
@@ -211,10 +224,12 @@ if (typeof Utils === 'undefined') {
         while ((match = name2Regex.exec(logText)) !== null) {
             pathsSet.add(match[1]);
         }
-
+    
         // Convert the Set back to an array and process to list items
         return Utils.processListItems([...pathsSet]);
     };
+    
+ 
 
 
 

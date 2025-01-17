@@ -4,6 +4,7 @@ if (typeof Utils === 'undefined') {
     console.error('Error: Utils object is not defined. Make sure utils.js is loaded before testUtils.js');
 } else {
     Utils.explainersMap = new Map([
+        //!IMPORTANT: all filenames are expected to be lower case!
         ['_nvngx.dll', '(<b>NVIDIA</b> NGX Runtime Library)'],
         ['a0d789patch.dll', '(<b>recommended</b> bug fix)'],
         ['achievements.dll', '(Achievements Mods Enabler <b>SKSE</b> plugin)'],
@@ -15,6 +16,7 @@ if (typeof Utils === 'undefined') {
         ['applicationtargetedfeaturedatabase.dll', '(feature database - MS <b>Windows</b>)'],
         ['asm.plugin.audiodevprops2.dll', '(Nahimic <b>audio</b> component)'],
         ['atcuf64.dll', '(<b>Bitdefender</b> Active Threat Control Userland API)'],
+        ['atidxx64.dll', '(AMD <b>graphics</b> component)'],
         ['atiumd6a.dll', '(AMD <b>graphics</b> component)'],
         ['atiuxp64.dll', '(AMD <b>graphics</b> component)'],
         ['autohdr64.addon', '(AutoHDR Addon for <b>ReShade</b>)'],
@@ -132,7 +134,10 @@ if (typeof Utils === 'undefined') {
         ['modorganizer.dll', '(Mod Organizer 2 virtual <b>file system</b>)'],
         ['msacm32.dll', '(Microsoft ACM <b>Audio</b> Filter)'],
         ['msiso.dll', '(Internet Explorer Isolation Library - MS <b>Windows</b>)'],
-        ['msvcp110_win.dll', '(Microsoft STL110 C++ Runtime Library - <b>Windows</b>)'],
+        ['msvcp100.dll', '(Microsoft Visual C++ 2010 Redistributable - <b>Windows</b>)'],
+        ['msvcp110.dll', '(Microsoft Visual C++ 2012 Redistributable - <b>Windows</b>)'],
+        ['msvcp110_win.dll', '(Microsoft Visual C++ 2015 Redistributable - <b>Windows</b>)'],
+        ['msvcp140.dll', '(Microsoft Visual C++ 2015 Redistributable - <b>Windows</b>)'],
         ['n64hooks.dll', '(N64 hooks library - <b>emulator</b>)'],
         ['nativepatch.dll', '(SSE Native Patch <b>SKSE</b> plugin)'],
         ['nemesis unlimited behavior engine.exe', '(<b>Animation</b> framework, alternative to FNIS)'],
@@ -144,6 +149,7 @@ if (typeof Utils === 'undefined') {
         ['nvapi64.dll', '(<b>NVIDIA</b> Driver API Library)'],
         ['nvcuda.dll', '(<b>NVIDIA</b> CUDA Driver)'],
         ['nvdxgdmal64.dll', '(<b>NVIDIA</b> DirectX Graphics Device Memory Allocation Library)'],
+        ['nvgpucomp64.dll', '(NVIDIA GPU Component - <b>graphics driver</b>)'],
         ['nvlddmkm.sys', '(<b>NVIDIA</b> Windows Kernel Mode Driver)'],
         ['nvngx_dlss.dll', '(<b>NVIDIA</b> DLSS Driver)'],
         ['nvngx_dlssg.dll', '(<b>NVIDIA</b> DLSS Driver for FSR3)'],
@@ -219,6 +225,8 @@ if (typeof Utils === 'undefined') {
         ['tmntsrv.dll', '(Trend Micro Network Service - <b>antivirus</b>)'],
         ['truehud.dll', '(TrueHUD <b>SKSE</b> plugin)'],
         ['uiautomationcore.dll', '(Microsoft UI Automation Core - <b>Windows</b>)'],
+        ['ucrtbase.dll', '(Universal C Runtime Library - <b>MS Windows</b>)'],
+        ['user32.dll', '(Microsoft User Interface Library - <b>Windows</b>)'],
         ['usvfs_x64.dll', '(User Space Virtual <b>File System</b> - MO2)'],
         ['vcruntime140.dll', '(Visual C++ Runtime Library - MS <b>Windows</b>)'],
         ['versionlib.dll', '(VersionLib <b>SKSE</b> plugin)'],
@@ -254,6 +262,7 @@ if (typeof Utils === 'undefined') {
         ['winevulkan.dll', '(Wine Vulkan Driver - Windows <b>emulator</b>)'],
         ['winex11.drv', '(Wine X11 Driver - Windows <b>emulator</b>)'],
         ['winspool.drv', '(<b>Windows</b> Spooler Driver - printing subsystem)'],
+        ['wintrust.dll', '(Windows Trust Manager - <b>Windows</b>)'],
         ['wrsvc.dll', '(Webroot SecureAnywhere Service - <b>antivirus</b>)'],
         ['wtsapi32.dll', '(<b>Windows</b> Terminal Server SDK API)'],
         ['xaudio2_7.dll', '(XAudio library for <b>audio</b> processing)'],

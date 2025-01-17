@@ -2,8 +2,8 @@
 window.LogSummary = {
 
     // Constants
-    fileExtensions: ['.bat', '.bik', '.bmp', '.bsa', '.bsl', '.cpp', '.dds', '.dll', '.esl', '.esm',
-        '.esp', '.exe', '.fuz', '.hkx', '.ini', '.json', '.lip', '.nif', '.pex', '.psc',
+    fileExtensions: ['.bat', '.bik', '.bmp', '.bsa', '.bsl', '.bto', '.btr', '.cpp', '.dds', '.dll', '.esl', '.esm',
+        '.esp', '.exe', '.fuz', '.hkb', '.hkx', '.ini', '.json', '.lip', '.nif', '.pex', '.psc',
         '.seq', '.skse', '.skse64', '.swf', '.tga', '.tri', '.txt', '.wav', '.xml', '.xwm'],
     
     fileStartCharacters: ['`', '"', ':', '(', '['],
@@ -11,7 +11,7 @@ window.LogSummary = {
     unlikelyCulprits: ['clr.dll', 'd3d12core.dll', 'd3dcompiler_47.dll', 'kernel32.dll', 'kernelbase.dll', 
         'msvcp140.dll', 'ntdll.dll', 'runtime.dll', 'steamclient64.dll', 'system.ni.dll', 
         'ucrtbase.dll', 'uiautomationcore.dll', 'win32u.dll', 'xinput1_3.dll'], //REMOVED: 'vcruntime140.dll',
-    removeList: ['Dawnguard.esm', 'Dragonborn.esm', 'null', 'null)', 'NetScriptFramework', 'SkyrimSE.exe', 'skyrim.esm'].map(item => item.toLowerCase()),
+    removeList: ['Dawnguard.esm', 'Dragonborn.esm', 'null', 'null)', 'NetScriptFramework', 'SkyrimSE.exe', 'skyrim.esm', 'SkyrimVR.exe'].map(item => item.toLowerCase()),
 
 
 
@@ -368,7 +368,9 @@ window.LogSummary = {
     },
 
     containsKeyword: function (line) {
-        const keywords = ['.dds', '.tga', '.bmp', '.nif', '.esl', '.esp', '.esm', '.pex', '.dll', '.exe', '.ini', '.bsa', '.fuz', '.hkx', '.seq', '.swf', 'name:', 'file:'];
+        const keywords = [...window.LogSummary.fileExtensions, 'name:', 'file:'];
+        //NOTE on OLD (below): why doesn't this use the "fileExtensions" const from the top of this .js file?
+        //OLD: const keywords = ['.dds', '.tga', '.bmp', '.nif', '.esl', '.esp', '.esm', '.pex', '.dll', '.exe', '.ini', '.bsa', '.fuz', '.hkx', '.seq', '.swf', 'name:', 'file:'];
         const lowerCaseLine = line.toLowerCase();
         return keywords.filter(keyword => lowerCaseLine.includes(keyword)).length;
     },
@@ -396,6 +398,7 @@ window.LogSummary = {
     },
 
     processNamedElementMatches: function (namedElementMatches) {
+        //MAYBE function should be renamed processExplainersAndUnlikely()  ?
         return namedElementMatches.map(item => {
             let processedItem = item.match.toLowerCase();
             let originalItem = item.match;
@@ -453,7 +456,22 @@ window.LogSummary = {
     },
 
     highlightFilenames: function(html) {
-        //TODO: make this work someday? Right now Claude AI doesn't seem up to it....
-        return html;
-     }
+        // If no html content, return as is
+        if (!html) return html;
+        
+        // Create a regex-safe pattern from the extensions array
+        const extensionPattern = this.fileExtensions
+            .map(ext => ext.replace('.', '\\.'))  // Escape dots for regex
+            .join('|');  // Join with OR operator
+        
+        // Create regex that matches word characters followed by the extension
+        // Using positive lookbehind to ensure we match extensions at the end of filenames
+        const regex = new RegExp(`(\\w+)(${extensionPattern})(?![\\w])`, 'gi');
+        
+        // Replace matches with highlighted version
+        // Using deeppink which complements the existing colors while being distinct
+        return html.replace(regex, (match, filename, extension) => 
+            `${filename}<span style="color: hotpink">${extension}</span>`
+        );
+    }
 };
