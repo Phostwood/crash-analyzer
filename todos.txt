@@ -1,76 +1,26 @@
-✅Beta version 0.19.24 is now live:
+✅Beta version 1.19.25 is now live:
 https://phostwood.github.io/crash-analyzer/
 
-✅1. New test: ❗ Possible Visual C++ Runtime DLL Issue Detected
+1. Upgraded this analyzer from version 0 to version 1. Kept subversions though for safer global search and replaces, and to keep a continuity in the numbering scheme. So, went from v0.19.24 to v1.19.25. The analyzer seems sufficiently comprehensive and polished not to warrant taking it out of beta status...
 
-✅2. 🔎Files/Elements:
-	- Made file extensions pink to aid in quicker visual scanning
-	- Added detection of some new rarer file types
+2. Missing Masters:
+	- now flags if no game plugins, even if no other indicators present
+	- when the zero game plugins is the only indicator
+		- softens the test's title from "❗" to "❓" 
+		- also then warns in case modlist intentionally has zero plugins (rare)
+	- added "Detected indicators" list at bottom of the troubleshooting steps
 
-✅3. Added 8 new filenames to the Explainers list
-
-✅4. Mesh Issues and Texture Issues and Animation Issues:
-	- ✅Added detection of some new rarer file types
-	- ✅(Where not already) Added file extensions to list of indicators, so tests flag when related files are found, even without any other indicators present
-		- ✅Texture Issues
-		- ✅Mesh Issues
-		- ✅Animation Issues
-
-✅5. analyzeFirstLine: added SkyrimVR.exe to list of ones to skip (just as Skyrim.exe)
-
-✅6. No highest-confidence crash indicators:
-	- ✅added line about disabling mods listed in the Files/Elements section
-	- ✅added section on "ensure your system is setup and maintained within general recommendations" ... some easy changes that most modders should follow anyway....
-
-✅7. KERNELBASE Crash: Added Windows pagefile link/instructions to troubleshooting steps, as it reportedly fixed this person's issue:
-https://old.reddit.com/r/skyrimmods/comments/1hxps4g/can_someone_explain_this_crash_thanks_3/
-
-8. ✅testUtils.js:
-	- Refactored new getMatchingFilePaths() function for consolidating how I search for filenames/paths 
-		- ✅Currently still using old regex, but now also added matching on backticks (instead of just quotes) as filename/path delimiters
-			- example:  `folder/myTexture.dds`
-		- ✅QA testing
-			- ✅has been added to all three Test Logs
-		- ✅Currently only implemented for:
-			- ✅Texture Issue 
-			- ✅Mesh Issue
-			- ✅Animation Issue
-			- ⏸️ maybe others?
-
--
-
-❌10. 🔎Files/Elements: Attempted improvement of truncating shortened lines in a smarter way ... reverted and tabled for now
-
-❌11. 🔎Files/Elements: Attempted to implement FormIDs ... tabled for now.
-
-
---- next version ---
-
-- Line truncating fix:  when truncating a line with <-- it makes sense to truncate at the end (current behavior), but for --> arrows, it should truncate keep the last 1,000 characters ... not the first 1,000
-
-- POSSIBLE BUG where sections.topHalf doesn't include "stack" for NSF logs?
-
-➡️4. Consider loosening up regexes in extractNifPathsToListItems and TEXTURE and ANIMATION versions to allow other word delimiters via looser regex
-
-	- NEEDS THOROUGH TESTING
-
-	- Speed Optimization? Consider making a new log sections called allFilesInTopHalf and allFilesInBottomHalf. And from there, when I want a file, just search it? However, the list wouldn't contain any information about what section it was found in....
-
---- Next Version ---
-
-6. Catch up on on TestLogs (from at least one if not from a couple prior versions?)
-	- ✅Baseform: null (?) for NSF Test Log
-	- 
-
-2. Review Crash Log Library and try to classify everything
+3. Initial page load (both Skyrim and Nolvus versions):
+	- Added (for Skyrim version only): "Recommended References" section at bottom
+	- Added instructions: ... test from multiple crash logs ...
+	- Minor tweaks and clarifications
 
 
 
-❌1. Add new indicators to Skeleton test's indicators. ... But remove it from the diagnoses section✅, because its just too common. Or maybe mix XMPSE with Skelton test? MIght be able to mix in regeneration test too ... or maybe not?
-	-	UpperarmTwist, UpperArm, Clavicle, Shoulder, Spine
 
+--- COMING SOON --
 
-✅Version 1.0.0:
+✅Version 1.20:
 https://phostwood.github.io/crash-analyzer/
 
 
@@ -87,6 +37,28 @@ https://phostwood.github.io/crash-analyzer/
 5. Patreon subscribers get no ads (currently none of these, so a lower priority)
 6. KoFi subscribers get no ads to, if possible?
 
+
+
+
+--- Future 1.x Version ---
+
+6. Catch up on on TestLogs (from at least one if not from a couple prior versions?)
+	- ✅Baseform: null (?) for NSF Test Log
+	- 
+
+2. Review Crash Log Library and try to classify everything
+
+--- next version ---
+
+- Line truncating fix:  when truncating a line with <-- it makes sense to truncate at the end (current behavior), but for --> arrows, it should truncate keep the last 1,000 characters ... not the first 1,000
+
+- POSSIBLE BUG where sections.topHalf doesn't include "stack" for NSF logs?
+
+➡️4. Consider loosening up regexes in extractNifPathsToListItems and TEXTURE and ANIMATION versions to allow other word delimiters via looser regex
+
+	- NEEDS THOROUGH TESTING
+
+	- Speed Optimization? Consider making a new log sections called allFilesInTopHalf and allFilesInBottomHalf. And from there, when I want a file, just search it? However, the list wouldn't contain any information about what section it was found in....
 
 
 --- for future versions ---

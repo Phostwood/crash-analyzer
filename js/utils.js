@@ -96,6 +96,39 @@ Utils.debuggingLog = function(batchIds, message, content) {
     }
 };
 
+Utils.debuggingLogDump = function(batchIds, message, content) {
+    //Currently unused, key is to not simplify the passed "content" variable by enclosing it in ${}
+    //HOWEVER, I'm leaving this ClaudeAI-written code here as an alternate, since it does seem to work
+    if (Utils.isDebugging &&
+            (Utils.debugBatch.includes('ALL') || batchIds.some(id => Utils.debugBatch.includes(id)))) {
+        
+        // Function to handle various data types
+        const formatContent = (data) => {
+            if (data === undefined) return ' ';
+            if (data === null) return 'null';
+            
+            // Handle different data types
+            switch (Object.prototype.toString.call(data)) {
+                case '[object Array]':
+                    return JSON.stringify(data, null, 2);
+                case '[object Set]':
+                    return JSON.stringify(Array.from(data), null, 2);
+                case '[object Map]':
+                    return JSON.stringify(Object.fromEntries(data), null, 2);
+                case '[object Object]':
+                    return JSON.stringify(data, null, 2);
+                default:
+                    return data.toString();
+            }
+        };
+
+        const formattedContent = formatContent(content);
+        console.groupCollapsed(`[${batchIds.join('|')}]`, message, formattedContent);
+        console.trace('Caller location');
+        console.groupEnd();
+    }
+};
+
 
 // Helper function to compare version strings
 Utils.compareVersions = function (a, b) {
@@ -526,6 +559,42 @@ Utils.getDllVersionFromLog = function(sections, dllFileName) {
     }*/
 
     return version;
+};
+
+Utils.modCounts = function(sections) {
+    // Initialize counts object
+    let counts = {
+        modules: 0,
+        sksePlugins: 0,
+        plugins: 0,
+        gamePlugins: 0
+    };
+
+    // Count modules (always present)
+    if (sections.modules) {
+        counts.modules = sections.modules.split('\n')
+            .filter(line => line.trim() !== '').length;
+    }
+
+    // Count sksePlugins if present
+    if (sections.sksePlugins) {
+        counts.sksePlugins = sections.sksePlugins.split('\n')
+            .filter(line => line.trim() !== '').length;
+    }
+
+    // Count plugins if present
+    if (sections.plugins) {
+        counts.plugins = sections.plugins.split('\n')
+            .filter(line => line.trim() !== '').length;
+    }
+
+    // Count gamePlugins if present
+    if (sections.gamePlugins) {
+        counts.gamePlugins = sections.gamePlugins.split('\n')
+            .filter(line => line.trim() !== '').length;
+    }
+
+    return counts;
 };
 
 

@@ -28,7 +28,7 @@
 	<meta name="description" content="Analyze Nolvus Skyrim crash logs to identify common issues and provide troubleshooting advice.">
 
 	<meta charset="UTF-8">
-	<meta name="version" content="0.19.24">
+	<meta name="version" content="1.19.25">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 	<link rel="icon" type="image/x-icon" href="https://phostwood.github.io/crash-analyzer/favicon.ico">
@@ -45,32 +45,32 @@
 	<script src="https://cdn.jsdelivr.net/npm/turndown@7.0.0/dist/turndown.js"></script>
 
 
-	<link href="./css/stylesheet.css?v=0.19.24" rel="stylesheet">
+	<link href="./css/stylesheet.css?v=1.19.25" rel="stylesheet">
 
-	<script src="./js/utils.js?v=0.19.24" defer></script>
-	<script src="./js/explainersMap.js?v=0.19.24" defer></script>
-	<script src="./js/crashIndicatorsMap.js?v=0.19.24" defer></script>
-	<script src="./js/dllCompatibleSkyrimVersionsMap.js?v=0.19.24" defer></script>
-	<script src="./js/testUtils.js?v=0.19.24" defer></script>
+	<script src="./js/utils.js?v=1.19.25" defer></script>
+	<script src="./js/explainersMap.js?v=1.19.25" defer></script>
+	<script src="./js/crashIndicatorsMap.js?v=1.19.25" defer></script>
+	<script src="./js/dllCompatibleSkyrimVersionsMap.js?v=1.19.25" defer></script>
+	<script src="./js/testUtils.js?v=1.19.25" defer></script>
 
 	<!-- Independent data/configuration scripts -->
-	<script src="./js/crashPatterns.js?v=0.19.24" defer></script>
-	<script src="./js/antivirusSignatures.js?v=0.19.24" defer></script>
-	<script src="./js/overlaySignatures.js?v=0.19.24" defer></script>
-	<script src="./js/nolvusSignatures.js?v=0.19.24"defer></script>
-	<script src="./js/nolvusUtils.js?v=0.19.24" defer></script>
-	<script src="./js/nolvusLists.js?v=0.19.24" defer></script>
+	<script src="./js/crashPatterns.js?v=1.19.25" defer></script>
+	<script src="./js/antivirusSignatures.js?v=1.19.25" defer></script>
+	<script src="./js/overlaySignatures.js?v=1.19.25" defer></script>
+	<script src="./js/nolvusSignatures.js?v=1.19.25"defer></script>
+	<script src="./js/nolvusUtils.js?v=1.19.25" defer></script>
+	<script src="./js/nolvusLists.js?v=1.19.25" defer></script>
 
 	<!-- Core functionality scripts -->
-	<script src="./js/logSummary.js?v=0.19.24" defer></script>
-	<script src="./js/insights.js?v=0.19.24" defer></script>
-	<script src="./js/diagnoses.js?v=0.19.24" defer></script>
+	<script src="./js/logSummary.js?v=1.19.25" defer></script>
+	<script src="./js/insights.js?v=1.19.25" defer></script>
+	<script src="./js/diagnoses.js?v=1.19.25" defer></script>
 
 	<!-- Main application script -->
-	<script src="./js/analyzeLog.js?v=0.19.24" defer></script>
+	<script src="./js/analyzeLog.js?v=1.19.25" defer></script>
 
 	<!-- UI script (should be last) -->
-	<script src="./js/userInterface.js?v=0.19.24" defer></script>
+	<script src="./js/userInterface.js?v=1.19.25" defer></script>
 	
 </head>
 
@@ -102,7 +102,9 @@
 
 
 		<br>
-		(Click on any 🎯, ❗, ❓, 🔎, or ✅ <strong>emoji</strong> next to a diagnosis to copy it, along with its markdown formatting, to your clipboard for sharing in the Nolvus Discord. Please note that any sections you've chosen to "⤴️ hide" will not be included in the copied markdown. This includes both the "⤴️ hide" list item and any indented child list items beneath it.)<br>
+		Where possible, test and compare results from <b>multiple related crash logs</b>, as some crash logs may contain insightful indicators that others do not.<br>
+				<br>
+		(Click on any 🎯, ❗, ❓, 🔎, or ✅ <strong>emoji</strong> next to a diagnosis to copy it, along with its markdown formatting, to your clipboard for sharing on Reddit's r/Nolvus or the Nolvus Discord. Please note that any sections you've chosen to "⤴️ hide" will not be included in the copied markdown. This includes both the "⤴️ hide" list item and any indented child list items beneath it.)<br>
 		<br>
 		<h3>Diagnoses:</h3>
 		<button id="convert-button" style="display: none;">Copy Diagnoses</button>
@@ -110,9 +112,8 @@
 		<article id="speculation"></article>
 		<h4 class="hidden">Notes:</h4>
 		<aside id="footer">
-			<p>Not all crash types can be detected with this tool. This automated analysis is very formulaic, and can
-				miss subtleties which may be caught by humans.</p>
-			<p>For more information on any of these crash types, see <a
+			<p>Not all crash types can be detected with this tool. This automated analysis is very formulaic, and can miss subtleties which may be caught by humans.</p>
+			<p>For more information on many of these crash types, see <a
 					href="https://www.nolvus.net/catalog/crashlog">Nolvus Crash Log Catalog</a>.</p>
 			<p>For a <strong>human analysis</strong>, share your crash logs with <a
 					href="https://www.reddit.com/r/Nolvus/">r/Nolvus</a> and/or the <a

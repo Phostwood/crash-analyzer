@@ -378,13 +378,33 @@ function checkForD6dddaAdvancedVersion(sections) {
 
 //❗ Potential Missing Masters Detected:
 function checkForMissingMasters(sections) {
+    // Change the calling code to:
+    const modCounts = Utils.modCounts(sections);
+    Utils.debuggingLog(['checkForMissingMasters'], 'modCounts:', modCounts);
+    const hasLoadedGamePlugins = modCounts.gamePlugins > 0;
     let diagnoses = '';
 
     if ((sections.hasSkyrimAE && sections.firstLine.includes('0198090')) ||
         (!sections.hasSkyrimAE && (sections.firstLine.includes('5E1F22'))) ||
-        sections.topHalf.includes('SettingT<INISettingCollection>*')) {
+        sections.topHalf.includes('SettingT<INISettingCollection>*') ||
+        !hasLoadedGamePlugins
+        ) {
         
-        diagnoses += '<li>❗ <b>Potential Missing Masters Detected:</b> Your load order might be missing required master files or other dependency, which can lead to instability and crashes. NOTE: Review other high-likelihood diagnoses first, as some of them can cause (or appear to cause) this issue. Here are some possible causes and solutions:<ul>';
+        // Check if hasLoadedGamePlugins is the only trigger
+        const onlyNoPlugins = !hasLoadedGamePlugins && 
+            !(sections.hasSkyrimAE && sections.firstLine.includes('0198090')) &&
+            !(!sections.hasSkyrimAE && (sections.firstLine.includes('5E1F22'))) &&
+            !sections.topHalf.includes('SettingT<INISettingCollection>*');
+
+        // Use different icon based on condition
+        diagnoses += `<li>${onlyNoPlugins ? '❓' : '❗'} <b>Potential Missing Masters Detected:</b> `;
+        
+        // Special message for no plugins only case
+        if (onlyNoPlugins) {
+            diagnoses += 'No game plugins were detected in your log. If your modlist is intentionally designed to have zero plugins (rare), you can ignore this warning. Otherwise, this indicates a potential problem with your load order that needs investigation. ';
+        }
+        
+        diagnoses += 'Your load order might be missing required master files or other dependency, which can lead to instability and crashes. NOTE: Review other high-likelihood diagnoses first, as some of them can cause (or appear to cause) this issue. Here are some possible causes and solutions:<ul>';
 
         if (!Utils.isSkyrimPage) {
             diagnoses += '<li><b>Automated Nolvus Installers:</b> Try using the Nolvus Dashboard\'s "Apply Order" feature. This often resolves load order issues. For more information, see: <a href="https://www.reddit.com/r/Nolvus/comments/1chuod0/how_to_apply_order_button_usage_in_the_nolvus/">How To: Use the "Apply Order" Button</a>. If you have added additional mods, you wil then need to re-enable and reposition them in your load order.</li>';
@@ -432,8 +452,25 @@ function checkForMissingMasters(sections) {
             '<li><b>Version Mismatch:</b> Ensure all your mods are compatible with your Skyrim version (SE or AE). Always check the mod\'s description page for version compatibility.</li>' +
             
             Utils.LootListItemIfSkyrim;
+        
+        diagnoses += `<li>Detected indicators: <a href="#" class="toggleButton">⤵️ show more</a>
+            <ul class="extraInfo" style="display:none">`;
+    
+            // Add each detected indicator
+            if (sections.hasSkyrimAE && sections.firstLine.includes('0198090')) {
+                diagnoses += `<li><code>0198090</code> - AE version indicator found in first error line</li>`;
+            }
+            if (!sections.hasSkyrimAE && sections.firstLine.includes('5E1F22')) {
+                diagnoses += `<li><code>5E1F22</code> - SE version indicator found in first error line</li>`;
+            }
+            if (sections.topHalf.includes('SettingT<INISettingCollection>*')) {
+                diagnoses += `<li><code>SettingT&lt;INISettingCollection&gt;*</code> - INI setting collection error detected</li>`;
+            }
+            if (!hasLoadedGamePlugins) {
+                diagnoses += `<li><code>No plugins</code> - No game plugins were detected in the log</li>`;
+            }
 
-        diagnoses += '</ul></li>';
+        diagnoses += '</ul></ul></li>';
     }
 
     return diagnoses;
