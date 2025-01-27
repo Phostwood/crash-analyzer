@@ -1,53 +1,237 @@
+Skyrim SSE v1.6.1170
+CrashLoggerSSE v1-14-1-0 May 18 2024 23:00:58
 ⚠️Mocked up log file which contains additional detectable errors which are mutually exclusive to errors in TestLogCrashLogger1.txt ⚠️: Unhandled native exception occurred at 12354 (KERNELBASE.dll+A1234) on thread 31336!
 
-FrameworkName: NetScriptFramework
-FrameworkVersion: 15
-FrameworkArchitecture: x64
-GameLibrary: SkyrimSE
-GameLibraryVersion: 18
-ApplicationName: SkyrimSE.exe
-ApplicationVersion: 1.5.97.0
-VersionInfo: Successfully loaded
-Time: 15 Mar 2024 19:08:55.589
+SYSTEM SPECS:
+	OS: Microsoft Windows 10 Pro v10.0.19045
+	CPU: GenuineIntel Intel(R) Core(TM) i7-6700HQ CPU @ 2.60GHz
+	GPU #1: Nvidia GM107M [GeForce GTX 950M]
+	GPU #2: Intel HD Graphics 530
+	GPU #3: Microsoft Basic Render Driver
+	PHYSICAL MEMORY: 10.44 GB/15.90 GB
+	GPU MEMORY: 1.95/3.37 GB
+	Detected Virtual Machine: Thread Expert (100%)
 
-Possible relevant objects (3)
-{
-}
-
-Probable callstack
-{
-  
-  //DELETE THESE TO SEE: regular kernel base issue
-  [0]   0x7FFB1A2683EA     (KERNELBASE.dll+C83EA)         
-  [1]   0x7FFA6333A320     (SkyrimUpscaler.dll+8A320) 
-
-}
+PROBABLE CALL STACK:
+	//DELETE THESE TO SEE: regular kernel base issue
+	[0]	 0x7FFB1A2683EA		 (KERNELBASE.dll+C83EA)				 
+	[1]	 0x7FFA6333A320		 (SkyrimUpscaler.dll+8A320) 
 
 
-Registers
-{
-    
-    bstrishape, trishape   //mesh Indicators
-    compressedarchivestream  // texture indicator, and compressedarchivestream indicator
-    hkbehaviorgraph // animation indicator
+REGISTERS:
+	[RSP+2C0 ] RBP 0x1EEB0CFA800      (Character*)
+		Flags: 0x00030508 
+		Name: "Dawnguard Scout"
+		FormID: 0xFE002A19
+		FormType: ActorCharacter (62)
+		Object Reference: 
+		Flags: 0x00000008 kInitialized
+		Name: "Dawnguard Scout"
+		FormID: 0xFF004121
+		FormType: NPC (43)
+		Flags: 0x00030508 kInitialized | kMustUpdate
+		FormID: 0xFF002A19
+		FormType: ActorCharacter (62)
+	[RSP+2C0 ] RBP 0x1EEB0CFA800      (Character*)
+		Flags: 0x00030508 
+		File: "MyTestMod.esp"
+		FormID: 0xFE002A19
+		FormType: ActorCharacter (62)
+		Object Reference: 
+		Flags: 0x00000008 kInitialized
+		FormID: 0xFF004121
+		FormType: NPC (43)
+		Flags: 0x00030508 kInitialized | kMustUpdate
+		FormID: 0xFF002A19
+		FormType: ActorCharacter (62)
+	[RSP+130 ] 0x1EEB0C3A380      (TESObjectCELL*)
+		File: "Occlusion.esp"
+		Modified by: Skyrim.esm -> Dawnguard.esm -> ccBGSSSE001-Fish.esm -> Unofficial Skyrim Special Edition Patch.esp -> AnimatedShips.esl -> DynDOLOD.esm -> Unique Region Names.esp -> JK's Castle Volkihar.esp -> RealisticNordShips2.0.esp -> Lux Orbis - JK's Castle Volkihar patch.esp -> Occlusion.esp
+		Flags: 0x00040009 
+		EditorID: "DLC1VampireCastleExterior01"
+		FormID: 0x0000191E
+		FormType: Cell (60)
+		File: "Occlusion.esp"
+		Modified by: Skyrim.esm -> Dawnguard.esm -> ccBGSSSE001-Fish.esm -> Unofficial Skyrim Special Edition Patch.esp -> AnimatedShips.esl -> DynDOLOD.esm -> Unique Region Names.esp -> JK's Castle Volkihar.esp -> RealisticNordShips2.0.esp -> Lux Orbis - JK's Castle Volkihar patch.esp -> Occlusion.esp
+		Flags: 0x00040009 kDestructible | kInitialized
+		EditorID: "DLC1VampireCastleExterior01"
+		FormID: 0x0000191E
+		FormType: Cell (60)
+	[RSP+2B8 ] 0x1EE91193100      (TESObjectCELL*)
+		File: "Lux.esp"
+		Modified by: Dawnguard.esm -> Unofficial Skyrim Special Edition Patch.esp -> LegacyoftheDragonborn.esm -> Relationship Dialogue Overhaul.esp -> JK's Castle Volkihar.esp -> Embers XD.esp -> Pilgrim.esp -> OldBlood.esp -> mihailfliescorpses.esp -> Arcanum.esp -> Darkend.esp -> MLU.esp -> DBM_MorrowlootUltimate_Patch.esp -> Complete Alchemy & Cooking Overhaul.esp -> Better Vampires.esp -> Water for ENB (Shades of Skyrim).esp -> Lux.esp
+		Flags: 0x0004000B 
+		Name: "Volkihar Keep"
+		EditorID: "DLC1VampireCastleGuildhall"
+		FormID: 0x02000803
+		FormType: Cell (60)
+		File: "Lux.esp"
+		Modified by: Dawnguard.esm -> Unofficial Skyrim Special Edition Patch.esp -> LegacyoftheDragonborn.esm -> Relationship Dialogue Overhaul.esp -> JK's Castle Volkihar.esp -> Embers XD.esp -> Pilgrim.esp -> OldBlood.esp -> mihailfliescorpses.esp -> Arcanum.esp -> Darkend.esp -> MLU.esp -> DBM_MorrowlootUltimate_Patch.esp -> Complete Alchemy & Cooking Overhaul.esp -> Better Vampires.esp -> Water for ENB (Shades of Skyrim).esp -> Lux.esp
+		Flags: 0x0004000B kDestructible | kAltered | kInitialized
+		Name: "Volkihar Keep"
+		EditorID: "DLC1VampireCastleGuildhall"
+		FormID: 0x02000803
+		FormType: Cell (60)
+		GetFullName: "Volkihar Keep"
+	[RSP+2C0 ] 0x0                (size_t) [0]
+	[RSP+2C8 ] 0x1EE75E73D00      (TES*)
+	[RSP+2D0 ] 0x0                (size_t) [0]
+	[RSP+2D8 ] 0x7FF75FABE135     (void* -> SkyrimSE.exe+019E135	mov rcx, [0x00007FF761A169B0])
+	[RSP+2E0 ] 0x1                (size_t) [1]
+	[RSP+2E8 ] 0x1EEDA09AF80      (TESObjectCELL*)
+		Flags: 0x00002008 
+		EditorID: "Wilderness"
+		FormID: 0xFF000F59
+		FormType: Cell (60)
+		Flags: 0x00002008 kInitialized
+		EditorID: "Wilderness"
+		FormID: 0xFF000F59
+		FormType: Cell (60)
+	[RSP+318 ] 0x1EE90C3E300      (BGSLocation*)
+		File: "DeadlyDragons.esp"
+		Modified by: Dawnguard.esm -> JK's Castle Volkihar.esp -> SeranaDialogAddon.esp -> DeadlyDragons.esp
+		Flags: 0x00000009 kDestructible | kInitialized
+		Name: "Castle Volkihar"
+		FormID: 0x02004C20
+		FormType: Location (104)
+		GetFullName: "Castle Volkihar"
+	//TEST thought up by Claude AI:
+	[RSP+2B1 ] Test Group 1 (basic FormID grouping):
+		Character(FormId: FF001234, BaseForm: TESNPC(Name: `TestNPC1`, FormId: 590D1701, File: `test1.esp`))
+		Name: "Test NPC First"
+		FormID: 0xFF001234
+		FormType: NPC (43)
+		File: "test1.esp"
+		Modified by: Skyrim.esm -> test1.esp
+		Flags: 0x00040009 kDestructible | kInitialized
+	[RSP+2B2 ] Test Group 2 (multiple FormIDs):
+		WorldObject(FormId: 00000ABC)
+		Name: "Test Object"
+		FormID: 0x00000ABC
+		FormType: Cell (60)
+		Checking Parent: 0
+			Name: "Parent Object"
+			FormID: 0xFF002345
+			FormType: ActorCharacter (62)
+			File: "test2.esp"
+	[RSP+2B3 ] Test Group 3 (deeply nested):
+		BSFadeNode(FormId: FF003456)
+		Name: "Test Node"
+		RTTIName: "BSFadeNode"
+		Checking Parent: 0
+			Name: "Parent Node"
+			RTTIName: "NiNode"
+			Checking Parent: 0
+				Name: "Grandparent Node"
+				FormID: 0xFF003455
+				FormType: Cell (60)
+				File: "test3.esp"
+	//Some real log lines
+	[RSP+2C0 ] RBP 0x1EEB0CFA800			(Character*)
+			Flags: 0x00030508 
+			Name: "Dawnguard Scout"
+			FormID: 0xFE002A19
+			FormType: ActorCharacter (62)
+			Object Reference: 
+			Flags: 0x00000008 kInitialized
+			Name: "Dawnguard Scout"
+			FormID: 0xFF004121
+			FormType: NPC (43)
+			Flags: 0x00030508 kInitialized | kMustUpdate
+			FormID: 0xFF002A19
+			FormType: ActorCharacter (62)
+	[RSP+2C0 ] RBP 0x1EEB0CFA800			(Character*)
+		Flags: 0x00030508 
+		File: "MyTestMod.esp"
+		FormID: 0xFE002A19
+		FormType: ActorCharacter (62)
+		Object Reference: 
+		Flags: 0x00000008 kInitialized
+		FormID: 0xFF004121
+		FormType: NPC (43)
+		Flags: 0x00030508 kInitialized | kMustUpdate
+		FormID: 0xFF002A19
+		FormType: ActorCharacter (62)
+	[RSP+130 ] 0x1EEB0C3A380			(TESObjectCELL*)
+		File: "Occlusion.esp"
+		Modified by: Skyrim.esm -> Dawnguard.esm -> ccBGSSSE001-Fish.esm -> Unofficial Skyrim Special Edition Patch.esp -> AnimatedShips.esl -> DynDOLOD.esm -> Unique Region Names.esp -> JK's Castle Volkihar.esp -> RealisticNordShips2.0.esp -> Lux Orbis - JK's Castle Volkihar patch.esp -> Occlusion.esp
+		Flags: 0x00040009 
+		EditorID: "DLC1VampireCastleExterior01"
+		FormID: 0x0000191E
+		FormType: Cell (60)
+		File: "Occlusion.esp"
+		Modified by: Skyrim.esm -> Dawnguard.esm -> ccBGSSSE001-Fish.esm -> Unofficial Skyrim Special Edition Patch.esp -> AnimatedShips.esl -> DynDOLOD.esm -> Unique Region Names.esp -> JK's Castle Volkihar.esp -> RealisticNordShips2.0.esp -> Lux Orbis - JK's Castle Volkihar patch.esp -> Occlusion.esp
+		Flags: 0x00040009 kDestructible | kInitialized
+		EditorID: "DLC1VampireCastleExterior01"
+		FormID: 0x0000191E
+		FormType: Cell (60)
+	[RSP+2B8 ] 0x1EE91193100			(TESObjectCELL*)
+		File: "Lux.esp"
+		Modified by: Dawnguard.esm -> Unofficial Skyrim Special Edition Patch.esp -> LegacyoftheDragonborn.esm -> Relationship Dialogue Overhaul.esp -> JK's Castle Volkihar.esp -> Embers XD.esp -> Pilgrim.esp -> OldBlood.esp -> mihailfliescorpses.esp -> Arcanum.esp -> Darkend.esp -> MLU.esp -> DBM_MorrowlootUltimate_Patch.esp -> Complete Alchemy & Cooking Overhaul.esp -> Better Vampires.esp -> Water for ENB (Shades of Skyrim).esp -> Lux.esp
+		Flags: 0x0004000B 
+		Name: "Volkihar Keep"
+		EditorID: "DLC1VampireCastleGuildhall"
+		FormID: 0x02000803
+		FormType: Cell (60)
+		File: "Lux.esp"
+		Modified by: Dawnguard.esm -> Unofficial Skyrim Special Edition Patch.esp -> LegacyoftheDragonborn.esm -> Relationship Dialogue Overhaul.esp -> JK's Castle Volkihar.esp -> Embers XD.esp -> Pilgrim.esp -> OldBlood.esp -> mihailfliescorpses.esp -> Arcanum.esp -> Darkend.esp -> MLU.esp -> DBM_MorrowlootUltimate_Patch.esp -> Complete Alchemy & Cooking Overhaul.esp -> Better Vampires.esp -> Water for ENB (Shades of Skyrim).esp -> Lux.esp
+		Flags: 0x0004000B kDestructible | kAltered | kInitialized
+		Name: "Volkihar Keep"
+		EditorID: "DLC1VampireCastleGuildhall"
+		FormID: 0x02000803
+		FormType: Cell (60)
+		GetFullName: "Volkihar Keep"
+	[RSP+2C0 ] 0x0								(size_t) [0]
+	[RSP+2C8 ] 0x1EE75E73D00			(TES*)
+	[RSP+2D0 ] 0x0								(size_t) [0]
+	[RSP+2D8 ] 0x7FF75FABE135		 (void* -> SkyrimSE.exe+019E135	mov rcx, [0x00007FF761A169B0])
+	[RSP+2E0 ] 0x1								(size_t) [1]
+	[RSP+2E8 ] 0x1EEDA09AF80			(TESObjectCELL*)
+		Flags: 0x00002008 
+		EditorID: "Wilderness"
+		FormID: 0xFF000F59
+		FormType: Cell (60)
+		Flags: 0x00002008 kInitialized
+		EditorID: "Wilderness"
+		FormID: 0xFF000F59
+		FormType: Cell (60)
+	[RSP+318 ] 0x1EE90C3E300			(BGSLocation*)
+		File: "DeadlyDragons.esp"
+		Modified by: Dawnguard.esm -> JK's Castle Volkihar.esp -> SeranaDialogAddon.esp -> DeadlyDragons.esp
+		Flags: 0x00000009 kDestructible | kInitialized
+		Name: "Castle Volkihar"
+		FormID: 0x02004C20
+		FormType: Location (104)
+		GetFullName: "Castle Volkihar"
+		bstrishape, trishape	 //mesh Indicators
+		compressedarchivestream	// texture indicator, and compressedarchivestream indicator
+		hkbehaviorgraph // animation indicator
 
-    //DELETE THESE to test no files being found for meshes, textures, and/or animation tests
-    "maybe-a-mesh.bsa"
-    "maybe-a-texture.bsa"
-    "maybe-an-animation.bsa"
-}
+		//DELETE THESE to test no files being found for meshes, textures, and/or animation tests
+		"maybe-a-mesh.bsa"
+		"maybe-a-texture.bsa"
+		"maybe-an-animation.bsa"
 
-Stack
-{
-}
+STACK:
 
 
-Modules
-{
-this section is only included as a marker for parsing. Anything above this is considered in the "logsTopHalf"
-}
+MODULES:
+	XINPUT1_3.dll                    0x000000400000
+	zavcore.dll
+
+SKSE PLUGINS:
 
 
-Game plugins (2035)
-{
-}
+PLUGINS:
+	Light: 100	Regular: 79	Total: 179
+	[ 0]	A.esm
+	[ 1]	B.esp
+	[ 2]	C.esp
+	[ 3]	D.esp
+	[ 4]	honed metal voiced.esp
+	[ 5]	tools.esp
+	[ 6]	skydecoction.esp
+	[ 7]	Synthesis.esp
+	[ 8]	E.esp
+	[ 9]	F.esp
+	[ A]	G.esp

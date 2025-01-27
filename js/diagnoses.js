@@ -333,7 +333,7 @@ function checkForD6dddaEasyVersion(sections) {
                         <li>Return any overclocked hardware to stock speeds, as unstable overclocks are known for causing crashes that can look like memory issues in crash logs.</li>
                         <li>Maintain <a href="https://computercity.com/hardware/storage/how-much-space-should-i-leave-on-my-ssd">at least 10-20% free space</a> on your SSD for optimal performance.</li>
                         <li>Review your modlist's (or individual mods') recommended hardware requirements to verify you aren't overly below their system recommendations.</li>
-                        <li>Hardware Diagnostics: If crashes persist, run Windows Memory Diagnostic or MemTest86 to check for faulty RAM. While rare, recurring D6DDDA crashes can sometimes indicate hardware issues.</li>
+                        <li>Hardware Diagnostics: If crashes persist, run Windows Memory Diagnostic or <a href="https://www.memtest86.com/">MemTest86</a> to check for faulty RAM. While rare, recurring D6DDDA crashes can sometimes indicate hardware issues.</li>
                     </ol>
                 </li>
                 <li>Corrupt Texture (.dds) or Mesh (.nif) Files:
@@ -360,7 +360,7 @@ function checkForD6dddaAdvancedVersion(sections) {
                         <li>Maintain <a href="https://computercity.com/hardware/storage/how-much-space-should-i-leave-on-my-ssd">at least 10-20% free space</a> on your SSD for optimal performance.</li>
                         <li>For systems with less than 12GB VRAM (or more for ultrawide/high-resolution displays) (<a href="https://www.lifewire.com/how-to-check-vram-5235783">check your VRAM here</a>), consider using <a href="https://www.reddit.com/r/Nolvus/comments/1doakj1/psa_use_vramr_if_you_have_12gb_of_vram/">VRAMr</a>. This tool automatically compresses texture files across your load order, reducing VRAM usage while maintaining visual fidelity and improving stability.</li>
                         <li>Review your modlist's (or individual mods') recommended hardware requirements to verify you aren't overly below their system recommendations.</li>
-                        <li>Hardware Diagnostics: If crashes persist, run Windows Memory Diagnostic or MemTest86 to check for faulty RAM. While rare, recurring D6DDDA crashes can sometimes indicate hardware issues.</li>
+                        <li>Hardware Diagnostics: If crashes persist, run Windows Memory Diagnostic or <a href="https://www.memtest86.com/">MemTest86</a> to check for faulty RAM. While rare, recurring D6DDDA crashes can sometimes indicate hardware issues.</li>
                     </ol>
                 </li>
                 <li>Corrupt Texture (.dds) or Mesh (.nif) Files:
@@ -614,7 +614,7 @@ function analyzeMemoryIssues(sections) {
             <li>Return any overclocked hardware to stock speeds, as unstable overclocks are known for causing crashes that can look like memory issues in crash logs.</li>
             <li>Maintain <a href="https://computercity.com/hardware/storage/how-much-space-should-i-leave-on-my-ssd">at least 10-20% free space</a> on your SSD for optimal performance.</li>
             <li>Review your modlist's (or individual mods') recommended hardware requirements to verify you aren't overly below their system recommendations.</li>
-            <li>Consider running memory diagnostic tools (Windows Memory Diagnostic or MemTest86)</li>
+            <li>Consider running memory diagnostic tools (Windows Memory Diagnostic or <a href="https://www.memtest86.com/">MemTest86</a>)</li>
             <li>If you frequently encounter memory issues, consider upgrading your system with more RAM as relatively cost-effective upgrade. 32GB is often considered a baseline for high-end Skyrim modding.</li>
             </ul>
         </li>
@@ -957,13 +957,19 @@ function analyzePathingIssues(sections) {
                         <li>Sometimes asking <b>followers</b> to wait behind can get you past a NavMesh Pathing glitch. Some follower mods and/or follower frameworks will allow you to teleport your follower to you afterwards to rejoin your party.</li>
                         <li>If using a <b>horse</b> or mount, command mount to wait before fast traveling</li>
                         <li>If using a a horse/mount and a <b>follower framework</b> (like Nether's Follower Framework), try disabling horse followers in its Mod Configuration Menu (MCM)</li>
+                        <li>Consider trying the <a href="https://www.nexusmods.com/skyrimspecialedition/mods/52641">Navigator - Navmesh Fixes</a> mod (be sure to read notes on where to insert it in your load order)</li>
                     </ul>
                 </li> 
                 <li>Advanced Troubleshooting:
                     <ul>
-                        <li>Consider trying the <a href="https://www.nexusmods.com/skyrimspecialedition/mods/52641">Navigator - Navmesh Fixes</a> mod (be sure to read notes on where to insert it in your load order)</li>
+                        <li>For persistent issues with specific NPCs or creatures unable to find a path, consider removing the problematic entity from your save file. Review the 🔎<b>Files/Elements</b> section of this report to identify relevant NPCs or creatures, then search for their occurrences in the crash log to find their FormIDs. FormIDs starting with either "0xFF" or "FF" indicate dynamically generated entities—these are safer to remove because they are created during gameplay rather than being permanent game assets.  While removing these entities can provide a temporary solution to allow your save file to load, be aware that the underlying issue may recur if the root cause isn't addressed. Such entities can be removed using <a href="https://www.nexusmods.com/skyrim/mods/76776">FallrimTools ReSaver</a> with minimal risk since the game should be able to regenerate them if needed. Always create a backup of your save file first.
+                            <ul>
+                                <li>After loading your save in ReSaver, use the search bar to locate the specific FF FormID you found in the crash log. Delete the corresponding entry, then save your game under a new filename. This should allow the problematic save to load, hopefully giving you an opportunity to bypass the issue, and/or investigate and address the underlying conflict</li>
+                            </ul>
+                        </li>
                         <li>Consider disabling relevant location-modifying mods to identify conflicts. Also consider disabling mods that show up in the "Files/Elements" outline (higher up in this report).</li>
-                        <li>Additional advanced ideas and information are included in <a href="https://www.reddit.com/r/skyrimmods/comments/1d0r0f0/reading_crash_logs/##:~:text=These%20are%20Navmesh%20errors">Krispyroll's Reading Crash Logs Guide</a></li>
+                        <li>Consider using <a href = "https://www.nexusmods.com/skyrimspecialedition/mods/136456">Debug Menu - In-Game Navmesh Viewer and More</a> to isolate issues and request fixes/patches from mod author(s)</li>
+                        <li>Additional advanced ideas and information are included in <a href="https://www.reddit.com/r/skyrimmods/comments/1d0r0f0/reading_crash_logs/##:~:text=These%20are%20Navmesh%20errors">Krispyroll's Reading Crash Logs Guide</a></li> 
                     </ul>
                 </li>`;
                 
@@ -1420,7 +1426,7 @@ function checkKernelbaseCrash(sections, Utils, win24H2UpscalerCrash, isDiagnoses
                         
                         <li>Ensure your <b>Windows is up to date</b>, as well as any drivers and applicable BIOS updates. You can check for Microsoft updates by going to Settings > Update & Security > Windows Update. Many motherboards (or PC manufacturers) will also have important <b>BIOS</b> firmware updates at their websites, and/or accesible from their own update application.</li>
                         
-                        <li>Run a full system <b>scan for any viruses</b> or malware. We generally recommend using the built-in Windows Defender for this.</li>
+                        <li>Run a full system <b>scan for any viruses</b> or malware. We generally recommend using the built-in Windows Security for this.</li>
                         
                         <li>Try <b>disabling mods</b> ${!Utils.isSkyrimPage ? 'you may have added to Nolvus' : ''} in large, gradually smaller and more isolating groups to see if the issue persists. <b>Start with SKSE plugins</b> (those ending in <code>.dll</code>) as they're particularly sensitive to Windows updates and system changes. They can be usually be safely disabled in groups of 5-10 to identify issues (except for Engine Fixes, which should stay enabled). If you didn't already above, consider starting with mods that show up in the 🔎<b>Files/Elements</b> section of this report. This can help identify if a specific mod is causing the problem.</li>
                         
@@ -1591,6 +1597,7 @@ function analyzeStringsCrash(sections) {
             <li>Open the original file for editing, and locate the line that reads <code>sLanguage=ENGLISH</code>.</li>
             <li>Ensure that there are no unique characters or typos in this line. It should only contain standard text.</li>
             <li>Save the changes and restart ${Utils.SkyrimOrNolvusText} to see if the issue has been resolved.</li>
+            <li>See <a href="https://raw.githubusercontent.com/Phostwood/crash-analyzer/refs/heads/main/images/corruptstringsfixtutorial.png">screenshot tutorial</a> by Discrepancy using Mod Organizer 2 (MO2).
             <li>More information and troubleshooting tips under <a href="https://www.nolvus.net/catalog/crashlog?acc=accordion-1-1">.STRINGS Crash</a/>.</li>
             </ol></li>`;
     }
@@ -1913,7 +1920,12 @@ function analyzeSSEFixesIssues(sections) {
 //🎯Quest Journal UI Crash Detected:
 function analyzeQuestJournalCrash(sections) {
     let insights = '';
-    if (sections.topHalf.includes('Interface/Quest_Journal.swf')) {
+
+    const foundIndicators = crashIndicators.questJournalIssues.indicators.filter(({ name }) =>
+        sections.topHalf.includes(name)
+    );
+
+    if (foundIndicators.length > 0) {
         insights += `<li>🎯 <b>Quest Journal UI Crash Detected:</b> This is a known SkyUI interface issue. Here's how to resolve it:<ol>
             <li>Recommended fix - install one of these mods:
                 <ul>
@@ -1930,14 +1942,18 @@ function analyzeQuestJournalCrash(sections) {
                 <li>Try installing <a href="https://www.nexusmods.com/skyrimspecialedition/mods/108618">Quest Journal Fix for SkyUI</a></li>
                 </ul>
             </li>
-            <li>Detected indicator: <a href="#" class="toggleButton">⤵️ show more</a><ul class="extraInfo" style="display:none">
-               <li><code>Interface/Quest_Journal.swf</code> - SkyUI journal interface file</li>
-            </ul></li>
+            <li>Detected indicators: <a href="#" class="toggleButton">⤵️ show more</a><ul class="extraInfo" style="display:none">`;
+
+        foundIndicators.forEach(({ name, description }) => {
+            insights += `<li><code>${name}</code> - ${description}</li>`;
+        });
+
+        insights += `</ul></li>
             </ol></li>`;
     }
+
     return insights;
 }
-
 
 
 
@@ -1970,6 +1986,8 @@ function analyzeGamepadCrash(sections) {
 
     return insights;
 }
+
+
 
 
 
@@ -2034,14 +2052,14 @@ function analyzeAntivirusIssues(sections) {
     const usvfsInProbableCallstack = sections.probableCallstack.toLowerCase().includes('usvfs_x64.dll');
     const usvfsInTopHalf = sections.topHalf.toLowerCase().includes('usvfs_x64.dll');
     
-    // Special check for Windows Defender in topHalf if no other antivirus found
+    // Special check for Windows Security in topHalf if no other antivirus found
     const windowsDefenderInTopHalf = !foundAntivirus && ['mpsvc.dll', 'mpclient.dll'].some(dll => 
         sections.topHalf.toLowerCase().includes(dll)
     );
 
     const hasBitdefender = foundAntivirus === 'Bitdefender';
 
-    // If we have any antivirus indicators, USVFS issues, or Windows Defender in top half
+    // If we have any antivirus indicators, USVFS issues, or Windows Security in top half
     if (foundAntivirus || usvfsInProbableCallstack || windowsDefenderInTopHalf) {
         diagnoses += `<li>${usvfsInProbableCallstack ? '🎯 <b>Antivirus Issue Detected:</b>' : '⚠️ <b>Antivirus Warning:</b>'} `;
         
@@ -2049,9 +2067,9 @@ function analyzeAntivirusIssues(sections) {
         diagnoses += '<ol>';
         
         if (foundAntivirus) {
-            diagnoses += `<li><b>${foundAntivirus} detected</b> - Third-party antivirus software frequently contributes to crashes in heavily-modded Skyrim. Consider switching to Windows Defender for better compatibility.</li>`;
+            diagnoses += `<li><b>${foundAntivirus} detected</b> - Third-party antivirus software frequently contributes to crashes in heavily-modded Skyrim. Consider switching to Windows Security for better compatibility.</li>`;
         } else if (windowsDefenderInTopHalf) {
-            diagnoses += '<li><b>Windows Defender detected</b> in crash log - While usually not problematic, you may need to add exclusions if issues persist.</li>';
+            diagnoses += '<li><b>Windows Security detected</b> in crash log - While usually not problematic, you may need to add exclusions if issues persist.</li>';
         }
 
         if (usvfsInTopHalf || usvfsInProbableCallstack) {
@@ -2066,7 +2084,7 @@ function analyzeAntivirusIssues(sections) {
             diagnoses += `<li><b>For Bitdefender:</b> Follow this <a href="https://www.reddit.com/r/skyrimmods/comments/1hwp5ki/crashing_to_desktop_ctd_only_on_any_type_of/">guide with screenshots</a> for setting up proper exclusions</li>`;
         }
 
-        diagnoses += `<li>Alternatively, consider switching to the built-in Windows Defender. Originally rudimentary, Windows Defender has evolved considerably, and when using it there is usually no need to set up any exclusions for Skyrim - helping to ensure Skyrim mods continue to be monitored for malicious activity.</li>
+        diagnoses += `<li>Alternatively, consider switching to the built-in Windows Security. Originally rudimentary, Windows Security (previously known as Windows Defender) has evolved considerably, and when using it there is usually no need to set up any exclusions for Skyrim - helping to ensure Skyrim mods continue to be monitored for malicious activity.</li>
             </ul>
         </li>`;
 
@@ -2089,7 +2107,7 @@ function analyzeAntivirusIssues(sections) {
             diagnoses += '<li><code>usvfs_x64.dll</code> found in top half of log - possible antivirus interference</li>';
         }
         if (windowsDefenderInTopHalf) {
-            diagnoses += '<li><code>Windows Defender</code> signatures found in top half of log:';
+            diagnoses += '<li><code>Windows Security</code> signatures found in top half of log:';
             diagnoses += '<ul>';
             ['mpsvc.dll', 'mpclient.dll'].forEach(dll => {
                 if (sections.topHalf.toLowerCase().includes(dll)) {

@@ -86,15 +86,21 @@ Utils.init = function() {
     this.isReady = true;
 };
 
-Utils.debuggingLog = function(batchIds, message, content) {
-    if (Utils.isDebugging &&
-            (Utils.debugBatch.includes('ALL') || batchIds.some(id => Utils.debugBatch.includes(id)))) {
-      if (content === undefined) content = ' ';
-      console.groupCollapsed(`[${batchIds.join('|')}]`, message, content);
-      console.trace('Caller location');
-      console.groupEnd();
-    }
-};
+
+Utils.debuggingLog = (function() {
+    let counter = 1;
+    return function(batchIds, message, content) {
+        if (Utils.isDebugging &&
+                (Utils.debugBatch.includes('ALL') || batchIds.some(id => Utils.debugBatch.includes(id)))) {
+            if (content === undefined) content = ' ';
+            console.groupCollapsed(`[${counter}] [${batchIds.join('|')}]`, message, content);
+            console.trace('Caller location');
+            console.groupEnd();
+            counter++;
+        }
+    };
+})();
+
 
 Utils.debuggingLogDump = function(batchIds, message, content) {
     //Currently unused, key is to not simplify the passed "content" variable by enclosing it in ${}

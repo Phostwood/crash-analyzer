@@ -151,100 +151,111 @@ window.LogSummary = {
     processLines: function (sectionsMap) {
         const logType = sectionsMap.get('logType');
         Utils.debuggingLog(['processLines', 'logSummary.js'], 'processLines started');
-
+    
         let namedElementMatches = [];
         let missedMatches = [];
-
+    
         // Filter sections with assigned colors and sort by priority
         const relevantSections = Array.from(sectionsMap.entries())
             .filter(([_, info]) => info.color !== null && info.color !== undefined)
             .sort((a, b) => a[1].priority - b[1].priority);
-
+    
         relevantSections.forEach(([sectionName, sectionInfo]) => {
             let processedContent = sectionInfo.content;
-
+    
             // Merge indented lines for Crash Logger and Trainwreck
-            /* NEEDS more code alterations:
-                - need to preserve arrow emojis in processFileExtensions() and processNameAndFile()
-                - need to also merge the above functions somehow, so output will preserve not only indentations, but also the original sort order of all of the matches for that merged line
-                    - I have no idea how to go about doing that...
-                    - this is probably a good thing for NSF logs too?
-                - maxLineLength probably needs to be raised in splitIntoLines() ... maybe to 8,000? 1,000 characters would probalby cut off too much useful info for a merged, extra-long line.
-                    - what would safest maxLineLength be???
             if (logType === 'CrashLogger' || logType === 'Trainwreck') {
+                // First merge the lines - this will return both merged and individual lines
                 processedContent = this.mergeIndentedLines(processedContent);
             }
-            */
-
+    
             const lines = this.splitIntoLines(processedContent);
-            Utils.debuggingLog(['processLines', 'logSummary.js'], `Processing section: ${sectionName}, Number of lines: ${lines.length}`);
-
+            Utils.debuggingLog(['processLines', 'logSummary.js'], 
+                `Processing section: ${sectionName}, Number of lines: ${lines.length}`);
+    
+            // Track which lines we've already processed to avoid duplicates
+            const processedLines = new Set();
+    
             lines.forEach(line => {
-                if (line === '') return;
-
+                if (line === '' || processedLines.has(line)) return;
+    
+                // Add to processed set to avoid duplicates
+                processedLines.add(line);
+    
                 if (line.toLowerCase().includes('kernel32.dll')) {
                     Utils.debuggingLog(['processLines', 'logSummary.js'], 'Found in line:', line);
                 }
-
+    
                 let foundMatchCount = 0;
-
-                foundMatchCount += this.processFileExtensions(line, sectionInfo.priority, sectionInfo.color, namedElementMatches);
-                foundMatchCount += this.processNameAndFile(line, sectionInfo.priority, sectionInfo.color, namedElementMatches);
-
+    
+                // Process both the merged line and its components
+                foundMatchCount += this.processFileExtensions(line, sectionInfo.priority, 
+                    sectionInfo.color, namedElementMatches);
+                foundMatchCount += this.processNameAndFile(line, sectionInfo.priority, 
+                    sectionInfo.color, namedElementMatches);
+    
                 if (foundMatchCount < this.containsKeyword(line)) {
                     missedMatches.push(line);
                 }
             });
         });
-
-        Utils.debuggingLog(['processLines', 'logSummary.js'], 'Before sorting namedElementMatches:', namedElementMatches.length);
-        namedElementMatches.sort((a, b) => a.priority - b.priority);
+    
+        Utils.debuggingLog(['processLines', 'logSummary.js'], 
+            'Before sorting namedElementMatches:', namedElementMatches.length);
+        
+        // Remove any duplicate matches that might have occurred from processing 
+        // both merged and individual lines
+        namedElementMatches = Array.from(new Set(namedElementMatches.map(JSON.stringify)))
+            .map(JSON.parse)
+            .sort((a, b) => a.priority - b.priority);
+        
         namedElementMatches = this.processNamedElementMatches(namedElementMatches);
-        Utils.debuggingLog(['processLines', 'logSummary.js'], 'After processing namedElementMatches:', namedElementMatches.length);
-
+        Utils.debuggingLog(['processLines', 'logSummary.js'], 
+            'After processing namedElementMatches:', namedElementMatches.length);
+    
         return { namedElementMatches, missedMatches };
     },
 
     mergeIndentedLines: function(logSection) {
         const lines = logSection.split('\n');
-        let mergedLines = [];
-        let currentLine = '';
-        let indentLevel = 0;
-    
-        lines.forEach((line, index) => {
-            const trimmedLine = line.trimLeft();
-            const leadingTabs = line.length - trimmedLine.length;
-    
-            if (leadingTabs > 0 || (index > 0 && lines[index - 1].trim().endsWith('{'))) {
-                // This is an indented line or follows a line ending with '{'
-                if (leadingTabs > indentLevel) {
-                    currentLine += ' ' + '➡️'.repeat(leadingTabs - indentLevel);
-                    indentLevel = leadingTabs;
-                } else if (leadingTabs < indentLevel) {
-                    indentLevel = leadingTabs;
+        let processedLines = [];
+        
+        // Process each line in sequence
+        for (let i = 0; i < lines.length; i++) {
+            const currentLine = lines[i];
+            const currentIndent = (currentLine.match(/^\t+/) || [''])[0].length;
+            
+            // Find immediate subordinate lines
+            let subordinates = [];
+            let j = i + 1;
+            while (j < lines.length) {
+                const nextLine = lines[j];
+                const nextIndent = (nextLine.match(/^\t+/) || [''])[0].length;
+                
+                // If next line is an immediate subordinate (one more indent level)
+                if (nextIndent === currentIndent + 1) {
+                    subordinates.push(nextLine.trim());
+                } else if (nextIndent <= currentIndent) {
+                    // Stop when we hit a line with same or less indentation
+                    break;
                 }
-                currentLine += ` ${trimmedLine}`;
-            } else {
-                // This is a new main line
-                if (currentLine) {
-                    mergedLines.push(currentLine);
-                }
-                currentLine = line;
-                indentLevel = 0;
+                j++;
             }
-        });
-    
-        // Add the last line
-        if (currentLine) {
-            mergedLines.push(currentLine);
+            
+            // Create merged line with current line and its immediate subordinates
+            const mergedLine = subordinates.length > 0 
+                ? `${currentLine.trim()} \t${subordinates.join(' \t')}`
+                : currentLine.trim();
+                
+            processedLines.push(mergedLine);
         }
-    
-        return mergedLines.join('\n');
+        
+        return processedLines.join('\n');
     },
 
     splitIntoLines: function (text) {
         Utils.debuggingLog(['splitIntoLines', 'logSummary.js'], 'Input text length:', text.length);
-        const maxLineLength = 1000; //What would a good max safe length be?
+        const maxLineLength = 5000; //What would a good max safe length be? Increased from 1000. Claude AI thinks 16k would be safe, but there are extreme circumstances where this causes issues...
         let lines = [];
         let start = 0;
         while (start < text.length) {
@@ -317,7 +328,7 @@ window.LogSummary = {
         
         // Get FormID once for the whole line
         let formId = null;
-        const formIdIndex = line.indexOf('FormId:');
+        const formIdIndex = line.indexOf('FormId: FF') || line.indexOf('FormID: 0xFF') ; //Check for both Net Script Framework and Crash Logger SSE versions
         if (formIdIndex !== -1) {
             let formIdStart = formIdIndex + 'FormId:'.length;
             while (formIdStart < line.length && /\s/.test(line[formIdStart])) formIdStart++;
@@ -393,8 +404,9 @@ window.LogSummary = {
     },
 
     containsKeyword: function (line) {
-        //NOTE: why doesn't this use the "fileExtensions" const from the top of this .js file?
-        const keywords = ['.dds', '.tga', '.bmp', '.nif', '.esl', '.esp', '.esm', '.pex', '.dll', '.exe', '.ini', '.bsa', '.fuz', '.hkx', '.seq', '.swf', 'name:', 'file:'];
+        const keywords = [...window.LogSummary.fileExtensions, 'name:', 'file:'];
+        //NOTE on OLD (below): why doesn't this use the "fileExtensions" const from the top of this .js file?
+        //OLD: const keywords = ['.dds', '.tga', '.bmp', '.nif', '.esl', '.esp', '.esm', '.pex', '.dll', '.exe', '.ini', '.bsa', '.fuz', '.hkx', '.seq', '.swf', 'name:', 'file:'];
         const lowerCaseLine = line.toLowerCase();
         return keywords.filter(keyword => lowerCaseLine.includes(keyword)).length;
     },

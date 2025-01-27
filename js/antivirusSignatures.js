@@ -32,6 +32,6 @@ const antivirusSignatures = {
     'Trend Micro': ['tmntsrv.dll', 'tmwlutil.dll', 'vsapi32.dll'],
     'VirusBuster': ['vba32core.dll', 'vbadeint.dll'],
     'Webroot': ['wrsvc.dll', 'wrsa.dll'],
-    //EXCEPTION: 'Windows Defender': ['msmpeng.exe', 'msmpsvc.dll'], //NOTE: Windows Defender is typically the recommended antivirus for heavily-modded Skyrim, so no warning is needed unless it shows up in the top half of the crash log (handled elsewhere)
+    //EXCEPTION: 'Windows Security': ['msmpeng.exe', 'msmpsvc.dll'], //NOTE: Windows Security is typically the recommended antivirus for heavily-modded Skyrim, so no warning is needed unless it shows up in the top half of the crash log (handled elsewhere)
     'ZoneAlarm': ['zavcore.dll', 'zlclient.dll']
 };

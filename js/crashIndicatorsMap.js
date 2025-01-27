@@ -1,4 +1,15 @@
 const crashIndicators = {
+
+    questJournalIssues: {
+        hexCodes: [
+            // Space for future hex codes
+        ],
+        indicators: [
+            { name: 'Interface/Quest_Journal.swf', description: "SkyUI journal interface file" },
+            { name: 'Journal_SystemTab', description: "Quest journal functionality handler" }
+        ]
+    },
+
     dragonsEyeMinimapIssues: {
         hexCodes: [
             // Space for future hex codes

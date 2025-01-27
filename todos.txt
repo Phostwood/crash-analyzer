@@ -1,19 +1,34 @@
-✅Beta version 1.19.25 is now live:
+✅Version 1.19.26 is now live:
 https://phostwood.github.io/crash-analyzer/
 
-1. Upgraded this analyzer from version 0 to version 1. Kept subversions though for safer global search and replaces, and to keep a continuity in the numbering scheme. So, went from v0.19.24 to v1.19.25. The analyzer seems sufficiently comprehensive and polished not to warrant taking it out of beta status...
+1. Corrected "Windows Defender" to long-rebranded name: "Windows Security"
 
-2. Missing Masters:
-	- now flags if no game plugins, even if no other indicators present
-	- when the zero game plugins is the only indicator
-		- softens the test's title from "❗" to "❓" 
-		- also then warns in case modlist intentionally has zero plugins (rare)
-	- added "Detected indicators" list at bottom of the troubleshooting steps
+2. STRINGS Crash: added link to Discrepancy's STRINGS screenshot tutorial
+	- https://raw.githubusercontent.com/Phostwood/crash-analyzer/refs/heads/main/images/corruptstringsfixtutorial.png
 
-3. Initial page load (both Skyrim and Nolvus versions):
-	- Added (for Skyrim version only): "Recommended References" section at bottom
-	- Added instructions: ... test from multiple crash logs ...
-	- Minor tweaks and clarifications
+3. NavMesh/Pathing Issue:
+	- Mod info and link to "Navigator - Navmesh Fixes" ... moved mod from "Advanced troubleshooting" to the "Potential easy fixes" sections:
+	- Added info on deleting FormIDs from a save with ReSaver
+	- Also added info and link to tool for mod: "Debug Menu - In-Game Navmesh Viewer and More"
+
+4. Memory issues (3 locations): Added links to MemTest86 official website, wherever MemTest86 was mentioned.
+
+5. Explainers added:
+	- nvspcap64.dll (<b>NVIDIA</b> Video Capture API)
+
+6. Quest Journal UI Crash: added second crash indicator
+	- https://old.reddit.com/r/skyrimmods/comments/1i86ckp/skyui_ctd_when_going_to_settings/
+
+7. Enhanced developer's Utils.debuggingLog so it now includes a referenceable log number.
+
+--
+
+Also tried and failed to get nested Files/Elements with FormIDs working. I have added some code forks to reconsider in a future version though.
+
+BUG: Look at the "Cell (60) [00000ABC] [0000191E] [02000803] [FF000F59] [FF003455]" being used as a parent for two different groups in TestLogCrashLogger2.txt
+
+Something similar also shows up with the "NPC (43) [00000007] [FF000DC2]" in: Crash PF.txt
+
 
 
 
@@ -37,6 +52,29 @@ https://phostwood.github.io/crash-analyzer/
 5. Patreon subscribers get no ads (currently none of these, so a lower priority)
 6. KoFi subscribers get no ads to, if possible?
 
+
+
+
+
+--- NOTES on SHELVED nested 🔎Files/Elements with FormIDs: ---
+
+1. (potentially) Files/Elements list now includes safer-to-remove FormIDs
+	- ✅FIXED?❗ISSUE: misses some of the named elements ... this is the biggest issue❗
+		- ✅FIXED?the old version didn't miss any...
+		- ✅FIXED?the new version misses some that are caught by the old version and by Texture/Mesh Issues
+		- ❓I do see more of the x -> y -> z stuff in the old version, but I'm not sure I care? Has that ever been useful?
+	- ✅FIXED? ISSUE: adds ` after some of the matches with FormIDs?
+	- ✅FIXED? ISSUE: duplicates some of the lines?
+	- ISSUE: truncates some really long lines in wrong direction (but do this afterwards ... maybe even next version)
+2. (pending step 1 above) Add instructions to Pathing issue for deleting FormIDs
+	- see long notes below (search for FormIDs) and in GK notes
+	- Perhaps word the item under Pathing/Navmesh Issue something like this:
+
+"As a hack, with at least some theoretical risk, consider using ReSaver [show download and instruction links too] to delete FormIDs found in the 🔎 Files/Elements section of this report. NOTE: those beginning with '0xFF" should be safer to delete, because they are generic and randomly spawned specific to that save." 
+
+"Form IDs that start with 0xFF are generated dynamically at run time which means that the NPC is generic and that Form ID is specific to that save." - MaskPlague
+
+<li>Consider using save cleaning tools to remove orphaned scripts and other potential corruption. <a href="https://www.nexusmods.com/skyrim/mods/76776">FallrimTools ReSaver</a> can sometimes fix corrupted save files. See also these <a href="https://www.reddit.com/r/skyrimmods/s/fbMRv343vm">instructions by Krispyroll</a> and more information in <a href="https://www.reddit.com/r/skyrimmods/comments/1d0r0f0/reading_crash_logs/##:~:text=Resaver">Krispyroll's Reading Crash Logs Guide</a>. NOTE: Always keep backups of your saves before attempting fixes or using cleaning tools.</li>
 
 
 
@@ -103,6 +141,7 @@ https://www.reddit.com/r/skyrimmods/comments/1hufzrw/instability_out_of_nowhere/
 	- Possible mod idea? https://www.nexusmods.com/skyrimspecialedition/mods/136456
 		- Doesn't allow editing, but to a technical-ish person it would probably help find a navmesh issue and isolate the mod responsible for it
 
+	- Criticism about adding it:  https://discord.com/channels/740569699900719145/1168063977029382235/1326898286115688518
 
 --
 
