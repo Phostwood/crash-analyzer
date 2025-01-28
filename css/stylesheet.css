@@ -178,3 +178,5 @@ button {
 .extraInfo li {
     list-style-type: disc;
 }
+
+#speculativeInsights { display: none; }

@@ -1,41 +1,30 @@
-✅Version 1.19.26 is now live:
+✅Version 1.20.1 is now live:
 https://phostwood.github.io/crash-analyzer/
 
-1. Corrected "Windows Defender" to long-rebranded name: "Windows Security"
+1. UX bug fix: "(scroll down to read diagnoses)" now appears next to "Analyze" button as soon as Diagnoses section is populated. 
 
-2. STRINGS Crash: added link to Discrepancy's STRINGS screenshot tutorial
-	- https://raw.githubusercontent.com/Phostwood/crash-analyzer/refs/heads/main/images/corruptstringsfixtutorial.png
+2. Added Ko-Fi "Buy me a coffee" button at top plus three more Ko-fi buttons/links. Plus updated donations plea.
 
-3. NavMesh/Pathing Issue:
-	- Mod info and link to "Navigator - Navmesh Fixes" ... moved mod from "Advanced troubleshooting" to the "Potential easy fixes" sections:
-	- Added info on deleting FormIDs from a save with ReSaver
-	- Also added info and link to tool for mod: "Debug Menu - In-Game Navmesh Viewer and More"
+3. Made "Advanced Users" checkbox always on for Nolvus users. Too many times I've seen customizers ignore the Advanced section....
 
-4. Memory issues (3 locations): Added links to MemTest86 official website, wherever MemTest86 was mentioned.
+--NOTES:--
 
-5. Explainers added:
-	- nvspcap64.dll (<b>NVIDIA</b> Video Capture API)
-
-6. Quest Journal UI Crash: added second crash indicator
-	- https://old.reddit.com/r/skyrimmods/comments/1i86ckp/skyui_ctd_when_going_to_settings/
-
-7. Enhanced developer's Utils.debuggingLog so it now includes a referenceable log number.
-
---
-
-Also tried and failed to get nested Files/Elements with FormIDs working. I have added some code forks to reconsider in a future version though.
-
-BUG: Look at the "Cell (60) [00000ABC] [0000191E] [02000803] [FF000F59] [FF003455]" being used as a parent for two different groups in TestLogCrashLogger2.txt
-
-Something similar also shows up with the "NPC (43) [00000007] [FF000DC2]" in: Crash PF.txt
+<script type='text/javascript' src='https://storage.ko-fi.com/cdn/widget/Widget_2.js'></script><script type='text/javascript'>kofiwidget2.init('Support me on Ko-fi', '#72a4f2', 'I2I219OKJM');kofiwidget2.draw();</script> 
 
 
+--- NEXT VERSION: ---
+1. Link from analyzer page(s) to GitHub repository
+2. Mention long covid on my profiles, and make sure all profiles all cross-link
+	- GitHub
+	- Ko-fi
+	- Patreon
+	- Reddit
+	- Discord
 
 
+--- HOLDING OFF FOR 300 to 400 users per day ... and likely only if Ko-fi isn't successful  ---
 
---- COMING SOON --
-
-✅Version 1.20:
+✅Version 1.x:
 https://phostwood.github.io/crash-analyzer/
 
 

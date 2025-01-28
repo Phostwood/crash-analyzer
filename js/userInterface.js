@@ -57,9 +57,11 @@ document.addEventListener('DOMContentLoaded', function () {
 	// Functions to show or hide the "Copy Diagnosis" button based on content
 	window.hideCopyDiagnosesButton = function () {
 		document.getElementById('convert-button').style.display = 'none';
+		document.getElementById('scrollDownInstructions').style.display = 'none';
 	};
 	window.showCopyDiagnosesButton = function () {
 		document.getElementById('convert-button').style.display = 'inline-block';
+		document.getElementById('scrollDownInstructions').style.display = 'inline-block';
 	};
 
 	window.hideH4 = function () {
@@ -71,7 +73,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
 	window.clearResult = function () {
-		document.getElementById('result').innerHTML = '<code>(click "Anaylze" button to see results)</code><p>&nbsp;</p>';
+		document.getElementById('result').innerHTML = '<code>(click "Analyze" button to see results)</code><p>&nbsp;</p>';
 		document.getElementById('speculation').innerHTML = '';
 		document.getElementById('fileFlags').innerHTML = '';
 		hideH4();
@@ -95,6 +97,7 @@ document.addEventListener('DOMContentLoaded', function () {
 			displayFilename(input.files[0].name);
 			clearResult();
 			analyzeLog();
+			//never used (too awkward): scrollToDiagnosesHeader();
 		};
 		reader.onerror = function (event) {
 			console.error('File reading error:', event.target.error);
@@ -420,6 +423,7 @@ document.addEventListener('DOMContentLoaded', function () {
 			.then((data) => {
 				Utils.debuggingLog(['loadAndAnalyzeTestLog', 'userInterface.js'], 'About to call analyzeLog, textarea value length:', document.getElementById('crashLog').value.length);
 				analyzeLog();
+				//never used (too awkward):  scrollToDiagnosesHeader();
 				Utils.debuggingLog(['loadAndAnalyzeTestLog', 'userInterface.js'], 'analyzeLog called');
 			})
 			.catch(error => console.error('Error loading or analyzing Test Log:', error));

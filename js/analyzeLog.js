@@ -1127,4 +1127,13 @@ async function analyzeLog() {
     };
 }
 
-
+function scrollToDiagnosesHeader() {
+    //UNUSED: thought it was to confusing ... not a better UX
+    var element = document.getElementById("diagnosesHeader");
+    if (element) {
+        //console.log("Element with ID 'diagnosesHeader' WAS found.");
+        element.scrollIntoView({ behavior: 'smooth' }); 
+    } else {
+        console.log("Element with ID 'diagnosesHeader' not found.");
+    }
+}
