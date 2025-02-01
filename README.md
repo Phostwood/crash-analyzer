@@ -1,12 +1,14 @@
 # Phostwood's Crash Analyzers:
 
-With over 400 hours of development, this advanced analyzer examines Nolvus and general Skyrim crash logs to help diagnose and fix 80-90% of crashes, providing well-researched troubleshooting steps and links. It's currently helping over 500 different Skyrim modders every week and stands apart from other analyzers with its advanced diagnoses and frequent updates.
+With over 400 hours of development, this free, open source, advanced analyzer examines Nolvus and general Skyrim crash logs to help diagnose and fix 80-90% of crashes, providing well-researched troubleshooting steps and links. It's currently helping over 500 different Skyrim modders every week and stands apart from other analyzers with its advanced diagnoses and frequent updates.
 
 **Announcement link:**
 
 [Phostwood's Skyrim Crash Log Analyzer Graduates from Beta! 🎉](https://www.reddit.com/r/skyrimmods/comments/1i3wdyw/phostwoods_skyrim_crash_log_analyzer_graduates/)
 
 **Two versions for Skyrim:**
+
+Both share 98% of the same code, and both have graduated from beta. Usage requires an internet connection, is hosted for free by GitHub Pages:
 
 1. [Phostwood's Nolvus Crash Log Analyzer](https://phostwood.github.io/crash-analyzer/)
 2. [Phostwood's Skyrim Crash Log Analyzer](https://phostwood.github.io/crash-analyzer/skyrim.html)
