@@ -544,26 +544,35 @@ function checkLogTypeAndProvideRecommendations(logType, sections) {
     let message = '';
 
     if (logType === "Trainwreck") {
-        message += "<li>⚠️ <b>Trainwreck Log Detected:</b> While Trainwreck provides some crash information, it's generally not as comprehensive as other logging options. ";
+        message += `<li>⚠️ <b>Trainwreck Log Detected:</b> While Trainwreck provides partial crash information, it frequently lacks indicators provided by other logging options. In many situations, relying on Trainwreck can prevent a helpful diagnosis.
+        <ul>`;
 
         if (sections.hasSkyrimAE) {
-            message += "For Skyrim AE (version 1.6+), we strongly recommend using <a href='https://www.nexusmods.com/skyrimspecialedition/mods/59818'>Crash Logger SSE</a> (newest version) instead. It provides more detailed crash information, aiding in better diagnosis. ";
+            message += `
+                <li>For Skyrim AE (version 1.6+), we strongly recommend using <a href='https://www.nexusmods.com/skyrimspecialedition/mods/59818'>Crash Logger SSE</a> (newest version) instead. It provides more detailed crash information, aiding in better diagnosis.</li>
+                <li><b>Additional Information when switching to Crash Logger SSE:</b>
+                    <ul>
+                        <li>You don't need the old version of Crash Logger to run it. For simplicity's sake, we recommend not even downloading the old version or at least disabling it.</li>
+                        <li>Be sure to <b>disable Trainwreck</b> and any other crash logging mods. Only have Crash Logger SSE enabled.</li>
+                        <li>Trainwreck logs show up here: <code>[Your Documents]/My Games/Skyrim Special Edition/SKSE/Crashlogs</code></li>
+                        <li>But Crash Logger SSE logs usually show up <b>one directory higher</b>. Note: It's often a long directory, so sort the files by <b>Date Modified</b> to have the most recent files at the top: <code>[Your Documents]/My Games/Skyrim Special Edition/SKSE/</code></li>
+                    </ul>
+                </li>`;
         } else {
-            message += "For Skyrim SE (version 1.5), we strongly recommend using <a href='https://www.nexusmods.com/skyrimspecialedition/mods/21294'>.NET Script Framework</a> instead. It offers more detailed crash information, which is crucial for accurate diagnosis. ";
+            message += `<li>For Skyrim SE (version 1.5), we strongly recommend using <a href='https://www.nexusmods.com/skyrimspecialedition/mods/21294'>.NET Script Framework</a> instead. It offers more detailed crash information, which is crucial for accurate diagnosis.</li>`;
         }
 
-        message += "Remember to only have one logging mod enabled at a time.</li>";
+        message += `
+            <li>Remember to only have one logging mod enabled at a time.</li>
+            <li>🚨 <b>Trainwreck as Backup:</b> Trainwreck remains the best backup option when other logging mods won't output a crash log for specific, rarer crash types. But unless you've already tried a better logging mod for this specific reoccurring crash, we highly recommend using an alternative instead of Trainwreck.</li>
+        </ul>
+        </li>`;
     }
-
-    /* DISABLING since I no longer recommend NSF over CrashLogger
-    if (logType === "CrashLogger" && !sections.hasSkyrimAE) {
-        message += "<li>⚠️ <b>CrashLogger Log Detected:</b> For Skyrim SE (version 1.5), we recommend using <a href='https://www.nexusmods.com/skyrimspecialedition/mods/21294'>.NET Script Framework</a> instead. It generally offers more detailed crash information, which can be helpful towards the best diagnosis. Remember to only have one logging mod enabled at a time.</li>";
-
-    }
-    */
 
     return message;
 }
+
+
 
 
 
@@ -1367,7 +1376,7 @@ function checkKernelbaseCrash(sections, Utils, win24H2UpscalerCrash, isDiagnoses
             diagnoses += `
                 <li>❗ <b>KERNELBASE Crash Detected:</b> This rare issue could be related to a specific added mod, or to hardware or a system-wide issue. Here are some steps you can try:
                     <ol>
-                        <li><b>First</b>, try to reproduce the crash by playing the game again. If this was a one-time occurrence, you probably don't need to follow the more intensive troubleshooting steps below.</li>
+                        <li><b>First</b>, try to reproduce the crash after rebooting your PC and playing the game again. If this was a one-time occurrence, you probably don't need to follow the more intensive troubleshooting steps below.</li>
                         <li>Ensure your <a href="https://www.nolvus.net/appendix/pagefile">Windows Pagefile Size is properly configured</a>.</li>
                         <li>Check with the <b>Nolvus community</b> to see if others are encountering this issue due to a new Windows update or the like.</li>
                         <li>You can restore the original sorting of all vanilla Nolvus mods using the <b>Apply Order</b> button in the Nolvus Dashboard. For more information and a screenshot, see this r/Nolvus post <a href="https://www.reddit.com/r/Nolvus/comments/1chuod0/how_to_apply_order_button_usage_in_the_nolvus/">How To: "Apply Order" button usage in the Nolvus Dashboard</a>.</li>
@@ -1381,7 +1390,7 @@ function checkKernelbaseCrash(sections, Utils, win24H2UpscalerCrash, isDiagnoses
             diagnoses += `
                 <li>❗ <b>KERNELBASE Crash Detected:</b> This issue can be caused by many different factors: a specific mod, hardware problems, or system-wide issues like Windows Updates, malware, drive corruption, or corrupted file permissions. Here are troubleshooting steps to try, ordered from easiest to most difficult (and most likely to help):
                     <ol>
-                        <li><b>First</b>, try to reproduce the crash by playing the game again. If this was a one-time occurrence, you probably don't need to follow the more intensive troubleshooting steps below.</li>
+                        <li><b>First</b>, try to reproduce the crash after rebooting your PC and playing the game again. If this was a one-time occurrence, you probably don't need to follow the more intensive troubleshooting steps below.</li>
 
                         <li>Ensure your <a href="https://www.nolvus.net/appendix/pagefile">Windows Pagefile Size is properly configured</a> to be at least 40,000 MB.</li>
 

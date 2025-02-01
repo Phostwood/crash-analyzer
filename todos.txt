@@ -1,11 +1,21 @@
-✅Version 1.20.1 is now live:
+✅Version 1.20.2 is now live:
 https://phostwood.github.io/crash-analyzer/
 
-1. UX bug fix: "(scroll down to read diagnoses)" now appears next to "Analyze" button as soon as Diagnoses section is populated. 
+1. ✅Changed color of "(scroll down to read analysis)" from default to a bright-ish green
 
-2. Added Ko-Fi "Buy me a coffee" button at top plus three more Ko-fi buttons/links. Plus updated donations plea.
+2. ✅Kernelbase crash: Added "after rebooting your PC" to first step for a more thorough retest.
 
-3. Made "Advanced Users" checkbox always on for Nolvus users. Too many times I've seen customizers ignore the Advanced section....
+3. ✅Trainwreck detected:
+	- add notes on switching to Crash Logger SSE
+	- also, moved it above Missing Masters. MM is a very common diagnosis from a Trainwreck log and Crash Logger SSE frequently provides a more isolated diagnosis.
+
+5. ✅New/Enhanced donations section below "Analyze" button. Now includes quotes from Skyrim NPCs, and a large interactive Ko-fi button
+
+6. ✅ExplainersMap: added dbsksefunctions.dll
+
+7. ✅Added a "Last updated:" date at the top along with the version number
+
+8. ✅Search engine <meta name="description"> improved to: Advanced (Nolvus) Skyrim crash log analyzer that helps diagnose and fix 80-90% of crashes with detailed troubleshooting steps and solutions. Updated frequently with new crash patterns and fixes.
 
 --NOTES:--
 
@@ -13,6 +23,13 @@ https://phostwood.github.io/crash-analyzer/
 
 
 --- NEXT VERSION: ---
+
+0. New SKSE issues test:
+	- instructions like bottom half of VCRUNTIME
+	- expand upon scriptIssues in crashInidacatorsMap.js
+	- see notepad++ "new45" for a stripped down list of potential files to look for (from explainersMap)
+	- https://old.reddit.com/r/skyrimmods/comments/1idt6bk/skyrim_se_ctd_when_durnehviir_uses_shout_during/
+
 1. Link from analyzer page(s) to GitHub repository
 2. Mention long covid on my profiles, and make sure all profiles all cross-link
 	- GitHub

@@ -79,6 +79,7 @@ document.addEventListener('DOMContentLoaded', function () {
 		hideH4();
 		hideCopyDiagnosesButton();
 		updateLogTypeInfo(); // Update UI based on the reset
+		displayRandomQuote();
 	};
 
 	// - - -  handle drag-and-drop and "Choose File" button  - - - 
@@ -97,6 +98,7 @@ document.addEventListener('DOMContentLoaded', function () {
 			displayFilename(input.files[0].name);
 			clearResult();
 			analyzeLog();
+			displayRandomQuote();
 			//never used (too awkward): scrollToDiagnosesHeader();
 		};
 		reader.onerror = function (event) {
@@ -423,9 +425,65 @@ document.addEventListener('DOMContentLoaded', function () {
 			.then((data) => {
 				Utils.debuggingLog(['loadAndAnalyzeTestLog', 'userInterface.js'], 'About to call analyzeLog, textarea value length:', document.getElementById('crashLog').value.length);
 				analyzeLog();
+				displayRandomQuote();
 				//never used (too awkward):  scrollToDiagnosesHeader();
 				Utils.debuggingLog(['loadAndAnalyzeTestLog', 'userInterface.js'], 'analyzeLog called');
 			})
 			.catch(error => console.error('Error loading or analyzing Test Log:', error));
 	}
+
+  
+// Function to display a random quote
+function displayRandomQuote() {
+    // Array of quote objects with their respective NPCs
+    const quotes = [
+      { text: "Can you spare a septim?", npc: "Noster Eagle-Eye" },
+      { text: "A septim is all I ask. Is that so bad?", npc: "Edda" },
+      { text: "A few septims for my supper is all I ask.", npc: "Silda the Unseen" },
+      { text: "I ain't askin' for much, just a few septims.", npc: "Silda the Unseen" },
+      { text: "The Divines smile on those who show mercy an' charity.", npc: "Silda the Unseen" },
+      { text: "A few septims ain't nothing. You can spare that, can't you?", npc: "Silda the Unseen" },
+      { text: "Spare a coin? Talos rewards the generous.", npc: "Silda the Unseen" }
+    ];
+
+    // Select a random index from the quotes array
+    const randomIndex = Math.floor(Math.random() * quotes.length);
+    const randomQuote = quotes[randomIndex];
+
+    // Construct the quote HTML
+    const quoteText = `"${randomQuote.text}"`;
+    const quoteAttribution = `- ${randomQuote.npc}`;
+
+    // Update the HTML content
+    const quoteElement = document.getElementById('quote');
+    if (quoteElement) {
+      quoteElement.innerHTML = `
+        <p>${quoteText}</p>
+        <p class="attribution">${quoteAttribution}</p>
+      `;
+    }
+  }
+
+  // Call the function to display a random quote
+  displayRandomQuote();
+
+  // Function to display the thank you message
+  function showThankYouMessage() {
+    const message = document.getElementById('thank-you-message');
+    if (message) {
+      message.classList.add('show');
+
+      // Smooth scroll to the thank you message
+      message.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+  }
+
+  // Add event listener to the Ko-fi button
+  const kofiButton = document.getElementById('kofi-button');
+  if (kofiButton) {
+    kofiButton.addEventListener('click', function() {
+      showThankYouMessage();
+    });
+  }
+
 });

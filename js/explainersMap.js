@@ -62,6 +62,7 @@ if (typeof Utils === 'undefined') {
         ['d3dx11_42.dll', '(Direct3D 11 Extensions - MS <b>Windows</b> graphics)'],
         ['d3dx9_42.dll', '(DirectX 9 library - sometimes used by older mods)'],
         ['d3dx9_43.dll', '(Direct3D 9 Extensions - MS <b>Windows</b> graphics)'],
+        ['dbsksefunctions.dll', '(Dylbill\'s Papyrus Functions <b>SKSE</b> plugin)'],
         ['detoured.dll', '(Microsoft Detours Library - <b>Windows</b>)'],
         ['deviceaccess.dll', '(Device Broker And Policy COM Server - MS <b>Windows</b>)'],
         ['dinput8.dll', '(DirectInput library - used for <b>input</b> handling)'],

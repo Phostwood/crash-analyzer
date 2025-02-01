@@ -180,3 +180,101 @@ button {
 }
 
 #speculativeInsights { display: none; }
+
+
+/* Styles for the quote container */
+#quote {
+    color: gold;
+    text-align: center;
+    font-family: 'Marcellus SC', serif;
+    font-size: clamp(1.25rem, 0.496vw + 1.135rem, 2.375rem);
+    line-height: clamp(2.125rem, 0.424vw + 2.027rem, 3.088rem);
+    margin-top: 1em;
+    opacity: 0;
+    animation: fadeIn 1s ease-in forwards;
+}
+
+@keyframes fadeIn {
+  to {
+    opacity: 1;
+  }
+}
+
+  /* Styles for the attribution */
+  #quote .attribution {
+    font-size: clamp(1.188rem, 0.413vw + 1.092rem, 2.125rem);
+    line-height: clamp(2.019rem, 0.328vw + 1.943rem, 2.763rem);
+    margin-top: 0.5em;
+    font-style: italic;
+    font-family: 'Roboto Condensed', sans-serif;
+  }
+
+/* Donation container */
+span {
+    color: white;
+    text-align: left;
+    font-family: 'Roboto Condensed', sans-serif;
+}
+
+/* Ko-fi Button Styling */
+.kofi-button {
+    display: inline-flex;
+    align-items: center;
+    background-color: #72a4f2;
+    color: white;
+    padding: 10px 16px;
+    padding: clamp(8px, 2vw, 16px) clamp(12px, 3vw, 24px); /* responsive clamp overrides */
+    border-radius: 8px;
+    border-radius: clamp(4px, 1vw, 8px);
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 1em;
+    font-size: clamp(0.9rem, 1.5vw, 1.2rem);
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.kofi-button img {
+    height: 24px;
+    height: clamp(16px, 3vw, 24px);
+    margin-right: clamp(4px, 1vw, 8px);
+    animation: jiggle 2s infinite;
+}
+
+.kofi-button span {
+    font-family: 'Roboto Condensed', sans-serif;
+}
+
+/* Jiggle Animation */
+@keyframes jiggle {
+    0%, 100% { transform: rotate(0deg); }
+    15% { transform: rotate(-15deg); }
+    30% { transform: rotate(10deg); }
+    45% { transform: rotate(-10deg); }
+    60% { transform: rotate(6deg); }
+    75% { transform: rotate(-4deg); }
+    90% { transform: rotate(2deg); }
+}
+
+/* Hover Effect */
+.kofi-button:hover {
+    background-color: darkgoldenrod;
+}
+
+/* Thank You Message Styling */
+#thank-you-message {
+    display: none;
+    opacity: 0;
+    text-align: center;
+    font-family: 'Roboto Condensed', sans-serif;
+    color: gold;
+    font-size: clamp(1.25rem, 0.496vw + 1.135rem, 2.375rem);
+    line-height: clamp(2.125rem, 0.424vw + 2.027rem, 3.088rem);
+    margin-top: 1em;
+    transition: opacity 1s ease-in;
+}
+
+#thank-you-message.show {
+    display: block;
+    opacity: 1;
+}

@@ -347,7 +347,12 @@ async function analyzeLog() {
         diagnosesCount++;
     }
 
-
+    const logType = sections.logType;
+    const logRecommendations = checkLogTypeAndProvideRecommendations(logType, sections);
+    if (logRecommendations) {
+        diagnoses += logRecommendations;
+        //EXCLUDED: diagnosesCount++;
+    }
 
     //❗ Potential Missing Masters Detected: 
     const missingMastersDiagnosis = checkForMissingMasters(sections);
@@ -413,15 +418,6 @@ async function analyzeLog() {
     const nolvusDiagnosis = await checkForNolvusModlist(sections.gamePlugins);
     diagnoses += nolvusDiagnosis;
     //EXCLUDED: diagnosesCount++;
-
-    
-
-    const logType = sections.logType;
-    const logRecommendations = checkLogTypeAndProvideRecommendations(logType, sections);
-    if (logRecommendations) {
-        diagnoses += logRecommendations;
-        //EXCLUDED: diagnosesCount++;
-    }
 
 
 
