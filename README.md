@@ -24,3 +24,5 @@ Both share 98% of the same code, and both have graduated from beta. Usage requir
 or [<img src="./phostwood-Ko-fi-Horizontal.jpg">](https://ko-fi.com/phostwood)
 
 <strong><em>Your</em></strong> <a href="https://www.patreon.com/Phostwood" style="font-weight: bold;">support on Patreon</a> or <a href="https://ko-fi.com/phostwood" style="font-weight: bold;">Ko-fi</a> can help ensure ongoing development of this tool, enabling me to continue bringing you new features and updates regularly!
+
+"Oh, thank you! Divines bless your kind heart!" 😊
