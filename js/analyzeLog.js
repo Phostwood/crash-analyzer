@@ -616,9 +616,10 @@ async function analyzeLog() {
     const hasSimplicityOfSnow = sections.fullLogFileLowerCase.includes('simplicity of snow.esp');
     const hasUlvenwald = sections.fullLogFileLowerCase.includes('ulvenwald.esp');
     const hasPatch = sections.fullLogFileLowerCase.includes('jks skyrim tree fix.esp');
+    const hasNolvusV6 = Utils.getNolvusVersion(sections) == 6; // I'm assuming v6 patches this somehow, and this issue shows up wiht every Nolvus v6 log...
 
     //if (hasJKsSkyrim && hasSimplicityOfSnow && hasUlvenwald && !hasPatch) {
-    if (hasJKsSkyrim && hasSimplicityOfSnow && !hasPatch) {
+    if (hasJKsSkyrim && hasSimplicityOfSnow && !hasPatch && !hasNolvusV6 ) {
         insights += '<li>❗ <b>Simplicity of Snow + JK\'s Skyrim Patch Missing:</b> ' +
             'Your load order includes both JK\'s Skyrim and Simplicity of Snow, but the required patch is missing. To resolve this:<ol>' +
             '<li>Reinstall Simplicity of Snow\'s FOMOD. During installation, it should automatically detect JK\'s Skyrim and offer the appropriate patch(es).</li>' +

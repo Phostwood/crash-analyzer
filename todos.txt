@@ -1,37 +1,33 @@
-✅Version 1.20.2 is now live:
+✅Version 1.20.3 is now live:
 https://phostwood.github.io/crash-analyzer/
 
-1. ✅Changed color of "(scroll down to read analysis)" from default to a bright-ish green
+1. ✅New link to GitHub repository at bottom of pages
 
-2. ✅Kernelbase crash: Added "after rebooting your PC" to first step for a more thorough retest.
-
-3. ✅Trainwreck detected:
-	- add notes on switching to Crash Logger SSE
-	- also, moved it above Missing Masters. MM is a very common diagnosis from a Trainwreck log and Crash Logger SSE frequently provides a more isolated diagnosis.
-
-5. ✅New/Enhanced donations section below "Analyze" button. Now includes quotes from Skyrim NPCs, and a large interactive Ko-fi button
-
-6. ✅ExplainersMap: added dbsksefunctions.dll
-
-7. ✅Added a "Last updated:" date at the top along with the version number
-
-8. ✅Search engine <meta name="description"> improved to: Advanced (Nolvus) Skyrim crash log analyzer that helps diagnose and fix 80-90% of crashes with detailed troubleshooting steps and solutions. Updated frequently with new crash patterns and fixes.
-
---NOTES:--
-
-<script type='text/javascript' src='https://storage.ko-fi.com/cdn/widget/Widget_2.js'></script><script type='text/javascript'>kofiwidget2.init('Support me on Ko-fi', '#72a4f2', 'I2I219OKJM');kofiwidget2.draw();</script> 
+2. ✅Simplicity of Snow + JK's Skyrim Patch Missing
+	-Removed if using Nolvus v6 as it is very likely patched
 
 
---- NEXT VERSION: ---
+
+
+
+--- Next version ---
+
+1. New test: levelList crash (see notes)
 
 0. New SKSE issues test:
 	- instructions like bottom half of VCRUNTIME
 	- expand upon scriptIssues in crashInidacatorsMap.js
 	- see notepad++ "new45" for a stripped down list of potential files to look for (from explainersMap)
 	- https://old.reddit.com/r/skyrimmods/comments/1idt6bk/skyrim_se_ctd_when_durnehviir_uses_shout_during/
+	- see notes on New DbSkseFunctions.dll crash ... which should also be an indicator?
+	- These indicators might only be relevant if first-line indicators?
 
-1. Link from analyzer page(s) to GitHub repository
-2. Mention long covid on my profiles, and make sure all profiles all cross-link
+
+2. Low memory issues test
+
+3. Critical Memory Issues test
+
+2. Mention long covid on my profiles? And make sure all profiles all cross-link:
 	- GitHub
 	- Ko-fi
 	- Patreon
