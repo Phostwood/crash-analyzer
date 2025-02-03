@@ -190,14 +190,8 @@ button {
     font-size: clamp(1.25rem, 0.496vw + 1.135rem, 2.375rem);
     line-height: clamp(2.125rem, 0.424vw + 2.027rem, 3.088rem);
     margin-top: 1em;
-    opacity: 0;
-    animation: fadeIn 1s ease-in forwards;
-}
-
-@keyframes fadeIn {
-  to {
+    transition: opacity 1s ease-in-out;
     opacity: 1;
-  }
 }
 
   /* Styles for the attribution */

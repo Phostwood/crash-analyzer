@@ -329,7 +329,7 @@ function checkForD6dddaEasyVersion(sections) {
                 <li>System Memory Management:
                     <ol>
                         <li>Close unnecessary background applications that may be consuming memory.</li>
-                        <li>Ensure your <a href="https://www.nolvus.net/appendix/pagefile">Windows Pagefile Size is properly configured</a>.</li>
+                        <li>Verify your <a href="https://www.nolvus.net/appendix/pagefile">Windows Pagefile is properly configured</a>. The most common stability-focus	ed recommendation is setting the Pagefile's minimum to 40GB. ⚠️NOTE: many sources say Skyrim's engine was programmed to require high Pagefile usage even when there is more than enough RAM available. To be on the safe side, ensure your Pagefile settings even if you have 128GB of RAM.</li>
                         <li>Return any overclocked hardware to stock speeds, as unstable overclocks are known for causing crashes that can look like memory issues in crash logs.</li>
                         <li>Maintain <a href="https://computercity.com/hardware/storage/how-much-space-should-i-leave-on-my-ssd">at least 10-20% free space</a> on your SSD for optimal performance.</li>
                         <li>Review your modlist's (or individual mods') recommended hardware requirements to verify you aren't overly below their system recommendations.</li>
@@ -355,7 +355,7 @@ function checkForD6dddaAdvancedVersion(sections) {
                 <li>System Memory Management:
                     <ol>
                         <li>Close unnecessary background applications that may be consuming memory.</li>
-                        <li>Ensure your <a href="https://www.nolvus.net/appendix/pagefile">Windows Pagefile Size is properly configured</a>.</li>
+                        <li>Verify your <a href="https://www.nolvus.net/appendix/pagefile">Windows Pagefile is properly configured</a>. The most common stability-focus	ed recommendation is setting the Pagefile's minimum to 40GB. ⚠️NOTE: many sources say Skyrim's engine was programmed to require high Pagefile usage even when there is more than enough RAM available. To be on the safe side, ensure your Pagefile settings even if you have 128GB of RAM.</li>
                         <li>Return any overclocked hardware to stock speeds, as unstable overclocks are known for causing crashes that can look like memory issues in crash logs.</li>
                         <li>Maintain <a href="https://computercity.com/hardware/storage/how-much-space-should-i-leave-on-my-ssd">at least 10-20% free space</a> on your SSD for optimal performance.</li>
                         <li>For systems with less than 12GB VRAM (or more for ultrawide/high-resolution displays) (<a href="https://www.lifewire.com/how-to-check-vram-5235783">check your VRAM here</a>), consider using <a href="https://www.reddit.com/r/Nolvus/comments/1doakj1/psa_use_vramr_if_you_have_12gb_of_vram/">VRAMr</a>. This tool automatically compresses texture files across your load order, reducing VRAM usage while maintaining visual fidelity and improving stability.</li>
@@ -375,6 +375,59 @@ function checkForD6dddaAdvancedVersion(sections) {
     }
     return diagnosis;
 }
+
+
+function checkForHighMemoryUsage(sections) {
+    let diagnosis = '';
+    const physicalMemoryPercent = sections.systemPhysicalMemoryPercentUsed;
+    const gpuMemoryPercent = sections.systemGpuMemoryPercentUsed;
+    
+    // Thresholds that indicate memory usage levels
+    const RAM_SOFT_WARNING_THRESHOLD = 85.0;   // % RAM usage soft warning
+    const VRAM_SOFT_WARNING_THRESHOLD = 85.0;  // % VRAM usage soft warning
+    const RAM_CRITICAL_THRESHOLD = 92.0;       // % RAM usage critical warning
+    const VRAM_CRITICAL_THRESHOLD = 92.0;      // % VRAM usage critical warning
+
+    Utils.debuggingLog(['checkForHighMemoryUsage'], 'physicalMemoryPercent', sections.systemPhysicalMemoryPercentUsed);
+    Utils.debuggingLog(['checkForHighMemoryUsage'], 'RAM_SOFT_WARNING_THRESHOLD', RAM_SOFT_WARNING_THRESHOLD);
+    Utils.debuggingLog(['checkForHighMemoryUsage'], 'isRamWarning comparison', sections.systemPhysicalMemoryPercentUsed >= RAM_SOFT_WARNING_THRESHOLD);
+    
+    Utils.debuggingLog(['checkForHighMemoryUsage'], 'Comparison details', {
+        physicalMemoryPercent: physicalMemoryPercent,
+        threshold: RAM_SOFT_WARNING_THRESHOLD,
+        comparisonResult: physicalMemoryPercent >= RAM_SOFT_WARNING_THRESHOLD
+    });
+
+    // Determine warning level and icon
+    const isRamCritical = physicalMemoryPercent >= (RAM_CRITICAL_THRESHOLD - 0.1);
+    const isVramCritical = gpuMemoryPercent >= (VRAM_CRITICAL_THRESHOLD - 0.1);
+    const isRamWarning = physicalMemoryPercent >= (RAM_SOFT_WARNING_THRESHOLD - 0.1);
+    const isVramWarning = gpuMemoryPercent >= (VRAM_SOFT_WARNING_THRESHOLD - 0.1);
+    
+    const warningIcon = (isRamCritical || isVramCritical) ? '❗' : '❓';
+    const warningLevel = (isRamCritical || isVramCritical) ? 'Critical' : 'High';
+    
+    if (isRamWarning || isVramWarning) {
+        diagnosis += `<li>${warningIcon} <b>${warningLevel} Memory Usage Detected:</b> Your system was running at ${isRamWarning ? `<code>${physicalMemoryPercent}%</code> RAM usage` : ''}${(isRamWarning && isVramWarning) ? ' and ' : ''}${isVramWarning ? `<code>${gpuMemoryPercent}%</code> VRAM usage` : ''} when this crash occurred. High memory usage can lead to instability. Please review the rest of this crash report carefully, as memory usage issues can often be <i>caused</i> by other issues that need to be addressed. Key steps for early consideration (especially if this issue comes up frequently):
+            <ul>
+                <li>Close unnecessary background applications</li>
+                <li>Verify your <a href="https://www.nolvus.net/appendix/pagefile">Windows Pagefile is properly configured</a>. The most common stability-focused recommendation is setting the Pagefile's minimum to 40GB. ⚠️NOTE: many sources say Skyrim's engine was programmed to require high Pagefile usage even when there is more than enough RAM available. To be on the safe side, ensure your Pagefile settings even if you have 128GB of RAM.</li>
+                <li>If you have less than 12GB VRAM (adjust higher if using a 4K monitor and/or an ultra-wide resolution), consider these optimization strategies:
+                    <ul>
+                        <li>Switch texture mods to 1K or 2K variants</li>
+                        <li>Or optionally use <a href="https://www.reddit.com/r/Nolvus/comments/1doakj1/psa_use_vramr_if_you_have_12gb_of_vram/">VRAMr</a> to automatically optimize (almost) all of your load order's textures</li>
+                        <li>Use lower-memory mesh variants for mods</li>
+                        <li>Minimize mods that add to the density of occurrences of 3D objects (e.g., some tree mods can overpopulate landscapes)</li>
+                    </ul>
+                </li>
+                <li><b>Workaround:</b> If you're experiencing crashes in a specific location, you can use the in game <b>console command</b> <code>pcb</code> (Purge Cell Buffer) to free up memory. This may help prevent some crashes by clearing cached cells, though it will cause those recently visited areas to have to reload completely when re-entered. Reportedly best used while in interior cells.</li>
+            </ul>
+        </li>`;
+    }
+    return diagnosis;
+}
+
+
 
 //❗ Potential Missing Masters Detected:
 function checkForMissingMasters(sections) {
@@ -580,6 +633,12 @@ function checkLogTypeAndProvideRecommendations(logType, sections) {
 
 function analyzeMemoryIssues(sections) {
     let memoryInsights = '';
+    const physicalMemoryPercent = sections.systemPhysicalMemoryPercentUsed;
+    const gpuMemoryPercent = sections.systemGpuMemoryPercentUsed;
+    
+    // Thresholds that typically indicate potential stability issues in modded Skyrim
+    const RAM_WARNING_THRESHOLD = 85.0;  // % RAM usage
+    const VRAM_WARNING_THRESHOLD = 85.0; // % VRAM usage
 
     function findMemoryHexCodeIssue(sections) {
         if (!sections.firstLine || typeof sections.firstLine !== 'string') {
@@ -601,6 +660,31 @@ function analyzeMemoryIssues(sections) {
         );
     }
 
+    function getMemoryUsageStatus() {
+        const diagnosticInfo = [];
+        let hasWarnings = false;
+
+        // Check RAM usage
+        if (typeof physicalMemoryPercent === 'number') {
+            const ramStatus = physicalMemoryPercent >= RAM_WARNING_THRESHOLD ? '❗ High' : 'Normal';
+            diagnosticInfo.push(`<li>RAM Usage: ${ramStatus} (${physicalMemoryPercent.toFixed(1)}% used)</li>`);
+            if (physicalMemoryPercent >= RAM_WARNING_THRESHOLD) {
+                hasWarnings = true;
+            }
+        }
+
+        // Check VRAM usage
+        if (typeof gpuMemoryPercent === 'number') {
+            const vramStatus = gpuMemoryPercent >= VRAM_WARNING_THRESHOLD ? '❗ High' : 'Normal';
+            diagnosticInfo.push(`<li>VRAM Usage: ${vramStatus} (${gpuMemoryPercent.toFixed(1)}% used)</li>`);
+            if (gpuMemoryPercent >= VRAM_WARNING_THRESHOLD) {
+                hasWarnings = true;
+            }
+        }
+
+        return { diagnosticInfo, hasWarnings };
+    }
+
     const hexCodeIssue = findMemoryHexCodeIssue(sections);
     const memoryCodeIssues = findMemoryCodeIssues(sections);
     const priorityIssue = (hexCodeIssue || sections.firstLine.includes('tbbmalloc.dll') );
@@ -619,12 +703,12 @@ function analyzeMemoryIssues(sections) {
         <li><b>System Resource Management:</b>
             <ul>
             <li>Reboot PC and close any unnecessary applications to maximize available RAM for Skyrim.</li>
-            <li>Verify your <a href="https://www.nolvus.net/appendix/pagefile">Windows Pagefile Size</a> settings</li>
+            <li>Verify your <a href="https://www.nolvus.net/appendix/pagefile">Windows Pagefile is properly configured</a>. The most common stability-focus	ed recommendation is setting the Pagefile's minimum to 40GB. ⚠️NOTE: many sources say Skyrim's engine was programmed to require high Pagefile usage even when there is more than enough RAM available. To be on the safe side, ensure your Pagefile settings even if you have 128GB of RAM.</li>
             <li>Return any overclocked hardware to stock speeds, as unstable overclocks are known for causing crashes that can look like memory issues in crash logs.</li>
             <li>Maintain <a href="https://computercity.com/hardware/storage/how-much-space-should-i-leave-on-my-ssd">at least 10-20% free space</a> on your SSD for optimal performance.</li>
             <li>Review your modlist's (or individual mods') recommended hardware requirements to verify you aren't overly below their system recommendations.</li>
             <li>Consider running memory diagnostic tools (Windows Memory Diagnostic or <a href="https://www.memtest86.com/">MemTest86</a>)</li>
-            <li>If you frequently encounter memory issues, consider upgrading your system with more RAM as relatively cost-effective upgrade. 32GB is often considered a baseline for high-end Skyrim modding.</li>
+            <li>If you frequently encounter memory issues, consider upgrading your system with more RAM as a relatively cost-effective upgrade. 32GB is often considered a baseline for high-end Skyrim modding.</li>
             </ul>
         </li>
 
@@ -654,6 +738,18 @@ function analyzeMemoryIssues(sections) {
             </li>
             </ul>
         </li>`;
+
+
+        const { diagnosticInfo, hasWarnings } = getMemoryUsageStatus();
+        if (diagnosticInfo.length > 0) {
+            memoryInsights += `<li>System Memory Status ${hasWarnings ? '❗' : ''}: <a href="#" class="toggleButton">⤵️ show more</a><ul class="extraInfo" style="display:none">`;
+            memoryInsights += diagnosticInfo.join('');
+            if (hasWarnings) {
+                memoryInsights += `<li>⚠️ High memory usage detected. While this could be caused by another listed issue, consider following the optimization steps above to reduce memory pressure.</li>`;
+            }
+            memoryInsights += '</ul></li>';
+        }
+
 
         if (hexCodeIssue || memoryCodeIssues.length > 0) {
             memoryInsights += `<li>Detected indicators: <a href="#" class="toggleButton">⤵️ show more</a><ul class="extraInfo" style="display:none">`;
@@ -1377,7 +1473,7 @@ function checkKernelbaseCrash(sections, Utils, win24H2UpscalerCrash, isDiagnoses
                 <li>❗ <b>KERNELBASE Crash Detected:</b> This rare issue could be related to a specific added mod, or to hardware or a system-wide issue. Here are some steps you can try:
                     <ol>
                         <li><b>First</b>, try to reproduce the crash after rebooting your PC and playing the game again. If this was a one-time occurrence, you probably don't need to follow the more intensive troubleshooting steps below.</li>
-                        <li>Ensure your <a href="https://www.nolvus.net/appendix/pagefile">Windows Pagefile Size is properly configured</a>.</li>
+                        <li>Verify your <a href="https://www.nolvus.net/appendix/pagefile">Windows Pagefile is properly configured</a>. The most common stability-focus	ed recommendation is setting the Pagefile's minimum to 40GB. ⚠️NOTE: many sources say Skyrim's engine was programmed to require high Pagefile usage even when there is more than enough RAM available. To be on the safe side, ensure your Pagefile settings even if you have 128GB of RAM.</li>
                         <li>Check with the <b>Nolvus community</b> to see if others are encountering this issue due to a new Windows update or the like.</li>
                         <li>You can restore the original sorting of all vanilla Nolvus mods using the <b>Apply Order</b> button in the Nolvus Dashboard. For more information and a screenshot, see this r/Nolvus post <a href="https://www.reddit.com/r/Nolvus/comments/1chuod0/how_to_apply_order_button_usage_in_the_nolvus/">How To: "Apply Order" button usage in the Nolvus Dashboard</a>.</li>
                         <li><b>Reinstall Nolvus</b> to ensure the installation is not corrupted. Make sure to back up any important data before doing this. For detailed instructions, see this <a href="https://docs.google.com/document/d/1R_AVeneeCiqs0XGYzggXx34v3Ufq5eUHNoCHo3QE-G8/edit">guide</a>.</li>
@@ -1392,7 +1488,7 @@ function checkKernelbaseCrash(sections, Utils, win24H2UpscalerCrash, isDiagnoses
                     <ol>
                         <li><b>First</b>, try to reproduce the crash after rebooting your PC and playing the game again. If this was a one-time occurrence, you probably don't need to follow the more intensive troubleshooting steps below.</li>
 
-                        <li>Ensure your <a href="https://www.nolvus.net/appendix/pagefile">Windows Pagefile Size is properly configured</a> to be at least 40,000 MB.</li>
+                        <li>Verify your <a href="https://www.nolvus.net/appendix/pagefile">Windows Pagefile is properly configured</a>. The most common stability-focus	ed recommendation is setting the Pagefile's minimum to 40GB. ⚠️NOTE: many sources say Skyrim's engine was programmed to require high Pagefile usage even when there is more than enough RAM available. To be on the safe side, ensure your Pagefile settings even if you have 128GB of RAM.</li>
 
                         <li>Check with the <b>${!Utils.isSkyrimPage ? 'Nolvus community' : 'Skyrim modding community'}</b> to see if others are encountering this issue due to a new Windows update or the like.</li>
 
@@ -1643,7 +1739,7 @@ function generateNoCrashDetectedMessage() {
                 </li>
                 <li>Third, ensure your system is setup and maintained within general recommendations:
                     <ul>
-                        <li><a href="https://www.nolvus.net/appendix/pagefile">Windows Pagefile Size is properly configured</a> to be at least 40,000 MB.</li>
+                        <li>Verify your <a href="https://www.nolvus.net/appendix/pagefile">Windows Pagefile is properly configured</a>. The most common stability-focus	ed recommendation is setting the Pagefile's minimum to 40GB. ⚠️NOTE: many sources say Skyrim's engine was programmed to require high Pagefile usage even when there is more than enough RAM available. To be on the safe side, ensure your Pagefile settings even if you have 128GB of RAM.</li>
                         <li>Return any overclocked hardware to stock speeds.</li>
                         <li>Maintain <a href="https://computercity.com/hardware/storage/how-much-space-should-i-leave-on-my-ssd">at least 10-20% free space</a> on your SSD for optimal performance.</li>
                     </ul>
@@ -2133,4 +2229,40 @@ function analyzeAntivirusIssues(sections) {
         diagnoses: diagnoses,
         isHighPriority: usvfsInProbableCallstack // true if it's an "Issue Detected", false if just a "Warning"
     };
+}
+
+
+function checkSimplicityOfSnowJKSkyrimPatch(sections) {
+    let insights = '';
+
+    // Check for mod presence
+    const hasJKsSkyrim = sections.fullLogFileLowerCase.includes('jks skyrim.esp');
+    const hasSimplicityOfSnow = sections.fullLogFileLowerCase.includes('simplicity of snow.esp');
+    const hasPatch = sections.fullLogFileLowerCase.includes('jks skyrim tree fix.esp');
+    const hasNolvusV6 = Utils.getNolvusVersion(sections) == 6;
+
+    // Condition for potential issue
+    if (hasJKsSkyrim && hasSimplicityOfSnow && !hasPatch && !hasNolvusV6) {
+        insights += `<li>❗ <b>Simplicity of Snow + JK's Skyrim Patch Missing:</b> 
+            Your load order includes both JK's Skyrim and Simplicity of Snow, but the required patch appears to be missing?
+            <ul>
+                <li>To resolve this:
+                    <ol>
+                        <li>Reinstall Simplicity of Snow's FOMOD. During installation, it should automatically detect JK's Skyrim and offer the appropriate patch(es).</li>
+                        <li>Ensure you select the JK's Skyrim compatibility patch during the FOMOD installation process.</li>
+                        <li>After reinstalling, verify that the <code>JKs Skyrim Tree Fix.esp</code> is present in your load order.</li>
+                    </ol>
+                </li>
+                <li>Notes:
+                    <ul>
+                        <li>Without this patch, you may experience potential crashes.</li>
+                        <li>Sometimes this issue can appear as a false-positive due to the <code>simplicity of snow.esp</code> file apparently not always showing up in the crash log.</li>
+                        <li>For more detailed information, see this <a href="https://www.reddit.com/r/skyrimmods/comments/17tqxig/comment/k9184j5/?utm_source=share&utm_medium=web3x&utm_name=web3xcss&utm_term=1&utm_content=share_button">r/SkyrimMods thread</a>.</li>
+                    </ul>
+                </li>
+            </ul>
+        </li>`;
+    }
+
+    return insights;
 }

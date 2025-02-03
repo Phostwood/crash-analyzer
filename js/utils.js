@@ -859,6 +859,63 @@ Utils.getLogSectionsMap = function(logFile) {
             content: this.logLines[3]
         });
     }
+
+    
+    Utils.debuggingLog(['systemMemoryValues', 'getLogSectionsMap'], 'Header Content:', sections.header);
+
+    // Initialize default values
+    const defaultValues = {
+        physicalMemoryMatch: '',
+        systemPhysicalMemory: 0,
+        systemPhysicalMemoryMax: 0,
+        systemPhysicalMemoryPercentUsed: 0,
+        gpuMemoryMatch: '',
+        systemGpuMemory: 0,
+        systemGpuMemoryMax: 0,
+        systemGpuMemoryPercentUsed: 0
+    };
+
+    // Assign default values to sections
+    Object.assign(sections, defaultValues);
+
+    if (logType === 'CrashLogger') {
+        // Extract physical memory values
+        const physicalMemoryMatch = sections.header.match(/PHYSICAL MEMORY:([^\/]+)\/([^\r\n]+)/i);
+        Utils.debuggingLog(['systemMemoryValues', 'getLogSectionsMap'], 'Physical Memory Match:', physicalMemoryMatch);
+        
+        if (physicalMemoryMatch) {
+            sections.physicalMemoryMatch = physicalMemoryMatch[0];
+            sections.systemPhysicalMemory = parseFloat(physicalMemoryMatch[1]);
+            sections.systemPhysicalMemoryMax = parseFloat(physicalMemoryMatch[2]);
+            sections.systemPhysicalMemoryPercentUsed = sections.systemPhysicalMemoryMax ? 
+                Number((sections.systemPhysicalMemory / sections.systemPhysicalMemoryMax * 100).toFixed(1)) : 0;
+        }
+
+        // Extract GPU memory values
+        const gpuMemoryMatch = sections.header.match(/GPU MEMORY:([^\/]+)\/([^\r\n]+)/i);
+        Utils.debuggingLog(['systemMemoryValues', 'getLogSectionsMap'], 'GPU Memory Match:', gpuMemoryMatch);
+        
+        if (gpuMemoryMatch) {
+            sections.gpuMemoryMatch = gpuMemoryMatch[0];
+            sections.systemGpuMemory = parseFloat(gpuMemoryMatch[1]);
+            sections.systemGpuMemoryMax = parseFloat(gpuMemoryMatch[2]);
+            sections.systemGpuMemoryPercentUsed = sections.systemGpuMemoryMax ? 
+                Number((sections.systemGpuMemory / sections.systemGpuMemoryMax * 100).toFixed(1)) : 0;
+        }
+    }
+
+    // Log all memory-related values
+    Utils.debuggingLog(['systemMemoryValues', 'getLogSectionsMap'], {
+        physicalMemoryMatch: sections.physicalMemoryMatch,
+        systemPhysicalMemory: sections.systemPhysicalMemory,
+        systemPhysicalMemoryMax: sections.systemPhysicalMemoryMax,
+        systemPhysicalMemoryPercentUsed: sections.systemPhysicalMemoryPercentUsed,
+        systemGpuMemory: sections.systemGpuMemory,
+        systemGpuMemoryMax: sections.systemGpuMemoryMax,
+        systemGpuMemoryPercentUsed: sections.systemGpuMemoryPercentUsed
+    });
+
+
     sections.hasSkyrimAE = this.hasSkyrimAE(sections.header);
     sections.hasNewEslSupport = this.hasNewEslSupport(sections.header);
     //wrong way to set since not already set before?: sectionsMap.set('hasNewEslSupport', Utils.hasNewEslSupport(sections.header));

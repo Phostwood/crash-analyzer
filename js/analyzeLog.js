@@ -314,6 +314,13 @@ async function analyzeLog() {
         diagnosesCount++;
     }
 
+    //❗ Critical Memory Usage Detected: 
+    const criticalMemoryUsage = checkForHighMemoryUsage(sections) 
+    if (criticalMemoryUsage) {
+        diagnoses += criticalMemoryUsage;
+        diagnosesCount++;
+    }
+
     //Check for Dawnguard Horse navmesh/pathing issue
     const DawnguardHorseDiagnosis = analyzeDawnguardHorseIssue(sections)
     if (DawnguardHorseDiagnosis) {
@@ -609,26 +616,13 @@ async function analyzeLog() {
     }
 
 
-
-    // Simplicity of Snow + Traverse the Ulvenwald + JK's Skyrim Patch requirement
-    //NOTE: currently, I don't think this can be detected in a Trainwreck log, since some only show up in Plugins section?
-    const hasJKsSkyrim = sections.fullLogFileLowerCase.includes('jks skyrim.esp');
-    const hasSimplicityOfSnow = sections.fullLogFileLowerCase.includes('simplicity of snow.esp');
-    const hasUlvenwald = sections.fullLogFileLowerCase.includes('ulvenwald.esp');
-    const hasPatch = sections.fullLogFileLowerCase.includes('jks skyrim tree fix.esp');
-    const hasNolvusV6 = Utils.getNolvusVersion(sections) == 6; // I'm assuming v6 patches this somehow, and this issue shows up wiht every Nolvus v6 log...
-
-    //if (hasJKsSkyrim && hasSimplicityOfSnow && hasUlvenwald && !hasPatch) {
-    if (hasJKsSkyrim && hasSimplicityOfSnow && !hasPatch && !hasNolvusV6 ) {
-        insights += '<li>❗ <b>Simplicity of Snow + JK\'s Skyrim Patch Missing:</b> ' +
-            'Your load order includes both JK\'s Skyrim and Simplicity of Snow, but the required patch is missing. To resolve this:<ol>' +
-            '<li>Reinstall Simplicity of Snow\'s FOMOD. During installation, it should automatically detect JK\'s Skyrim and offer the appropriate patch(es).</li>' +
-            '<li>Ensure you select the JK\'s Skyrim compatibility patch during the FOMOD installation process.</li>' +
-            '<li>After reinstalling, verify that the "JKs Skyrim Tree Fix.esp" is present in your load order.</li>' +
-            '</ol>' +
-            'Without this patch, you may experience potential crashes. For more information, see this <a href="https://www.reddit.com/r/skyrimmods/comments/17tqxig/comment/k9184j5/?utm_source=share&utm_medium=web3x&utm_name=web3xcss&utm_term=1&utm_content=share_button">r/SkyrimMods thread</a>.</li>';
+    // ❗ Simplicity of Snow + JK's Skyrim Patch Missing:
+    const simplicityOfSnowJKSkyrimPatchResults = checkSimplicityOfSnowJKSkyrimPatch(sections);
+    if (simplicityOfSnowJKSkyrimPatchResults) {
+        insights += simplicityOfSnowJKSkyrimPatchResults;
         insightsCount++;
     }
+
 
 
     // dxgi.dll issue (ReShade and PureDark Upscaler)

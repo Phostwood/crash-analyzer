@@ -1,11 +1,71 @@
-✅Version 1.20.3 is now live:
+✅Version 1.20.4 is now live:
 https://phostwood.github.io/crash-analyzer/
 
-1. ✅New link to GitHub repository at bottom of pages
+1. ✅Skyrim NPC beggar quote now automatically cycles through the list of quotes, fading in and out every 10 seconds ... until the user stops it by clicking the "Spare a coin on Ko-fi" button
 
-2. ✅Simplicity of Snow + JK's Skyrim Patch Missing
-	-Removed if using Nolvus v6 as it is very likely patched
+2. ✅Parse Crash Logger SSE logs to extract out system memory info and calculations
+		physicalMemoryMatch: sections.physicalMemoryMatch,
+        systemPhysicalMemory: sections.systemPhysicalMemory,
+        systemPhysicalMemoryMax: sections.systemPhysicalMemoryMax,
+        systemPhysicalMemoryPercentUsed: sections.systemPhysicalMemoryPercentUsed,
+        systemGpuMemory: sections.systemGpuMemory,
+        systemGpuMemoryMax: sections.systemGpuMemoryMax,
+        systemGpuMemoryPercentUsed: sections.systemGpuMemoryPercentUsed
 
+3. ✅New test: ❓ High Memory Usage Detected
+	- Added new data to Test Log (Crash Logger SSE version only)
+
+4. ✅Updated existing Windows Pagefile bullet points with the new one from High Memory Usage Detected, as it includes both a recommended minimum, and advice to use it regardless of how much RAM you have.
+
+5. ✅❗ Probable Memory Issue Detected: updated to include ram and vram usage in a new System Memory Status "⤵️ show more" 
+
+5. ✅❗ Simplicity of Snow + JK's Skyrim Patch Missing:
+	- refactored into a function
+	- restructured description
+	- clarified it can be a false-positive
+	- Investigated potential bug with Simplicity of Snow + JKs patch not being detected correctly?
+		- https://old.reddit.com/r/skyrimmods/comments/1ifynii/help_with_crash_near_the_shrine_of_mehrunes_dagon/
+		- ended up being caused by player including two conflicting snow mods in the same load order ... fix confirmed
+
+
+--- NOTES used for this version ---
+
+// Add system diagnostic information if available
+            if (sections.logType == "TODO") {
+                //TODO: write Utils to identify log types, and extract out RAM usage and pagefile or VRAM usage (depending on log type)
+                memoryInsights += `<li>System diagnostic information: <a href="#" class="toggleButton">⤵️ show more</a><ul class="extraInfo" style="display:none">`;
+                memoryInsights += Utils.extractDiagnosticInfo(sections.diagnosticInfo);
+                memoryInsights += '</ul></li>';
+            }
+
+--
+as a hack mention this workaround you might be able to use to get past a tricky spot:
+`pcb`	Purge cell buffer	This will free up used memory, often times increasing fps after any given amount of time in game. Best used while in interior cells. However, since it purges cached cells, any cells you visited in the recent past will have to be reloaded completely when reentered.
+
+Source:
+https://en.uesp.net/wiki/Skyrim:Console
+
+--
+
+--- Upcoming version ideas ---
+
+--
+
+1. Explain how textures can cause issues?
+wankingskeever:
+https://www.reddit.com/r/skyrimmods/s/lqCVJga1K5
+“
+D6DDDA
+
+Means one of these:
+
+1.	⁠Running out of system memory. You should increase your page files
+2.	⁠Bad texture. Incorrect dimensions, corrupt file
+3.	⁠Incorrectly configured texture sets in a mod
+
+“
+
+2. Two or three new ideas shared with me by wankingskeever as replies on r/SkyrimMods
 
 
 
@@ -21,11 +81,8 @@ https://phostwood.github.io/crash-analyzer/
 	- https://old.reddit.com/r/skyrimmods/comments/1idt6bk/skyrim_se_ctd_when_durnehviir_uses_shout_during/
 	- see notes on New DbSkseFunctions.dll crash ... which should also be an indicator?
 	- These indicators might only be relevant if first-line indicators?
+	- What indicators?
 
-
-2. Low memory issues test
-
-3. Critical Memory Issues test
 
 2. Mention long covid on my profiles? And make sure all profiles all cross-link:
 	- GitHub

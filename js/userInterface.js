@@ -79,7 +79,7 @@ document.addEventListener('DOMContentLoaded', function () {
 		hideH4();
 		hideCopyDiagnosesButton();
 		updateLogTypeInfo(); // Update UI based on the reset
-		displayRandomQuote();
+		//displayQuote();
 	};
 
 	// - - -  handle drag-and-drop and "Choose File" button  - - - 
@@ -98,7 +98,7 @@ document.addEventListener('DOMContentLoaded', function () {
 			displayFilename(input.files[0].name);
 			clearResult();
 			analyzeLog();
-			displayRandomQuote();
+			//displayQuote();
 			//never used (too awkward): scrollToDiagnosesHeader();
 		};
 		reader.onerror = function (event) {
@@ -425,7 +425,7 @@ document.addEventListener('DOMContentLoaded', function () {
 			.then((data) => {
 				Utils.debuggingLog(['loadAndAnalyzeTestLog', 'userInterface.js'], 'About to call analyzeLog, textarea value length:', document.getElementById('crashLog').value.length);
 				analyzeLog();
-				displayRandomQuote();
+				//displayQuote();
 				//never used (too awkward):  scrollToDiagnosesHeader();
 				Utils.debuggingLog(['loadAndAnalyzeTestLog', 'userInterface.js'], 'analyzeLog called');
 			})
@@ -433,57 +433,75 @@ document.addEventListener('DOMContentLoaded', function () {
 	}
 
   
-// Function to display a random quote
-function displayRandomQuote() {
+
+// Function to display cycling quotes
+function displayQuote() {
     // Array of quote objects with their respective NPCs
     const quotes = [
-      { text: "Can you spare a septim?", npc: "Noster Eagle-Eye" },
-      { text: "A septim is all I ask. Is that so bad?", npc: "Edda" },
-      { text: "A few septims for my supper is all I ask.", npc: "Silda the Unseen" },
-      { text: "I ain't askin' for much, just a few septims.", npc: "Silda the Unseen" },
-      { text: "The Divines smile on those who show mercy an' charity.", npc: "Silda the Unseen" },
-      { text: "A few septims ain't nothing. You can spare that, can't you?", npc: "Silda the Unseen" },
-      { text: "Spare a coin? Talos rewards the generous.", npc: "Silda the Unseen" }
+        { text: "Spare a coin? Talos rewards the generous.", npc: "Silda the Unseen" },
+        { text: "I ain't askin' for much, just a few septims.", npc: "Silda the Unseen" },
+        { text: "Can you spare a septim?", npc: "Noster Eagle-Eye" },
+        { text: "A septim is all I ask. Is that so bad?", npc: "Edda (of Riften)" },
+        { text: "A few septims for my supper is all I ask.", npc: "Silda the Unseen" },
+        { text: "The Divines smile on those who show mercy an' charity.", npc: "Silda the Unseen" },
+        { text: "A few septims ain't nothing. You can spare that, can't you?", npc: "Silda the Unseen" }
     ];
 
-    // Select a random index from the quotes array
-    const randomIndex = Math.floor(Math.random() * quotes.length);
-    const randomQuote = quotes[randomIndex];
+    let currentQuoteIndex = 0;
+    let intervalId; 
 
-    // Construct the quote HTML
-    const quoteText = `"${randomQuote.text}"`;
-    const quoteAttribution = `- ${randomQuote.npc}`;
-
-    // Update the HTML content
-    const quoteElement = document.getElementById('quote');
-    if (quoteElement) {
-      quoteElement.innerHTML = `
-        <p>${quoteText}</p>
-        <p class="attribution">${quoteAttribution}</p>
-      `;
+    function updateQuote() {
+        const quote = quotes[currentQuoteIndex];
+        const quoteElement = document.getElementById('quote');
+        
+        if (quoteElement) {
+            quoteElement.style.opacity = 0;
+            
+            setTimeout(() => {
+                quoteElement.innerHTML = `
+                    <p>"${quote.text}"</p>
+                    <p class="attribution">- ${quote.npc}</p>
+                `;
+                quoteElement.style.opacity = 1;
+                
+                currentQuoteIndex = (currentQuoteIndex + 1) % quotes.length;
+            }, 1000);
+        }
     }
-  }
 
-  // Call the function to display a random quote
-  displayRandomQuote();
+    // Initial quote display
+    updateQuote();
+    
+    // Set interval for quote cycling
+    intervalId = setInterval(updateQuote, 10000); // Defaults to 10 seconds until stopped with thank you message
 
-  // Function to display the thank you message
-  function showThankYouMessage() {
+    // Modify the showThankYouMessage function to clear the interval
+    const originalShowThankYou = showThankYouMessage;
+    showThankYouMessage = function() {
+        clearInterval(intervalId); // Stop the quote cycling
+        originalShowThankYou(); // Call the original function
+    };
+}
+
+// Function to display the thank you message
+function showThankYouMessage() {
     const message = document.getElementById('thank-you-message');
     if (message) {
-      message.classList.add('show');
-
-      // Smooth scroll to the thank you message
-      message.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        message.classList.add('show');
+        // Smooth scroll to the thank you message
+        message.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
-  }
+}
 
-  // Add event listener to the Ko-fi button
-  const kofiButton = document.getElementById('kofi-button');
-  if (kofiButton) {
+// Add event listener to the Ko-fi button
+const kofiButton = document.getElementById('kofi-button');
+if (kofiButton) {
     kofiButton.addEventListener('click', function() {
-      showThankYouMessage();
+        showThankYouMessage();
     });
-  }
+}
+
+// Initialize the quote display
+displayQuote();
 
 });

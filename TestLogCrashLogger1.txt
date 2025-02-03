@@ -9,8 +9,8 @@ SYSTEM SPECS:
 	GPU #1: Nvidia GM107M [GeForce GTX 950M]
 	GPU #2: Intel HD Graphics 530
 	GPU #3: Microsoft Basic Render Driver
-	PHYSICAL MEMORY: 10.44 GB/15.90 GB
-	GPU MEMORY: 1.95/3.37 GB
+	PHYSICAL MEMORY: 14.75 GB/15.90 GB
+	GPU MEMORY: 2.95/3.37 GB
 	Detected Virtual Machine: Thread Expert (100%)
 
 PROBABLE CALL STACK:
