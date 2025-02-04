@@ -674,23 +674,23 @@ function analyzeMemoryIssues(sections) {
         let hasMemoryInfo = false;
 
         // Check RAM usage
-        if (typeof physicalMemoryPercent === 'number' && physicalMemoryPercent > 0) {
+        if (typeof physicalMemoryPercent === 'number') {
             const ramStatus = physicalMemoryPercent >= RAM_WARNING_THRESHOLD ? '❗ High' : 'Normal';
             diagnosticInfo.push(`<li>RAM Usage: ${ramStatus} (${physicalMemoryPercent.toFixed(1)}% used)</li>`);
             if (physicalMemoryPercent >= RAM_WARNING_THRESHOLD) {
                 hasWarnings = true;
             }
-            hasMemoryInfo = true;
+            if(physicalMemoryPercent > 0) {hasMemoryInfo = true};
         }
 
         // Check VRAM usage
-        if (typeof gpuMemoryPercent === 'number' && gpuMemoryPercent > 0) {
+        if (typeof gpuMemoryPercent === 'number') {
             const vramStatus = gpuMemoryPercent >= VRAM_WARNING_THRESHOLD ? '❗ High' : 'Normal';
             diagnosticInfo.push(`<li>VRAM Usage: ${vramStatus} (${gpuMemoryPercent.toFixed(1)}% used)</li>`);
             if (gpuMemoryPercent >= VRAM_WARNING_THRESHOLD) {
                 hasWarnings = true;
             }
-            hasMemoryInfo = true;
+            if(gpuMemoryPercent > 0) {hasMemoryInfo = true};
         }
 
         return { diagnosticInfo, hasWarnings, hasMemoryInfo };

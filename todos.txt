@@ -1,14 +1,10 @@
-✅Version 1.20.5 is now live:
+✅Version 1.20.5.2 is now live:
 https://phostwood.github.io/crash-analyzer/
 
 1. ❗ Probable Memory Issue Detected:
-	- UX Fix for showing "System Memory Status (see below), even for log types where I can't get the information (logs others than Crash Logger SSE)
+	- Small UX Fix for when "System Memory Status (see mocked example below) didn't display 0.00% values, when it probably should have, since it was already showing the RAM...
 		System Memory Status : ⤴️ hide
-			RAM Usage: Normal (0.0% used)
-			VRAM Usage: Normal (0.0% used)
-
-	- section: Detected indicators: ⤴️ hide
-		- flags indicators with "First line error:" when applicable to communicate added importance
+			RAM Usage: Normal (80.0% used)
 
 
 --- Upcoming version ideas ---
