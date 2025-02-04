@@ -655,34 +655,45 @@ function analyzeMemoryIssues(sections) {
     }
 
     function findMemoryCodeIssues(sections) {
-        return crashIndicators.memoryIssues.codes.filter(({ code }) =>
-            sections.topHalf.toLowerCase().includes(code.toLowerCase())
-        );
+        return crashIndicators.memoryIssues.codes
+            .filter(({ code }) => 
+                sections.topHalf.toLowerCase().includes(code.toLowerCase()) ||
+                (sections.firstLine && sections.firstLine.toLowerCase().includes(code.toLowerCase()))
+            )
+            .map(issue => ({
+                ...issue,
+                ...(sections.firstLine && sections.firstLine.toLowerCase().includes(issue.code.toLowerCase()) 
+                    ? { description: `First Line Error: ${issue.description}` } 
+                    : {})
+            }));
     }
 
     function getMemoryUsageStatus() {
         const diagnosticInfo = [];
         let hasWarnings = false;
+        let hasMemoryInfo = false;
 
         // Check RAM usage
-        if (typeof physicalMemoryPercent === 'number') {
+        if (typeof physicalMemoryPercent === 'number' && physicalMemoryPercent > 0) {
             const ramStatus = physicalMemoryPercent >= RAM_WARNING_THRESHOLD ? '❗ High' : 'Normal';
             diagnosticInfo.push(`<li>RAM Usage: ${ramStatus} (${physicalMemoryPercent.toFixed(1)}% used)</li>`);
             if (physicalMemoryPercent >= RAM_WARNING_THRESHOLD) {
                 hasWarnings = true;
             }
+            hasMemoryInfo = true;
         }
 
         // Check VRAM usage
-        if (typeof gpuMemoryPercent === 'number') {
+        if (typeof gpuMemoryPercent === 'number' && gpuMemoryPercent > 0) {
             const vramStatus = gpuMemoryPercent >= VRAM_WARNING_THRESHOLD ? '❗ High' : 'Normal';
             diagnosticInfo.push(`<li>VRAM Usage: ${vramStatus} (${gpuMemoryPercent.toFixed(1)}% used)</li>`);
             if (gpuMemoryPercent >= VRAM_WARNING_THRESHOLD) {
                 hasWarnings = true;
             }
+            hasMemoryInfo = true;
         }
 
-        return { diagnosticInfo, hasWarnings };
+        return { diagnosticInfo, hasWarnings, hasMemoryInfo };
     }
 
     const hexCodeIssue = findMemoryHexCodeIssue(sections);
@@ -740,8 +751,8 @@ function analyzeMemoryIssues(sections) {
         </li>`;
 
 
-        const { diagnosticInfo, hasWarnings } = getMemoryUsageStatus();
-        if (diagnosticInfo.length > 0) {
+        const { diagnosticInfo, hasWarnings, hasMemoryInfo } = getMemoryUsageStatus();
+        if (diagnosticInfo.length > 0 && hasMemoryInfo) {
             memoryInsights += `<li>System Memory Status ${hasWarnings ? '❗' : ''}: <a href="#" class="toggleButton">⤵️ show more</a><ul class="extraInfo" style="display:none">`;
             memoryInsights += diagnosticInfo.join('');
             if (hasWarnings) {
