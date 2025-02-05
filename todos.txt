@@ -1,15 +1,45 @@
-✅Version 1.20.5.2 is now live:
+✅Version 1.20.6 is now live:
 https://phostwood.github.io/crash-analyzer/
 
-1. ❗ Probable Memory Issue Detected:
-	- Small UX Fix for when "System Memory Status (see mocked example below) didn't display 0.00% values, when it probably should have, since it was already showing the RAM...
-		System Memory Status : ⤴️ hide
-			RAM Usage: Normal (80.0% used)
+1. ✅New test: ❗ Incompatible Snow Mods Detected
+	- thanks wankingSkeever!
+	- Conflicting snow mods: https://old.reddit.com/r/skyrimmods/comments/1ifynii/help_with_crash_near_the_shrine_of_mehrunes_dagon/
+		- ✅isolate indicators that show in crash log
+		- ✅added indicators to three main Test Logs
+
+2. ✅New test: ❗ Legacy of the Dragonborn - Karagas' Tower Door Crash Detected:
+	- thanks wankingskeever!
+	- ✅LOTD: https://old.reddit.com/r/skyrimmods/comments/1if69cc/lotd_crashing_when_going_into_ruins_of_rkund/
+	- ✅isolate indicators that show up in crash logs and put into crashIndicatorsMap.js
+	- ✅added indicators to three main Test Logs
+
+3. ✅Add wankingskeever to list of Thank Yous!
+
+4. ✅❓ No highest-confidence:
+	- restructured, a fairly big reorganization with an emphasis of putting the "Easy Steps:" at the top 
+	- tried to bold or link key phrases in each bullet point for faster scanning
+	- sometimes having your followers "wait here" at your player home or other location. Sometimes this can help to simplify things in an overactive area and get you past a crash-prone point in Skyrim. TIP: some followers, and some follower frameworks also offer the ability to teleport them back to you after you get past the crash-prone point.
+	- try rebooting your PC ... it's surprising sometimes how often this old IT tip can still help
+	- many bullet points had clarifications added
+
+5. ✅Missing Masters: added bee emoji to the BEES reference for added quick-scan visibility: 🐝
+	- Also added the emoji in its explainersMap entry :-)
+
+6. ✅Small tweaks to base pages (skyrim.html and index.html) to clarify/organize things with two newly-titled sections:
+	- "Please support ongoing development"
+	- "Instructions"
+
+7. ✅NPC Beggar quotes: changed from "Edda (of Riften)" to cleaner "Edda of Riften"
+
 
 
 --- Upcoming version ideas ---
 
---
+3. New Bad Mods list for presumably abandoned mods that are currently known for causing issues. Usually it would be advised to use an alternative to this/these mod(s):
+	- thanks wankingskeever!
+	- Climates of tamriel: https://old.reddit.com/r/skyrimmods/comments/1igbdfl/game_keeps_crashing_whenever_i_leave_the_helgen/
+
+
 
 1. Explain how textures can cause issues?
 wankingskeever:

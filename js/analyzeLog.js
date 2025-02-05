@@ -315,21 +315,36 @@ async function analyzeLog() {
     }
 
     //❗ Critical Memory Usage Detected: 
-    const criticalMemoryUsage = checkForHighMemoryUsage(sections) 
+    const criticalMemoryUsage = checkForHighMemoryUsage(sections);
     if (criticalMemoryUsage) {
         diagnoses += criticalMemoryUsage;
         diagnosesCount++;
     }
 
+    // ❗Incompatible Snow Mods Detected:
+    const snowModsIncompatible = checkSnowModsCompatibility(logFile);
+    if (snowModsIncompatible) {
+        diagnoses += snowModsIncompatible;
+        diagnosesCount++;
+    }
+
+    
+    // ❗ Legacy of the Dragonborn - Karagas' Tower Door Crash Detected:
+    const lotdKaragasTowerDoorDiagnosis = checkLotdKaragasTowerDoorCrash(sections);
+    if (lotdKaragasTowerDoorDiagnosis) {
+        diagnoses += lotdKaragasTowerDoorDiagnosis;
+        diagnosesCount++;
+    }
+
     //Check for Dawnguard Horse navmesh/pathing issue
-    const DawnguardHorseDiagnosis = analyzeDawnguardHorseIssue(sections)
+    const DawnguardHorseDiagnosis = analyzeDawnguardHorseIssue(sections);
     if (DawnguardHorseDiagnosis) {
         diagnoses += DawnguardHorseDiagnosis;
         diagnosesCount++;
     }
 
     //Check for Dawnguard Horse navmesh/pathing issue
-    const dragonsEyeMinimapDiagnosis = analyzeDragonsEyeMinimapIssue(sections)
+    const dragonsEyeMinimapDiagnosis = analyzeDragonsEyeMinimapIssue(sections);
     if (dragonsEyeMinimapDiagnosis) {
         diagnoses += dragonsEyeMinimapDiagnosis;
         diagnosesCount++;
@@ -599,7 +614,7 @@ async function analyzeLog() {
     // Check thought up by AI (MS Bing Copilot):
     if (sections.topHalf.includes('0xC0000005')) {
         insights += '<li>❗ <b>Memory Access Violation Detected:</b> Error code 0xc0000005 points to memory-related issues, such as invalid memory access operations. Common causes and resolutions include:<ol>' +
-            '<li><b>Missing Master Files:</b> Incompatibilities from a new mod may sometimes be resolved by installing <a href="https://www.nexusmods.com/skyrimspecialedition/mods/106441">Backported Extended ESL Support (BEES)</a>. If a mod was removed while others are still depending on it, see <a href="https://github.com/LivelyDismay/Learn-To-Mod/blob/main/lessons/Remove%20a%20Master.md">How To Remove a Master Requirement From a Plugin</a>.</li>' +
+            '<li>🐝<b>Missing Master Files:</b> Incompatibilities from a new mod may sometimes be resolved by installing <a href="https://www.nexusmods.com/skyrimspecialedition/mods/106441">Backported Extended ESL Support (BEES)</a>. If a mod was removed while others are still depending on it, see <a href="https://github.com/LivelyDismay/Learn-To-Mod/blob/main/lessons/Remove%20a%20Master.md">How To Remove a Master Requirement From a Plugin</a>.</li>' +
             '<li><b>Incompatible Mods:</b> Review your mod list for conflicts that could affect memory allocation or access.</li>' +
             '<li><b>File Format Versions:</b> Ensure all mods are compatible with your game version to prevent crashes from format mismatches.</li>' +
             '</ol></li>';

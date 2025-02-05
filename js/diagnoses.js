@@ -329,7 +329,7 @@ function checkForD6dddaEasyVersion(sections) {
                 <li>System Memory Management:
                     <ol>
                         <li>Close unnecessary background applications that may be consuming memory.</li>
-                        <li>Verify your <a href="https://www.nolvus.net/appendix/pagefile">Windows Pagefile is properly configured</a>. The most common stability-focus	ed recommendation is setting the Pagefile's minimum to 40GB. ⚠️NOTE: many sources say Skyrim's engine was programmed to require high Pagefile usage even when there is more than enough RAM available. To be on the safe side, ensure your Pagefile settings even if you have 128GB of RAM.</li>
+                        <li>Verify your <a href="https://www.nolvus.net/appendix/pagefile">Windows Pagefile is properly configured</a>. The most common stability-focused recommendation is setting the Pagefile's minimum to 40GB. ⚠️NOTE: many sources say Skyrim's engine was programmed to require high Pagefile usage even when there is more than enough RAM available. To be on the safe side, ensure your Pagefile settings even if you have 128GB of RAM.</li>
                         <li>Return any overclocked hardware to stock speeds, as unstable overclocks are known for causing crashes that can look like memory issues in crash logs.</li>
                         <li>Maintain <a href="https://computercity.com/hardware/storage/how-much-space-should-i-leave-on-my-ssd">at least 10-20% free space</a> on your SSD for optimal performance.</li>
                         <li>Review your modlist's (or individual mods') recommended hardware requirements to verify you aren't overly below their system recommendations.</li>
@@ -355,7 +355,7 @@ function checkForD6dddaAdvancedVersion(sections) {
                 <li>System Memory Management:
                     <ol>
                         <li>Close unnecessary background applications that may be consuming memory.</li>
-                        <li>Verify your <a href="https://www.nolvus.net/appendix/pagefile">Windows Pagefile is properly configured</a>. The most common stability-focus	ed recommendation is setting the Pagefile's minimum to 40GB. ⚠️NOTE: many sources say Skyrim's engine was programmed to require high Pagefile usage even when there is more than enough RAM available. To be on the safe side, ensure your Pagefile settings even if you have 128GB of RAM.</li>
+                        <li>Verify your <a href="https://www.nolvus.net/appendix/pagefile">Windows Pagefile is properly configured</a>. The most common stability-focused recommendation is setting the Pagefile's minimum to 40GB. ⚠️NOTE: many sources say Skyrim's engine was programmed to require high Pagefile usage even when there is more than enough RAM available. To be on the safe side, ensure your Pagefile settings even if you have 128GB of RAM.</li>
                         <li>Return any overclocked hardware to stock speeds, as unstable overclocks are known for causing crashes that can look like memory issues in crash logs.</li>
                         <li>Maintain <a href="https://computercity.com/hardware/storage/how-much-space-should-i-leave-on-my-ssd">at least 10-20% free space</a> on your SSD for optimal performance.</li>
                         <li>For systems with less than 12GB VRAM (or more for ultrawide/high-resolution displays) (<a href="https://www.lifewire.com/how-to-check-vram-5235783">check your VRAM here</a>), consider using <a href="https://www.reddit.com/r/Nolvus/comments/1doakj1/psa_use_vramr_if_you_have_12gb_of_vram/">VRAMr</a>. This tool automatically compresses texture files across your load order, reducing VRAM usage while maintaining visual fidelity and improving stability.</li>
@@ -464,7 +464,7 @@ function checkForMissingMasters(sections) {
         }
 
         if (!sections.hasNewEslSupport) {
-            diagnoses += '<li><b>New Mod Incompatibility:</b> Recently added mods may be causing conflicts. If you are using a version of Skyrim before 1.6.1130, but have added a mod designed with the newest type of ESL files, we suggest installing <a href="https://www.nexusmods.com/skyrimspecialedition/mods/106441">Backported Extended ESL Support (BEES)</a>, though this doesn\'t always resolve all incompatibilities.</li>';
+            diagnoses += '<li>🐝 <b>New Mod Incompatibility:</b> Recently added mods may be causing conflicts. If you are using a version of Skyrim before 1.6.1130, but have added a mod designed with the newest type of ESL files, we suggest installing <a href="https://www.nexusmods.com/skyrimspecialedition/mods/106441">Backported Extended ESL Support (BEES)</a>, though this doesn\'t always resolve all incompatibilities.</li>';
         }
 
         diagnoses += `<li><b>Creations Menu Conflicts:</b> Never use the in-game Creations menu (accessed from the main menu) while using an external mod manager like MO2 or Vortex. The Creations menu acts as its own mod manager and can conflict with your external one, causing missing masters and other issues. Always manage all mods exclusively through your chosen mod manager.</li>`;
@@ -714,7 +714,7 @@ function analyzeMemoryIssues(sections) {
         <li><b>System Resource Management:</b>
             <ul>
             <li>Reboot PC and close any unnecessary applications to maximize available RAM for Skyrim.</li>
-            <li>Verify your <a href="https://www.nolvus.net/appendix/pagefile">Windows Pagefile is properly configured</a>. The most common stability-focus	ed recommendation is setting the Pagefile's minimum to 40GB. ⚠️NOTE: many sources say Skyrim's engine was programmed to require high Pagefile usage even when there is more than enough RAM available. To be on the safe side, ensure your Pagefile settings even if you have 128GB of RAM.</li>
+            <li>Verify your <a href="https://www.nolvus.net/appendix/pagefile">Windows Pagefile is properly configured</a>. The most common stability-focused recommendation is setting the Pagefile's minimum to 40GB. ⚠️NOTE: many sources say Skyrim's engine was programmed to require high Pagefile usage even when there is more than enough RAM available. To be on the safe side, ensure your Pagefile settings even if you have 128GB of RAM.</li>
             <li>Return any overclocked hardware to stock speeds, as unstable overclocks are known for causing crashes that can look like memory issues in crash logs.</li>
             <li>Maintain <a href="https://computercity.com/hardware/storage/how-much-space-should-i-leave-on-my-ssd">at least 10-20% free space</a> on your SSD for optimal performance.</li>
             <li>Review your modlist's (or individual mods') recommended hardware requirements to verify you aren't overly below their system recommendations.</li>
@@ -1484,7 +1484,7 @@ function checkKernelbaseCrash(sections, Utils, win24H2UpscalerCrash, isDiagnoses
                 <li>❗ <b>KERNELBASE Crash Detected:</b> This rare issue could be related to a specific added mod, or to hardware or a system-wide issue. Here are some steps you can try:
                     <ol>
                         <li><b>First</b>, try to reproduce the crash after rebooting your PC and playing the game again. If this was a one-time occurrence, you probably don't need to follow the more intensive troubleshooting steps below.</li>
-                        <li>Verify your <a href="https://www.nolvus.net/appendix/pagefile">Windows Pagefile is properly configured</a>. The most common stability-focus	ed recommendation is setting the Pagefile's minimum to 40GB. ⚠️NOTE: many sources say Skyrim's engine was programmed to require high Pagefile usage even when there is more than enough RAM available. To be on the safe side, ensure your Pagefile settings even if you have 128GB of RAM.</li>
+                        <li>Verify your <a href="https://www.nolvus.net/appendix/pagefile">Windows Pagefile is properly configured</a>. The most common stability-focused recommendation is setting the Pagefile's minimum to 40GB. ⚠️NOTE: many sources say Skyrim's engine was programmed to require high Pagefile usage even when there is more than enough RAM available. To be on the safe side, ensure your Pagefile settings even if you have 128GB of RAM.</li>
                         <li>Check with the <b>Nolvus community</b> to see if others are encountering this issue due to a new Windows update or the like.</li>
                         <li>You can restore the original sorting of all vanilla Nolvus mods using the <b>Apply Order</b> button in the Nolvus Dashboard. For more information and a screenshot, see this r/Nolvus post <a href="https://www.reddit.com/r/Nolvus/comments/1chuod0/how_to_apply_order_button_usage_in_the_nolvus/">How To: "Apply Order" button usage in the Nolvus Dashboard</a>.</li>
                         <li><b>Reinstall Nolvus</b> to ensure the installation is not corrupted. Make sure to back up any important data before doing this. For detailed instructions, see this <a href="https://docs.google.com/document/d/1R_AVeneeCiqs0XGYzggXx34v3Ufq5eUHNoCHo3QE-G8/edit">guide</a>.</li>
@@ -1499,7 +1499,7 @@ function checkKernelbaseCrash(sections, Utils, win24H2UpscalerCrash, isDiagnoses
                     <ol>
                         <li><b>First</b>, try to reproduce the crash after rebooting your PC and playing the game again. If this was a one-time occurrence, you probably don't need to follow the more intensive troubleshooting steps below.</li>
 
-                        <li>Verify your <a href="https://www.nolvus.net/appendix/pagefile">Windows Pagefile is properly configured</a>. The most common stability-focus	ed recommendation is setting the Pagefile's minimum to 40GB. ⚠️NOTE: many sources say Skyrim's engine was programmed to require high Pagefile usage even when there is more than enough RAM available. To be on the safe side, ensure your Pagefile settings even if you have 128GB of RAM.</li>
+                        <li>Verify your <a href="https://www.nolvus.net/appendix/pagefile">Windows Pagefile is properly configured</a>. The most common stability-focused recommendation is setting the Pagefile's minimum to 40GB. ⚠️NOTE: many sources say Skyrim's engine was programmed to require high Pagefile usage even when there is more than enough RAM available. To be on the safe side, ensure your Pagefile settings even if you have 128GB of RAM.</li>
 
                         <li>Check with the <b>${!Utils.isSkyrimPage ? 'Nolvus community' : 'Skyrim modding community'}</b> to see if others are encountering this issue due to a new Windows update or the like.</li>
 
@@ -1728,10 +1728,21 @@ function generateNoCrashDetectedMessage() {
     let diagnoses = '<li>❓ <b>No highest-confidence crash indicators detected.</b><ul>';
 
     if (Utils.isSkyrimPage) {
-        diagnoses += `<li>Recommended steps:
-            <ul>
-                <li>First, review the <b>Advanced Users</b> section below for potential crash indicators that might apply to your situation</li>
-                <li>Second, verify that you have already correctly installed and configured <b>SSE Engine Fixes</b>:
+        diagnoses += `
+        <li>❗ <b>But first</b>, review the <b>Advanced Users</b> section of this report (below) for potential crash indications that might apply to your situation. Tip: many indicators in the Advanced Users section become more significant when they show up in multiple crash logs.</li>
+        <li><b>General recommendations</b> which can help solve/prevent many crash types:
+            <ol>
+                <li>Easy steps:
+                    <ul>
+                        <li>Always try the classic computer solution - <b>restart your PC</b>: This clears memory and resolves many system-level issues, especially after extended gaming sessions. It's surprising how many issues this old IT tip still fixes...</li>
+                        <li>If one save won't load, try to <b>load an older save</b>.</li>
+                        <li>Sometimes it can help to <b>separate from your followers</b> to get past a crash point. Ask NPC and pet and horse followers to "wait" at a safe location, away from the crash-prone loading area (cell). This reduces script load and rendering complexities in crash-prone areas. This can be especially helpful during visually busy scenes like combat, and also with crashes that occur when loading into a new area. Afterwards, return to collect your followers once you're past the problematic spot. Alternatively, many follower frameworks will also allow teleporting companions back once you are past the crash-prone segment.</li> 
+                        <li>Verify your <a href="https://www.nolvus.net/appendix/pagefile">Windows Pagefile is properly configured</a>. The most common stability-focused recommendation is setting the Pagefile's minimum to 40GB. ⚠️NOTE: some sources say Skyrim's engine was programmed to require high Pagefile usage even when there is more than enough RAM available. To be on the safe side, ensure your Pagefile settings even if you have 128GB of RAM.</li>
+                        <li>Maintain <a href="https://computercity.com/hardware/storage/how-much-space-should-i-leave-on-my-ssd">at least 10-20% free space</a> on your SSD for optimal performance.</li>
+                        <li>Return any <b>overclocked hardware</b> to stock speeds.</li>
+                    </ul>
+                </li>
+                <li>Verify that you have already correctly installed and configured <b>SSE Engine Fixes</b>:
                     <ul>
                         <li>Install <a href="https://www.nexusmods.com/skyrimspecialedition/mods/17230">SSE Engine Fixes</a> (both parts):
                             <ul>
@@ -1748,35 +1759,40 @@ function generateNoCrashDetectedMessage() {
                         <li>For easier setup, use this <a href="https://www.nexusmods.com/skyrimspecialedition/mods/108069">pre-configured TOML file</a></li>
                     </ul>
                 </li>
-                <li>Third, ensure your system is setup and maintained within general recommendations:
-                    <ul>
-                        <li>Verify your <a href="https://www.nolvus.net/appendix/pagefile">Windows Pagefile is properly configured</a>. The most common stability-focus	ed recommendation is setting the Pagefile's minimum to 40GB. ⚠️NOTE: many sources say Skyrim's engine was programmed to require high Pagefile usage even when there is more than enough RAM available. To be on the safe side, ensure your Pagefile settings even if you have 128GB of RAM.</li>
-                        <li>Return any overclocked hardware to stock speeds.</li>
-                        <li>Maintain <a href="https://computercity.com/hardware/storage/how-much-space-should-i-leave-on-my-ssd">at least 10-20% free space</a> on your SSD for optimal performance.</li>
-                    </ul>
-                </li>
-                <li>Fourth, towards isolating the cause, try individually disabling any mods listed in the "🔎 Files/Elements" section of this report (see below). Be mindful of any dependencies when doing so. Generally either test with a new character, and/or avoid saving while testing with an existing character.</li>
+                <li>Towards isolating the cause, try individually disabling any mods listed in the "🔎 <b>Files/Elements</b>" section of this report (see below). Be mindful of any dependencies when doing so. Generally either test with a new character, and/or avoid saving while testing with an existing character.</li>
                 <li>Also, review and install any missing <a href="https://www.reddit.com/r/skyrimmods/wiki/essential_mods/#wiki_essential_bugfixes">Essential Bugfixes</a> applicable to your modlist</li>
-                <li>Check your load order against <a href="https://www.reddit.com/r/skyrimmods/wiki/begin2/">r/SkyrimMod's Beginner's Guide</a> guidelines</li>
+                <li>Check your <b>load order</b> against <a href="https://www.reddit.com/r/skyrimmods/wiki/begin2/">r/SkyrimMod's Beginner's Guide</a> guidelines</li>
                 <li>${Utils.LootIfSkyrim}</li>
-                <li>If issues persist, share your logs with <a href="https://www.reddit.com/r/skyrimmods/">r/SkyrimMods</a></li>
-                <li><b>As a last resort:</b> Try disabling groups of mods at a time (being mindful of masters and dependencies) until the crash stops. While tedious, this can help isolate problematic mod combinations</li>
+                <li><b>If you haven't already</b>, share your logs with <a href="https://www.reddit.com/r/skyrimmods/">r/SkyrimMods</a>. Share multiple logs (using <a href="http://www.pastebin.com">www.pastebin.com</a>) when possible and mention in your post that you've already used Phostwood's analyzer and followed its recommendations. The manual crash log reading gurus there can catch some things that automated analyzers will never be able to. This tool only aims to help with 80 to 90% of crash logs...</li>
+                <li><b>As a last resort:</b> Try disabling groups of mods at a time (being mindful of masters and dependencies) until the crash stops. While tedious, this can help isolate almost any problematic mod combinations.</li>
             </ul></li>`;
     } else {
         //NOLVUS version:
-        diagnoses += `<li>Recommended steps:
-            <ul>
-                <li>First, if comfortable, check the <b>Advanced Users</b> box above, and review that section below for potential crash indicators that might apply to your situation. NOTE: If you have added or subtracted any mods to/from Nolvus, then you need to consider yourself an "Advanced User".</li>
-                <li>Review <b>Jerilith's Safe Save Guide</b> at <a href="https://www.nolvus.net/catalog/crashlog?acc=accordion-1-5">Save Bloat Crash</a></li>
-                <li>If using custom mods, check the <a href="https://www.nolvus.net/catalog/crashlog?acc=accordion-1-7">Load Order Crash</a> guide</li>
+        diagnoses += `
+                <li>❗ <b>But first</b>, if comfortable, review the <b>Advanced Users</b> section of this report (below) for potential crash indications that might apply to your situation. NOTE: If you have added or subtracted any mods to/from Nolvus, then you need to consider yourself an "Advanced User". Tip: many indicators in the Advanced Users section become more significant when they show up in multiple crash logs.</li>
+                <li><b>General recommendations</b> which can help solve/prevent many crash types:
+                    <ul>
+                        <li>Easy steps:
+                            <ul>
+                                <li>Always try the classic computer solution - <b>restart your PC</b>: This clears memory and resolves many system-level issues, especially after extended gaming sessions. It's surprising how many issues this old IT tip still fixes...</li>
+                                <li>If one save won't load, try to <b>load an older save</b>.</li>
+                                <li>Sometimes it can help to <b>separate from your followers</b> to get past a crash point. Ask NPC and pet and horse followers to "wait" at a safe location, away from the crash-prone loading area (cell). This reduces script load and rendering complexities in crash-prone areas. This can be especially helpful during visually busy scenes like combat, and also with crashes that occur when loading into a new area. Afterwards, return to collect your followers once you're past the problematic spot. Alternatively, many follower frameworks will also allow teleporting companions back once you are past the crash-prone segment.</li> 
+                                <li>Verify your <a href="https://www.nolvus.net/appendix/pagefile">Windows Pagefile is properly configured</a>. The most common stability-focused recommendation is setting the Pagefile's minimum to 40GB. ⚠️NOTE: some sources say Skyrim's engine was programmed to require high Pagefile usage even when there is more than enough RAM available. To be on the safe side, ensure your Pagefile settings even if you have 128GB of RAM.</li>
+                                <li>Maintain <a href="https://computercity.com/hardware/storage/how-much-space-should-i-leave-on-my-ssd">at least 10-20% free space</a> on your SSD for optimal performance.</li>
+                                <li>Return any <b>overclocked hardware</b> to stock speeds.</li>
+                                <li>Review <b>Jerilith's Safe Save Guide</b> at <a href="https://www.nolvus.net/catalog/crashlog?acc=accordion-1-5">Save Bloat Crash</a></li> as following these guidelines may help minimize late-game issues with loading save files.</li>
+                            </ul>
+                        </li>
+                        <li>If using custom mods, check the <a href="https://www.nolvus.net/catalog/crashlog?acc=accordion-1-7">Load Order Crash</a> guide</li>
+                        <li><b>If you've customized Nolvus:</b> Towards isolating the cause, try individually disabling any <b>mods that you have added to Nolvus</b>, starting with ones listed in the "🔎 Files/Elements" section of this report (see Advanced Users portion). Then try disabling a few of these mods a few at a time (being mindful of masters and dependencies) until the crash stops. While tedious, this can help isolate problematic mod combinations</li>
+                    </ul>
+                </li>
                 <li>If issues persist, seek help at:
                     <ul>
                         <li><a href="https://www.reddit.com/r/Nolvus/">r/Nolvus</a></li>
                         <li><a href="https://discord.gg/Zkh5PwD">Nolvus Discord</a></li>
                     </ul>
-                </li>
-                <li><b>If you've customized Nolvus:</b> Towards isolating the cause, try individually disabling any <b>mods that you have added to Nolvus</b>, starting with ones listed in the "🔎 Files/Elements" section of this report (see Advanced Users portion). Then try disabling a few of these mods a few at a time (being mindful of masters and dependencies) until the crash stops. While tedious, this can help isolate problematic mod combinations</li>
-            </ul></li>`;
+                </li>`;        
     }
 
     diagnoses += '</ul></li>';
@@ -2277,3 +2293,99 @@ function checkSimplicityOfSnowJKSkyrimPatch(sections) {
 
     return insights;
 }
+
+
+
+function checkSnowModsCompatibility(logFile) {
+    let insights = '';
+
+    // Check for mod presence (case insensitive)
+    const hasBetterDynamicSnow = logFile.toLowerCase().includes('better dynamic snow se.esp');
+    const hasSimplicityOfSnow = logFile.toLowerCase().includes('simplicity of snow.esp');
+
+    // Condition for potential issue
+    if (hasBetterDynamicSnow && hasSimplicityOfSnow) {
+        insights += `<li>❗ <b>Incompatible Snow Mods Detected:</b> 
+            Your load order includes both Better Dynamic Snow SE and Simplicity of Snow, which are incompatible with each other.
+            <ul>
+                <li>To resolve this, you must choose only one of these mods:
+                    <ol>
+                        <li>Uninstall Better Dynamic Snow SE <b>OR</b></li>
+                        <li>Uninstall Simplicity of Snow</li>
+                    </ol>
+                </li>
+                <li>Notes:
+                    <ul>
+                        <li>These mods conflict because they both modify snow-related mechanics and textures.</li>
+                        <li>As stated by Simplicity of Snow's mod author, these mods are not compatible in the same load order.</li>
+                        <li>Using both simultaneously will usually lead to crashes.</li>
+                    </ul>
+                </li>
+            </ul>
+        </li>`;
+    }
+
+    return insights;
+}
+
+
+
+
+function checkLotdKaragasTowerDoorCrash(sections) {
+    let insights = '';
+    
+    // Helper function to find matches in the top half of the log
+    function findIndicators(sections) {
+        return crashIndicators.lotdKaragasTowerDoorCrashIssues.codes.filter(({ code }) =>
+            sections.topHalf.toLowerCase().includes(code.toLowerCase())
+        );
+    }
+
+    // Check for hex code in first line
+    const hasHexCode = sections.firstLine.toLowerCase().includes(
+        crashIndicators.lotdKaragasTowerDoorCrashIssues.hexCodes[0].hexCode.toLowerCase()
+    );
+    
+    // Find other indicators in top half
+    const foundIndicators = findIndicators(sections);
+    const indicatorCount = foundIndicators.length;
+
+    // Test conditions:
+    // 1. Hex code + any other indicator
+    // 2. Four or more indicators even without hex code
+    const isPositive = (hasHexCode && indicatorCount > 0) || (indicatorCount >= 4);
+
+    if (isPositive) {
+        insights += `<li>❗ <b>Legacy of the Dragonborn - Karagas' Tower Door Crash Detected:</b>
+            You've encountered a known crash related to NPC pathfinding through a specific door in Karagas' Tower.
+            <ul>
+                <li>To resolve this:
+                    <ol>
+                        <li>Load a save from before entering Karagas' Maze</li>
+                        <li>Dismiss all followers and pet followers (including mod-added ones like Inigo, Meeko, etc.)</li>
+                        <li>Complete the dungeon without followers</li>
+                        <li>You can safely resummon followers once inside the tower</li>
+                    </ol>
+                </li>
+                <li>Technical details:
+                    <ul>
+                        <li>This is a known issue in Legacy of the Dragonborn where the door (FormID: 0x6597B) has a broken navmesh link</li>
+                        <li>The crash occurs when NPCs (including followers) attempt to path through this specific door</li>
+                        <li>While you can get through the door alone, NPCs will crash the game when attempting to follow</li>
+                    </ul>
+                </li>`;
+
+        if (foundIndicators.length > 0) {
+            insights += `<li>Detected indicators: <a href="#" class="toggleButton">⤵️ show more</a><ul class="extraInfo" style="display:none">`;
+            foundIndicators.forEach(({ code, description }) => {
+                insights += `<li><code>${code}</code> - ${description}</li>`;
+            });
+            insights += '</ul></li>';
+        }
+
+        insights += '</ul></li>';
+    }
+
+    return insights;
+}
+

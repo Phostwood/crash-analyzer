@@ -24,7 +24,7 @@ if (typeof Utils === 'undefined') {
         ['avamsicli.dll', '(Avira <b>Antimalware</b> Client Interface)'],
         ['avast.dll', '(Avast <b>Antivirus</b> Core Component)'],
         ['avgui.dll', '(AVG <b>Antivirus</b> User Interface)'],
-        ['backportedeslsupport.dll', '(aka BEES - <b>SKSE</b> plugin)'],
+        ['backportedeslsupport.dll', '(aka BEES 🐝- <b>SKSE</b> plugin)'],
         ['bdcore.dll', '(Bitdefender Core <b>Antivirus</b> Module)'],
         ['bdhkm64.dll', '(Bitdefender Hooking Module - <b>antivirus</b>)'],
         ['bink2w64.dll', '(Bink <b>Video</b> codec - newer version)'],

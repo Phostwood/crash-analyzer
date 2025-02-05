@@ -1,4 +1,4 @@
-⚠️Mocked up log file which contains every detectable error⚠️: Unhandled native exception occurred at 0x7FF6AD6DDDDA (SkyrimSE.exe+D6DDDA) (SkyrimSE.exe+D6DDDA) (SkyrimSE.exe+12FDD00) (JContainers64.dll+10AE45) (SkyrimSE.exe+A0D789) (PDPerfPlugin.dll+F125) (FSR2 Upscaler: SkyrimUpscaler.dll+9B14F, +nvngx_dlss.dll) (+D2B923) (+C1315C) (+8BDA97)  (+7428B1) (+67B88B) (+5E1F22) (+0CB748E) (+5999C7) (+D02C2C) (+12F5590) (+132BEF) (Paid FSR3 Upscaler: +nvngx_dlssg.dll)(NVIDIA graphics drivers: +nvwgf2umx.dll, nvlddmkm.sys, nvoglv32.dll, nvoglv64.dll, nvwgf2um.dll) (12F4797 Physics Crash: SkyrimSE.exe+12F4797) (+dxgi.dll) (+d3d11.dll) (KERNELBASE.dll+) (+B02235) (Visual C++ Runtime files: msvcp100.dll, msvcp110.dll, msvcp110_win.dll, msvcp140.dll, vcruntime140.dll, ucrtbase.dll)on thread 31336! 
+⚠️Mocked up log file which contains every detectable error⚠️: Unhandled native exception occurred at 0x7FF6AD6DDDDA (SkyrimSE.exe+D6DDDA) (SkyrimSE.exe+D6DDDA) (SkyrimSE.exe+12FDD00) (JContainers64.dll+10AE45) (SkyrimSE.exe+A0D789) (PDPerfPlugin.dll+F125) (FSR2 Upscaler: SkyrimUpscaler.dll+9B14F, +nvngx_dlss.dll) (+D2B923) (+C1315C) (+8BDA97)  (+7428B1) (+67B88B) (+5E1F22) (+0CB748E) (+5999C7) (+D02C2C) (+12F5590) (+132BEF) (Paid FSR3 Upscaler: +nvngx_dlssg.dll)(NVIDIA graphics drivers: +nvwgf2umx.dll, nvlddmkm.sys, nvoglv32.dll, nvoglv64.dll, nvwgf2um.dll) (12F4797 Physics Crash: SkyrimSE.exe+12F4797) (+dxgi.dll) (+d3d11.dll) (KERNELBASE.dll+) (+B02235) (Visual C++ Runtime files: msvcp100.dll, msvcp110.dll, msvcp110_win.dll, msvcp140.dll, vcruntime140.dll, ucrtbase.dll)  (04D26E7) on thread 31336! 
 
 FrameworkName: NetScriptFramework
 FrameworkVersion: 15
@@ -190,6 +190,12 @@ badTextureReferenceFile.btr          // Bethesda texture reference file     //ra
 meshWithoutDelimiters.nif and meshWithoutDelimiters.tri and meshWWithoutDelimiters.bto and meshWithoutDelimiters.bsa 
 textureWithoutDelimiters.dds and textureWithoutDelimiters.btr and textureWithoutDelimiters.tga and textureWithoutDelimiters.bmp and textureWithoutDelimiters.bsa 
 animationWithoutDelimiters.hkx and animationWithoutDelimiters.bsa
+LegacyoftheDragonborn.esm            //Primary module with the crash-prone Karagas' Tower door
+LegacyoftheDragonborn0.esp           //Additional plugin contributing to the crash
+Karagas                              //Specific location related to the crash
+MovementMessageActivateDoor          //Script or message related to door activation causing the crash
+Door (29)                            //Reference to the door FormID involved in the crash
+0006597B                             //FormID for the crashing door in Karagas' Tower
 
 }
 
@@ -440,5 +446,7 @@ Game plugins (2035) {
 [FE 6BA] Beyond Reach - Fixed .nif Records.esp
 [FE 6BF] [LM] Arnima - Baby Ogre Inventory Fix.esp
 [FE 7BA] WDAL_[xPatch] Modpocalypse NPCs (v3) SSE - Cutting Room Floor Fix.esp
+Better Dynamic Snow SE.esp
+Simplicity of Snow.esp
 
 }

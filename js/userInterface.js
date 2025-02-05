@@ -441,7 +441,7 @@ function displayQuote() {
         { text: "Spare a coin? Talos rewards the generous.", npc: "Silda the Unseen" },
         { text: "I ain't askin' for much, just a few septims.", npc: "Silda the Unseen" },
         { text: "Can you spare a septim?", npc: "Noster Eagle-Eye" },
-        { text: "A septim is all I ask. Is that so bad?", npc: "Edda (of Riften)" },
+        { text: "A septim is all I ask. Is that so bad?", npc: "Edda of Riften" },
         { text: "A few septims for my supper is all I ask.", npc: "Silda the Unseen" },
         { text: "The Divines smile on those who show mercy an' charity.", npc: "Silda the Unseen" },
         { text: "A few septims ain't nothing. You can spare that, can't you?", npc: "Silda the Unseen" }

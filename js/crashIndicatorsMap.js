@@ -191,6 +191,20 @@ const crashIndicators = {
             { code: 'memory fragmentation', description: "Memory fragmentation issue" }
         ]
     },
+    lotdKaragasTowerDoorCrashIssues: {
+        hexCodes: [
+            { hexCode: '04D26E7', description: "First-line error code for Legend of the Dragonborn's Karagas' Tower Door Crash" },
+        ],
+        codes: [
+            { code: '04D26E7', description: "First-line hexcode for Legend of the Dragonborn's Karagas' Tower Door Crash" },
+            { code: 'LegacyoftheDragonborn.esm', description: "Primary module with the crash-prone Karagas' Tower door" },
+            { code: 'LegacyoftheDragonborn0.esp', description: "Additional plugin contributing to the crash" },
+            { code: 'Karagas', description: "Specific location related to the crash" },
+            { code: 'MovementMessageActivateDoor', description: "Script or message related to door activation causing the crash" },
+            { code: 'Door (29)', description: "Reference to the door FormID involved in the crash" },
+            { code: '0006597B', description: "FormID for the crashing door in Karagas' Tower" }
+        ]
+    },
     pathingAndNavMeshIssues: {
         hexCodes: [
             // Space for future hex codes
@@ -214,6 +228,9 @@ const crashIndicators = {
             { code: 'SIC_WERoad07', description: "Known issue with Skyrim Immersive Creatures mounted NPCs" },
         ]
     },
+    //
+    // --- stuff thought up by AI for possible new tests: ---
+    //
     pluginIssues: [
         { code: 'plugin', description: "General plugin-related problem" },
         { code: 'esp', description: "ESP file issue" },
