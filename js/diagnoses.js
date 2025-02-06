@@ -326,6 +326,11 @@ function checkForD6dddaEasyVersion(sections) {
     if (sections.firstLine.includes('D6DDDA')) {
         diagnosis += `<li>❗ <b>D6DDDA Crash Detected:</b> This error typically occurs due to one of these common causes:
             <ol>
+                <li>Corrupt Texture (.dds) or Mesh (.nif) Files:
+                    <ol>
+                        <li>Compare multiple crash logs if possible. If subsequent crashes list the same texture or mesh files (see "Advanced Users" section below), you likely have a corrupt texture file or, less commonly, a corrupt mesh. Once you've identified the problematic mod, try downloading it again before reinstalling, as the corruption may have occurred during the initial download. For more details, see the Texture Issues and Mesh Issues sections in this report (in the Advanced Users section, below).</li>
+                    </ol>
+                </li>
                 <li>System Memory Management:
                     <ol>
                         <li>Close unnecessary background applications that may be consuming memory.</li>
@@ -334,11 +339,6 @@ function checkForD6dddaEasyVersion(sections) {
                         <li>Maintain <a href="https://computercity.com/hardware/storage/how-much-space-should-i-leave-on-my-ssd">at least 10-20% free space</a> on your SSD for optimal performance.</li>
                         <li>Review your modlist's (or individual mods') recommended hardware requirements to verify you aren't overly below their system recommendations.</li>
                         <li>Hardware Diagnostics: If crashes persist, run Windows Memory Diagnostic or <a href="https://www.memtest86.com/">MemTest86</a> to check for faulty RAM. While rare, recurring D6DDDA crashes can sometimes indicate hardware issues.</li>
-                    </ol>
-                </li>
-                <li>Corrupt Texture (.dds) or Mesh (.nif) Files:
-                    <ol>
-                        <li>Compare multiple crash logs if possible. If subsequent crashes list the same texture or mesh files (see "Advanced Users" section below), you likely have a corrupt texture file or, less commonly, a corrupt mesh. Once you've identified the problematic mod, try downloading it again before reinstalling, as the corruption may have occurred during the initial download. For more details, see the Texture Issues and Mesh Issues sections in this report (in the Advanced Users section, below).</li>
                     </ol>
                 </li>
             </ol>
@@ -352,6 +352,13 @@ function checkForD6dddaAdvancedVersion(sections) {
     if (sections.firstLine.includes('D6DDDA')) {
         diagnosis += `<li>❗ <b>D6DDDA Crash Detected:</b> This error typically occurs due to one of these common causes:
             <ol>
+                 <li>Corrupt Texture (.dds) or Mesh (.nif) Files:
+                    <ol>
+                        <li>Compare multiple crash logs if possible. If subsequent crashes list the same texture or mesh files (see their own sections, also in "Advanced Users"), you likely have a corrupt texture file or, less commonly, a corrupt mesh. Once you've identified the problematic mod, try downloading it again before reinstalling, as the corruption may have occurred during the initial download.</li>
+                        <li>If the source mod has a corrupted image file, you can try using <a href="https://www.nexusmods.com/skyrimspecialedition/mods/23316">Cathedral Assets Optimizer (CAO)</a> to repair potentially damaged texture/mesh/animation files. This tool can fix formatting issues and also optimize file sizes while maintaining visual quality.</li>
+                        <li>If you identify a specific problematic image file in a source mod, contact the mod author for assistance or potential fixes.</li>
+                    </ol>
+                </li>
                 <li>System Memory Management:
                     <ol>
                         <li>Close unnecessary background applications that may be consuming memory.</li>
@@ -361,13 +368,6 @@ function checkForD6dddaAdvancedVersion(sections) {
                         <li>For systems with less than 12GB VRAM (or more for ultrawide/high-resolution displays) (<a href="https://www.lifewire.com/how-to-check-vram-5235783">check your VRAM here</a>), consider using <a href="https://www.reddit.com/r/Nolvus/comments/1doakj1/psa_use_vramr_if_you_have_12gb_of_vram/">VRAMr</a>. This tool automatically compresses texture files across your load order, reducing VRAM usage while maintaining visual fidelity and improving stability.</li>
                         <li>Review your modlist's (or individual mods') recommended hardware requirements to verify you aren't overly below their system recommendations.</li>
                         <li>Hardware Diagnostics: If crashes persist, run Windows Memory Diagnostic or <a href="https://www.memtest86.com/">MemTest86</a> to check for faulty RAM. While rare, recurring D6DDDA crashes can sometimes indicate hardware issues.</li>
-                    </ol>
-                </li>
-                <li>Corrupt Texture (.dds) or Mesh (.nif) Files:
-                    <ol>
-                        <li>Compare multiple crash logs if possible. If subsequent crashes list the same texture or mesh files (see their own sections, also in "Advanced Users"), you likely have a corrupt texture file or, less commonly, a corrupt mesh. Once you've identified the problematic mod, try downloading it again before reinstalling, as the corruption may have occurred during the initial download.</li>
-                        <li>If the source mod has a corrupted image file, you can try using <a href="https://www.nexusmods.com/skyrimspecialedition/mods/23316">Cathedral Assets Optimizer (CAO)</a> to repair potentially damaged texture/mesh/animation files. This tool can fix formatting issues and also optimize file sizes while maintaining visual quality.</li>
-                        <li>If you identify a specific problematic image file in a source mod, contact the mod author for assistance or potential fixes.</li>
                     </ol>
                 </li>
             </ol>
@@ -434,8 +434,16 @@ function checkForMissingMasters(sections) {
     // Change the calling code to:
     const modCounts = Utils.modCounts(sections);
     Utils.debuggingLog(['checkForMissingMasters'], 'modCounts:', modCounts);
-    const hasLoadedGamePlugins = modCounts.gamePlugins > 0;
+    let hasLoadedGamePlugins = modCounts.gamePlugins > 0;
     let diagnoses = '';
+
+    if (sections.logType === "Trainwreck") {
+        hasLoadedGamePlugins = true;
+        // NOTES:
+        // - Trainwreck logs never list Plugins (.esm, .esp, .esl)
+        // - can't use modCounts.gamePlugins as an effective indicator with Trainwreck logs
+        // - other Missing Masters indicators still apply
+    }
 
     if ((sections.hasSkyrimAE && sections.firstLine.includes('0198090')) ||
         (!sections.hasSkyrimAE && (sections.firstLine.includes('5E1F22'))) ||
@@ -2054,7 +2062,7 @@ function analyzeQuestJournalCrash(sections) {
     let insights = '';
 
     const foundIndicators = crashIndicators.questJournalIssues.indicators.filter(({ name }) =>
-        sections.topHalf.includes(name)
+        sections.topThird.includes(name)
     );
 
     if (foundIndicators.length > 0) {
@@ -2389,3 +2397,38 @@ function checkLotdKaragasTowerDoorCrash(sections) {
     return insights;
 }
 
+
+
+//❓ XPMSE Issue Detected:
+function analyzeXPMSECrash(sections) {
+    let insights = '';
+
+    if (sections.topHalf.toLowerCase().includes('XPMSE'.toLowerCase())) {
+        insights += `<li>❓ <b>XPMSE Issue Detected:</b> Indicators for this are usually false positives. However, if you see this issue frequently and without better crash explanations above, then the mention of 'XPMSE' in the crash log may indicate a potential conflict or issue with the XP32 Maximum Skeleton Extended mod or its dependencies. This mod is for animation support and is often required by other mods that add or modify character animations. To address this issue, consider the following steps:<ol>
+            <li>Ensure that XPMSE is installed correctly and is loaded at the correct point in your mod load order.</li>
+            <li>Verify that all mods requiring XPMSE as a dependency are compatible with the version you have installed.</li>
+            <li>Update XPMSE and any related mods to their latest cross-compatible versions which are compatible with your version of Skyrim.</li>
+            <li>If you have recently added or removed mods, check for any that might affect skeleton or animation files and adjust accordingly.</li>
+        </ol></li>`;
+    }
+
+    return insights;
+}
+
+
+//❓ HUD Issue Detected:
+function analyzeHUDCrash(sections) {
+    let insights = '';
+    const hudRelatedRegex = /HUD|menus|maps/ig;
+    var hudRelatedMatches = sections.topHalf.match(hudRelatedRegex) || [];
+    if (hudRelatedMatches.length > 0) {
+        insights += `<li>❓ <b>HUD Issue Detected:</b> When a crash log's top half includes indicators with <code>HUD</code>, <code>menus</code> and/or <code>maps</code> they may suggests a conflict with your "Heads-Up Displays" user interface (HUD/UI). Common examples of HUDs include health/stamina/magic bars, compass, active effets, etc. To troubleshoot this issue, consider the following steps:<ol>
+            <li>Check for any mods that alter the HUD or user interface. Disable or adjust these mods to see if the issue persists.</li>
+            <li>Ensure that you have the latest version of SkyUI installed. Sometimes outdated versions can cause HUD-related problems.</li>
+            <li>Verify that your SKSE (Skyrim Script Extender) is up-to-date, as it's essential for many mods, including SkyUI.</li>
+            <li>If you're using other HUD-related mods, ensure they are compatible and load them in the correct order.</li>
+        </ol></li>`;
+    }
+
+    return insights;
+}

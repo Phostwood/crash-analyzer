@@ -262,6 +262,7 @@ REGISTERS:
 		FormType: Reference (61)
 	RDX 0x1                (size_t) [1]
 	RBX 0x45B70FEA18       (void*)
+	Interface/Quest_Journal.swf          // SkyUI journal interface file
 
 STACK:
 	[RSP+3A0 ] 0x20E5E098340      (NiSourceTexture*)
@@ -471,7 +472,6 @@ STACK:
   1hBloodHitEffectCut                  //Cut blood impact effect 
   BloodSprayImpact01                   //Blood spray impact
   Occlusion.esp						   //DynDOLOD occlusion optimization file
-  Interface/Quest_Journal.swf          // SkyUI journal interface file
   BSWin32GamepadDevice                 // Windows gamepad device handler
   BSPCGamepadDeviceHandler             // PC gamepad device handler
   msvcp100.dll            			   // Microsoft Visual C++ 2010 Redistributable   

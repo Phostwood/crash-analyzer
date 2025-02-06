@@ -158,7 +158,8 @@ REGISTERS:
 	RDX 0x1                (size_t) [1]
 	RBX 0x45B70FEA18       (void*)
 	R22 0x0                
-	R23 0x0                
+	R23 0x0              
+	Interface/Quest_Journal.swf          // SkyUI journal interface file  
 
 
 STACK:
@@ -280,7 +281,6 @@ STACK:
   1hBloodHitEffectCut                  //Cut blood impact effect 
   BloodSprayImpact01                   //Blood spray impact
   Occlusion.esp						   //DynDOLOD occlusion optimization file
-  Interface/Quest_Journal.swf          // SkyUI journal interface file
   BSWin32GamepadDevice                 // Windows gamepad device handler
   BSPCGamepadDeviceHandler             // PC gamepad device handler
   msvcp100.dll            			   // Microsoft Visual C++ 2010 Redistributable   

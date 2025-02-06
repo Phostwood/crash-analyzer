@@ -71,6 +71,7 @@ Registers
  R8:       0x1BB0EEF7580      (BSTriShape*) -> (Name: `Book01:1`)
  R9:       0x1BB0EEF7581       (testFileName.dll)
  R10:      0x1BB0EEF7582       (testJsonFile.json)
+ Interface/Quest_Journal.swf          // SkyUI journal interface file
 }
 
 Stack
@@ -170,7 +171,6 @@ BloodHitEffectBlunt                  //Blunt blood impact effect
 1hBloodHitEffectCut                  //Cut blood impact effect 
 BloodSprayImpact01                   //Blood spray impact
 Occlusion.esp						             //DynDOLOD occlusion optimization file
-Interface/Quest_Journal.swf          // SkyUI journal interface file
 BSWin32GamepadDevice                 // Windows gamepad device handler
 BSPCGamepadDeviceHandler             // PC gamepad device handler
 msvcp100.dll            			       // Microsoft Visual C++ 2010 Redistributable   

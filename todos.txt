@@ -1,43 +1,49 @@
-✅Version 1.20.6 is now live:
+✅Version 1.20.7 is now live:
 https://phostwood.github.io/crash-analyzer/
 
-1. ✅New test: ❗ Incompatible Snow Mods Detected
-	- thanks wankingSkeever!
-	- Conflicting snow mods: https://old.reddit.com/r/skyrimmods/comments/1ifynii/help_with_crash_near_the_shrine_of_mehrunes_dagon/
-		- ✅isolate indicators that show in crash log
-		- ✅added indicators to three main Test Logs
 
-2. ✅New test: ❗ Legacy of the Dragonborn - Karagas' Tower Door Crash Detected:
-	- thanks wankingskeever!
-	- ✅LOTD: https://old.reddit.com/r/skyrimmods/comments/1if69cc/lotd_crashing_when_going_into_ruins_of_rkund/
-	- ✅isolate indicators that show up in crash logs and put into crashIndicatorsMap.js
-	- ✅added indicators to three main Test Logs
+A collection of UX and Bug Fixes
+1. ✅ antivirusSignatures.js: switched 'com_antivirus.dll' from Comodo to Kaspersky after a user-reported false positive for Comodo, and after a quick Google:
+	- https://discord.com/channels/740569699900719145/1336538343009423373/1336574499918839820
+	- https://www.file.net/process/com_antivirus.dll.html
 
-3. ✅Add wankingskeever to list of Thank Yous!
+2. ✅❗ D6DDDA Crash Detected: from more recent experience, and from what a guru has suggested in the past, I switched the corrupt image file instructions to be above the memory issue instructions.
 
-4. ✅❓ No highest-confidence:
-	- restructured, a fairly big reorganization with an emphasis of putting the "Easy Steps:" at the top 
-	- tried to bold or link key phrases in each bullet point for faster scanning
-	- sometimes having your followers "wait here" at your player home or other location. Sometimes this can help to simplify things in an overactive area and get you past a crash-prone point in Skyrim. TIP: some followers, and some follower frameworks also offer the ability to teleport them back to you after you get past the crash-prone point.
-	- try rebooting your PC ... it's surprising sometimes how often this old IT tip can still help
-	- many bullet points had clarifications added
+3. ✅❓ HUD Issue Detected: Softened confidence in the indicators. Explained the indicators. Refactored into function.
 
-5. ✅Missing Masters: added bee emoji to the BEES reference for added quick-scan visibility: 🐝
-	- Also added the emoji in its explainersMap entry :-)
+4. ✅❓ XPMSE Issue Detected:Softened confidence in the indicators. Refactored into function.
 
-6. ✅Small tweaks to base pages (skyrim.html and index.html) to clarify/organize things with two newly-titled sections:
-	- "Please support ongoing development"
-	- "Instructions"
+5. ✅🎯 Quest Journal UI Crash Detected: Fixed a false positive. Tightened test to only search for indicators in sections.topThird (changed from topHalf)
 
-7. ✅NPC Beggar quotes: changed from "Edda (of Riften)" to cleaner "Edda of Riften"
+7. ✅❗Missing Masters: BUGFIX regarding Trainwreck logs. Bug went live on Jan 18, 2025 (18 days ago), but only affected Trainwreck logs. ISSUE: Trainwreck never includes Plugins, the lack of plugins is no longer considered an indicator of a Missing Masters for Trainwreck logs.
+
+
+-- notes for this version --
+
+Riderofchaos1337: Quest Journal UI Crash false positive
+https://discord.com/channels/215154001799413770/1335797632932778025/1336553267404210199
+	- Tighten indictors?
+		- From crash log library
+			- 28 contain indicators in topThird
+			- 3 contain indicators in last section before bottomHalf
+			- 1 of those 3 is a confirmed NOT QuestJournal issue (it already had fixes applied)
+			- ➡️I'm thinking it might be best to just limit the indicator spotting to the topThird so we can avoid false positives of this otherwise very reliable test
+		- Can't verify the fixes have been applied by looking at crash logs (.swf files don't show up unless in topHalf)
+	- OR just downgrade the confidence of the troubleshooting steps? Or downgrade it when not in topThird?
+	- NOTE: it's a relatively rare crash issue ... only 34 matches on the main indicator string in my entire crash log library
 
 
 
 --- Upcoming version ideas ---
 
+6. XP Skeleton mod issue not listed in analyzer's report (see recent Reddit reply)
+   - https://old.reddit.com/r/skyrimmods/comments/1ihfoxi/need_help_reading_crash_log/
+   - "Found out it was a problem with XP32 skeleton extended. I didn't download some of the requirements (Optimized scripts and payprus script fix ) but now everything is working fine."
+
 3. New Bad Mods list for presumably abandoned mods that are currently known for causing issues. Usually it would be advised to use an alternative to this/these mod(s):
 	- thanks wankingskeever!
 	- Climates of tamriel: https://old.reddit.com/r/skyrimmods/comments/1igbdfl/game_keeps_crashing_whenever_i_leave_the_helgen/
+		- second instance (withing a day or two?): https://old.reddit.com/r/skyrimmods/comments/1id7gqa/game_crashes_sometimes_when_i_fast_travel/
 
 
 

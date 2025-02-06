@@ -922,33 +922,21 @@ async function analyzeLog() {
         insightsCount++;
     }
 
-    //HUD
-    //Merged with test thought up by AI (MS Bing Copilot):
-    const hudRelatedRegex = /HUD|menus|maps/ig;
-    var hudRelatedMatches = sections.topHalf.match(hudRelatedRegex) || [];
-    if (hudRelatedMatches.length > 0) {
-        insights += '<li>❓ <b>HUD Issue Detected:</b> The error suggests a conflict with your HUD/UI. To troubleshoot this issue, consider the following steps:<ol>' +
-            '<li>Check for any mods that alter the HUD or user interface. Disable or adjust these mods to see if the issue persists.</li>' +
-            '<li>Ensure that you have the latest version of SkyUI installed. Sometimes outdated versions can cause HUD-related problems.</li>' +
-            '<li>Verify that your SKSE (Skyrim Script Extender) is up-to-date, as it\'s essential for many mods, including SkyUI.</li>' +
-            '<li>If you\'re using other HUD-related mods, ensure they are compatible and load them in the correct order.</li>' +
-            '</ol></li>';
+    //❓ HUD Issue Detected:
+    const hudInsight = analyzeHUDCrash(sections);
+    if (hudInsight) {
+        insights += hudInsight;
         insightsCount++;
     }
 
-    //XPMSE
-    if (sections.topHalf.toLowerCase().includes('XPMSE'.toLowerCase())) {
-        insights += '<li>❓ <b>XPMSE Issue Detected:</b> The mention of \'XPMSE\' in the crash log suggests a potential conflict or issue with the XP32 Maximum Skeleton Extended mod or its dependencies. This mod is crucial for animation support and is often required by other mods that add or modify character animations. To address this issue, consider the following steps:<ol>' +
-            '<li>Ensure that XPMSE is installed correctly and is loaded at the correct point in your mod load order.</li>' +
-            '<li>Verify that all mods requiring XPMSE as a dependency are compatible with the version you have installed.</li>' +
-            '<li>Update XPMSE and any related mods to their latest versions.</li>' +
-            '<li>If you have recently added or removed mods, check for any that might affect skeleton or animation files and adjust accordingly.</li>' +
-            '<li>Consult the mod descriptions and community forums for specific troubleshooting steps related to XPMSE.</li>' +
-            '</ol></li>';
+    //❓ XPMSE Issue Detected:
+    const xpmseInsight = analyzeXPMSECrash(sections);
+    if (xpmseInsight) {
+        insights += xpmseInsight;
         insightsCount++;
     }
 
-    //XAudio
+    //❓ XAudio Issue Detected:
     if (sections.topHalf.toLowerCase().includes('XAudio'.toLowerCase())) {
         insights += '<li>❓ <b>XAudio Issue Detected:</b> The \'XAudio\' error indicates a problem with the game\'s audio processing components. XAudio is a part of the Windows audio infrastructure, separate from DirectX. To resolve audio issues, follow these steps:<ol>' +
             '<li>Download and install the latest version of the XAudio redistributable that is compatible with your operating system.</li>' +
