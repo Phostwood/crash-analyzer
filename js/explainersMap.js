@@ -230,7 +230,7 @@ if (typeof Utils === 'undefined') {
         ['uiautomationcore.dll', '(Microsoft UI Automation Core - <b>Windows</b>)'],
         ['ucrtbase.dll', '(Universal C Runtime Library - <b>MS Windows</b>)'],
         ['user32.dll', '(Microsoft User Interface Library - <b>Windows</b>)'],
-        ['usvfs_x64.dll', '(User Space Virtual <b>File System</b> - MO2)'],
+        ['usvfs_x64.dll', '(User Space Virtual <b>File System</b> - MO2 - ⚠️ possible indicator of antivirus issue ⚠️)'],
         ['vcruntime140.dll', '(Visual C++ Runtime Library - MS <b>Windows</b>)'],
         ['versionlib.dll', '(VersionLib <b>SKSE</b> plugin)'],
         ['vsfilter.dll', '(DirectShow subtitle rendering - used by some <b>video</b> mods)'],
