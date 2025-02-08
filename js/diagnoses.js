@@ -1446,10 +1446,16 @@ function analyzeWin24H2UpscalerCrash(sections) {
     if (sections.firstLine.toLowerCase().includes('KERNELBASE.dll'.toLowerCase()) && 
         sections.probableCallstack.includes('SkyrimUpscaler.dll')) {
         
-        insights += `<li>🎯 <b>DLAA Incompatibility KERNELBASE Crash Detected:</b> Windows version 24H2 has made a popular DLAA mod incompatible. Puredark, the author of the Upscaler mods (both free and paid versions), is aware of the issue but not sure how to resolve it at this time. Confusingly, this issue occurs for most such users but seemingly not all. Currently there are several possible solutions:
+            insights += `<li>🎯 <b>DLAA Incompatibility + Windows 24H2 KERNELBASE Crash Detected:</b> Windows version 24H2 has made certain DLAA mods incompatible. <b>Puredark</b>, the author of some popular Upscaler mods (both free and paid versions), has reportedly fixed the issue in his newest, paid versions. This issue affects most users of his older versions, but not all (likely depending on your GPU). Here are the available solutions:
 
             <ol>
-                <li><strong>Solution 1: Disable DLAA and Switch to TAA</strong>
+                <li><strong>Solution 1: Try Alternative Mods</strong>
+                    <ol>
+                        <li><b>Recommended:</b> For competitive image quality (and often regarded as better image quality than TAA), switch to this newer and easier-to-configure DLAA mod from <b>doodlum</b>: <a href="https://www.nexusmods.com/skyrimspecialedition/mods/130669">ENB Anti-Aliasing - AMD FSR 3.1 - NVIDIA DLAA</a>.</li>
+                        <li>Or alternatively, try Puredark's newer versions: either his latest paid versions (which include the fix) or experiment with different free versions from <a href="https://www.nexusmods.com/skyrimspecialedition/mods/80343">Skyrim Upscaler - DLSS FSR2 XeSS</a>.</li>
+                    </ol>
+                </li>
+                <li><strong>Solution 2: Disable DLAA and Use TAA Instead</strong>
                     <ol>
                         <li>In <strong>Mod Organizer 2</strong> (MO2), towards the top find section "1.1 SKSE PLUGINS" (or whatever location you may have installed your Upscaler mod(s) into).</li>
                         <li>Open the section, and towards the bottom find <code>Upscaler Base Plugin</code> and <code>Skyrim Upscaler</code>. Disable them both. NOTE: paid versions may converge both plugins into one.</li>
@@ -1458,14 +1464,7 @@ function analyzeWin24H2UpscalerCrash(sections) {
                         <li>Click on <code>skyrimprefs.ini</code> and click inside of the text box.</li>
                         <li>On your keyboard, press <strong>CTRL+F</strong></li>
                         <li>Search for <code>bUseTAA</code> and change the value to match <code>bUseTAA=1</code></li>
-                        <li><a href="https://phostwood.github.io/crash-analyzer/images/DLAA-Win24H2-Fix.webp">Click for screenshot.</a></li>
-                    </ol>
-                </li>
-
-                <li><strong>Solution 2: Try Alternative Mods</strong>
-                    <ol>
-                        <li>Some users report success by switching to a different version of Puredark's mod(s): <a href="https://www.nexusmods.com/skyrimspecialedition/mods/80343">Skyrim Upscaler - DLSS FSR2 XeSS</a>.</li>
-                        <li>Others have reported success switching to a newer alternative mod: <a href="https://www.nexusmods.com/skyrimspecialedition/mods/130669">ENB Anti-Aliasing - AMD FSR 3.1 - NVIDIA DLAA</a>.</li>
+                        <li><a href="https://phostwood.github.io/crash-analyzer/images/DLAA-Win24H2-Fix.webp">View step-by-step screenshot guide</a>.</li>
                     </ol>
                 </li>
             </ol>

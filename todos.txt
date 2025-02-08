@@ -1,23 +1,21 @@
-✅Version 1.20.8 is now live:
+✅Version 1.20.9 is now live:
 https://phostwood.github.io/crash-analyzer/
 
-1. ⚠️ Antivirus Warning:
-	- Added new theoretical indicators for Webroot
-	- Added new theoretical indicators for SurfShark
-
-2. Files/Elements' explainersMap:
-	- Old version: usvfs_x64.dll (User Space Virtual File System - MO2)
-	- New version: usvfs_x64.dll (User Space Virtual File System - MO2 - ⚠️ possible indicator of antivirus issue ⚠️)
-
+1. 🎯 DLAA Incompatibility + Windows 24H2 KERNELBASE:
+	- Updated title from: DLAA Incompatibility KERNELBASE
+	- Reworked to emphasize the new favored solution: Doodlum' DLAA mod on Nexus
+	- Clarified some points
+	- Many thanks to those who assisted on the Nolvus Discord!:  Orionis, Corrupt Bliss, Jerilith, R., Vulken, and ItsMadManBen
+			- newly added to Thank You: ItsMadManBen and R.
 
 
 --- Upcoming version ideas ---
 
-1. Update DLAA recommendation to emphasize Doodlum's 
-
 1. Update Safe Save Guidelines in Analyzer:
 	- https://discord.com/channels/740569699900719145/1337142624821182547
 	- also, update/edit my original reddit post
+		- https://old.reddit.com/r/skyrimmods/comments/1hntsnl/thoughts_on_jeriliths_safe_save_guide/
+			- also share Nolvus Discord invite so they can read the rationales?
 
 2. New DbSkseFunctions.dll crash? (see notes)
 
