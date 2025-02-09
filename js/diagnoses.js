@@ -1281,7 +1281,7 @@ function analyzeTextureIssues(sections) {
         </li>`;
 
         if (textureCodeIssues.length > 0) {
-            textureInsights += `<li>Mentioned texture files: <a href="#" class="toggleButton">⤵️ show more</a><ul class="extraInfo" style="display:none">`;
+            textureInsights += `<li>Detected indicators: <a href="#" class="toggleButton">⤵️ show more</a><ul class="extraInfo" style="display:none">`;
             textureCodeIssues.forEach(({ code, description }) => {
                 textureInsights += `<li><code>${code}</code> - ${description}</li>`;
             });
@@ -1422,18 +1422,17 @@ function analyzeBGSSaveLoadManagerIssue(sections) {
             ${Utils.isSkyrimPage ? checkSaveFileSize : ''}
             <li>If crash is repetitive, try loading from your <b>last working save</b>. If possible, identify this file, and load this last save game that worked and try to play from there.</li>
             <li>Consider using save cleaning tools to remove orphaned scripts and other potential corruption. <a href="https://www.nexusmods.com/skyrim/mods/76776">FallrimTools ReSaver</a> can sometimes fix corrupted save files. See also these <a href="https://www.reddit.com/r/skyrimmods/s/fbMRv343vm">instructions by Krispyroll</a> and more information in <a href="https://www.reddit.com/r/skyrimmods/comments/1d0r0f0/reading_crash_logs/##:~:text=Resaver">Krispyroll's Reading Crash Logs Guide</a>. NOTE: Always keep backups of your saves before attempting fixes or using cleaning tools.</li>
-            <li>Consider following <b>Jerilith’s Safe Save Guide</b> (quoted below). Not adhering to these guidelines over time may contribute to broken save files. NOTE: The effectiveness of some of these rules is <a href="https://www.reddit.com/r/skyrimmods/comments/1hntsnl/thoughts_on_jeriliths_safe_save_guide/">debated</a> and often considered overemphasized. Additionally, I have provided a clarification at the end. However, many believe these rules can help prevent issues when other causes are unknown.
+            <li>Consider following <b>Jerilith's 2025 Skyrim Safe-Save-Guide [sexy free edition]</b> (quoted below). Not adhering to these guidelines over time may contribute to broken save files. Note: The necessity of some of these rules has been debated; however, many believe these rules can help prevent issues when other causes are unknown, especially with large modlists and 500+ hour playthroughs.
             <ol>
-                <li>Never, ever save in combat.</li>
-                <li>When you die, EXIT the whole game, go to dashboard, start Skyrim again, wait for the load, continue that way.</li>
-                <li>Don't ever enable and or use autosaves.</li>
-                <li>Do not remove mods mid-game*</li>
-                <li>Do not add mods mid-game*</li>
-                <li>Wait 30s after sleeping or entering a new zone before saving.</li>
-                <li>Never save more than once per minute.</li>
-                <li>(* = exceptions apply when a mod author states otherwise, or when a specific mod is known to be safe)</li>
+                <li>Do not Save in combat.</li>
+                <li>Do not use <i>Load</i> - Do not let the game auto-load on death -> Exit the whole game (not just to main menu), and relaunch.</li>
+                <li>Do not use Auto Saves</li>
+                <li>Be Cautious when Adding Mods, and more so when Removing Mods.</li>
+                <li>When entering a new area, wait several seconds before saving to allow scripts and information to load completely.</li>
+                <li>Maintain and Manage your save files, keep several and or revolving saves of <i>at least</i> 5-10.</li>
+                <li>Source: Details and related resource links available at <a href="https://discord.com/channels/740569699900719145/1337142624821182547/1337142628017373214">original post</a> (requires first following <a href="https://discord.gg/Zkh5PwD">invite</a> to Nolvus Discord channel)</li>
             </ol></li>
-            <li>Regarding the Safe Save Guide (above), there are a few <b>mods you can add</b> to minimize risk if you prefer not to always quit to the desktop after dying: <a href="https://www.nexusmods.com/skyrimspecialedition/mods/88219">Clean Save Auto Reloader</a>, <a href="https://www.nexusmods.com/skyrimspecialedition/mods/85565">SaveUnbaker</a>, and an alternate death mod. See Orionis' <a href="https://docs.google.com/document/d/1RSCzBUyE0vqZRAtjd4YL2hHrKzf4Q1rgCH0zrjEr-qY/mobilebasic#heading=h.u2ukim1kti09">Safe Save Helpers - a Nolvus Guide</a>. Although this guide's original context is Nolvus, most of the information should be broadly applicable.</li>
+            <li>Regarding the Safe Save Guide (above), there are a few <b>mods you can add</b> to minimize risk if you prefer not to always quit to the desktop after dying (or before reloading): <a href="https://www.nexusmods.com/skyrimspecialedition/mods/88219">Clean Save Auto Reloader</a>, <a href="https://www.nexusmods.com/skyrimspecialedition/mods/85565">SaveUnbaker</a>, and an alternate death mod. See Orionis' <a href="https://docs.google.com/document/d/1RSCzBUyE0vqZRAtjd4YL2hHrKzf4Q1rgCH0zrjEr-qY/mobilebasic#heading=h.u2ukim1kti09">Safe Save Helpers - a Nolvus Guide</a>. Although this guide's original context is Nolvus, most of the information should be broadly applicable.</li>
             ${!Utils.isSkyrimPage ? checkSaveFileSize : ''}
         </ol></li>`;
     }
@@ -2188,7 +2187,7 @@ function analyzeAntivirusIssues(sections) {
     }
 
     // Check for USVFS in different sections to determine severity
-    const usvfsInProbableCallstack = sections.probableCallstack.toLowerCase().includes('usvfs_x64.dll');
+    const usvfsInTopQuarter = sections.topQuarter.toLowerCase().includes('usvfs_x64.dll');
     const usvfsInTopHalf = sections.topHalf.toLowerCase().includes('usvfs_x64.dll');
     
     // Special check for Windows Security in topHalf if no other antivirus found
@@ -2199,8 +2198,8 @@ function analyzeAntivirusIssues(sections) {
     const hasBitdefender = foundAntivirus === 'Bitdefender';
 
     // If we have any antivirus indicators, USVFS issues, or Windows Security in top half
-    if (foundAntivirus || usvfsInProbableCallstack || windowsDefenderInTopHalf) {
-        diagnoses += `<li>${usvfsInProbableCallstack ? '🎯 <b>Antivirus Issue Detected:</b>' : '⚠️ <b>Antivirus Warning:</b>'} `;
+    if (foundAntivirus || usvfsInTopQuarter || windowsDefenderInTopHalf) {
+        diagnoses += `<li>${usvfsInTopQuarter ? '🎯 <b>Antivirus Issue Detected:</b>' : '⚠️ <b>Antivirus Warning:</b>'} `;
         
         // Build main description based on findings
         diagnoses += '<ol>';
@@ -2211,11 +2210,11 @@ function analyzeAntivirusIssues(sections) {
             diagnoses += '<li><b>Windows Security detected</b> in crash log - While usually not problematic, you may need to add exclusions if issues persist.</li>';
         }
 
-        if (usvfsInTopHalf || usvfsInProbableCallstack) {
-            diagnoses += `<li><b>MO2 file system interference detected</b> - Your antivirus may be blocking Mod Organizer 2's virtual file system (USVFS)${usvfsInProbableCallstack ? ' - this appears to be a direct cause of the crash' : ''}.</li>`;
+        if (usvfsInTopHalf || usvfsInTopQuarter) {
+            diagnoses += `<li><b>MO2 file system interference detected</b> - Your antivirus may be blocking Mod Organizer 2's virtual file system (USVFS)${usvfsInTopQuarter ? ' - this appears to be a direct cause of the crash' : ''}.</li>`;
         }
 
-        diagnoses += `<li>${(usvfsInProbableCallstack || hasBitdefender) ? 'Recommended actions:' : 'Suggestions:' }
+        diagnoses += `<li>${(usvfsInTopQuarter || hasBitdefender) ? 'Recommended actions:' : 'Suggestions:' }
             <ul>
             <li>Create antivirus exclusions for your entire ${Utils.NolvusOrSkyrimText} directory</li>`;
             
@@ -2240,8 +2239,8 @@ function analyzeAntivirusIssues(sections) {
             });
             diagnoses += '</ul></li>';
         }
-        if (usvfsInProbableCallstack) {
-            diagnoses += '<li><code>usvfs_x64.dll</code> found in probable call stack - high likelihood of antivirus interference</li>';
+        if (usvfsInTopQuarter) {
+            diagnoses += '<li><code>usvfs_x64.dll</code> found in top quarter sections of crash log - high likelihood of antivirus interference</li>';
         } else if (usvfsInTopHalf) {
             diagnoses += '<li><code>usvfs_x64.dll</code> found in top half of log - possible antivirus interference</li>';
         }
@@ -2261,7 +2260,7 @@ function analyzeAntivirusIssues(sections) {
 
     return {
         diagnoses: diagnoses,
-        isHighPriority: usvfsInProbableCallstack // true if it's an "Issue Detected", false if just a "Warning"
+        isHighPriority: usvfsInTopQuarter // true if it's an "Issue Detected", false if just a "Warning"
     };
 }
 

@@ -1,21 +1,51 @@
-✅Version 1.20.9 is now live:
+✅Version 1.21.1 is now live:
 https://phostwood.github.io/crash-analyzer/
 
-1. 🎯 DLAA Incompatibility + Windows 24H2 KERNELBASE:
-	- Updated title from: DLAA Incompatibility KERNELBASE
-	- Reworked to emphasize the new favored solution: Doodlum' DLAA mod on Nexus
-	- Clarified some points
-	- Many thanks to those who assisted on the Nolvus Discord!:  Orionis, Corrupt Bliss, Jerilith, R., Vulken, and ItsMadManBen
-			- newly added to Thank You: ItsMadManBen and R.
+1. ✅Clarified (in code and English troubleshooting steps) that usvfs_x64.dll in sections.topQuarter (First line, Possible relevant objects (Net Script Framework only), and/or Probable Callstack) equates to a high-likelihood of the crash being caused by Antivirus Software. NOTE: this probably also includes a theoretical bugfix, since previously it set specifically to sections.probableCallstack ... which seems overly restricted.
+
+2. ✅❓ Possible Texture Issue Indicators Found: Fixed small bug where "Detected indicators:" were mistakenly labeled as "Mentioned texture files:" 
+
+3. ✅Added "Phostwood's " to both HTML page <title> tags ... for better branding, and better discord links
+
+4. ✅❓ BGSSaveLoadManager Issue Detected: updated Jerilith's list his new 2025 version
+
 
 
 --- Upcoming version ideas ---
+
+1. New test: MCO and BFCO incompatibility
+	https://www.reddit.com/r/skyrimmods/comments/1ikensd/bow_rapid_combo_v3_tpose/
+	Iyzik:
+	"MCO and BFCO installed. Idk if that would affect the main bow attack, but those two aren’t compatible and do the same thing (more or less)."
+	"u/Phostwood I’ve seen this a few times recently, where people have both MCO and BFCO installed. It doesn’t cause crashes usually, but might still be a helpful note for your analyzer to mention if both DLL’s are present? Just an idea…"
+	⭐️Be sure to add Iyzik the Thank You list!
+
+2. Also from Iyzik: New Wheeler test
+	- https://old.reddit.com/r/skyrimmods/comments/1ikvl0y/can_someone_help_a_noob_decipher_their_crashlog/
+	- If Engine Fixes already installed
+	- If Wheeler shows up in sections.topQuarter
+	- then recommend mod that reportedly fixes some issues in Wheeler:
+		- https://www.nexusmods.com/skyrimspecialedition/mods/132074
+		- display in Advanced Section, probably under "Mod-specific Issues" for now
+	- test log: needs wheeler fix mod - firstLine wheeler-dll - user Iyzik - wdNX4usA.txt
+
 
 1. Update Safe Save Guidelines in Analyzer:
 	- https://discord.com/channels/740569699900719145/1337142624821182547
 	- also, update/edit my original reddit post
 		- https://old.reddit.com/r/skyrimmods/comments/1hntsnl/thoughts_on_jeriliths_safe_save_guide/
 			- also share Nolvus Discord invite so they can read the rationales?
+	- ✅❓ BGSSaveLoadManager Issue Detected:
+	- other listings?
+
+1. Consider merging these two tests:
+	- ❓ CompressedArchiveStream Issue Detected:
+	- ❓ Possible Texture Issue Indicators Found:
+	- In this log ... they both repeat a lot?
+		- isolated texture - D6DDDA - Lorerim - crash-2025-02-08-22-04-10.log
+
+1. Consider no longer emphasizing Memory issue for D6DDDA? It's kind of a repeat of what it already says above it the D6DDDA issue, but might overly steer users towards memory issues instead of texture issues?
+
 
 2. New DbSkseFunctions.dll crash? (see notes)
 
@@ -23,7 +53,7 @@ https://phostwood.github.io/crash-analyzer/
    - https://old.reddit.com/r/skyrimmods/comments/1ihfoxi/need_help_reading_crash_log/
    - "Found out it was a problem with XP32 skeleton extended. I didn't download some of the requirements (Optimized scripts and payprus script fix ) but now everything is working fine."
 
-⏸️Could anyone help me see if we can reproduce this potential fix for  DLAA Incompatibility KERNELBASE Crash?
+❌⏸️Could anyone help me see if we can reproduce this potential fix for  DLAA Incompatibility KERNELBASE Crash?
 	From Domocles:
 	"For DLSS and windows 11 24H2 crash, look like "Nvidia HDR" and/or "Nvidia low latency mode" in the Nvidia app 3D graphic settings have something to do with that. I managed to make  ENB Anti-Aliasing - AMD FSR 3.1 - NVIDIA DLAA works by disabling both"
 	https://discord.com/channels/740569699900719145/1168063977029382235/1337068256564871198
