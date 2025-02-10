@@ -638,6 +638,13 @@ async function analyzeLog() {
         insightsCount++;
     }
 
+    
+    //❗ Wheeler Issue Detected:
+    const wheelerCrashResults = analyzeWheelerCrash(sections, logFile);
+    if (wheelerCrashResults) {
+        insights += wheelerCrashResults;
+        insightsCount++;
+    }
 
 
     // dxgi.dll issue (ReShade and PureDark Upscaler)

@@ -1,42 +1,56 @@
-✅Version 1.21.1 is now live:
+✅Version 1.21.2 is now live:
 https://phostwood.github.io/crash-analyzer/
 
-1. ✅Clarified (in code and English troubleshooting steps) that usvfs_x64.dll in sections.topQuarter (First line, Possible relevant objects (Net Script Framework only), and/or Probable Callstack) equates to a high-likelihood of the crash being caused by Antivirus Software. NOTE: this probably also includes a theoretical bugfix, since previously it set specifically to sections.probableCallstack ... which seems overly restricted.
+1. ✅New test: ❗ Wheeler Issue Detected:
+	- Thank you, Iyzik!
 
-2. ✅❓ Possible Texture Issue Indicators Found: Fixed small bug where "Detected indicators:" were mistakenly labeled as "Mentioned texture files:" 
+2. ✅Updated Jerilith's safe saves guide with new link to repost on Reddit: 
+	- https://www.reddit.com/r/Nolvus/comments/1il4x57/jeriliths_2025_skyrim_safesaveguide_sexy_free/
 
-3. ✅Added "Phostwood's " to both HTML page <title> tags ... for better branding, and better discord links
+3. ✅Donations section:
+	- Changed donation to $1 ... and changed the donation section to reflect that.
+	- Made a stronger appeal for donations.
+	- Switched around button's hover and normal background covers to look more like a coin normally, and more like a link when you hover
 
-4. ✅❓ BGSSaveLoadManager Issue Detected: updated Jerilith's list his new 2025 version
 
+--- notes from this version: ---
+
+1. ✅Idea from Iyzik: New Wheeler test
+	- ✅Added to Thank You list
+	- https://old.reddit.com/r/skyrimmods/comments/1ikvl0y/can_someone_help_a_noob_decipher_their_crashlog/
+	- ✅If Engine Fixes already installed
+	- ✅If Wheeler shows up in sections.topQuarter
+	- ✅then recommend mod that reportedly fixes some issues in Wheeler:
+		- ✅https://www.nexusmods.com/skyrimspecialedition/mods/132074
+		- ✅display in Advanced Section, probably under "Higher Confidence Issues" for now
+		- ✅unfortunately, the fix doesn't seem to have it's own file to detect in crash logs
+	- ✅test log: needs wheeler fix mod - firstLine wheeler-dll - user Iyzik - wdNX4usA.txt
+		- ✅indicators to check for:
+			- ✅EngineFixes.dll in logFile
+			- ✅wheeler.dll in sections.topQuarter
+
+
+2. ✅Update Safe Save Guidelines in Analyzer:
+	- ✅Reposted from Discord: https://www.reddit.com/r/Nolvus/comments/1il4x57/jeriliths_2025_skyrim_safesaveguide_sexy_free/
+	- ✅also, update/edit my original reddit post
+		- https://old.reddit.com/r/skyrimmods/comments/1hntsnl/thoughts_on_jeriliths_safe_save_guide/
+	- ✅❓ BGSSaveLoadManager Issue Detected:
+	- ✅ Nolvus version of "No Highest Confidence"
 
 
 --- Upcoming version ideas ---
 
-1. New test: MCO and BFCO incompatibility
+1. ⏸️New test: MCO and BFCO incompatibility
 	https://www.reddit.com/r/skyrimmods/comments/1ikensd/bow_rapid_combo_v3_tpose/
 	Iyzik:
 	"MCO and BFCO installed. Idk if that would affect the main bow attack, but those two aren’t compatible and do the same thing (more or less)."
 	"u/Phostwood I’ve seen this a few times recently, where people have both MCO and BFCO installed. It doesn’t cause crashes usually, but might still be a helpful note for your analyzer to mention if both DLL’s are present? Just an idea…"
 	⭐️Be sure to add Iyzik the Thank You list!
-
-2. Also from Iyzik: New Wheeler test
-	- https://old.reddit.com/r/skyrimmods/comments/1ikvl0y/can_someone_help_a_noob_decipher_their_crashlog/
-	- If Engine Fixes already installed
-	- If Wheeler shows up in sections.topQuarter
-	- then recommend mod that reportedly fixes some issues in Wheeler:
-		- https://www.nexusmods.com/skyrimspecialedition/mods/132074
-		- display in Advanced Section, probably under "Mod-specific Issues" for now
-	- test log: needs wheeler fix mod - firstLine wheeler-dll - user Iyzik - wdNX4usA.txt
-
-
-1. Update Safe Save Guidelines in Analyzer:
-	- https://discord.com/channels/740569699900719145/1337142624821182547
-	- also, update/edit my original reddit post
-		- https://old.reddit.com/r/skyrimmods/comments/1hntsnl/thoughts_on_jeriliths_safe_save_guide/
-			- also share Nolvus Discord invite so they can read the rationales?
-	- ✅❓ BGSSaveLoadManager Issue Detected:
-	- other listings?
+	- crash log with same issue: https://www.reddit.com/r/skyrimmods/comments/1ic6zii/modded_skyrim_se_freezescrashes_when_i_randomly/
+	- files show up in crash log as:
+		- MCO.dll
+		- ⏸️PAUSE while looking for BFCO.dll or other indicator to spot in a log
+		
 
 1. Consider merging these two tests:
 	- ❓ CompressedArchiveStream Issue Detected:

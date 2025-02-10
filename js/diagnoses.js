@@ -1430,7 +1430,7 @@ function analyzeBGSSaveLoadManagerIssue(sections) {
                 <li>Be Cautious when Adding Mods, and more so when Removing Mods.</li>
                 <li>When entering a new area, wait several seconds before saving to allow scripts and information to load completely.</li>
                 <li>Maintain and Manage your save files, keep several and or revolving saves of <i>at least</i> 5-10.</li>
-                <li>Source: Details and related resource links available at <a href="https://discord.com/channels/740569699900719145/1337142624821182547/1337142628017373214">original post</a> (requires first following <a href="https://discord.gg/Zkh5PwD">invite</a> to Nolvus Discord channel)</li>
+                <li>Source: Details and related resource links available at <a href="https://www.reddit.com/r/Nolvus/comments/1il4x57/jeriliths_2025_skyrim_safesaveguide_sexy_free/">this reposting</a></li>
             </ol></li>
             <li>Regarding the Safe Save Guide (above), there are a few <b>mods you can add</b> to minimize risk if you prefer not to always quit to the desktop after dying (or before reloading): <a href="https://www.nexusmods.com/skyrimspecialedition/mods/88219">Clean Save Auto Reloader</a>, <a href="https://www.nexusmods.com/skyrimspecialedition/mods/85565">SaveUnbaker</a>, and an alternate death mod. See Orionis' <a href="https://docs.google.com/document/d/1RSCzBUyE0vqZRAtjd4YL2hHrKzf4Q1rgCH0zrjEr-qY/mobilebasic#heading=h.u2ukim1kti09">Safe Save Helpers - a Nolvus Guide</a>. Although this guide's original context is Nolvus, most of the information should be broadly applicable.</li>
             ${!Utils.isSkyrimPage ? checkSaveFileSize : ''}
@@ -1786,7 +1786,7 @@ function generateNoCrashDetectedMessage() {
                                 <li>Verify your <a href="https://www.nolvus.net/appendix/pagefile">Windows Pagefile is properly configured</a>. The most common stability-focused recommendation is setting the Pagefile's minimum to 40GB. ⚠️NOTE: some sources say Skyrim's engine was programmed to require high Pagefile usage even when there is more than enough RAM available. To be on the safe side, ensure your Pagefile settings even if you have 128GB of RAM.</li>
                                 <li>Maintain <a href="https://computercity.com/hardware/storage/how-much-space-should-i-leave-on-my-ssd">at least 10-20% free space</a> on your SSD for optimal performance.</li>
                                 <li>Return any <b>overclocked hardware</b> to stock speeds.</li>
-                                <li>Review <b>Jerilith's Safe Save Guide</b> at <a href="https://www.nolvus.net/catalog/crashlog?acc=accordion-1-5">Save Bloat Crash</a></li> as following these guidelines may help minimize late-game issues with loading save files.</li>
+                                <li>Review saving guidelines at <a href="https://www.reddit.com/r/Nolvus/comments/1il4x57/jeriliths_2025_skyrim_safesaveguide_sexy_free/">Jerilith's 2025 Skyrim Safe-Save-Guide [sexy free edition]</a></li> as following these guidelines may help minimize late-game issues with loading save files.</li>
                             </ul>
                         </li>
                         <li>If using custom mods, check the <a href="https://www.nolvus.net/catalog/crashlog?acc=accordion-1-7">Load Order Crash</a> guide</li>
@@ -2426,6 +2426,48 @@ function analyzeHUDCrash(sections) {
             <li>Verify that your SKSE (Skyrim Script Extender) is up-to-date, as it's essential for many mods, including SkyUI.</li>
             <li>If you're using other HUD-related mods, ensure they are compatible and load them in the correct order.</li>
         </ol></li>`;
+    }
+
+    return insights;
+}
+
+
+
+//❗ Wheeler Issue Detected:
+function analyzeWheelerCrash(sections, logFile) {
+    let insights = '';
+
+    if (sections.topQuarter.toLowerCase().includes('wheeler.dll'.toLowerCase()) && logFile.toLowerCase().includes('EngineFixes.dll'.toLowerCase())) {
+        insights += `<li>❗ <b>Wheeler Issue Detected:</b><ol>
+            <li><b>First,</b> install the <a href="https://www.nexusmods.com/skyrimspecialedition/mods/132074">Wheeler CTD-Fix mod</a> to potentially resolve crashes associated with the Wheeler mod.</li>
+            <li><b>However,</b> if the Wheeler CTD-Fix mod is already installed but you are still seeing this crash, <b>Consider reinstalling:</b> <a href="https://www.nexusmods.com/skyrimspecialedition/mods/17230">SSE Engine Fixes</a>
+                <ul>
+                    <li>WARNING: This mod is <strong>frequently misinstalled</strong>, so be careful to follow instructions on Nexus page to install BOTH parts:
+                        <ul>
+                            <li>Part 1: The SKSE plugin. Be sure to download the <b>updated</b> version for Skyrim ${Utils.getSkyrimVersion(sections.header)} and install via your mod manager</li>
+                            <li>Part 2: The DLL files. Must be manually placed in Skyrim root folder</li>
+                        </ul>
+                    </li>
+                    <li>Configure SSE Engine Fixes properly:
+                        <ul>
+                            <li>Option 1 (Recommended): Download the <a href="https://www.nexusmods.com/skyrimspecialedition/mods/108069">pre-configured TOML file</a></li>
+                            <li>Option 2: Manually configure following this <a href="https://www.reddit.com/r/skyrimmods/comments/tpmf8x/crash_on_load_and_save_corruption_finally_solved/">settings guide</a>. Verify/Edit these settings in <code>EngineFixes.toml</code> :
+                                <ul>
+                                    <li><code>SaveGameMaxSize = true</code></li>
+                                    <li><code>MaxStdio = 8192</code></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+        </ol></li>
+        
+        <li>Detected indicators: <a href="#" class="toggleButton">⤵️ show more</a><ul class="extraInfo" style="display:none">
+            <li><code>wheeler.dll</code> - detected in top quarter sections of crash log</li>
+            <li><code>EngineFixes.dll</code> - already installed</li>
+        </ul></li>
+        `;
     }
 
     return insights;

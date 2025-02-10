@@ -214,7 +214,7 @@ span {
 .kofi-button {
     display: inline-flex;
     align-items: center;
-    background-color: #72a4f2;
+    background-color: darkgoldenrod;
     color: white;
     padding: 10px 16px;
     padding: clamp(8px, 2vw, 16px) clamp(12px, 3vw, 24px); /* responsive clamp overrides */
@@ -252,7 +252,7 @@ span {
 
 /* Hover Effect */
 .kofi-button:hover {
-    background-color: darkgoldenrod;
+    background-color: #72a4f2;
 }
 
 /* Thank You Message Styling */
