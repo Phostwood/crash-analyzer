@@ -16,6 +16,7 @@ PROBABLE CALL STACK:
 	//DELETE THESE TO SEE: regular kernel base issue
 	[0]	 0x7FFB1A2683EA		 (KERNELBASE.dll+C83EA)				 
 	[1]	 0x7FFA6333A320		 (SkyrimUpscaler.dll+8A320) 
+	[2] wheeler.dll
 
 
 REGISTERS:
@@ -220,6 +221,7 @@ MODULES:
 	zavcore.dll
 
 SKSE PLUGINS:
+	EngineFixes.dll
 
 
 PLUGINS:

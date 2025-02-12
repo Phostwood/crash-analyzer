@@ -1,56 +1,116 @@
-✅Version 1.21.2 is now live:
+✅Version 1.21.3 is now live:
 https://phostwood.github.io/crash-analyzer/
 
-1. ✅New test: ❗ Wheeler Issue Detected:
-	- Thank you, Iyzik!
+1. ✅New test: MCO and BFCO incompatibility
+	✅Be sure to add Iyzik the Thank You list!
+	- ✅indicators:
+		- ✅MCO.dll
+		- ✅BFCO.dll 
+	- ✅Tested on sufficient sample size: ~25 crash logs found in library (all renamed with "BFCO" in title)
+	- ✅add indicators to Test Logs
 
-2. ✅Updated Jerilith's safe saves guide with new link to repost on Reddit: 
-	- https://www.reddit.com/r/Nolvus/comments/1il4x57/jeriliths_2025_skyrim_safesaveguide_sexy_free/
+2. ✅ Possible Animation Loader/Behavior Engine Issue Detected:
+	- ✅Refined instructions from new MCO and BFCO test... thanks, Iyzik!
+	- ✅Merged separate 67B88B test into Animations Loader test
+		- ✅Added refined info previously only in the separate hexcode test on FNIS.esp with Nemesis
+		- ✅Added specific hexcode to "Detected indicators" list (not as a high priority hexcode though, it is only theoretical(doesn't exist in my crash library) and googling it, I never found a confident or consistent diagnosis)
 
-3. ✅Donations section:
-	- Changed donation to $1 ... and changed the donation section to reflect that.
-	- Made a stronger appeal for donations.
-	- Switched around button's hover and normal background covers to look more like a coin normally, and more like a link when you hover
+2. ✅ 🎯 A0D789 Crash Detected:
+	- ✅Refactored into function for better manageability
+	- ✅Added note on detected indictor
+
+3. ✅ Donation section: shortened and reordered second bullet
+
+4. ✅ ❓ Potential Memory Issue Indicators Found:
+	- ✅added to "Mentioned mesh files:"
+		-  ✅"(note: any skeleton-related mesh files are less-likely indicators)"
+
+5. ✅❗ Wheeler Issue Detected:
+	- ✅add indicators to Test Logs (NOTE: needed to be in second set of test logs, so "Missing Engine Fixes" test would still work)
+
+6. ✅❗Incompatible Snow Mods Detected:
+	- ✅added links to both mods in Nexus for easy reference
+	- ✅shortened instructions
+	- ✅mentioned SoS seems often preferred by the community
+
+7. ✅❗ Probable NavMesh/Pathing Issue Detected:
+	- ✅Added a newly found indicator: CombatNavmeshSearchT
+	- ✅Added 8 more theoretical indicators suggested by Claude AI ... although searches through my library didn't find any of them.
+	- ✅Moved it up the list a few notches ... seems pretty reliable (now in Higher-Confidence Test Results section)
+	- ✅added new indicators to test logs
+	- ✅Extra testing didn't see any new false-positives from new indicator(s) ... just seemed to add onto already listed insight
+
+8. ✅Added to several tests' "Detected indicators" line: "(more indicators often increases likelihood of causation)"
+
+9. ✅diagnoses.js: Added more test-title comments to improve code scanning/searching
+
+10. ✅Windows pagefile instructions
+	- ✅since already 99% shared and in over a half dozen locations ... created a shared string const verifyWindowsPageFileListItem
+	- ✅New 💾 floppy disk emoji usage, for Windows Pagefile steps ... since this is often the first step in troubleshooting. Clicking the "💾" now brings up a copy-paste like this:
+		- 💾 Verify your [Windows Pagefile is properly configured](<https://www.nolvus.net/appendix/pagefile>) (nolvus.net link, but broadly applicable). The most common stability-focused recommendation is setting the Pagefile's minimum and maximum to 40GB. ⚠️NOTE: some sources say Skyrim's engine was programmed to require high Pagefile usage even when there is more than enough RAM available. To be on the safe side, ensure your Pagefile settings even if you somehow have a terrabyte of RAM.
 
 
---- notes from this version: ---
 
-1. ✅Idea from Iyzik: New Wheeler test
-	- ✅Added to Thank You list
-	- https://old.reddit.com/r/skyrimmods/comments/1ikvl0y/can_someone_help_a_noob_decipher_their_crashlog/
-	- ✅If Engine Fixes already installed
-	- ✅If Wheeler shows up in sections.topQuarter
-	- ✅then recommend mod that reportedly fixes some issues in Wheeler:
-		- ✅https://www.nexusmods.com/skyrimspecialedition/mods/132074
-		- ✅display in Advanced Section, probably under "Higher Confidence Issues" for now
-		- ✅unfortunately, the fix doesn't seem to have it's own file to detect in crash logs
-	- ✅test log: needs wheeler fix mod - firstLine wheeler-dll - user Iyzik - wdNX4usA.txt
-		- ✅indicators to check for:
-			- ✅EngineFixes.dll in logFile
-			- ✅wheeler.dll in sections.topQuarter
+--- NOTES for this version ---
+
+1. https://www.reddit.com/r/skyrimmods/comments/1ikensd/bow_rapid_combo_v3_tpose/
+	Iyzik:
+	"MCO and BFCO installed. Idk if that would affect the main bow attack, but those two aren’t compatible and do the same thing (more or less)."
+	"u/Phostwood I’ve seen this a few times recently, where people have both MCO and BFCO installed. It doesn’t cause crashes usually, but might still be a helpful note for your analyzer to mention if both DLL’s are present? Just an idea…"
+	- crash log with same issue: https://www.reddit.com/r/skyrimmods/comments/1ic6zii/modded_skyrim_se_freezescrashes_when_i_randomly/
 
 
-2. ✅Update Safe Save Guidelines in Analyzer:
-	- ✅Reposted from Discord: https://www.reddit.com/r/Nolvus/comments/1il4x57/jeriliths_2025_skyrim_safesaveguide_sexy_free/
-	- ✅also, update/edit my original reddit post
-		- https://old.reddit.com/r/skyrimmods/comments/1hntsnl/thoughts_on_jeriliths_safe_save_guide/
-	- ✅❓ BGSSaveLoadManager Issue Detected:
-	- ✅ Nolvus version of "No Highest Confidence"
+
 
 
 --- Upcoming version ideas ---
 
-1. ⏸️New test: MCO and BFCO incompatibility
-	https://www.reddit.com/r/skyrimmods/comments/1ikensd/bow_rapid_combo_v3_tpose/
-	Iyzik:
-	"MCO and BFCO installed. Idk if that would affect the main bow attack, but those two aren’t compatible and do the same thing (more or less)."
-	"u/Phostwood I’ve seen this a few times recently, where people have both MCO and BFCO installed. It doesn’t cause crashes usually, but might still be a helpful note for your analyzer to mention if both DLL’s are present? Just an idea…"
-	⭐️Be sure to add Iyzik the Thank You list!
-	- crash log with same issue: https://www.reddit.com/r/skyrimmods/comments/1ic6zii/modded_skyrim_se_freezescrashes_when_i_randomly/
-	- files show up in crash log as:
-		- MCO.dll
-		- ⏸️PAUSE while looking for BFCO.dll or other indicator to spot in a log
-		
+1. New test: levelList crash (see notes)
+
+	https://www.reddit.com/r/skyrimmods/s/vbsk6s7eFB
+	https://old.reddit.com/r/skyrimmods/comments/1i4tel9/crash_while_saving_at_random/
+
+	See log file on laptop:
+	LeveledList issue maybe - dyfXstQz.txt
+
+	"RomatebitegeL[F] 2 points 22 days ago 
+
+	Yes LeveledItem (53) would be the indicator with the form id associated with it. And I do believe 53 is always at the end.
+
+	It would be great if you could make your analyzer shows as a culprit, in unsure logs, the most showed form id as the probable culprit. This is one thing Skyrim Crash Decoder in fact does well.
+
+	So in this log with OP (that also seems to have been solved) that would have been LeveledItem with form id 0009AF0A.
+
+	Then you can just add the info about deleting it with Resaver. When your analyzer catches this too, then it will become an even more powerful tool!
+
+	"
+
+	Reportedly, this fixed it:
+	LeveledList Crash Fix
+	https://www.nexusmods.com/skyrimspecialedition/mods/129136
+	requires Skyrim SE version 1.6.1130+
+
+
+	20250211 fix confirmed: https://old.reddit.com/r/skyrimmods/comments/1in3esq/experiencing_crashing_when_making_any_type_of_save/
+
+1. Minor bugfix: checkLotdKaragasTowerDoorCrash() needs to list its hexcode as a Detected Indicator
+
+
+
+2. New DbSkseFunctions.dll crash? (see notes)
+
+3. SoS JK's ... make both mod names linked to their nexus pages (for better readability of the sentence if nothing else)
+
+4. ❓ skee64.dll Issue Detected:
+	- make it include the statement about skeleton meshes not being as good indicators
+	- needs moved into diagnoses.js
+	- its files list needs to be changed over to the new shared-code way
+
+
+--
+
+1. Consider listing conflicting mods as another potential cause of a Missing Masters?
+	- https://discord.com/channels/341090804611285003/1338467559149666325/1338551629309415526
 
 1. Consider merging these two tests:
 	- ❓ CompressedArchiveStream Issue Detected:
@@ -60,8 +120,6 @@ https://phostwood.github.io/crash-analyzer/
 
 1. Consider no longer emphasizing Memory issue for D6DDDA? It's kind of a repeat of what it already says above it the D6DDDA issue, but might overly steer users towards memory issues instead of texture issues?
 
-
-2. New DbSkseFunctions.dll crash? (see notes)
 
 3. XP Skeleton mod issue not listed in analyzer's report (see recent Reddit reply)
    - https://old.reddit.com/r/skyrimmods/comments/1ihfoxi/need_help_reading_crash_log/
@@ -73,7 +131,7 @@ https://phostwood.github.io/crash-analyzer/
 	https://discord.com/channels/740569699900719145/1168063977029382235/1337068256564871198
 
 
-1. ⏸️Pause for FormIDs: New test: levelList crash (see notes)
+
 
 
 3. ⏸️PAUSE FOR FEEDBACK: New Bad Mods list for presumably abandoned mods that are currently known for causing issues. Usually it would be advised to use an alternative to this/these mod(s):
@@ -103,7 +161,8 @@ Means one of these:
 
 2. Two or three new ideas shared with me by wankingskeever as replies on r/SkyrimMods
 
-
+3. Any new tests from this NSF article from 2021?
+https://arca.live/b/dagothur/31805310
 
 
 --- Next version ---

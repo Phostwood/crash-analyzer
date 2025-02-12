@@ -1,5 +1,8 @@
 //All diagnosing functions for both analyzeLog.js's diagnoses and insights variables. Only use insights.js if there needs to be a version of a function unique to the insights variable
 
+// --- Shared Constants ---
+const verifyWindowsPageFileListItem = `<li>💾 Verify your <a href="https://www.nolvus.net/appendix/pagefile">Windows Pagefile is properly configured</a> (nolvus.net link, but broadly applicable). The most common stability-focused recommendation is setting the Pagefile's minimum and maximum to 40GB. ⚠️NOTE: some sources say Skyrim's engine was programmed to require high Pagefile usage even when there is more than enough RAM available. To be on the safe side, ensure your Pagefile settings even if you somehow have a terrabyte of RAM.</li>`;
+
 
 //NonESL Plugins Count Warning
 function checkForTooManyNonEslPlugins(crashLogSection) {
@@ -334,7 +337,7 @@ function checkForD6dddaEasyVersion(sections) {
                 <li>System Memory Management:
                     <ol>
                         <li>Close unnecessary background applications that may be consuming memory.</li>
-                        <li>Verify your <a href="https://www.nolvus.net/appendix/pagefile">Windows Pagefile is properly configured</a>. The most common stability-focused recommendation is setting the Pagefile's minimum to 40GB. ⚠️NOTE: many sources say Skyrim's engine was programmed to require high Pagefile usage even when there is more than enough RAM available. To be on the safe side, ensure your Pagefile settings even if you have 128GB of RAM.</li>
+                        ${verifyWindowsPageFileListItem}
                         <li>Return any overclocked hardware to stock speeds, as unstable overclocks are known for causing crashes that can look like memory issues in crash logs.</li>
                         <li>Maintain <a href="https://computercity.com/hardware/storage/how-much-space-should-i-leave-on-my-ssd">at least 10-20% free space</a> on your SSD for optimal performance.</li>
                         <li>Review your modlist's (or individual mods') recommended hardware requirements to verify you aren't overly below their system recommendations.</li>
@@ -362,7 +365,7 @@ function checkForD6dddaAdvancedVersion(sections) {
                 <li>System Memory Management:
                     <ol>
                         <li>Close unnecessary background applications that may be consuming memory.</li>
-                        <li>Verify your <a href="https://www.nolvus.net/appendix/pagefile">Windows Pagefile is properly configured</a>. The most common stability-focused recommendation is setting the Pagefile's minimum to 40GB. ⚠️NOTE: many sources say Skyrim's engine was programmed to require high Pagefile usage even when there is more than enough RAM available. To be on the safe side, ensure your Pagefile settings even if you have 128GB of RAM.</li>
+                        ${verifyWindowsPageFileListItem}
                         <li>Return any overclocked hardware to stock speeds, as unstable overclocks are known for causing crashes that can look like memory issues in crash logs.</li>
                         <li>Maintain <a href="https://computercity.com/hardware/storage/how-much-space-should-i-leave-on-my-ssd">at least 10-20% free space</a> on your SSD for optimal performance.</li>
                         <li>For systems with less than 12GB VRAM (or more for ultrawide/high-resolution displays) (<a href="https://www.lifewire.com/how-to-check-vram-5235783">check your VRAM here</a>), consider using <a href="https://www.reddit.com/r/Nolvus/comments/1doakj1/psa_use_vramr_if_you_have_12gb_of_vram/">VRAMr</a>. This tool automatically compresses texture files across your load order, reducing VRAM usage while maintaining visual fidelity and improving stability.</li>
@@ -411,7 +414,7 @@ function checkForHighMemoryUsage(sections) {
         diagnosis += `<li>${warningIcon} <b>${warningLevel} Memory Usage Detected:</b> Your system was running at ${isRamWarning ? `<code>${physicalMemoryPercent}%</code> RAM usage` : ''}${(isRamWarning && isVramWarning) ? ' and ' : ''}${isVramWarning ? `<code>${gpuMemoryPercent}%</code> VRAM usage` : ''} when this crash occurred. High memory usage can lead to instability. Please review the rest of this crash report carefully, as memory usage issues can often be <i>caused</i> by other issues that need to be addressed. Key steps for early consideration (especially if this issue comes up frequently):
             <ul>
                 <li>Close unnecessary background applications</li>
-                <li>Verify your <a href="https://www.nolvus.net/appendix/pagefile">Windows Pagefile is properly configured</a>. The most common stability-focused recommendation is setting the Pagefile's minimum to 40GB. ⚠️NOTE: many sources say Skyrim's engine was programmed to require high Pagefile usage even when there is more than enough RAM available. To be on the safe side, ensure your Pagefile settings even if you have 128GB of RAM.</li>
+                ${verifyWindowsPageFileListItem}
                 <li>If you have less than 12GB VRAM (adjust higher if using a 4K monitor and/or an ultra-wide resolution), consider these optimization strategies:
                     <ul>
                         <li>Switch texture mods to 1K or 2K variants</li>
@@ -638,7 +641,7 @@ function checkLogTypeAndProvideRecommendations(logType, sections) {
 
 
 
-
+//❗ Probable Memory Issue Detected: 
 function analyzeMemoryIssues(sections) {
     let memoryInsights = '';
     const physicalMemoryPercent = sections.systemPhysicalMemoryPercentUsed;
@@ -722,7 +725,7 @@ function analyzeMemoryIssues(sections) {
         <li><b>System Resource Management:</b>
             <ul>
             <li>Reboot PC and close any unnecessary applications to maximize available RAM for Skyrim.</li>
-            <li>Verify your <a href="https://www.nolvus.net/appendix/pagefile">Windows Pagefile is properly configured</a>. The most common stability-focused recommendation is setting the Pagefile's minimum to 40GB. ⚠️NOTE: many sources say Skyrim's engine was programmed to require high Pagefile usage even when there is more than enough RAM available. To be on the safe side, ensure your Pagefile settings even if you have 128GB of RAM.</li>
+            ${verifyWindowsPageFileListItem}
             <li>Return any overclocked hardware to stock speeds, as unstable overclocks are known for causing crashes that can look like memory issues in crash logs.</li>
             <li>Maintain <a href="https://computercity.com/hardware/storage/how-much-space-should-i-leave-on-my-ssd">at least 10-20% free space</a> on your SSD for optimal performance.</li>
             <li>Review your modlist's (or individual mods') recommended hardware requirements to verify you aren't overly below their system recommendations.</li>
@@ -803,7 +806,7 @@ function analyzeMemoryIssues(sections) {
 }
 
 
-
+//❗ Dragon's Eye Minimap Issue Detected:
 function analyzeDragonsEyeMinimapIssue(sections) {
     let insights = '';
     const dllFileName = 'DragonsEyeMinimap.dll';
@@ -847,7 +850,7 @@ function analyzeDragonsEyeMinimapIssue(sections) {
 
 
 
-
+//❗ Possible Visual C++ Runtime DLL Issues Detected:
 function analyzeVCRuntimeIssue(sections) {
     let insights = '';
     
@@ -927,7 +930,8 @@ function analyzeVCRuntimeIssue(sections) {
 
 
 
-//❗/❓ Mesh Issue (seven related tests merged together)
+//❗ Probable Mesh Issue Detected:
+// (seven related tests merged together)
 function analyzeMeshIssues(sections) {
     let meshInsights = '';
     let isHighPriority = false;
@@ -1009,7 +1013,7 @@ function analyzeMeshIssues(sections) {
         }
 
         if (meshCodeIssues.length > 0) {
-            meshInsights += `<li>Mentioned indicators: <a href="#" class="toggleButton">⤵️ show more</a><ul class="extraInfo" style="display:none">`;
+            meshInsights += `<li>Detected indicators  (more indicators often increases likelihood of causation): <a href="#" class="toggleButton">⤵️ show more</a><ul class="extraInfo" style="display:none">`;
             meshCodeIssues.forEach(({ code, description }) => {
                 meshInsights += `<li><code>${code}</code> - ${description}</li>`;
             });
@@ -1031,7 +1035,7 @@ function analyzeMeshIssues(sections) {
 }
 
 
-
+//🎯 Dawnguard Horse Issue Detected: 
 function analyzeDawnguardHorseIssue(sections) {
     let diagnosis = '';
     const dawnguardHorseIssueKeywords = ["Skyrim Immersive Creatures", "Horse", "Celann", "Isran"];
@@ -1051,7 +1055,7 @@ function analyzeDawnguardHorseIssue(sections) {
 }
 
 
-
+//❗ Probable NavMesh/Pathing Issue Detected:
 function analyzePathingIssues(sections) {
     let pathingInsights = '';
     let isHighPriority = false;
@@ -1097,7 +1101,7 @@ function analyzePathingIssues(sections) {
                     </ul>
                 </li>`;
                 
-        pathingInsights += `<li>Detected indicators: <a href="#" class="toggleButton">⤵️ show more</a><ul class="extraInfo" style="display:none">`;
+        pathingInsights += `<li>Detected indicators (more indicators often increases likelihood of causation): <a href="#" class="toggleButton">⤵️ show more</a><ul class="extraInfo" style="display:none">`;
         pathingIssueIndicators.forEach(({ code, description }) => {
             pathingInsights += `<li><code>${code}</code> - ${description}</li>`;
         });
@@ -1109,7 +1113,7 @@ function analyzePathingIssues(sections) {
 
 
 
-//General Animation issues
+//❗ Probable Animation Issue Detected:
 function analyzeAnimationIssues(sections) {
     let animationInsights = '';
     let isHighPriority = false;
@@ -1192,7 +1196,7 @@ function analyzeAnimationIssues(sections) {
         </li>`;
 
         if (animationCodeIssues.length > 0) {
-            animationInsights += `<li>Detected indicators: <a href="#" class="toggleButton">⤵️ show more</a><ul class="extraInfo" style="display:none">`;
+            animationInsights += `<li>Detected indicators  (more indicators often increases likelihood of causation): <a href="#" class="toggleButton">⤵️ show more</a><ul class="extraInfo" style="display:none">`;
             animationCodeIssues.forEach(({ code, description }) => {
                 animationInsights += `<li><code>${code}</code> - ${description}</li>`;
             });
@@ -1214,7 +1218,7 @@ function analyzeAnimationIssues(sections) {
 }
 
 
-
+//❓ Possible Texture Issue Indicators Found:
 function analyzeTextureIssues(sections) {
     let textureInsights = '';
     let isHighPriority = false;
@@ -1258,7 +1262,7 @@ function analyzeTextureIssues(sections) {
         <li>Identify problem textures:
             <ul>
             <li>Check the list of mentioned textures below to identify which mod(s) might be causing issues.</li>
-            <li>Try comparing multiple crash logs, but if you see this message again with any of the same "Mentioned texture files" then continue investigating using the steps below...
+            <li><b>Compare multiple crash logs:</b>, If you see this message again with any of the same "Mentioned texture files" then continue investigating using the steps below...
             <li>Temporarily disable suspect texture mods (or temporarily remove their suspected texture files) one at a time to isolate the problem.</li>
             <li>Pay special attention to mods affecting the area where the crash occurred.</li>
             </ul>
@@ -1281,7 +1285,7 @@ function analyzeTextureIssues(sections) {
         </li>`;
 
         if (textureCodeIssues.length > 0) {
-            textureInsights += `<li>Detected indicators: <a href="#" class="toggleButton">⤵️ show more</a><ul class="extraInfo" style="display:none">`;
+            textureInsights += `<li>Detected indicators  (more indicators often increases likelihood of causation): <a href="#" class="toggleButton">⤵️ show more</a><ul class="extraInfo" style="display:none">`;
             textureCodeIssues.forEach(({ code, description }) => {
                 textureInsights += `<li><code>${code}</code> - ${description}</li>`;
             });
@@ -1306,7 +1310,7 @@ function analyzeTextureIssues(sections) {
 
 
 
-// HairMaleNord01
+//❗ Probable Hair Mod Issue Detected: 
 function checkHairModCompatibility(sections, logFile) {
     const hairModStrings = [
         'HairMaleNord', // These would ussualy appear with a number at the end. Example: HairMaleNord01
@@ -1400,7 +1404,7 @@ function checkHairModCompatibility(sections, logFile) {
 
 
 
-//BGSSaveLoadManager
+//❓ BGSSaveLoadManager Issue Detected: 
 function analyzeBGSSaveLoadManagerIssue(sections) {
     let insights = '';
     if (sections.topHalf.toLowerCase().includes('BGSSaveLoadManager'.toLowerCase())) {
@@ -1439,6 +1443,8 @@ function analyzeBGSSaveLoadManagerIssue(sections) {
     return insights;
 }
 
+
+//🎯 DLAA Incompatibility + Windows 24H2 KERNELBASE Crash Detected:
 function analyzeWin24H2UpscalerCrash(sections) {
     let insights = '';
     
@@ -1490,7 +1496,7 @@ function checkKernelbaseCrash(sections, Utils, win24H2UpscalerCrash, isDiagnoses
                 <li>❗ <b>KERNELBASE Crash Detected:</b> This rare issue could be related to a specific added mod, or to hardware or a system-wide issue. Here are some steps you can try:
                     <ol>
                         <li><b>First</b>, try to reproduce the crash after rebooting your PC and playing the game again. If this was a one-time occurrence, you probably don't need to follow the more intensive troubleshooting steps below.</li>
-                        <li>Verify your <a href="https://www.nolvus.net/appendix/pagefile">Windows Pagefile is properly configured</a>. The most common stability-focused recommendation is setting the Pagefile's minimum to 40GB. ⚠️NOTE: many sources say Skyrim's engine was programmed to require high Pagefile usage even when there is more than enough RAM available. To be on the safe side, ensure your Pagefile settings even if you have 128GB of RAM.</li>
+                        ${verifyWindowsPageFileListItem}
                         <li>Check with the <b>Nolvus community</b> to see if others are encountering this issue due to a new Windows update or the like.</li>
                         <li>You can restore the original sorting of all vanilla Nolvus mods using the <b>Apply Order</b> button in the Nolvus Dashboard. For more information and a screenshot, see this r/Nolvus post <a href="https://www.reddit.com/r/Nolvus/comments/1chuod0/how_to_apply_order_button_usage_in_the_nolvus/">How To: "Apply Order" button usage in the Nolvus Dashboard</a>.</li>
                         <li><b>Reinstall Nolvus</b> to ensure the installation is not corrupted. Make sure to back up any important data before doing this. For detailed instructions, see this <a href="https://docs.google.com/document/d/1R_AVeneeCiqs0XGYzggXx34v3Ufq5eUHNoCHo3QE-G8/edit">guide</a>.</li>
@@ -1505,7 +1511,7 @@ function checkKernelbaseCrash(sections, Utils, win24H2UpscalerCrash, isDiagnoses
                     <ol>
                         <li><b>First</b>, try to reproduce the crash after rebooting your PC and playing the game again. If this was a one-time occurrence, you probably don't need to follow the more intensive troubleshooting steps below.</li>
 
-                        <li>Verify your <a href="https://www.nolvus.net/appendix/pagefile">Windows Pagefile is properly configured</a>. The most common stability-focused recommendation is setting the Pagefile's minimum to 40GB. ⚠️NOTE: many sources say Skyrim's engine was programmed to require high Pagefile usage even when there is more than enough RAM available. To be on the safe side, ensure your Pagefile settings even if you have 128GB of RAM.</li>
+                        ${verifyWindowsPageFileListItem}
 
                         <li>Check with the <b>${!Utils.isSkyrimPage ? 'Nolvus community' : 'Skyrim modding community'}</b> to see if others are encountering this issue due to a new Windows update or the like.</li>
 
@@ -1743,7 +1749,7 @@ function generateNoCrashDetectedMessage() {
                         <li>Always try the classic computer solution - <b>restart your PC</b>: This clears memory and resolves many system-level issues, especially after extended gaming sessions. It's surprising how many issues this old IT tip still fixes...</li>
                         <li>If one save won't load, try to <b>load an older save</b>.</li>
                         <li>Sometimes it can help to <b>separate from your followers</b> to get past a crash point. Ask NPC and pet and horse followers to "wait" at a safe location, away from the crash-prone loading area (cell). This reduces script load and rendering complexities in crash-prone areas. This can be especially helpful during visually busy scenes like combat, and also with crashes that occur when loading into a new area. Afterwards, return to collect your followers once you're past the problematic spot. Alternatively, many follower frameworks will also allow teleporting companions back once you are past the crash-prone segment.</li> 
-                        <li>Verify your <a href="https://www.nolvus.net/appendix/pagefile">Windows Pagefile is properly configured</a>. The most common stability-focused recommendation is setting the Pagefile's minimum to 40GB. ⚠️NOTE: some sources say Skyrim's engine was programmed to require high Pagefile usage even when there is more than enough RAM available. To be on the safe side, ensure your Pagefile settings even if you have 128GB of RAM.</li>
+                        ${verifyWindowsPageFileListItem}
                         <li>Maintain <a href="https://computercity.com/hardware/storage/how-much-space-should-i-leave-on-my-ssd">at least 10-20% free space</a> on your SSD for optimal performance.</li>
                         <li>Return any <b>overclocked hardware</b> to stock speeds.</li>
                     </ul>
@@ -1783,7 +1789,7 @@ function generateNoCrashDetectedMessage() {
                                 <li>Always try the classic computer solution - <b>restart your PC</b>: This clears memory and resolves many system-level issues, especially after extended gaming sessions. It's surprising how many issues this old IT tip still fixes...</li>
                                 <li>If one save won't load, try to <b>load an older save</b>.</li>
                                 <li>Sometimes it can help to <b>separate from your followers</b> to get past a crash point. Ask NPC and pet and horse followers to "wait" at a safe location, away from the crash-prone loading area (cell). This reduces script load and rendering complexities in crash-prone areas. This can be especially helpful during visually busy scenes like combat, and also with crashes that occur when loading into a new area. Afterwards, return to collect your followers once you're past the problematic spot. Alternatively, many follower frameworks will also allow teleporting companions back once you are past the crash-prone segment.</li> 
-                                <li>Verify your <a href="https://www.nolvus.net/appendix/pagefile">Windows Pagefile is properly configured</a>. The most common stability-focused recommendation is setting the Pagefile's minimum to 40GB. ⚠️NOTE: some sources say Skyrim's engine was programmed to require high Pagefile usage even when there is more than enough RAM available. To be on the safe side, ensure your Pagefile settings even if you have 128GB of RAM.</li>
+                                ${verifyWindowsPageFileListItem}
                                 <li>Maintain <a href="https://computercity.com/hardware/storage/how-much-space-should-i-leave-on-my-ssd">at least 10-20% free space</a> on your SSD for optimal performance.</li>
                                 <li>Return any <b>overclocked hardware</b> to stock speeds.</li>
                                 <li>Review saving guidelines at <a href="https://www.reddit.com/r/Nolvus/comments/1il4x57/jeriliths_2025_skyrim_safesaveguide_sexy_free/">Jerilith's 2025 Skyrim Safe-Save-Guide [sexy free edition]</a></li> as following these guidelines may help minimize late-game issues with loading save files.</li>
@@ -1896,7 +1902,6 @@ function analyzeOverlayIssues(sections, logFile) {
 
 
 //❓Animation Loader/Behavior Engine Issue Detected
-
 function analyzeAnimationLoaderIssues(sections) {
     let loaderInsights = '';
     let isHighPriority = false;
@@ -1914,27 +1919,28 @@ function analyzeAnimationLoaderIssues(sections) {
         //isHighPriority = true;
         loaderInsights += `<li>❓ <b>Possible Animation Loader/Behavior Engine Issue Detected:</b> To fix this, please follow these steps:
         <ol>
-        <li>First steps:
+        <li>Regenerate/patch your animations using your behavior engine:
             <ul>
-            <li>Regenerate/patch your animations using your behavior engine:
-                <ul>
+                <li>General requirements for behavior engines:
+                    <ul>
+                        <li>Clear the behavior engine's cache before regenerating</li>
+                        <li>Check/enable all relevant boxes/options to generate the correct files for your installed mods</li>
+                    </ul>
+                </li>
                 <li>If using <a href="https://www.nexusmods.com/skyrimspecialedition/mods/3038">FNIS</a>: Run GenerateFNISforUsers.exe</li>
                 <li>If using <a href="https://www.nexusmods.com/skyrimspecialedition/mods/60033">Nemesis</a>: Run Nemesis Unlimited Behavior Engine
                     <ul>
                         <li>reference: <a href="https://www.reddit.com/r/skyrimmods/comments/t2rk34/nemesis_pro_tip/">guide to clearing Nemesis cache</a></li>
                         <li>reference: <a href="https://www.nolvus.net/guide/asc/output/nemesis">example instructions from Nolvus</a> (with numerous screenshots)</li>
                     </ul>
+                </li>
                 <li>If using <a href="https://www.nexusmods.com/skyrimspecialedition/mods/133232">Pandora</a>: Run Pandora Behavior Engine</li>
-                </ul>
-            </li>
-            <li>Ensure you're running the behavior engine as Administrator</li>
-            <li>Clear the behavior engine's cache before regenerating</li>
-            <li>Remember to check/enable all relevant boxes/options in your behavior engine's interface (FNIS/Nemesis/Pandora) to generate all the correct files for your installed mods.</li>
             </ul>
         </li>
         
         <li>If regeneration fails:
             <ul>
+            <li>Consider running the behavior engine as Administrator</li>
             <li>Check if any animation mods were recently added or updated</li>
             <li>When disabling animation mods for testing, remember to run your behavior engine after each change to properly update animations (otherwise you may see T-posing or other animation issues)</li>
             <li>Verify your animation frameworks (DAR/OAR) is installed and up to date</li>
@@ -1944,6 +1950,7 @@ function analyzeAnimationLoaderIssues(sections) {
 
         <li>Common issues to check:
             <ul>
+            <li>If it was generated, ensure the <code>FNIS.esp</code> file is enabled. It is only generated by Nemesis when needed, and is a dummy plugin necessary for some mods. Without it being enabled when it needs to be, you can get a <b>Missing Master</b> error. <a href="https://www.reddit.com/r/skyrimmods/comments/olvygb/fnisesp_and_nemesis/">More information</a>.</li>
             <li>Incompatible animation mods between different behavior engines</li>
             <li>Incorrect load order for animation frameworks</li>
             <li>Corrupted behavior files from incomplete downloads or updates</li>
@@ -1954,7 +1961,7 @@ function analyzeAnimationLoaderIssues(sections) {
         loaderInsights += `<li>Note: These issues may overlap with general animation issues. If animation regeneration doesn't solve the problem, check for an "Animation Issue" section directly above for additional troubleshooting ideas.</li>`;
 
         if (loaderCodeIssues.length > 0) {
-            loaderInsights += `<li>Detected indicators: <a href="#" class="toggleButton">⤵️ show more</a><ul class="extraInfo" style="display:none">`;
+            loaderInsights += `<li>Detected indicators  (more indicators often increases likelihood of causation): <a href="#" class="toggleButton">⤵️ show more</a><ul class="extraInfo" style="display:none">`;
             loaderCodeIssues.forEach(({ code, description }) => {
                 loaderInsights += `<li><code>${code}</code> - ${description}</li>`;
             });
@@ -2312,19 +2319,15 @@ function checkSnowModsCompatibility(logFile) {
     // Condition for potential issue
     if (hasBetterDynamicSnow && hasSimplicityOfSnow) {
         insights += `<li>❗ <b>Incompatible Snow Mods Detected:</b> 
-            Your load order includes both Better Dynamic Snow SE and Simplicity of Snow, which are incompatible with each other.
+            Your load order includes both <a href="https://www.nexusmods.com/skyrimspecialedition/mods/56235">Simplicity of Snow</a> and <a href="https://www.nexusmods.com/skyrimspecialedition/mods/9121">Better Dynamic Snow SE</a>, which are incompatible with each other.
             <ul>
-                <li>To resolve this, you must choose only one of these mods:
-                    <ol>
-                        <li>Uninstall Better Dynamic Snow SE <b>OR</b></li>
-                        <li>Uninstall Simplicity of Snow</li>
-                    </ol>
-                </li>
+                <li>To resolve this, you must uninstall (or at least disable) one of the two mods (and any mods that depend upon it).</li>
                 <li>Notes:
                     <ul>
                         <li>These mods conflict because they both modify snow-related mechanics and textures.</li>
                         <li>As stated by Simplicity of Snow's mod author, these mods are not compatible in the same load order.</li>
                         <li>Using both simultaneously will usually lead to crashes.</li>
+                        <li>Simplicity of Snow is the more-recently-updated mod and seems often preferred by the community</li>
                     </ul>
                 </li>
             </ul>
@@ -2460,14 +2463,92 @@ function analyzeWheelerCrash(sections, logFile) {
                         </ul>
                     </li>
                 </ul>
+                    <li>Detected indicators: <a href="#" class="toggleButton">⤵️ show more</a><ul class="extraInfo" style="display:none">
+                        <li><code>wheeler.dll</code> - detected in top quarter sections of crash log</li>
+                        <li><code>EngineFixes.dll</code> - already installed</li>
+                    </ul></li>
             </li>
         </ol></li>
-        
-        <li>Detected indicators: <a href="#" class="toggleButton">⤵️ show more</a><ul class="extraInfo" style="display:none">
-            <li><code>wheeler.dll</code> - detected in top quarter sections of crash log</li>
-            <li><code>EngineFixes.dll</code> - already installed</li>
-        </ul></li>
         `;
+    }
+
+    return insights;
+}
+
+
+
+// 🎯 A0D789 Crash Detected:
+function analyzeA0D789Crash(sections) {
+    let diagnoses = '';
+    if (sections.firstLine.includes('A0D789')) {
+        if(!Utils.isSkyrimPage) {
+            //NOLVUS version:
+            diagnoses += '<li>🎯 <b>A0D789 Crash Detected:</b> Reload game and continue playing, or alternatively, for added stability, add the <a href="https://www.patreon.com/posts/se-ae-69951525">[SE/AE]A0D789patch</a> patch by kingeric1992 into Mod Organizer (MO2). If you would like guidance on modding/patching Nolvus, please watch this <a href="https://youtu.be/YOvug9KP5L4">brief tutorial video</a> for step-by-step instructions. NOTE: this specific patch does NOT have a plugin that shows up in the right side of MO2. More information and troubleshooting tips under <a href="https://www.nolvus.net/catalog/crashlog?acc=accordion-1-10">A0D789 Crash</a/>.<ul>';
+        } else {
+            //Skyrim version:
+            diagnoses += '<li>🎯 <b>A0D789 Crash Detected:</b> For added stability, add the <a href="https://www.patreon.com/posts/se-ae-69951525">[SE/AE]A0D789patch</a> patch by kingeric1992. More information under <a href="https://www.nolvus.net/catalog/crashlog?acc=accordion-1-10">A0D789 Crash</a/>.<ul>';
+        }
+
+        diagnoses += `<li>Detected indicators: <a href="#" class="toggleButton">⤵️ show more</a><ul class="extraInfo" style="display:none">
+                <li><code>A0D789</code> - detected in first error line of crash log</li>
+            </ul></li>
+        </ul></li>`;
+    }
+
+    return diagnoses;
+}
+
+
+function analyzeMcoBfcoCompatibility(logFile) {
+    let insights = '';
+
+    const logFileLowerCase = logFile.toLowerCase();
+    const hasMCO = logFileLowerCase.includes('mco.dll');
+    const hasBFCO = logFileLowerCase.includes('bfco.dll');
+
+    // If both DLLs are present, provide compatibility warning
+    if (hasMCO && hasBFCO) {
+        insights += `<li>❗ <b>BFCO and MCO Compatibility Issue:</b> 
+            Your load order includes both <a href="https://www.nexusmods.com/skyrimspecialedition/mods/85491">Modern Combat Overhaul (MCO)</a> and <a href="https://www.nexusmods.com/skyrimspecialedition/mods/117052">Behavior Framework Combat Overhaul (BFCO)</a>. These mods are not designed to work together as they perform similar functions.
+            <ol>
+                <li>Choose either MCO or BFCO - you should not use both simultaneously
+                    <ul>
+                        <li>BFCO is the newer mod and is often preferred by the community</li>
+                    </ul>
+                </li>
+                <li>If you prefer BFCO (usually recommended), you can convert your MCO animations:
+                    <ul>
+                        <li>Use the <a href="https://www.nexusmods.com/skyrimspecialedition/mods/119926">MCO to BFCO Converter</a> to convert your existing MCO animations to work with BFCO</li>
+                    </ul>
+                </li>
+                <li>Uninstall the mod you're not planning to use</li>
+                <li>After uninstalling, regenerate/patch your animations using your behavior engine:
+                    <ul>
+                        <li>General requirements for behavior engines:
+                            <ul>
+                                <li>Clear the behavior engine's cache before regenerating</li>
+                                <li>Check/enable all relevant boxes/options to generate the correct files for your installed mods</li>
+                            </ul>
+                        </li>
+                        <li>If using <a href="https://www.nexusmods.com/skyrimspecialedition/mods/3038">FNIS</a>: Run GenerateFNISforUsers.exe</li>
+                        <li>If using <a href="https://www.nexusmods.com/skyrimspecialedition/mods/60033">Nemesis</a>: Run Nemesis Unlimited Behavior Engine
+                            <ul>
+                                <li>reference: <a href="https://www.reddit.com/r/skyrimmods/comments/t2rk34/nemesis_pro_tip/">guide to clearing Nemesis cache</a></li>
+                                <li>reference: <a href="https://www.nolvus.net/guide/asc/output/nemesis">example instructions from Nolvus</a> (with numerous screenshots)</li>
+                            </ul>
+                        </li>
+                        <li>If using <a href="https://www.nexusmods.com/skyrimspecialedition/mods/133232">Pandora</a>: Run Pandora Behavior Engine</li>
+                    </ul>
+                </li>
+                <li>Additional Notes:
+                    <ul>
+                        <li>While this combination doesn't always cause immediate crashes, it can lead to unexpected behavior and potential stability issues</li>
+                        <li>BFCO specifically lists MCO as incompatible on its mod page</li>
+                        <li>The conversion tool makes it easy to keep your favorite MCO animations while switching to BFCO</li>
+                    </ul>
+                </li>
+            </ol>
+        </li>`;
     }
 
     return insights;

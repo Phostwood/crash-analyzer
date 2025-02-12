@@ -264,6 +264,15 @@ STACK:
   PathingRequest                       //Pathing request failure
   PathingTaskData                      //Pathing task data error
   SIC_WERoad07                         //Known issue with Skyrim Immersive Creatures mounted NPCs
+  CombatNavmeshSearchT                 //Combat-specific navigation mesh searching issue
+  PathManagerClient                    //Path manager client-side error
+  NavMeshGenerationProperties          //NavMesh generation property issue
+  PathingCoverLocation                 //Cover point pathing error
+  NavMeshPortal                        //Navigation mesh portal connection issue
+  DetourNavMesh                        //Detour navigation mesh system error
+  PathingStreamManager                 //Path streaming management failure
+  NavmeshProcessing                    //Navigation mesh processing error
+  PathSmoothing                        //Path smoothing calculation issue
   Skyrim Immersive Creatures, Horse, Celann, Isran //Indicators for Dawnguard Horse Issue
   BSImagespace, NiCamera, WorldRoot Camera, WorldRoot Node, Block (  //Indicators for Dragon's Eye Minimap Issue
   dynamicanimationreplacer.dll         //DAR loader detected
@@ -572,6 +581,8 @@ SCRIPT EXTENDER PLUGINS:
     QuickLootEE.dll                                  v1.1
 	CombatMusicFix.dll                               v1.0.1
 	MCMHelper.dll                                    v1.4
+    BFCO.dll 										 v1
+	MCO.dll 										 v1
 	DragonsEyeMinimap.dll
 	FpsFixPlugin.dll
 	//BELOW MIGHT BE IMPROPPER SYTAX FOR TRAINWRECK?

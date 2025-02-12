@@ -163,7 +163,8 @@ const crashIndicators = {
             { code: '.hkb', description: "Havok behavior file" },
             { code: '.hkx', description: "Havok animation file" },
             { code: '0_master.hkb', description: "Master behavior file" },
-            { code: 'bshkbanimationgraph', description: "Bethesda Havok animation graph" }
+            { code: 'bshkbanimationgraph', description: "Bethesda Havok animation graph" },
+            { code: '67B88B', description: "suspected animation loader, hexcode indictor" }
         ]
     },
     scriptIssues: [
@@ -214,6 +215,7 @@ const crashIndicators = {
             { code: 'AutoRegisterPathBuilderFactory', description: "Path building system issue" },
             { code: 'BGSProcedureFollowExecState', description: "May indicate a follower having nav issues" },
             { code: 'BSPathBuilder', description: "Base path building system error" },
+            { code: 'CombatNavmeshSearchT', description: "Combat-specific navigation mesh searching issue" },
             { code: 'MovementControllerNPC', description: "May indicate an NPC having nav issues" },
             { code: 'MovementPathManagerArbiter', description: "Movement path management issue" },
             { code: 'NavMesh', description: "Navigation mesh error" },
@@ -226,6 +228,15 @@ const crashIndicators = {
             { code: 'PathingRequest', description: "Pathing request failure" },
             { code: 'PathingTaskData', description: "Pathing task data error" },
             { code: 'SIC_WERoad07', description: "Known issue with Skyrim Immersive Creatures mounted NPCs" },
+            //NOTE: those below are not in my current library, but recommended by Claude AI
+            { code: 'PathManagerClient', description: "Path manager client-side error" },
+            { code: 'NavMeshGenerationProperties', description: "NavMesh generation property issue" },
+            { code: 'PathingCoverLocation', description: "Cover point pathing error" },
+            { code: 'NavMeshPortal', description: "Navigation mesh portal connection issue" },
+            { code: 'DetourNavMesh', description: "Detour navigation mesh system error" },
+            { code: 'PathingStreamManager', description: "Path streaming management failure" },
+            { code: 'NavmeshProcessing', description: "Navigation mesh processing error" },
+            { code: 'PathSmoothing', description: "Path smoothing calculation issue" }
         ]
     },
     //

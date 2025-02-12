@@ -279,9 +279,9 @@ Utils.addMentionedFilesListItems = function(sections, fileType) {
     // Add the note only if there's a .bsa file
     let parentListItem = '';
     if (hasBsaFile) {
-        parentListItem += `<li>Mentioned ${fileType} files (NOTE: <code>.bsa</code> files may or may not contain compressed ${fileType} files): <a href="#" class="toggleButton">⤴️ hide</a><ul class="extraInfo">`;
+        parentListItem += `<li>Mentioned ${fileType} files: &nbsp; (NOTES: <code>.bsa</code> files may or may not contain compressed ${fileType} files. ${fileType=='mesh' ? 'Any skeleton-related mesh files are less-likely indicators.': ''} ): &nbsp; <a href="#" class="toggleButton">⤴️ hide</a><ul class="extraInfo">`;
     } else {
-        parentListItem += `<li>Mentioned ${fileType} files: <a href="#" class="toggleButton">⤴️ hide</a><ul class="extraInfo">`;
+        parentListItem += `<li>Mentioned ${fileType} files: ${fileType == 'mesh' ? '&nbsp; (note: any skeleton-related mesh files are less-likely indicators) &nbsp;': ''}<a href="#" class="toggleButton">⤴️ hide</a><ul class="extraInfo">`;
     }
     parentListItem += processedListItems;
     parentListItem += '</ul></li>';
