@@ -1,71 +1,58 @@
-✅Version 1.21.3 is now live:
+✅Version 1.21.4 is now live:
 https://phostwood.github.io/crash-analyzer/
 
-1. ✅New test: MCO and BFCO incompatibility
-	✅Be sure to add Iyzik the Thank You list!
-	- ✅indicators:
-		- ✅MCO.dll
-		- ✅BFCO.dll 
-	- ✅Tested on sufficient sample size: ~25 crash logs found in library (all renamed with "BFCO" in title)
-	- ✅add indicators to Test Logs
+1. ✅Added a new middle line to my copy-paste footers:
+	- Result(s) from Phostwood's Skyrim Crash Log Analyzer (v1.21.4)
+	🔎 Automate analysis of your Skyrim SE/AE crash logs at: 
+	https://phostwood.github.io/crash-analyzer/skyrim.html
 
-2. ✅ Possible Animation Loader/Behavior Engine Issue Detected:
-	- ✅Refined instructions from new MCO and BFCO test... thanks, Iyzik!
-	- ✅Merged separate 67B88B test into Animations Loader test
-		- ✅Added refined info previously only in the separate hexcode test on FNIS.esp with Nemesis
-		- ✅Added specific hexcode to "Detected indicators" list (not as a high priority hexcode though, it is only theoretical(doesn't exist in my crash library) and googling it, I never found a confident or consistent diagnosis)
+2. ✅ BUG FIX FOR:❗ Probable NavMesh/Pathing Issue Detected:
+	- Tightened up NavMesh/Pathing indicators to get rid of false-positive in this log: crash-2025-02-11-04-21-22.log
+		- (meaning: removed generic "NavMesh" indicator that was showing up in file names/paths for Lorerim)
 
-2. ✅ 🎯 A0D789 Crash Detected:
-	- ✅Refactored into function for better manageability
-	- ✅Added note on detected indictor
+3. ✅explainersMap.js:
+	- added "less likely culprit":
+		- ['cbp.dll', '(Collision Body <b>Physics</b> ... less likely culprit)']
+		- ['hdtsmp64.dll', '(Skinned Mesh <b>Physics</b> ... less likely culprit)']
+	- added "unlikely culprit":
+		- ['skse64_1_6_1170.dll', '(Skyrim <b>Script</b> Extender) ... unlikely culprit']
 
-3. ✅ Donation section: shortened and reordered second bullet
-
-4. ✅ ❓ Potential Memory Issue Indicators Found:
-	- ✅added to "Mentioned mesh files:"
-		-  ✅"(note: any skeleton-related mesh files are less-likely indicators)"
-
-5. ✅❗ Wheeler Issue Detected:
-	- ✅add indicators to Test Logs (NOTE: needed to be in second set of test logs, so "Missing Engine Fixes" test would still work)
-
-6. ✅❗Incompatible Snow Mods Detected:
-	- ✅added links to both mods in Nexus for easy reference
-	- ✅shortened instructions
-	- ✅mentioned SoS seems often preferred by the community
-
-7. ✅❗ Probable NavMesh/Pathing Issue Detected:
-	- ✅Added a newly found indicator: CombatNavmeshSearchT
-	- ✅Added 8 more theoretical indicators suggested by Claude AI ... although searches through my library didn't find any of them.
-	- ✅Moved it up the list a few notches ... seems pretty reliable (now in Higher-Confidence Test Results section)
-	- ✅added new indicators to test logs
-	- ✅Extra testing didn't see any new false-positives from new indicator(s) ... just seemed to add onto already listed insight
-
-8. ✅Added to several tests' "Detected indicators" line: "(more indicators often increases likelihood of causation)"
-
-9. ✅diagnoses.js: Added more test-title comments to improve code scanning/searching
-
-10. ✅Windows pagefile instructions
-	- ✅since already 99% shared and in over a half dozen locations ... created a shared string const verifyWindowsPageFileListItem
-	- ✅New 💾 floppy disk emoji usage, for Windows Pagefile steps ... since this is often the first step in troubleshooting. Clicking the "💾" now brings up a copy-paste like this:
-		- 💾 Verify your [Windows Pagefile is properly configured](<https://www.nolvus.net/appendix/pagefile>) (nolvus.net link, but broadly applicable). The most common stability-focused recommendation is setting the Pagefile's minimum and maximum to 40GB. ⚠️NOTE: some sources say Skyrim's engine was programmed to require high Pagefile usage even when there is more than enough RAM available. To be on the safe side, ensure your Pagefile settings even if you somehow have a terrabyte of RAM.
-
+4. ✅diagnoses.js:
+	- added two comment lines to aid in quickly scanning through code
 
 
 --- NOTES for this version ---
 
-1. https://www.reddit.com/r/skyrimmods/comments/1ikensd/bow_rapid_combo_v3_tpose/
-	Iyzik:
-	"MCO and BFCO installed. Idk if that would affect the main bow attack, but those two aren’t compatible and do the same thing (more or less)."
-	"u/Phostwood I’ve seen this a few times recently, where people have both MCO and BFCO installed. It doesn’t cause crashes usually, but might still be a helpful note for your analyzer to mention if both DLL’s are present? Just an idea…"
-	- crash log with same issue: https://www.reddit.com/r/skyrimmods/comments/1ic6zii/modded_skyrim_se_freezescrashes_when_i_randomly/
+❌NOT-A-BUG (already lists): Minor bugfix: checkLotdKaragasTowerDoorCrash() needs to list its hexcode as a Detected Indicator
 
+❌DIDN't FIX (so not going to loosen test): BUG? missed hair issue? https://old.reddit.com/r/skyrimmods/comments/1in8qvh/help_i_cant_play_my_game/
 
-
+✅ALREADY DONE IN PRIOR VERSION: ❗ Incompatible Snow Mods Detected: SoS JK's ... make both mod names linked to their nexus pages (for better readability of the sentence if nothing else)
 
 
 --- Upcoming version ideas ---
 
-1. New test: levelList crash (see notes)
+1. New function to group lines in indented logs so they are like NSF with relevant info on one line. It will be used in levelList crash and others in order to match names with their related FormIDs. Also, will be used to upgrade "Files/Element" list functionality.
+
+1. Consider changing out my copy-paste footer to be more direct that anyone can use my analyzer
+	- from:"Result(s) from Phostwood's Skyrim Crash Log Analyzer (v1.21.3):"
+	- to something like: "🔎 Automate analysis for  your Skyrim SE/AE crash logs at:"
+		- which direction should the magnifying glass slant?
+
+
+2. New DbSkseFunctions.dll crash? (see notes)
+
+
+4. ❓ skee64.dll Issue Detected:
+	- make it include the statement about skeleton meshes not being as good indicators
+	- needs moved into diagnoses.js
+	- its files list needs to be changed over to the new shared-code way
+
+
+
+
+--
+1. ⏸️NEEDS FORMIDs: New test: levelList crash (see notes)
 
 	https://www.reddit.com/r/skyrimmods/s/vbsk6s7eFB
 	https://old.reddit.com/r/skyrimmods/comments/1i4tel9/crash_while_saving_at_random/
@@ -82,32 +69,19 @@ https://phostwood.github.io/crash-analyzer/
 	So in this log with OP (that also seems to have been solved) that would have been LeveledItem with form id 0009AF0A.
 
 	Then you can just add the info about deleting it with Resaver. When your analyzer catches this too, then it will become an even more powerful tool!
-
 	"
-
 	Reportedly, this fixed it:
 	LeveledList Crash Fix
 	https://www.nexusmods.com/skyrimspecialedition/mods/129136
 	requires Skyrim SE version 1.6.1130+
 
-
 	20250211 fix confirmed: https://old.reddit.com/r/skyrimmods/comments/1in3esq/experiencing_crashing_when_making_any_type_of_save/
 
-1. Minor bugfix: checkLotdKaragasTowerDoorCrash() needs to list its hexcode as a Detected Indicator
 
 
+1. FormID scraper test. List all FormID/name pairs? instances matching `Name: "Silvia" FormID: 0xFF000DC3` and count all occurrences of each FormID
+	- https://old.reddit.com/r/skyrimmods/comments/1imzjtg/crashing_outside_of_darklight_tower/
 
-2. New DbSkseFunctions.dll crash? (see notes)
-
-3. SoS JK's ... make both mod names linked to their nexus pages (for better readability of the sentence if nothing else)
-
-4. ❓ skee64.dll Issue Detected:
-	- make it include the statement about skeleton meshes not being as good indicators
-	- needs moved into diagnoses.js
-	- its files list needs to be changed over to the new shared-code way
-
-
---
 
 1. Consider listing conflicting mods as another potential cause of a Missing Masters?
 	- https://discord.com/channels/341090804611285003/1338467559149666325/1338551629309415526

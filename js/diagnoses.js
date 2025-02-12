@@ -2272,6 +2272,8 @@ function analyzeAntivirusIssues(sections) {
 }
 
 
+
+//❗ Simplicity of Snow + JK's Skyrim Patch Missing:
 function checkSimplicityOfSnowJKSkyrimPatch(sections) {
     let insights = '';
 
@@ -2308,7 +2310,7 @@ function checkSimplicityOfSnowJKSkyrimPatch(sections) {
 }
 
 
-
+//❗ Incompatible Snow Mods Detected:
 function checkSnowModsCompatibility(logFile) {
     let insights = '';
 

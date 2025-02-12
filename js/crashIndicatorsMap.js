@@ -218,7 +218,7 @@ const crashIndicators = {
             { code: 'CombatNavmeshSearchT', description: "Combat-specific navigation mesh searching issue" },
             { code: 'MovementControllerNPC', description: "May indicate an NPC having nav issues" },
             { code: 'MovementPathManagerArbiter', description: "Movement path management issue" },
-            { code: 'NavMesh', description: "Navigation mesh error" },
+            //TOO GENERIC, matches on file names/paths:  { code: 'NavMesh', description: "Navigation mesh error" },
             { code: 'NavMeshInfoArea', description: "NavMesh info area problem" },
             { code: 'NavMeshInfoMap', description: "Navigation mesh information mapping error" },
             { code: 'NavMeshObstacleManager', description: "Navigation mesh obstacle handling issue" },

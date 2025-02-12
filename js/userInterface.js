@@ -327,10 +327,14 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
 	window.getAnalyzerCitation = function()  {
-		var analyzerCitation = '\n\n~~\n\nResult(s) from Nolvus Crash Log Analyzer ' + convertHTMLToMarkdown(getVersionNumber()) + ':\n\nhttps://phostwood.github.io/crash-analyzer/';
+		let analyzerCitation = '';
+
 		if(Utils.isSkyrimPage) {
-			analyzerCitation = '\n\n~~\n\nResult(s) from Phostwood\'s Skyrim Crash Log Analyzer ' + convertHTMLToMarkdown(getVersionNumber()) + ':\n\nhttps://phostwood.github.io/crash-analyzer/skyrim.html';
+			analyzerCitation = '\n\n~~\n\nResult(s) from Phostwood\'s Skyrim Crash Log Analyzer ' + convertHTMLToMarkdown(getVersionNumber()) + '\n\n🔎 Automate analysis of your Skyrim SE/AE crash logs at: \n\nhttps://phostwood.github.io/crash-analyzer/skyrim.html';
+		} else {
+			analyzerCitation = '\n\n~~\n\nResult(s) from Nolvus Crash Log Analyzer ' + convertHTMLToMarkdown(getVersionNumber()) + '\n\n🔎 Automate analysis of your Nolvus crash logs at: \n\nhttps://phostwood.github.io/crash-analyzer/';
 		}
+		
 		Utils.debuggingLog(['userInterface.js'], 'analyzerCitation:', analyzerCitation);
 		return analyzerCitation;
 	}
