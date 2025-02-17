@@ -1,58 +1,116 @@
-✅Version 1.21.4 is now live:
+✅Version 1.21.5 is now live:
 https://phostwood.github.io/crash-analyzer/
 
-1. ✅Added a new middle line to my copy-paste footers:
-	- Result(s) from Phostwood's Skyrim Crash Log Analyzer (v1.21.4)
-	🔎 Automate analysis of your Skyrim SE/AE crash logs at: 
-	https://phostwood.github.io/crash-analyzer/skyrim.html
+1. ✅New DbSkseFunctions.dll crash (see notes)
 
-2. ✅ BUG FIX FOR:❗ Probable NavMesh/Pathing Issue Detected:
-	- Tightened up NavMesh/Pathing indicators to get rid of false-positive in this log: crash-2025-02-11-04-21-22.log
-		- (meaning: removed generic "NavMesh" indicator that was showing up in file names/paths for Lorerim)
+2. ✅BUGFIX: ❗ Potential Missing Masters Detected: 
+	- ✅BEES was installed, so the BEES bullet point shouldn't be showing:
+		- ✅https://old.reddit.com/r/skyrimmods/comments/1iokqd9/crash_on_startup/
 
-3. ✅explainersMap.js:
-	- added "less likely culprit":
-		- ['cbp.dll', '(Collision Body <b>Physics</b> ... less likely culprit)']
-		- ['hdtsmp64.dll', '(Skinned Mesh <b>Physics</b> ... less likely culprit)']
-	- added "unlikely culprit":
-		- ['skse64_1_6_1170.dll', '(Skyrim <b>Script</b> Extender) ... unlikely culprit']
+3. ✅BUGFIX: 🎯.STRINGS Crash - see notes below
 
-4. ✅diagnoses.js:
-	- added two comment lines to aid in quickly scanning through code
+4. ✅Donation section:
+	- ✅Changed "It's currently helping over 500 different Skyrim modders every week" to "about 100 different Skyrim modders per day"
+
+5. ✅Added some emojis to some frequently cited mini-sections for things like LOOT, "Easy steps", and ~"verify your Engine Fixes". Now available for easy one-click copy pastes.
+
+6. ✅Made the "No-highest confidence" section even stronger in it's telling users to scroll down to the "Advanced Users" section. I'm still having people not know the Advanced Users section is even there...
+
+7. ✅Refactored javascript loading section in HTML heads of both pages. Now easier to maintain.
+
+8. ✅Test Logs update:
+	- ✅New DbSkseFunctions.dll crash
+	- ✅Update for STRINGS Crash
+
+9. ✅➡️UNDER DEVELOPMENT:New feature: checkbox for "Try experimental Files/Elements upgrade"
+
+10. ✅➡️UNDER DEVELOPMENT: New feature checkbox: "Display FormIDs in Files/Elements (experimental, under development)"
+	- ✅➡️New function to group lines in indented logs (Crash Logger SSE and Trainwreck) so they are like NSF with relevant/related info on one line. It will be used in levelList crash and others in order to match names with their related FormIDs. Also, will be used to upgrade "Files/Element" list functionality.
+	- ✅➡️Files/Elements list:
+		- ✅➡️use Utils.flattenLogSection() notes below
+		- ✅➡️display FormIDs
+	- ✅Add colorization to FormIDs in non-owner/target lines
+	- ✅REMOVE alerts
+	- ⏸️(NEXT VERSION) ➡️Modify  owner/target. if (sectionsCount > 1) section so it works with NSF logs
+		- ⏸️(NEXT VERSION) ➡️Do NSF logs even have owner/target?
+
+
 
 
 --- NOTES for this version ---
 
-❌NOT-A-BUG (already lists): Minor bugfix: checkLotdKaragasTowerDoorCrash() needs to list its hexcode as a Detected Indicator
+1. ✅New DbSkseFunctions.dll  crash
+	- first-line error  (could maybe also sometimes be a topThird error ... but keeping it as first-line for now)
+	- https://www.reddit.com/r/skyrimmods/s/pB9PFvdRYk
+		- MaskPlague:
+			- “Try setting projectiles to 0 in Dylbill’s Papyrus functions ini (DbSkseFunctions.ini).
+			"Edit: fyi the crash is due to DbSkseFunctions.dll and probably because it is processing a specific spell used by the NPC. Editing the ini to 0 disables the hook and may fix the issue.“
+			Confirmed fixed by OP:
+			“Your correct. Ini edit to 0 fixed it”
+	- 11/9 example:
+		- https://www.reddit.com/r/skyrimmods/s/uIKeopRvw9
+		- RomatebitgeL: "DbSkseFunctions.dll is crashing.
+			- "From the mod's comment section: "try changing the iMaxArrowsSavedPerReference to 0 in Data/SKSE/plugins/DbSkseFunctions.ini. This will disable the projectile impact hook."
+			"
+	- 12/26 example:
+		- https://old.reddit.com/r/skyrimmods/comments/1hn2gef/crash_help_unhandled_exception_exception_access/
+		- RomatebitgeL: "DbSkseFunctions.dll
+			- From the modpage: "If still getting CTDs while in combat, change the iMaxArrowsSavedPerReference to 0 in Data/SKSE/plugins/DbSkseFunctions.ini and it will revert to the 6.6 version of tracking ammo."
 
-❌DIDN't FIX (so not going to loosen test): BUG? missed hair issue? https://old.reddit.com/r/skyrimmods/comments/1in8qvh/help_i_cant_play_my_game/
+3. ✅BUGFIX: 🎯.STRINGS Crash
+	- Tightened up STRINGS Crash to avoid false-positives
+	- False-positive example: https://old.reddit.com/r/skyrimmods/comments/1im7uso/i_need_help_with_crashing/
+	- Ensure these two are also found in sections.topQuarter:
+		- BGSStoryManagerBranchNode
+		- PlayerCharacter
+		- source: https://www.nolvus.net/catalog/crashlog
 
-✅ALREADY DONE IN PRIOR VERSION: ❗ Incompatible Snow Mods Detected: SoS JK's ... make both mod names linked to their nexus pages (for better readability of the sentence if nothing else)
+
+
+➡️UNDER DEVELOPMENT: New Utils.flattenLogSection():
+	- bug:
+		- not a bug with the new code, but need to make logSummary compatible with new code
+		- example log file: UUkc1eeT.txt
+		- Non-filename matches are no longer being matched ... regex needs updated?
+			- Examples from this log:
+				[4] BSFadeNode
+				[4] BSBoneLOD
+				[4] BOM
+				[4] BBX
+				[4] BSX
+				[4] SkeletonID
+	
+
+❌NOT-BUGS: Files/Elements missing some files?
+	1. ❌SKIP-TOO-RARE-OR-MAYBE-USER-ERROR: This one messed up because the log file is partial ... so the Registers section isn't fully defined. Skip ... at least for now, as this doesn't happen very often, and arguably not a bug, just an incomplete log file
+		SimplyFasterArrows.esp
+		Crash log 0320.txt
+		https://old.reddit.com/r/skyrimmods/comments/1icnxzt/could_anyone_help_with_ctds_when_firing_arrows/
+	2. ❌WORKING: This one just seems to show up as expected ... I was likely wrong when I thought it was not displayed:
+		Another one where it doesn't show the file picked out by RomatebitegeL:
+		https://old.reddit.com/r/skyrimmods/comments/1idr0qp/this_is_the_4th_time_i_rebuilt_my_list_and_i_keep/
+
+
+
+
+
 
 
 --- Upcoming version ideas ---
 
-1. New function to group lines in indented logs so they are like NSF with relevant info on one line. It will be used in levelList crash and others in order to match names with their related FormIDs. Also, will be used to upgrade "Files/Element" list functionality.
+1. Markdown Indentations are too large? For Discord, make sure all <li> indents are TWO (2) spaces per level of indentation (not 3). And also test on Reddit (if possible?) to make sure it's compatible with that too.
+	- if varies between Discord and Reddit, put some copy-paste settings right below the Insights section. Keep it compact. Title maybe "Markdown options for single-click copy to clipboard functionality"
+	- also, put another checkbox down there for "URLs only, no hyperlinked text in markdown"
 
-1. Consider changing out my copy-paste footer to be more direct that anyone can use my analyzer
-	- from:"Result(s) from Phostwood's Skyrim Crash Log Analyzer (v1.21.3):"
-	- to something like: "🔎 Automate analysis for  your Skyrim SE/AE crash logs at:"
-		- which direction should the magnifying glass slant?
+1. How did SkyrimCrashDecoder get this diagnosis better than mine?
+	- WormpleHagravens-esp - firstLine  EngineFixes-dll - crash-2025-02-17-00-07-21.log
+	- "\Downloads\Skyrim Crash Decoder_files"
+	- 
 
+1. New test: first-Line Engine Fixes crash
+	- crash-2025-02-17-00-07-21.log
 
-2. New DbSkseFunctions.dll crash? (see notes)
-
-
-4. ❓ skee64.dll Issue Detected:
-	- make it include the statement about skeleton meshes not being as good indicators
-	- needs moved into diagnoses.js
-	- its files list needs to be changed over to the new shared-code way
-
-
-
-
---
-1. ⏸️NEEDS FORMIDs: New test: levelList crash (see notes)
+1. ⭐️⭐️New test: levelList crash (see notes)
 
 	https://www.reddit.com/r/skyrimmods/s/vbsk6s7eFB
 	https://old.reddit.com/r/skyrimmods/comments/1i4tel9/crash_while_saving_at_random/
@@ -77,6 +135,63 @@ https://phostwood.github.io/crash-analyzer/
 
 	20250211 fix confirmed: https://old.reddit.com/r/skyrimmods/comments/1in3esq/experiencing_crashing_when_making_any_type_of_save/
 
+
+1. ⭐️⭐️New skee first-line error test
+https://discord.com/channels/740569699900719145/1323816364007227504/1340187701701378151
+	Also: ❓ skee64.dll Issue Detected:
+		- make it include the statement about skeleton meshes not being as good indicators
+		- needs moved into diagnoses.js
+		- its files list needs to be changed over to the new shared-code way
+		- if the item is removable, remove it in-game before disabling the crashing mod
+			- https://discord.com/channels/215154001799413770/701100960134725713/1341090629895323740
+		- "Overlays" are usually the wearable tattoos or piercings or such
+
+1. ⭐️Upgrading Files/Elements:
+	- add to Test Logs
+		- ⭐️FormIDs and other indented stuff
+	- can't depend on "➕" for NSF logs
+	- needs more testing
+	- ensure compatibility for both Crash Logger and Net Script Framework logs
+	- Do NSF logs even have the "Owner:"/"Target:" sections in their log lines?
+	- ensure same functionality for both Owner/Target and regular lines
+		- consider refactoring for some shared code used by both?
+	- Do the different indented keywords besides "FormID" and "Name:" and "File:" work with NSF logs?
+	- ⭐️⭐️BUG with this log:
+		- https://old.reddit.com/r/skyrimmods/comments/1hpo9ye/persistent_crash_near_mixwater_mill_cell_deleted/
+		- Not displaying the best FormID to delete, which is clearly also associated with the wolf:
+			- 0xFF00118A
+		- (Also not finding second instance of "Wolf" (or at least not displaying ... but I suppose it shouldn't ... or at least it shouldn't display it, but both FormIDs should be displayed)
+		- RBP 0x20C6E487400      (Character*)
+			File: "Unofficial Skyrim Special Edition Patch.esp"
+			Modified by: Skyrim.esm -> Unofficial Skyrim Special Edition Patch.esp
+			Flags: 0x0840042B kDeleted
+			Name: "Wolf"
+			➡️FormID: 0x00085604
+			FormType: ActorCharacter (62)
+			Object Reference: 
+			Flags: 0x00000008 kInitialized
+			Name: "Wolf"
+			➡️FormID: 0xFF00118A
+			FormType: NPC (43)
+
+1. ⭐️⭐️New TEST: flag when Non-ESL-ed plugins:  is less than say .. 50 ... and warn that it could be because not all plugins are showing due to going over the maximum number of Non-ESL-ed plugins (254) or because of a missing masters.
+	- Put this test in the "Higher Confidence" portion of "Advanced Users" section.
+	- Repeat Missing Masters info as necessary.
+	- Repeat Non-ESLed plugins limit info as necessary. 
+	- Test log: over 254 limit - undetectable maybe - crash-2025-02-14-15-31-11.log
+	- https://discord.com/channels/341090804611285003/341362343273562122/1340020173964574752
+
+2. ⭐️⭐️Revise NavMesh/Pathing test with instructions for using FormIDs from Forms/Elements when the new version of logSummaryAdvanced.JS is loaded. Perhaps include a new const in that file? Something like:  hasFormIdsInFormsAndElements = true; test for var existing, and then if var = true.
+
+
+
+
+
+
+
+--
+
+1. ⭐️Review the 70+ reported bugs with Nolvus v6 and try to extract out any new tests which could be broadly applicable
 
 
 1. FormID scraper test. List all FormID/name pairs? instances matching `Name: "Silvia" FormID: 0xFF000DC3` and count all occurrences of each FormID

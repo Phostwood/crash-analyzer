@@ -418,7 +418,7 @@ Utils.countNonEslPlugins = function(crashLogSection) {
             [FF] 1Ogres.esp
             [FE 000] ccbgssse002-exoticarrows.esl
     */
-    const nonEslPluginRegex = /\[([0-9A-F]{2})\].+\.(esp|esm|esl)/gi;
+    const nonEslPluginRegex = /\[ ?([0-9A-F]{1,2})\].+\.(esp|esm|esl)/gi;
     let largestHex = "00";
 
     let matchArray;
@@ -978,6 +978,132 @@ Utils.getLogSectionsMap = function(logFile) {
 
     return { sections, sectionsMap };
 };
+
+
+Utils.flattenLogSectionClaudeAI = function(input) {
+    const lines = input.split('\n').filter(line => line.trim());
+    if (lines.length === 0) return '';
+    
+    // Get the primary indentation level from the first line
+    const primaryIndentMatch = lines[0].match(/^(\s+)/);
+    const primaryIndent = primaryIndentMatch ? primaryIndentMatch[1].length : 0;
+    
+    function processSection(startIndex, baseIndentLevel = 0) {
+        let result = [];
+        let currentLine = '';
+        let i = startIndex;
+        
+        // Get the current line's indent level
+        const currentIndentMatch = lines[i].match(/^(\s*)/);
+        const currentIndent = currentIndentMatch ? currentIndentMatch[1].length : 0;
+        
+        // If this is at primary indent level, just return it as-is
+        if (currentIndent === primaryIndent) {
+            return [[lines[i]], i + 1];
+        }
+        
+        // Start building the current line with the original indentation
+        const indentSpaces = ' '.repeat(primaryIndent);
+        currentLine = indentSpaces + '➕'.repeat(baseIndentLevel) + lines[i].trim();
+        i++;
+        
+        let sameIndentItems = [];
+        
+        while (i < lines.length) {
+            const lineIndentMatch = lines[i].match(/^(\s*)/);
+            const lineIndent = lineIndentMatch ? lineIndentMatch[1].length : 0;
+            
+            // If we're back at primary indent level or lower, we're done
+            if (lineIndent <= primaryIndent) {
+                break;
+            }
+            
+            // If we're at the same indent level as current section
+            if (lineIndent === currentIndent) {
+                sameIndentItems.push(lines[i].trim());
+                i++;
+            }
+            // If we're at a deeper indent level, process it recursively
+            else if (lineIndent > currentIndent) {
+                // Finish the current line with any collected items
+                if (sameIndentItems.length > 0) {
+                    currentLine += '➡️' + sameIndentItems.join('➕');
+                    sameIndentItems = [];
+                }
+                result.push(currentLine);
+                
+                // Process the deeper section
+                const [nestedResults, newIndex] = processSection(i, baseIndentLevel + 1);
+                result = result.concat(nestedResults);
+                i = newIndex;
+                
+                // Start a new line for any remaining items at this level
+                currentLine = indentSpaces + '➕'.repeat(baseIndentLevel) + lines[startIndex].trim();
+            }
+        }
+        
+        // Add any remaining same-indent items to the current line
+        if (sameIndentItems.length > 0) {
+            currentLine += '➡️' + sameIndentItems.join('➕');
+        }
+        
+        // Add the final line if it's not empty
+        if (currentLine) {
+            result.push(currentLine);
+        }
+        
+        return [result, i];
+    }
+    
+    let flattened = [];
+    let i = 0;
+    while (i < lines.length) {
+        const [result, newIndex] = processSection(i);
+        flattened = flattened.concat(result);
+        i = newIndex;
+    }
+    
+    return flattened.join('\n');
+}
+    
+Utils.flattenLogSection = function(input) {
+    const lines = input.split('\n').filter(line => line.trim() !== '');
+    if (lines.length === 0) return '';
+
+    // Determine primary indentation level (first non-empty line's indentation)
+    const primaryIndent = lines[0].match(/^\s*/)[0].length;
+
+    const outputLines = [];
+    let currentParent = null;
+    let currentChildren = [];
+
+    for (const line of lines) {
+        const leadingWhitespace = line.match(/^\s*/)[0];
+        const indent = leadingWhitespace.length;
+        const content = line.trim();
+
+        if (indent === primaryIndent) {
+            // Primary level line: flush current parent and children
+            if (currentParent !== null) {
+                outputLines.push(`${currentParent}➡️${currentChildren.join('➕')}`);
+            }
+            // Start new parent
+            currentParent = content;
+            currentChildren = [];
+        } else if (indent > primaryIndent) {
+            // Nested level: add to current children
+            currentChildren.push(content);
+        }
+    }
+
+    // Flush the last parent and children
+    if (currentParent !== null) {
+        outputLines.push(`${currentParent}➡️${currentChildren.join('➕')}`);
+    }
+
+    return outputLines.join('\n');
+}
+
 
 document.addEventListener('DOMContentLoaded', function() {
     Utils.init();

@@ -28,7 +28,7 @@
 	<meta name="description" content="Advanced Nolvus Skyrim crash log analyzer that helps diagnose and fix 80-90% of crashes with detailed troubleshooting steps and solutions. Updated frequently with new crash patterns and fixes.">
 
 	<meta charset="UTF-8">
-	<meta name="version" content="1.21.4">
+	<meta name="version" content="1.21.5">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 	<link rel="icon" type="image/x-icon" href="https://phostwood.github.io/crash-analyzer/favicon.ico">
@@ -45,32 +45,58 @@
 	<script src="https://cdn.jsdelivr.net/npm/turndown@7.0.0/dist/turndown.js"></script>
 
 
-	<link href="./css/stylesheet.css?v=1.21.4" rel="stylesheet">
-
-	<script src="./js/utils.js?v=1.21.4" defer></script>
-	<script src="./js/explainersMap.js?v=1.21.4" defer></script>
-	<script src="./js/crashIndicatorsMap.js?v=1.21.4" defer></script>
-	<script src="./js/dllCompatibleSkyrimVersionsMap.js?v=1.21.4" defer></script>
-	<script src="./js/testUtils.js?v=1.21.4" defer></script>
-
-	<!-- Independent data/configuration scripts -->
-	<script src="./js/crashPatterns.js?v=1.21.4" defer></script>
-	<script src="./js/antivirusSignatures.js?v=1.21.4" defer></script>
-	<script src="./js/overlaySignatures.js?v=1.21.4" defer></script>
-	<script src="./js/nolvusSignatures.js?v=1.21.4"defer></script>
-	<script src="./js/nolvusUtils.js?v=1.21.4" defer></script>
-	<script src="./js/nolvusLists.js?v=1.21.4" defer></script>
-
-	<!-- Core functionality scripts -->
-	<script src="./js/logSummary.js?v=1.21.4" defer></script>
-	<script src="./js/insights.js?v=1.21.4" defer></script>
-	<script src="./js/diagnoses.js?v=1.21.4" defer></script>
-
-	<!-- Main application script -->
-	<script src="./js/analyzeLog.js?v=1.21.4" defer></script>
-
-	<!-- UI script (should be last) -->
-	<script src="./js/userInterface.js?v=1.21.4" defer></script>
+	<script defer>
+		// Get version from meta tag
+		const version = document.querySelector('meta[name="version"]').content;
+		
+		// Define all resources to load
+		const resources = {
+			css: [
+				'./css/stylesheet.css'
+			],
+			js: [
+				// Utility scripts
+				'./js/utils.js',
+				'./js/explainersMap.js',
+				'./js/crashIndicatorsMap.js',
+				'./js/dllCompatibleSkyrimVersionsMap.js',
+				'./js/testUtils.js',
+				
+				// Independent data/configuration scripts
+				'./js/crashPatterns.js',
+				'./js/antivirusSignatures.js',
+				'./js/overlaySignatures.js',
+				'./js/nolvusSignatures.js',
+				'./js/nolvusUtils.js',
+				'./js/nolvusLists.js',
+				
+				// Conditional core script
+				window.location.href.toLowerCase().endsWith('?tryformids')
+					? './js/logSummaryAdvanced.js'
+					: './js/logSummary.js',
+				
+				// Additional core scripts
+				'./js/insights.js',
+				'./js/diagnoses.js',
+				
+				// Main application script
+				'./js/analyzeLog.js',
+				
+				// UI script (last)
+				'./js/userInterface.js'
+			]
+		};
+	
+		// Load CSS files
+		resources.css.forEach(href => {
+			document.write(`<link href="${href}?v=${version}" rel="stylesheet">`);
+		});
+	
+		// Load JS files
+		resources.js.forEach(src => {
+			document.write(`<script src="${src}?v=${version}" defer><\/script>`);
+		});
+	</script>
 	
 </head>
 
@@ -80,7 +106,7 @@
 	</header>
 	<main>
 		<section>
-			<p>Last updated: February 12, 2025 &nbsp; <span id="versionNumber"></span></p>
+			<p>Last updated: February 17, 2025 &nbsp; <span id="versionNumber"></span></p>
 
 			<p><a href='https://ko-fi.com/I2I219OKJM' target='_blank'><img height='36' style='border:0px;height:36px;' src='https://storage.ko-fi.com/cdn/kofi6.png?v=6' border='0' alt='Buy Me a Coffee at ko-fi.com' /></a></p>
 			
@@ -95,7 +121,7 @@
 			<div id="filename"></div>
 			<textarea id="crashLog" rows="10" cols="50"
 				placeholder="Choose file (above), or drag-and-drop your log file onto this field, or copy-paste your entire Nolvus crash log content here..."></textarea><br>
-			<button onclick="analyzeLog()">Analyze</button><span id="fileFlags"></span><span style="white-space: nowrap; color:#32CD32; display: none;" id="scrollDownInstructions">(scroll down to read analysis report) </span>
+			<button onclick="analyzeLog()">Analyze</button><span id="fileFlags"></span> <input type="checkbox" id="tryFormIDs"  name="tryFormIDs"> Try experimental Files/Elements upgrade <span style="white-space: nowrap; color:#32CD32; display: none;" id="scrollDownInstructions">&nbsp;&nbsp;(scroll down to read analysis report) </span>
 			<!--dropped feature: now always enabled --> <input type="hidden" id="speculativeInsights" style="display: none;"name="speculativeInsights" class="advanced" checked>
 		</section>
 		<br>
@@ -106,9 +132,9 @@
 		<div id="quote"></div>
 
 		<span style="display: inline-block;">
-			<span style="font-size: 2em;">🪙</span> With over <b>450 hours of development</b>, this advanced analyzer examines Nolvus (and <a href="./skyrim.html">general Skyrim</a>) crash logs to help diagnose and fix 80-90% of crashes, providing well-researched troubleshooting steps and links. It's currently helping over 500 different Skyrim modders every week and stands apart from other analyzers with its advanced diagnoses and frequent updates.<br>
+			<span style="font-size: 2em;">🪙</span> With over <b>450 hours of development</b>, this advanced analyzer examines Nolvus (and <a href="./skyrim.html">general Skyrim</a>) crash logs to help diagnose and fix 80-90% of crashes, providing well-researched troubleshooting steps and links. It's currently helping about 100 different Skyrim modders per day, and stands apart from other analyzers with its advanced diagnoses and frequent updates.<br>
 			<br>
-			<span style="font-size: 2em;">🪙</span> <b>If this tool saved you time</b>, please consider supporting its continued development! Users regularly save hours or even days of frustrating troubleshooting. Even a <b>$1 donation</b> (a frugal coffee!) shows your appreciation and helps validate the hundreds of hours invested in this project.<br>
+			<span style="font-size: 2em;">🪙</span> <b>Has this tool saved you time?</b> If so, please consider supporting its continued development. Users regularly save hours or even days of frustrating troubleshooting. Even a <b>$1 donation</b> (a frugal coffee!) shows your appreciation and helps validate its ongoing improvements.<br>
 			<br>
 			<!-- Custom Ko-fi Button -->
 			<a href="https://ko-fi.com/phostwood" id="kofi-button" target="_blank">
@@ -155,7 +181,7 @@
 			<p>Please <strong>report any issues</strong> (or share suggestions) in my <a
 					href="https://www.reddit.com/r/skyrimmods/comments/1i3wdyw/phostwoods_skyrim_crash_log_analyzer_graduates/">
 					reddit post</a>.</p>
-			<p><strong>Thank You</strong> to Azrael, Blackread, CJ, Demognomicon, Finya, Gaetan, ItsMadManBen, Iyzik, Jerilith, keyf, MaskPlague, Orionis, Pan, R., rachelcurren, Riderofchaos1337, syzygy, Vektor, Vulken, and wankingSkeever!
+			<p><strong>Thank You</strong> to Azrael, Blackread, CJ, Demognomicon, Finya, Gaetan, Griz, ItsMadManBen, Iyzik, Jerilith, keyf, MaskPlague, Orionis, Pan, R., rachelcurren, Riderofchaos1337, syzygy, Vektor, Vulken, and wankingSkeever!
 			</p>
 			<p><strong>Special Thanks</strong> to Corrupt Bliss, Discrepancy, Krispyroll, and RomatebitegeL!
 			</p>

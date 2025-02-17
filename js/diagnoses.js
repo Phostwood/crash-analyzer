@@ -436,6 +436,7 @@ function checkForHighMemoryUsage(sections) {
 function checkForMissingMasters(sections) {
     // Change the calling code to:
     const modCounts = Utils.modCounts(sections);
+    const hasBeesInstalled = sections.fullLogFileLowerCase.includes('BackportedESLSupport.dll'.toLowerCase());
     Utils.debuggingLog(['checkForMissingMasters'], 'modCounts:', modCounts);
     let hasLoadedGamePlugins = modCounts.gamePlugins > 0;
     let diagnoses = '';
@@ -474,7 +475,7 @@ function checkForMissingMasters(sections) {
             diagnoses += '<li><b>Automated Nolvus Installers:</b> Try using the Nolvus Dashboard\'s "Apply Order" feature. This often resolves load order issues. For more information, see: <a href="https://www.reddit.com/r/Nolvus/comments/1chuod0/how_to_apply_order_button_usage_in_the_nolvus/">How To: Use the "Apply Order" Button</a>. If you have added additional mods, you wil then need to re-enable and reposition them in your load order.</li>';
         }
 
-        if (!sections.hasNewEslSupport) {
+        if (!sections.hasNewEslSupport && !hasBeesInstalled) {
             diagnoses += '<li>🐝 <b>New Mod Incompatibility:</b> Recently added mods may be causing conflicts. If you are using a version of Skyrim before 1.6.1130, but have added a mod designed with the newest type of ESL files, we suggest installing <a href="https://www.nexusmods.com/skyrimspecialedition/mods/106441">Backported Extended ESL Support (BEES)</a>, though this doesn\'t always resolve all incompatibilities.</li>';
         }
 
@@ -1718,7 +1719,10 @@ function analyzeFirstLine(sections) {
 //OLD METHOD: if (R14StringsRegex.test(sections.topHalf)) {
 function analyzeStringsCrash(sections) {
     let insights = '';
-    if (sections.topThird.includes('.STRINGS')) {
+    let hasPrimaryIndicator = sections.topThird.toLowerCase().includes('.STRINGS'.toLowerCase());
+    let hasSecondaryIndicators = sections.topQuarter.toLowerCase().includes('BGSStoryManagerBranchNode'.toLowerCase())
+        && sections.topQuarter.toLowerCase().includes('PlayerCharacter'.toLowerCase());
+    if (hasPrimaryIndicator && hasSecondaryIndicators) {
         insights += `<li>🎯 <b>.STRINGS Crash Detected:</b> This error typically occurs when there is a unique or non-standard character in the <code>sLanguage</code> line of your <b>skyrim.ini</b> file. To resolve this issue:<ol>
             <li>Locate your <b>skyrim.ini</b> file.</li>
             <li>Optionally, make a quick backup copy of this file and store it outside your ${Utils.SkyrimOrNolvusText} installation.</li>
@@ -1727,6 +1731,13 @@ function analyzeStringsCrash(sections) {
             <li>Save the changes and restart ${Utils.SkyrimOrNolvusText} to see if the issue has been resolved.</li>
             <li>See <a href="https://raw.githubusercontent.com/Phostwood/crash-analyzer/refs/heads/main/images/corruptstringsfixtutorial.png">screenshot tutorial</a> by Discrepancy using Mod Organizer 2 (MO2).
             <li>More information and troubleshooting tips under <a href="https://www.nolvus.net/catalog/crashlog?acc=accordion-1-1">.STRINGS Crash</a/>.</li>
+            <li>Detected indicators: <a href="#" class="toggleButton">⤵️ show more</a>
+                <ul class="extraInfo" style="display:none">
+                    <li><code>.STRINGS</code> - detected in top third of the log (<i>above</i> the Stack section)</li>
+                    <li><code>'BGSStoryManagerBranchNode'</code> - detected in top quarter of the log  (<i>above</i> the Registers section)</li>
+                    <li><code>'PlayerCharacter'</code> - detected in top quarter of the log (<i>above</i> the Registers section)</li>
+                </ul>
+            </li>
             </ol></li>`;
     }
     return insights;
@@ -1741,10 +1752,10 @@ function generateNoCrashDetectedMessage() {
 
     if (Utils.isSkyrimPage) {
         diagnoses += `
-        <li>❗ <b>But first</b>, review the <b>Advanced Users</b> section of this report (below) for potential crash indications that might apply to your situation. Tip: many indicators in the Advanced Users section become more significant when they show up in multiple crash logs.</li>
+        <li>❗ <b>But first</b>, there's a lot more to this report than just this top section! <b>⬇️ SCROLL DOWN ⬇️</b> and review the <b>Advanced Users</b> section of this report for more crash indications that might apply. Tip: many indicators in the Advanced Users section become more significant when they show up in multiple crash logs.</li>
         <li><b>General recommendations</b> which can help solve/prevent many crash types:
             <ol>
-                <li>Easy steps:
+                <li>💡Easy steps:
                     <ul>
                         <li>Always try the classic computer solution - <b>restart your PC</b>: This clears memory and resolves many system-level issues, especially after extended gaming sessions. It's surprising how many issues this old IT tip still fixes...</li>
                         <li>If one save won't load, try to <b>load an older save</b>.</li>
@@ -1754,7 +1765,7 @@ function generateNoCrashDetectedMessage() {
                         <li>Return any <b>overclocked hardware</b> to stock speeds.</li>
                     </ul>
                 </li>
-                <li>Verify that you have already correctly installed and configured <b>SSE Engine Fixes</b>:
+                <li>🔧Verify that you have already correctly installed and configured <b>SSE Engine Fixes</b>:
                     <ul>
                         <li>Install <a href="https://www.nexusmods.com/skyrimspecialedition/mods/17230">SSE Engine Fixes</a> (both parts):
                             <ul>
@@ -1781,10 +1792,10 @@ function generateNoCrashDetectedMessage() {
     } else {
         //NOLVUS version:
         diagnoses += `
-                <li>❗ <b>But first</b>, if comfortable, review the <b>Advanced Users</b> section of this report (below) for potential crash indications that might apply to your situation. NOTE: If you have added or subtracted any mods to/from Nolvus, then you need to consider yourself an "Advanced User". Tip: many indicators in the Advanced Users section become more significant when they show up in multiple crash logs.</li>
+                <li>❗ <b>But first</b>, there's a lot more to this report than just this top section! <b>⬇️ SCROLL DOWN ⬇️</b> and review the <b>Advanced Users</b> section of this report for more crash indications that might apply. NOTE: If you have added or subtracted any mods to/from Nolvus, then you need to consider yourself an "Advanced User". Tip: many indicators in the Advanced Users section become more significant when they show up in multiple crash logs.</li>
                 <li><b>General recommendations</b> which can help solve/prevent many crash types:
                     <ul>
-                        <li>Easy steps:
+                        <li>💡Easy steps:
                             <ul>
                                 <li>Always try the classic computer solution - <b>restart your PC</b>: This clears memory and resolves many system-level issues, especially after extended gaming sessions. It's surprising how many issues this old IT tip still fixes...</li>
                                 <li>If one save won't load, try to <b>load an older save</b>.</li>
@@ -2501,6 +2512,7 @@ function analyzeA0D789Crash(sections) {
 }
 
 
+// ❗ BFCO and MCO Compatibility Issue:
 function analyzeMcoBfcoCompatibility(logFile) {
     let insights = '';
 
@@ -2554,4 +2566,44 @@ function analyzeMcoBfcoCompatibility(logFile) {
     }
 
     return insights;
+}
+
+
+// 🎯 DbSkseFunctions.dll Crash Detected:
+function analyzeDbSkseFunctionsCrash(sections) {
+    let diagnoses = '';
+    let emoji = '';
+    let detectionLocation = 'top third of crash log';
+    
+    // Check if it's in the first line - if so, use target emoji and update location text
+    if (sections.firstLine.includes('DbSkseFunctions.dll')) {
+        emoji = '🎯 <b>';
+        detectionLocation = 'first error line of crash log';
+        crashString = 'crash is usually related';
+    }
+    // Otherwise check if it's in the top third
+    else if (sections.topThird.includes('DbSkseFunctions.dll')) {
+        emoji = '❗ <b>Possible';
+        detectionLocation = 'top third of crash log';
+        crashString = 'potential crash cause is often related';
+    }
+    
+    if (emoji) {  // If we found it in either location
+        diagnoses += `
+            <li>${emoji} DbSkseFunctions.dll Crash Detected:</b> This ${crashString} to the DbSkseFunctions mod's projectile tracking feature. The issue seems to be more common during combat/spellcasting with mod-added projectiles.
+            <ul>
+                <li>Try the following fix: Open <code>Data/SKSE/plugins/DbSkseFunctions.ini</code> and set <code>iMaxArrowsSavedPerReference=0</code>. This disables the projectile impact hook which is commonly the source of these crashes.
+                <li>What this does: This setting disables the mod's arrow/projectile tracking system, which can sometimes cause issues during combat or when processing certain spells.  While this reduces some functionality, it typically resolves the crashes.</li>
+                
+                <li>If the issue persists: Try disabling DbSkseFunctions and any mods that require it, then gradually reintroduce them while testing for stability.</li>
+                
+                <li>Detected indicators: <a href="#" class="toggleButton">⤵️ show more</a>
+                    <ul class="extraInfo" style="display:none">
+                        <li><code>DbSkseFunctions.dll</code> - detected in ${detectionLocation}</li>
+                    </ul>
+                </li>
+            </ul>
+            </li>`;
+    }
+    return diagnoses;
 }

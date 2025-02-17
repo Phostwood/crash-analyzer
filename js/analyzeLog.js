@@ -106,6 +106,13 @@ async function analyzeLog() {
         diagnosesCount++;
     }
 
+    // 🎯 DbSkseFunctions.dll Crash Detected:
+    const dbSkseFunctionsDiagnosis = analyzeDbSkseFunctionsCrash(sections);
+    if(dbSkseFunctionsDiagnosis) {
+        diagnoses += dbSkseFunctionsDiagnosis;
+        diagnosesCount++;
+    }
+
 
     // Check for Alphabetized Load Order crash
     // NOTE: Trainwreck logs don't include a list of mods, and so will never display this error

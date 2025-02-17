@@ -343,7 +343,7 @@ Utils.LootWarningForNolvus = '';
 Utils.NolvusOrSkyrimText = '';
 
 if (Utils.isSkyrimPage) {
-    const lootDescription = 'Try using <a href="https://loot.github.io/">LOOT</a> as a <b>diagnostic tool</b>. ' +
+    const lootDescription = '👑 Try using <a href="https://loot.github.io/">LOOT</a> as a <b>diagnostic tool</b>. ' +
     '⚠️Caution: LOOT can safely be used as a diagnostic tool or for load order suggestions, ' +
     'but its automatic load order reorganization is often discouraged. ' +
     'It\'s widely thought to incorrectly sort 5 to 10% of mods, ' +

@@ -390,6 +390,20 @@ document.addEventListener('DOMContentLoaded', function () {
 		if (window.location.href.toLowerCase().endsWith('?advanced')) {
 			document.getElementById('speculativeInsights').checked = true;
 		}
+
+		if (window.location.href.toLowerCase().endsWith('?tryFormIDs'.toLowerCase())) {
+			document.getElementById('tryFormIDs').checked = true;
+		}
+
+		document.getElementById('tryFormIDs').addEventListener('change', function(e) {
+			if (e.target.checked) {
+				// Force a page reload by directly setting location
+				window.location = window.location.pathname + '?tryFormIDs';
+			} else {
+				window.location = window.location.pathname;
+			}
+		});
+
 	});
 
 	// Add event listener for the Test Log link
