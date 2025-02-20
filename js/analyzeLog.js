@@ -657,7 +657,7 @@ async function analyzeLog() {
     }
 
 
-    // dxgi.dll issue (ReShade and PureDark Upscaler)
+    // ❗ dxgi.dll issue (ReShade and PureDark Upscaler)
     if (sections.topHalf.includes('dxgi.dll')) {
         insights += '<li>❗ <b>dxgi.dll Issue Detected:</b> The presence of dxgi.dll in the log\'s top half indicates a potential issue between ReShade and the PureDark Upscaler. Common causes and resolutions include:<ol>' +
             '<li><b>ReShade Version:</b> If you have upgraded your ReShade to a newer version (e.g., 6.11 for the latest Cabbage release), the older and customized dxgi.dll from PureDark might cause issues. See below if you wish to revert to the original Reshade.</li>' +
@@ -720,7 +720,7 @@ async function analyzeLog() {
     }
 
 
-    insights += '</ul><h5>Memory and Image-related Issues:</h5><ul>';
+    insights += '</ul><h5>Memory and Graphics-related Issues:</h5><ul>';
 
     const meshInsights = analyzeMeshIssues(sections);
     if (meshInsights) {
@@ -762,6 +762,13 @@ async function analyzeLog() {
     const textureInsights = analyzeTextureIssues(sections);
     if (textureInsights) {
         insights += textureInsights;
+        insightsCount++;
+    }
+
+    //❓ Possible Shader/Lighting Issue:
+    const enbShaderLightingInights = analyzeENBShaderLightingIssues(sections);
+    if (enbShaderLightingInights) {
+        insights += enbShaderLightingInights;
         insightsCount++;
     }
 
@@ -964,7 +971,7 @@ async function analyzeLog() {
     }
 
 
-    //DynDOLOD
+    //❓ DynDOLOD
     if (sections.topHalf.toLowerCase().includes('DynDOLOD.esm'.toLowerCase())) {
         //NOTE: test for topThird instead?
         //NOTE: test for Occlusion.esp?
@@ -984,11 +991,11 @@ async function analyzeLog() {
     }
 
 
-    // Horse Follower Pathing Issue
+    //❓ Horse Follower Pathing Issue
     if (sections.topHalf.includes('Pathing') &&
         (sections.topQuarter.toLowerCase().includes('horse') ||
-            sections.topQuarter.toLowerCase().includes('pony') ||
-            sections.topQuarter.toLowerCase().includes('mount'))) {
+            sections.topQuarter.toLowerCase().includes('pony') )) {
+            // false-positives from "Mountain": sections.topQuarter.toLowerCase().includes('mount')
         insights += '<li>❓ <b>Horse Follower Pathing Issue:</b> This crash may occur when horse or pony followers encounter pathfinding issues to reach the player character. To mitigate this, consider the following steps: <ul>' +
             '<li>Disable horse followers in the Mod Configuration Menu (MCM) of your follower framework (e.g., Nether\'s Follower Framework).</li>' + 
             '<li>OR, always command your horse to wait at a location before initiating fast travel.</li>' + 
@@ -998,7 +1005,7 @@ async function analyzeLog() {
 
     
 
-    //HDT-SMP (Skinned Mesh Physics)
+    //❓ HDT-SMP (Skinned Mesh Physics)
     if (sections.topHalf.toLowerCase().includes('hdtSMP64.dll'.toLowerCase())) {
         insights += '<li>❓ <b>hdtSMP64.dll Physics Issue Detected:</b> These indicators are frequently seen in crash logs, but are <b>typically not the culprit</b>. However, frequent occurrences of this error might suggest a configuration issue or indicate <b>physics</b> issues with NPCs wearing <b>HDT/SMP</b> enabled armor/clothing/hair. To troubleshoot this issue:<ol>' +
             '<li>Ensure that <code>hdtSMP64.dll</code> is compatible with your installed versions of SkyrimSE.exe and SKSE. Incompatible DLLs can lead to crashes.</li>' +

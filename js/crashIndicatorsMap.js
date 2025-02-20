@@ -132,13 +132,14 @@ const crashIndicators = {
             { code: '.dds', description: "DirectDraw Surface texture file" },
             { code: '.tga', description: "Targa format texture file" }, //theoretical according to AI ... but not in my library
             { code: '.bmp', description: "Bitmap texture file" }, //rare
-            { code: '.btr', description: "Bethesda texture reference file" } //rare
+            { code: '.btr', description: "Bethesda texture reference file" }, //rare
+            { code: 'Texture not found', description: "Potentially missing texture asset(s)" }, //theoretical according to AI, but not in library
             //{ code: '.texcache', description: "Texture cache data file" } //theoretical according to Claude AI ... but not in my library, but improperly searched for returns way too much?
         ]
     },
     animationIssues: {
         hexCodes: [
-            { hexCode: 'B02235', description: "suspected animation indictor" },
+            { hexCode: 'B02235', description: "suspected animation indicator" },
         ],
         codes: [
             { code: 'hkbehaviorgraph', description: "Havok behavior graph" },
@@ -164,7 +165,7 @@ const crashIndicators = {
             { code: '.hkx', description: "Havok animation file" },
             { code: '0_master.hkb', description: "Master behavior file" },
             { code: 'bshkbanimationgraph', description: "Bethesda Havok animation graph" },
-            { code: '67B88B', description: "suspected animation loader, hexcode indictor" }
+            { code: '67B88B', description: "suspected animation loader, hexcode indicator" }
         ]
     },
     scriptIssues: [
@@ -239,6 +240,84 @@ const crashIndicators = {
             { code: 'PathSmoothing', description: "Path smoothing calculation issue" }
         ]
     },
+
+    enbShaderLightingIssues: {
+        codes: [
+            { code: '12FDCC0', description: "Unknown BSShader function offset - may indicate shader-related instability" },
+            { code: 'AmbientColor', description: "Ambient light color calculations - could relate to lighting template conflicts" },
+            { code: 'AmbientOcclusion', description: "AO processing - potential issues with shader implementations" },
+            { code: 'ApplyGameColorCorrection', description: "Color correction pipeline - ENB/SweetFX interference possible" },
+            { code: 'BGSDecalNode', description: "Decal rendering - possible shader/texture interaction issues" },
+            { code: 'Boris Vorontsov', description: "ENB developer references - may appear in error contexts" },
+            { code: 'BSDynamicTriShape', description: "Complex geometry rendering - potential texture/shader overload" },
+            { code: 'BSEffectShaderProperty', description: "Effect shaders - possible issues with magic/weather FX" },
+            { code: 'BSImagespaceShader', description: "Post-processing effects - ENB/Reshade conflicts possible" },
+            { code: 'BSImagespaceShaderAlphaBlend', description: "Alpha blending operations - may indicate screen-space effect issues" },
+            { code: 'BSLightingShader', description: "Core lighting system - could indicate conflicts with lighting mods/ENB" },
+            { code: 'BSLightingShaderMaterialBase', description: "Material properties - potential mesh/shader mismatches" },
+            { code: 'BSLightingShaderMaterialEnvmap', description: "Reflective surfaces - environment mapping issues possible" },
+            { code: 'BSLightingShaderProperty', description: "Material lighting data - texture/mesh compatibility concerns" },
+            { code: 'BSShader::', description: "Engine shader operations - ENB/shader mod conflicts possible" },
+            { code: 'BSShaderAccumulator', description: "Shader buffer management - potential lighting overload" },
+            { code: 'BSShaderTextureSet', description: "Texture configurations - missing/incompatible textures possible" },
+            { code: 'BSTextureSet', description: "Texture set handling - potential material definition errors" },
+            { code: 'BSUtilityShader', description: "Utility shaders - particle/effect processing" },
+            { code: 'CellLighting', description: "Localized lighting - potential cell-specific conflicts" },
+            { code: 'CommunityShaders.dll', description: "Community Shaders core - installation/version issues possible" },
+            { code: 'CSLighting', description: "Custom lighting features - may conflict with ENB/other shaders" },
+            { code: 'CSRendering', description: "Rendering pipeline - potential mod compatibility issues" },
+            { code: 'CSShader', description: "Shader extensions - possible Community Shaders-related instability" },
+            { code: 'd3d11.dll', description: "DirectX 11 interface - Graphics mod hooking issues possible" },
+            { code: 'd3d9.dll', description: "DirectX 9 interface - Graphics mod hooking issues possible" },
+            { code: 'd3dcompiler_47.dll', description: "Shader compilation - invalid/mismatched shaders suspected" },
+            { code: 'DeferredLighting', description: "Lighting pipeline - potential rendering step conflicts" },
+            { code: 'DirectionalLight', description: "Sun/moon lighting - shadow/ENB adaptation issues possible" },
+            { code: 'DXGI.dll', description: "Graphics interface - potential driver/ENB compatibility issues" },
+            { code: 'DXGI_ERROR_DEVICE_REMOVED', description: "GPU disconnect - could indicate VRAM overutilization" },
+            { code: 'ELFX - Exteriors.esp', description: "ELFX exterior module - lighting mod conflict possible" },
+            { code: 'ELFXEnhancer.esp', description: "ELFX addon - potential interior lighting conflicts" },
+            { code: 'ENB Reference', description: "ENB mentions - general indicator of ENB involvement" },
+            //too generic: { code: 'ENB', description: "ENB framework - general graphics enhancement (generic indicator)" },
+            { code: 'ENBEffect.fx', description: "Custom shaders - potential syntax/version errors" },
+            { code: 'enbhelper.dll', description: "ENB extension - possible version incompatibility" },
+            { code: 'enbhost.exe', description: "ENB memory process - potential memory management issues" },
+            { code: 'enblocal.ini', description: "ENB configuration - possible settings mismatch" },
+            { code: 'enbseries.dll', description: "ENB core - potential installation/version problems " },
+            { code: 'enbseries.ini', description: "ENB settings - potential rendering configuration issues" },
+            { code: 'ENBShaderCache', description: "Shader caching - corruption/version mismatch possible" },
+            { code: 'ENBSky', description: "Sky rendering - weather/lighting mod conflicts possible" },
+            { code: 'ENBWaterShader', description: "Water effects - potential compatibility issues" },
+            //too generic: { code: 'HDR', description: "High Dynamic Range - tone mapping/ENB conflicts possible" },
+            { code: 'ImageSpace', description: "Post-processing - ENB/Reshade interference possible" },
+            { code: 'LightingTemplate', description: "Environment lighting - potential cell/mod compatibility issues" },
+            { code: 'Lux Via.esp', description: "Lux roads module - exterior lighting conflicts possible" },
+            { code: 'Lux.esp', description: "Lux core - potential interior lighting system conflicts" },
+            { code: 'NiAVObject', description: "Scene objects - rendering property conflicts possible" },
+            { code: 'NiNode', description: "Scene graph - potential rendering hierarchy issues" },
+            //too generic: { code: 'Parallax', description: "Depth effects - potential texture/shader compatibility issues" },
+            { code: 'PixelShader', description: "Shader processing - compilation/runtime errors possible" },
+            { code: 'Refraction', description: "Light bending - potential transparency/shader issues" },
+            { code: 'RenderTarget', description: "Buffer management - ENB/effects conflicts possible" },
+            { code: 'ShaderPipeline', description: "Rendering workflow - potential mod/ENB step conflicts" },
+            { code: 'ShadowSceneNode', description: "Shadow rendering - potential casting/receiving conflicts" },
+            { code: 'SkyShader', description: "Sky rendering - weather/ENB sky conflicts possible" },
+            { code: 'VertexShader', description: "Geometry processing - compilation/runtime errors possible" },
+            { code: 'WaterShader', description: "Water rendering - ENB/water mod conflicts possible" },
+            { code: 'WindowShadersRT.esp', description: "Window effects - potential shader/texture conflicts" },
+            { code: 'BSFadeNode', description: "Object fade transitions - possible exterior lighting/LOD conflicts" },
+            { code: 'BSXFlags', description: "Shader property flags - snow/wetness material conflicts possible" },
+            { code: 'BSWaterShaderMaterial', description: "Water material properties - conflicts with water shader mods likely" },
+            //too generic: { code: 'Decal', description: "Decal rendering systems - potential shader/texture blending issues" },
+            { code: 'SubSurfaceScattering', description: "Subsurface effects - skin/object translucency shader conflicts (ENB/character mods)" },
+            { code: 'VolumetricLighting', description: "Volumetric light rendering - ENB godray/lighting mod issues suspected" },
+            { code: 'ShadowMap', description: "Shadow map handling - resolution/rendering compatibility issues" },
+            { code: 'RenderTargetSize', description: "Render target dimensions - ENB upscaling/downsampling conflicts" },
+            { code: 'TextureBlend', description: "Texture blending modes - parallax/terrain material incompatibilities" },
+            { code: 'ENBLight', description: "ENB light sources - conflicts with custom lighting placements" },
+            { code: 'ComplexFire', description: "Complex fire effects - particle lighting/shader overload" }
+        ]
+    },
+
     //
     // --- stuff thought up by AI for possible new tests: ---
     //

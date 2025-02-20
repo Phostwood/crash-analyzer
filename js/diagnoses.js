@@ -380,6 +380,7 @@ function checkForD6dddaAdvancedVersion(sections) {
 }
 
 
+//❗ Critical Memory Usage Detected
 function checkForHighMemoryUsage(sections) {
     let diagnosis = '';
     const physicalMemoryPercent = sections.systemPhysicalMemoryPercentUsed;
@@ -423,6 +424,7 @@ function checkForHighMemoryUsage(sections) {
                         <li>Minimize mods that add to the density of occurrences of 3D objects (e.g., some tree mods can overpopulate landscapes)</li>
                     </ul>
                 </li>
+                <li>Consider using a tool like <a href="https://game.intel.com/us/intel-presentmon/">Intel PresentMon</a> to accurately monitor usage of VRAM, RAM, GPU and CPU while troubleshooting.</li>
                 <li><b>Workaround:</b> If you're experiencing crashes in a specific location, you can use the in game <b>console command</b> <code>pcb</code> (Purge Cell Buffer) to free up memory. This may help prevent some crashes by clearing cached cells, though it will cause those recently visited areas to have to reload completely when re-entered. Reportedly best used while in interior cells.</li>
             </ul>
         </li>`;
@@ -974,7 +976,7 @@ function analyzeMeshIssues(sections) {
         <ol>
         <li>Identify problematic meshes/mods:
             <ul>
-                <li>Check the list of mentioned meshes below and do a file search in your mods folder for clues as to their source mod(s).</li>
+                <li>Check the list of mentioned meshes below and do a Windows file search in your mods folder for clues as to their source mod(s).</li>
                 <li>Or try using one of these tools that can scan through all your mesh files and report issues:
                     <ul>
                         <li><a href="https://www.nexusmods.com/skyrim/mods/75916/">NifScan</a> which is a command line tool.</li>
@@ -1264,6 +1266,7 @@ function analyzeTextureIssues(sections) {
             <ul>
             <li>Check the list of mentioned textures below to identify which mod(s) might be causing issues.</li>
             <li><b>Compare multiple crash logs:</b>, If you see this message again with any of the same "Mentioned texture files" then continue investigating using the steps below...
+            <li>Do a Windows file search in your mods folder for clues as to their source mod(s).</li>
             <li>Temporarily disable suspect texture mods (or temporarily remove their suspected texture files) one at a time to isolate the problem.</li>
             <li>Pay special attention to mods affecting the area where the crash occurred.</li>
             </ul>
@@ -1915,7 +1918,6 @@ function analyzeOverlayIssues(sections, logFile) {
 //❓Animation Loader/Behavior Engine Issue Detected
 function analyzeAnimationLoaderIssues(sections) {
     let loaderInsights = '';
-    let isHighPriority = false;
 
     function findLoaderCodeIssues(sections) {
         return crashIndicators.animationLoaderIssues.codes.filter(({ code }) =>
@@ -1927,7 +1929,6 @@ function analyzeAnimationLoaderIssues(sections) {
     Utils.debuggingLog(['analyzeAnimationLoaderIssues', 'analyzeLog.js'], 'loaderCodeIssues:', loaderCodeIssues);
 
     if (loaderCodeIssues.length > 0) {
-        //isHighPriority = true;
         loaderInsights += `<li>❓ <b>Possible Animation Loader/Behavior Engine Issue Detected:</b> To fix this, please follow these steps:
         <ol>
         <li>Regenerate/patch your animations using your behavior engine:
@@ -1986,7 +1987,6 @@ function analyzeAnimationLoaderIssues(sections) {
 
     return {
         insights: loaderInsights,
-        isHighPriority: isHighPriority
     };
 }
 
@@ -2607,3 +2607,80 @@ function analyzeDbSkseFunctionsCrash(sections) {
     }
     return diagnoses;
 }
+
+
+
+//❓ Possible Shader/Lighting Issue:
+function analyzeENBShaderLightingIssues(sections) {
+    let shaderInsights = '';
+
+    function findShaderCodeIssues(sections) {
+        return crashIndicators.enbShaderLightingIssues.codes.filter(({ code }) =>
+            sections.topHalf.toLowerCase().includes(code.toLowerCase())
+        );
+    }
+
+    const shaderCodeIssues = findShaderCodeIssues(sections);
+    Utils.debuggingLog(['analyzeENBShaderLightingIssues', 'analyzeLog.js'], 'shaderCodeIssues:', shaderCodeIssues);
+
+    if (shaderCodeIssues.length > 0) {
+        shaderInsights += `<li>❓ <b>Possible Shader/Lighting Issue:</b> While this crash includes indications of lighting/shader/enb systems, the root cause often lies elsewhere. Follow these steps:
+        <ol>
+        <li>Check for Cell and Record Conflicts:
+            <ul>
+                <li>Look for mods that modify the same interior/exterior spaces</li>
+                <li>Review recently added mods that add or modify locations</li>
+                <li>Check for patches between lighting mods and relevant or new location mods</li>
+                <li>Advanced Users: Use xEdit to check for cell conflicts in the area where crashes occur</li>
+            </ul>
+        </li>
+
+        <li>Examine Texture and Mesh Issues:
+            <ul>
+                <li>Check for missing or corrupted textures, especially:
+                    <ul>
+                        <li>Character tintmasks and facegen data</li>
+                        <li>Environmental textures in the crash location</li>
+                        <li>Recently added texture mods</li>
+                    </ul>
+                </li>
+                <li>Verify compatibility of mesh-containing mods with your lighting setup</li>
+                <li>For additional information, including potentially-suspect texture/mesh files, review related sections that may be included above, in this report: <a href="#" class="toggleButton">⤴️ hide</a><ul class="extraInfo">
+                    <li>❓ Possible Texture Issue Indicators Found</li>
+                    <li>❓ Possible Mesh Issue Detected</li>
+                    <li>❗ Critical Memory Usage Detected</li>
+                </ul></li>
+            </ul>
+        </li>
+                
+        <li>If issues continue:
+            <ul>
+            ${Utils.LootListItemIfSkyrim}
+            <li>Review compatibility between character overhauls and lighting systems. Some character overhauls modify rendering processes which can cause conflicts. Check for compatibility patches.</li>
+            <li>Check for ENB preset compatibility with your weather mod</li>
+            <li>Look for conflicts between graphical mods (enb, lighting, weather, parallax, meshes, textures, new cells/locations, character overhauls etc.)</li>
+            <li>Consider testing without ENB by temporarily renaming <code>d3d11.dll</code> to <code>d3d11.dll.backup</code></li>
+            <li>Review GPU driver version compatibility</li>
+            <li>Check Windows display settings for HDR conflicts</li>
+            </ul>
+        </li>
+   
+        <li>Technical Context: When shader/lighting codes appear in crash logs, they often indicate where the crash manifested rather than the root cause. The actual issue frequently involves cell conflicts, texture problems, or memory limitations that surface through the lighting system.</li>
+        
+        <li>Performance Note: These graphical components can significantly impact performance. If you're experiencing FPS drops (stutters), prioritize testing performance-heavy effects first. Consider using a tool like <a href="https://game.intel.com/us/intel-presentmon/">Intel PresentMon</a> to accurately monitor usage of VRAM, RAM, GPU and CPU while troubleshooting.</li>`;
+
+        if (shaderCodeIssues.length > 0) {
+            shaderInsights += `<li>Detected indicators (more indicators often increases likelihood of causation): <a href="#" class="toggleButton">⤵️ show more</a><ul class="extraInfo" style="display:none">`;
+            shaderCodeIssues.forEach(({ code, description }) => {
+                shaderInsights += `<li><code>${code}</code> - ${description}</li>`;
+            });
+            shaderInsights += '</ul></li>';
+        }
+
+        shaderInsights += '</ol></li>';
+    }
+
+    return shaderInsights;
+}
+
+
