@@ -106,6 +106,15 @@ async function analyzeLog() {
         diagnosesCount++;
     }
 
+
+    // ❗ First-Line Engine Fixes Issue:
+    const firstLineEngineFixesDiagnosis = analyzeFirstLineEngineFixesCrash(sections);
+    if(firstLineEngineFixesDiagnosis) {
+        diagnoses += firstLineEngineFixesDiagnosis;
+        diagnosesCount++;
+    }
+
+
     // 🎯 DbSkseFunctions.dll Crash Detected:
     const dbSkseFunctionsDiagnosis = analyzeDbSkseFunctionsCrash(sections);
     if(dbSkseFunctionsDiagnosis) {
@@ -657,30 +666,6 @@ async function analyzeLog() {
     }
 
 
-    // ❗ dxgi.dll issue (ReShade and PureDark Upscaler)
-    if (sections.topHalf.includes('dxgi.dll')) {
-        insights += '<li>❗ <b>dxgi.dll Issue Detected:</b> The presence of dxgi.dll in the log\'s top half indicates a potential issue between ReShade and the PureDark Upscaler. Common causes and resolutions include:<ol>' +
-            '<li><b>ReShade Version:</b> If you have upgraded your ReShade to a newer version (e.g., 6.11 for the latest Cabbage release), the older and customized dxgi.dll from PureDark might cause issues. See below if you wish to revert to the original Reshade.</li>' +
-            '<li><b>PureDark Upscaler:</b> If you are using newer versions of the PureDark upscaler (specifically for 40xx cards), you need to download a customized version of dxgi.dll from their Discord for compatibility with ReShade.</li>' +
-            '<li><b>Missing dxgi.dll:</b> If you want to revert back from PureDark and don\'t have the original dxgi.dll, you can find it in your archived mods installed from Nolvus. Alternatively, reinstall ReShade following the <a href="https://www.nolvus.net/guide/natl/enb">11.3 Reshade Binaries</a> instructions on the Nolvus site.</li>' +
-            '<li><b>Workaround:</b> Alternatively, you can disable ReShade by pressing the DEL key to turn it on or off.' +
-            '</ol></li>';
-        insightsCount++;
-    }
-    //Upscaler
-    if (sections.topThird.toLowerCase().includes('upscaler.dll') || sections.topThird.toLowerCase().includes('pdperfplugin.dll')) {
-        insights += '<li>❗ <b>Potential Upscaler Issue Detected:</b> The error involving \'Upscaler.dll\' or \'PDPerfPlugin.dll\'suggests a problem with the Upscaler mod, which is designed to improve the game\'s graphics by increasing the resolution of textures. If you are using Puredark\'s paid Upscaler, consider the following troubleshooting steps:<ol>' +
-            '<li>Ensure you are using the correct version of the upscaler that is compatible with your GPU.</li>' +
-            '<li>Review the <a href="https://docs.google.com/document/d/1YVFKcJN2xuvhln9B6vablzOzQu-iKC4EDcbjOW-SEsA/edit?usp=sharing">Nolvus DLSS Upscaler Installation Guide</a> to confirm that you have followed all the installation steps correctly.</li>' +
-            '<li>Review the <b>SkyrimUpscaler.log</b> file for more detailed information about the error.</li>' +
-            '<li>Temporarily disable the Upscaler mod to determine if it is the source of the crash.</li>' +
-            '<li>Ensure that your system meets the hardware requirements for running the mod, as upscaling can be resource-intensive.</li>' +
-            '<li>Check for updates to the Upscaler mod that may address known issues.</li>' +
-            '<li>If the problem persists, report it to the mod\'s support page, providing details from the log file to assist with troubleshooting.</li>' +
-            '</ol></li>';
-        insightsCount++;
-    }
-
     // Check for KERNELBASE Crash excluding JContainers and JSON parse error
     //NOTE: Nolvus-only version. Equivalent information already shows in the diagnoses sectoion above for Non-Nolvus (general Skyrim) version
     const kernelBaseInsights = checkKernelbaseCrash(sections, Utils, win24H2UpscalerCrash,  false);
@@ -764,6 +749,22 @@ async function analyzeLog() {
         insights += textureInsights;
         insightsCount++;
     }
+
+
+   //❓ Possible dxgi.dll Compatibility Notice:
+   const dxgiInights = analyzeDXGIIssues(sections);
+   if (dxgiInights) {
+       insights += dxgiInights;
+       insightsCount++;
+   }
+
+    //❓ Potential Upscaler Issue Detected:
+    const upscalerInights = analyzeUpscalerIssues(sections);
+    if (upscalerInights) {
+        insights += upscalerInights;
+        insightsCount++;
+    }
+
 
     //❓ Possible Shader/Lighting Issue:
     const enbShaderLightingInights = analyzeENBShaderLightingIssues(sections);

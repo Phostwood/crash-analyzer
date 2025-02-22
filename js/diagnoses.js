@@ -3,6 +3,27 @@
 // --- Shared Constants ---
 const verifyWindowsPageFileListItem = `<li>💾 Verify your <a href="https://www.nolvus.net/appendix/pagefile">Windows Pagefile is properly configured</a> (nolvus.net link, but broadly applicable). The most common stability-focused recommendation is setting the Pagefile's minimum and maximum to 40GB. ⚠️NOTE: some sources say Skyrim's engine was programmed to require high Pagefile usage even when there is more than enough RAM available. To be on the safe side, ensure your Pagefile settings even if you somehow have a terrabyte of RAM.</li>`;
 
+const reinstallEngineFixes = `
+    <ul>
+        <li>WARNING: <a href="https://www.nexusmods.com/skyrimspecialedition/mods/17230">SSE Engine Fixes</a> is <strong>frequently misinstalled</strong>, so be careful to follow instructions on its Nexus page to install BOTH parts:
+            <ul>
+                <li>Part 1: The SKSE plugin. Be sure to download the current and correct version of Engine Fixes, for your version of Skyrim, and install with your mod manager</li>
+                <li>Part 2: DLL files are manually placed into Skyrim folder</li>
+            </ul>
+        </li>
+        <li>Configure <code>EngineFixes.toml</code> with:
+            <ul>
+                <li>Option 1 (Recommended): Download the <a href="https://www.nexusmods.com/skyrimspecialedition/mods/108069">pre-configured TOML file</a></li>
+                <li>Option 2: Manually configure following this <a href="https://www.reddit.com/r/skyrimmods/comments/tpmf8x/crash_on_load_and_save_corruption_finally_solved/">settings guide</a>. Verify/Edit these settings in <code>EngineFixes.toml</code> :
+                    <ul>
+                        <li><code>SaveGameMaxSize = true</code></li>
+                        <li><code>MaxStdio = 8192</code></li>
+                    </ul>
+                </li>
+            </ul>
+        </li>
+    </ul>`;
+
 
 //NonESL Plugins Count Warning
 function checkForTooManyNonEslPlugins(crashLogSection) {
@@ -488,26 +509,8 @@ function checkForMissingMasters(sections) {
 
         if (Utils.isSkyrimPage && sections.hasNewEslSupport && (sections.bottomHalf.toLowerCase().includes('EngineFixes.dll'.toLowerCase()) || sections.bottomHalf.toLowerCase().includes('EngineFixesVR.dll'.toLowerCase()) )) {
             diagnoses += `
-            <li><b>Consider reinstalling:</b> <a href="https://www.nexusmods.com/skyrimspecialedition/mods/17230">SSE Engine Fixes</a>
-                <ul>
-                    <li>WARNING: This mod is <strong>frequently misinstalled</strong>, so be careful to follow instructions on Nexus page to install BOTH parts:
-                        <ul>
-                            <li>Part 1: The SKSE plugin. Be sure to download the <b>updated</b> version for Skyrim ${Utils.getSkyrimVersion(sections.header)} and install via your mod manager</li>
-                            <li>Part 2: The DLL files. Must be manually placed in Skyrim root folder</li>
-                        </ul>
-                    </li>
-                    <li>Configure SSE Engine Fixes properly:
-                        <ul>
-                            <li>Option 1 (Recommended): Download the <a href="https://www.nexusmods.com/skyrimspecialedition/mods/108069">pre-configured TOML file</a></li>
-                            <li>Option 2: Manually configure following this <a href="https://www.reddit.com/r/skyrimmods/comments/tpmf8x/crash_on_load_and_save_corruption_finally_solved/">settings guide</a>. Verify/Edit these settings in <code>EngineFixes.toml</code> :
-                                <ul>
-                                    <li><code>SaveGameMaxSize = true</code></li>
-                                    <li><code>MaxStdio = 8192</code></li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </li>
-                </ul>
+            <li><b>Consider reinstalling:</b> <b>SSE Engine Fixes</b>
+                   ${reinstallEngineFixes}
             </li>`;
         }
 
@@ -1603,29 +1606,7 @@ function analyzeEngineFixes(sections) {
                 </li>
                 
                 <li><strong>Required Steps:</strong>    
-                    <ol>
-                        <li>Install <a href="https://www.nexusmods.com/skyrimspecialedition/mods/17230">SSE Engine Fixes</a>
-                            <ul>
-                                <li>WARNING: This mod is <strong>frequently misinstalled</strong>, so be careful to follow instructions on Nexus page to install BOTH parts:
-                                    <ul>
-                                        <li>Part 1: The SKSE plugin. Be sure to download the correct version for your Skyrim ${Utils.getSkyrimVersion(sections.header)} and install via your mod manager</li>
-                                        <li>Part 2: The DLL files. Must be manually placed in Skyrim root folder</li>
-                                    </ul>
-                                </li>
-                            </ul>
-                        </li>
-                        <li>Configure SSE Engine Fixes properly:
-                            <ul>
-                                <li>Option 1 (Recommended): Download the <a href="https://www.nexusmods.com/skyrimspecialedition/mods/108069">pre-configured TOML file</a></li>
-                                <li>Option 2: Manually configure following this <a href="https://www.reddit.com/r/skyrimmods/comments/tpmf8x/crash_on_load_and_save_corruption_finally_solved/">settings guide</a>. Verify/Edit these settings in <code>EngineFixes.toml</code> :
-                                    <ul>
-                                        <li><code>SaveGameMaxSize = true</code></li>
-                                        <li><code>MaxStdio = 8192</code></li>
-                                    </ul>
-                                </li>
-                            </ul>
-                        </li>
-                    </ol>
+                    ${reinstallEngineFixes}
                 </li>
 
                 <li><strong>Important Notes:</strong>
@@ -1755,7 +1736,7 @@ function generateNoCrashDetectedMessage() {
 
     if (Utils.isSkyrimPage) {
         diagnoses += `
-        <li>❗ <b>But first</b>, there's a lot more to this report than just this top section! <b>⬇️ SCROLL DOWN ⬇️</b> and review the <b>Advanced Users</b> section of this report for more crash indications that might apply. Tip: many indicators in the Advanced Users section become more significant when they show up in multiple crash logs.</li>
+        <li>❗ <b>⬇️ SCROLL DOWN ⬇️</b> and review the <b>Advanced Users</b> section of this report for more crash indications that may still be relevant. Tip: many indicators in the Advanced Users section become more significant when they show up in multiple crash logs.</li>
         <li><b>General recommendations</b> which can help solve/prevent many crash types:
             <ol>
                 <li>💡Easy steps:
@@ -1769,21 +1750,7 @@ function generateNoCrashDetectedMessage() {
                     </ul>
                 </li>
                 <li>🔧Verify that you have already correctly installed and configured <b>SSE Engine Fixes</b>:
-                    <ul>
-                        <li>Install <a href="https://www.nexusmods.com/skyrimspecialedition/mods/17230">SSE Engine Fixes</a> (both parts):
-                            <ul>
-                                <li>Part 1: SKSE plugin via mod manager</li>
-                                <li>Part 2: DLL files manually into Skyrim folder</li>
-                            </ul>
-                        </li>
-                        <li>Configure <code>EngineFixes.toml</code> with:
-                            <ul>
-                                <li><code>SaveGameMaxSize = true</code></li>
-                                <li><code>MaxStdio = 8192</code></li>
-                            </ul>
-                        </li>
-                        <li>For easier setup, use this <a href="https://www.nexusmods.com/skyrimspecialedition/mods/108069">pre-configured TOML file</a></li>
-                    </ul>
+                    ${reinstallEngineFixes}
                 </li>
                 <li>Towards isolating the cause, try individually disabling any mods listed in the "🔎 <b>Files/Elements</b>" section of this report (see below). Be mindful of any dependencies when doing so. Generally either test with a new character, and/or avoid saving while testing with an existing character.</li>
                 <li>Also, review and install any missing <a href="https://www.reddit.com/r/skyrimmods/wiki/essential_mods/#wiki_essential_bugfixes">Essential Bugfixes</a> applicable to your modlist</li>
@@ -2457,29 +2424,11 @@ function analyzeWheelerCrash(sections, logFile) {
         insights += `<li>❗ <b>Wheeler Issue Detected:</b><ol>
             <li><b>First,</b> install the <a href="https://www.nexusmods.com/skyrimspecialedition/mods/132074">Wheeler CTD-Fix mod</a> to potentially resolve crashes associated with the Wheeler mod.</li>
             <li><b>However,</b> if the Wheeler CTD-Fix mod is already installed but you are still seeing this crash, <b>Consider reinstalling:</b> <a href="https://www.nexusmods.com/skyrimspecialedition/mods/17230">SSE Engine Fixes</a>
-                <ul>
-                    <li>WARNING: This mod is <strong>frequently misinstalled</strong>, so be careful to follow instructions on Nexus page to install BOTH parts:
-                        <ul>
-                            <li>Part 1: The SKSE plugin. Be sure to download the <b>updated</b> version for Skyrim ${Utils.getSkyrimVersion(sections.header)} and install via your mod manager</li>
-                            <li>Part 2: The DLL files. Must be manually placed in Skyrim root folder</li>
-                        </ul>
-                    </li>
-                    <li>Configure SSE Engine Fixes properly:
-                        <ul>
-                            <li>Option 1 (Recommended): Download the <a href="https://www.nexusmods.com/skyrimspecialedition/mods/108069">pre-configured TOML file</a></li>
-                            <li>Option 2: Manually configure following this <a href="https://www.reddit.com/r/skyrimmods/comments/tpmf8x/crash_on_load_and_save_corruption_finally_solved/">settings guide</a>. Verify/Edit these settings in <code>EngineFixes.toml</code> :
-                                <ul>
-                                    <li><code>SaveGameMaxSize = true</code></li>
-                                    <li><code>MaxStdio = 8192</code></li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </li>
-                </ul>
-                    <li>Detected indicators: <a href="#" class="toggleButton">⤵️ show more</a><ul class="extraInfo" style="display:none">
-                        <li><code>wheeler.dll</code> - detected in top quarter sections of crash log</li>
-                        <li><code>EngineFixes.dll</code> - already installed</li>
-                    </ul></li>
+                ${reinstallEngineFixes}
+                <li>Detected indicators: <a href="#" class="toggleButton">⤵️ show more</a><ul class="extraInfo" style="display:none">
+                    <li><code>wheeler.dll</code> - detected in top quarter sections of crash log</li>
+                    <li><code>EngineFixes.dll</code> - already installed</li>
+                </ul></li>
             </li>
         </ol></li>
         `;
@@ -2684,3 +2633,55 @@ function analyzeENBShaderLightingIssues(sections) {
 }
 
 
+
+// ❓ Analyze potential dxgi.dll conflicts
+function analyzeDXGIIssues(sections) {
+    let insights = '';
+    
+    if (sections.topHalf.includes('dxgi.dll')) {
+        insights += `<li>❓ <b>Possible dxgi.dll Compatibility Notice:</b> The presence of <code>dxgi.dll</code> in the log's top half may indicate a potential interaction between ReShade and the PureDark Upscaler. Here are some possible solutions to consider:<ol>
+            <li><b>ReShade Version:</b> If you use, and have recently updated ReShade (such as to version 6.11 for the Cabbage release), there might be compatibility concerns with PureDark's customized <code>dxgi.dll</code>. See below for ReShade restoration options.</li>
+            <li><b>PureDark Upscaler:</b> If you use Puredark's upscaler, for users with newer PureDark upscaler versions (particularly with 40xx cards), you may need to obtain a specialized <code>dxgi.dll</code> from their Discord to ensure ReShade compatibility.</li>
+            <li><b>Missing dxgi.dll:</b> To restore the prior <code>dxgi.dll</code> after using PureDark, you can locate it in your archived mods or reinstall ReShade by following the <a href="https://www.nolvus.net/guide/natl/enb">11.3 Reshade Binaries</a> guide.</li>
+            <li><b>Quick Solution:</b> As a temporary isolating measure, you can toggle ReShade using the DEL key.</li>
+            </ol></li>`;
+    }
+    
+    return insights;
+}
+
+// ❓ Analyze potential upscaler-related issues
+function analyzeUpscalerIssues(sections) {
+    let insights = '';
+    
+    if (sections.topThird.toLowerCase().includes('upscaler.dll') || sections.topThird.toLowerCase().includes('pdperfplugin.dll')) {
+        insights += `<li>❓ <b>Potential Upscaler Issue Detected:</b> The error involving <code>Upscaler.dll</code> or <code>PDPerfPlugin.dll</code> suggests a problem with the Upscaler mod, which is designed to improve the game's graphics by increasing the resolution of textures. If you are using Puredark's paid Upscaler, consider the following troubleshooting steps:<ol>
+            <li>Ensure you are using the correct version of the upscaler that is compatible with your GPU.</li>
+            <li>Review the <a href="https://docs.google.com/document/d/1YVFKcJN2xuvhln9B6vablzOzQu-iKC4EDcbjOW-SEsA/edit?usp=sharing">Nolvus DLSS Upscaler Installation Guide</a> to confirm that you have followed all the installation steps correctly.</li>
+            <li>Review the <b>SkyrimUpscaler.log</b> file for more detailed information about the error.</li>
+            <li>Temporarily disable the Upscaler mod to determine if it is the source of the crash.</li>
+            <li>Ensure that your system meets the hardware requirements for running the mod, as upscaling can be resource-intensive.</li>
+            <li>Check for updates to the Upscaler mod that may address known issues.</li>
+            <li>If the problem persists, report it to the mod's support page, providing details from the log file to assist with troubleshooting.</li>
+            </ol></li>`;
+    }
+    
+    return insights;
+}
+
+
+// ❗ First-Line Engine Fixes Issue:
+function analyzeFirstLineEngineFixesCrash(sections) {
+    let diagnoses = '';
+    
+    if (sections.firstLine.toLowerCase().includes('EngineFixes.dll'.toLowerCase())) {  // If we found it in either location
+        diagnoses += `
+            <li>❗ <b>First-Line Engine Fixes Issue:</b> Engine Fixes in the first error line of the crash log may indicate an improperly installed Engine Fixes mod, or that a mod which uses it may have an incompatibility.
+                ${reinstallEngineFixes}
+                <ul>
+                    <li>If confident Engine Fixes is correctly installed, but issue reoccurs, attempt to isolate conflicting mod by temporarily disabling mods (one-by-one, or in shrinking groups) which show up in the <b>🔎 Files/Elements</b> section of this report</li>
+                </ul>
+            </li>`;
+    }
+    return diagnoses;
+}

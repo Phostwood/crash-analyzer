@@ -1,60 +1,39 @@
-✅Version 1.22.1 is now live:
+✅Version 1.22.2 is now live:
 https://phostwood.github.io/crash-analyzer/
 
 
-1. ✅New test: ❓ Possible Shader/Lighting Issue:
-    - Listed 5th in "Memory and Graphics-related Issues:" section of report (slightly renamed from "Image-related")
-	- Thank yous to Griz and anonik123 for reviewing first draft (second draft is much more focused on most-likely causes).
-	- Added anonik123 to list of people in "Thank You" section at bottom of page
+1. ✅New test: ❗ First Line Engine Fixes Issue:
+	- ✅crash-2025-02-17-00-07-21.log
+
+2. Consolidated Engine Fixes instructions for:
+	- ✅❗ Potential Missing Masters Detected:
+	- ✅❗ Missing SSE Engine Fixes:
+	- ✅❓No highest-confidence crash indicators detected.
+		- ✅also rewrite of "⬇️ SCROLL DOWN ⬇️" sentence at beginning ... for clarity and more accurate scanning
+	- ✅❗ Wheeler Issue Detected:
+
+3. ✅❓ Analyze potential dxgi.dll conflicts
+	- ✅refactored into a function for easier maintenance
+	- ✅softened in confidence, and moved further down the list (above Lighting/Shading)
+
+4. ✅❓ Analyze potential upscaler-related issues
+	- ✅refactored into a function for easier maintenance
+	- ✅softened in confidence, and moved further down the list (above Lighting/Shading)
+
+5. ✅explainersMap.js:
+	-  ✅clarified by including last portion after the (last) comma:
+		['dxgi.dll', '(DirectX Graphics Infrastructure - part of <b>Windows</b>, but altered by some mods)']
 
 
-2. ✅❗ Critical Memory Usage Detected:
-	- Added line recommending use of Intel PresentMon
-
-3. ✅❓ Horse Follower Pathing Issue:
-	- Discovered checking for "mount" in top quarter, was also flagging on "mountain" ... so commented out that indicator from the list
-
-4. ✅❗ Probable Mesh Issue Detected:
-	- added "Windows" to "file search" as a clarification
-
-5. ✅❓ Possible Texture Issue Indicators Found:
-	- added arguably missing step: "Do a Windows file search in your mods folder for clues as to their source mod(s)."
-
-6. ✅❓Animation Loader/Behavior Engine Issue Detected
-	- removed from code the unused:  isHighPriority
-
-7. ✅crashInidacatorsMap.js:
-	- new, XL listing for: enbShaderLightingIssues
-	- added 'Texture not found' to textureIssues list
-	- spelling corrections for these code's descriptions:
-		- 67B88B
-		- B02235
-
-
-
---- Notes on this version: ---
-
-✅New test: ❓ Possible Shader/Lighting Issue:
-	- collected indicators that might apply? Please double check. Any others that might apply? 
-		- XL set of over 60 indicators probably has many that are too-frequently false positives ... need to weed those out
-			- and/or move it lower down the list
-	- manually scrutinized troubleshooting steps
-	- asked expert either went very simple or didn't reply to request about technical review of troubleshooting steps ... but they did get be a much better complete rewrite for a second draft (now going live)
 
 
 
 
 --- Upcoming versions: ---
 
-1. ⭐️⭐️⭐️❗ dxgi.dll issue (ReShade and PureDark Upscaler)
-	- merge into lighting/Enb/Shader/Upscaler?
-	- OR demote, and soften
-
-
-1. ⭐️⭐️New test: first-Line Engine Fixes crash
-	- crash-2025-02-17-00-07-21.log
-	- once you're confident Engine Fixes is installed correctly, review mods in the Files/Elements section to see if disabling any of them fixes the issue
-
+1. ⭐️⭐️Research and correct this statement in Upscaler Issue:
+	- "the Upscaler mod, which is designed to improve the game's graphics by increasing the resolution of textures"
+	- perhaps rewrite as something like this?:  "the Upscaler mod, which is designed to improve the games performance through lower resolution processing, but still keeping the overall fidelity of textures
 
 1. ⭐️⭐️New skee first-line error test
 https://discord.com/channels/740569699900719145/1323816364007227504/1340187701701378151
@@ -65,6 +44,20 @@ https://discord.com/channels/740569699900719145/1323816364007227504/134018770170
 		- if the item is removable, remove it in-game before disabling the crashing mod
 			- https://discord.com/channels/215154001799413770/701100960134725713/1341090629895323740
 		- "Overlays" are usually the wearable tattoos or piercings or such
+
+
+1. ❓(OR WAIT FOR REDDIT): New Phostwood's Discord Server
+	- PROBLEM: how to properly moderate it by myself? It could go crazy without moderation....
+	- channels:
+		- test bugs
+		- test troubleshooting suggestions
+		- help
+			- be forewarned, there is too much for any one person to know, and I'm very specialized 
+	- NO NSFW content
+	- Rules:
+	- phone number verification?
+	- 
+
 
 1. ⭐️⭐️New TEST: flag when Non-ESL-ed plugins:  is less than say .. 50 ... and warn that it could be because not all plugins are showing due to going over the maximum number of Non-ESL-ed plugins (254) or because of a missing masters.
 	- Put this test in the "Higher Confidence" portion of "Advanced Users" section.
@@ -87,7 +80,29 @@ https://discord.com/channels/740569699900719145/1323816364007227504/134018770170
 		- already seems to do this for NSF logs?
 			- Simplest Horses - Animated Ice Floes - NavMesh-Pathing Issue - Crash_2025_1_16_0-54-34.txt
 
-1. ⭐️New test: levelList crash (see notes)
+
+
+1. ⏸️PAUSE FOR REDDIT: ⭐️⭐️⭐️Markdown Indentations are too large? For Discord, make sure all <li> indents are TWO (2) spaces per level of indentation (not 3). And also test on Reddit (if possible?) to make sure it's compatible with that too.
+	- if varies between Discord and Reddit, put some copy-paste settings right below the Insights section. Keep it compact. Title maybe "Markdown options for single-click copy to clipboard functionality"
+	- also, put another checkbox down there for "URLs only, no hyperlinked text in markdown"
+
+1. ⭐️⭐️⭐️How did SkyrimCrashDecoder get this diagnosis better than mine?
+	- WormpleHagravens-esp - firstLine  EngineFixes-dll - crash-2025-02-17-00-07-21.log
+	- "\Downloads\Skyrim Crash Decoder_files"
+	- not from code, but from analyzing crash log (and from asking Griz):
+		- for listed mods, it is listed with more indented details
+		- for listed mods, it is listed more often
+
+
+⭐️⭐️⭐️CRASH LOG KEYWORD BANK
+	- Add new keywords from "CRASH LOG KEYWORD BANK"
+	- https://docs.google.com/document/d/e/2PACX-1vSpp90sjG9ANsxAOkLN9fL17D6rAle8K9aXP2zsnIbqYz8PEYZGVfFVw1l6UnQLo3qa6RCBJD7FzZ-l/pub
+	- Source of new tests?
+
+
+--- Upcoming version ideas ---
+
+1. ⏸️WAIT for FormID bug fixes: ⭐️New test: levelList crash (see notes)
 
 	https://www.reddit.com/r/skyrimmods/s/vbsk6s7eFB
 	https://old.reddit.com/r/skyrimmods/comments/1i4tel9/crash_while_saving_at_random/
@@ -111,24 +126,6 @@ https://discord.com/channels/740569699900719145/1323816364007227504/134018770170
 	requires Skyrim SE version 1.6.1130+
 
 	20250211 fix confirmed: https://old.reddit.com/r/skyrimmods/comments/1in3esq/experiencing_crashing_when_making_any_type_of_save/
-
-
-1. ⏸️PAUSE FOR REDDIT: Markdown Indentations are too large? For Discord, make sure all <li> indents are TWO (2) spaces per level of indentation (not 3). And also test on Reddit (if possible?) to make sure it's compatible with that too.
-	- if varies between Discord and Reddit, put some copy-paste settings right below the Insights section. Keep it compact. Title maybe "Markdown options for single-click copy to clipboard functionality"
-	- also, put another checkbox down there for "URLs only, no hyperlinked text in markdown"
-
-1. ⭐️⭐️⭐️How did SkyrimCrashDecoder get this diagnosis better than mine?
-	- WormpleHagravens-esp - firstLine  EngineFixes-dll - crash-2025-02-17-00-07-21.log
-	- "\Downloads\Skyrim Crash Decoder_files"
-	- not from code, but from analyzing crash log (and from asking Griz):
-		- for listed mods, it is listed with more indented details
-		- for listed mods, it is listed more often
-
-
-
---- Upcoming version ideas ---
-
-
 
 1. ⭐️Upgrading Files/Elements:
 	- add to Test Logs

@@ -73,7 +73,7 @@ if (typeof Utils === 'undefined') {
         ['dmenu.dll', '(Dynamic Menu for Skyrim SE Mods - MS <b>Windows</b>)'],
         ['dsound.dll', '(DirectSound library for <b>audio</b> processing)'],
         ['dxcompiler.dll', '(Direct3D Shader Compiler - MS <b>Windows</b>)'],
-        ['dxgi.dll', '(DirectX Graphics Infrastructure - part of <b>Windows</b>)'],
+        ['dxgi.dll', '(DirectX Graphics Infrastructure - part of <b>Windows</b>, but altered by some mods)'],
         ['dxil.dll', '(DirectX Intermediate Language Library - MS <b>Windows</b>)'],
         ['dxilconv.dll', '(DXBC to DXIL Converter - MS <b>Windows</b>)'],
         ['dynamicanimationreplacer.dll', '(aka DAR - <i>older</i> <b>animation</b> replacer mod)'],
