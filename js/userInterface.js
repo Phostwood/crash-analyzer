@@ -79,6 +79,7 @@ document.addEventListener('DOMContentLoaded', function () {
 		hideH4();
 		hideCopyDiagnosesButton();
 		updateLogTypeInfo(); // Update UI based on the reset
+		Utils.FilenamesTracker.reset();
 		//displayQuote();
 	};
 

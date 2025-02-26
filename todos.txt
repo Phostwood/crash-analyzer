@@ -1,41 +1,94 @@
-✅Version 1.22.2 is now live:
+✅Version 1.22.3 is now live:
 https://phostwood.github.io/crash-analyzer/
 
 
-1. ✅New test: ❗ First Line Engine Fixes Issue:
-	- ✅crash-2025-02-17-00-07-21.log
+1. ✅ new test: 📊 Mod Prominence Analysis:
 
-2. Consolidated Engine Fixes instructions for:
-	- ✅❗ Potential Missing Masters Detected:
-	- ✅❗ Missing SSE Engine Fixes:
-	- ✅❓No highest-confidence crash indicators detected.
-		- ✅also rewrite of "⬇️ SCROLL DOWN ⬇️" sentence at beginning ... for clarity and more accurate scanning
-	- ✅❗ Wheeler Issue Detected:
+2. ✅ README.md: updated number of hours worked on project from 400+ to 450+
 
-3. ✅❓ Analyze potential dxgi.dll conflicts
-	- ✅refactored into a function for easier maintenance
-	- ✅softened in confidence, and moved further down the list (above Lighting/Shading)
+3. ✅ Changed VRAMr reddit article link to VRAMr link directly to nexusmods
 
-4. ✅❓ Analyze potential upscaler-related issues
-	- ✅refactored into a function for easier maintenance
-	- ✅softened in confidence, and moved further down the list (above Lighting/Shading)
-
-5. ✅explainersMap.js:
-	-  ✅clarified by including last portion after the (last) comma:
-		['dxgi.dll', '(DirectX Graphics Infrastructure - part of <b>Windows</b>, but altered by some mods)']
+4. ✅ Some code refactoring for easier reuse.
 
 
 
+-- NOTES from this version ---
+
+- DEBUGGING:
+	- good debugging log file: lorerim with attempted enb removal - crash-2025-02-20-22-32-36.log
+	- missing from: 📊 Mod Prominence Analysis:
+		- ✅Requiem for the Indifferent.esp
+			- ✅NOTES:
+				- it's only listed as a "File:"
+				- ✅this is regarding the "experimental Files/Elements upgrade" (sorts quite high with old version)
+		- ✅OLD VERSION OF logSumary.js
+			- ✅Need to add the filters for:
+				- ✅void* -> SkyrimSE.exe
+				- ✅etc. (filters are already in the new logSummaryAdvanced.js)
+
+		- ✅also missing from new version:
+			- ✅Lux - Live Another Life patch.esp (as a stand-alone file)
+				- ✅lowercase: lux - live another life patch.esp
+				- ✅AND this same file is also missing from Files/Elements (for new version)
+				- ✅STILL SHOWS UP for old version in both places
+		- ✅ANSWERED ... not important, and will be addressed when experimental version becomes main version: Why different counts between versions?
+			- ✅normal:
+				(6 : 6) Requiem for the Indifferent.esp
+				(6 : 6) Lux - Live Another Life patch.esp
+			- ✅checked "experimental Files/Elements upgrade"
+				(2 : 12) Requiem for the Indifferent.esp
+				(2 : 12) Lux - Live Another Life patch.esp
+			- ✅manual count in topHalf:
+				- ✅"Requiem for the Indifferent.esp"
+					- ✅including "Modified by:" entries: 12
+						- ✅excluding 6 "Modified by:" entries: 6
+		- ✅logSummary.js (old version):
+			- ✅remove isFilename from addMatch?
+				- ✅doublecheck it's that way in logSummaryAdvanced.js (new version)
+		- ✅Maybe add "New" to Mod Prominence Analysis?
+		
+	- ❓Old version:
+		- filter out results from "Modified by:"
+			- too verbose
+			- sometimes get truncated, and so often not useful because of
+			- already filtered out from experimental version
+				- ➡️❓maybe just ignore in old version? I do plan on experimental version replacing the old eventually...
+
+1. How did SkyrimCrashDecoder get this diagnosis better than mine?
+	- WormpleHagravens-esp - firstLine  EngineFixes-dll - crash-2025-02-17-00-07-21.log
+	- "\Downloads\Skyrim Crash Decoder_files"
+	- not from code, but from analyzing crash log (and from asking Griz):
+		- for listed mods, it is listed with more indented details
+		- for listed mods, it is listed more often
+	- OR add as feature to Forms/Elements?
+		- Each mod gets a quick count of number of occurrences (just a big search of topHalf for that mod string)
+		- Each mod with indented portions underneath also gets some precedence
+		- Mod(s) with sufficient prominence in crash log get highlighted with a "⭐️" or "➡️" emoji?
 
 
 
 --- Upcoming versions: ---
 
-1. ⭐️⭐️Research and correct this statement in Upscaler Issue:
-	- "the Upscaler mod, which is designed to improve the game's graphics by increasing the resolution of textures"
-	- perhaps rewrite as something like this?:  "the Upscaler mod, which is designed to improve the games performance through lower resolution processing, but still keeping the overall fidelity of textures
+0. Links to consider changing:
+	- Link from "graduated from beta" to Discord?
+	- Link from modding Nolvus guide from reddit to Customized Nolvus Catalog?
+	- other?
 
-1. ⭐️⭐️New skee first-line error test
+0. Critical Memory Usage Detected:
+	- mention more info in Memory report near bottom of report
+	- consider mentioning RAM upgrade?
+
+1. ⭐️⭐️⭐️⭐️ Test for Crash Logger: verify version of SKSE (from filename) against version of Skyrim
+	- example: "skse64_1_5_97.dll"  pairs with "Skyrim SSE v1.5.97"
+	- Something like: "The loading and ongoing usage of some character presets can also sometimes cause this issue. If this issue repeats, try creating a new character without loading a preset."
+		- Does this only affect 1.5 97? Need to research on Nexus page...
+
+1. ⭐️⭐️⭐️⭐️ New test? "SKSEPlugin_Load" --> possibly wrong version of SKSE? Or other possible SKSE-related reasons (see GK note)
+	- display test result near bottom of Advanced Users section (right above DynDOLOD?)
+	- warn is a new indicator
+	- It's rare (which means false-positives seem less likely👍). From scanning my Crash Log Library:  Search "SKSEPlugin_Load" (20 hits in 7 files of 6372 searched) [Normal]"
+
+1. ⭐️⭐️⭐️⭐️New skee first-line error test
 https://discord.com/channels/740569699900719145/1323816364007227504/1340187701701378151
 	Also: ❓ skee64.dll Issue Detected:
 		- make it include the statement about skeleton meshes not being as good indicators
@@ -44,6 +97,13 @@ https://discord.com/channels/740569699900719145/1323816364007227504/134018770170
 		- if the item is removable, remove it in-game before disabling the crashing mod
 			- https://discord.com/channels/215154001799413770/701100960134725713/1341090629895323740
 		- "Overlays" are usually the wearable tattoos or piercings or such
+
+		- ⭐️REVISE EXISISTING listing so it doesn't include those found in sections.firstLine
+
+
+1. ⭐️⭐️Research and correct this statement in Upscaler Issue:
+	- "the Upscaler mod, which is designed to improve the game's graphics by increasing the resolution of textures"
+	- perhaps rewrite as something like this?:  "the Upscaler mod, which is designed to improve the games performance through lower resolution processing, but still keeping the overall fidelity of textures
 
 
 1. ❓(OR WAIT FOR REDDIT): New Phostwood's Discord Server
@@ -67,7 +127,7 @@ https://discord.com/channels/740569699900719145/1323816364007227504/134018770170
 	- https://discord.com/channels/341090804611285003/341362343273562122/1340020173964574752
 
 1 Mesh Issues:
-	- UX Fix: move LOOT out of "Fix Mesh Issues" section....
+	- ?UX Fix?: move LOOT out of "Fix Mesh Issues" section....
 
 
 
@@ -86,12 +146,7 @@ https://discord.com/channels/740569699900719145/1323816364007227504/134018770170
 	- if varies between Discord and Reddit, put some copy-paste settings right below the Insights section. Keep it compact. Title maybe "Markdown options for single-click copy to clipboard functionality"
 	- also, put another checkbox down there for "URLs only, no hyperlinked text in markdown"
 
-1. ⭐️⭐️⭐️How did SkyrimCrashDecoder get this diagnosis better than mine?
-	- WormpleHagravens-esp - firstLine  EngineFixes-dll - crash-2025-02-17-00-07-21.log
-	- "\Downloads\Skyrim Crash Decoder_files"
-	- not from code, but from analyzing crash log (and from asking Griz):
-		- for listed mods, it is listed with more indented details
-		- for listed mods, it is listed more often
+
 
 
 ⭐️⭐️⭐️CRASH LOG KEYWORD BANK

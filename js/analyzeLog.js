@@ -517,6 +517,13 @@ async function analyzeLog() {
     insights += logSummaryResult.insights;
     insightsCount += logSummaryResult.insightsCount;
 
+    //📊 Mod Prominence Analysis:
+    const modProminenceResults = analyzeModProminence();
+    if (modProminenceResults) {
+        insights += modProminenceResults;
+        //insightsCount++;
+    }
+
     insights += '</ul><h5>Higher-Confidence Test Results:</h5><ul>';
 
     //VRAMr Gorehowl

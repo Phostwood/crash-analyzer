@@ -1,17 +1,9 @@
-// logSummary.js  (old version!)
+// logSummaryAdvanced.js  (dev version!)
 window.LogSummary = {
 
-    // Constants
-    fileExtensions: ['.bat', '.bik', '.bmp', '.bsa', '.bsl', '.bto', '.btr', '.cpp', '.dds', '.dll', '.esl', '.esm',
-        '.esp', '.exe', '.fuz', '.hkb', '.hkx', '.ini', '.json', '.lip', '.nif', '.pex', '.psc',
-        '.seq', '.skse', '.skse64', '.swf', '.tga', '.tri', '.txt', '.wav', '.xml', '.xwm'],
-    
+    // Constants    
     fileStartCharacters: ['`', '"', ':', '(', '['],
     nameStartCharacters: ['`', '"'],
-    unlikelyCulprits: ['clr.dll', 'd3d12core.dll', 'd3dcompiler_47.dll', 'kernel32.dll', 'kernelbase.dll', 
-        'msvcp140.dll', 'ntdll.dll', 'runtime.dll', 'steamclient64.dll', 'system.ni.dll', 
-        'ucrtbase.dll', 'uiautomationcore.dll', 'win32u.dll', 'xinput1_3.dll'], //REMOVED: 'vcruntime140.dll',
-    removeList: ['Dawnguard.esm', 'Dragonborn.esm', 'null', 'null)', 'NetScriptFramework', 'SkyrimSE.exe', 'skyrim.esm', 'SkyrimVR.exe'].map(item => item.toLowerCase()),
 
 
 
@@ -44,7 +36,7 @@ window.LogSummary = {
 
         if (namedElementMatches.length > 0) {
             insights += this.generateSectionDescriptions(sectionsMap);
-            insights += '<ul>' + this.highlightFilenames(this.processColoredListItems(namedElementMatches)) + '</ul>';
+            insights += '<ul>' + Utils.highlightFilenames(this.processColoredListItems(namedElementMatches)) + '</ul>';
             insights += '</li>';
             insightsCount++;
         }
@@ -188,6 +180,12 @@ window.LogSummary = {
 
                 let foundMatchCount = 0;
 
+                //temporary debugging:
+                /* if(line.toLowerCase().includes('lux - live another life patch.esp')) {
+                    alert("found in current line: lux - live another life patch.esp");
+                    console.log(line);
+                } */
+
                 foundMatchCount += this.processFileExtensions(line, sectionInfo.priority, sectionInfo.color, namedElementMatches);
                 foundMatchCount += this.processNameAndFile(line, sectionInfo.priority, sectionInfo.color, namedElementMatches);
 
@@ -199,8 +197,13 @@ window.LogSummary = {
 
         Utils.debuggingLog(['processLines', 'logSummary.js'], 'Before sorting namedElementMatches:', namedElementMatches.length);
         namedElementMatches.sort((a, b) => a.priority - b.priority);
-        namedElementMatches = this.processNamedElementMatches(namedElementMatches);
+        namedElementMatches = Utils.processExplainersAndUnlikely(namedElementMatches);
         Utils.debuggingLog(['processLines', 'logSummary.js'], 'After processing namedElementMatches:', namedElementMatches.length);
+
+        Utils.debuggingLog(['Utils.FilenamesTracker', 'logSummary.js'], 'Utils.FilenamesTracker.getTotals():', Utils.FilenamesTracker.getTotals());
+        Utils.debuggingLog(['Utils.FilenamesTracker', 'logSummary.js'], 'Utils.FilenamesTracker.getAllData():', Utils.FilenamesTracker.getAllData());
+        Utils.debuggingLog(['Utils.FilenamesTracker', 'logSummary.js'], 'Utils.FilenamesTracker.getModsSorted():', Utils.FilenamesTracker.getModsSorted());
+        Utils.debuggingLog(['Utils.FilenamesTracker', 'logSummary.js'], 'Utils.FilenamesTracker.getAllData():', Utils.FilenamesTracker.getAllData());
 
         return { namedElementMatches, missedMatches };
     },
@@ -286,7 +289,7 @@ window.LogSummary = {
     processFileExtensions: function (line, priority, color, namedElementMatches) {
         let foundMatchCount = 0;
 
-        this.fileExtensions.forEach(extension => {
+        Utils.fileExtensions.forEach(extension => {
             if (line.toLowerCase().includes(extension)) {
                 let index = line.toLowerCase().lastIndexOf(extension);
                 let end = index + extension.length;
@@ -305,7 +308,7 @@ window.LogSummary = {
                 }
 
                 let potentialMatch = line.slice(start, end).trim();
-                foundMatchCount += this.addMatch(potentialMatch, priority, color, 0, namedElementMatches);
+                foundMatchCount += this.addMatch(potentialMatch, priority, color, 0, namedElementMatches, line);
             }
         });
 
@@ -316,7 +319,7 @@ window.LogSummary = {
     //Deep Seek's:
     processNameAndFile: function (line, priority, color, namedElementMatches) {
         let foundMatchCount = 0;
-        const sections = ["Owner:", "Target:"];
+        const sections = ["Owner:", "Target:", "ParentCell:", "User Data:", "Object Reference:", "Checking Binding:"]; // /how to add "Entity [0]: ----" ? ... need to? It's rare....
         const sectionKeywords = ["Name:", "RTTIName:", "File:", "Full Name:", "FormID:", "FormType:"];
 
         let sectionsCount = 0;
@@ -337,7 +340,7 @@ window.LogSummary = {
                 const part = parts[i].trim();
                 if (sections.includes(part)) {
                     // Add section header with indentLevel 0
-                    foundMatchCount += this.addMatch(part, priority, color, 0, namedElementMatches);
+                    foundMatchCount += this.addMatch(part, priority, color, 0, namedElementMatches, line);
                     // Process content under the section
                     const content = parts[++i].trim();
                     const kvPairs = content.split(/➕/g).map(p => p.trim()).filter(p => p);
@@ -346,12 +349,20 @@ window.LogSummary = {
                         if (keyword) {
                             const value = kv.slice(keyword.length).trim();
                             const hasDynamicFormID = value.toLowerCase().includes("0xff") || value.toLowerCase().startsWith('ff');
-                            if (keyword.toLowerCase() === "name:" || keyword.toLowerCase() === "file:") {
-                                foundMatchCount += this.addMatch(`${value}`, priority, color, 1, namedElementMatches);
+                            if (keyword.toLowerCase() === "name:") {
+                                foundMatchCount += this.addMatch(`${value}`, priority, color, 1, namedElementMatches, line);
+                            } else if (keyword.toLowerCase() === "file:") {
+                                /* //temporary debugging
+                                if(value == 'lux - live another life patch.esp') {
+                                    alert("found in line section: lux - live another life patch.esp");
+                                    console.log(line);
+                                    console.log(keyword)
+                                } */
+                                foundMatchCount += this.addMatch(`${value}`, priority, color, 1, namedElementMatches, line);    
                             } else if (keyword.toLowerCase() === "formid:" && hasDynamicFormID) {
-                                foundMatchCount += this.addMatch(`${keyword} <span style="color:seagreen">${value}</span>`, priority, color, 1, namedElementMatches);
+                                foundMatchCount += this.addMatch(`${keyword} <span style="color:seagreen">${value}</span>`, priority, color, 1, namedElementMatches, line);
                             } else {
-                                foundMatchCount += this.addMatch(`${keyword} ${value}`, priority, color, 1, namedElementMatches);
+                                foundMatchCount += this.addMatch(`${keyword} ${value}`, priority, color, 1, namedElementMatches, line);
                             }
                         }
                     }
@@ -412,7 +423,7 @@ window.LogSummary = {
                         } else {
                             match = `${keyword} ${potentialMatch}`;
                         }
-                        foundMatchCount += this.addMatch(match, priority, color, indentLevel, namedElementMatches);
+                        foundMatchCount += this.addMatch(match, priority, color, indentLevel, namedElementMatches, line);
                     }
                 }
             });
@@ -532,19 +543,11 @@ window.LogSummary = {
 
 
 
-    addMatch: function (potentialMatch, priority, color, indentLevel, namedElementMatches) {
-        // Remove hex codes at the start of lines like "[1] at 0x7FF70D9FE703"
-        potentialMatch = String(potentialMatch).replace(/\s*at\s+0x[0-9A-Fa-f]+\s*/, '');
-        //Remove remaining non-filename part from lines like "Unhandled exception at 0x7FF70D9FE703 badMod.dll"
-        potentialMatch = String(potentialMatch).replace('Unhandled exception', '');
+    addMatch: function (potentialMatch, priority, color, indentLevel, namedElementMatches, line) {
+        potentialMatch = Utils.cleanFileName(potentialMatch);
 
-        if (Utils.logType === 'CrashLogger' || Utils.logType === 'Trainwreck') {
-            //OLD: potentialMatch = potentialMatch.replace(/^\d+\]\s+0x[0-9A-Fa-f]+\s+/, '');
-            potentialMatch = potentialMatch.replace(/^\d+\s*\]\s+0x[0-9A-Fa-f]+\s+/, '');
-            potentialMatch = potentialMatch.replace(/^void\*\s+->\s+/, '');
-            potentialMatch = potentialMatch.trim();
-        }
-        if (potentialMatch && !this.removeList.includes(potentialMatch.toLowerCase())) {
+        if (potentialMatch && !Utils.removeList.includes(potentialMatch.toLowerCase())) {
+            Utils.FilenamesTracker.addFilename(potentialMatch, line);
             namedElementMatches.push({ match: potentialMatch, priority, color, indentLevel });
             return 1;
         }
@@ -552,7 +555,7 @@ window.LogSummary = {
     },
 
     containsKeyword: function (line) {
-        const keywords = [...window.LogSummary.fileExtensions, 'name:', 'file:'];
+        const keywords = [...Utils.fileExtensions, 'name:', 'file:'];
         //NOTE on OLD (below): why doesn't this use the "fileExtensions" const from the top of this .js file?
         //OLD: const keywords = ['.dds', '.tga', '.bmp', '.nif', '.esl', '.esp', '.esm', '.pex', '.dll', '.exe', '.ini', '.bsa', '.fuz', '.hkx', '.seq', '.swf', 'name:', 'file:'];
         const lowerCaseLine = line.toLowerCase();
@@ -581,22 +584,6 @@ window.LogSummary = {
         return str;
     },
 
-    processNamedElementMatches: function (namedElementMatches) {
-        //MAYBE function should be renamed processExplainersAndUnlikely()  ?
-        return namedElementMatches.map(item => {
-            let processedItem = item.match.toLowerCase();
-            let originalItem = item.match;
-            if (this.unlikelyCulprits.includes(processedItem)) {
-                processedItem = `(${originalItem} ... unlikely culprit)`;
-            }
-            else if (Utils.explainersMap && Utils.explainersMap.has(processedItem)) {
-                processedItem = `${originalItem} ${Utils.explainersMap.get(processedItem)}`;
-            } else {
-                processedItem = originalItem;
-            }
-            return { ...item, match: processedItem };
-        }).filter(item => item !== undefined);
-    },
 
     processColoredListItems: function (listItems) {
         const dedupedItems = Array.from(
@@ -674,23 +661,5 @@ window.LogSummary = {
         return `<li>🔎 <b>Files/Elements</b> listed within ${sectionDescriptions} sections of the crash log. Items are sorted by priority, with lower numbers (and higher positions in the list) indicating a higher likelihood of contributing to the crash. <code><span style="color:#FF0000">[1]</span> First Line</code> files are nearly always involved in (and frequently the cause of) the crash. FormIDs displayed in <span style="color:seagreen">green</span> are dynamically generated, save-specific IDs that are usually safer to delete or modify (via ReSaver or XEdit), while uncolored FormIDs are often much riskier. Pay extra attention to anything related to <b>mods you have recently added</b> to ${Utils.NolvusOrSkyrimText}:`;
     },
 
-    highlightFilenames: function(html) {
-        // If no html content, return as is
-        if (!html) return html;
-        
-        // Create a regex-safe pattern from the extensions array
-        const extensionPattern = this.fileExtensions
-            .map(ext => ext.replace('.', '\\.'))  // Escape dots for regex
-            .join('|');  // Join with OR operator
-        
-        // Create regex that matches word characters followed by the extension
-        // Using positive lookbehind to ensure we match extensions at the end of filenames
-        const regex = new RegExp(`(\\w+)(${extensionPattern})(?![\\w])`, 'gi');
-        
-        // Replace matches with highlighted version
-        // Using deeppink which complements the existing colors while being distinct
-        return html.replace(regex, (match, filename, extension) => 
-            `${filename}<span style="color: hotpink">${extension}</span>`
-        );
-    }
 };
+

@@ -389,7 +389,7 @@ function checkForD6dddaAdvancedVersion(sections) {
                         ${verifyWindowsPageFileListItem}
                         <li>Return any overclocked hardware to stock speeds, as unstable overclocks are known for causing crashes that can look like memory issues in crash logs.</li>
                         <li>Maintain <a href="https://computercity.com/hardware/storage/how-much-space-should-i-leave-on-my-ssd">at least 10-20% free space</a> on your SSD for optimal performance.</li>
-                        <li>For systems with less than 12GB VRAM (or more for ultrawide/high-resolution displays) (<a href="https://www.lifewire.com/how-to-check-vram-5235783">check your VRAM here</a>), consider using <a href="https://www.reddit.com/r/Nolvus/comments/1doakj1/psa_use_vramr_if_you_have_12gb_of_vram/">VRAMr</a>. This tool automatically compresses texture files across your load order, reducing VRAM usage while maintaining visual fidelity and improving stability.</li>
+                        <li>For systems with less than 12GB VRAM (or more for ultrawide/high-resolution displays) (<a href="https://www.lifewire.com/how-to-check-vram-5235783">check your VRAM here</a>), consider using <a href="https://www.nexusmods.com/skyrimspecialedition/mods/90557">VRAMr</a>. This tool automatically compresses texture files across your load order, reducing VRAM usage while maintaining visual fidelity and improving stability.</li>
                         <li>Review your modlist's (or individual mods') recommended hardware requirements to verify you aren't overly below their system recommendations.</li>
                         <li>Hardware Diagnostics: If crashes persist, run Windows Memory Diagnostic or <a href="https://www.memtest86.com/">MemTest86</a> to check for faulty RAM. While rare, recurring D6DDDA crashes can sometimes indicate hardware issues.</li>
                     </ol>
@@ -440,7 +440,7 @@ function checkForHighMemoryUsage(sections) {
                 <li>If you have less than 12GB VRAM (adjust higher if using a 4K monitor and/or an ultra-wide resolution), consider these optimization strategies:
                     <ul>
                         <li>Switch texture mods to 1K or 2K variants</li>
-                        <li>Or optionally use <a href="https://www.reddit.com/r/Nolvus/comments/1doakj1/psa_use_vramr_if_you_have_12gb_of_vram/">VRAMr</a> to automatically optimize (almost) all of your load order's textures</li>
+                        <li>Or optionally use <a href="https://www.nexusmods.com/skyrimspecialedition/mods/90557">VRAMr</a> to automatically optimize (almost) all of your load order's textures</li>
                         <li>Use lower-memory mesh variants for mods</li>
                         <li>Minimize mods that add to the density of occurrences of 3D objects (e.g., some tree mods can overpopulate landscapes)</li>
                     </ul>
@@ -745,7 +745,7 @@ function analyzeMemoryIssues(sections) {
             <li><strong>Corrupted textures and/or meshes</strong> can sometimes cause memory issues. The probability of this being the cause is much higher if specific files are listed elsewhere in this report ... especially when the same image file is found across multiple crash logs. In some cases simply re-downloading and reinstalling the mod with a bad mesh or texture, may fix the corrupted file and resolve the issue. See related <strong>Mesh Issue</strong>, and/or <strong>Texture Issue</strong> sections of this report for additional troubleshooting advice.
             <li>Consider switching to <strong>lower resolution texture mods</strong> (1K/2K instead of 4K). Image files that are too large can strain both VRAM and RAM resources.<ul>
                 <li>Or use <a href="https://www.nexusmods.com/skyrimspecialedition/mods/23316">Cathedral Assets Optimizer (CAO)</a> to optimize textures in individual mods that don't offer lower resolution options.</li>
-                <li>Alternately, use <a href="https://www.reddit.com/r/Nolvus/comments/1doakj1/psa_use_vramr_if_you_have_12gb_of_vram/">VRAMr</a> to automatically create a custom textures-only mod with optimized texture files that override for your entire load order (minus some problematic exceptions which are automatically excluded).</li>
+                <li>Alternately, use <a href="https://www.nexusmods.com/skyrimspecialedition/mods/90557">VRAMr</a> to automatically create a custom textures-only mod with optimized texture files that override for your entire load order (minus some problematic exceptions which are automatically excluded).</li>
                 <li> NOTE: Texture and/or mesh optimization reduces RAM, VRAM, and SSD usage, plus smaller files also load faster. Smaller texture files can be especially helpful in minimizing FPS stutters that are especially prone in outdoor combat and other visually busy situations. Usually, the lowering of image quality is unnoticeable during normal gameplay, especially at 2k, but largely even at 1K unless you walk up close and stare at a large object in game.</li>
             </ul></li>
             <li><strong>Limit usage of object-adding mods</strong> which increase the number of 3D objects in any one view by adding additional objects/npcs/grass/trees/etc to already dense locations of Skyrim. Common examples include exterior city mods, and mods which add many extra trees. Each object has a 3D mesh and a texture file wrapped over it. Adding too many objects can tax any PC.</li>
@@ -2684,4 +2684,51 @@ function analyzeFirstLineEngineFixesCrash(sections) {
             </li>`;
     }
     return diagnoses;
+}
+
+
+
+//📊 Mod Prominence Analysis:
+function analyzeModProminence() {
+    let modInsights = '';
+    
+    // Get sorted data from FilenamesTracker
+    const sortedData = Utils.FilenamesTracker.getModsSorted();
+    const entries = Object.entries(sortedData);
+    
+    if (entries.length > 0) {
+        modInsights += `<li><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/fe/New_icon_shiny_badge.svg/200px-New_icon_shiny_badge.svg.png" alt="New!" style="width: 3em; height: 3em;">📊 <b>Mod Prominence Analysis:</b> The following mods appear frequently and/or with detailed information in the crash log. While this often indicates relevance to the crash cause, these mods might simply be more verbose in their logging and/or happened to be more active in the time leading up to the crash.
+            <ol>
+                <li>If this report doesn't contain better indications, consider temporarily disabling the top-listed mod and any dependent mods, and attempt to reproduce the crash</li>
+                <li>If the crash stops, investigate that mod's documentation and forum for any updates, known issues and/or patches, as well as its requirements, recommended load order and any incompatibilities. Also consider any recent changes to your load order which might have affected this mod.</li>
+                <li>If the crash continues (or if disabling this mod was infeasible), re-enable and try the next mod</li>
+                ${Utils.LootListItemIfSkyrim}
+
+                <li>Mods listed by prominence <code><span style="color:darkorange">(appearances : details)</span></code>: <a href="#" class="toggleButton">⤴️ hide</a><ul class="extraInfo">
+                    ${!window.location.href.toLowerCase().endsWith('?tryformids') ? '<li>NOTE: results may be more accurate with the "experimental Files/Elements upgrade" (see checkbox at top of page)</li>' : ''}`;
+                // Add sorted mods to the list
+                entries.forEach(([filename, stats]) => {
+                    modInsights += `
+                        <li><code><span style="color:darkorange">(${stats.count} : ${stats.sectionsCount})</span> ${filename}</code>
+                            <!-- <ul>
+                                <li>Appearances in log: ${stats.count}</li>
+                                <li>Entry details: ${stats.sectionsCount}</li>
+                            </ul> -->  
+                        </li>`;
+                        //Shortened out:  <ul>
+                        //Shortened out:      <li>Appearances in log: ${stats.count}</li>
+                        //Shortened out:          <li>Entry details: ${stats.sectionsCount}</li>
+                        //Shortened out:  </ul>
+                        //Shortened out:  <li>Prominence score: ${stats.sortWeight}</li>
+                        //UNUSED but considered this abbreviated version: (with <code>${stats.sectionsCount}</code> details in <code>${stats.count}</code> listings)
+        });
+
+        modInsights += `
+                    </ul>
+                </li>
+            </ol>
+        </li>`;
+    }
+
+    return modInsights;
 }

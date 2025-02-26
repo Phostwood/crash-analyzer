@@ -3,7 +3,18 @@ window.Utils = {};
 Utils.logLines = [];
 
 // Constants
-Utils.isDebugging = true; // Set this to false to disable debugging (non-error) output
+Utils.fileExtensions = ['.bat', '.bik', '.bmp', '.bsa', '.bsl', '.bto', '.btr', '.cpp', '.dds', '.dll', '.esl', '.esm',
+    '.esp', '.exe', '.fuz', '.hkb', '.hkx', '.ini', '.json', '.lip', '.nif', '.pex', '.psc',
+    '.seq', '.skse', '.skse64', '.swf', '.tga', '.tri', '.txt', '.wav', '.xml', '.xwm'];
+Utils.modFileExtensions = ['.dll', '.esl', '.esm', '.esp', '.exe', '.skse', '.skse64', '.swf'];
+Utils.unlikelyCulprits = ['clr.dll', 'd3d12core.dll', 'd3dcompiler_47.dll', 'kernel32.dll', 'kernelbase.dll', 
+    'msvcp140.dll', 'ntdll.dll', 'runtime.dll', 'steamclient64.dll', 'system.ni.dll', 
+    'ucrtbase.dll', 'uiautomationcore.dll', 'win32u.dll', 'xinput1_3.dll']; //REMOVED: 'vcruntime140.dll',
+Utils.removeList = ['Dawnguard.esm', 'Dragonborn.esm', 'null', 'null)', 'NetScriptFramework', 'SkyrimSE.exe', 'skyrim.esm', 'SkyrimVR.exe'].map(item => item.toLowerCase());
+
+
+
+Utils.isDebugging = false; // Set this to false to disable debugging (non-error) output
 // Set this to control which batches of logs to display
 //Utils.debugBatch = ['ALL'];  // Can be ['ALL'] or any array of specific batchIds
 //Utils.debugBatch = ['analyzeLog', 'logSummary.js'];
@@ -22,8 +33,7 @@ Utils.isDebugging = true; // Set this to false to disable debugging (non-error) 
 //Utils.debugBatch = ['getDllVersionFromLog', 'hasCompatibleDll', 'checkDllCompatibility', 'compareVersions'];
 //Utils.debugBatch = ['hasCompatibleDll', 'checkDllCompatibility', 'getDllVersionFromLog'];
 
-Utils.debugBatch = [''];
-
+Utils.debugBatch = ['Utils.FilenamesTracker'];
 
 
 
@@ -1102,6 +1112,199 @@ Utils.flattenLogSection = function(input) {
     }
 
     return outputLines.join('\n');
+}
+
+
+Utils.cleanFileName = function(input) {
+    let output = input;
+    // Remove hex codes at the start of lines like "[1] at 0x7FF70D9FE703"
+    output = String(output).replace(/\s*at\s+0x[0-9A-Fa-f]+\s*/, '');
+    //Remove remaining non-filename part from lines like "Unhandled exception at 0x7FF70D9FE703 badMod.dll"
+    output = String(output).replace('Unhandled exception', '');
+
+    if (Utils.logType === 'CrashLogger' || Utils.logType === 'Trainwreck') {
+        output = output.replace(/^\d+\s*\]\s+0x[0-9A-Fa-f]+\s+/, '');
+        output = output.replace(/^void\*\s+->\s+/, '');
+    }
+
+    //Remove quotes (single or double or backtick) from fileNames
+    output = output.replace(/['"`]/g, '');
+
+    output = output.trim();
+
+    return output;
+}
+
+
+// Add FilenamesTracker as a property of Utils
+Utils.FilenamesTracker = {
+    //Data storage with full encapsulation
+    // Data storage
+    data: {
+        files: {},
+        totalOccurrences: 0,
+        totalSections: 0
+    },
+
+    // Section keywords
+    sectionKeywords: [
+        "Owner:", 
+        "Target:", 
+        "Name:", 
+        "RTTIName:", 
+        "File:", 
+        "Full Name:", 
+        "FormID:", 
+        "FormType:"
+    ],
+
+    // Further exclusions that are better covered by other tests and/or not something you can/should disable
+    excludeFilenamesLowercase: [
+        "tbbmalloc.dll", "skse64_1_5_97.dll", "VCRUNTIME140.dll", "atcuf64.dll", "nvwgf2umx.dll", "d3d11.dll", "svfs_x64.dll"
+    ],
+
+    // Methods
+    addFilename(filename, line = "") {
+        filename = Utils.cleanFileName(filename);
+
+        const lineSectionsCount = this.sectionKeywords.reduce((count, keyword) => {
+            return count + (line.includes(keyword) ? 1 : 0);
+        }, 0);
+        
+        if (!this.data.files[filename]) {
+        this.data.files[filename] = {
+            count: 1,
+            sectionsCount: lineSectionsCount,
+            sortWeight: 1 + lineSectionsCount
+        };
+        } else {
+            this.data.files[filename].count++;
+            this.data.files[filename].sectionsCount += lineSectionsCount;
+            this.data.files[filename].sortWeight = this.data.files[filename].count + this.data.files[filename].sectionsCount;
+        }
+        
+        this.data.totalOccurrences++;
+        this.data.totalSections += lineSectionsCount;
+        
+        return this.data.files[filename];
+    },
+
+    getFileStats(filename) {
+        return this.data.files[filename] || null;
+    },
+
+    getTotals() {
+        return {
+            totalFiles: Object.keys(this.data.files).length,
+            totalOccurrences: this.data.totalOccurrences,
+            totalSections: this.data.totalSections
+        };
+    },
+
+    getAllData() {
+        return this.data;
+    },
+
+
+    getModsSorted() {
+        // Create array of entries with filename as key
+        const entries = Object.entries(this.data.files)
+            .filter(([filename, stats]) => {
+                // Apply all exclusion filters
+                const lowerName = filename.toLowerCase();
+                return stats.sortWeight > 1 && 
+                    !Utils.unlikelyCulprits.includes(lowerName) &&
+                    !Utils.removeList.includes(lowerName) &&
+                    !this.excludeFilenamesLowercase.includes(lowerName) &&
+                    !lowerName.includes(" -> ") &&
+                    !lowerName.includes(" <- ") &&
+                    Utils.modFileExtensions.some(ext => lowerName.includes(ext)); // Only include filenames for "mods"
+            })
+            .map(([filename, stats]) => ({
+                filename,
+                ...stats
+            }));
+    
+        // Sort by sortWeight descending
+        entries.sort((a, b) => b.sortWeight - a.sortWeight);
+        
+        // Process entries with explanations and culprit information
+        const processedEntries = entries.map(entry => {
+            // First, process with explainers and unlikely culprits
+            const processedItem = Utils.processExplainersAndUnlikely([{ match: entry.filename }])[0];
+            
+            // Next, apply highlighting to the extensions in the processed filename
+            const highlightedFilename = Utils.highlightFilenames(processedItem.match);
+            
+            return {
+                filename: highlightedFilename, // Use the processed and highlighted filename
+                rawFilename: processedItem.match, // Keep the processed but unhighlighted version
+                originalFilename: entry.filename, // Keep the original unprocessed version
+                count: entry.count,
+                sectionsCount: entry.sectionsCount,
+                sortWeight: entry.sortWeight
+            };
+        });
+    
+        // Return sorted and processed files object
+        return Object.fromEntries(processedEntries.map(entry => [
+            entry.filename, // Using the highlighted version as the key
+            { 
+                count: entry.count, 
+                sectionsCount: entry.sectionsCount, 
+                sortWeight: entry.sortWeight,
+                rawFilename: entry.rawFilename,
+                originalFilename: entry.originalFilename
+            }
+        ]));
+    },
+
+
+    reset() {
+        this.data = {
+        files: {},
+        totalOccurrences: 0,
+        totalSections: 0
+        };
+    }
+};
+
+
+Utils.highlightFilenames = function(html) {
+    // If no html content, return as is
+    if (!html) return html;
+    
+    // Create a regex-safe pattern from the extensions array
+    const extensionPattern = Utils.fileExtensions
+        .map(ext => ext.replace('.', '\\.'))  // Escape dots for regex
+        .join('|');  // Join with OR operator
+    
+    // Create regex that matches word characters followed by the extension
+    // Using positive lookbehind to ensure we match extensions at the end of filenames
+    const regex = new RegExp(`(\\w+)(${extensionPattern})(?![\\w])`, 'gi');
+    
+    // Replace matches with highlighted version
+    // Using deeppink which complements the existing colors while being distinct
+    return html.replace(regex, (match, filename, extension) => 
+        `${filename}<span style="color: hotpink">${extension}</span>`
+    );
+}
+
+Utils.processExplainersAndUnlikely = function(namedElementMatches) {
+    //previously named processNamedElementMatches()
+    return namedElementMatches.map(item => {
+        let processedItem = item.match.toLowerCase();
+        let originalItem = item.match;
+        if (Utils.unlikelyCulprits.includes(processedItem)) {
+            processedItem = `(${originalItem} ... unlikely culprit)`;
+        }
+        else if (Utils.explainersMap && Utils.explainersMap.has(processedItem)) {
+            processedItem = `${originalItem} ${Utils.explainersMap.get(processedItem)}`;
+        } else {
+            processedItem = originalItem;
+        }
+        return { ...item, match: processedItem };
+    }).filter(item => item !== undefined);
 }
 
 
