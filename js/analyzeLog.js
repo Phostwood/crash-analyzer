@@ -413,23 +413,27 @@ async function analyzeLog() {
     }
 
 
-    // Check for Shadow Scene Node crash
-    if (sections.probableCallstack.toLowerCase().includes('BSCullingProcess::unk_D51280+78'.toLowerCase()) && sections.firstLine.includes('(SkyrimSE.exe+12FDD00)')) {
-        diagnoses += '<li>❗ <b>Shadow Scene Node Crash Detected:</b> Load an earlier save, traveling to a different cell from the original crash, and play for a few days in game away from the area. This avoids the Shadow Scene, and hopefully allows the issue to resolve itself. More information and troubleshooting tips under <a href="https://www.nolvus.net/catalog/crashlog?acc=accordion-1-3">Shadow Scene Node crash</a/>.</li>';
-        diagnosesCount++;
-    }
-    
+    //❓ Possible Shadow Scene Node Crash Detected:
+   const shadowScene = analyzeShadowSceneIssues(sections);
+   if(shadowScene) {
+       diagnoses += shadowScene;
+       diagnosesCount++;
+   }
 
 
 
     //TODO: Custom mod found in Probable Callstack:  In customized you’ll likely find that there will be many direct mod related crashes which will list themselves. Most of the time it’s as simple as disabling or adjusting the load order of referenced mod
 
 
-    // Check for Shadowrend crash
-    // NOTE: a second instance of thi issue shows up in the Advanced Users section for non-Nolvus users as well
-    if (!Utils.isSkyrimPage && sections.topQuarter.toLowerCase().includes('ccbgssse018-shadowrend.esl')) {
-        diagnoses += '<li>❓ <b>Possible Shadowrend Issue:</b> Try loading an earlier save and avoid the crash area for a few days. <b>Be cautious</b> when loading a save that previously experienced the Shadowrend crash. Continuing to play on such a save might compound the issue, leading to more frequent crashes. For custom mods, verify your load order. Shadowrend is frequently NOT the crash culprit when other issues are present. More information and troubleshooting tips under <a href="https://www.nolvus.net/catalog/crashlog?acc=accordion-1-6">Shadowrend Crash</a/> and <a href="https://www.nolvus.net/catalog/crashlog?acc=accordion-1-7">Load Order Crash</a>.</li>';
-        diagnosesCount++;
+
+    // ❓ Possible Shadowrend Issue:
+    // NOTE: a second instance of this issue shows up in the Advanced Users section for non-Nolvus users as well
+    if(!Utils.isSkyrimPage) {
+        const shadowrendNolvus = analyzeShadowrendNolvus(sections);
+        if(shadowrendNolvus) {
+            diagnoses += shadowrendNolvus;
+            diagnosesCount++;
+        }
     }
 
     
@@ -853,17 +857,15 @@ async function analyzeLog() {
 
     insights += '</ul><h5>Miscellaneous Issues:</h5><ul>';
 
-    //Shadowrend
-    if (sections.topQuarter.toLowerCase().includes('ccbgssse018-shadowrend.esl')) {
-        insights += '<li>❓ <b>Possible Shadowrend Crash Detected:</b> The presence of \'ccbgssse018-shadowrend.esl\' in the crash log suggests an issue related to the Shadowrend weapon. To address this issue:<ol>' +
-            '<li>Load an earlier save that predates the crash.</li>' +
-            '<li>Travel to a different cell (area) from where the original crash occurred.</li>' +
-            '<li>Play for 72 in-game hours away from the area where Shadowrend is involved. Waiting or sleeping doesn\'t count towards the 72 hours. This may allow the issue to resolve itself.</li>' +
-            '<li><b>Be cautious</b> when loading a save that previously experienced the Shadowrend crash. Continuing to play on such a save might compound the issue, leading to more frequent crashes.</li>' +
-            '<li>Note that while Shadowrend often appears in crash logs, it may not always be the direct cause of the crash. Other factors, such as load order conflicts, can also contribute.</li>' +
-            '</ol>For more detailed information and troubleshooting tips, refer to the <a href="https://www.nolvus.net/catalog/crashlog?acc=accordion-1-6">Shadowrend Crash section</a> on the Nolvus support page.</li>';
+
+    // ❓ Possible Shadowrend Issue:
+    // NOTE: Nolvus users also see a shortened version of this in the Diagnoses section at top
+    const shadowrendIssue = analyzeShadowrend(sections);
+    if(shadowrendIssue) {
+        insights += shadowrendIssue;
         insightsCount++;
     }
+
 
     //Forced Termination
     if (sections.firstLine.includes('0CB748E')) {
@@ -937,7 +939,7 @@ async function analyzeLog() {
     //0x0 on thread (Lighting or Shadows)
     if (sections.topHalf.toLowerCase().includes('0x0 on thread')) {
         insights += '<li>❓ <b>0x0 on thread Issue Detected:</b> This rare engine issue is often related to face lighting or shadow problems. To mitigate this issue, follow these steps:<ol>' +
-            '<li>Ensure you have the latest version of <a href="https://www.nexusmods.com/skyrimspecialedition/mods/17230">SSE Engine Fixes</a> installed. Engine Fixes addresses various bugs and patches issues in Skyrim Special Edition.</li>' +
+            '<li>Ensure you have the latest compatible version of <a href="https://www.nexusmods.com/skyrimspecialedition/mods/17230">SSE Engine Fixes</a> installed. Engine Fixes addresses various bugs and patches issues in Skyrim Special Edition.</li>' +
             '<li>Check for any conflicting mods that may affect lighting or shadows. Disable or adjust mods related to lighting, weather, or visual enhancements.</li>' +
             '<li>Verify that your graphics drivers are up-to-date, as outdated drivers can sometimes cause graphical glitches.</li>' +
             '</ol></li>';

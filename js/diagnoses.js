@@ -389,7 +389,7 @@ function checkForD6dddaAdvancedVersion(sections) {
                         ${verifyWindowsPageFileListItem}
                         <li>Return any overclocked hardware to stock speeds, as unstable overclocks are known for causing crashes that can look like memory issues in crash logs.</li>
                         <li>Maintain <a href="https://computercity.com/hardware/storage/how-much-space-should-i-leave-on-my-ssd">at least 10-20% free space</a> on your SSD for optimal performance.</li>
-                        <li>For systems with less than 12GB VRAM (or more for ultrawide/high-resolution displays) (<a href="https://www.lifewire.com/how-to-check-vram-5235783">check your VRAM here</a>), consider using <a href="https://www.nexusmods.com/skyrimspecialedition/mods/90557">VRAMr</a>. This tool automatically compresses texture files across your load order, reducing VRAM usage while maintaining visual fidelity and improving stability.</li>
+                        <li>🚀 For systems with less than 12GB VRAM (or more for ultrawide/high-resolution displays) (<a href="https://www.lifewire.com/how-to-check-vram-5235783">check your VRAM here</a>), consider using <a href="https://www.nexusmods.com/skyrimspecialedition/mods/90557">VRAMr</a>. This tool automatically compresses texture files across your load order, reducing VRAM usage while maintaining visual fidelity and improving stability.</li>
                         <li>Review your modlist's (or individual mods') recommended hardware requirements to verify you aren't overly below their system recommendations.</li>
                         <li>Hardware Diagnostics: If crashes persist, run Windows Memory Diagnostic or <a href="https://www.memtest86.com/">MemTest86</a> to check for faulty RAM. While rare, recurring D6DDDA crashes can sometimes indicate hardware issues.</li>
                     </ol>
@@ -440,7 +440,7 @@ function checkForHighMemoryUsage(sections) {
                 <li>If you have less than 12GB VRAM (adjust higher if using a 4K monitor and/or an ultra-wide resolution), consider these optimization strategies:
                     <ul>
                         <li>Switch texture mods to 1K or 2K variants</li>
-                        <li>Or optionally use <a href="https://www.nexusmods.com/skyrimspecialedition/mods/90557">VRAMr</a> to automatically optimize (almost) all of your load order's textures</li>
+                        <li>🚀 Or optionally use <a href="https://www.nexusmods.com/skyrimspecialedition/mods/90557">VRAMr</a> to automatically optimize (almost) all of your load order's textures</li>
                         <li>Use lower-memory mesh variants for mods</li>
                         <li>Minimize mods that add to the density of occurrences of 3D objects (e.g., some tree mods can overpopulate landscapes)</li>
                     </ul>
@@ -745,7 +745,7 @@ function analyzeMemoryIssues(sections) {
             <li><strong>Corrupted textures and/or meshes</strong> can sometimes cause memory issues. The probability of this being the cause is much higher if specific files are listed elsewhere in this report ... especially when the same image file is found across multiple crash logs. In some cases simply re-downloading and reinstalling the mod with a bad mesh or texture, may fix the corrupted file and resolve the issue. See related <strong>Mesh Issue</strong>, and/or <strong>Texture Issue</strong> sections of this report for additional troubleshooting advice.
             <li>Consider switching to <strong>lower resolution texture mods</strong> (1K/2K instead of 4K). Image files that are too large can strain both VRAM and RAM resources.<ul>
                 <li>Or use <a href="https://www.nexusmods.com/skyrimspecialedition/mods/23316">Cathedral Assets Optimizer (CAO)</a> to optimize textures in individual mods that don't offer lower resolution options.</li>
-                <li>Alternately, use <a href="https://www.nexusmods.com/skyrimspecialedition/mods/90557">VRAMr</a> to automatically create a custom textures-only mod with optimized texture files that override for your entire load order (minus some problematic exceptions which are automatically excluded).</li>
+                <li>🚀 Alternately, use <a href="https://www.nexusmods.com/skyrimspecialedition/mods/90557">VRAMr</a> to automatically create a custom textures-only mod with optimized texture files that override for your entire load order (minus some problematic exceptions which are automatically excluded).</li>
                 <li> NOTE: Texture and/or mesh optimization reduces RAM, VRAM, and SSD usage, plus smaller files also load faster. Smaller texture files can be especially helpful in minimizing FPS stutters that are especially prone in outdoor combat and other visually busy situations. Usually, the lowering of image quality is unnoticeable during normal gameplay, especially at 2k, but largely even at 1K unless you walk up close and stare at a large object in game.</li>
             </ul></li>
             <li><strong>Limit usage of object-adding mods</strong> which increase the number of 3D objects in any one view by adding additional objects/npcs/grass/trees/etc to already dense locations of Skyrim. Common examples include exterior city mods, and mods which add many extra trees. Each object has a 3D mesh and a texture file wrapped over it. Adding too many objects can tax any PC.</li>
@@ -1044,8 +1044,8 @@ function analyzeMeshIssues(sections) {
 //🎯 Dawnguard Horse Issue Detected: 
 function analyzeDawnguardHorseIssue(sections) {
     let diagnosis = '';
-    const dawnguardHorseIssueKeywords = ["Skyrim Immersive Creatures", "Horse", "Celann", "Isran"];
-    const dawnguardHorseIssue = dawnguardHorseIssueKeywords.every(keyword => sections.topHalf.includes(keyword));
+    const dawnguardHorseIssue = sections.topHalf.includes("Skyrim Immersive Creatures") && sections.topHalf.includes("Dawnguard Horse")
+        && (sections.topHalf.includes("Isran") || sections.topHalf.includes("Celann") );
     if (dawnguardHorseIssue) {
         diagnosis +=  `
         <li>🎯 <b>Dawnguard Horse Issue Detected:</b> This is a specific variant of NavMesh/Pathing Issues (see below). The Dawnguard Horse from Skyrim Immersive Creatures is a common example. You can fix the issue with the following steps:
@@ -1090,7 +1090,7 @@ function analyzePathingIssues(sections) {
                         <li>Some issues can be fixed by reloading an <b>older save</b></li>
                         <li>Sometimes asking <b>followers</b> to wait behind can get you past a NavMesh Pathing glitch. Some follower mods and/or follower frameworks will allow you to teleport your follower to you afterwards to rejoin your party.</li>
                         <li>If using a <b>horse</b> or mount, command mount to wait before fast traveling</li>
-                        <li>If using a a horse/mount and a <b>follower framework</b> (like Nether's Follower Framework), try disabling horse followers in its Mod Configuration Menu (MCM)</li>
+                        <li>If using a horse/mount and a <b>follower framework</b> (like Nether's Follower Framework), try disabling horse followers in its Mod Configuration Menu (MCM)</li>
                         <li>Consider trying the <a href="https://www.nexusmods.com/skyrimspecialedition/mods/52641">Navigator - Navmesh Fixes</a> mod (be sure to read notes on where to insert it in your load order)</li>
                     </ul>
                 </li> 
@@ -1278,8 +1278,9 @@ function analyzeTextureIssues(sections) {
         <li>Fix identified issues:
             <ul>
             <li>Once you've identified the problematic mod, try re-downloading the newest version and reinstalling.</li>
-            <li>If reinstalling doesn't help, try using <a href="https://www.nexusmods.com/skyrimspecialedition/mods/23316">Cathedral Assets Optimizer (CAO)</a> to repair any damaged textures.</li>
+            <li>If re-downloading and reinstalling doesn't help, try using <a href="https://www.nexusmods.com/skyrimspecialedition/mods/23316">Cathedral Assets Optimizer (CAO)</a> to repair any damaged textures.</li>
             <li>Check your mod load order to prevent texture conflicts. Ensure texture mods load after any mods altering the same textures.</li>
+            ${Utils.LootListItemIfSkyrim}
             </ul>
         </li>
 
@@ -1432,8 +1433,8 @@ function analyzeBGSSaveLoadManagerIssue(sections) {
             <li>If the crash <b>only occurs while <i>saving</i></b>, you may have a Missing Masters. You will likely see separate troubleshooting steps for that higher up in this report, and if not, you can find them by using this analyzer's "use the Test Log" link at the top.</li>
             ${Utils.isSkyrimPage ? checkSaveFileSize : ''}
             <li>If crash is repetitive, try loading from your <b>last working save</b>. If possible, identify this file, and load this last save game that worked and try to play from there.</li>
-            <li>Consider using save cleaning tools to remove orphaned scripts and other potential corruption. <a href="https://www.nexusmods.com/skyrim/mods/76776">FallrimTools ReSaver</a> can sometimes fix corrupted save files. See also these <a href="https://www.reddit.com/r/skyrimmods/s/fbMRv343vm">instructions by Krispyroll</a> and more information in <a href="https://www.reddit.com/r/skyrimmods/comments/1d0r0f0/reading_crash_logs/##:~:text=Resaver">Krispyroll's Reading Crash Logs Guide</a>. NOTE: Always keep backups of your saves before attempting fixes or using cleaning tools.</li>
-            <li>Consider following <b>Jerilith's 2025 Skyrim Safe-Save-Guide [sexy free edition]</b> (quoted below). Not adhering to these guidelines over time may contribute to broken save files. Note: The necessity of some of these rules has been debated; however, many believe these rules can help prevent issues when other causes are unknown, especially with large modlists and 500+ hour playthroughs.
+            <li>💾 Consider using save cleaning tools to remove orphaned scripts and other potential corruption. <a href="https://www.nexusmods.com/skyrim/mods/76776">FallrimTools ReSaver</a> can sometimes fix corrupted save files. See also these <a href="https://www.reddit.com/r/skyrimmods/s/fbMRv343vm">instructions by Krispyroll</a> and more information in <a href="https://www.reddit.com/r/skyrimmods/comments/1d0r0f0/reading_crash_logs/##:~:text=Resaver">Krispyroll's Reading Crash Logs Guide</a>. NOTE: Always keep backups of your saves before attempting fixes or using cleaning tools.</li>
+            <li>🛡️ Consider following <b>Jerilith's 2025 Skyrim Safe-Save-Guide [sexy free edition]</b> (quoted below). Not adhering to these guidelines over time may contribute to broken save files. Note: The necessity of some of these rules has been debated; however, many believe these rules can help prevent issues when other causes are unknown, especially with large modlists and 500+ hour playthroughs.
             <ol>
                 <li>Do not Save in combat.</li>
                 <li>Do not use <i>Load</i> - Do not let the game auto-load on death -> Exit the whole game (not just to main menu), and relaunch.</li>
@@ -2731,4 +2732,46 @@ function analyzeModProminence() {
     }
 
     return modInsights;
+}
+
+
+
+
+// ❓Possible Shadow Scene Node Crash Detected:
+function analyzeShadowSceneIssues(sections) {
+    let insights = '';
+    
+    if (sections.probableCallstack.toLowerCase().includes('BSCullingProcess::unk_D51280+78'.toLowerCase()) && sections.firstLine.includes('(SkyrimSE.exe+12FDD00)')) {
+        insights += `<li>❓ <b>Possible Shadow Scene Node Crash Detected:</b> Try loading an earlier save and avoid the crash area for a few in-game days. Then return to the area and verify the issue doesn't repeat. This will help the area to reset itself and hopefully avoid the Shadow Scene issue. If the problem persists, please review the rest of this report (scroll all the way down) for additional possible causes of this crash. More information on this crash and troubleshooting tips are available under <a href="https://www.nolvus.net/catalog/crashlog?acc=accordion-1-3">Shadow Scene Node crash</a>.</li>`;
+    }
+    
+    return insights;
+}
+
+
+
+// ❓ Possible Shadowrend Issue:
+function analyzeShadowrend(sections) {
+    let insights = '';
+    // NOTE: a second instance of this issue shows up in the Advanced Users section for non-Nolvus users as well
+    if (sections.topQuarter.toLowerCase().includes('ccbgssse018-shadowrend.esl')) {
+        insights += `<li>❓ <b>Possible Shadowrend Issue:</b> The presence of <code>ccbgssse018-shadowrend.esl</code> in the crash log suggests that this simple in-game process may address this issue:<ol>
+        <li>Load an earlier save in a different area from the crash.</li>
+        <li>Play for 72 in-game hours away from the area where Shadowrend is involved. Waiting or sleeping doesn't count towards the 72 hours. This should allow the area to reset and hopefully the issue will resolve itself.</li>
+        <li><b>Be cautious</b> when loading a save that previously experienced the Shadowrend crash. Continuing to play from such a save might compound the issue, leading to more frequent crashes.</li>
+        <li>Note that while Shadowrend often appears in crash logs, it may not be the direct cause of the crash. Other factors, such as load order conflicts, can also contribute.</li>
+        ${Utils.LootListItemIfSkyrim}
+        </ol></li>`;
+    }
+    return insights;
+}
+
+function analyzeShadowrendNolvus(sections) {
+    let insights = '';
+    // NOTE: a second instance of this issue shows up in the Advanced Users section for non-Nolvus users as well
+    if (sections.topQuarter.toLowerCase().includes('ccbgssse018-shadowrend.esl')) {
+       //Nolvus-specific version for Diagnoses area:
+        insights += `<li>❓ <b>Possible Shadowrend Issue:</b> Try loading an earlier save and avoid the crash area for a few in-game days. <b>Be cautious</b> when loading a save that previously experienced the Shadowrend crash. Continuing to play on such a save might compound the issue, leading to more frequent crashes. For custom mods, verify your load order. Shadowrend is frequently NOT the crash culprit when other issues are present. Also, please review the rest of this report (scroll all the way down) for additional possible causes of this crash. More information and troubleshooting tips are available under <a href="https://www.nolvus.net/catalog/crashlog?acc=accordion-1-6">Shadowrend Crash</a> and <a href="https://www.nolvus.net/catalog/crashlog?acc=accordion-1-7">Load Order Crash</a>.</li>`;
+    }
+    return insights;
 }

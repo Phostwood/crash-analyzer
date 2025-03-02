@@ -7,7 +7,7 @@ const antivirusSignatures = {
     'Avast': ['avast.dll', 'aswEngineA.dll'],
     'Avira': ['avamsi.dll', 'avamsicli.dll', 'avcuf32.dll'],
     'Baidu Antivirus': ['bdhsvc.dll'],
-    'Bitdefender': ['bdcore.dll', 'avc3.dll', 'atcuf64.dll', 'antimalware_provider64.dll'],
+    'Bitdefender': ['bdcore.dll', 'avc3.dll', 'atcuf64.dll', 'antimalware_provider64.dll', 'bdhkm64.dll'],
     'BullGuard': ['bullguard.dll', 'bgadriver.dll'],
     'ClamAV': ['libclamav.dll'],
     'Comodo': ['cavwp.dll'],

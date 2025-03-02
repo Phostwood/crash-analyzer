@@ -293,7 +293,7 @@ document.addEventListener('DOMContentLoaded', function () {
 					}
 					parent = parent.parentNode;
 				}
-				prefix = ' '.repeat(nestingLevel * 3) + prefix; //Adds nested space before list items
+				prefix = ' '.repeat(nestingLevel * 2) + prefix; //Adds nested space before list items, 3 works in Reddit but breaks in Discord, so using 2 spaces of indentation per level
 			}
 			return prefix + content.trim() + '\n';
 		}

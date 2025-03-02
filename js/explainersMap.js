@@ -7,6 +7,7 @@ if (typeof Utils === 'undefined') {
         //!IMPORTANT: all filenames are expected to be lower case!
         ['_nvngx.dll', '(<b>NVIDIA</b> NGX Runtime Library)'],
         ['a0d789patch.dll', '(<b>recommended</b> bug fix)'],
+        ['aero.esl', '(Abyssal Wind Magic mod)'],
         ['achievements.dll', '(Achievements Mods Enabler <b>SKSE</b> plugin)'],
         ['addresslibrarysse.dll', '(Address Library for <b>SKSE</b> Plugins)'],
         ['amdxc64.dll', '(AMD <b>graphics</b> component)'],
@@ -227,8 +228,10 @@ if (typeof Utils === 'undefined') {
         ['threadpoolwinrt.dll', '(<b>Windows</b> Runtime Thread Pool Library)'],
         ['tmntsrv.dll', '(Trend Micro Network Service - <b>antivirus</b>)'],
         ['truehud.dll', '(TrueHUD <b>SKSE</b> plugin)'],
+        ['uapng.dll', '(Ultimate Animated Potions NG mod)'],
         ['uiautomationcore.dll', '(Microsoft UI Automation Core - <b>Windows</b>)'],
         ['ucrtbase.dll', '(Universal C Runtime Library - <b>MS Windows</b>)'],
+        ['und.dll', '(Ultimate NPC Dodging mod)'],
         ['user32.dll', '(Microsoft User Interface Library - <b>Windows</b>)'],
         ['usvfs_x64.dll', '(User Space Virtual <b>File System</b> - MO2 - ⚠️ possible indicator of antivirus issue ⚠️)'],
         ['vcruntime140.dll', '(Visual C++ Runtime Library - MS <b>Windows</b>)'],
