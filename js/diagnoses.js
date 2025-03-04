@@ -291,8 +291,9 @@ function generateDiagnosis(crashTitle, otherFiles, mostLikelyFile) {
 // Function to check DLL compatibility and generate error messages
 function checkDllCompatibility(sections) {
     let incompatibleDlls = [];
-    let diagnoses = '';
+    let incompatibleDllsDiagnoses = '';
     let diagnosesCount = 0;
+    let emoji = '❓';
     const skyrimVersion = Utils.getSkyrimVersion(sections.header);
 
     // Get all DLL names from dllCompatibleSkyrimVersionsMap
@@ -317,7 +318,6 @@ function checkDllCompatibility(sections) {
     }
 
     if (incompatibleDlls.length > 0) {
-        diagnoses += `<li>❗ <b>Version Compatibility Notice:</b> The following DLLs are not fully compatible with your Skyrim version ${skyrimVersion} and many may cause crashes, although please note that, for a few mods, version detection isn't always accurate:<ul>`;
         for (const dll of incompatibleDlls) {
             const versionKeys = Object.keys(dllCompatibleSkyrimVersionsMap[dll.dllName])
                 .sort((a, b) => Utils.compareVersions(b, a));
@@ -329,17 +329,25 @@ function checkDllCompatibility(sections) {
                 outputVersion = '(unspecified)';
             }
             
-            diagnoses += `<li><code>${dll.dllName}</code> v${outputVersion}: 
+            if (sections.topQuarter.toLowerCase().includes(dll.dllName.toLowerCase())) emoji = '❗'; //NOTE: upgrades heading if ANY of the listed mods are listed in topQuarter
+
+            let footnote = '';
+            if (compatData.note) footnote = `<ul><li>${compatData.note}</li></ul>`
+
+            incompatibleDllsDiagnoses += `<li><code>${dll.dllName}</code> v${outputVersion}: 
                         Recommend update to <b>${compatData.modName}</b> v${compatData.recommendedVersion} or later. 
-                        <a href="${compatData.url}" target="_blank">Download here</a></li>`;
+                        <a href="${compatData.url}" target="_blank">Download here</a> ${footnote}</li>`;
             diagnosesCount++;
         }
-        diagnoses += '</ul></li>';
+
+        incompatibleDllsDiagnoses = `<li>${emoji} <b>Version Compatibility Notice:</b> The following DLLs are not fully compatible with your Skyrim version ${skyrimVersion} and many may cause crashes, although please note that, for a few mods, version detection isn't always accurate:<ul>`
+            + incompatibleDllsDiagnoses
+            + '</ul></li>';
     }
 
     Utils.debuggingLog(['checkDllCompatibility', 'analyzeLog.js'], `Ending DLL version check. Found ${incompatibleDlls.length} incompatible DLLs.`);
-    Utils.debuggingLog(['checkDllCompatibility', 'analyzeLog.js'], `Diagnoses: ${diagnoses}`);
-    return {diagnoses, diagnosesCount};
+    Utils.debuggingLog(['checkDllCompatibility', 'analyzeLog.js'], `incompatibleDllsDiagnoses: ${incompatibleDllsDiagnoses}`);
+    return {incompatibleDllsDiagnoses, diagnosesCount};
 }
 
 
@@ -2772,6 +2780,46 @@ function analyzeShadowrendNolvus(sections) {
     if (sections.topQuarter.toLowerCase().includes('ccbgssse018-shadowrend.esl')) {
        //Nolvus-specific version for Diagnoses area:
         insights += `<li>❓ <b>Possible Shadowrend Issue:</b> Try loading an earlier save and avoid the crash area for a few in-game days. <b>Be cautious</b> when loading a save that previously experienced the Shadowrend crash. Continuing to play on such a save might compound the issue, leading to more frequent crashes. For custom mods, verify your load order. Shadowrend is frequently NOT the crash culprit when other issues are present. Also, please review the rest of this report (scroll all the way down) for additional possible causes of this crash. More information and troubleshooting tips are available under <a href="https://www.nolvus.net/catalog/crashlog?acc=accordion-1-6">Shadowrend Crash</a> and <a href="https://www.nolvus.net/catalog/crashlog?acc=accordion-1-7">Load Order Crash</a>.</li>`;
+    }
+    return insights;
+}
+
+
+//❓ skee64.dll Issue Detected:
+function analyzeSkee64Issue(sections, forFirstLine = false) {
+    let insights = '';
+
+    let emoji = '❓';
+    if (sections.topHalf.toLowerCase().includes('skee64.dll')) emoji = '❗'
+
+    let logPortionText = 'top half';
+    if (forFirstLine) logPortionText = 'first line';
+
+    if ((!forFirstLine && !sections.firstLine.toLowerCase().includes('skee64.dll') && sections.topHalf.toLowerCase().includes('skee64.dll') )
+        || (forFirstLine && sections.firstLine.toLowerCase().includes('skee64.dll'))
+        ) {
+        insights += `
+        <li>${emoji} <b>skee64.dll Issue Detected:</b> The presence of <code>skee64.dll</code> in the ${logPortionText} of a crash log can indicate issues with the <b>RaceMenu</b> mod and/or incompatibility issues with mods that affect character models or body or face meshes. To troubleshoot this issue:<ol>
+            <li>Check for any recent mod installations or updates that may have altered character models or body meshes.</li>
+            <li>Ensure that RaceMenu and all related mods are up to date and compatible with your version of Skyrim and SKSE.</li>
+            <li>Read the descriptions of related mods and ensure their correct load order, and verify that there are no conflicts between mods that modify the same assets. ${Utils.LootWarningForNolvus}</li>
+            ${Utils.LootListItemIfSkyrim} 
+            <li>Frequently, this error has recently been associated with the <b>loading of presets</b> (either downloaded or made personally). The cause of the preset issue is currently unknown. If it is this preset issue, it can often show up many hours into gameplay, for causes unknown. The only lasting fix seems to be to create a new character, without loading any character presets.<ul>
+                <li>Or alternately, use Pan's steps (modified from Klaufen's) for fixing (often temporarily) many delayed preset-caused crashes:<ol>
+                    <li>Load a save that works, doesn't matter how far back you are in the playthrough</li>
+                    <li>Type <code>showracemenu</code> in console and save your character preset (note: if you already have your character preset saved, you can skip these first 2 steps)</li>
+                    <li>Hide the <code>skee64.dll</code> using MO2 (or find and temporarily move this file to your desktop)</li>
+                    <li>Boot up the game, now your latest save should load</li>
+                    <li>Chill in the game for 30-60s for everything to load, then make a new save</li>
+                    <li>Repeat step 3, but unhide <code>skee64.dll</code> (or return it from your desktop to its original location)</li>
+                    <li>Load into the save you just made, repeat step 2 and load your saved preset</li>
+                    <li>NOTE: This will hopefully fix the issue for at least some additional hours, but if the issue later reoccurs, these same steps may need to be repeated.</li>
+                </ol></li>
+            </ul></li>
+            <li>If the problem persists, consider disabling mods one by one to isolate the conflicting mod.</li>
+            <li>Mentioned meshes (NOTE: <code>.bsa</code> files may or may not contain compressed mesh files): <a href="#" class="toggleButton">⤴️ hide</a><ul class="extraInfo">
+            ${Utils.extractNifPathsToListItems(sections.topHalf, forFirstLine)}
+        </ol></li>`;
     }
     return insights;
 }

@@ -205,12 +205,16 @@ if (typeof Utils === 'undefined') {
         return result;
     };
     
-    Utils.extractNifPathsToListItems = function(logText) {
+    Utils.extractNifPathsToListItems = function(logText, forFirstLine = false) {
         const fileExtensions = "nif|tri|bto|bsa";
         let pathsSet = new Set(Utils.getMatchingFilePaths(logText, fileExtensions));
     
         if (pathsSet.size === 0) {
-            pathsSet.add('UNLIKELY CAUSE: Since no mesh files were found in crash log, this is less likely to be the culprit. However, as a last resort, consider decompressing relevant ".bsa" archives.');
+            if (forFirstLine) {
+                pathsSet.add('No mesh files were found in crash log. However, as a last resort, consider decompressing relevant ".bsa" archives.');
+            } else {
+                pathsSet.add('UNLIKELY CAUSE: Since no mesh files were found in crash log, this is less likely to be the culprit. However, as a last resort, consider decompressing relevant ".bsa" archives.');
+            }
         }
     
         const name1Regex = /BSTriShape\((Name: `[^`]+`)\)/gi;

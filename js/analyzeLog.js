@@ -284,6 +284,17 @@ async function analyzeLog() {
         diagnosesCount++;
     }
 
+
+    //❗ skee64.dll Issue Detected:
+    let skee64Diagnosis = null;
+    if (Utils.isSkyrimPage) { //Goes into top section for Skyrim users and bottom section for Nolvus users
+        skee64Diagnosis = analyzeSkee64Issue(sections, forFirstLine = true);
+        if (skee64Diagnosis) {
+            diagnoses += skee64Diagnosis;
+            diagnosesCount++;
+        }
+    }
+
     // Check for first-line error
     let firstLineDiagnosis = null;
     if (Utils.isSkyrimPage) { //Goes into top section for Skyrim users and bottom section for Nolvus users
@@ -305,8 +316,8 @@ async function analyzeLog() {
         Utils.debuggingLog(['checkDllCompatibility_long', 'analyzeLog.js'], 'DLL Compatibility Result:', dllCompatibilityResult);
 
         // Add the diagnoses and count to the main results
-        if (dllCompatibilityResult.diagnoses) {
-            diagnoses += dllCompatibilityResult.diagnoses;
+        if (dllCompatibilityResult.incompatibleDllsDiagnoses) {
+            diagnoses += dllCompatibilityResult.incompatibleDllsDiagnoses;
             diagnosesCount += dllCompatibilityResult.diagnosesCount;
         }
     }
@@ -607,8 +618,18 @@ async function analyzeLog() {
         insightsCount++;
     }
 
+    //❗ skee64.dll Issue Detected:
+    let skee64Insight = null;
+    if (!Utils.isSkyrimPage) { //Goes into top section for Skyrim users and bottom section for Nolvus users
+        skee64Insight = analyzeSkee64Issue(sections, forFirstLine = true);
+        if (skee64Insight) {
+            insights += skee64Insight;
+            insightsCount++;
+        }
+    }
 
-    // Check for first-line error
+
+    // ❗ Critical First-Line Error Detected: 
     let firstLineInsight = null;
     if (!Utils.isSkyrimPage) { //Goes into top section for Skyrim users and bottom section for Nolvus users
         firstLineInsight = analyzeFirstLine(sections);
@@ -725,17 +746,10 @@ async function analyzeLog() {
     }
     
 
-    //RaceMenu
-    if (sections.topHalf.toLowerCase().includes('skee64.dll')) {
-        insights += '<li>❓ <b>skee64.dll Issue Detected:</b> This file is typically associated with <b>RaceMenu</b> and can indicate incompatibility issues with mods that affect character models or body meshes. To troubleshoot this issue:<ol>' +
-            '<li>Check for any recent mod installations or updates that may have altered character models or body meshes.</li>' +
-            '<li>Ensure that RaceMenu and all related mods are up to date and compatible with your version of Skyrim and SKSE.</li>' +
-            `<li>Read the descriptions of related mods and ensure the correct load order, and verify that there are no conflicts between mods that modify the same assets. ${Utils.LootWarningForNolvus}</li>` +
-            Utils.LootListItemIfSkyrim +
-            '<li>If the problem persists, consider disabling mods one by one to isolate the conflicting mod.</li>' +
-            '<li>Mentioned meshes (NOTE: <code>.bsa</code> files may or may not contain compressed mesh files): <a href="#" class="toggleButton">⤴️ hide</a><ul class="extraInfo">' +
-            Utils.extractNifPathsToListItems (sections.topHalf) +
-            '</ul></ol></li>';
+    //❓ skee64.dll Issue Detected:
+    const skee64Insights = analyzeSkee64Issue(sections);
+    if (skee64Insights) {
+        insights += skee64Insights;
         insightsCount++;
     }
 

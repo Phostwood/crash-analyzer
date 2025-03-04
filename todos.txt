@@ -1,55 +1,74 @@
-✅Version 1.22.4 is now live:
+✅Version 1.22.5 is now live:
 https://phostwood.github.io/crash-analyzer/
 
-1. ✅ Fix Dawnguard Horse bug found by RomatebitegeL. Test loosened to catch issue if missing one specific indicator
 
-2. ✅Three original test:
-	- ✅code refactored for better isolation and maintenance
-	- ✅refined/updated and softened troubleshooting instructions
+1. ✅Gaetan — "If you see BSMultiBoundRoom that’s almost guaranteed Lux crash. If you want to put that somewhere in your analyser 😉"
+	- ✅added to CrashIndicatorsMap.js:
+		- { code: 'BSMultiBoundRoom', description: "Multi-bound room rendering - <b>reportedly solid indicator</b> of cell transition/interior lighting issues" },
+	- ✅source:  https://discord.com/channels/740569699900719145/1337495823067648092/1345801326893858868
+	- ✅log file:  firstLine 0x0 on thread Issue - Crash_2025_2_7_20-44-35.txt
 
-3. ✅ Fixed Discord markdown issue with nested list items
+2. ✅❗ skee64.dll Issue Detected: 
+	- ✅Add mention of presets to skee RaceMenu troubleshooting steps
+	- ✅refactored as a function
+	- ✅dynamically adapt if first-line error, and if Nolvus/Skyrim
+	- ✅added preset info from Nolvus 6 Bug (and from RaceMenu posts in NexusMods.com)
+	- ✅sources:
+		- https://www.nexusmods.com/skyrimspecialedition/mods/19080?tab=posts&BH=3
+		- https://www.nexusmods.com/skyrimspecialedition/mods/19080?tab=posts&BH=3
+	- ✅added to thank yous: Eleros  (Pan has long been listed)
 
-4. ✅ Added three new entries to explainersMap:
-
-5. ✅ antivirusSignatures.js:
-	- ✅ added 'bdhkm64.dll' to list of Bitdefender indicators which can show up in crash logs
-
-6. ✅ Added emojis to some commonly-cited in Discord sections of troubleshooting instructions (mostly for the single-click copy-to-clipboard functionality)
-	- 🚀 for VRAMr 
-	- 💾 for ReSaver
-	- 🛡️ for Safe Save Practices
-
-7. ✅ A few other minor typo fixes or minor clarifications in diagnoses.js
-
-
--- NOTES from this version --
-
-1. ✅Fix Dawnguard Horse bug found by RomatebitegeL:
-	- ✅file: bug undiagnosed Dawnguard Horse - CrashLoggerSSE v1-15-0-0 Oct 12 2024 11_33_37.txt
-		- ✅Isran exists but not Celann (and the other 2 indicators also exist)
-			- ✅Out of 18 Dawnguard Horse issues that I found in my crash log library, only two didn't have Celann ... all had Isran. All also looked to be caused by this issue.
-			- ✅So, I slightly loosened the test criteria so that either Isran OR Celann would suffice. Probably Celann is the only one that sometimes doesn't show up, but I thought I'd allow just Celann just in case.
-
-
-2. ✅Code refactored, and also refined troubleshooting instructions for these older tests:
-	- ✅analyzeShadowSceneIssues()
-	- ✅analyzeShadowrend()
-	- ✅analyzeShadowrendNolvus()
-
-- ❌(JUST SOFTENED): Shadow Scene needs moved from diagnoses to low down in insights.
-	- See Nolvus Bug 36 for most recent motivation
-
-3. ✅Fixed Discord markdown issue with nested list items
-	- ✅changed from 3 spaces per level of indentation to just 2
-	- ✅Also tested in Reddit
-
-4. ✅Added three new entries to explainersMap:
-	- ✅['aero.esl', '(Abyssal Wind Magic mod)'],
-	- ✅['uapng.dll', '(Ultimate Animated Potions NG mod)'],
-    - ✅['und.dll', '(Ultimate NPC Dodging mod)'],
+3. ✅ConsoleUtilSSE bug where new "Extended" version identifies itself as the old mod in crash logs:
+	- ✅source: https://discord.com/channels/341090804611285003/341362343273562122/1346166930234540042
+	- ✅ extended mod: https://www.nexusmods.com/skyrimspecialedition/mods/133569?tab=files
+	- ✅old mod: https://www.nexusmods.com/skyrimspecialedition/mods/24858?tab=files
+	- ✅ added new "note" field to  dllCompatibleSkyrimVersionsMap.js
+	- ✅add to thank yous:
+		- ✅Alexious
+		- ✅Lord Kroq-Gar 
 
 
 --- Upcoming versions: ---
+
+1. dllCompatibleSkyrimVersionsMap.js: Fill in more notes for the different files
+
+1. ⭐️⭐️⭐️⭐️⭐️ (unsure where to send?) Fix/update this line:
+	- "Please report any issues (or share suggestions) in my r/Nolvus reddit post."
+		- shouldn't go to Nolvus post for skyrim users....
+		- Probably can't see my posts from my suspended-for-technical-irregularities account anyway....
+		- 
+
+3. ⭐️⭐️⭐️⭐️Consider softening "12F4797 Physics Crash"
+	- https://discord.com/channels/740569699900719145/1337495823067648092/1345680309345321010
+
+5. ⭐️⭐️⭐️⭐️Add new "Recommended Tools" section at bottom:
+	- LOOT
+	- VRAMr
+	- Jhurnal
+	- SSEdit?
+	- ReSaver
+
+7. ⭐️⭐️⭐️ (easy, but rare) new test for CPU emulating GPU ... maybe reinstall drivers for graphics card?
+	- indicator: 
+	- firstLine indicator (at lest in example)
+	- source: https://discord.com/channels/622647066719420427/1271951438053900390/1346172780877709364
+	- log files:
+		- firstLine ntdll-dll -  CPU emulation of GPU - GPU missing - Lorerim - crash-2025-03-03-14-40-01.log
+		- firstLine ntdll-dll -  CPU emulation of GPU - GPU missing - Lorerim - crash-2025-03-03-17-17-44.log
+	- references to link to for fixing:
+		- https://www.pcguide.com/gpu/how-to/switch-integrated-graphics-to-gpu/
+		- https://www.thewindowsclub.com/pc-using-integrated-graphics-instead-of-gpu-fix
+
+
+8. ⭐️⭐️⭐️ (uncertain as to ease or frequency) new test for wrong version of Rare Curious from Creation Club?
+	- indicator SEQ\ccBGSSSE037-Curios.SEQ
+		- was found at top of stack
+		- "Missing Masters"
+		- related maybe to NPCWaterAIFix.dll? (I now I see this mod a lot in the top quarter with Lorerim...)
+	- source: https://discord.com/channels/622647066719420427/1271951438053900390/1346069078540025856
+	- log file: wrong v of ccbgssse037-curious - Missing Masters - Lorerim - crash-2025-03-03-10-30-33.log
+	- might be more of a Lorerim/wabbajack thing?
+	- more info: https://wiki.wabbajack.org/user_documentation/Troubleshooting%20FAQ.html#unable-to-download-curios-files
 
 3. Skeleton Issue ... remove from diagnoses and leave only at bottom of speculation. If anything else matches ... favor it
 
@@ -83,13 +102,10 @@ https://phostwood.github.io/crash-analyzer/
 https://discord.com/channels/740569699900719145/1323816364007227504/1340187701701378151
 	Also: ❓ skee64.dll Issue Detected:
 		- make it include the statement about skeleton meshes not being as good indicators
-		- needs moved into diagnoses.js
 		- its files list needs to be changed over to the new shared-code way
 		- if the item is removable, remove it in-game before disabling the crashing mod
 			- https://discord.com/channels/215154001799413770/701100960134725713/1341090629895323740
 		- "Overlays" are usually the wearable tattoos or piercings or such
-
-		- ⭐️REVISE EXISTING listing so it doesn't include those found in sections.firstLine
 
 
 1. ⭐️⭐️Research and correct this statement in Upscaler Issue:

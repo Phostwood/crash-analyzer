@@ -16,7 +16,8 @@ const dllCompatibleSkyrimVersionsMap = {
             maxSkyrim: '1.6.1129.9999',
             recommendedVersion: '1.5.1',
             modName: 'ConsoleUtilSSE NG',
-            url: 'https://www.nexusmods.com/skyrimspecialedition/mods/76649?tab=files'
+            url: 'https://www.nexusmods.com/skyrimspecialedition/mods/76649?tab=files',
+            note: '⚠️NOTE: If you are using <a href ="https://www.nexusmods.com/skyrimspecialedition/mods/133569">ConsoleUtil Extended</a> version 1.0.1, it <b>is compatible</b>, but shows up in crash logs exactly like an old versions of Console Util SSE'
         }
     },
     'QuickLootRE.dll': {
@@ -58,7 +59,8 @@ const dllCompatibleSkyrimVersionsMap = {
             maxSkyrim: '1.6.1129.9999',
             recommendedVersion: '2.3.6',
             modName: 'Open Animation Replacer (OAR)',
-            url: 'https://www.nexusmods.com/skyrimspecialedition/mods/92109?tab=files'
+            url: 'https://www.nexusmods.com/skyrimspecialedition/mods/92109?tab=files',
+            note: 'NOTE: this mod is a fully-backwards-compatible drop-in-replacement for Dynamic Animation Replacer (DAR)'
         }
     },
     
@@ -98,7 +100,8 @@ const dllCompatibleSkyrimVersionsMap = {
             maxSkyrim: '1.6.1129.9999',
             recommendedVersion: '2.0.0',
             modName: 'QuickLoot IE - A QuickLoot EE Fork',
-            url: 'https://www.nexusmods.com/skyrimspecialedition/mods/120075?tab=files'
+            url: 'https://www.nexusmods.com/skyrimspecialedition/mods/120075?tab=files',
+            note: 'NOTE: this mod completely replaces the old QuickLoot <i>EE</i>'
         }
     },
 
@@ -109,6 +112,7 @@ const dllCompatibleSkyrimVersionsMap = {
             recommendedVersion: '1.0.0',
             modName: 'SkyClimb 1.6.1170 Fix',
             url: 'https://www.nexusmods.com/skyrimspecialedition/mods/124203?tab=files',
+            note: 'NOTE: place after the original in your <b>load order</b>'
         }
     }
     

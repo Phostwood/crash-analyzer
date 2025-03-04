@@ -248,6 +248,7 @@ const crashIndicators = {
             { code: 'AmbientOcclusion', description: "AO processing - potential issues with shader implementations" },
             { code: 'ApplyGameColorCorrection', description: "Color correction pipeline - ENB/SweetFX interference possible" },
             { code: 'BGSDecalNode', description: "Decal rendering - possible shader/texture interaction issues" },
+            { code: 'BSMultiBoundRoom', description: "Multi-bound room rendering - <b>reportedly solid indicator</b> of cell transition/interior lighting issues" },
             { code: 'Boris Vorontsov', description: "ENB developer references - may appear in error contexts" },
             { code: 'BSDynamicTriShape', description: "Complex geometry rendering - potential texture/shader overload" },
             { code: 'BSEffectShaderProperty', description: "Effect shaders - possible issues with magic/weather FX" },
