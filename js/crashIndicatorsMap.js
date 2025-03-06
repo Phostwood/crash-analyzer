@@ -146,8 +146,9 @@ const crashIndicators = {
             { code: 'animationgraph', description: "Animation graph" },
             { code: 'hkbclipgenerator', description: "Havok clip generator" },
             { code: 'hkbvariablebindingset', description: "Havok variable binding set" },
+            { code: 'hkbStateMachine', description: "Havok behavior state machine" },
             { code: '.hkx', description: "Havok animation file" },
-            { code: 'bshkbanimationgraph', description: "BShkb Animation Graph" },
+            { code: 'bshkbanimationgraph', description: "Bethesda Havok animation graph" },
             { code: 'animation', description: "General animation-related (lower-confidence indicator)" }
         ]
     },
@@ -160,7 +161,8 @@ const crashIndicators = {
             { code: 'dynamicanimationreplacer.ini', description: "DAR configuration file" },
             { code: 'openanimationreplacer.dll', description: "OAR loader detected" },
             { code: 'openanimationreplacer.pdb', description: "OAR debug symbols" },
-            { code: 'behavior', description: "Generic behavior file reference" },
+            { code: 'hkbStateMachine', description: "Havok behavior state machine" },
+            { code: 'behavior', description: "Generic behavior file reference (lower-confidence indicator)" },
             { code: '.hkb', description: "Havok behavior file" },
             { code: '.hkx', description: "Havok animation file" },
             { code: '0_master.hkb', description: "Master behavior file" },

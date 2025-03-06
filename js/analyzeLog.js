@@ -423,6 +423,13 @@ async function analyzeLog() {
         diagnosesCount++;
     }
 
+    //❗ Redundant BEES Installation Detected:
+    const redundantBEES = checkForRedundantBEES(sections);
+    if(redundantBEES) {
+        diagnoses += redundantBEES;
+        diagnosesCount++;
+    }
+
 
     //❓ Possible Shadow Scene Node Crash Detected:
    const shadowScene = analyzeShadowSceneIssues(sections);

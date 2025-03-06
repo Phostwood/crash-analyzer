@@ -453,7 +453,7 @@ function checkForHighMemoryUsage(sections) {
                         <li>Minimize mods that add to the density of occurrences of 3D objects (e.g., some tree mods can overpopulate landscapes)</li>
                     </ul>
                 </li>
-                <li>Consider using a tool like <a href="https://game.intel.com/us/intel-presentmon/">Intel PresentMon</a> to accurately monitor usage of VRAM, RAM, GPU and CPU while troubleshooting.</li>
+                <li>Consider using a tool like <a href="https://game.intel.com/us/intel-presentmon/">Intel PresentMon</a> to accurately monitor usage and bottlenecks of VRAM, RAM, GPU and CPU while troubleshooting.</li>
                 <li><b>Workaround:</b> If you're experiencing crashes in a specific location, you can use the in game <b>console command</b> <code>pcb</code> (Purge Cell Buffer) to free up memory. This may help prevent some crashes by clearing cached cells, though it will cause those recently visited areas to have to reload completely when re-entered. Reportedly best used while in interior cells.</li>
             </ul>
         </li>`;
@@ -754,7 +754,7 @@ function analyzeMemoryIssues(sections) {
             <li>Consider switching to <strong>lower resolution texture mods</strong> (1K/2K instead of 4K). Image files that are too large can strain both VRAM and RAM resources.<ul>
                 <li>Or use <a href="https://www.nexusmods.com/skyrimspecialedition/mods/23316">Cathedral Assets Optimizer (CAO)</a> to optimize textures in individual mods that don't offer lower resolution options.</li>
                 <li>🚀 Alternately, use <a href="https://www.nexusmods.com/skyrimspecialedition/mods/90557">VRAMr</a> to automatically create a custom textures-only mod with optimized texture files that override for your entire load order (minus some problematic exceptions which are automatically excluded).</li>
-                <li> NOTE: Texture and/or mesh optimization reduces RAM, VRAM, and SSD usage, plus smaller files also load faster. Smaller texture files can be especially helpful in minimizing FPS stutters that are especially prone in outdoor combat and other visually busy situations. Usually, the lowering of image quality is unnoticeable during normal gameplay, especially at 2k, but largely even at 1K unless you walk up close and stare at a large object in game.</li>
+                <li> NOTE: Texture and/or mesh optimization speeds up transfers and reduces storage space for RAM, VRAM, and SSD. Smaller texture files can be especially helpful in minimizing FPS stutters that are especially prone in outdoor combat and other visually busy situations. Usually, the lowering of image quality is unnoticeable during normal gameplay, especially at 2k, but largely even at 1K unless you walk up close and stare at a large object in game.</li>
             </ul></li>
             <li><strong>Limit usage of object-adding mods</strong> which increase the number of 3D objects in any one view by adding additional objects/npcs/grass/trees/etc to already dense locations of Skyrim. Common examples include exterior city mods, and mods which add many extra trees. Each object has a 3D mesh and a texture file wrapped over it. Adding too many objects can tax any PC.</li>
             </ul>
@@ -1442,6 +1442,7 @@ function analyzeBGSSaveLoadManagerIssue(sections) {
             ${Utils.isSkyrimPage ? checkSaveFileSize : ''}
             <li>If crash is repetitive, try loading from your <b>last working save</b>. If possible, identify this file, and load this last save game that worked and try to play from there.</li>
             <li>💾 Consider using save cleaning tools to remove orphaned scripts and other potential corruption. <a href="https://www.nexusmods.com/skyrim/mods/76776">FallrimTools ReSaver</a> can sometimes fix corrupted save files. See also these <a href="https://www.reddit.com/r/skyrimmods/s/fbMRv343vm">instructions by Krispyroll</a> and more information in <a href="https://www.reddit.com/r/skyrimmods/comments/1d0r0f0/reading_crash_logs/##:~:text=Resaver">Krispyroll's Reading Crash Logs Guide</a>. NOTE: Always keep backups of your saves before attempting fixes or using cleaning tools.</li>
+            <li><b>Advanced Users</b> can try using <a href="https://www.nexusmods.com/skyrimspecialedition/mods/164">SSEEdit</a> and <a href="https://www.nexusmods.com/skyrimspecialedition/mods/68889">Find dangerous ESLs - xEdit script</a> for isolating ESL plugins that may potentially corrupt game saves and cause crashes.</a>
             <li>🛡️ Consider following <b>Jerilith's 2025 Skyrim Safe-Save-Guide [sexy free edition]</b> (quoted below). Not adhering to these guidelines over time may contribute to broken save files. Note: The necessity of some of these rules has been debated; however, many believe these rules can help prevent issues when other causes are unknown, especially with large modlists and 500+ hour playthroughs.
             <ol>
                 <li>Do not Save in combat.</li>
@@ -2706,9 +2707,12 @@ function analyzeModProminence() {
     const entries = Object.entries(sortedData);
     
     if (entries.length > 0) {
-        modInsights += `<li><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/fe/New_icon_shiny_badge.svg/200px-New_icon_shiny_badge.svg.png" alt="New!" style="width: 3em; height: 3em;">📊 <b>Mod Prominence Analysis:</b> The following mods appear frequently and/or with detailed information in the crash log. While this often indicates relevance to the crash cause, these mods might simply be more verbose in their logging and/or happened to be more active in the time leading up to the crash.
+        modInsights += `<li>📊 <b>Mod Prominence Analysis:</b> The following mods appear frequently and/or with detailed information in the crash log. While this can indicate relevance to the crash cause, these mods might simply be more verbose in their logging and/or happened to be more active in the time leading up to the crash.
             <ol>
-                <li>If this report doesn't contain better indications, consider temporarily disabling the top-listed mod and any dependent mods, and attempt to reproduce the crash</li>
+                <li>This indicator is less likely to be causal unless it repeats across multiple related crash logs</li>
+                <li>If this report doesn't contain better indications (above or below), consider temporarily disabling the top-listed mod and any dependent mods, and attempt to reproduce the crash<ul>
+                    <li>NOTE: If tested from an old game save, many mods may cause different crashes from being removed. So, this test might need to be conducted from a new character.</li>
+                </ul></li>
                 <li>If the crash stops, investigate that mod's documentation and forum for any updates, known issues and/or patches, as well as its requirements, recommended load order and any incompatibilities. Also consider any recent changes to your load order which might have affected this mod.</li>
                 <li>If the crash continues (or if disabling this mod was infeasible), re-enable and try the next mod</li>
                 ${Utils.LootListItemIfSkyrim}
@@ -2822,4 +2826,28 @@ function analyzeSkee64Issue(sections, forFirstLine = false) {
         </ol></li>`;
     }
     return insights;
+}
+
+
+//❗ Redundant BEES Installation Detected:
+function checkForRedundantBEES(sections) {
+    let diagnoses = '';
+
+    if (sections.hasNewEslSupport) {
+        const hasBeesInstalled = sections.fullLogFileLowerCase.includes('BackportedESLSupport.dll'.toLowerCase());
+        
+        if (hasBeesInstalled) {
+            diagnoses += `
+            <li>❗ <b>Redundant BEES Installation Detected:</b> 
+                Backported Extended ESL Support (BEES) is installed but unnecessary for your Skyrim version <code>${Utils.getSkyrimVersion(sections.header)}</code>. 
+                Some have reported that this redundancy can potentially cause crashes.
+                <ul>
+                    <li><b>Recommendation:</b> Uninstall BEES, as the expanded ESL functionality is already built into your game version.</li>
+                    <li><b>Background:</b> BEES adds support for the extended ESL range (4096 records vs 2048) to older Skyrim versions, but this functionality is already included in game version 1.6.1130 and later.</li>
+                    <li><b>Next Steps:</b> If crashes continue after removing BEES, please submit a new crash log for further analysis.</li>
+                </ul>
+            </li>`;
+        }
+    }
+    return diagnoses;
 }

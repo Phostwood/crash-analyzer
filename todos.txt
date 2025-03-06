@@ -2,33 +2,108 @@
 https://phostwood.github.io/crash-analyzer/
 
 
-1. ✅Gaetan — "If you see BSMultiBoundRoom that’s almost guaranteed Lux crash. If you want to put that somewhere in your analyser 😉"
-	- ✅added to CrashIndicatorsMap.js:
-		- { code: 'BSMultiBoundRoom', description: "Multi-bound room rendering - <b>reportedly solid indicator</b> of cell transition/interior lighting issues" },
-	- ✅source:  https://discord.com/channels/740569699900719145/1337495823067648092/1345801326893858868
-	- ✅log file:  firstLine 0x0 on thread Issue - Crash_2025_2_7_20-44-35.txt
+1. ✅New test: ❗ Redundant BEES Installation Detected
 
-2. ✅❗ skee64.dll Issue Detected: 
-	- ✅Add mention of presets to skee RaceMenu troubleshooting steps
-	- ✅refactored as a function
-	- ✅dynamically adapt if first-line error, and if Nolvus/Skyrim
-	- ✅added preset info from Nolvus 6 Bug (and from RaceMenu posts in NexusMods.com)
-	- ✅sources:
-		- https://www.nexusmods.com/skyrimspecialedition/mods/19080?tab=posts&BH=3
-		- https://www.nexusmods.com/skyrimspecialedition/mods/19080?tab=posts&BH=3
-	- ✅added to thank yous: Eleros  (Pan has long been listed)
+2. ✅Files/Elements ... explain that the very top of the Stack also has added weight for predicting causality
 
-3. ✅ConsoleUtilSSE bug where new "Extended" version identifies itself as the old mod in crash logs:
-	- ✅source: https://discord.com/channels/341090804611285003/341362343273562122/1346166930234540042
-	- ✅ extended mod: https://www.nexusmods.com/skyrimspecialedition/mods/133569?tab=files
-	- ✅old mod: https://www.nexusmods.com/skyrimspecialedition/mods/24858?tab=files
-	- ✅ added new "note" field to  dllCompatibleSkyrimVersionsMap.js
-	- ✅add to thank yous:
-		- ✅Alexious
-		- ✅Lord Kroq-Gar 
+3. ✅New "Recommended Tools" section at bottom of page
+
+4. ✅Mod Prominence Analysis:
+	- ✅softened likelyhood 
+	- ✅added: "This indicator is less likely to be causal unless it repeats across multiple related crash logs"
+
+5. ✅Other tiny tweaks/changes
+
+
+
+--- NOTES from this version: ---
+
+1. 	✅New test: ❗ Redundant BEES Installation Detected
+	- ✅double check the v# where unnecessary
+	- https://old.reddit.com/r/skyrimmods/comments/1j117nw/unhandled_exception_exception_access_violation_at/
+
+3. ✅Add new "Recommended Tools" section at bottom:
+	- ⏸️Jhurnal (currently still in development ... but reciprocal links have been agreed upon)
+	- ✅${Utils.LootListItemIfSkyrim}
+	- ✅🚀 <a href="https://www.nexusmods.com/skyrimspecialedition/mods/90557">VRAMr</a> can be utilized to automatically create a custom textures-only mod with optimized texture files that override for your entire load order (minus some problematic exceptions which are automatically excluded).</li>
+                <li> NOTE: Texture and/or mesh optimization speeds up transfers and reduces storage space for RAM, VRAM, and SSD. Smaller texture files can be especially helpful in minimizing FPS stutters that are especially prone in outdoor combat and other visually busy situations. Usually, the lowering of image quality is unnoticeable during normal gameplay, especially at 2k, but largely even at 1K unless you walk up close and stare at a large object in game.
+	- ✅<a href="https://www.nexusmods.com/skyrimspecialedition/mods/164">SSEEdit</a>
+	- ✅💾 <a href="https://www.nexusmods.com/skyrim/mods/76776">FallrimTools ReSaver</a> can sometimes fix corrupted save files, and can also be (carefully) used by advanced users to remove specific FormIDs from your save. See also these <a href="https://www.reddit.com/r/skyrimmods/s/fbMRv343vm">instructions by Krispyroll</a> and more information in <a href="https://www.reddit.com/r/skyrimmods/comments/1d0r0f0/reading_crash_logs/##:~:text=Resaver">Krispyroll's Reading Crash Logs Guide</a>. NOTE: Always keep backups of your saves before attempting fixes or using cleaning tools.</li>
+	- ✅💾<a href="https://www.nexusmods.com/skyrimspecialedition/mods/79406">Skyrim ProcMon</a> can reportedly be used to see what mod or data was last loaded before your Skyrim crashed or froze ... especially useful for crashes/freezes that don't output a crash log.
+		- ✅Add "Leet" to lists of Thank Yous! 
+	- <a href="https://www.nexusmods.com/skyrimspecialedition/mods/68889">Find dangerous ESLs - xEdit script</a> for isolating ESL plugins that can corrupt game saves and cause crashes.
+		- ✅Also add this to the test on BGSSaveLoadManager Issue (along with XEdit/SSEEdit)
+
+
+	- others from Leet: (skipping for now because they don't seem sufficiently simple and/or focused on crash log troubleshooting)
+		- (SKIP)Honestly TexGen / DynDOLOD is also a useful tool surprisingly in finding unresolved records (errors)
+			- (FAVOR xedit) or for the last one.. Just "check for errors" in xedit works too
+		- (SKIP)CreationKit (just resaving a plugin) can resolve Oldrim waterflow records, and old headers. The former having more of a bad impact
+
 
 
 --- Upcoming versions: ---
+
+1. from: Shaddoll_Shekhinaga:
+	- "Might be worth noting that the handler is a bigger giveaway than the device object pointer in this case, since on startup it is possible to catch the BSWin32GamepadDevice* pointer without a control present."
+		- url: https://www.reddit.com/r/skyrimmods/comments/1j44ezl/comment/mg91wpp/?utm_source=share&utm_medium=web3x&utm_name=web3xcss&utm_term=1&utm_content=share_button
+		- referencing: https://old.reddit.com/r/skyrimmods/comments/1j3g9mu/any_chance_someone_could_figure_out_why_im/
+	- My FaceGen test should have showed up here, and listed that beard. Also, that beard should probably have been listed under mesh files. while the "Possible Mesh Issue" was flagged
+		- referencing: https://old.reddit.com/r/skyrimmods/comments/1j26jc8/need_help_game_crashes_when_swinging_weapon_or/
+	- 
+
+2. New test for Physics issue:
+	- https://www.reddit.com/r/skyrimmods/comments/1j18pa7/comment/mg2ka3d/
+	- new high-priority indicator:  "HDT Skinned Mesh Physics Object"
+
+
+1. Add Pan's screenshot (see mention in v6 bug 10(?))
+	2. 1. ⭐️⭐️⭐️⭐️New skee first-line error test
+	https://discord.com/channels/740569699900719145/1323816364007227504/1340187701701378151
+		Also: ❓ skee64.dll Issue Detected:
+			- make it include the statement about skeleton meshes not being as good indicators
+			- its files list needs to be changed over to the new shared-code way
+			- if the item is removable, remove it in-game before disabling the crashing mod
+				- https://discord.com/channels/215154001799413770/701100960134725713/1341090629895323740
+			- "Overlays" are usually the wearable tattoos or piercings or such
+
+
+
+3. Pulldown for Discord or Reddit copy-paste (3 spaces per indent level for Reddit, but 2 spaces for Discord)
+
+1. ⭐️⭐️⭐️⭐️skyrimcrashdecoder did this one better: DwemerBeardLowerBraidsA - Skyrim crash log (19).txt
+	- Probably a FaceGen issue. Could be missing or corrupt FaceGen data or some other NPC face related problem. Possibly related to: Name: "DwemerBeardLowerBraidsA"
+	Crash was likely caused by one of the following mods: Skyrim.esm -> Update.esm -> Dragonborn.esm -> unofficial skyrim special edition patch.esp -> LegacyoftheDragonborn.esm -> CollegeOfWinterholdImmersive.esp -> Immersive Encounters.esp
+	Probably one of them accessing or clashing with this mod: "immersive encounters.esp".
+	The following record might have been involved in the crash: name: "rzalth" formid: 0x00000007.
+	To fix the issue, you can try disabling one or more of the mods mentioned above. If the crash still happens, try again with a new log. If you are an advanced Skyrim modder, you can use a tool like SSEEdit to see more information about what record the FormID contains and which mods are accessing it.
+
+1. ⭐️⭐️⭐️⭐️Good phrase from skyrimcrashdecoder:
+	- "If you are an advanced Skyrim modder, you can use a tool like SSEEdit to see more information about what record the FormID contains and which mods are accessing it."
+	- add to it something like: and/or use ReSaver to remove the problematic FormID from your save (although, some may respawn, and others can cause problems when removed)
+
+1. ⭐️⭐️⭐️⭐️skyrimcrashdecoder offers some extra insight into this log:
+	- "Probably an issue with an Object Reference (this could be an item or an NPC placed or modified by a mod)."
+	- "Crash was likely caused by one of the following mods: Skyrim.esm -> unofficial skyrim special edition patch.esp"
+	- "Probably one of them accessing or clashing with this mod: "thenewgentleman.esp"."
+	- Crashlog (arjvSyyR).txt
+
+-Forms/Elements bugs:-
+0. Bug where mesh name (file isn't listed by name is) isn't listed in experimental File/Elements (but is in normal version's)
+ - source: https://old.reddit.com/r/skyrimmods/comments/1j26jc8/need_help_game_crashes_when_swinging_weapon_or/
+1. ⭐️⭐️⭐️File/Elements bug where skeleton for beast shows up in nifs issue list, but not in Files/Elements?
+	- crash-2025-02-28-05-01-12.log
+2. Files/Elements (Advanced version under development):
+	- ⭐️⭐️Need to make it so multiple FormIDs can show up under one group
+		- currently my classic Wolf test doesn't even show the correct FormID to delete
+		- already seems to do this for NSF logs?
+			- Simplest Horses - Animated Ice Floes - NavMesh-Pathing Issue - Crash_2025_1_16_0-54-34.txt
+
+
+
+
+1. New test: recommend disabling STEAM overlay when paired with d3d11.dll
+	- https://discord.com/channels/740569699900719145/1341239811536715850
 
 1. dllCompatibleSkyrimVersionsMap.js: Fill in more notes for the different files
 
@@ -41,12 +116,7 @@ https://phostwood.github.io/crash-analyzer/
 3. ⭐️⭐️⭐️⭐️Consider softening "12F4797 Physics Crash"
 	- https://discord.com/channels/740569699900719145/1337495823067648092/1345680309345321010
 
-5. ⭐️⭐️⭐️⭐️Add new "Recommended Tools" section at bottom:
-	- LOOT
-	- VRAMr
-	- Jhurnal
-	- SSEdit?
-	- ReSaver
+
 
 7. ⭐️⭐️⭐️ (easy, but rare) new test for CPU emulating GPU ... maybe reinstall drivers for graphics card?
 	- indicator: 
@@ -98,14 +168,7 @@ https://phostwood.github.io/crash-analyzer/
 	- warn is a new indicator
 	- It's rare (which means false-positives seem less likely👍). From scanning my Crash Log Library:  Search "SKSEPlugin_Load" (20 hits in 7 files of 6372 searched) [Normal]"
 
-1. ⭐️⭐️⭐️⭐️New skee first-line error test
-https://discord.com/channels/740569699900719145/1323816364007227504/1340187701701378151
-	Also: ❓ skee64.dll Issue Detected:
-		- make it include the statement about skeleton meshes not being as good indicators
-		- its files list needs to be changed over to the new shared-code way
-		- if the item is removable, remove it in-game before disabling the crashing mod
-			- https://discord.com/channels/215154001799413770/701100960134725713/1341090629895323740
-		- "Overlays" are usually the wearable tattoos or piercings or such
+
 
 
 1. ⭐️⭐️Research and correct this statement in Upscaler Issue:
@@ -640,3 +703,7 @@ BUGS?
 
 5. New Skyrim AE Test: ConsoleUtilSSE.dll in Probable call stack --> ConsoleUtilSSE.dll v1.4 is not compatible. Download v1.5.1 instead here: https://www.nexusmods.com/skyrimspecialedition/mods/76649?tab=files
 
+
+
+"New" icon for new sections or especially common tests:
+<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/fe/New_icon_shiny_badge.svg/200px-New_icon_shiny_badge.svg.png" alt="New!" style="width: 3em; height: 3em;">
