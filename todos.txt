@@ -1,56 +1,30 @@
-✅Version 1.22.5 is now live:
+✅Version 1.22.6 is now live:
 https://phostwood.github.io/crash-analyzer/
 
+1. ✅crashIndicatorsMap.js: added new indicator for texture issues
 
-1. ✅New test: ❗ Redundant BEES Installation Detected
+2. ✅The copy-to-clipboard functionality now asks if you want to markdown formatting for Reddit or Discord (3 spaces per indentation-level, or just 2). I'm probably the only one who has been frustrated by this minor formatting difference between Reddit and Discord, but I've been frustrated by it enough to finally fix this bug. Both emojis and "Copy Diagnoses" button both support the new functionality. Also fixed bug where the "Copy Paste" button was always triggering twice. 
+	- TEST:
+		- ✅FF
+		- ✅Edge
+		- ✅Chrome
+		- Mobile (after launch)
 
-2. ✅Files/Elements ... explain that the very top of the Stack also has added weight for predicting causality
-
-3. ✅New "Recommended Tools" section at bottom of page
-
-4. ✅Mod Prominence Analysis:
-	- ✅softened likelyhood 
-	- ✅added: "This indicator is less likely to be causal unless it repeats across multiple related crash logs"
-
-5. ✅Other tiny tweaks/changes
-
-
-
---- NOTES from this version: ---
-
-1. 	✅New test: ❗ Redundant BEES Installation Detected
-	- ✅double check the v# where unnecessary
-	- https://old.reddit.com/r/skyrimmods/comments/1j117nw/unhandled_exception_exception_access_violation_at/
-
-3. ✅Add new "Recommended Tools" section at bottom:
-	- ⏸️Jhurnal (currently still in development ... but reciprocal links have been agreed upon)
-	- ✅${Utils.LootListItemIfSkyrim}
-	- ✅🚀 <a href="https://www.nexusmods.com/skyrimspecialedition/mods/90557">VRAMr</a> can be utilized to automatically create a custom textures-only mod with optimized texture files that override for your entire load order (minus some problematic exceptions which are automatically excluded).</li>
-                <li> NOTE: Texture and/or mesh optimization speeds up transfers and reduces storage space for RAM, VRAM, and SSD. Smaller texture files can be especially helpful in minimizing FPS stutters that are especially prone in outdoor combat and other visually busy situations. Usually, the lowering of image quality is unnoticeable during normal gameplay, especially at 2k, but largely even at 1K unless you walk up close and stare at a large object in game.
-	- ✅<a href="https://www.nexusmods.com/skyrimspecialedition/mods/164">SSEEdit</a>
-	- ✅💾 <a href="https://www.nexusmods.com/skyrim/mods/76776">FallrimTools ReSaver</a> can sometimes fix corrupted save files, and can also be (carefully) used by advanced users to remove specific FormIDs from your save. See also these <a href="https://www.reddit.com/r/skyrimmods/s/fbMRv343vm">instructions by Krispyroll</a> and more information in <a href="https://www.reddit.com/r/skyrimmods/comments/1d0r0f0/reading_crash_logs/##:~:text=Resaver">Krispyroll's Reading Crash Logs Guide</a>. NOTE: Always keep backups of your saves before attempting fixes or using cleaning tools.</li>
-	- ✅💾<a href="https://www.nexusmods.com/skyrimspecialedition/mods/79406">Skyrim ProcMon</a> can reportedly be used to see what mod or data was last loaded before your Skyrim crashed or froze ... especially useful for crashes/freezes that don't output a crash log.
-		- ✅Add "Leet" to lists of Thank Yous! 
-	- <a href="https://www.nexusmods.com/skyrimspecialedition/mods/68889">Find dangerous ESLs - xEdit script</a> for isolating ESL plugins that can corrupt game saves and cause crashes.
-		- ✅Also add this to the test on BGSSaveLoadManager Issue (along with XEdit/SSEEdit)
+3. ✅Changed line for BSWin32GamepadDevice in crashIndicatorsMap.js to specify "(not always a reliable indicator)"
+	- ✅from: Shaddoll_Shekhinaga: "Might be worth noting that the handler is a bigger giveaway than the device object pointer in this case, since on startup it is possible to catch the BSWin32GamepadDevice* pointer without a control present."
+		- ✅url: https://www.reddit.com/r/skyrimmods/comments/1j44ezl/comment/mg91wpp/?utm_source=share&utm_medium=web3x&utm_name=web3xcss&utm_term=1&utm_content=share_button
+		- ✅referencing: https://old.reddit.com/r/skyrimmods/comments/1j3g9mu/any_chance_someone_could_figure_out_why_im/
+		- ✅share thanks with Shaddoll
 
 
-	- others from Leet: (skipping for now because they don't seem sufficiently simple and/or focused on crash log troubleshooting)
-		- (SKIP)Honestly TexGen / DynDOLOD is also a useful tool surprisingly in finding unresolved records (errors)
-			- (FAVOR xedit) or for the last one.. Just "check for errors" in xedit works too
-		- (SKIP)CreationKit (just resaving a plugin) can resolve Oldrim waterflow records, and old headers. The former having more of a bad impact
 
 
 
 --- Upcoming versions: ---
 
-1. from: Shaddoll_Shekhinaga:
-	- "Might be worth noting that the handler is a bigger giveaway than the device object pointer in this case, since on startup it is possible to catch the BSWin32GamepadDevice* pointer without a control present."
-		- url: https://www.reddit.com/r/skyrimmods/comments/1j44ezl/comment/mg91wpp/?utm_source=share&utm_medium=web3x&utm_name=web3xcss&utm_term=1&utm_content=share_button
-		- referencing: https://old.reddit.com/r/skyrimmods/comments/1j3g9mu/any_chance_someone_could_figure_out_why_im/
-	- My FaceGen test should have showed up here, and listed that beard. Also, that beard should probably have been listed under mesh files. while the "Possible Mesh Issue" was flagged
-		- referencing: https://old.reddit.com/r/skyrimmods/comments/1j26jc8/need_help_game_crashes_when_swinging_weapon_or/
-	- 
+1. An system to alert user after they click or engage "Analyze" to alert them that a new version is available. Please either refresh the page if using live, or download the most recent version if using the stand-alone Nexus mod". Maybe in a colored area below the "Analyze" button?
+
+
 
 2. New test for Physics issue:
 	- https://www.reddit.com/r/skyrimmods/comments/1j18pa7/comment/mg2ka3d/
@@ -66,10 +40,13 @@ https://phostwood.github.io/crash-analyzer/
 			- if the item is removable, remove it in-game before disabling the crashing mod
 				- https://discord.com/channels/215154001799413770/701100960134725713/1341090629895323740
 			- "Overlays" are usually the wearable tattoos or piercings or such
+		- ➡️CHANGED PLAN:
+			- Do a separate Nolvus version with Pan's instructions
+			- Do a Skyrim version saying to change filename to `.backup` or `.disabled` at the end (temporarily)
 
 
 
-3. Pulldown for Discord or Reddit copy-paste (3 spaces per indent level for Reddit, but 2 spaces for Discord)
+
 
 1. ⭐️⭐️⭐️⭐️skyrimcrashdecoder did this one better: DwemerBeardLowerBraidsA - Skyrim crash log (19).txt
 	- Probably a FaceGen issue. Could be missing or corrupt FaceGen data or some other NPC face related problem. Possibly related to: Name: "DwemerBeardLowerBraidsA"
@@ -88,7 +65,7 @@ https://phostwood.github.io/crash-analyzer/
 	- "Probably one of them accessing or clashing with this mod: "thenewgentleman.esp"."
 	- Crashlog (arjvSyyR).txt
 
--Forms/Elements bugs:-
+-🔎Forms/Elements BUGS:-
 0. Bug where mesh name (file isn't listed by name is) isn't listed in experimental File/Elements (but is in normal version's)
  - source: https://old.reddit.com/r/skyrimmods/comments/1j26jc8/need_help_game_crashes_when_swinging_weapon_or/
 1. ⭐️⭐️⭐️File/Elements bug where skeleton for beast shows up in nifs issue list, but not in Files/Elements?
@@ -98,6 +75,20 @@ https://phostwood.github.io/crash-analyzer/
 		- currently my classic Wolf test doesn't even show the correct FormID to delete
 		- already seems to do this for NSF logs?
 			- Simplest Horses - Animated Ice Floes - NavMesh-Pathing Issue - Crash_2025_1_16_0-54-34.txt
+3. Wrong FormID's attached to object?
+	- Crash_2025_2_20_23-12-43.txt
+	- v6 Bug 65
+	- The hourglass is listing a lot of FormIDs, at lest one of which (the "FF...") doesn't seem to belong to it:
+		- - `[2] Hourglass`
+			- `[2] FormID: 2C0BA82F`
+			- `[2] FormID: 2C0BA7B5`
+			- `[2] FormID: 2C0BA7C5`
+			- `[2] FormID: FF0039E1`
+			- `[2] FormID: 2C056F99`
+			- `[2] FormID: 2C0A5EB9`
+4. from: Shaddoll_Shekhinaga: https://www.reddit.com/r/skyrimmods/comments/1j44ezl/comment/mg91wpp/?utm_source=share&utm_medium=web3x&utm_name=web3xcss&utm_term=1&utm_content=share_button
+	- My FaceGen test should have showed up here, and listed that beard. Also, that beard should probably have been listed under mesh files. while the "Possible Mesh Issue" was flagged
+		- referencing: https://old.reddit.com/r/skyrimmods/comments/1j26jc8/need_help_game_crashes_when_swinging_weapon_or/
 
 
 

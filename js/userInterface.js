@@ -132,37 +132,125 @@ document.addEventListener('DOMContentLoaded', function () {
 	};
 
 	window.addEmojiClickEvent = function() {
-        var elements = document.querySelectorAll('li, details');
-        elements.forEach(function (element) {
-            var regex = /[\u{1F300}-\u{1F5FF}\u{1F600}-\u{1F64F}\u{1F680}-\u{1F6FF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}]/gu;
-            var matches = element.textContent.match(regex);
-            if (matches) {
-                matches.forEach(function (match) {
-                    var span = document.createElement('span');
-                    span.textContent = match;
-                    span.style.cursor = 'pointer';
-                    span.style.position = 'relative';
-                    span.style.zIndex = '1';
-                    element.innerHTML = element.innerHTML.replace(new RegExp(match, 'gu'), span.outerHTML);
-                });
+		var elements = document.querySelectorAll('li, details');
+		elements.forEach(function (element) {
+			var regex = /[\u{1F300}-\u{1F5FF}\u{1F600}-\u{1F64F}\u{1F680}-\u{1F6FF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}]/gu;
+			var matches = element.textContent.match(regex);
+			if (matches) {
+				matches.forEach(function (match) {
+					var span = document.createElement('span');
+					span.textContent = match;
+					span.style.cursor = 'pointer';
+					span.style.position = 'relative';
+					span.style.zIndex = '1';
+					element.innerHTML = element.innerHTML.replace(new RegExp(match, 'gu'), span.outerHTML);
+				});
+	
+				var spans = element.querySelectorAll('span');
+				spans.forEach(function (span) {
+					span.addEventListener('click', function (event) {
+						var parentElement = span.closest('li, details');
+						if (parentElement) {
+							// Use the shared popup function
+							showFormatSelectionPopup(
+								function() { return parentElement.outerHTML; }
+							);
+						}
+						event.stopPropagation();
+					});
+				});
+			}
+		});
+	};
 
-                var spans = element.querySelectorAll('span');
-                spans.forEach(function (span) {
-                    span.addEventListener('click', function (event) {
-                        var parentElement = span.closest('li, details');
-                        if (parentElement) {
-                            var analyzerCitation = getAnalyzerCitation();
-                            var markdown = convertHTMLToMarkdown(parentElement.outerHTML);
-                            var finalMarkdown =  markdown + analyzerCitation;
-                            copyToClipboard(finalMarkdown);
-                            alert('Markdown copied to clipboard!');
-                        }
-                        event.stopPropagation();
-                    });
-                });
-            }
-        });
-    };
+
+	
+	// Shared function to show format selection popup
+	function showFormatSelectionPopup(contentProvider, callback) {
+		// Create custom dialog with buttons
+		var dialogOverlay = document.createElement('div');
+		dialogOverlay.style.position = 'fixed';
+		dialogOverlay.style.top = '0';
+		dialogOverlay.style.left = '0';
+		dialogOverlay.style.width = '100%';
+		dialogOverlay.style.height = '100%';
+		dialogOverlay.style.backgroundColor = 'rgba(0,0,0,0.5)';
+		dialogOverlay.style.zIndex = '1000';
+		dialogOverlay.style.display = 'flex';
+		dialogOverlay.style.justifyContent = 'center';
+		dialogOverlay.style.alignItems = 'center';
+
+		var dialogBox = document.createElement('div');
+		dialogBox.style.backgroundColor = 'white';
+		dialogBox.style.padding = '20px';
+		dialogBox.style.borderRadius = '5px';
+		dialogBox.style.maxWidth = '400px';
+		dialogBox.style.textAlign = 'center';
+		
+		var dialogTitle = document.createElement('h3');
+		dialogTitle.textContent = 'Copy to clipboard with markdown formatting for:';
+		dialogTitle.style.marginTop = '0';
+		dialogTitle.style.color = '#333';
+		
+		var buttonContainer = document.createElement('div');
+		buttonContainer.style.display = 'flex';
+		buttonContainer.style.justifyContent = 'space-around';
+		buttonContainer.style.marginTop = '20px';
+		
+		var redditBtn = document.createElement('button');
+		redditBtn.textContent = 'Reddit';
+		redditBtn.style.padding = '8px 16px';
+		
+		var discordBtn = document.createElement('button');
+		discordBtn.textContent = 'Discord';
+		discordBtn.style.padding = '8px 16px';
+		
+		buttonContainer.appendChild(redditBtn);
+		buttonContainer.appendChild(discordBtn);
+		
+		dialogBox.appendChild(dialogTitle);
+		dialogBox.appendChild(buttonContainer);
+		dialogOverlay.appendChild(dialogBox);
+		document.body.appendChild(dialogOverlay);
+		
+		// Button event handlers
+		function handleButtonClick(formatType) {
+			document.body.removeChild(dialogOverlay);
+			
+			var analyzerCitation = getAnalyzerCitation();
+			
+			if (formatType === "Reddit") {
+				window.redditFormat = true;
+			} else {
+				window.redditFormat = false;
+			}
+			
+			// Get content from the provided function
+			var content = contentProvider();
+			var markdown = convertHTMLToMarkdown(content);
+			var finalMarkdown = markdown + analyzerCitation;
+			copyToClipboard(finalMarkdown);
+			
+			// Reset the format flags after copying
+			window.redditFormat = false;
+			
+			// Execute callback if provided
+			if (callback && typeof callback === 'function') {
+				callback();
+			}
+		}
+		
+		redditBtn.addEventListener('click', function() {
+			handleButtonClick("Reddit");
+		});
+		
+		discordBtn.addEventListener('click', function() {
+			handleButtonClick("Discord");
+		});
+	}
+	
+
+
 
 	window.toggleAdvancedElements = function() {
 		var advancedElements = document.getElementsByClassName('advanced');
@@ -189,15 +277,6 @@ document.addEventListener('DOMContentLoaded', function () {
 		this.classList.remove('dragover');
 	}, false);
 	dropZone.addEventListener('input', clearResult, false);
-
-	document.getElementById('convert-button').addEventListener('click', function () {
-		const analyzerCitation = getAnalyzerCitation();
-		var htmlContent = document.getElementById('result').innerHTML;
-		var markdown = convertHTMLToMarkdown(htmlContent);
-		var finalMarkdown = markdown + analyzerCitation;
-		copyToClipboard(finalMarkdown);
-		alert('Markdown copied to clipboard!');
-	});
 
 
 	// - - -  "Copy Diagnosis" button - - - 
@@ -293,36 +372,28 @@ document.addEventListener('DOMContentLoaded', function () {
 					}
 					parent = parent.parentNode;
 				}
-				prefix = ' '.repeat(nestingLevel * 2) + prefix; //Adds nested space before list items, 3 works in Reddit but breaks in Discord, so using 2 spaces of indentation per level
+				// Use 3 spaces for Reddit, 2 spaces for Discord
+				var multiplier = window.redditFormat ? 3 : 2;
+				prefix = ' '.repeat(nestingLevel * multiplier) + prefix;
 			}
 			return prefix + content.trim() + '\n';
 		}
 	});
 
 	// Function to convert HTML to Markdown for Discord
-	window.convertHTMLToMarkdown = function(html)  {
+	window.convertHTMLToMarkdown = function(html) {
 		html = removeMoreInfoLinks(html);
 		html = removeSkipTheseStepsLinks(html);
-
+	
 		// Create a temporary DOM to manipulate the HTML string
 		var tempDOM = document.createElement('div');
 		tempDOM.innerHTML = html;
-
-		// Remove specific emoji characters (🎯❗❓⚠️)
-		//DISABLED:  html = html.replace(/[\uD83C\uDFAF\u2757\u2753\u26A0\uFE0F]/g, '');
-		// Remove all non-ASCII characters
-		//DISABLED:  html = html.replace(/[^\x00-\x7F]/g, '');
-
+	
 		var markdown = turndownService.turndown(html);
-		//replace '\.' with '.' to prevent escaping of periods
-		//markdown = markdown.replace(/\\./g, '.');
-
+		
 		// Replace multiple consecutive newline characters with a single newline character
 		markdown = markdown.replace(/\n\s*\n/g, '\n');
-
-		// Double up backslashes to prevent escaping
-		// markdown = markdown.replace(/\\/g, '\\\\');
-
+	
 		return markdown;
 	}
 
@@ -352,13 +423,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
 	// Event listener for the "Copy Diagnosis" button
 	document.getElementById('convert-button').addEventListener('click', function () {
-		// Markdown link to be added at the top of the results
-		var analyzerCitation = getAnalyzerCitation();
-		var htmlContent = document.getElementById('result').innerHTML;
-		var markdown = convertHTMLToMarkdown(htmlContent);
-		var finalMarkdown = markdown + analyzerCitation;
-		copyToClipboard(finalMarkdown);
-		alert('Markdown copied to clipboard!');
+		// Use the shared popup function
+		showFormatSelectionPopup(
+			function() { return document.getElementById('result').innerHTML; }
+		);
 	});
 
 
