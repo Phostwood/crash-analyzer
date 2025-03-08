@@ -1,20 +1,11 @@
-✅Version 1.22.6 is now live:
+✅Version 1.22.7 is now live:
 https://phostwood.github.io/crash-analyzer/
 
-1. ✅crashIndicatorsMap.js: added new indicator for texture issues
-
-2. ✅The copy-to-clipboard functionality now asks if you want to markdown formatting for Reddit or Discord (3 spaces per indentation-level, or just 2). I'm probably the only one who has been frustrated by this minor formatting difference between Reddit and Discord, but I've been frustrated by it enough to finally fix this bug. Both emojis and "Copy Diagnoses" button both support the new functionality. Also fixed bug where the "Copy Paste" button was always triggering twice. 
-	- TEST:
-		- ✅FF
-		- ✅Edge
-		- ✅Chrome
-		- Mobile (after launch)
-
-3. ✅Changed line for BSWin32GamepadDevice in crashIndicatorsMap.js to specify "(not always a reliable indicator)"
-	- ✅from: Shaddoll_Shekhinaga: "Might be worth noting that the handler is a bigger giveaway than the device object pointer in this case, since on startup it is possible to catch the BSWin32GamepadDevice* pointer without a control present."
-		- ✅url: https://www.reddit.com/r/skyrimmods/comments/1j44ezl/comment/mg91wpp/?utm_source=share&utm_medium=web3x&utm_name=web3xcss&utm_term=1&utm_content=share_button
-		- ✅referencing: https://old.reddit.com/r/skyrimmods/comments/1j3g9mu/any_chance_someone_could_figure_out_why_im/
-		- ✅share thanks with Shaddoll
+1. Added references to new r/Phostwood community on Reddit
+2. skyrim.html: added to list of communities to ask when analyzer is less helpful
+	- r/SkyrimMods Discord
+	- Nexus Mods: Skyrim on Discord
+3. Minor tweaks to home pages
 
 
 
