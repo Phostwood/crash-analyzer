@@ -899,7 +899,7 @@ function analyzeVCRuntimeIssue(sections) {
             <ol>
                 <li>Consider reinstalling/updating your Visual C++ Redistributable
                     <ul>
-                        <li>To prevent crashes caused by outdated or corrupted components, download and install the latest, compatible version of Visual C++ Redistributable package from <a href="https://learn.microsoft.com/en-us/cpp/windows/latest-supported-vc-redist?view=msvc-170">Microsoft's official website</a>.</li>
+                        <li>To prevent crashes caused by outdated or corrupted components, download and install the latest, compatible version of Visual C++ Redistributable (x64)package from <a href="https://learn.microsoft.com/en-us/cpp/windows/latest-supported-vc-redist?view=msvc-170">Microsoft's official website</a>.</li>
                         <li>After installation, restart your system before launching the application again.</li>
                     </ul>
                 <li>Try disabling, updating, and/or redownloading and reinstalling mods ${!Utils.isSkyrimPage ? 'you may have added to Nolvus' : ''} that appear in the 🔎<b>Files/Elements</b> section, especially SKSE plugins:
@@ -1546,7 +1546,7 @@ function checkKernelbaseCrash(sections, Utils, win24H2UpscalerCrash, isDiagnoses
                                 <li><b>Start with SKSE plugins</b> (those ending in <code>.dll</code>) as they're particularly sensitive to Windows updates and system changes. They can be usually be safely disabled in groups of 5-10 to identify issues (except for Engine Fixes, which should stay enabled).</li>
                                 <li>Other ${!Utils.isSkyrimPage ? 'added ' : ''}<b>suspect mods</b> (and their dependencies) can also be temporarily disabled to test if they're causing the crash.</li>
                                 <li><b>CAUTION:</b> When downloading and reinstalling mods, only use versions compatible with your Skyrim version and other mods.</li>
-                                <li>If you see <code>VCRUNTIME140.dll</code> in the report, download and install the latest version for your hardware from <a href="https://learn.microsoft.com/en-us/cpp/windows/latest-supported-vc-redist?view=msvc-170">Microsoft Visual C++ Redistributable</a>.</li>
+                                <li>If you see <code>VCRUNTIME140.dll</code> in the report, download and install the latest version for your hardware from <a href="https://learn.microsoft.com/en-us/cpp/windows/latest-supported-vc-redist?view=msvc-170">Microsoft Visual C++ Redistributable (x64)</a>.</li>
                             </ul>
                         </li>
 
@@ -1649,56 +1649,47 @@ function analyzeFirstLine(sections) {
     const detectedFile = fileMatch ? fileMatch[1] : null;
     
     if (detectedFile && !ignoreFiles.includes(detectedFile)) {
-        insights += `<li>❗ <b>Critical First-Line Error Detected:</b>  <span style='color:red'>${detectedFile}</span>
+        insights += `
+        <li>❗ <b>Critical First-Line Error Detected:</b> <code>${detectedFile}</code>
             <ol>
+                <li>First, review other sections of this report (above and below) for more specific information about <code>${detectedFile}</code>. (Scroll down to the bottom of the page to ensure you've reviewed everything.)</li>
                 <li><strong>What This Means:</strong>
                     <ul>
-                        <li>First-line errors often indicate a serious compatibility or installation issue</li>
-                        <li>The file "${detectedFile}" is directly involved in the crash sequence</li>
+                        <li>The file <code>${detectedFile}</code> is directly involved in the crash sequence</li>
                         <li>While this file is related to the crash, it may not be the root cause</li>
-                        <li>This type of error often indicates missing masters, incorrect load order, or version mismatches</li>
+                        <li>This type of error often indicates missing dependencies, version mismatches, or incompatible files</li>
+                    </ul>
+                </li>
+                
+                <li><strong>SKSE Plugin Baseline Requirements:</strong>
+                    <ul>
+                        <li>Ensure you have the correct <a href="https://www.nexusmods.com/skyrimspecialedition/mods/30379">Skyrim Script Extender (SKSE64)</a> version for your game version, and are launching through SKSE</li>
+                        <li>Ensure you have the correct <a href="https://www.nexusmods.com/skyrimspecialedition/mods/32444">Address Library for SKSE Plugins</a> version matching your game version</li>
+                        <li>Ensure you have installed <a href="https://learn.microsoft.com/en-us/cpp/windows/latest-supported-vc-redist?view=msvc-170">Microsoft Visual C++ Redistributable package (x64)</a> - this is frequently missed but critical</li>
                     </ul>
                 </li>
                 
                 <li><strong>Recommended Troubleshooting Steps:</strong>
                     <ol>
-                        <li>First Steps:
-                            <ul>
-                                <li>Review other sections of this report to see if a more specific first-line error shows up with its own recommended troubleshooting steps</li>
-                                <li>As a potentially easy fix, consider disabling the mod (and any and all mods that depend upon it)</li>
-                                <li>Carefully review the associated mod's installation instructions</li>
-                                <li>Check if a mod update is available on Nexus</li>
-                                <li>Verify you have installed all of the mod's dependencies, and that they are all enabled</li>
-                                <li>Verify you have all required patches installed for compatibility with other mods you are using</li>
-                            </ul>
-                        </li>
-                        
-                        <li>Version Verification:
-                            <ul>
-                                <li>Confirm the mod is compatible with your Skyrim version</li>
-                                <li>Check version requirements of other mods that interact with it</li>
-                                <li>Verify your SKSE version matches your Skyrim version</li>
-                            </ul>
-                        </li>
-                        
-                        <li>Advanced Troubleshooting:
-                            <ul>
-                                <li>Check the mod author's bug reports section and/or forum</li>
-                                <li>Google the mod and/or ask the Skyrim Modding Community to confirm the mod is generaly considered stable with your version of Skyrim and your other mods</li>
-                                <li>Try a clean reinstall of the mod</li>
-                                <li>Identifying Missing Masters: Mod Organizer 2 (MO2) typically displays warning icons (yellow triangle with exclamation mark) for plugins with missing masters. <a href="https://imgur.com/izlF0GO">View Screenshot</a>.</li>
-                                <li>Use xEdit to check for missing masters or conflicts</li>
-                               ${Utils.LootListItemIfSkyrim}
-                            </ul>
-                        </li>
+                        <li>As a quick optional test, consider disabling the mod and any mods that depend on it. NOTE: this may require creating a new character for a successful test.</li>
+                        <li>Confirm the mod is compatible with your Skyrim version</li>
+                        <li>Refer to the plugin's mod page, FAQ, or Bug Report section to see if the crash is a known issue</li>
+                        <li>Check if a mod update is available</li>
+                        <li>Verify all listed required dependencies are installed and enabled</li>
+                        <li>Check version requirements of other mods that interact with it</li>
+                        <li>Carefully review the mod's installation instructions, and try a clean reinstall of the plugin with default settings - improper installation or modified settings can cause crashes</li>
+                        <li>Check if the problem involves interaction between a DLL and other mods - examine the first 4-5 error lines of the crash log to identify potential mod conflicts. Also review any <code>.dll</code> files in the 🔎 <b>Files/Elements</b> of this report (below)</li>
+                        <li>Ask the Skyrim Modding Community about known compatibility issues</li>
+                        <li>Some first-line errors can be resolved by verifying game files through Steam</li>
                     </ol>
                 </li>
-
+                        
                 <li><strong>Additional Considerations:</strong>
                     <ul>
+                        <li>For SKSE plugins (<code>.dll</code> files), mod organizers won't show conflicts or requirements - you must rely on the mod author's documentation</li>
+                        <li>Note that many (most?) SKSE plugins will show an error popup (white box from Address Library) before the game starts if they're for the wrong version</li>
                         <li>First-line errors are usually reproducible and not random</li>
-                        <li>The error might be caused by a dependency rather than the named file</li>
-                        <li>Some first-line errors can be resolved by verifying game files through Steam</li>
+                        <li>The error might be caused by an interaction between mods rather than a single file</li>
                     </ul>
                 </li>
             </ol>
@@ -1766,7 +1757,7 @@ function generateNoCrashDetectedMessage() {
                 <li>Also, review and install any missing <a href="https://www.reddit.com/r/skyrimmods/wiki/essential_mods/#wiki_essential_bugfixes">Essential Bugfixes</a> applicable to your modlist</li>
                 <li>Check your <b>load order</b> against <a href="https://www.reddit.com/r/skyrimmods/wiki/begin2/">r/SkyrimMod's Beginner's Guide</a> guidelines</li>
                 <li>${Utils.LootIfSkyrim}</li>
-                <li><b>If you haven't already</b>, share your logs with <a href="https://www.reddit.com/r/skyrimmods/">r/SkyrimMods</a>. Share multiple logs (using <a href="http://www.pastebin.com">www.pastebin.com</a>) when possible and mention in your post that you've already used Phostwood's analyzer and followed its recommendations. The manual crash log reading gurus there can catch some things that automated analyzers will never be able to. This tool only aims to help with 80 to 90% of crash logs...</li>
+                <li><b>If you haven't already</b>, share your logs with <a href="https://www.reddit.com/r/skyrimmods/">r/SkyrimMods</a>. Share multiple logs (using <a href="http://www.pastebin.com">www.pastebin.com</a>) when possible and mention in your post that you've already used Phostwood's analyzer and followed its recommendations. The manual crash log reading gurus there can catch some things that automated analyzers will never be able to. This tool only aims to help with 80 to 90% of human-solvable crash logs...</li>
                 <li><b>As a last resort:</b> Try disabling groups of mods at a time (being mindful of masters and dependencies) until the crash stops. While tedious, this can help isolate almost any problematic mod combinations.</li>
             </ul></li>`;
     } else {

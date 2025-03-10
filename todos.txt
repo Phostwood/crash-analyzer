@@ -1,21 +1,47 @@
-✅Version 1.22.7 is now live:
+✅Version 1.22.8 is now live:
 https://phostwood.github.io/crash-analyzer/
 
-1. Added references to new r/Phostwood community on Reddit
-2. skyrim.html: added to list of communities to ask when analyzer is less helpful
-	- r/SkyrimMods Discord
-	- Nexus Mods: Skyrim on Discord
-3. Minor tweaks to home pages
 
+1. ✅❗Critical First-Line Error Detected:
+	- ✅excellent changes recommended from mod author patchuli (see notes)
+		- ✅https://discord.com/channels/341090804611285003/341362343273562122/1348112110634139648
 
+2. ✅Specify "(x64)" for all mentions of Visual C++ Redistributable
+
+3. ✅Further soften/clarify reliability of analyses
+
+4. ✅Thank yous: patchuli!
+
+5. ✅Advertise new channel on LEET's Discord Server! :-)
+	- ✅on analyzer page
+	- ✅on r/Phostwood
+	- ✅and a BIG thanks to LEET!
 
 
 
 --- Upcoming versions: ---
 
+4. Unspecified Kernelbase crash needs to spell out that you should first look at the rest of the report.
+
+1. Move some old r/Nolvus docs from u/Phostwood into Google Docs for safer storage and sharing
+
+2. Setup a tentative new largely-unused u/PhostwoodReturns user, and make him an emergency moderator on r/Phostwood ... just in case that "technical irregularities" bot on Reddit goes crazy again and suspends u/PhostwoodReborn. (Crazy that I even feel the need to do this. Too much these days is being automated, seemingly without any timely human-adjudicated recourse.)
+
+
+1. Make a note to NavMesh/Pathing issues that 
+	- Thanks Blackread!
+	- ME: "I've heard the NPC doesn't even have to be in your same area to be the cause of a NavMesh issue? Some mods apparently will move some NPCs around in different corners of the Skyrim map regardless of where you are at the time? I've never done it, but searching the entirety of Skyrim for navmesh issues sounds like a daunting task?"
+	- Blackread: "Yeah, the other navmesh crash was happening fast traveling from Winterhold to Solitude when the actual problem was in Rorikstead. Probably it can even be some newlands mod."
+	- others have said this too, but I can't recall who for sure
+	- 
+
+
+
+
+2. ❗ <b>Possible Visual C++ Runtime DLL Issue
+	- update with patchuli's same new info on dll troubleshooting as used in ❗Critical First-Line Error Detected
+
 1. An system to alert user after they click or engage "Analyze" to alert them that a new version is available. Please either refresh the page if using live, or download the most recent version if using the stand-alone Nexus mod". Maybe in a colored area below the "Analyze" button?
-
-
 
 2. New test for Physics issue:
 	- https://www.reddit.com/r/skyrimmods/comments/1j18pa7/comment/mg2ka3d/
@@ -30,7 +56,7 @@ https://phostwood.github.io/crash-analyzer/
 			- its files list needs to be changed over to the new shared-code way
 			- if the item is removable, remove it in-game before disabling the crashing mod
 				- https://discord.com/channels/215154001799413770/701100960134725713/1341090629895323740
-			- "Overlays" are usually the wearable tattoos or piercings or such
+			- Common issue: "Overlays" are usually the wearable tattoos or piercings or such
 		- ➡️CHANGED PLAN:
 			- Do a separate Nolvus version with Pan's instructions
 			- Do a Skyrim version saying to change filename to `.backup` or `.disabled` at the end (temporarily)
