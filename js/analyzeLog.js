@@ -187,6 +187,14 @@ async function analyzeLog() {
     }
 
 
+    //❗ Climates Of Tamriel Divide By Zero Crash:
+    const cotDivideByZeroDiagnosis = analyzeCoTDivideByZeroCrash(sections);
+    if(cotDivideByZeroDiagnosis) {
+        diagnoses += cotDivideByZeroDiagnosis;
+        diagnosesCount++;
+    }
+
+
 
 
 
@@ -703,6 +711,14 @@ async function analyzeLog() {
         insights += wheelerCrashResults;
         insightsCount++;
     }
+
+    //❓ Potential Journal Menu Crash Detected:
+    const journalMenuCrashResults = analyzeJournalMenuCrash(sections);
+    if (journalMenuCrashResults) {
+        insights += journalMenuCrashResults;
+        insightsCount++;
+    }
+
 
 
     // Check for KERNELBASE Crash excluding JContainers and JSON parse error

@@ -1513,6 +1513,7 @@ function checkKernelbaseCrash(sections, Utils, win24H2UpscalerCrash, isDiagnoses
                 <li>❗ <b>KERNELBASE Crash Detected:</b> This rare issue could be related to a specific added mod, or to hardware or a system-wide issue. Here are some steps you can try:
                     <ol>
                         <li><b>First</b>, try to reproduce the crash after rebooting your PC and playing the game again. If this was a one-time occurrence, you probably don't need to follow the more intensive troubleshooting steps below.</li>
+                        <li>Review the rest of the advice in this report (above and below), and see if there are strong indications of any better-isolated isolated issue. Sometimes other mods/issues can cause a "KERNELBASE Crash".</li>
                         ${verifyWindowsPageFileListItem}
                         <li>Check with the <b>Nolvus community</b> to see if others are encountering this issue due to a new Windows update or the like.</li>
                         <li>You can restore the original sorting of all vanilla Nolvus mods using the <b>Apply Order</b> button in the Nolvus Dashboard. For more information and a screenshot, see this r/Nolvus post <a href="https://www.reddit.com/r/Nolvus/comments/1chuod0/how_to_apply_order_button_usage_in_the_nolvus/">How To: "Apply Order" button usage in the Nolvus Dashboard</a>.</li>
@@ -1527,6 +1528,7 @@ function checkKernelbaseCrash(sections, Utils, win24H2UpscalerCrash, isDiagnoses
                 <li>❗ <b>KERNELBASE Crash Detected:</b> This issue can be caused by many different factors: a specific mod, hardware problems, or system-wide issues like Windows Updates, malware, drive corruption, or corrupted file permissions. Here are troubleshooting steps to try, ordered from easiest to most difficult (and most likely to help):
                     <ol>
                         <li><b>First</b>, try to reproduce the crash after rebooting your PC and playing the game again. If this was a one-time occurrence, you probably don't need to follow the more intensive troubleshooting steps below.</li>
+                        <li>Review the rest of the advice in this report (above and below), and see if there are strong indications of any better-isolated isolated issue. Sometimes other mods/issues can cause a "KERNELBASE Crash".</li>
 
                         ${verifyWindowsPageFileListItem}
 
@@ -2073,6 +2075,33 @@ function analyzeQuestJournalCrash(sections) {
         });
 
         insights += `</ul></li>
+            </ol></li>`;
+    }
+
+    return insights;
+}
+
+
+//❓ Potential Journal Menu Crash Detected:
+function analyzeJournalMenuCrash(sections) {
+    let insights = '';
+
+    if (sections.topHalf.toLowerCase().includes('JournalMenu'.toLowerCase())) {
+        insights += `<li>❓ <b>Potential Journal Menu Crash Detected:</b> It is possible your journal is broken:<ol>
+            <li>Potential fix - install one of these recommended journal mods:
+                <ul>
+                <li>Be sure to first disable your previous Journal mod.</li>
+                <li><a href="https://www.nexusmods.com/skyrimspecialedition/mods/60837">Dear Diary Dark Mode - SkyUI Menus Replacer SE</a> (or its variant <a href="https://www.nexusmods.com/skyrimspecialedition/mods/23010">Dear Diary - Paper SkyUI Menus Replacer SE</a>)
+                    <ul>
+                    <li>Make sure to select the journal option during FOMOD installation</li>
+                    <li>If menus appear squished, also install <a href="https://www.nexusmods.com/skyrimspecialedition/mods/136793">Widescreen Scale Removed for 1-6-1130 and higher</a></li>
+                    </ul>
+                </li>
+                </ul>
+            </li>
+            <li>Detected indicator: <a href="#" class="toggleButton">⤵️ show more</a><ul class="extraInfo" style="display:none">
+                <li><code>JournalMenu</code> - Journal menu interface element indicating possible journal issue</li>
+            </ul></li>
             </ol></li>`;
     }
 
@@ -2841,4 +2870,34 @@ function checkForRedundantBEES(sections) {
         }
     }
     return diagnoses;
+}
+
+
+
+//❗ Climates Of Tamriel Divide By Zero Crash:
+function analyzeCoTDivideByZeroCrash(sections) {
+    let insights = '';
+
+    if (sections.firstLine.includes("EXCEPTION_INT_DIVIDE_BY_ZERO") && 
+        sections.topHalf.includes("ClimatesOfTamriel.esm")) {
+        insights += `<li>❗ <b>Climates Of Tamriel Divide By Zero Crash Detected:</b> This is a known issue with Climates of Tamriel causing a divide by zero error. Here's how to resolve it:<ol>
+            <li>For existing saves (advanced users only):
+                <ul>
+                <li>Try using <a href="https://www.nexusmods.com/skyrimspecialedition/mods/5031">ReSaver</a> and <a href="https://www.nexusmods.com/skyrimspecialedition/mods/164">SSEEdit</a> to remove the associated FormID</li>
+                </ul>
+            </li>
+            <li>Recommended fix for newer Skyrim versions:
+                <ul>
+                <li>Replace Climates Of Tamriel with another weather mod</li>
+                <li>Start a new character/save</li>
+                </ul>
+            </li>
+            <li>Detected indicators: <a href="#" class="toggleButton">⤵️ show more</a><ul class="extraInfo" style="display:none">
+                <li><code>EXCEPTION_INT_DIVIDE_BY_ZERO</code> - Divide by zero exception as first-line error in crash log</li>
+                <li><code>ClimatesOfTamriel.esm</code> - Specific weather mod known to cause this crash type</li>
+            </ul></li>
+            </ol></li>`;
+    }
+
+    return insights;
 }
