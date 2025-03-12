@@ -6,7 +6,8 @@ const crashIndicators = {
         ],
         indicators: [
             { name: 'Interface/Quest_Journal.swf', description: "SkyUI journal interface file" },
-            { name: 'Journal_SystemTab', description: "Quest journal functionality handler" }
+            { name: 'Journal_SystemTab', description: "Quest journal functionality handler" },
+            { name: 'JournalMenu', description: "Journal menu interface element" }
         ]
     },
 

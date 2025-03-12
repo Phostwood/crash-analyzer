@@ -2048,13 +2048,14 @@ function analyzeQuestJournalCrash(sections) {
     let insights = '';
 
     const foundIndicators = crashIndicators.questJournalIssues.indicators.filter(({ name }) =>
-        sections.topThird.includes(name)
+        sections.topThird.toLowerCase().includes(name.toLowerCase())
     );
 
     if (foundIndicators.length > 0) {
-        insights += `<li>🎯 <b>Quest Journal UI Crash Detected:</b> This is a known SkyUI interface issue. Here's how to resolve it:<ol>
+        insights += `<li>🎯 <b>Likely Journal Crash Detected:</b> This is a known SkyUI interface issue. Here's how to resolve it:<ol>
             <li>Recommended fix - install one of these mods:
                 <ul>
+                <li>Be sure to first disable your previous Journal mod.</li>
                 <li><a href="https://www.nexusmods.com/skyrimspecialedition/mods/60837">Dear Diary Dark Mode - SkyUI Menus Replacer SE</a> (or its variant <a href="https://www.nexusmods.com/skyrimspecialedition/mods/23010">Dear Diary - Paper SkyUI Menus Replacer SE</a>)
                     <ul>
                     <li>Make sure to select the journal option during FOMOD installation</li>
@@ -2068,7 +2069,7 @@ function analyzeQuestJournalCrash(sections) {
                 <li>Try installing <a href="https://www.nexusmods.com/skyrimspecialedition/mods/108618">Quest Journal Fix for SkyUI</a></li>
                 </ul>
             </li>
-            <li>Detected indicators: <a href="#" class="toggleButton">⤵️ show more</a><ul class="extraInfo" style="display:none">`;
+            <li>Detected indicators in top third of crash log: <a href="#" class="toggleButton">⤵️ show more</a><ul class="extraInfo" style="display:none">`;
 
         foundIndicators.forEach(({ name, description }) => {
             insights += `<li><code>${name}</code> - ${description}</li>`;
@@ -2086,8 +2087,12 @@ function analyzeQuestJournalCrash(sections) {
 function analyzeJournalMenuCrash(sections) {
     let insights = '';
 
-    if (sections.topHalf.toLowerCase().includes('JournalMenu'.toLowerCase())) {
-        insights += `<li>❓ <b>Potential Journal Menu Crash Detected:</b> It is possible your journal is broken:<ol>
+    const foundIndicators = crashIndicators.questJournalIssues.indicators.filter(({ name }) =>
+        sections.stack.toLowerCase().includes(name.toLowerCase())
+    );
+
+    if (foundIndicators.length > 0) {
+        insights += `<li>❓ <b>Potential Journal Crash Detected:</b> It is possible your journal is broken:<ol>
             <li>Potential fix - install one of these recommended journal mods:
                 <ul>
                 <li>Be sure to first disable your previous Journal mod.</li>
@@ -2099,9 +2104,12 @@ function analyzeJournalMenuCrash(sections) {
                 </li>
                 </ul>
             </li>
-            <li>Detected indicator: <a href="#" class="toggleButton">⤵️ show more</a><ul class="extraInfo" style="display:none">
-                <li><code>JournalMenu</code> - Journal menu interface element indicating possible journal issue</li>
-            </ul></li>
+            <li>Detected indicators in <code>Stack</code> portion of crash log: <a href="#" class="toggleButton">⤵️ show more</a><ul class="extraInfo" style="display:none">`;
+
+        foundIndicators.forEach(({ name, description }) => {
+            insights += `<li><code>${name}</code> - ${description}</li>`;
+        });
+        insights += `</ul></li>
             </ol></li>`;
     }
 
@@ -2860,7 +2868,7 @@ function checkForRedundantBEES(sections) {
             diagnoses += `
             <li>❗ <b>Redundant BEES Installation Detected:</b> 
                 Backported Extended ESL Support (BEES) is installed but unnecessary for your Skyrim version <code>${Utils.getSkyrimVersion(sections.header)}</code>. 
-                Some have reported that this redundancy can potentially cause crashes.
+                Some have reported that this redundancy can potentially contribute towards crashes.
                 <ul>
                     <li><b>Recommendation:</b> Uninstall BEES, as the expanded ESL functionality is already built into your game version.</li>
                     <li><b>Background:</b> BEES adds support for the extended ESL range (4096 records vs 2048) to older Skyrim versions, but this functionality is already included in game version 1.6.1130 and later.</li>
@@ -2878,8 +2886,8 @@ function checkForRedundantBEES(sections) {
 function analyzeCoTDivideByZeroCrash(sections) {
     let insights = '';
 
-    if (sections.firstLine.includes("EXCEPTION_INT_DIVIDE_BY_ZERO") && 
-        sections.topHalf.includes("ClimatesOfTamriel.esm")) {
+    if (sections.firstLine.toLowerCase().includes('EXCEPTION_INT_DIVIDE_BY_ZERO'.toLowerCase()) && 
+        sections.topHalf.toLowerCase().includes('ClimatesOfTamriel.esm'.toLowerCase())) {
         insights += `<li>❗ <b>Climates Of Tamriel Divide By Zero Crash Detected:</b> This is a known issue with Climates of Tamriel causing a divide by zero error. Here's how to resolve it:<ol>
             <li>For existing saves (advanced users only):
                 <ul>

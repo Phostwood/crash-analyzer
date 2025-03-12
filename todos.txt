@@ -1,40 +1,29 @@
-✅Version 1.22.9 is now live:
+✅Version 1.22.10 is now live:
 https://phostwood.github.io/crash-analyzer/
 
 
-1. New test: ❓ <b>Potential Journal Menu Crash Detected
+Mostly fixes and minor enhancements for prior, just-released version:
 
-2. New test: ❗ Climates Of Tamriel Divide By Zero Crash:
+1. "🎯 Likely Journal Crash Detected:" AND  "❓ Potential Journal Crash Detected:"
+	- Improved consistency between related troubleshooting instructions
+	- Improved reliability of spotting indicators (case-insensitive comparisons)
+	- Separated (and clarified to user) area of crash logs checked by each test:
+		- "Detected indicators in top third of crash log:"
+		- "Detected indicators in Stack portion of crash log:"
+	- Added crashIndicators.questJournalIssues usage to "❓" variant of test
 
-3. Troubleshooting clarification: Unspecified "Kernelbase" crash now warns to first look at the rest of the report.
+2. explainersMap.js:
+	- ['engine_fixes.dll', '(SSE Engine Fixes <b>SKSE</b> plugin ... less likely culprit)'],
+		- but discovered version without the underscore character, so added:
+        	- ['enginefixes.dll', '(SSE Engine Fixes <b>SKSE</b> plugin ... less likely culprit)'],
+	- ['tbbmalloc.dll', '(Intel Threading Building Blocks Memory Allocator - likely from <b>SSE Engine Fixes</b> - Part 2  ... less likely culprit)'],
+		- added "... less likely culprit"
 
-4. explainersMap.js:  3 indicators now (correctly) mapped to Engine Fixes
+3. crashInidacatorsMap.js:
+	- added "JournalMenu" indicator from "❓ Potential Journal Crash Detected:" to now-shared crashIndicators.questJournalIssues
 
-
-
-NOTES for this version:
-
-1. New test: ❓ <b>Potential Journal Menu Crash Detected
-	- Some overlap with existing "🎯 <b>Quest Journal UI Crash Detected" but looser requirements (and less confidence in diagnosis)
-
-2. New test: ❗ Climates Of Tamriel Divide By Zero Crash:
-	- An advanced user might be able to fix by removing the associated FormID from a save file (via ReSaver) and/or SSEEdit
-	- sections.firstLine contains "EXCEPTION_INT_DIVIDE_BY_ZERO"
-	- sections.topHalf contains "ClimatesOfTamriel.esm"
-
-4. explainersMap.js:
-	- 3 indicators now (correctly) mapped to Engine Fixes
-		- d3dx9_42.dll (added, but couldn't find in collected crash log library, so not "less likely" indicator)
-		- tbb.dll (added, but couldn't find in collected crash log library, so not "less likely" indicator)
-        - tbbmalloc.dll (fixed ... and marked as "less likely" indicator)
-		- ALSO: engine_fixes.dll (clarified now as "less likely" indicator)
-	- See "File Contents" under Part 2: https://www.nexusmods.com/skyrimspecialedition/mods/17230?tab=files
-	- also need to probably replace any of these indicators in other files, lik crashInidacatorsMap.js and diagnosses.js
-	- should these be listed as "unlikely indicator"?
-		- decided the two commonly-seen ones should be labled as "... less likely culprit"
-		- but from what I can tell in my library, the other two are never seen in the topHalf ... so if they show up, it might be a culprit
-
-
+4. Slight rewording/clarification to "Redundant BEES":
+	- "Some have reported that this redundancy can potentially contribute towards crashes."
 
 
 --- Upcoming versions: ---
