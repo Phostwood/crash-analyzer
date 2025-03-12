@@ -1,31 +1,76 @@
-✅Version 1.22.8 is now live:
+✅Version 1.22.9 is now live:
 https://phostwood.github.io/crash-analyzer/
 
 
-1. ✅❗Critical First-Line Error Detected:
-	- ✅excellent changes recommended from mod author patchuli (see notes)
-		- ✅https://discord.com/channels/341090804611285003/341362343273562122/1348112110634139648
+1. New test: ❓ <b>Potential Journal Menu Crash Detected
 
-2. ✅Specify "(x64)" for all mentions of Visual C++ Redistributable
+2. New test: ❗ Climates Of Tamriel Divide By Zero Crash:
 
-3. ✅Further soften/clarify reliability of analyses
+3. Troubleshooting clarification: Unspecified "Kernelbase" crash now warns to first look at the rest of the report.
 
-4. ✅Thank yous: patchuli!
+4. explainersMap.js:  3 indicators now (correctly) mapped to Engine Fixes
 
-5. ✅Advertise new channel on LEET's Discord Server! :-)
-	- ✅on analyzer page
-	- ✅on r/Phostwood
-	- ✅and a BIG thanks to LEET!
+
+
+NOTES for this version:
+
+1. New test: ❓ <b>Potential Journal Menu Crash Detected
+	- Some overlap with existing "🎯 <b>Quest Journal UI Crash Detected" but looser requirements (and less confidence in diagnosis)
+
+2. New test: ❗ Climates Of Tamriel Divide By Zero Crash:
+	- An advanced user might be able to fix by removing the associated FormID from a save file (via ReSaver) and/or SSEEdit
+	- sections.firstLine contains "EXCEPTION_INT_DIVIDE_BY_ZERO"
+	- sections.topHalf contains "ClimatesOfTamriel.esm"
+
+4. explainersMap.js:
+	- 3 indicators now (correctly) mapped to Engine Fixes
+		- d3dx9_42.dll (added, but couldn't find in collected crash log library, so not "less likely" indicator)
+		- tbb.dll (added, but couldn't find in collected crash log library, so not "less likely" indicator)
+        - tbbmalloc.dll (fixed ... and marked as "less likely" indicator)
+		- ALSO: engine_fixes.dll (clarified now as "less likely" indicator)
+	- See "File Contents" under Part 2: https://www.nexusmods.com/skyrimspecialedition/mods/17230?tab=files
+	- also need to probably replace any of these indicators in other files, lik crashInidacatorsMap.js and diagnosses.js
+	- should these be listed as "unlikely indicator"?
+		- decided the two commonly-seen ones should be labled as "... less likely culprit"
+		- but from what I can tell in my library, the other two are never seen in the topHalf ... so if they show up, it might be a culprit
+
 
 
 
 --- Upcoming versions: ---
 
-4. Unspecified Kernelbase crash needs to spell out that you should first look at the rest of the report.
+0. ⭐️⭐️⭐️⭐️⭐️Get back to Blackread on his stuff on Occlusions and Missing Masters
+
+0. Check out these social medias for Modded Skyrim stuff?
+	- Digg is where everyone used to be before they made some bad choices and people went to Reddit.  But they've redesigned and are trying to woo people back.
+	- Lenny is an open source Reddit
+
+1. New test for when no GPU-specific drivers are installed
+	- https://discord.com/channels/341090804611285003/341362343273562122/1349149865636139143
+	- crash-2025-03-11-11-40-39.log
+	- Manufucturer drivers should provide better performance, and possibly offer better stability
+
+
+1. Review log files and resolutions/determinations in Biggie's lorerim-reports channel
+
+
+2. New test for Likely Physics issue:
+	- https://www.reddit.com/r/skyrimmods/comments/1j18pa7/comment/mg2ka3d/
+	- new high-priority indicator:  "HDT Skinned Mesh Physics Ob ject"
+	- my library only has 20 files which include this indicator
+		- Need to review each of them, but it looks sufficiently rare to be a likely-reliable indicator
+
+0. Consider adding to Recommended Tools:
+	- Asset Doctor: https://www.nexusmods.com/skyrimspecialedition/mods/123445
 
 1. Move some old r/Nolvus docs from u/Phostwood into Google Docs for safer storage and sharing
 
-2. Setup a tentative new largely-unused u/PhostwoodReturns user, and make him an emergency moderator on r/Phostwood ... just in case that "technical irregularities" bot on Reddit goes crazy again and suspends u/PhostwoodReborn. (Crazy that I even feel the need to do this. Too much these days is being automated, seemingly without any timely human-adjudicated recourse.)
+0. Links to consider changing:
+	- Link from "graduated from beta" to Discord?
+	- Link from modding Nolvus guide from reddit to Customized Nolvus Catalog?
+	- other?
+
+2. ⭐️⭐️⭐️⭐️⭐️Setup a tentative new largely-unused u/PhostwoodReturns user, and make him an emergency moderator on r/Phostwood ... just in case that "technical irregularities" bot on Reddit goes crazy again and suspends u/PhostwoodReborn. (Crazy that I even feel the need to do this. Too much these days is being automated, seemingly without any timely human-adjudicated recourse.)
 
 
 1. Make a note to NavMesh/Pathing issues that 
@@ -42,10 +87,6 @@ https://phostwood.github.io/crash-analyzer/
 	- update with patchuli's same new info on dll troubleshooting as used in ❗Critical First-Line Error Detected
 
 1. An system to alert user after they click or engage "Analyze" to alert them that a new version is available. Please either refresh the page if using live, or download the most recent version if using the stand-alone Nexus mod". Maybe in a colored area below the "Analyze" button?
-
-2. New test for Physics issue:
-	- https://www.reddit.com/r/skyrimmods/comments/1j18pa7/comment/mg2ka3d/
-	- new high-priority indicator:  "HDT Skinned Mesh Physics Object"
 
 
 1. Add Pan's screenshot (see mention in v6 bug 10(?))
@@ -82,7 +123,10 @@ https://phostwood.github.io/crash-analyzer/
 	- "Probably one of them accessing or clashing with this mod: "thenewgentleman.esp"."
 	- Crashlog (arjvSyyR).txt
 
--🔎Forms/Elements BUGS:-
+
+
+
+➡️🔎Forms/Elements BUGS: ⬅️
 0. Bug where mesh name (file isn't listed by name is) isn't listed in experimental File/Elements (but is in normal version's)
  - source: https://old.reddit.com/r/skyrimmods/comments/1j26jc8/need_help_game_crashes_when_swinging_weapon_or/
 1. ⭐️⭐️⭐️File/Elements bug where skeleton for beast shows up in nifs issue list, but not in Files/Elements?
@@ -106,11 +150,46 @@ https://phostwood.github.io/crash-analyzer/
 4. from: Shaddoll_Shekhinaga: https://www.reddit.com/r/skyrimmods/comments/1j44ezl/comment/mg91wpp/?utm_source=share&utm_medium=web3x&utm_name=web3xcss&utm_term=1&utm_content=share_button
 	- My FaceGen test should have showed up here, and listed that beard. Also, that beard should probably have been listed under mesh files. while the "Possible Mesh Issue" was flagged
 		- referencing: https://old.reddit.com/r/skyrimmods/comments/1j26jc8/need_help_game_crashes_when_swinging_weapon_or/
+0. Mod(s) with sufficient prominence in crash log get highlighted with a "⭐️" or "➡️" emoji?
+	- or maybe add prominence indicators to the end of each line in Files/Elements?
+		- Perhaps a checkbox at the top of Files/Elements to add these?
+0. ⭐️⭐️⭐️File/Elements bug where skeleton for beast shows up in nifs issue list, but not in Files/Elements?
+	- crash-2025-02-28-05-01-12.log
+
+➡️ END: 🔎Forms/Elements BUGS ⬅️
+
+
+
+2. ⏸️⭐️New test: levelList crash (see notes)
+
+	https://www.reddit.com/r/skyrimmods/s/vbsk6s7eFB
+	https://old.reddit.com/r/skyrimmods/comments/1i4tel9/crash_while_saving_at_random/
+
+	See log file on laptop:
+	LeveledList issue maybe - dyfXstQz.txt
+
+	"RomatebitegeL[F] 2 points 22 days ago 
+
+	Yes LeveledItem (53) would be the indicator with the form id associated with it. And I do believe 53 is always at the end.
+
+	It would be great if you could make your analyzer shows as a culprit, in unsure logs, the most showed form id as the probable culprit. This is one thing Skyrim Crash Decoder in fact does well.
+
+	So in this log with OP (that also seems to have been solved) that would have been LeveledItem with form id 0009AF0A.
+
+	Then you can just add the info about deleting it with Resaver. When your analyzer catches this too, then it will become an even more powerful tool!
+	"
+	Reportedly, this fixed it:
+	LeveledList Crash Fix
+	https://www.nexusmods.com/skyrimspecialedition/mods/129136
+	requires Skyrim SE version 1.6.1130+
+
+	20250211 fix confirmed: https://old.reddit.com/r/skyrimmods/comments/1in3esq/experiencing_crashing_when_making_any_type_of_save/
 
 
 
 
-1. New test: recommend disabling STEAM overlay when paired with d3d11.dll
+
+1. ⭐️⭐️⭐️New test: recommend disabling STEAM overlay when paired with d3d11.dll
 	- https://discord.com/channels/740569699900719145/1341239811536715850
 
 1. dllCompatibleSkyrimVersionsMap.js: Fill in more notes for the different files
@@ -150,17 +229,13 @@ https://phostwood.github.io/crash-analyzer/
 
 3. Skeleton Issue ... remove from diagnoses and leave only at bottom of speculation. If anything else matches ... favor it
 
-0. Mod(s) with sufficient prominence in crash log get highlighted with a "⭐️" or "➡️" emoji?
 
-0. ⭐️⭐️⭐️File/Elements bug where skeleton for beast shows up in nifs issue list, but not in Files/Elements?
-	- crash-2025-02-28-05-01-12.log
+
+
 
 0. Consider making and fully implementing a reusable list item for VRAMr ... like with LOOT. 
 
-0. Links to consider changing:
-	- Link from "graduated from beta" to Discord?
-	- Link from modding Nolvus guide from reddit to Customized Nolvus Catalog?
-	- other?
+
 
 0. Critical Memory Usage Detected:
 	- mention more info in Memory report near bottom of report
@@ -168,10 +243,15 @@ https://phostwood.github.io/crash-analyzer/
 
 1. ⭐️⭐️⭐️⭐️ Test for Crash Logger: verify version of SKSE (from filename) against version of Skyrim
 	- example: "skse64_1_5_97.dll"  pairs with "Skyrim SSE v1.5.97"
-	- Something like: "The loading and ongoing usage of some character presets can also sometimes cause this issue. If this issue repeats, try creating a new character without loading a preset."
+
+
+
+- Something like: "The loading and ongoing usage of some character presets can also sometimes cause this issue. If this issue repeats, try creating a new character without loading a preset."
 		- Does this only affect 1.5 97? Need to research on Nexus page...
 
+
 1. ⭐️⭐️⭐️⭐️ New test? "SKSEPlugin_Load" --> possibly wrong version of SKSE? Or other possible SKSE-related reasons (see GK note)
+	- incorporate patchuli's ideas about SKSE plugins (originally just in "First-Line Issue")
 	- display test result near bottom of Advanced Users section (right above DynDOLOD?)
 	- warn is a new indicator
 	- It's rare (which means false-positives seem less likely👍). From scanning my Crash Log Library:  Search "SKSEPlugin_Load" (20 hits in 7 files of 6372 searched) [Normal]"
@@ -183,18 +263,6 @@ https://phostwood.github.io/crash-analyzer/
 	- "the Upscaler mod, which is designed to improve the game's graphics by increasing the resolution of textures"
 	- perhaps rewrite as something like this?:  "the Upscaler mod, which is designed to improve the games performance through lower resolution processing, but still keeping the overall fidelity of textures
 
-
-1. ❓(OR WAIT FOR REDDIT): New Phostwood's Discord Server
-	- PROBLEM: how to properly moderate it by myself? It could go crazy without moderation....
-	- channels:
-		- test bugs
-		- test troubleshooting suggestions
-		- help
-			- be forewarned, there is too much for any one person to know, and I'm very specialized 
-	- NO NSFW content
-	- Rules:
-	- phone number verification?
-	- 
 
 
 1. ⭐️⭐️New TEST: flag when Non-ESL-ed plugins:  is less than say .. 50 ... and warn that it could be because not all plugins are showing due to going over the maximum number of Non-ESL-ed plugins (254) or because of a missing masters.
@@ -235,30 +303,7 @@ https://phostwood.github.io/crash-analyzer/
 
 --- Upcoming version ideas ---
 
-1. ⏸️WAIT for FormID bug fixes: ⭐️New test: levelList crash (see notes)
 
-	https://www.reddit.com/r/skyrimmods/s/vbsk6s7eFB
-	https://old.reddit.com/r/skyrimmods/comments/1i4tel9/crash_while_saving_at_random/
-
-	See log file on laptop:
-	LeveledList issue maybe - dyfXstQz.txt
-
-	"RomatebitegeL[F] 2 points 22 days ago 
-
-	Yes LeveledItem (53) would be the indicator with the form id associated with it. And I do believe 53 is always at the end.
-
-	It would be great if you could make your analyzer shows as a culprit, in unsure logs, the most showed form id as the probable culprit. This is one thing Skyrim Crash Decoder in fact does well.
-
-	So in this log with OP (that also seems to have been solved) that would have been LeveledItem with form id 0009AF0A.
-
-	Then you can just add the info about deleting it with Resaver. When your analyzer catches this too, then it will become an even more powerful tool!
-	"
-	Reportedly, this fixed it:
-	LeveledList Crash Fix
-	https://www.nexusmods.com/skyrimspecialedition/mods/129136
-	requires Skyrim SE version 1.6.1130+
-
-	20250211 fix confirmed: https://old.reddit.com/r/skyrimmods/comments/1in3esq/experiencing_crashing_when_making_any_type_of_save/
 
 1. ⭐️Upgrading Files/Elements:
 	- add to Test Logs
