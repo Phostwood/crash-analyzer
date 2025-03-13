@@ -1,43 +1,91 @@
-✅Version 1.22.10 is now live:
+✅Version 1.22.11 is now live:
 https://phostwood.github.io/crash-analyzer/
 
 
-Mostly fixes and minor enhancements for prior, just-released version:
+1. ✅dllCompatibleSkyrimVersionsMap.js tweaks:
+	- ✅Made links go to mod home pages, to encourage reading instructions and requirements before downloading
+	- ✅Added some helpful notes to more mods, towards ensuring old mods are disabled (and helping to ensure that this test isn't still triggered)
 
-1. "🎯 Likely Journal Crash Detected:" AND  "❓ Potential Journal Crash Detected:"
-	- Improved consistency between related troubleshooting instructions
-	- Improved reliability of spotting indicators (case-insensitive comparisons)
-	- Separated (and clarified to user) area of crash logs checked by each test:
-		- "Detected indicators in top third of crash log:"
-		- "Detected indicators in Stack portion of crash log:"
-	- Added crashIndicators.questJournalIssues usage to "❓" variant of test
+2. ✅🎯 Antivirus Issue Detected:
+	- ✅fixed instructions issue for when usvfs_x64.dll found in top quarter, but no known antivirus indicators are found
+		- ✅now softens language/certainty in such situations
 
-2. explainersMap.js:
-	- ['engine_fixes.dll', '(SSE Engine Fixes <b>SKSE</b> plugin ... less likely culprit)'],
-		- but discovered version without the underscore character, so added:
-        	- ['enginefixes.dll', '(SSE Engine Fixes <b>SKSE</b> plugin ... less likely culprit)'],
-	- ['tbbmalloc.dll', '(Intel Threading Building Blocks Memory Allocator - likely from <b>SSE Engine Fixes</b> - Part 2  ... less likely culprit)'],
-		- added "... less likely culprit"
+1. ❗✅skee64.dll Issue Detected: 
+	-✅Add Eleros's screenshot (see mention in v6 bug 10(?))
+	- ✅Common issue: "Overlays" are usually the wearable tattoos or piercings or such
 
-3. crashInidacatorsMap.js:
-	- added "JournalMenu" indicator from "❓ Potential Journal Crash Detected:" to now-shared crashIndicators.questJournalIssues
 
-4. Slight rewording/clarification to "Redundant BEES":
-	- "Some have reported that this redundancy can potentially contribute towards crashes."
+
+
+NOTES for this version:
+
+1. ✅dllCompatibleSkyrimVersionsMap.js tweaks:
+	- ✅Removed "?tab=files" from nexusmods.com urls towards encouraging users to read the comments and instructions on the mod's main page
+	- ✅Made some helpul notes for like six mods to:  "Be sure to disable the old one."
+	- ✅inspiration: https://old.reddit.com/r/skyrimmods/comments/1j7gsos/need_help_with_game_crashing/
+
+2. ✅🎯 Antivirus Issue Detected:
+	- ✅fixed bug for when usvfs_x64.dll found in top quarter, but no known antivirus indicators are found
+		- ✅now softens language/certainty in such situations
+
+1. ❗✅skee64.dll Issue Detected: 
+	-✅Add Eleros's screenshot (see mention in v6 bug 10(?))
+		- ✅For MO2 users: add separate line explaining how to hide a mod/file in MO2 using marked up screenshot instructions at "./images/MO2-hide-file-instructions.png"
+	- ✅Common issue: "Overlays" are usually the wearable tattoos or piercings or such
+		- ✅"overlays" often refer to additional layers or textures applied to characters, such as wearable tattoos, piercings, or other cosmetic modifications. These overlays can be added through various mods to enhance the visual appearance of characters in the game. However, these overlays can are fairly common culprits for this issue
+		- ✅IMPORTANT: if the item is removable, remove it in-game before disabling the crashing mod to avoid messing up your save.
+		- BROKEN? https://discord.com/channels/215154001799413770/701100960134725713/1341090629895323740
+
 
 
 --- Upcoming versions: ---
 
-0. ⭐️⭐️⭐️⭐️⭐️Get back to Blackread on his stuff on Occlusions and Missing Masters
+0. Separated-off for later:  ❗skee64.dll Issue Detected
+	- its files list needs to be changed over to the new shared-code way
+	- or maybe ditch that code and re-evaluate the shared approach?
+		- Are the exceptions making its usage harder?
+		- Perhaps more discrete parts can be shared instead?
+
+
+2. ⭐️⭐️⭐️⭐️new test: BSGeometryListCullingProcess test (chat with Blackread)
+	- review Blackread's newest thoughts. I think it sounded like when combine with a firstLine error that didn't have .exe or .dll ... then the "CullingProcess" indicators become significant?
+		- also, research the correlating code for Skyrim versions after SE
+	- MS Copilot:
+		- The BSGeometryListCullingProcess is a part of Skyrim's rendering engine, specifically related to the culling process. Culling is a technique used in computer graphics to improve performance by not rendering objects that are not visible to the player. When BSGeometryListCullingProcess appears in a crash log, it typically indicates an issue with the game's rendering process.
+		- Here are a few potential causes and solutions:
+			- Mods: If you have mods installed, one or more of them might be causing conflicts or issues with the game's rendering process. Try disabling mods one by one to identify the culprit.
+			- Graphics Drivers: Outdated or corrupted graphics drivers can cause rendering issues. Make sure your graphics drivers are up to date.
+			- Game Files: Corrupted game files can also lead to crashes. Verify the integrity of your game files through the game launcher or Steam.
+			- Settings: Sometimes, certain graphics settings can cause issues. Try lowering your graphics settings or disabling specific features like anti-aliasing or shadows.
+		- For more detailed analysis, you can use tools like the Skyrim Crash Decoder to help decipher the contents of your crash log and provide more specific insights into the cause of the crash. Additionally, you can check out discussions on forums like Reddit for similar issues and potential solutions.
+
+
+1. Move skeleton meshes from mesh to animation/XPMSE tests:
+	- collect all the variations of skeleton.nif from crash log library
+	- Never really is an indicator for Mesh issues
+	- Better isolated to the other
+	- Remove from Mesh test
+	- Add as an indicator for both Animation tests?
+	- Add as indicator for XMPSE maybe?
+
+0. Make a new sections.topThirdPlus, and sections.topQuarterPlus and sections.stackTop
+	- topThirdPlus includes stackTop
+	- stackTop includes either the top 5 lines in the stack, or the top 5% of lines in the stack ... whichever is larger
+	- probably replace many of the prior instances of sections.topQuarter and sections.topThird ... and maybe even replace some sections.topHalf with sections.topThirdPlus ?
+
+
 
 0. Check out these social medias for Modded Skyrim stuff?
 	- Digg is where everyone used to be before they made some bad choices and people went to Reddit.  But they've redesigned and are trying to woo people back.
 	- Lenny is an open source Reddit
 
-1. New test for when no GPU-specific drivers are installed
+1. ⭐️⭐️⭐️⭐️New test for when no GPU-specific drivers are installed
 	- https://discord.com/channels/341090804611285003/341362343273562122/1349149865636139143
 	- crash-2025-03-11-11-40-39.log
 	- Manufucturer drivers should provide better performance, and possibly offer better stability
+
+1. Review help requests in from page 10 in Modding Guild Discord:
+	- https://discord.com/channels/872252014002843658/1343576099388526674/1343721436497317909
 
 
 1. Review log files and resolutions/determinations in Biggie's lorerim-reports channel
@@ -48,6 +96,8 @@ Mostly fixes and minor enhancements for prior, just-released version:
 	- new high-priority indicator:  "HDT Skinned Mesh Physics Ob ject"
 	- my library only has 20 files which include this indicator
 		- Need to review each of them, but it looks sufficiently rare to be a likely-reliable indicator
+	- follow multiple-calls to one function, like used for:
+		- function analyzeSkee64Issue(sections, forFirstLine = false) {
 
 0. Consider adding to Recommended Tools:
 	- Asset Doctor: https://www.nexusmods.com/skyrimspecialedition/mods/123445
@@ -77,19 +127,6 @@ Mostly fixes and minor enhancements for prior, just-released version:
 
 1. An system to alert user after they click or engage "Analyze" to alert them that a new version is available. Please either refresh the page if using live, or download the most recent version if using the stand-alone Nexus mod". Maybe in a colored area below the "Analyze" button?
 
-
-1. Add Pan's screenshot (see mention in v6 bug 10(?))
-	2. 1. ⭐️⭐️⭐️⭐️New skee first-line error test
-	https://discord.com/channels/740569699900719145/1323816364007227504/1340187701701378151
-		Also: ❓ skee64.dll Issue Detected:
-			- make it include the statement about skeleton meshes not being as good indicators
-			- its files list needs to be changed over to the new shared-code way
-			- if the item is removable, remove it in-game before disabling the crashing mod
-				- https://discord.com/channels/215154001799413770/701100960134725713/1341090629895323740
-			- Common issue: "Overlays" are usually the wearable tattoos or piercings or such
-		- ➡️CHANGED PLAN:
-			- Do a separate Nolvus version with Pan's instructions
-			- Do a Skyrim version saying to change filename to `.backup` or `.disabled` at the end (temporarily)
 
 
 
@@ -173,6 +210,10 @@ Mostly fixes and minor enhancements for prior, just-released version:
 	requires Skyrim SE version 1.6.1130+
 
 	20250211 fix confirmed: https://old.reddit.com/r/skyrimmods/comments/1in3esq/experiencing_crashing_when_making_any_type_of_save/
+
+	--OR-- Just say something like:
+		- Create a new character/save
+		- Advanced Users: might be able to salvage the save file by using ReSaver to delete the mentioned, associated FormID
 
 
 

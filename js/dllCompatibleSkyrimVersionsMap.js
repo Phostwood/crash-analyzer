@@ -16,8 +16,8 @@ const dllCompatibleSkyrimVersionsMap = {
             maxSkyrim: '1.6.1129.9999',
             recommendedVersion: '1.5.1',
             modName: 'ConsoleUtilSSE NG',
-            url: 'https://www.nexusmods.com/skyrimspecialedition/mods/76649?tab=files',
-            note: '⚠️NOTE: If you are using <a href ="https://www.nexusmods.com/skyrimspecialedition/mods/133569">ConsoleUtil Extended</a> version 1.0.1, it <b>is compatible</b>, but shows up in crash logs exactly like an old versions of Console Util SSE'
+            url: 'https://www.nexusmods.com/skyrimspecialedition/mods/76649',
+            note: 'NOTE: this mod completely replaces the old ConsoleUtil mod. Be sure to disable the old one.<br>⚠️NOTE: If you are using <a href ="https://www.nexusmods.com/skyrimspecialedition/mods/133569">ConsoleUtil Extended</a> version 1.0.1, it <b>is compatible</b>, but shows up in crash logs exactly like an old versions of Console Util SSE'
         }
     },
     'QuickLootRE.dll': {
@@ -30,7 +30,8 @@ const dllCompatibleSkyrimVersionsMap = {
             //AND QuickLoot IE is supposed to be better anyway
             recommendedVersion: '2.0.0',
             modName: 'QuickLoot IE - A QuickLoot EE Fork',
-            url: 'https://www.nexusmods.com/skyrimspecialedition/mods/120075?tab=files'
+            url: 'https://www.nexusmods.com/skyrimspecialedition/mods/120075',
+            note: 'NOTE: this mod completely replaces the old QuickLoot <i>RE</i>. Be sure to disable the old one.'
         }
     },
     /* PENDING new version number for ability to verify fixed:
@@ -48,9 +49,10 @@ const dllCompatibleSkyrimVersionsMap = {
         '5.6.1.1': {
             minSkyrim: null,
             maxSkyrim: '1.6.1129.9999',
-            recommendedVersion: '5.7.0',
+            recommendedVersion: '5.10.0',
             modName: 'powerofthree\'s Papyrus Extender',
-            url: 'https://www.nexusmods.com/skyrimspecialedition/mods/22854?tab=files'
+            url: 'https://www.nexusmods.com/skyrimspecialedition/mods/22854'
+            //UPDATE to existing mod, from same author ... pretty sure?
         }
     },
     'DynamicAnimationReplacer.dll': {
@@ -59,8 +61,8 @@ const dllCompatibleSkyrimVersionsMap = {
             maxSkyrim: '1.6.1129.9999',
             recommendedVersion: '2.3.6',
             modName: 'Open Animation Replacer (OAR)',
-            url: 'https://www.nexusmods.com/skyrimspecialedition/mods/92109?tab=files',
-            note: 'NOTE: this mod is a fully-backwards-compatible drop-in-replacement for Dynamic Animation Replacer (DAR)'
+            url: 'https://www.nexusmods.com/skyrimspecialedition/mods/92109',
+            note: 'NOTE: this mod is a fully-backwards-compatible drop-in-replacement for the old Dynamic Animation Replacer (DAR). Be sure to disable the old one.'
         }
     },
     
@@ -70,7 +72,8 @@ const dllCompatibleSkyrimVersionsMap = {
             maxSkyrim: '1.6.1129.9999', //verify 1130 is where it breaks?
             recommendedVersion: '1.1.0',
             modName: 'Combat Music Fix NG Updated',
-            url: 'https://www.nexusmods.com/skyrimspecialedition/mods/110459?tab=files'
+            url: 'https://www.nexusmods.com/skyrimspecialedition/mods/110459',
+            note: 'NOTE: this mod completely replaces the old Combat Music Fix mod. Be sure to disable the old one.'
         }
     },
 
@@ -80,7 +83,8 @@ const dllCompatibleSkyrimVersionsMap = {
             maxSkyrim: '1.6.1129.9999', //verify 1130 is where it breaks?
             recommendedVersion: '1.1.0',
             modName: 'Combat Music Fix NG Updated',
-            url: 'https://www.nexusmods.com/skyrimspecialedition/mods/110459?tab=files'
+            url: 'https://www.nexusmods.com/skyrimspecialedition/mods/110459',
+            note: 'NOTE: this mod completely replaces the old Combat Music Fix mod. Be sure to disable the old one.'
         }
     },
 
@@ -90,7 +94,8 @@ const dllCompatibleSkyrimVersionsMap = {
             maxSkyrim: '1.6.1129.9999',
             recommendedVersion: '1.5.0',
             modName: 'MCM Helper',
-            url: 'https://nexusmods.com/skyrimspecialedition/mods/53000?tab=files'
+            url: 'https://nexusmods.com/skyrimspecialedition/mods/53000'
+            //UPDATE to existing mod, from same author ... pretty sure?
         }
     },
 
@@ -100,8 +105,8 @@ const dllCompatibleSkyrimVersionsMap = {
             maxSkyrim: '1.6.1129.9999',
             recommendedVersion: '2.0.0',
             modName: 'QuickLoot IE - A QuickLoot EE Fork',
-            url: 'https://www.nexusmods.com/skyrimspecialedition/mods/120075?tab=files',
-            note: 'NOTE: this mod completely replaces the old QuickLoot <i>EE</i>'
+            url: 'https://www.nexusmods.com/skyrimspecialedition/mods/120075',
+            note: 'NOTE: this mod completely replaces the old QuickLoot <i>EE</i>. Be sure to disable the old one.'
         }
     },
 
@@ -111,7 +116,7 @@ const dllCompatibleSkyrimVersionsMap = {
             maxSkyrim: '1.6.1129.9999',
             recommendedVersion: '1.0.0',
             modName: 'SkyClimb 1.6.1170 Fix',
-            url: 'https://www.nexusmods.com/skyrimspecialedition/mods/124203?tab=files',
+            url: 'https://www.nexusmods.com/skyrimspecialedition/mods/124203',
             note: 'NOTE: place after the original in your <b>load order</b>'
         }
     }

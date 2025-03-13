@@ -2222,7 +2222,7 @@ function analyzeAntivirusIssues(sections) {
 
     // If we have any antivirus indicators, USVFS issues, or Windows Security in top half
     if (foundAntivirus || usvfsInTopQuarter || windowsDefenderInTopHalf) {
-        diagnoses += `<li>${usvfsInTopQuarter ? '🎯 <b>Antivirus Issue Detected:</b>' : '⚠️ <b>Antivirus Warning:</b>'} `;
+        diagnoses += `<li>${(usvfsInTopQuarter && foundAntivirus) ? '🎯 <b>Antivirus Issue Detected:</b>' : '⚠️ <b>Antivirus Warning:</b>'} `;
         
         // Build main description based on findings
         diagnoses += '<ol>';
@@ -2234,10 +2234,10 @@ function analyzeAntivirusIssues(sections) {
         }
 
         if (usvfsInTopHalf || usvfsInTopQuarter) {
-            diagnoses += `<li><b>MO2 file system interference detected</b> - Your antivirus may be blocking Mod Organizer 2's virtual file system (USVFS)${usvfsInTopQuarter ? ' - this appears to be a direct cause of the crash' : ''}.</li>`;
+            diagnoses += `<li><b>MO2 file system interference detected</b> - Your antivirus may be blocking Mod Organizer 2's virtual file system (USVFS)${(usvfsInTopQuarter && foundAntivirus) ? ' - this appears to be a direct cause of the crash' : ''}.</li>`;
         }
 
-        diagnoses += `<li>${(usvfsInTopQuarter || hasBitdefender) ? 'Recommended actions:' : 'Suggestions:' }
+        diagnoses += `<li>${((usvfsInTopQuarter && foundAntivirus) || hasBitdefender) ? 'Recommended actions:' : 'Suggestions:' }
             <ul>
             <li>Create antivirus exclusions for your entire ${Utils.NolvusOrSkyrimText} directory</li>`;
             
@@ -2263,7 +2263,7 @@ function analyzeAntivirusIssues(sections) {
             diagnoses += '</ul></li>';
         }
         if (usvfsInTopQuarter) {
-            diagnoses += '<li><code>usvfs_x64.dll</code> found in top quarter sections of crash log - high likelihood of antivirus interference</li>';
+            diagnoses += '<li><code>usvfs_x64.dll</code> found in top quarter sections of crash log - increases likelihood of antivirus interference</li>';
         } else if (usvfsInTopHalf) {
             diagnoses += '<li><code>usvfs_x64.dll</code> found in top half of log - possible antivirus interference</li>';
         }
@@ -2283,7 +2283,7 @@ function analyzeAntivirusIssues(sections) {
 
     return {
         diagnoses: diagnoses,
-        isHighPriority: usvfsInTopQuarter // true if it's an "Issue Detected", false if just a "Warning"
+        isHighPriority: (usvfsInTopQuarter && foundAntivirus) // true if it's an "Issue Detected", false if just a "Warning"
     };
 }
 
@@ -2825,22 +2825,20 @@ function analyzeSkee64Issue(sections, forFirstLine = false) {
     if (sections.topHalf.toLowerCase().includes('skee64.dll')) emoji = '❗'
 
     let logPortionText = 'top half';
-    if (forFirstLine) logPortionText = 'first line';
+    if (forFirstLine) logPortionText = 'first-line error';
 
     if ((!forFirstLine && !sections.firstLine.toLowerCase().includes('skee64.dll') && sections.topHalf.toLowerCase().includes('skee64.dll') )
         || (forFirstLine && sections.firstLine.toLowerCase().includes('skee64.dll'))
         ) {
         insights += `
         <li>${emoji} <b>skee64.dll Issue Detected:</b> The presence of <code>skee64.dll</code> in the ${logPortionText} of a crash log can indicate issues with the <b>RaceMenu</b> mod and/or incompatibility issues with mods that affect character models or body or face meshes. To troubleshoot this issue:<ol>
-            <li>Check for any recent mod installations or updates that may have altered character models or body meshes.</li>
-            <li>Ensure that RaceMenu and all related mods are up to date and compatible with your version of Skyrim and SKSE.</li>
-            <li>Read the descriptions of related mods and ensure their correct load order, and verify that there are no conflicts between mods that modify the same assets. ${Utils.LootWarningForNolvus}</li>
-            ${Utils.LootListItemIfSkyrim} 
             <li>Frequently, this error has recently been associated with the <b>loading of presets</b> (either downloaded or made personally). The cause of the preset issue is currently unknown. If it is this preset issue, it can often show up many hours into gameplay, for causes unknown. The only lasting fix seems to be to create a new character, without loading any character presets.<ul>
-                <li>Or alternately, use Pan's steps (modified from Klaufen's) for fixing (often temporarily) many delayed preset-caused crashes:<ol>
+                <li>Or alternately, try using Pan's steps (modified from Klaufen's) for fixing (often temporarily) many delayed preset-caused crashes:<ol>
                     <li>Load a save that works, doesn't matter how far back you are in the playthrough</li>
                     <li>Type <code>showracemenu</code> in console and save your character preset (note: if you already have your character preset saved, you can skip these first 2 steps)</li>
-                    <li>Hide the <code>skee64.dll</code> using MO2 (or find and temporarily move this file to your desktop)</li>
+                    <li>Hide the <code>skee64.dll</code> using MO2 (or find and temporarily move this file to your desktop)<ul>
+                        <li>For MO2 users: To hide a mod or file in MO2, right-click on the mod in the left pane, select "Information...", go to the "Filetree" tab, right-click on the file you want to hide (e.g., <code>skee64.dll</code>), and select "Hide". See <a href="./images/MO2-hide-file-instructions.png">screenshot instructions</a></li>
+                    </ul></li>
                     <li>Boot up the game, now your latest save should load</li>
                     <li>Chill in the game for 30-60s for everything to load, then make a new save</li>
                     <li>Repeat step 3, but unhide <code>skee64.dll</code> (or return it from your desktop to its original location)</li>
@@ -2848,6 +2846,13 @@ function analyzeSkee64Issue(sections, forFirstLine = false) {
                     <li>NOTE: This will hopefully fix the issue for at least some additional hours, but if the issue later reoccurs, these same steps may need to be repeated.</li>
                 </ol></li>
             </ul></li>
+            <li>Another common cause for these crashes is "overlays" - wearable tattoos, piercings, or other cosmetic character modifications. If you're using such overlays:<ul>
+                <li><b>IMPORTANT:</b> If the overlay item is removable, remove it in-game before disabling the problematic mod to avoid corrupting your save.</li>
+            </ul></li>
+            <li>Otherwise, check for any recent mod installations or updates that may have altered character models or body meshes.</li>
+            <li>Ensure that RaceMenu and all related mods are up to date and compatible with your version of Skyrim and SKSE.</li>
+            <li>Read the descriptions of related mods and ensure their correct load order, and verify that there are no conflicts between mods that modify the same assets. ${Utils.LootWarningForNolvus}</li>
+            ${Utils.LootListItemIfSkyrim} 
             <li>If the problem persists, consider disabling mods one by one to isolate the conflicting mod.</li>
             <li>Mentioned meshes (NOTE: <code>.bsa</code> files may or may not contain compressed mesh files): <a href="#" class="toggleButton">⤴️ hide</a><ul class="extraInfo">
             ${Utils.extractNifPathsToListItems(sections.topHalf, forFirstLine)}
