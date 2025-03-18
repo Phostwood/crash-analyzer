@@ -1,53 +1,62 @@
-✅Version 1.22.11 is now live:
+✅Version 1.22.12 is now live:
 https://phostwood.github.io/crash-analyzer/
 
 
-1. ✅dllCompatibleSkyrimVersionsMap.js tweaks:
-	- ✅Made links go to mod home pages, to encourage reading instructions and requirements before downloading
-	- ✅Added some helpful notes to more mods, towards ensuring old mods are disabled (and helping to ensure that this test isn't still triggered)
+✅1. ❓ High Memory Usage Detected: 
+	- ✅Softened tone due to less certainty (even seeming experts disagree sharply)
+	- ✅Changed thresholds from % to flat-available-GB values
+	- ✅Moved indicators to bottom with another Show/Hide link (also defaults to hidden)
+	- ✅Added Show/Hide link to troubleshooting steps (defaults to hidden)
+	- ✅THANKS to: Krispyroll, RomatebitegeL, ennui, and J3w3ls
 
-2. ✅🎯 Antivirus Issue Detected:
-	- ✅fixed instructions issue for when usvfs_x64.dll found in top quarter, but no known antivirus indicators are found
-		- ✅now softens language/certainty in such situations
+✅2. ❓ No highest-confidence crash indicators detected.
+	- ✅Added Show/Hide link to "General recommendations"
+	- ✅Defaults to hidden
+	- ✅fix bu with ordered lists (OL)
+	- ✅THANKS to n7mafia
 
-1. ❗✅skee64.dll Issue Detected: 
-	-✅Add Eleros's screenshot (see mention in v6 bug 10(?))
-	- ✅Common issue: "Overlays" are usually the wearable tattoos or piercings or such
+✅3. Add a show/hide button to the "Line Counts" section. Default to hidden
+	- ✅It's usually not as useful
+	- ✅THANKS to n7mafia for inspiration
+
+✅4. Add Modding Guild to list of communities for asking crash log gurus
 
 
 
+-- NOTES for this version --
 
-NOTES for this version:
-
-1. ✅dllCompatibleSkyrimVersionsMap.js tweaks:
-	- ✅Removed "?tab=files" from nexusmods.com urls towards encouraging users to read the comments and instructions on the mod's main page
-	- ✅Made some helpul notes for like six mods to:  "Be sure to disable the old one."
-	- ✅inspiration: https://old.reddit.com/r/skyrimmods/comments/1j7gsos/need_help_with_game_crashing/
-
-2. ✅🎯 Antivirus Issue Detected:
-	- ✅fixed bug for when usvfs_x64.dll found in top quarter, but no known antivirus indicators are found
-		- ✅now softens language/certainty in such situations
-
-1. ❗✅skee64.dll Issue Detected: 
-	-✅Add Eleros's screenshot (see mention in v6 bug 10(?))
-		- ✅For MO2 users: add separate line explaining how to hide a mod/file in MO2 using marked up screenshot instructions at "./images/MO2-hide-file-instructions.png"
-	- ✅Common issue: "Overlays" are usually the wearable tattoos or piercings or such
-		- ✅"overlays" often refer to additional layers or textures applied to characters, such as wearable tattoos, piercings, or other cosmetic modifications. These overlays can be added through various mods to enhance the visual appearance of characters in the game. However, these overlays can are fairly common culprits for this issue
-		- ✅IMPORTANT: if the item is removable, remove it in-game before disabling the crashing mod to avoid messing up your save.
-		- BROKEN? https://discord.com/channels/215154001799413770/701100960134725713/1341090629895323740
+✅1. ❓ High Memory Usage Detected: 
+	- Adjust Memory Thresholds to be determined on GB available instead of a percentage?
+	- https://discord.com/channels/872252014002843658/1346864397498449941/1350164170229678221
+	- J3w3ls — "I don't know what the thresholds would be, it really depends on the system... You could also make it the opposite way, if there's less than 2GB remaining for the RAM? Windows requires about 2GB so... maybe it'd make sense?"
+	- ennui — "I usually call it when it’s within 1GB allowance of maximum stated in the log. If it’s around 2GB I might start to suspect but I check the rest of the logs first to rule out other possible causes"
+	- Thank both J3w3ls and ennui!
+	- more answers on https://www.reddit.com/r/skyrimmods/comments/1jc3l0b/at_what_point_is_ramvram_usage_likely_to/
+	- publicize https://www.reddit.com/r/skyrimmods/comments/1jc3l0b/at_what_point_is_ramvram_usage_likely_to/
 
 
 
 --- Upcoming versions: ---
 
-0. Separated-off for later:  ❗skee64.dll Issue Detected
-	- its files list needs to be changed over to the new shared-code way
-	- or maybe ditch that code and re-evaluate the shared approach?
-		- Are the exceptions making its usage harder?
-		- Perhaps more discrete parts can be shared instead?
+2. Shorten No Highest Confidence section ... maybe post onto a separate page? Or at bottom? Maybe mostly remove it except for the Nolvus version?
+
+	3. Directly warn against mid-game modlist manipulation anywhere in my analyzer. I've made a note to add that to its "No Highest Confidence" troubleshooting text. Idea inspired by ennui.
+
+1. Issue created when EngineFixes INCORRECTLY installed:
+	- https://discord.com/channels/872252014002843658/1350560884300320788/1350560884300320788
+	- any way to tell? I don't think so?
+
+2. Add to Engine Fixes install instructions:
+	- Q: How do you extract an archive?
+to extract an archive simply right click it and select 'extract here' if you are on Windows 11. Otherwise you will need 7zip.
+	- source: https://discord.com/channels/872252014002843658/1350560884300320788/1350566928808149113
+
+x. Maybe start with all troubleshooting steps auto-collapsed except for the summary and the indicators (which help to determine which issue is most likely)? Could aid in more quickly skimming and assessing in the same manner that I do?
+
+x. NavMesh/Pathing Issues: maybe add Whiterun Fast Travel fix to Navmesh Issue with a note saying it's specifically for issues in going to Whiterun?
 
 
-2. ⭐️⭐️⭐️⭐️new test: BSGeometryListCullingProcess test (chat with Blackread)
+1. ⭐️⭐️⭐️⭐️new test: BSGeometryListCullingProcess test (chat with Blackread)
 	- review Blackread's newest thoughts. I think it sounded like when combine with a firstLine error that didn't have .exe or .dll ... then the "CullingProcess" indicators become significant?
 		- also, research the correlating code for Skyrim versions after SE
 	- MS Copilot:
@@ -58,6 +67,48 @@ NOTES for this version:
 			- Game Files: Corrupted game files can also lead to crashes. Verify the integrity of your game files through the game launcher or Steam.
 			- Settings: Sometimes, certain graphics settings can cause issues. Try lowering your graphics settings or disabling specific features like anti-aliasing or shadows.
 		- For more detailed analysis, you can use tools like the Skyrim Crash Decoder to help decipher the contents of your crash log and provide more specific insights into the cause of the crash. Additionally, you can check out discussions on forums like Reddit for similar issues and potential solutions.
+
+		current regex for finding these files: (?i)^(?!.*\.(?:dll|exe))(?=.*\bUnhandled\b.*\bexception\b.*\bEXCEPTION_ACCESS_VIOLATION\b).+$
+			- doesn't seem to work on NSF log files?
+				- ^(?!.*\.(?:dll|exe))(?=.*\bUnhandled\b.*\bexception\b.*\b\b).+$
+
+
+2. Replace hour glass with animated gif clock,or a JS second counter with a green LED readout?
+
+
+
+1. ⭐️⭐️⭐️⭐️ BUG in Mesh Issues:
+
+	spotted with help from J3w3ls ... be sure to thank them!
+
+	Ok, now I see the BSTriShape  mesh-indicator with the IronClaws_Mtl_B ... right at the top of the Stack (a high-priority location in the log). 
+
+	I'll call this a bug in my analyzer and add it to my to do list. It doesn't currently list meshes like this one unless the log includes the actual filename (not just the name). Well, I think it does for NetScript Framework Logs ... but not for CrashLoggerSSE Logs. I'll try to get that fixed.
+
+	https://discord.com/channels/341090804611285003/341362343273562122/1350189740091113472
+
+	Crash log: "Log 1.txt" and "Log 2.txt" ... I think Log 1 is where the bug is
+
+	Also, reword troubleshooting instructions to include mention of something about the "top of the Stack section"
+
+
+2. ⭐️⭐️⭐️⭐️  Add to Mesh troubleshooting steps something about not using LE mods in SE/AE:
+	- J3w3ls again
+	- "are you downloading LE mods for SE or something? Because that's a 4th unrelated mesh"
+	- https://discord.com/channels/341090804611285003/341362343273562122/1350212634892566631
+	- verify the and describe the issue as a troubleshooting line for meshes (and textures maybe?)
+
+
+
+
+0. Separated-off for later:  ❗skee64.dll Issue Detected
+	- its files list needs to be changed over to the new shared-code way
+	- or maybe ditch that code and re-evaluate the shared approach?
+		- Are the exceptions making its usage harder?
+		- Perhaps more discrete parts can be shared instead?
+
+
+
 
 
 1. Move skeleton meshes from mesh to animation/XPMSE tests:

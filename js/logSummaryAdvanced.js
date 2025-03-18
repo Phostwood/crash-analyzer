@@ -104,7 +104,8 @@ window.LogSummary = {
     },
 
     generateLineCountInsights: function (sections, sectionsMap, lineCounts) {
-        let insights = '<li>🔎 <b>Line Counts</b> for each section in the log file: <ul>';
+        let insights = `<li>🔎 <b>Line Counts</b> for each section in the log file: <a href="#" class="toggleButton">⤵️ show more</a>
+            <ul class="extraInfo" style="display:none">`;
         const nolvusVersion = Utils.getNolvusVersion(sections);
         //DEBUGGING: alert(`Utils.getNolvusVersion = ${nolvusVersion}`);
         for (const [sectionName, sectionInfo] of sectionsMap) {

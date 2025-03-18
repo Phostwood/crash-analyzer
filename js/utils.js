@@ -33,7 +33,9 @@ Utils.isDebugging = false; // Set this to false to disable debugging (non-error)
 //Utils.debugBatch = ['getDllVersionFromLog', 'hasCompatibleDll', 'checkDllCompatibility', 'compareVersions'];
 //Utils.debugBatch = ['hasCompatibleDll', 'checkDllCompatibility', 'getDllVersionFromLog'];
 
-Utils.debugBatch = ['Utils.FilenamesTracker'];
+//Utils.debugBatch = ['Utils.FilenamesTracker'];
+Utils.debugBatch = ['systemMemoryValues'];
+
 
 
 
@@ -871,7 +873,14 @@ Utils.getLogSectionsMap = function(logFile) {
     }
 
     
+    //sections variables for memory issues:
     Utils.debuggingLog(['systemMemoryValues', 'getLogSectionsMap'], 'Header Content:', sections.header);
+
+    //constants
+    const lowRamThresholdGb         = 2;
+    const criticalRamThresholdGb    = 1;
+    const lowVramThresholdGb        = 1;
+    const criticalVramThresholdGb   = 0.5;
 
     // Initialize default values
     const defaultValues = {
@@ -882,7 +891,13 @@ Utils.getLogSectionsMap = function(logFile) {
         gpuMemoryMatch: '',
         systemGpuMemory: 0,
         systemGpuMemoryMax: 0,
-        systemGpuMemoryPercentUsed: 0
+        systemGpuMemoryPercentUsed: 0,
+        availableRam: 0,
+        availableVram: 0,
+        lowRam: false,
+        criticalRam: false,
+        lowVram: false,
+        criticalVram: false
     };
 
     // Assign default values to sections
@@ -899,6 +914,7 @@ Utils.getLogSectionsMap = function(logFile) {
             sections.systemPhysicalMemoryMax = parseFloat(physicalMemoryMatch[2]);
             sections.systemPhysicalMemoryPercentUsed = sections.systemPhysicalMemoryMax ? 
                 Number((sections.systemPhysicalMemory / sections.systemPhysicalMemoryMax * 100).toFixed(1)) : 0;
+            sections.availableRam = sections.systemPhysicalMemoryMax - sections.systemPhysicalMemory;
         }
 
         // Extract GPU memory values
@@ -911,8 +927,16 @@ Utils.getLogSectionsMap = function(logFile) {
             sections.systemGpuMemoryMax = parseFloat(gpuMemoryMatch[2]);
             sections.systemGpuMemoryPercentUsed = sections.systemGpuMemoryMax ? 
                 Number((sections.systemGpuMemory / sections.systemGpuMemoryMax * 100).toFixed(1)) : 0;
+            sections.availableVram = sections.systemGpuMemoryMax - sections.systemGpuMemory;
         }
+
+        if (sections.availableRam < criticalRamThresholdGb) sections.criticalRam = true;
+        if (sections.availableRam < lowRamThresholdGb) sections.lowRam = true;
+        if (sections.availableVram < criticalVramThresholdGb) sections.criticalVram = true;
+        if (sections.availableVram < lowRamThresholdGb) sections.lowVram = true;
     }
+
+
 
     // Log all memory-related values
     Utils.debuggingLog(['systemMemoryValues', 'getLogSectionsMap'], {
@@ -922,8 +946,20 @@ Utils.getLogSectionsMap = function(logFile) {
         systemPhysicalMemoryPercentUsed: sections.systemPhysicalMemoryPercentUsed,
         systemGpuMemory: sections.systemGpuMemory,
         systemGpuMemoryMax: sections.systemGpuMemoryMax,
-        systemGpuMemoryPercentUsed: sections.systemGpuMemoryPercentUsed
+        systemGpuMemoryPercentUsed: sections.systemGpuMemoryPercentUsed,
+        lowRamThresholdGb: lowRamThresholdGb,
+        criticalRamThresholdGb: criticalRamThresholdGb,
+        lowVramThresholdGb: lowVramThresholdGb,
+        criticalVramThresholdGb: criticalVramThresholdGb,
+        availableRam: sections.availableRam,
+        availableVram: sections.availableVram,
+        lowRam: sections.lowRam,
+        criticalRam: sections.criticalRam,
+        lowVram: sections.lowVram,
+        criticalVram: sections.criticalVram
     });
+
+
 
 
     sections.hasSkyrimAE = this.hasSkyrimAE(sections.header);

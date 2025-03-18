@@ -4,7 +4,7 @@
 const verifyWindowsPageFileListItem = `<li>💾 Verify your <a href="https://www.nolvus.net/appendix/pagefile">Windows Pagefile is properly configured</a> (nolvus.net link, but broadly applicable). The most common stability-focused recommendation is setting the Pagefile's minimum and maximum to 40GB. ⚠️NOTE: some sources say Skyrim's engine was programmed to require high Pagefile usage even when there is more than enough RAM available. To be on the safe side, ensure your Pagefile settings even if you somehow have a terrabyte of RAM.</li>`;
 
 const reinstallEngineFixes = `
-    <ul>
+    <!--<ul>-->
         <li>WARNING: <a href="https://www.nexusmods.com/skyrimspecialedition/mods/17230">SSE Engine Fixes</a> is <strong>frequently misinstalled</strong>, so be careful to follow instructions on its Nexus page to install BOTH parts:
             <ul>
                 <li>Part 1: The SKSE plugin. Be sure to download the current and correct version of Engine Fixes, for your version of Skyrim, and install with your mod manager</li>
@@ -22,7 +22,7 @@ const reinstallEngineFixes = `
                 </li>
             </ul>
         </li>
-    </ul>`;
+    <!--</ul>-->`;
 
 
 //NonESL Plugins Count Warning
@@ -412,40 +412,17 @@ function checkForD6dddaAdvancedVersion(sections) {
 //❗ Critical Memory Usage Detected
 function checkForHighMemoryUsage(sections) {
     let diagnosis = '';
-    const physicalMemoryPercent = sections.systemPhysicalMemoryPercentUsed;
-    const gpuMemoryPercent = sections.systemGpuMemoryPercentUsed;
-    
-    // Thresholds that indicate memory usage levels
-    const RAM_SOFT_WARNING_THRESHOLD = 85.0;   // % RAM usage soft warning
-    const VRAM_SOFT_WARNING_THRESHOLD = 85.0;  // % VRAM usage soft warning
-    const RAM_CRITICAL_THRESHOLD = 92.0;       // % RAM usage critical warning
-    const VRAM_CRITICAL_THRESHOLD = 92.0;      // % VRAM usage critical warning
-
-    Utils.debuggingLog(['checkForHighMemoryUsage'], 'physicalMemoryPercent', sections.systemPhysicalMemoryPercentUsed);
-    Utils.debuggingLog(['checkForHighMemoryUsage'], 'RAM_SOFT_WARNING_THRESHOLD', RAM_SOFT_WARNING_THRESHOLD);
-    Utils.debuggingLog(['checkForHighMemoryUsage'], 'isRamWarning comparison', sections.systemPhysicalMemoryPercentUsed >= RAM_SOFT_WARNING_THRESHOLD);
-    
-    Utils.debuggingLog(['checkForHighMemoryUsage'], 'Comparison details', {
-        physicalMemoryPercent: physicalMemoryPercent,
-        threshold: RAM_SOFT_WARNING_THRESHOLD,
-        comparisonResult: physicalMemoryPercent >= RAM_SOFT_WARNING_THRESHOLD
-    });
 
     // Determine warning level and icon
-    const isRamCritical = physicalMemoryPercent >= (RAM_CRITICAL_THRESHOLD - 0.1);
-    const isVramCritical = gpuMemoryPercent >= (VRAM_CRITICAL_THRESHOLD - 0.1);
-    const isRamWarning = physicalMemoryPercent >= (RAM_SOFT_WARNING_THRESHOLD - 0.1);
-    const isVramWarning = gpuMemoryPercent >= (VRAM_SOFT_WARNING_THRESHOLD - 0.1);
+    const warningIcon = (sections.criticalRam || sections.criticalVram) ? '❗' : '❓';
+    const warningLevel = (sections.criticalRam || sections.criticalVram) ? 'Suspiciously High' : 'High';
     
-    const warningIcon = (isRamCritical || isVramCritical) ? '❗' : '❓';
-    const warningLevel = (isRamCritical || isVramCritical) ? 'Critical' : 'High';
-    
-    if (isRamWarning || isVramWarning) {
-        diagnosis += `<li>${warningIcon} <b>${warningLevel} Memory Usage Detected:</b> Your system was running at ${isRamWarning ? `<code>${physicalMemoryPercent}%</code> RAM usage` : ''}${(isRamWarning && isVramWarning) ? ' and ' : ''}${isVramWarning ? `<code>${gpuMemoryPercent}%</code> VRAM usage` : ''} when this crash occurred. High memory usage can lead to instability. Please review the rest of this crash report carefully, as memory usage issues can often be <i>caused</i> by other issues that need to be addressed. Key steps for early consideration (especially if this issue comes up frequently):
-            <ul>
+    if (sections.lowRam || sections.lowVram) {
+        diagnosis += `<li>${warningIcon}<b> ${warningLevel} Memory Usage Detected:</b> High memory usage may lead to instability. Note that excess memory usage can often be <i>caused</i> by other issues in this report. Key steps for early consideration (especially if this issue comes up frequently, and without other causes): <a href="#" class="toggleButton">⤵️ show more</a>
+            <ul class="extraInfo" style="display:none">
                 <li>Close unnecessary background applications</li>
                 ${verifyWindowsPageFileListItem}
-                <li>If you have less than 12GB VRAM (adjust higher if using a 4K monitor and/or an ultra-wide resolution), consider these optimization strategies:
+                <li>Consider these optimization strategies:
                     <ul>
                         <li>Switch texture mods to 1K or 2K variants</li>
                         <li>🚀 Or optionally use <a href="https://www.nexusmods.com/skyrimspecialedition/mods/90557">VRAMr</a> to automatically optimize (almost) all of your load order's textures</li>
@@ -455,6 +432,15 @@ function checkForHighMemoryUsage(sections) {
                 </li>
                 <li>Consider using a tool like <a href="https://game.intel.com/us/intel-presentmon/">Intel PresentMon</a> to accurately monitor usage and bottlenecks of VRAM, RAM, GPU and CPU while troubleshooting.</li>
                 <li><b>Workaround:</b> If you're experiencing crashes in a specific location, you can use the in game <b>console command</b> <code>pcb</code> (Purge Cell Buffer) to free up memory. This may help prevent some crashes by clearing cached cells, though it will cause those recently visited areas to have to reload completely when re-entered. Reportedly best used while in interior cells.</li>
+                <li>Detected indicators: <a href="#" class="toggleButton">⤵️ show more</a>
+                    <ul class="extraInfo" style="display:none">`
+                        if(sections.lowRam) { 
+                            diagnosis += `<li><code>${sections.physicalMemoryMatch}</code></li>`;
+                        }
+                        if(sections.lowVram) { 
+                            diagnosis += `<li><code>${sections.gpuMemoryMatch}</code></li>`;
+                        }
+                    diagnosis += `</ul>
             </ul>
         </li>`;
     }
@@ -517,8 +503,10 @@ function checkForMissingMasters(sections) {
 
         if (Utils.isSkyrimPage && sections.hasNewEslSupport && (sections.bottomHalf.toLowerCase().includes('EngineFixes.dll'.toLowerCase()) || sections.bottomHalf.toLowerCase().includes('EngineFixesVR.dll'.toLowerCase()) )) {
             diagnoses += `
-            <li><b>Consider reinstalling:</b> <b>SSE Engine Fixes</b>
-                   ${reinstallEngineFixes}
+            <li><b>Consider reinstalling:</b> <b>SSE Engine Fixes</b> <a href="#" class="toggleButton">⤵️ show more</a>
+                <ul class="extraInfo" style="display:none">
+                    ${reinstallEngineFixes}
+                </ul>
             </li>`;
         }
 
@@ -1095,7 +1083,7 @@ function analyzePathingIssues(sections) {
             <ol>
                 <li>Potential easy fixes:
                     <ul>
-                        <li>Some issues can be fixed by reloading an <b>older save</b></li>
+                        <li>Some issues can be fixed by quitting to desktop, relaunching Skyrim and then loading an <b>older save</b></li>
                         <li>Sometimes asking <b>followers</b> to wait behind can get you past a NavMesh Pathing glitch. Some follower mods and/or follower frameworks will allow you to teleport your follower to you afterwards to rejoin your party.</li>
                         <li>If using a <b>horse</b> or mount, command mount to wait before fast traveling</li>
                         <li>If using a horse/mount and a <b>follower framework</b> (like Nether's Follower Framework), try disabling horse followers in its Mod Configuration Menu (MCM)</li>
@@ -1617,8 +1605,10 @@ function analyzeEngineFixes(sections) {
                     </ul>
                 </li>
                 
-                <li><strong>Required Steps:</strong>    
-                    ${reinstallEngineFixes}
+                <li><strong>Required Steps:</strong>
+                    <ul>
+                        ${reinstallEngineFixes}
+                    </ul>
                 </li>
 
                 <li><strong>Important Notes:</strong>
@@ -1740,20 +1730,22 @@ function generateNoCrashDetectedMessage() {
     if (Utils.isSkyrimPage) {
         diagnoses += `
         <li>❗ <b>⬇️ SCROLL DOWN ⬇️</b> and review the <b>Advanced Users</b> section of this report for more crash indications that may still be relevant. Tip: many indicators in the Advanced Users section become more significant when they show up in multiple crash logs.</li>
-        <li><b>General recommendations</b> which can help solve/prevent many crash types:
-            <ol>
+        <li><b>General recommendations</b> which can help solve/prevent many crash types: <a href="#" class="toggleButton">⤵️ show more</a>
+            <ol  class="extraInfoOL" style="display:none">
                 <li>💡Easy steps:
                     <ul>
                         <li>Always try the classic computer solution - <b>restart your PC</b>: This clears memory and resolves many system-level issues, especially after extended gaming sessions. It's surprising how many issues this old IT tip still fixes...</li>
-                        <li>If one save won't load, try to <b>load an older save</b>.</li>
+                        <li>If one save won't load, quit to the desktop, relaunch Skyrim and try to <b>load an older save</b>.</li>
                         <li>Sometimes it can help to <b>separate from your followers</b> to get past a crash point. Ask NPC and pet and horse followers to "wait" at a safe location, away from the crash-prone loading area (cell). This reduces script load and rendering complexities in crash-prone areas. This can be especially helpful during visually busy scenes like combat, and also with crashes that occur when loading into a new area. Afterwards, return to collect your followers once you're past the problematic spot. Alternatively, many follower frameworks will also allow teleporting companions back once you are past the crash-prone segment.</li> 
                         ${verifyWindowsPageFileListItem}
                         <li>Maintain <a href="https://computercity.com/hardware/storage/how-much-space-should-i-leave-on-my-ssd">at least 10-20% free space</a> on your SSD for optimal performance.</li>
                         <li>Return any <b>overclocked hardware</b> to stock speeds.</li>
                     </ul>
                 </li>
-                <li>🔧Verify that you have already correctly installed and configured <b>SSE Engine Fixes</b>:
-                    ${reinstallEngineFixes}
+                <li>🔧Verify that you have already correctly installed and configured <b>SSE Engine Fixes</b>: <a href="#" class="toggleButton">⤵️ show more</a>
+                    <ul class="extraInfo" style="display:none">
+                        ${reinstallEngineFixes}
+                    </ul>
                 </li>
                 <li>Towards isolating the cause, try individually disabling any mods listed in the "🔎 <b>Files/Elements</b>" section of this report (see below). Be mindful of any dependencies when doing so. Generally either test with a new character, and/or avoid saving while testing with an existing character.</li>
                 <li>Also, review and install any missing <a href="https://www.reddit.com/r/skyrimmods/wiki/essential_mods/#wiki_essential_bugfixes">Essential Bugfixes</a> applicable to your modlist</li>
@@ -1766,12 +1758,12 @@ function generateNoCrashDetectedMessage() {
         //NOLVUS version:
         diagnoses += `
                 <li>❗ <b>But first</b>, there's a lot more to this report than just this top section! <b>⬇️ SCROLL DOWN ⬇️</b> and review the <b>Advanced Users</b> section of this report for more crash indications that might apply. NOTE: If you have added or subtracted any mods to/from Nolvus, then you need to consider yourself an "Advanced User". Tip: many indicators in the Advanced Users section become more significant when they show up in multiple crash logs.</li>
-                <li><b>General recommendations</b> which can help solve/prevent many crash types:
-                    <ul>
+                <li><b>General recommendations</b> which can help solve/prevent many crash types:<a href="#" class="toggleButton">⤵️ show more</a>
+                    <ol  class="extraInfoOL" style="display:none">
                         <li>💡Easy steps:
                             <ul>
                                 <li>Always try the classic computer solution - <b>restart your PC</b>: This clears memory and resolves many system-level issues, especially after extended gaming sessions. It's surprising how many issues this old IT tip still fixes...</li>
-                                <li>If one save won't load, try to <b>load an older save</b>.</li>
+                                <li>If one save won't load, quit to the desktop, relaunch Skyrim and try to <b>load an older save</b>.</li>
                                 <li>Sometimes it can help to <b>separate from your followers</b> to get past a crash point. Ask NPC and pet and horse followers to "wait" at a safe location, away from the crash-prone loading area (cell). This reduces script load and rendering complexities in crash-prone areas. This can be especially helpful during visually busy scenes like combat, and also with crashes that occur when loading into a new area. Afterwards, return to collect your followers once you're past the problematic spot. Alternatively, many follower frameworks will also allow teleporting companions back once you are past the crash-prone segment.</li> 
                                 ${verifyWindowsPageFileListItem}
                                 <li>Maintain <a href="https://computercity.com/hardware/storage/how-much-space-should-i-leave-on-my-ssd">at least 10-20% free space</a> on your SSD for optimal performance.</li>
@@ -1781,7 +1773,7 @@ function generateNoCrashDetectedMessage() {
                         </li>
                         <li>If using custom mods, check the <a href="https://www.nolvus.net/catalog/crashlog?acc=accordion-1-7">Load Order Crash</a> guide</li>
                         <li><b>If you've customized Nolvus:</b> Towards isolating the cause, try individually disabling any <b>mods that you have added to Nolvus</b>, starting with ones listed in the "🔎 Files/Elements" section of this report (see Advanced Users portion). Then try disabling a few of these mods a few at a time (being mindful of masters and dependencies) until the crash stops. While tedious, this can help isolate problematic mod combinations</li>
-                    </ul>
+                    </ol>
                 </li>
                 <li>If issues persist, seek help at:
                     <ul>

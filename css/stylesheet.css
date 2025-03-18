@@ -179,6 +179,26 @@ button {
     list-style-type: disc;
 }
 
+.extraInfoOL {
+    counter-reset: list-counter;
+    list-style-type: decimal;
+    margin-left: 2%;
+}
+
+.extraInfoOL > li {
+    list-style-type: decimal;
+    counter-increment: list-counter;
+    display: list-item;
+}
+
+.extraInfoOL > li::marker {
+    content: counter(list-counter) ". ";
+}
+
+.extraInfoOL li li {
+    list-style-type: disc;
+}
+
 #speculativeInsights { display: none; }
 
 

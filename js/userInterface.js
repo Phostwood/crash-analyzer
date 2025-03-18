@@ -438,7 +438,11 @@ document.addEventListener('DOMContentLoaded', function () {
 		// Set all toggleButtons to display as "⤴️ hide"
 		document.querySelectorAll('.toggleButton').forEach(function (toggleButton) {
 			var extraInfo = toggleButton.nextElementSibling;
-			extraInfo.style.display = 'list-item';
+			if (extraInfo.classList.contains('extraInfoOL')) {
+				extraInfo.style.display = 'block'; // Use block for OL elements
+			} else {
+				extraInfo.style.display = 'list-item'; // Keep list-item for UL elements
+			}
 			toggleButton.textContent = '⤴️ hide';
 		});
 
@@ -446,7 +450,11 @@ document.addEventListener('DOMContentLoaded', function () {
 			if (event.target.className === 'toggleButton') {
 				var extraInfo = event.target.nextElementSibling;
 				if (extraInfo.style.display === 'none') {
-					extraInfo.style.display = 'list-item';
+					if (extraInfo.classList.contains('extraInfoOL')) {
+						extraInfo.style.display = 'block'; // Use block for OL elements
+					} else {
+						extraInfo.style.display = 'list-item'; // Keep list-item for UL elements
+					}
 					event.target.textContent = '⤴️ hide';
 				} else {
 					extraInfo.style.display = 'none';
