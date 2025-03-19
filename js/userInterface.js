@@ -80,7 +80,34 @@ document.addEventListener('DOMContentLoaded', function () {
 		hideCopyDiagnosesButton();
 		updateLogTypeInfo(); // Update UI based on the reset
 		Utils.FilenamesTracker.reset();
+
+		const analyzeButton = document.getElementById('analyzeButton');
+		analyzeButton.disabled = false;
+		analyzeButton.textContent = 'Analyze';
 		//displayQuote();
+	};
+
+	window.clearAll = function () {
+		document.getElementById('filename').innerHTML = '';
+		document.getElementById('crashLog').value = '';
+		clearResult();
+	};
+
+	window.disableAnalyzeButton = function () {
+		const analyzeButton = document.getElementById('analyzeButton');
+		if(document.getElementById('crashLog').value) {
+			analyzeButton.disabled = true;
+			analyzeButton.textContent = 'Analyzed...';
+			if (window.location.hostname !== 'localhost' && !window.location.protocol.startsWith('file:')) {
+				gtag('event', 'crash_log_submitted'); // Google Analytics event tracker
+				clarity('set', 'crash_log_submitted', true);  //MS Clarity event tracker
+			} else {
+				console.log("crash_log_submitted prevented since localhost");
+			}
+		} else {
+			analyzeButton.disabled = false;
+			analyzeButton.textContent = 'Analyze';
+		}
 	};
 
 	// - - -  handle drag-and-drop and "Choose File" button  - - - 

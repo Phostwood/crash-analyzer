@@ -333,9 +333,9 @@ window.NolvusLists = {
         const fileFlags = document.getElementById('fileFlags');
         fileFlags.style.textAlign = "right";
         if (count > 50) {
-            fileFlags.innerHTML = `<span style="float: right; white-space: nowrap;">🔧 <code>Customized (<span style="color: red;">${count}</span>)<code></span><br>`;
+            fileFlags.innerHTML = `<span style="float: right; white-space: nowrap;">🔧 <code>Customized (<span style="color: red;">${count}</span>)<code></span>`;
         } else {
-            fileFlags.innerHTML = `<span style="float: right; white-space: nowrap;">🔧 <code>Customized (${count})<code></span><br>`;
+            fileFlags.innerHTML = `<span style="float: right; white-space: nowrap;">🔧 <code>Customized (${count})<code></span>`;
         }
     }
 };

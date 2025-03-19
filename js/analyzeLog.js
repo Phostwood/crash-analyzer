@@ -22,6 +22,8 @@ async function analyzeLog() {
     Utils.debuggingLog(['analyzeLog', 'analyzeLog.js'], 'First 100 characters of logFile:', logFile.substring(0, 100));
 
     clearResult();
+    disableAnalyzeButton();
+
     const { sections, sectionsMap } = Utils.getLogSectionsMap(logFile);
     if (Object.keys(sections).length === 0) {
         console.error('ERROR: Unable to process log sections. Skipping analysis.');

@@ -33,6 +33,24 @@ textarea {
     line-height: clamp(1.463rem, -0.011vw + 1.49rem, 1.488rem);
 }
 
+button#clearButton {
+    float: right; /* This pushes it to the right on the same line */
+    margin-right: 0;
+    background-color: darkslategray;
+    color: white;
+}
+
+button#clearButton:hover {
+    background-color: gray;
+}
+
+/* Optionally, if needed, clear floats after the buttons */
+.textarea-container::after {
+    content: "";
+    display: block;
+    clear: both;
+}
+
 h1 {
     font-size: clamp(1.5rem, 0.661vw + 1.347rem, 3rem);
     line-height: clamp(2.55rem, 0.595vw + 2.412rem, 3.9rem);

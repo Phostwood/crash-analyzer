@@ -1,42 +1,47 @@
-✅Version 1.22.12 is now live:
+✅Version 1.22.13 is now live:
 https://phostwood.github.io/crash-analyzer/
 
 
-✅1. ❓ High Memory Usage Detected: 
-	- ✅Softened tone due to less certainty (even seeming experts disagree sharply)
-	- ✅Changed thresholds from % to flat-available-GB values
-	- ✅Moved indicators to bottom with another Show/Hide link (also defaults to hidden)
-	- ✅Added Show/Hide link to troubleshooting steps (defaults to hidden)
-	- ✅THANKS to: Krispyroll, RomatebitegeL, ennui, and J3w3ls
+1.  ✅n7mafia changed to n7magistrate in thank you's section (as per their request)
+	- https://www.reddit.com/r/skyrimmods/comments/1jc3l0b/comment/mifxwzi/?utm_source=share&utm_medium=web3x&utm_name=web3xcss&utm_term=1&utm_content=share_button
 
-✅2. ❓ No highest-confidence crash indicators detected.
-	- ✅Added Show/Hide link to "General recommendations"
-	- ✅Defaults to hidden
-	- ✅fix bu with ordered lists (OL)
-	- ✅THANKS to n7mafia
-
-✅3. Add a show/hide button to the "Line Counts" section. Default to hidden
-	- ✅It's usually not as useful
-	- ✅THANKS to n7mafia for inspiration
-
-✅4. Add Modding Guild to list of communities for asking crash log gurus
+2. ✅ Added crash log static for tallying each log analysis
+	- ✅Added event tracking for tallying each triggered log analysis in analytics
+	- ✅For both Google Analytics and MS Clarity.
+	- ✅Triggered by "Choose" file, drag-and-drop file, paste, or edit form field followed by clicking "Analyze")
 
 
+--- notes for this version ---
+2. ✅ Added crash log static for tallying each log analysis
+	- ✅disable "Analyze" button in analyzeLog() function directly after clearResult(), but enable it again with the clearResult() function.
+		- ✅button might need an ID?
+	- ✅add a backup "Clear" button which also directly invokes clearResult() function (and thereby re-enables the "Analyze" button).
+		- ✅Have long contemplated doing this anyway just for usability benefit.
+		- ✅Perhaps on right-side of textarea field?
+	- ✅FIXED DEV BUGS:
+		- ✅When not enough room, " Try experimental Files/Elements upgrade " needs to move to the next line, while "Clear" button stays up on top line (will occur for mobile)
+			- ✅ Simple solution: move to next line
+		- ✅"Analyze" button shouldn't disable when textarea is empty
+			- ✅at end, enable button if the Diagnoses area is empty?
+		- ✅ Tested on Nolvus version when modified-Nolvus flag shows up
 
--- NOTES for this version --
 
-✅1. ❓ High Memory Usage Detected: 
-	- Adjust Memory Thresholds to be determined on GB available instead of a percentage?
-	- https://discord.com/channels/872252014002843658/1346864397498449941/1350164170229678221
-	- J3w3ls — "I don't know what the thresholds would be, it really depends on the system... You could also make it the opposite way, if there's less than 2GB remaining for the RAM? Windows requires about 2GB so... maybe it'd make sense?"
-	- ennui — "I usually call it when it’s within 1GB allowance of maximum stated in the log. If it’s around 2GB I might start to suspect but I check the rest of the logs first to rule out other possible causes"
-	- Thank both J3w3ls and ennui!
-	- more answers on https://www.reddit.com/r/skyrimmods/comments/1jc3l0b/at_what_point_is_ramvram_usage_likely_to/
-	- publicize https://www.reddit.com/r/skyrimmods/comments/1jc3l0b/at_what_point_is_ramvram_usage_likely_to/
+
+
 
 
 
 --- Upcoming versions: ---
+
+1. ⭐️⭐️⭐️EASY new test: WIDeadBodyCleanupCell crash:
+	- https://www.reddit.com/r/Phostwood/comments/1jeazro/wideadbodycleanupcell_crash/
+	- occurs in only 5 crash logs in my collected library
+
+1. ❌ Maybe a survey at bottom of analysis answering "How useful was this analysis to you" on a seven point scale?
+	- but I'd be afraid the quick fix results when fixed from a Diagnosis would almost never come back to provide a rating, so the ratings would be very skewed towards being answered only by those with negative experiences....
+		- I think usage numbers, and friend referrals and such are probably the best measure of its effectiveness
+
+
 
 2. Shorten No Highest Confidence section ... maybe post onto a separate page? Or at bottom? Maybe mostly remove it except for the Nolvus version?
 
