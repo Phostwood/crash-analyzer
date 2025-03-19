@@ -1,29 +1,18 @@
-✅Version 1.22.13 is now live:
+✅Version 1.22.14 is now live:
 https://phostwood.github.io/crash-analyzer/
 
 
-1.  ✅n7mafia changed to n7magistrate in thank you's section (as per their request)
-	- https://www.reddit.com/r/skyrimmods/comments/1jc3l0b/comment/mifxwzi/?utm_source=share&utm_medium=web3x&utm_name=web3xcss&utm_term=1&utm_content=share_button
-
-2. ✅ Added crash log static for tallying each log analysis
-	- ✅Added event tracking for tallying each triggered log analysis in analytics
-	- ✅For both Google Analytics and MS Clarity.
-	- ✅Triggered by "Choose" file, drag-and-drop file, paste, or edit form field followed by clicking "Analyze")
+1. ✅Added code to hash-dedupe crash logs before registering new "crash_log_submitted_deduped" event with Google Analytics and MS Clarity
 
 
---- notes for this version ---
-2. ✅ Added crash log static for tallying each log analysis
-	- ✅disable "Analyze" button in analyzeLog() function directly after clearResult(), but enable it again with the clearResult() function.
-		- ✅button might need an ID?
-	- ✅add a backup "Clear" button which also directly invokes clearResult() function (and thereby re-enables the "Analyze" button).
-		- ✅Have long contemplated doing this anyway just for usability benefit.
-		- ✅Perhaps on right-side of textarea field?
-	- ✅FIXED DEV BUGS:
-		- ✅When not enough room, " Try experimental Files/Elements upgrade " needs to move to the next line, while "Clear" button stays up on top line (will occur for mobile)
-			- ✅ Simple solution: move to next line
-		- ✅"Analyze" button shouldn't disable when textarea is empty
-			- ✅at end, enable button if the Diagnoses area is empty?
-		- ✅ Tested on Nolvus version when modified-Nolvus flag shows up
+NOTES:
+	- Uses the Web Crypto API to create a SHA-256 hash of the crash log content
+	- Stores previously submitted crash log hashes in localStorage
+	- Only triggers analytics events when a unique crash log is submitted
+	- Limits the stored hashes array to 50 to prevent unbounded growth
+	- Includes fallbacks to degrade gracefully in cases of related browser incompatibilities. Only triggers analytics events when hashing and storage works as expected.
+	- Filters out most dev-related testing
+
 
 
 
@@ -32,6 +21,10 @@ https://phostwood.github.io/crash-analyzer/
 
 
 --- Upcoming versions: ---
+
+
+
+
 
 1. ⭐️⭐️⭐️EASY new test: WIDeadBodyCleanupCell crash:
 	- https://www.reddit.com/r/Phostwood/comments/1jeazro/wideadbodycleanupcell_crash/

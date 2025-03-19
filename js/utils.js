@@ -34,7 +34,7 @@ Utils.isDebugging = false; // Set this to false to disable debugging (non-error)
 //Utils.debugBatch = ['hasCompatibleDll', 'checkDllCompatibility', 'getDllVersionFromLog'];
 
 //Utils.debugBatch = ['Utils.FilenamesTracker'];
-Utils.debugBatch = ['systemMemoryValues'];
+Utils.debugBatch = ['disableAnalyzeButtonAndTrackUniqueCrashLogCount'];
 
 
 

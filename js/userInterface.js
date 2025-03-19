@@ -93,22 +93,101 @@ document.addEventListener('DOMContentLoaded', function () {
 		clearResult();
 	};
 
-	window.disableAnalyzeButton = function () {
+	window.disableAnalyzeButtonAndTrackUniqueCrashLogCount = function () {
 		const analyzeButton = document.getElementById('analyzeButton');
-		if(document.getElementById('crashLog').value) {
+		const crashLogContent = document.getElementById('crashLog').value;
+		
+		if(crashLogContent) {
 			analyzeButton.disabled = true;
 			analyzeButton.textContent = 'Analyzed...';
-			if (window.location.hostname !== 'localhost' && !window.location.protocol.startsWith('file:')) {
-				gtag('event', 'crash_log_submitted'); // Google Analytics event tracker
-				clarity('set', 'crash_log_submitted', true);  //MS Clarity event tracker
+			
+			// Check if all required features are available
+			if (window.crypto && window.crypto.subtle && isLocalStorageAvailable()) {
+				// Generate a hash of the crash log content
+				generateCrashLogHash(crashLogContent)
+					.then(hash => {
+						if (!hash) {
+							console.log("Hashing failed, not tracking crash_log_submitted_deduped event");
+							return;
+						}
+						
+						// Get existing hashes from localStorage or initialize empty array
+						let submittedLogs = [];
+						try {
+							submittedLogs = JSON.parse(localStorage.getItem('submittedCrashLogs') || '[]');
+							if (!Array.isArray(submittedLogs)) submittedLogs = [];
+						} catch (e) {
+							console.warn("Error parsing localStorage data, not tracking crash_log_submitted_deduped event");
+							return;
+						}
+						
+						// Check if this hash is new
+						if (!submittedLogs.includes(hash)) {
+							// Add to submitted logs
+							submittedLogs.push(hash);
+							// Limit the size of the array to only track most recent 50 crash logs
+							if (submittedLogs.length > 50) {
+								submittedLogs.shift();
+							}
+							
+							// Try to save back to localStorage
+							try {
+								localStorage.setItem('submittedCrashLogs', JSON.stringify(submittedLogs));
+								
+								// Only track if we successfully saved the hash
+								if (window.location.hostname !== 'localhost' && !window.location.protocol.startsWith('file:')) {
+									gtag('event', 'crash_log_submitted_deduped');
+									clarity('set', 'crash_log_submitted_deduped', true);
+								} else {
+									console.log("crash_log_submitted_deduped prevented since localhost");
+								}
+								Utils.debuggingLog(['disableAnalyzeButtonAndTrackUniqueCrashLogCount'], submittedLogs);
+							} catch (e) {
+								console.warn("Failed to save to localStorage, not tracking crash_log_submitted_deduped event");
+							}
+						} else {
+							console.log("crash_log_submitted_deduped prevented since this log was already analyzed");
+						}
+					})
+					.catch(error => {
+						console.error("Error in crash log deduplication, not tracking crash_log_submitted_deduped event:", error);
+					});
 			} else {
-				console.log("crash_log_submitted prevented since localhost");
+				console.log("Required features not available, not tracking crash_log_submitted_deduped event");
 			}
 		} else {
 			analyzeButton.disabled = false;
 			analyzeButton.textContent = 'Analyze';
 		}
+		
+		// Helper functions
+		function isLocalStorageAvailable() {
+			try {
+				const test = '__test__';
+				localStorage.setItem(test, test);
+				localStorage.removeItem(test);
+				return true;
+			} catch (e) {
+				return false;
+			}
+		}
+		
+		async function generateCrashLogHash(content) {
+			try {
+				const encoder = new TextEncoder();
+				const data = encoder.encode(content);
+				const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+				return Array.from(new Uint8Array(hashBuffer))
+					.map(b => b.toString(16).padStart(2, '0'))
+					.join('');
+			} catch (error) {
+				console.warn("Hashing failed:", error);
+				return null;
+			}
+		}
 	};
+	
+		
 
 	// - - -  handle drag-and-drop and "Choose File" button  - - - 
 
