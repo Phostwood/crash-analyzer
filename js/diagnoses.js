@@ -2906,3 +2906,41 @@ function analyzeCoTDivideByZeroCrash(sections) {
 
     return insights;
 }
+
+
+
+// ❗ Probable WIDeadBodyCleanupCell Crash Detected:
+function checkWIDeadBodyCleanupCell(sections) {
+    let insights = '';
+
+    // Check for WIDeadBodyCleanupCell crash indicators in the log
+    const hasWIDeadBodyCleanupCrash = sections.topHalf.toLowerCase().includes('WIDeadBodyCleanupCell'.toLowerCase());
+
+    // Condition for potential issue
+    if (hasWIDeadBodyCleanupCrash) {
+        insights += `<li>❗ <b>Probable WIDeadBodyCleanupCell Crash Detected:</b> 
+            Your crash appears related to Skyrim's WIDeadBodyCleanupScript which handles the cleanup of important named NPCs after death.
+            <ul>
+                <li>This crash typically occurs when the game tries to transfer a dead NPC's inventory to their coffin/urn in the Hall of the Dead.</li>
+                <li>The issue affects only important named NPCs, not random generic characters.</li>
+                <li>To fix this issue, try one of these two mods:</li>
+                <ul>
+                    <li><a href="https://www.nexusmods.com/skyrimspecialedition/mods/124724">Yet Another WIDeadBodyCleanupScript Crash Fix</a> - Requires additional support mods but might work better for some users</li>
+                    <li><a href="https://www.nexusmods.com/skyrimspecialedition/mods/62413">WIDeadBodyCleanupScript Crash Fix</a> - Requires fewer additional mods</li>
+                </ul>
+                <li>Notes:
+                    <ul>
+                        <li>This crash typically happens 12 in-game hours after killing an important NPC.</li>
+                        <li>The vanilla "RemoveAllItems" function used in this process is believed to be buggy in certain situations.</li>
+                        <li>Heavy mod loads may increase the likelihood of this crash.</li>
+                    </ul>
+                </li>
+                <li>Detected indicators: <a href="#" class="toggleButton">⤵️ show more</a><ul class="extraInfo" style="display:none">
+                    <li><code>WIDeadBodyCleanupCell</code> - probable issue transfering named-NPC inventory to Hall of the Dead</li>
+                </ul></li>
+            </ul>
+        </li>`;
+    }
+
+    return insights;
+}

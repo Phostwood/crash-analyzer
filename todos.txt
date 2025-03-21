@@ -1,19 +1,10 @@
-✅Version 1.22.14 is now live:
+✅Version 1.22.15 is now live:
 https://phostwood.github.io/crash-analyzer/
 
 
-1. ✅Added code to hash-dedupe crash logs before registering new "crash_log_submitted_deduped" event with Google Analytics and MS Clarity
-
-
-NOTES:
-	- Uses the Web Crypto API to create a SHA-256 hash of the crash log content
-	- Stores previously submitted crash log hashes in localStorage
-	- Only triggers analytics events when a unique crash log is submitted
-	- Limits the stored hashes array to 50 to prevent unbounded growth
-	- Includes fallbacks to degrade gracefully in cases of related browser incompatibilities. Only triggers analytics events when hashing and storage works as expected.
-	- Filters out most dev-related testing
-
-
+1. new test: WIDeadBodyCleanupCell crash:
+	- https://www.reddit.com/r/Phostwood/comments/1jeazro/wideadbodycleanupcell_crash/
+	- NOTE: occurs in only 5 crash logs in my collected library, so should likely be a reliable indicator
 
 
 
@@ -23,12 +14,7 @@ NOTES:
 --- Upcoming versions: ---
 
 
-
-
-
-1. ⭐️⭐️⭐️EASY new test: WIDeadBodyCleanupCell crash:
-	- https://www.reddit.com/r/Phostwood/comments/1jeazro/wideadbodycleanupcell_crash/
-	- occurs in only 5 crash logs in my collected library
+2. BUG FIX. If a prior log loaded, and then content deleted and new log pasted in, it still lists the prior log file's name as the "Loaded file:"
 
 1. ❌ Maybe a survey at bottom of analysis answering "How useful was this analysis to you" on a seven point scale?
 	- but I'd be afraid the quick fix results when fixed from a Diagnosis would almost never come back to provide a rating, so the ratings would be very skewed towards being answered only by those with negative experiences....

@@ -394,9 +394,18 @@ async function analyzeLog() {
    }
 
 
+
+   // ❗ Probable WIDeadBodyCleanupCell Crash Detected:
+   const hasWIDeadBodyCleanupCell = checkWIDeadBodyCleanupCell(sections);
+   if (hasWIDeadBodyCleanupCell) {
+       diagnoses += hasWIDeadBodyCleanupCell;
+       diagnosesCount++;
+   }
     
+
+
     //❗Possible Visual C++ Runtime DLL Issue Detected:
-    const vCRuntimeDiagnosis = analyzeVCRuntimeIssue(sections)
+    const vCRuntimeDiagnosis = analyzeVCRuntimeIssue(sections);
     if (vCRuntimeDiagnosis) {
         diagnoses += vCRuntimeDiagnosis;
         diagnosesCount++;
