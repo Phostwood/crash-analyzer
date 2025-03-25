@@ -2958,7 +2958,7 @@ function check2A690DCrash(sections) {
 
     // Condition for potential NavMesh-related crash
     if (has2A690DCrash && sections.hasNolvusV6) {
-        insights += `<li>❗ <b>Probable 2A690D NavMesh Crash Detected:</b>
+        insights += `<li>❗ <b>Probable 2A690D NavMesh/Pathing Crash Detected:</b>
             This appears to be the "2A690D crash" we're recently seeing a lot of with Nolvus v6.0.7 Beta.
             <ul>
                 <li>Most common indicators:
@@ -2969,7 +2969,8 @@ function check2A690DCrash(sections) {
                 </li>
                 <li>Recommended actions, if you are good at modding:
                     <ul>
-                        <li>Verify crash reproducibility from a save right before the incident</li>
+                        <li>If you are using a un-cusomized, vanilla Nolvus v6 install, please consider sharing your related crash log(s) at my <a href="https://discord.com/channels/740569699900719145/1353915595711578162">2A690D NavMesh/Pathing Crash Log Collection Post</a> on the Nolvus Discord.</li>
+                        <li>Try to verify crash reproducibility from a save directly before the crash.</li>
                         <li>Temporarily disable mentioned dragon-related mods (check 🔎 <i>Files/Elements</i> section below)</li>
                         <li>If you are able to isolate which mod(s) seemed to be causing this crash, <b>please let us know</b> in the Nolvus Discord!</li>
                     </ul>

@@ -1,41 +1,15 @@
-✅Version 1.22.16 is now live:
+✅Version 1.22.16.2 is now live:
 https://phostwood.github.io/crash-analyzer/
 
 
-1. ✅New test: "2A690D" test
-	- "Dragon Mounds Pathfinding" test for Nolvus v6.0.7
-	- Discovered the 2A690D has shown up as first-line error since early days of v6 ... but always seems to be associated with NavMesh/Pathfinding issues
-	- Specific to Nolvus v6 users for now (at least until we isolate a cause)
-	- Hopefully will help in isolating this perplexing issue that has started coming up a lot more frequently with v6.0.7
-	- Might be a temporary test? Or might turn into a "highly-probable" NavMesh/Pathfinding test?
-
-2. ✅Updates for new Nolvus v6.0.7:
-	- ✅updated displayed path for finding new CrashLoggerSSE crash logs
-	- ✅removed expected line counts from"🔎 Line Counts" section for v6 users
-		- ✅still show up for v5? (tested with ShadowrendHeavyMods.txt)
-	- ✅removed Navigator mod line from NavMesh issue for v6, as it is already included
-		- ✅still shows for v5?
-		- ✅not shown for v6?
-	- ✅FIX DEV BUG where Log Insights (shortened version) aren't showing up for v6 logs
-	- ✅FIX DEV BUG where "Potentially Missing Vanilla Plugins" is showing up for v6 logs
-		- ✅still show up for v5? (tested with ShadowrendHeavyMods.txt)
-
-3. ✅Fixed bug with ❗ Probable Memory Issue Detected:
-	- ✅"System Memory Status" info at bottom wasn't using new metrics from recently revised "High Memory Usage Detected" section
-		- ✅Now they match
-	- ✅BUG: "GPU MEMORY: 12.43/14.36 GB" by itself flagged "High Memory Usage Detected"
-		- ✅https://discord.com/channels/740569699900719145/1353161436569927723
-			- ✅FIXED: System Memory Status : 
-				- ✅RAM Usage: Normal (19.5 / 31.9 GB)
-				- ✅VRAM Usage: Normal (12.4 / 14.4 GB)
-
-4. ✅Fixed bug in calculating sections.availableVram
-	- ✅was comparing vram to lowRamThresholdGb instead of lowVramThresholdGb
+1. Minor enhancements/updates for "❗Probable 2A690D NavMesh/Pathing Crash Detected" troubleshooting steps
 
 
 
 
 --- Upcoming versions: ---
+
+0. Update JContainers Crash info on the new mod. https://discord.com/channels/740569699900719145/1220765193404026990/1353784403435716620
 
 0. New test and Files/Elements mention of when no .exe or .dll is mentioned in first-line error 
 
