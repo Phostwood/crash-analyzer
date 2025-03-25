@@ -197,6 +197,13 @@ async function analyzeLog() {
     }
 
 
+    //❗ Probable 2A690D NavMesh Crash Detected:
+    const check2A690DCrashDiagnosis = check2A690DCrash(sections);
+    if(check2A690DCrashDiagnosis) {
+        diagnoses += check2A690DCrashDiagnosis;
+        diagnosesCount++;
+    }
+
 
 
 
@@ -531,9 +538,9 @@ async function analyzeLog() {
     let badlyOrderedVanillaPlugins = [];
     let nonNolvusPluginsBelowSynthesis = [];
 
-    if (!Utils.isSkyrimPage && (Utils.getNolvusVersion(sections) == 5) ) {
+    if (sections.hasNolvusV5 || sections.hasNolvusV6) {
         Utils.debuggingLog(['analyzeLog', 'analyzeLog.js'], 'Generating Nolvus Lists')
-        nolvusListsResult = await NolvusLists.generateNolvusLists(logFile);
+        nolvusListsResult = await NolvusLists.generateNolvusLists(logFile, sections);
         insights += nolvusListsResult.insights;
         insightsCount += nolvusListsResult.insightsCount;
         isVanillaNolvus = nolvusListsResult.isVanillaNolvus;

@@ -1,7 +1,7 @@
 // nolvusLists.js
 window.NolvusLists = {
     
-    generateNolvusLists: async function(logFile) {
+    generateNolvusLists: async function(logFile, sections) {
         let insights = '';
         let insightsCount = 0;
         let nonNolvusPluginsBelowSynthesis = [];
@@ -11,7 +11,7 @@ window.NolvusLists = {
         let hasNonNolvusPluginsAtBottom = false;
 
 
-        if (Utils.countPlugins(logFile) > 1) {
+        if (Utils.countPlugins(sections) > 1 && sections.hasNolvusV5) {
             const nonNolvusGamePluginsResult = await this.getNonNolvusGamePlugins(logFile);
             insights += nonNolvusGamePluginsResult.html;
             insightsCount += nonNolvusGamePluginsResult.count;
@@ -41,9 +41,11 @@ window.NolvusLists = {
             });
         }
 
-        const missingVanillaPluginsResult = await this.getMissingVanillaPlugins(logFile);
-        insights += missingVanillaPluginsResult.html;
-        insightsCount += missingVanillaPluginsResult.count;
+        const missingVanillaPluginsResult = await this.getMissingVanillaPlugins(logFile, sections);
+        if(missingVanillaPluginsResult) {
+            insights += missingVanillaPluginsResult.html;
+            insightsCount += missingVanillaPluginsResult.count;
+        }
 
         return { 
             insights, 
@@ -235,7 +237,8 @@ window.NolvusLists = {
         }
     },
 
-    getMissingVanillaPlugins: async function(logFile) {
+    getMissingVanillaPlugins: async function(logFile, sections) {
+        if(!sections.hasNolvusV5) return null;
         let html = '';
         let count = 0;
         try {

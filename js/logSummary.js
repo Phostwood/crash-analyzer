@@ -13,7 +13,7 @@ window.LogSummary = {
         let insights = '<h5>Log Summary:</h5><ul>';
         let insightsCount = 0;
 
-        if (Utils.countPlugins(logFile) > 2000) {
+        if (Utils.countPlugins(sections) > 2000 || sections.hasNolvusV6) {
             insights += this.generateLogInsights(logFile, sections, isVanillaNolvus);
             insightsCount++;
         }
@@ -47,9 +47,9 @@ window.LogSummary = {
 
     generateLogInsights: function (logFile, sections, isVanillaNolvus) {
         const nolvusVersion = Utils.getNolvusVersion(sections);
-        // Only show these for v5
         let insights = '';
         if (nolvusVersion == 5) {
+            // Extra info shows for v5
             insights += '<li>🔎 <b>Log Insights:</b> (not 100% accurate)<ul>' +
                 '<li>Nolvus version: <code><b>' + nolvusVersion + '</b></code></li>' +
                 '<li>Vanilla or Customized: <code><b>' + (isVanillaNolvus ? 'vanilla' : 'customized') + '</b></code></li>' +
@@ -106,15 +106,12 @@ window.LogSummary = {
     generateLineCountInsights: function (sections, sectionsMap, lineCounts) {
         let insights = `<li>🔎 <b>Line Counts</b> for each section in the log file: <a href="#" class="toggleButton">⤵️ show more</a>
             <ul class="extraInfo" style="display:none">`;
-        const nolvusVersion = Utils.getNolvusVersion(sections);
-        //DEBUGGING: alert(`Utils.getNolvusVersion = ${nolvusVersion}`);
         for (const [sectionName, sectionInfo] of sectionsMap) {
             if (sectionName === 'logType' || sectionName === 'firstLine' || sectionInfo.label === undefined) continue;
             let count = lineCounts[sectionName] || 0;
             let min = sectionInfo.nolvusExpectedMin;
             let max = sectionInfo.nolvusExpectedMax;
-            if ((!Utils.isSkyrimPage)
-                && (nolvusVersion != 6)
+            if (sections.hasNolvusV5
                 && (min !== null && max !== null)
                 && (count < min || count > max)
             ) {

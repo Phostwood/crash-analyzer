@@ -681,31 +681,35 @@ function analyzeMemoryIssues(sections) {
             }));
     }
 
-    function getMemoryUsageStatus() {
+    function getMemoryUsageStatus(sections) {
         const diagnosticInfo = [];
         let hasWarnings = false;
         let hasMemoryInfo = false;
-
+    
         // Check RAM usage
-        if (typeof physicalMemoryPercent === 'number') {
-            const ramStatus = physicalMemoryPercent >= RAM_WARNING_THRESHOLD ? '❗ High' : 'Normal';
-            diagnosticInfo.push(`<li>RAM Usage: ${ramStatus} (${physicalMemoryPercent.toFixed(1)}% used)</li>`);
-            if (physicalMemoryPercent >= RAM_WARNING_THRESHOLD) {
+        if (sections.systemPhysicalMemory !== undefined && sections.systemPhysicalMemoryMax !== undefined) {
+            const usedRam = sections.systemPhysicalMemory;
+            const ramStatus = sections.criticalRam ? '❗ Critical' : (sections.lowRam ? '❗ High' : 'Normal');
+            diagnosticInfo.push(`<li>RAM Usage: ${ramStatus} (${usedRam.toFixed(1)} / ${sections.systemPhysicalMemoryMax.toFixed(1)} GB)</li>`);
+            
+            if (sections.lowRam || sections.criticalRam) {
                 hasWarnings = true;
             }
-            if(physicalMemoryPercent > 0) {hasMemoryInfo = true};
+            if (usedRam > 0) { hasMemoryInfo = true; }
         }
-
+    
         // Check VRAM usage
-        if (typeof gpuMemoryPercent === 'number') {
-            const vramStatus = gpuMemoryPercent >= VRAM_WARNING_THRESHOLD ? '❗ High' : 'Normal';
-            diagnosticInfo.push(`<li>VRAM Usage: ${vramStatus} (${gpuMemoryPercent.toFixed(1)}% used)</li>`);
-            if (gpuMemoryPercent >= VRAM_WARNING_THRESHOLD) {
+        if (sections.systemGpuMemory !== undefined && sections.systemGpuMemoryMax !== undefined) {
+            const usedVram = sections.systemGpuMemory;
+            const vramStatus = sections.criticalVram ? '❗ Very High' : (sections.lowVram ? '❗ High' : 'Normal');
+            diagnosticInfo.push(`<li>VRAM Usage: ${vramStatus} (${usedVram.toFixed(1)} / ${sections.systemGpuMemoryMax.toFixed(1)} GB)</li>`);
+            
+            if (sections.lowVram || sections.criticalVram) {
                 hasWarnings = true;
             }
-            if(gpuMemoryPercent > 0) {hasMemoryInfo = true};
+            if (usedVram > 0) { hasMemoryInfo = true; }
         }
-
+    
         return { diagnosticInfo, hasWarnings, hasMemoryInfo };
     }
 
@@ -764,7 +768,7 @@ function analyzeMemoryIssues(sections) {
         </li>`;
 
 
-        const { diagnosticInfo, hasWarnings, hasMemoryInfo } = getMemoryUsageStatus();
+        const { diagnosticInfo, hasWarnings, hasMemoryInfo } = getMemoryUsageStatus(sections);
         if (diagnosticInfo.length > 0 && hasMemoryInfo) {
             memoryInsights += `<li>System Memory Status ${hasWarnings ? '❗' : ''}: <a href="#" class="toggleButton">⤵️ show more</a><ul class="extraInfo" style="display:none">`;
             memoryInsights += diagnosticInfo.join('');
@@ -1087,7 +1091,7 @@ function analyzePathingIssues(sections) {
                         <li>Sometimes asking <b>followers</b> to wait behind can get you past a NavMesh Pathing glitch. Some follower mods and/or follower frameworks will allow you to teleport your follower to you afterwards to rejoin your party.</li>
                         <li>If using a <b>horse</b> or mount, command mount to wait before fast traveling</li>
                         <li>If using a horse/mount and a <b>follower framework</b> (like Nether's Follower Framework), try disabling horse followers in its Mod Configuration Menu (MCM)</li>
-                        <li>Consider trying the <a href="https://www.nexusmods.com/skyrimspecialedition/mods/52641">Navigator - Navmesh Fixes</a> mod (be sure to read notes on where to insert it in your load order)</li>
+                        ${!sections.hasNolvusV6 ? '<li>Consider trying the <a href="https://www.nexusmods.com/skyrimspecialedition/mods/52641">Navigator - Navmesh Fixes</a> mod (be sure to read notes on where to insert it in your load order)</li> ' : ''}
                     </ul>
                 </li> 
                 <li>Advanced Troubleshooting:
@@ -2289,10 +2293,9 @@ function checkSimplicityOfSnowJKSkyrimPatch(sections) {
     const hasJKsSkyrim = sections.fullLogFileLowerCase.includes('jks skyrim.esp');
     const hasSimplicityOfSnow = sections.fullLogFileLowerCase.includes('simplicity of snow.esp');
     const hasPatch = sections.fullLogFileLowerCase.includes('jks skyrim tree fix.esp');
-    const hasNolvusV6 = Utils.getNolvusVersion(sections) == 6;
 
     // Condition for potential issue
-    if (hasJKsSkyrim && hasSimplicityOfSnow && !hasPatch && !hasNolvusV6) {
+    if (hasJKsSkyrim && hasSimplicityOfSnow && !hasPatch && !sections.hasNolvusV6) {
         insights += `<li>❗ <b>Simplicity of Snow + JK's Skyrim Patch Missing:</b> 
             Your load order includes both JK's Skyrim and Simplicity of Snow, but the required patch appears to be missing?
             <ul>
@@ -2937,6 +2940,48 @@ function checkWIDeadBodyCleanupCell(sections) {
                 </li>
                 <li>Detected indicators: <a href="#" class="toggleButton">⤵️ show more</a><ul class="extraInfo" style="display:none">
                     <li><code>WIDeadBodyCleanupCell</code> - probable issue transfering named-NPC inventory to Hall of the Dead</li>
+                </ul></li>
+            </ul>
+        </li>`;
+    }
+
+    return insights;
+}
+
+
+
+function check2A690DCrash(sections) {
+    let insights = '';
+
+    // Check for 2A690D crash pattern in first line
+    const has2A690DCrash = sections.firstLine.toLowerCase().includes('2a690d');
+
+    // Condition for potential NavMesh-related crash
+    if (has2A690DCrash && sections.hasNolvusV6) {
+        insights += `<li>❗ <b>Probable 2A690D NavMesh Crash Detected:</b>
+            This appears to be the "2A690D crash" we're recently seeing a lot of with Nolvus v6.0.7 Beta.
+            <ul>
+                <li>Most common indicators:
+                    <ul>
+                        <li>Strongest indications (besides the first line "2A690D") are for NavMesh/Pathing Issues
+                        <li>Typically associated with dragon activity (possibly when emerging from mounds)</li>
+                    </ul>
+                </li>
+                <li>Recommended actions, if you are good at modding:
+                    <ul>
+                        <li>Verify crash reproducibility from a save right before the incident</li>
+                        <li>Temporarily disable mentioned dragon-related mods (check 🔎 <i>Files/Elements</i> section below)</li>
+                        <li>If you are able to isolate which mod(s) seemed to be causing this crash, <b>please let us know</b> in the Nolvus Discord!</li>
+                    </ul>
+                </li>
+                <li>Technical notes:
+                    <ul>
+                        <li>May be related to invalid memory access during AI pathing calculations</li>
+                        <li>May be triggered by dragon mound activation sequences</li>
+                    </ul>
+                </li>
+                <li>Detected indicators: <a href="#" class="toggleButton">⤵️ show more</a><ul class="extraInfo" style="display:none">
+                    <li><code>${sections.firstLine.trim()}</code> - matches 2A690D crash signature</li>
                 </ul></li>
             </ul>
         </li>`;

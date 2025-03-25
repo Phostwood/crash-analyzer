@@ -21,7 +21,7 @@ Utils.isDebugging = false; // Set this to false to disable debugging (non-error)
 //Utils.debugBatch = ['generateLogSummary', 'processLines', 'splitIntoLines', 'getLogSectionsMap', 'getLogSectionsMap'];
 //Utils.debugBatch = ['getLogType', 'userInterface.js'];
 //Utils.debugBatch = ['analyzeLog', 'getBadlyOrganizedNolvusPlugins' ];
-//Utils.debugBatch = ['getLogSectionsMap_long'];
+Utils.debugBatch = ['getLogSectionsMap_long'];
 //Utils.debugBatch = ['hasSkyrimAE'];
 //Utils.debugBatch = ['getLogSectionsMap_long', 'getLogType', 'getLogSectionsMap'];
 //Utils.debugBatch = ['loadAndAnalyzeTestLog'];
@@ -34,7 +34,7 @@ Utils.isDebugging = false; // Set this to false to disable debugging (non-error)
 //Utils.debugBatch = ['hasCompatibleDll', 'checkDllCompatibility', 'getDllVersionFromLog'];
 
 //Utils.debugBatch = ['Utils.FilenamesTracker'];
-Utils.debugBatch = ['disableAnalyzeButtonAndTrackUniqueCrashLogCount'];
+//Utils.debugBatch = ['disableAnalyzeButtonAndTrackUniqueCrashLogCount'];
 
 
 
@@ -449,10 +449,17 @@ Utils.countNonEslPlugins = function(crashLogSection) {
 };
 
 
-Utils.countPlugins = function(crashLog) {
-    const match = crashLog.match(/Game plugins \((\d+)\)\s*\{/);
-    return match ? parseInt(match[1], 10) : 0;
+Utils.countPlugins = function(sections) {
+    let count = 0;
+    //DEBUGGING: alert(sections.gamePlugins);
+    if (sections.gamePlugins) {
+        count = sections.gamePlugins.split('\n')
+            .filter(line => line.trim() !== '').length;
+        //DEBUGGING: alert(count);
+    }
+    return count;
 };
+
 
 Utils.reduxOrUltraVariant = function(crashLog) {
     const pluginCount = this.countPlugins(crashLog);
@@ -472,14 +479,14 @@ Utils.getNolvusVersion = function(sections) {
     const isNolvusLog = !Utils.isSkyrimPage; //FOR NOW assume all usage of the Nolvus Crash Log Analyzer is for Nolvus
 
     // Check for version 6 marker
-    if (isNolvusLog && sections.bottomHalf.toLowerCase().includes('northern roads - nolvus fixes.esp')) {
-        Utils.debuggingLog(['getNolvusVersion'], 'Detected Nolvus version 6');
-        return 6;
-    }
-
     if (isNolvusLog) {
-        Utils.debuggingLog(['getNolvusVersion'], 'Detected Nolvus version 5');
-        return 5;
+        if (sections.bottomHalf.toLowerCase().includes('northern roads - nolvus fixes.esp') || sections.hasCrashLoggerSseLog) {
+            Utils.debuggingLog(['getNolvusVersion'], 'Detected Nolvus version 6');
+            return 6;
+        } else {
+            Utils.debuggingLog(['getNolvusVersion'], 'Detected Nolvus version 5');
+            return 5;
+        }
     }
 
     Utils.debuggingLog(['getNolvusVersion'], 'No Nolvus version detected');
@@ -933,7 +940,7 @@ Utils.getLogSectionsMap = function(logFile) {
         if (sections.availableRam < criticalRamThresholdGb) sections.criticalRam = true;
         if (sections.availableRam < lowRamThresholdGb) sections.lowRam = true;
         if (sections.availableVram < criticalVramThresholdGb) sections.criticalVram = true;
-        if (sections.availableVram < lowRamThresholdGb) sections.lowVram = true;
+        if (sections.availableVram < lowVramThresholdGb) sections.lowVram = true;
     }
 
 
@@ -981,6 +988,12 @@ Utils.getLogSectionsMap = function(logFile) {
     sections.topThirdNoHeading = [sections.relevantObjects, sections.probableCallstack, sections.registers].filter(Boolean).join('\n\n');
     sections.fullLogFileLowerCase = logFile.toLowerCase();
     sections.fullLogFile = logFile;
+    sections.hasNsfLog = Utils.getLogType(Utils.logLines) == 'NetScriptFramework';
+    sections.hasCrashLoggerSseLog = Utils.getLogType(Utils.logLines) == 'CrashLogger';
+    sections.hasTrainwreck = Utils.getLogType(Utils.logLines) == 'Trainwreck';
+    sections.hasNolvusV6 = Utils.getNolvusVersion(sections) == 6;
+    sections.hasNolvusV5 = Utils.getNolvusVersion(sections) == 5;
+
     
 
     // Add debugging output for the entire sections object

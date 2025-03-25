@@ -1,17 +1,61 @@
-✅Version 1.22.15 is now live:
+✅Version 1.22.16 is now live:
 https://phostwood.github.io/crash-analyzer/
 
 
-1. new test: WIDeadBodyCleanupCell crash:
-	- https://www.reddit.com/r/Phostwood/comments/1jeazro/wideadbodycleanupcell_crash/
-	- NOTE: occurs in only 5 crash logs in my collected library, so should likely be a reliable indicator
+1. ✅New test: "2A690D" test
+	- "Dragon Mounds Pathfinding" test for Nolvus v6.0.7
+	- Discovered the 2A690D has shown up as first-line error since early days of v6 ... but always seems to be associated with NavMesh/Pathfinding issues
+	- Specific to Nolvus v6 users for now (at least until we isolate a cause)
+	- Hopefully will help in isolating this perplexing issue that has started coming up a lot more frequently with v6.0.7
+	- Might be a temporary test? Or might turn into a "highly-probable" NavMesh/Pathfinding test?
 
+2. ✅Updates for new Nolvus v6.0.7:
+	- ✅updated displayed path for finding new CrashLoggerSSE crash logs
+	- ✅removed expected line counts from"🔎 Line Counts" section for v6 users
+		- ✅still show up for v5? (tested with ShadowrendHeavyMods.txt)
+	- ✅removed Navigator mod line from NavMesh issue for v6, as it is already included
+		- ✅still shows for v5?
+		- ✅not shown for v6?
+	- ✅FIX DEV BUG where Log Insights (shortened version) aren't showing up for v6 logs
+	- ✅FIX DEV BUG where "Potentially Missing Vanilla Plugins" is showing up for v6 logs
+		- ✅still show up for v5? (tested with ShadowrendHeavyMods.txt)
 
+3. ✅Fixed bug with ❗ Probable Memory Issue Detected:
+	- ✅"System Memory Status" info at bottom wasn't using new metrics from recently revised "High Memory Usage Detected" section
+		- ✅Now they match
+	- ✅BUG: "GPU MEMORY: 12.43/14.36 GB" by itself flagged "High Memory Usage Detected"
+		- ✅https://discord.com/channels/740569699900719145/1353161436569927723
+			- ✅FIXED: System Memory Status : 
+				- ✅RAM Usage: Normal (19.5 / 31.9 GB)
+				- ✅VRAM Usage: Normal (12.4 / 14.4 GB)
+
+4. ✅Fixed bug in calculating sections.availableVram
+	- ✅was comparing vram to lowRamThresholdGb instead of lowVramThresholdGb
 
 
 
 
 --- Upcoming versions: ---
+
+0. New test and Files/Elements mention of when no .exe or .dll is mentioned in first-line error 
+
+0. Better test for Nolvus v6 from multiple indicators rather than simply a CLSSE log from the Nolvus-side of the analyzer....
+
+0. Possible undiagnosed STRINGS crash for Turkish guy:
+	- possible undisagnosed STRINGS crash - message (18).txt
+	- possible undisagnosed STRINGS crash - message (19).txt
+	- starts here: https://discord.com/channels/740569699900719145/755346172243214376/1353380157628612690
+	- CJ said STRINGS was super common for Turkish players?
+	- user: mertgurultuluogullari
+	- new v6 install
+
+
+0. New test from ennui: "CommunityShaders + ENB Incompatibility Detected"
+	- "Btw not sure if this is implemented or has much any bearing in crashes but I’d also suggest into searching for ENBHelper.dll + CommunityShader.dll seeing they shouldn’t be together in the first place. Or any .esp/.dll adjacents to them"
+	- https://discord.com/channels/872252014002843658/1353034819650453544/1353070541900349583
+
+1. Change Skyrim.html's suggestion to use Nolvus version for Nolvus lists is "Nolvus" is found anywhere in the list? Make it softer though, and without a determination of how nolvus-like it is, just offer it as an option.
+	- OR make the old version work with Nolvus v6.0.7's new CrashLoggerSSE logs? 
 
 
 2. BUG FIX. If a prior log loaded, and then content deleted and new log pasted in, it still lists the prior log file's name as the "Loaded file:"
@@ -82,7 +126,8 @@ x. NavMesh/Pathing Issues: maybe add Whiterun Fast Travel fix to Navmesh Issue w
 	- https://discord.com/channels/341090804611285003/341362343273562122/1350212634892566631
 	- verify the and describe the issue as a troubleshooting line for meshes (and textures maybe?)
 
-
+3. Another one where my analyzer didn't list a mesh where it probably should have:
+	- https://discord.com/channels/872252014002843658/1353034819650453544/1353067720018497639
 
 
 0. Separated-off for later:  ❗skee64.dll Issue Detected
