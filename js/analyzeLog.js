@@ -493,6 +493,16 @@ async function analyzeLog() {
 
 
 
+    //❗ Possible Security-Related Crash Detected (wintrust.dll)
+    const wintrustCrashResults = checkWintrustCrash(sections);
+    if(wintrustCrashResults) {
+        diagnoses += wintrustCrashResults;
+        diagnosesCount++;
+    }
+    
+
+
+
     //Check for Overlay issue
     const overlayDiagnoses = analyzeOverlayIssues(sections, logFile);
     if (overlayDiagnoses) {

@@ -1,8 +1,33 @@
-✅Version 1.22.16.2 is now live:
+✅Version 1.22.17 is now live:
 https://phostwood.github.io/crash-analyzer/
 
 
-1. Minor enhancements/updates for "❗Probable 2A690D NavMesh/Pathing Crash Detected" troubleshooting steps
+1. ✅New wintrust.dll test ... or combine with AntiVirus with a message about file permissions?
+	- ✅ also updated explainersMap.js with related info
+
+2. ✅Avira and Surfshark share this filename signature:  avamsi.dll
+	- ✅Added to explainersMap.js
+	- ✅Added to antivirusSignatures.js
+
+
+-- notes for this version --
+
+1. ✅New wintrust.dll test ... or combine with AntiVirus with a message about file permissions?
+	- ✅Review for feedback: https://www.reddit.com/r/Phostwood/comments/1jks96v/any_suggestions_for_this_new_wintrustdll_test/
+	- ✅https://discord.com/channels/622647066719420427/1352819741085139004
+	- ✅RARE: if I regex only the topHalf then ONLY 15 files ... and only 4 of those are actually in the upper half
+		- ✅"Search "wintrust\.dll.*?Modules" (45 hits in 15 files of 6828 searched) [RegEx.]"
+	- ✅ also updated explainersMap.js with info:
+		- ✅"Windows Trust Manager - <b>Windows</b>  - ⚠️ possible indicator of antivirus issue ⚠️)"
+
+
+2. ✅Avira and Surfshark share this filename signature:  avamsi.dll
+	- ✅Added to explainersMap.js
+	- ✅Added to antivirusSignatures.js
+	- ✅https://discord.com/channels/740569699900719145/755346172243214376/1353911841042071694
+	- ✅https://discord.com/channels/740569699900719145/755346172243214376/1353961598934319105
+	- ✅https://discord.com/channels/740569699900719145/755346172243214376/1353962769136877672
+
 
 
 
@@ -11,7 +36,32 @@ https://phostwood.github.io/crash-analyzer/
 
 0. Update JContainers Crash info on the new mod. https://discord.com/channels/740569699900719145/1220765193404026990/1353784403435716620
 
-0. New test and Files/Elements mention of when no .exe or .dll is mentioned in first-line error 
+1. Add note about VRAMr being a possible source of bad textures in the Texture Issues section
+	- https://discord.com/channels/740569699900719145/1354045778217271326/1354110274789052539
+
+2. Add back in some MO2-specific info on textures/meshes:
+	- "ʀɪᴠᴜssʏ — 
+		Btw to number 1: you can search the nif name directly in the MO2 data tab and it will tell you exactly which mod is the last to modify/include the mesh. A windows explorer search is a painfully inefficient method to find the mesh
+		this is also why people advocate to use mo2 because vortex is much harder to troubleshoot / prevent issues with"
+	- https://discord.com/channels/872252014002843658/1354066465434763326/1354132001405272065
+	- Add to Thank Yous list: ʀɪᴠᴜssʏ
+
+
+--
+
+
+0. ⭐️⭐️ (LOW PRIORITY) Maybe test to check for multiple alternate start mods?
+	- https://discord.com/channels/872252014002843658/1354080740702425139/1354598661606346843
+
+0. Redo "Safe Saves" post on r/Nolvus from u/PhostwoodReborn account and update link in analyzer
+
+
+0. New test from ennui: "CommunityShaders + ENB Incompatibility Detected"
+	- "Btw not sure if this is implemented or has much any bearing in crashes but I’d also suggest into searching for ENBHelper.dll + CommunityShader.dll seeing they shouldn’t be together in the first place. Or any .esp/.dll adjacents to them"
+	- https://discord.com/channels/872252014002843658/1353034819650453544/1353070541900349583
+
+0. New test and Files/Elements mention of when no .exe or .dll is mentioned in first-line error
+	- but what does it narrow down to, if it's outside the scope of Skyrim.exe?
 
 0. Better test for Nolvus v6 from multiple indicators rather than simply a CLSSE log from the Nolvus-side of the analyzer....
 
@@ -24,9 +74,7 @@ https://phostwood.github.io/crash-analyzer/
 	- new v6 install
 
 
-0. New test from ennui: "CommunityShaders + ENB Incompatibility Detected"
-	- "Btw not sure if this is implemented or has much any bearing in crashes but I’d also suggest into searching for ENBHelper.dll + CommunityShader.dll seeing they shouldn’t be together in the first place. Or any .esp/.dll adjacents to them"
-	- https://discord.com/channels/872252014002843658/1353034819650453544/1353070541900349583
+
 
 1. Change Skyrim.html's suggestion to use Nolvus version for Nolvus lists is "Nolvus" is found anywhere in the list? Make it softer though, and without a determination of how nolvus-like it is, just offer it as an option.
 	- OR make the old version work with Nolvus v6.0.7's new CrashLoggerSSE logs? 

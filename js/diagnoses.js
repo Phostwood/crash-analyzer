@@ -2990,3 +2990,46 @@ function check2A690DCrash(sections) {
 
     return insights;
 }
+
+
+
+//❗ Possible Security-Related Crash Detected
+function checkWintrustCrash(sections) {
+    let insights = '';
+
+    // Check for wintrust.dll mention in top half
+    const hasWintrustCrash = sections.topHalf.toLowerCase().includes('wintrust.dll');
+
+    if (hasWintrustCrash) {
+        insights += `<li>❗ <b>Possible Security-Related Crash Detected:</b>
+            Security mechanisms are potentially interfering with game or mod files. The indicator file, <code>wintrust.dll</code>, is part of the Microsoft Windows Operating System. Sometimes (rarely) it shows up in modded Skyrim crash logs. 
+            <ul>
+                <li>Potential Causes:
+                    <ul>
+                        <li>Antivirus blocking access to necessary files</li>
+                        <li>Corrupted or invalid digital signatures</li>
+                        <li>Overly restrictive or corrupted file permissions</li>
+                        <li>Conflicting security software</li>
+                    </ul>
+                </li>
+                <li>Troubleshooting:
+                    <ul>
+                        <li>Consider switching from 3rd party to built in Windows Security antivirus sofware</li>
+                        <li>Or, set up exclusions in 3rd party antivirus software</li>
+                        <li>Scan suspicious mods with <a href="https://www.virustotal.com">VirusTotal</a></li>
+                        <li>Re-download and perform clean reinstall of problematic mods</li>
+                        <li>Advanced: Inspect related folder and file permissions to ensure Skyrim's accessbility</li>
+                        <li>Advanced: Check Windows Event Viewer for security-related errors</li>
+                        <li>Advanced: Use Process Monitor to trace file access issues</li>
+                        <li>Advanced: Check Windows Security Center for blocking events</li>
+                    </ul>
+                </li>
+                <li>Detected indicators: <a href="#" class="toggleButton">⤵️ show more</a><ul class="extraInfo" style="display:none">
+                    <li><code>wintrust.dll</code> reference in crash context</li>
+                </ul></li>
+            </ul>
+        </li>`;
+    }
+
+    return insights;
+}

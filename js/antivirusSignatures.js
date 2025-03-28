@@ -5,7 +5,9 @@ const antivirusSignatures = {
     'ArcaBit': ['arcabitengine.dll'],
     'AVG': ['avgui.dll'],
     'Avast': ['avast.dll', 'aswEngineA.dll'],
-    'Avira': ['avamsi.dll', 'avamsicli.dll', 'avcuf32.dll'],
+    'Avira/Surfshark': ['avamsi.dll', 'avamsicli.dll', 'avcuf32.dll'],
+        //NOTE: 'avamsi.dll' is also a filename used by SurfShark. My guess they are rebranding software from Avira?
+        //BUT: Surfshark is also allegedly a variant of Webroot (or at least was)
     'Baidu Antivirus': ['bdhsvc.dll'],
     'Bitdefender': ['bdcore.dll', 'avc3.dll', 'atcuf64.dll', 'antimalware_provider64.dll', 'bdhkm64.dll'],
     'BullGuard': ['bullguard.dll', 'bgadriver.dll'],
