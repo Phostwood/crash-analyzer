@@ -1,40 +1,19 @@
-✅Version 1.22.17 is now live:
+✅Version 1.22.18 is now live:
 https://phostwood.github.io/crash-analyzer/
 
 
-1. ✅New wintrust.dll test ... or combine with AntiVirus with a message about file permissions?
-	- ✅ also updated explainersMap.js with related info
-
-2. ✅Avira and Surfshark share this filename signature:  avamsi.dll
-	- ✅Added to explainersMap.js
-	- ✅Added to antivirusSignatures.js
-
-
--- notes for this version --
-
-1. ✅New wintrust.dll test ... or combine with AntiVirus with a message about file permissions?
-	- ✅Review for feedback: https://www.reddit.com/r/Phostwood/comments/1jks96v/any_suggestions_for_this_new_wintrustdll_test/
-	- ✅https://discord.com/channels/622647066719420427/1352819741085139004
-	- ✅RARE: if I regex only the topHalf then ONLY 15 files ... and only 4 of those are actually in the upper half
-		- ✅"Search "wintrust\.dll.*?Modules" (45 hits in 15 files of 6828 searched) [RegEx.]"
-	- ✅ also updated explainersMap.js with info:
-		- ✅"Windows Trust Manager - <b>Windows</b>  - ⚠️ possible indicator of antivirus issue ⚠️)"
-
-
-2. ✅Avira and Surfshark share this filename signature:  avamsi.dll
-	- ✅Added to explainersMap.js
-	- ✅Added to antivirusSignatures.js
-	- ✅https://discord.com/channels/740569699900719145/755346172243214376/1353911841042071694
-	- ✅https://discord.com/channels/740569699900719145/755346172243214376/1353961598934319105
-	- ✅https://discord.com/channels/740569699900719145/755346172243214376/1353962769136877672
-
-
-
+1 🎯 JContainers Crash Detected
+	- wrapped existing code in new function for better isolation and maintenance 
+	- replaced test with same title (as above) PLUS "🎯 KERNELBASE JContainers Crash Detected" in one function
+	- updated for Nolvus v6 with Custom Skills Menu - JContainers Crash Workaround mod
+		- https://www.nexusmods.com/skyrimspecialedition/mods/140833
+		- discovery: https://discord.com/channels/740569699900719145/1220765193404026990/1353784403435716620
+	- also listed same mod for non-Nolvus users who may also use the Custom Skills Menu mod
 
 
 --- Upcoming versions: ---
 
-0. Update JContainers Crash info on the new mod. https://discord.com/channels/740569699900719145/1220765193404026990/1353784403435716620
+0. 🔎 Files/Elements: New feature to list Top-of-the-Stack File(s) (even if already listed in prior sections) 
 
 1. Add note about VRAMr being a possible source of bad textures in the Texture Issues section
 	- https://discord.com/channels/740569699900719145/1354045778217271326/1354110274789052539
@@ -49,6 +28,10 @@ https://phostwood.github.io/crash-analyzer/
 
 --
 
+0. ⭐️⭐️⭐️⭐️ New Ostim test suggested in r/Phostwood
+
+
+0. Possibly missing some animation indictors? https://discord.com/channels/872252014002843658/1356122186733195304/1356171765029535827
 
 0. ⭐️⭐️ (LOW PRIORITY) Maybe test to check for multiple alternate start mods?
 	- https://discord.com/channels/872252014002843658/1354080740702425139/1354598661606346843
@@ -74,7 +57,8 @@ https://phostwood.github.io/crash-analyzer/
 	- new v6 install
 
 
-
+-- Remove dependency on Internet connectivity: --
+	A. https://raw.githubusercontent.com references should be made local
 
 1. Change Skyrim.html's suggestion to use Nolvus version for Nolvus lists is "Nolvus" is found anywhere in the list? Make it softer though, and without a determination of how nolvus-like it is, just offer it as an option.
 	- OR make the old version work with Nolvus v6.0.7's new CrashLoggerSSE logs? 
