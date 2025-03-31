@@ -81,12 +81,6 @@ async function analyzeLog() {
         diagnosesCount++;
     }
 
-    // Check for JContainers crash
-    if (sections.firstLine.includes('JContainers64.dll+10AE45')) {
-        diagnoses += '<li>🎯 <b>JContainers Crash Detected:</b> Go to <a href="https://www.nexusmods.com/skyrimspecialedition/mods/108591?tab=files&file_id=458596">Discrepancy\'s patch settings hub</a> and add the <b>JContainers Crash Workaround</b> mod (from the "Files" section) into Mod Organizer 2 (MO2). If you would like guidance on modding/patching Nolvus, please watch this <a href="https://youtu.be/YOvug9KP5L4">brief tutorial video</a> for step-by-step instructions. More information and troubleshooting tips under <a href="https://www.nolvus.net/catalog/crashlog?acc=accordion-1-4">JContainers Crash</a/>.</li>';
-        diagnosesCount++;
-    }
-
     // Check for Mihail Sithis crash
     if (sections.topThird.includes('Wraith of Sithis') && sections.topThird.includes('mihailmmasithis.esp')) {
         diagnoses += '<li>🎯 <b>Gravelord / "Wraith of Sithis" Crash Detected:</b> This crash is usually associated with MihailMods\' "Wraith of Sithis" conflicting with Odin - Skyrim Magic Overhaul, and may occur shortly after an encounter where a character or NPC summons a Wraith of Sithis. Despite the name, it is not directly related to Gravelords. To resolve this issue:</li>' +
@@ -262,14 +256,11 @@ async function analyzeLog() {
         diagnosesCount++;
     }
 
-    // Check for KERNELBASE JContainers Crash
-    if (sections.firstLine.toLowerCase().includes('KERNELBASE.dll'.toLowerCase()) && sections.probableCallstack.includes('JContainers64.dll')) {
-        diagnoses += '<li>🎯 <b>KERNELBASE JContainers Crash Detected:</b> Usually, this issue stems from one of three causes:<ol>' +
-            '<li>JContainers may need patched. Go to <a href="https://www.nexusmods.com/skyrimspecialedition/mods/108591?tab=files&file_id=458596">Discrepancy\'s patch settings hub</a> and add the <b>JContainers Crash Workaround</b> mod (from the "Files" section) into Mod Organizer 2 (MO2). If you would like guidance on modding/patching Nolvus, please watch this <a href="https://youtu.be/YOvug9KP5L4">brief tutorial video</a> for step-by-step instructions.</li>' +
-            '<li>Windows <b>permissions</b> may have become overly restrictive and are blocking access to necessary mod storage. The usual solution is to reset your file permissions. See <a href="https://www.thewindowsclub.com/how-to-reset-file-folder-permissions-to-default-in-windows-10">How to reset all User Permissions to default in Windows 11/10</a>, or seek assistance from the Nolvus community.</li>' +
-            '<li>Storage files (JContainer\'s .json files) may have become <b>corrupted/broken.</b> These files often reside in your `..\\Documents\\My Games\\Skyrim Special Edition\\JCUser` folder, but can be located in mod-specific locations. This issue is especially common if you have manually edited a .json file. After identifying the specific file, either manually repair it, revert the file to a backup, or delete it, allowing the accessing mod(s) to create a new one. Other mods mentioned in the crash log may help to identify the specific storage file, or seek assistance from the Nolvus community.</li>' +
-            '</ol>' +
-            'Also, for some of these issues, an easy <b>workaround</b> is to <a href = "https://support.microsoft.com/en-us/windows/create-a-local-user-or-administrator-account-in-windows-20de74e0-ac7f-3502-a866-32915af2a34d#WindowsVersion=Windows_11">create a new Windows User</a> and create a new Nolvus save (playthrough) from the new user.</li>';
+
+    //🎯 JContainers Crash Detected:
+    const jContainersCrash = analyzeJContainersCrash(sections);
+    if (jContainersCrash) {
+        diagnoses += jContainersCrash;
         diagnosesCount++;
     }
 
@@ -295,7 +286,7 @@ async function analyzeLog() {
 
     // Check for KERNELBASE Crash excluding JContainers and JSON parse error
     
-    const kernelBaseDiagnosis = checkKernelbaseCrash(sections, Utils, win24H2UpscalerCrash,  true);
+    const kernelBaseDiagnosis = checkKernelbaseCrash(sections, Utils, jContainersCrash, win24H2UpscalerCrash,  true);
     if(kernelBaseDiagnosis) {
         diagnoses += kernelBaseDiagnosis;
         diagnosesCount++;

@@ -1488,17 +1488,50 @@ function analyzeWin24H2UpscalerCrash(sections) {
     return insights;
 }
 
+//🎯 JContainers Crash Detected
+function analyzeJContainersCrash(sections) {
+    if (sections.firstLine.toLowerCase().includes('JContainers64.dll'.toLowerCase())
+            || (sections.firstLine.toLowerCase().includes('KERNELBASE.dll'.toLowerCase())
+                && (sections.probableCallstack.toLowerCase().includes('JContainers64.dll'.toLowerCase())
+                    || sections.probableCallstack.toLowerCase().includes('CustomSkills.dll'.toLowerCase())
+                    //ANY OTHER INDICATORS or LOCATIONS?
+                )
+            )
+        ) {
+        
+        let nolvusSpecificContent = '';
+        
+        if (sections.hasNolvusV6 || sections.hasNolvusV5) {
+            nolvusSpecificContent = `<li><b>For Nolvus players</b>: JContainers may need patched. Go to <a href="https://www.nexusmods.com/skyrimspecialedition/mods/108591?tab=files&file_id=458596">Discrepancy's patch settings hub</a> and add the <b>JContainers Crash Workaround</b> mod (from the "Files" section) into Mod Organizer 2 (MO2). If you would like guidance on modding/patching Nolvus, please watch this <a href="https://youtu.be/YOvug9KP5L4">brief tutorial video</a> for step-by-step instructions.</li>`;
+        }
+        
+        let customSkillsMenuContent = '';
+        if (sections.hasNolvusV6) {
+            customSkillsMenuContent = `<li><b>For Nolvus v6 players</b>: A new mod has been released that updates compatibility: <a href="https://www.nexusmods.com/skyrimspecialedition/mods/140833">Custom Skills Menu - JContainers Crash Workaround</a>. In MO2, load this after Discrepancy's fix (see abvove)</li>`;
+        } else if (!sections.hasNolvusV5){
+            customSkillsMenuContent = `<li>For users of the <b>Custom Skills Menu</b> mod: A new mod has been released specifically for this issue: <a href="https://www.nexusmods.com/skyrimspecialedition/mods/140833">Custom Skills Menu - JContainers Crash Workaround</a>. Be sure to read instructions on usage.</li>`;
+        }
+        
+        return `<li>🎯 <b>JContainers Crash Detected:</b> Usually, this issue stems from one of these causes:<ol>
+            ${nolvusSpecificContent}
+            ${customSkillsMenuContent}
+            <li>Windows <b>permissions</b> may have become overly restrictive and are blocking access to necessary mod storage. The usual solution is to reset your file permissions. See <a href="https://www.thewindowsclub.com/how-to-reset-file-folder-permissions-to-default-in-windows-10">How to reset all User Permissions to default in Windows 11/10</a>, or seek assistance from the ${Utils.NolvusOrSkyrimText} community. Or, an easier <b>workaround</b> for this issue is to <a href = "https://support.microsoft.com/en-us/windows/create-a-local-user-or-administrator-account-in-windows-20de74e0-ac7f-3502-a866-32915af2a34d#WindowsVersion=Windows_11">create a new Windows User</a> and create a new ${Utils.NolvusOrSkyrimText} save (playthrough) from the new user.</li>
+            <li>Storage files (JContainer's .json files) may have become <b>corrupted/broken.</b> These files often reside in your \`..\\Documents\\My Games\\Skyrim Special Edition\\JCUser\` folder, but can be located in mod-specific locations. This issue is especially common if you have manually edited a .json file. After identifying the specific file, either manually repair it, revert the file to a backup, or delete it, allowing the accessing mod(s) to create a new one. Other mods mentioned in the crash log may help to identify the specific storage file, or seek assistance from the ${Utils.NolvusOrSkyrimText} community.</li>
+            </ol></li>`;
+    }
+    return null;
+}
 
 
-// Check for KERNELBASE Crash excluding JContainers and JSON parse error
-function checkKernelbaseCrash(sections, Utils, win24H2UpscalerCrash, isDiagnosesSection = false) {
+// Check for KERNELBASE Crash EXCLUDING JContainers and JSON parse error
+function checkKernelbaseCrash(sections, Utils, jContainersCrash, win24H2UpscalerCrash, isDiagnosesSection = false) {
     let diagnoses = '';
 
     // Check for KERNELBASE Crash excluding JContainers and JSON parse error
     if (sections.firstLine.toLowerCase().includes('KERNELBASE.dll'.toLowerCase()) && 
-        !sections.probableCallstack.includes('JContainers64.dll') && 
-        !sections.topHalf.includes('json.exception.parse_error') && 
-        !win24H2UpscalerCrash) {
+        !jContainersCrash && 
+        !win24H2UpscalerCrash &&
+        !sections.topHalf.includes('json.exception.parse_error')) {
     
         if (!Utils.isSkyrimPage && isDiagnosesSection) { // SHORT VERSION - Only for Nolvus in diagnoses section
             diagnoses += `
