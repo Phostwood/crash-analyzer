@@ -63,17 +63,18 @@ const crashIndicators = {
             // Space for future hex codes
         ],
         impactEffects: [
-            { name: 'BloodSprayArrowImpact01', description: "Blood spray impact effect" },
-            { name: 'ImpactArrowDust01', description: "Arrow dust impact effect" },
             { name: 'BloodHitEffectBlunt', description: "Blunt blood impact effect" },
             { name: 'BloodHitEffectCut', description: "Cut blood impact effect" },
-            { name: 'BloodSprayImpact01', description: "Blood spray impact" },
-            { name: 'FistBloodSm', description: "Small blood impact effect for unarmed attacks" },
+            { name: 'BloodSprayAlduinArrowImpact', description: "Blood spray Alduin arrow impact effect" },
+            { name: 'BloodSprayArrowImpact01', description: "Blood spray arrow impact effect" },
+            { name: 'BloodSprayHammerImpact01', description: "Blood spray hammer impact effect" },
+            { name: 'BloodSprayImpact01', description: "Blood spray general impact effect" },
+            { name: 'BloodSprayUnarmedImpact01', description: "Blood spray unarmed impact effect" },
+            { name: 'FistBloodSm', description: "Small blood impact effect for unarmed attacks" },  //theoretical only?
             { name: 'FistBloodMed', description: "Medium blood impact effect for unarmed attacks" },
-            { name: 'FistBloodLg', description: "Large blood impact effect for unarmed attacks" },
-            { name: 'FirstBloodSm', description: "Small blood impact effect for weapon attacks" },
-            { name: 'FirstBloodMed', description: "Medium blood impact effect for weapon attacks" },
-            { name: 'FirstBloodLg', description: "Large blood impact effect for weapon attacks" }
+            { name: 'FistBloodLg', description: "Large blood impact effect for unarmed attacks" }, //theoretical only?
+            { name: 'ImpactArrowDirt01', description: "Arrow dirt impact effect" },
+            { name: 'ImpactArrowDust01', description: "Arrow dust impact effect" }
         ],
         files: [
             { name: 'FpsFixPlugin.dll', description: "SSE Fixes plugin file" }
@@ -104,7 +105,7 @@ const crashIndicators = {
             { code: 'bssegmentedtrishape', description: "Segmented triangle shape" },
             { code: 'bssubindextrishape', description: "Subindex triangle shape" },
             { code: 'bstrishape', description: "BSTriShape node" },
-            { code: 'hkprigidbody', description: "Havok rigid body" },
+            { code: 'hkprigidbody', description: "Havok physics rigid body" },
             //TOO BROAD: { code: 'mesh', description: "General mesh-related" },
             { code: 'nigeometry', description: "Geometry data" },
             { code: 'nimaterialproperty', description: "Material property" },
@@ -144,14 +145,15 @@ const crashIndicators = {
             { hexCode: 'B02235', description: "suspected animation indicator" },
         ],
         codes: [
-            { code: 'hkbehaviorgraph', description: "Havok behavior graph" },
-            { code: 'animationgraph', description: "Animation graph" },
-            { code: 'hkbclipgenerator', description: "Havok clip generator" },
-            { code: 'hkbvariablebindingset', description: "Havok variable binding set" },
-            { code: 'hkbStateMachine', description: "Havok behavior state machine" },
             { code: '.hkx', description: "Havok animation file" },
+            { code: 'animation', description: "General animation-related (lower-confidence indicator)" },
+            { code: 'animationgraph', description: "Animation graph" },
+            //MAYBE MOVE THE FOLLOWING to Behavior/Loader "animationLoaderIssues" section below?
             { code: 'bshkbanimationgraph', description: "Bethesda Havok animation graph" },
-            { code: 'animation', description: "General animation-related (lower-confidence indicator)" }
+            { code: 'hkbclipgenerator', description: "Havok clip generator" },
+            { code: 'hkbehaviorgraph', description: "Havok behavior graph" },
+            { code: 'hkbStateMachine', description: "Havok behavior state machine" },
+            { code: 'hkbvariablebindingset', description: "Havok variable binding set" }
         ]
     },
     animationLoaderIssues: {
@@ -159,19 +161,32 @@ const crashIndicators = {
             // Space for future hex codes
         ],
         codes: [
-            { code: 'dynamicanimationreplacer.dll', description: "DAR loader detected" },
-            { code: 'dynamicanimationreplacer.ini', description: "DAR configuration file" },
-            { code: 'openanimationreplacer.dll', description: "OAR loader detected" },
-            { code: 'openanimationreplacer.pdb', description: "OAR debug symbols" },
-            { code: 'hkbStateMachine', description: "Havok behavior state machine" },
-            { code: 'behavior', description: "Generic behavior file reference (lower-confidence indicator)" },
             { code: '.hkb', description: "Havok behavior file" },
             { code: '.hkx', description: "Havok animation file" },
             { code: '0_master.hkb', description: "Master behavior file" },
+            { code: '67B88B', description: "suspected animation loader, hexcode indicator" }, //PURPOSEFULLY NOT INCLUDED IN HEX CODES SECTION (since only suspected?)
+            { code: 'BSAnimationGraphManager', description: "Bethesda animation graph management system" }, //MAYBE MOVE to "animationIssues" section above?
+            { code: 'behavior', description: "Generic behavior file reference (lower-confidence indicator)" },
             { code: 'bshkbanimationgraph', description: "Bethesda Havok animation graph" },
-            { code: '67B88B', description: "suspected animation loader, hexcode indicator" }
+            { code: 'dynamicanimationreplacer.dll', description: "DAR loader detected" },
+            { code: 'dynamicanimationreplacer.ini', description: "DAR configuration file" },
+            { code: 'hkbBehaviorGraph', description: "Havok behavior graph system" },
+            { code: 'hkbCharacter', description: "Havok behavior character controller" },
+            { code: 'openanimationreplacer.dll', description: "OAR loader detected" },
+            { code: 'openanimationreplacer.pdb', description: "OAR debug symbols" }
         ]
     },
+
+    /* animationLoaderIssues: {
+        //DELETE:
+        codes: [
+            { code: 'hkbBehaviorGraph', description: "" },
+            { code: 'hkbCharacter', description: "" },
+            { code: 'BSAnimationGraphManager', description: "" },
+        ]
+    }, */
+
+
     scriptIssues: [
         { code: 'papyrus vm', description: "Papyrus virtual machine error" },
         { code: 'script', description: "General script-related problem" },

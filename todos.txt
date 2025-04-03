@@ -1,17 +1,50 @@
-✅Version 1.22.18 is now live:
+✅Version 1.22.19 is now live:
 https://phostwood.github.io/crash-analyzer/
 
+1. ✅❗ SSE Fixes Compatibility Issue Detected:
+	- ✅Added suggested indicator:
+		- ✅BloodSprayUnarmedImpact01
+		- https://www.reddit.com/r/skyrimmods/comments/1jfwuw1/comment/mkhccir/?utm_source=share&utm_medium=web3x&utm_name=web3xcss&utm_term=1&utm_content=share_button
+		- https://www.reddit.com/r/Phostwood/comments/1jn8l2p/bloodsprayunarmedimpact01/
+		- ⭐️Thank you MaskPlague and RomatebitegeL!
+	- ✅Added some discovered indicators from collected crash log library
+		- ✅BloodSprayAlduinArrowImpact
+		- ✅ImpactArrowDirt01
+		- ✅BloodSprayHammerImpact01
+	- ✅Removed some theoretical indicators that I think were just a misspelling from the source ... they don't show up once in collected crash log library
+		- ✅"FirstBloodMed" believed to be misspelling of "FistBloodMed"
+	- ✅Standardized indicator descriptions
+	- ✅Alphabetized list of indicators
+	- ✅TESTED against collected Crash Log Library
 
-1 🎯 JContainers Crash Detected
-	- wrapped existing code in new function for better isolation and maintenance 
-	- replaced test with same title (as above) PLUS "🎯 KERNELBASE JContainers Crash Detected" in one function
-	- updated for Nolvus v6 with Custom Skills Menu - JContainers Crash Workaround mod
-		- https://www.nexusmods.com/skyrimspecialedition/mods/140833
-		- discovery: https://discord.com/channels/740569699900719145/1220765193404026990/1353784403435716620
-	- also listed same mod for non-Nolvus users who may also use the Custom Skills Menu mod
+2. ✅animationIssues and animationLoaderIssues: crashIndicatorsMap.js
+	- ✅added new indicators mentioned in Modding Guild Crash Log Keyword Bank
+		- https://docs.google.com/document/d/e/2PACX-1vSpp90sjG9ANsxAOkLN9fL17D6rAle8K9aXP2zsnIbqYz8PEYZGVfFVw1l6UnQLo3qa6RCBJD7FzZ-l/pub
+		- ✅hkbBehaviorGraph
+		- ✅hkbCharacter
+		- ✅BSAnimationGraphManager
+	- ✅alphabetized both lists
+	- ✅added new indicators to Test Logs
+
+
+
+
 
 
 --- Upcoming versions: ---
+
+0. animationIssues and animationLoaderIssues
+	- crashIndicatorsMap.js
+		- add new "HavoK Physics" indicators mentioned/discovered in https://discord.com/channels/872252014002843658/1356104930699514028
+			- ⭐️bhkRigidBody⭐️
+			- ⭐️hkpCapsule
+			- ⭐️hkpTriangleShape
+			- ⭐️hkpSimulationIsland
+			- ⭐️hkpSimpleContactConstraintData
+			- ⭐️hkpSimpleConstraintContactMgr
+			- ⭐️hkpCollisionDispatcher
+			- ⭐️hkpListShape
+			- ⭐️hkpTriSampledHeightFieldCollection
 
 0. 🔎 Files/Elements: New feature to list Top-of-the-Stack File(s) (even if already listed in prior sections) 
 

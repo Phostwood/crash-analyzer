@@ -442,6 +442,9 @@ STACK:
   hkbvariablebindingset		//Havok variable binding set
   standup.hkx				//Havok animation file
   bshkbanimationgraph		//BShkb Animation Graph
+  BSAnimationGraphManager	//Bethesda animation graph management system
+  hkbBehaviorGraph			//Havok behavior graph system
+  hkbCharacter				//Havok behavior character controller
   AiNavigation                         //AI navigation issue
   AutoRegisterPathBuilderFactory       //Path building system issue
   BSPathBuilder                        //Base path building system error
