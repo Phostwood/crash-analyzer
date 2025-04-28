@@ -1,30 +1,7 @@
-✅Version 1.22.19 is now live:
+✅Version 1.22.20 is now live:
 https://phostwood.github.io/crash-analyzer/
 
-1. ✅❗ SSE Fixes Compatibility Issue Detected:
-	- ✅Added suggested indicator:
-		- ✅BloodSprayUnarmedImpact01
-		- https://www.reddit.com/r/skyrimmods/comments/1jfwuw1/comment/mkhccir/?utm_source=share&utm_medium=web3x&utm_name=web3xcss&utm_term=1&utm_content=share_button
-		- https://www.reddit.com/r/Phostwood/comments/1jn8l2p/bloodsprayunarmedimpact01/
-		- ⭐️Thank you MaskPlague and RomatebitegeL!
-	- ✅Added some discovered indicators from collected crash log library
-		- ✅BloodSprayAlduinArrowImpact
-		- ✅ImpactArrowDirt01
-		- ✅BloodSprayHammerImpact01
-	- ✅Removed some theoretical indicators that I think were just a misspelling from the source ... they don't show up once in collected crash log library
-		- ✅"FirstBloodMed" believed to be misspelling of "FistBloodMed"
-	- ✅Standardized indicator descriptions
-	- ✅Alphabetized list of indicators
-	- ✅TESTED against collected Crash Log Library
-
-2. ✅animationIssues and animationLoaderIssues: crashIndicatorsMap.js
-	- ✅added new indicators mentioned in Modding Guild Crash Log Keyword Bank
-		- https://docs.google.com/document/d/e/2PACX-1vSpp90sjG9ANsxAOkLN9fL17D6rAle8K9aXP2zsnIbqYz8PEYZGVfFVw1l6UnQLo3qa6RCBJD7FzZ-l/pub
-		- ✅hkbBehaviorGraph
-		- ✅hkbCharacter
-		- ✅BSAnimationGraphManager
-	- ✅alphabetized both lists
-	- ✅added new indicators to Test Logs
+1. Updated link to: https://www.reddit.com/r/Nolvus/comments/1ka74em/jeriliths_2025_skyrim_safesaveguide_sexy_free/
 
 
 

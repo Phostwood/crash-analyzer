@@ -1443,7 +1443,7 @@ function analyzeBGSSaveLoadManagerIssue(sections) {
                 <li>Be Cautious when Adding Mods, and more so when Removing Mods.</li>
                 <li>When entering a new area, wait several seconds before saving to allow scripts and information to load completely.</li>
                 <li>Maintain and Manage your save files, keep several and or revolving saves of <i>at least</i> 5-10.</li>
-                <li>Source: Details and related resource links available at <a href="https://www.reddit.com/r/Nolvus/comments/1il4x57/jeriliths_2025_skyrim_safesaveguide_sexy_free/">this reposting</a></li>
+                <li>Source: Details and related resource links available at <a href="https://www.reddit.com/r/Nolvus/comments/1ka74em/jeriliths_2025_skyrim_safesaveguide_sexy_free/">this reposting</a></li>
             </ol></li>
             <li>Regarding the Safe Save Guide (above), there are a few <b>mods you can add</b> to minimize risk if you prefer not to always quit to the desktop after dying (or before reloading): <a href="https://www.nexusmods.com/skyrimspecialedition/mods/88219">Clean Save Auto Reloader</a>, <a href="https://www.nexusmods.com/skyrimspecialedition/mods/85565">SaveUnbaker</a>, and an alternate death mod. See Orionis' <a href="https://docs.google.com/document/d/1RSCzBUyE0vqZRAtjd4YL2hHrKzf4Q1rgCH0zrjEr-qY/mobilebasic#heading=h.u2ukim1kti09">Safe Save Helpers - a Nolvus Guide</a>. Although this guide's original context is Nolvus, most of the information should be broadly applicable.</li>
             ${!Utils.isSkyrimPage ? checkSaveFileSize : ''}
@@ -1805,7 +1805,7 @@ function generateNoCrashDetectedMessage() {
                                 ${verifyWindowsPageFileListItem}
                                 <li>Maintain <a href="https://computercity.com/hardware/storage/how-much-space-should-i-leave-on-my-ssd">at least 10-20% free space</a> on your SSD for optimal performance.</li>
                                 <li>Return any <b>overclocked hardware</b> to stock speeds.</li>
-                                <li>Review saving guidelines at <a href="https://www.reddit.com/r/Nolvus/comments/1il4x57/jeriliths_2025_skyrim_safesaveguide_sexy_free/">Jerilith's 2025 Skyrim Safe-Save-Guide [sexy free edition]</a></li> as following these guidelines may help minimize late-game issues with loading save files.</li>
+                                <li>Review saving guidelines at <a href="https://www.reddit.com/r/Nolvus/comments/1ka74em/jeriliths_2025_skyrim_safesaveguide_sexy_free/">Jerilith's 2025 Skyrim Safe-Save-Guide [sexy free edition]</a></li> as following these guidelines may help minimize late-game issues with loading save files.</li>
                             </ul>
                         </li>
                         <li>If using custom mods, check the <a href="https://www.nolvus.net/catalog/crashlog?acc=accordion-1-7">Load Order Crash</a> guide</li>
