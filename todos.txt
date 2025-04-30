@@ -1,9 +1,26 @@
-✅Version 1.22.20 is now live:
+✅Version 1.22.21 is now live:
 https://phostwood.github.io/crash-analyzer/
 
-1. Updated link to: https://www.reddit.com/r/Nolvus/comments/1ka74em/jeriliths_2025_skyrim_safesaveguide_sexy_free/
+1. XAudio update:
+	- refinements to troubleshooting steps
+	- reference: https://www.reddit.com/r/skyrimmods/comments/1jbak3v/comment/mpq85jb/
+	- TY for lollllll_nope
 
 
+
+
+--- Next version(s): ---
+
+1. Enhancement to Files and Elements:  Highlights "(char*)" lines
+	- If line contains "(char*)" then skip rest of checks (either showing whole line, or not showing it at all)
+		- strip out strings, and if what's left has >2 characers, then display whole line?
+			- strip out "Skyrim.exe" and others skip things like that (there's a list already)
+			- then strip out all non-alphabet characters
+			- if >2 characters, show whole string, without anything stripped out
+
+2. New Advanced Users test for "(char*) "SmoothCamMCM"
+	SmoothCam may be crashing, so disable it and see.
+	If it is responsible, check if you meet the requirements."
 
 
 

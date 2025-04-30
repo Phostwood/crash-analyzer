@@ -1017,16 +1017,12 @@ async function analyzeLog() {
     }
 
     //❓ XAudio Issue Detected:
-    if (sections.topHalf.toLowerCase().includes('XAudio'.toLowerCase())) {
-        insights += '<li>❓ <b>XAudio Issue Detected:</b> The \'XAudio\' error indicates a problem with the game\'s audio processing components. XAudio is a part of the Windows audio infrastructure, separate from DirectX. To resolve audio issues, follow these steps:<ol>' +
-            '<li>Download and install the latest version of the XAudio redistributable that is compatible with your operating system.</li>' +
-            '<li>Ensure your sound card drivers are up to date. Visit the manufacturer\'s website for the latest driver software.</li>' +
-            '<li>If you\'re using audio mods, verify their compatibility with your version of Skyrim and other installed mods.</li>' +
-            '<li>Check the game\'s audio settings and adjust them if necessary. Sometimes, changing the audio format can resolve issues.</li>' +
-            '<li>Consult the Skyrim modding community forums for specific solutions to XAudio-related errors.</li>' +
-            '</ol></li>';
+    const xaudioDiagnosis = analyzeXAudioIssue(sections);
+    if(xaudioDiagnosis) {
+        insights += xaudioDiagnosis;
         insightsCount++;
     }
+
 
 
     //❓ Keyboard Input Issue Detected: 

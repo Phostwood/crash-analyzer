@@ -3066,3 +3066,21 @@ function checkWintrustCrash(sections) {
 
     return insights;
 }
+
+
+
+function analyzeXAudioIssue(sections) {
+    let insights = '';
+
+    if (sections.topHalf.toLowerCase().includes('XAudio'.toLowerCase())) {
+        insights += `<li>❓ <b>XAudio Issue Detected:</b> The 'XAudio' error may indicate a problem with the game's audio processing components. XAudio is a part of the Windows audio infrastructure, separate from DirectX. To resolve audio issues, follow these steps:<ol>
+            <li>Ensure your sound card drivers are up to date. Visit the manufacturer's website for the latest driver software.</li>
+            <li>Check the game's audio settings and adjust them if necessary.</li>
+            <li>If you're using audio mods, verify their compatibility with your version of Skyrim and other installed mods.</li>
+            <li>Sometimes, changing the audioformat, and/or sample rate of the audio file(s) can resolve issues.</li>
+            <li>Consult the Skyrim modding community forums for specific solutions to XAudio-related errors.</li>
+            </ol></li>`;
+    }
+
+    return insights;
+}
