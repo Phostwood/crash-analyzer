@@ -386,7 +386,7 @@ function checkForD6dddaAdvancedVersion(sections) {
             <ol>
                  <li>Corrupt Texture (.dds) or Mesh (.nif) Files:
                     <ol>
-                        <li>Compare multiple crash logs if possible. If subsequent crashes list the same texture or mesh files (see their own sections, also in "Advanced Users"), you likely have a corrupt texture file or, less commonly, a corrupt mesh. Once you've identified the problematic mod, try downloading it again before reinstalling, as the corruption may have occurred during the initial download.</li>
+                        <li>Compare multiple crash logs if possible. If subsequent crashes list the same texture or mesh files (see their own sections in "Advanced Users"), you likely have a corrupt texture file or, less commonly, a corrupt mesh. Once you've identified the problematic mod, try downloading it again before reinstalling, as the corruption may have occurred during the initial download.</li>
                         <li>If the source mod has a corrupted image file, you can try using <a href="https://www.nexusmods.com/skyrimspecialedition/mods/23316">Cathedral Assets Optimizer (CAO)</a> to repair potentially damaged texture/mesh/animation files. This tool can fix formatting issues and also optimize file sizes while maintaining visual quality.</li>
                         <li>If you identify a specific problematic image file in a source mod, contact the mod author for assistance or potential fixes.</li>
                     </ol>
@@ -479,7 +479,7 @@ function checkForMissingMasters(sections) {
             !sections.topHalf.includes('SettingT<INISettingCollection>*');
 
         // Use different icon based on condition
-        diagnoses += `<li>${onlyNoPlugins ? '❓' : '❗'} <b>Potential Missing Masters Detected:</b> `;
+        diagnoses += `<li>${onlyNoPlugins ? '❓' : '❗'} <b>Potential Missing Masters/Dependency Detected:</b> `;
         
         // Special message for no plugins only case
         if (onlyNoPlugins) {
@@ -489,7 +489,7 @@ function checkForMissingMasters(sections) {
         diagnoses += 'Your load order might be missing required master files or other dependency, which can lead to instability and crashes. NOTE: Review other high-likelihood diagnoses first, as some of them can cause (or appear to cause) this issue. Here are some possible causes and solutions:<ul>';
 
         if (!Utils.isSkyrimPage) {
-            diagnoses += '<li><b>Automated Nolvus Installers:</b> Try using the Nolvus Dashboard\'s "Apply Order" feature. This often resolves load order issues. For more information, see: <a href="https://www.reddit.com/r/Nolvus/comments/1chuod0/how_to_apply_order_button_usage_in_the_nolvus/">How To: Use the "Apply Order" Button</a>. If you have added additional mods, you wil then need to re-enable and reposition them in your load order.</li>';
+            diagnoses += '<li><b>Automated Nolvus Installers:</b> Try using the Nolvus Dashboard\'s "Apply Order" feature. This often resolves load order issues. For more information, see: <a href="https://www.reddit.com/r/Nolvus/comments/1kp1lrw/guide_using_the_apply_order_button_in_nolvus/">How To: Use the "Apply Order" Button</a>. If you have added additional mods, you wil then need to re-enable and reposition them in your load order.</li>';
         }
 
         if (!sections.hasNewEslSupport && !hasBeesInstalled) {
@@ -1269,8 +1269,8 @@ function analyzeTextureIssues(sections) {
             <ul>
             <li>Check the list of mentioned textures below to identify which mod(s) might be causing issues.</li>
             <li><b>Compare multiple crash logs:</b>, If you see this message again with any of the same "Mentioned texture files" then continue investigating using the steps below...
-            <li>Do a Windows file search in your mods folder for clues as to their source mod(s).</li>
-            <li>Temporarily disable suspect texture mods (or temporarily remove their suspected texture files) one at a time to isolate the problem.</li>
+            <li>Search for assents in MO2, or do a Windows file search in your mods folder for clues as to their source mod(s).</li>
+            <li>Temporarily disable suspect texture mods (or temporarily hide or remove their suspected texture files) one at a time to isolate the problem.</li>
             <li>Pay special attention to mods affecting the area where the crash occurred.</li>
             </ul>
         </li>
@@ -1541,7 +1541,7 @@ function checkKernelbaseCrash(sections, Utils, jContainersCrash, win24H2Upscaler
                         <li>Review the rest of the advice in this report (above and below), and see if there are strong indications of any better-isolated isolated issue. Sometimes other mods/issues can cause a "KERNELBASE Crash".</li>
                         ${verifyWindowsPageFileListItem}
                         <li>Check with the <b>Nolvus community</b> to see if others are encountering this issue due to a new Windows update or the like.</li>
-                        <li>You can restore the original sorting of all vanilla Nolvus mods using the <b>Apply Order</b> button in the Nolvus Dashboard. For more information and a screenshot, see this r/Nolvus post <a href="https://www.reddit.com/r/Nolvus/comments/1chuod0/how_to_apply_order_button_usage_in_the_nolvus/">How To: "Apply Order" button usage in the Nolvus Dashboard</a>.</li>
+                        <li>You can restore the original sorting of all vanilla Nolvus mods using the <b>Apply Order</b> button in the Nolvus Dashboard. For more information and a screenshot, see this r/Nolvus post <a href="https://www.reddit.com/r/Nolvus/comments/1kp1lrw/guide_using_the_apply_order_button_in_nolvus/">How To: "Apply Order" button usage in the Nolvus Dashboard</a>.</li>
                         <li><b>Reinstall Nolvus</b> to ensure the installation is not corrupted. Make sure to back up any important data before doing this. For detailed instructions, see this <a href="https://docs.google.com/document/d/1R_AVeneeCiqs0XGYzggXx34v3Ufq5eUHNoCHo3QE-G8/edit">guide</a>.</li>
                         <li>Check the <b>Windows Event Log</b> for any related issues. You can do this by opening the Event Viewer (search for it in the Start Menu), then navigate to Windows Logs > Application. Look for any recent errors that might be related to your issue. For detailed instructions, see this <a href="https://support.microsoft.com/en-us/windows/open-event-viewer-17d427d2-43d6-5e01-8535-1fc570ea8a14">Microsoft guide</a>.</li>
                         <li>If the issue persists, consider reaching out to the <b>Nolvus Discord</b> for additional help.</li>
@@ -1560,7 +1560,7 @@ function checkKernelbaseCrash(sections, Utils, jContainersCrash, win24H2Upscaler
                         <li>Check with the <b>${!Utils.isSkyrimPage ? 'Nolvus community' : 'Skyrim modding community'}</b> to see if others are encountering this issue due to a new Windows update or the like.</li>
 
                         ${!Utils.isSkyrimPage ? `
-                        <li>You can restore the original sorting of all vanilla Nolvus mods using the <b>Apply Order</b> button in the Nolvus Dashboard. For more information and a screenshot, see this r/Nolvus post <a href="https://www.reddit.com/r/Nolvus/comments/1chuod0/how_to_apply_order_button_usage_in_the_nolvus/">How To: "Apply Order" button usage in the Nolvus Dashboard</a>.</li>
+                        <li>You can restore the original sorting of all vanilla Nolvus mods using the <b>Apply Order</b> button in the Nolvus Dashboard. For more information and a screenshot, see this r/Nolvus post <a href="https://www.reddit.com/r/Nolvus/comments/1kp1lrw/guide_using_the_apply_order_button_in_nolvus/">How To: "Apply Order" button usage in the Nolvus Dashboard</a>.</li>
                         ` : ''}
                         
                         ${!Utils.isSkyrimPage ? `
@@ -1788,7 +1788,7 @@ function generateNoCrashDetectedMessage() {
                 <li>Also, review and install any missing <a href="https://www.reddit.com/r/skyrimmods/wiki/essential_mods/#wiki_essential_bugfixes">Essential Bugfixes</a> applicable to your modlist</li>
                 <li>Check your <b>load order</b> against <a href="https://www.reddit.com/r/skyrimmods/wiki/begin2/">r/SkyrimMod's Beginner's Guide</a> guidelines</li>
                 <li>${Utils.LootIfSkyrim}</li>
-                <li><b>If you haven't already</b>, share your logs with <a href="https://www.reddit.com/r/skyrimmods/">r/SkyrimMods</a>. Share multiple logs (using <a href="http://www.pastebin.com">www.pastebin.com</a>) when possible and mention in your post that you've already used Phostwood's analyzer and followed its recommendations. The manual crash log reading gurus there can catch some things that automated analyzers will never be able to. This tool only aims to help with 80 to 90% of human-solvable crash logs...</li>
+                <li><b>If you haven't already</b>, share your logs with <a href="https://www.reddit.com/r/skyrimmods/">r/SkyrimMods</a>. Share multiple logs (using <a href="http://www.pastebin.com">www.pastebin.com</a>) when possible and mention in your post that you've already used Phostwood's analyzer and followed its recommendations. The manual crash log reading gurus there can catch some things that automated analyzers will never be able to. This tool only aims to help with 70 to 90% of human-solvable crash logs...</li>
                 <li><b>As a last resort:</b> Try disabling groups of mods at a time (being mindful of masters and dependencies) until the crash stops. While tedious, this can help isolate almost any problematic mod combinations.</li>
             </ul></li>`;
     } else {

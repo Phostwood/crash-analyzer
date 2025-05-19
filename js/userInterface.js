@@ -1,3 +1,23 @@
+document.addEventListener('DOMContentLoaded', function() {
+	const logTypeSelect = document.getElementById('logType');
+	const downloadLink = document.getElementById('downloadLink');
+	
+	// Define the Nexus Mods URLs for each crash logging mod
+	const modUrls = {
+		'crashlogger': 'https://www.nexusmods.com/skyrimspecialedition/mods/59818', // Crash Logger SSE
+		'netscript': 'https://www.nexusmods.com/skyrimspecialedition/mods/21294',   // .NET Script Framework
+		'trainwreck': 'https://www.nexusmods.com/skyrimspecialedition/mods/106440'   // Trainwreck
+	};
+	
+	// Set initial URL explicitly (not relying on the default value)
+	downloadLink.href = modUrls['crashlogger'];
+	
+	// Update URL when selection changes
+	logTypeSelect.addEventListener('change', function() {
+		downloadLink.href = modUrls[this.value];
+	});
+});
+
 document.addEventListener('DOMContentLoaded', function () {
 
 	if (Utils.isSkyrimPage) {
@@ -17,12 +37,12 @@ document.addEventListener('DOMContentLoaded', function () {
 				Replace [Skyrim_Directory] with your actual Skyrim installation directory path.<br>
 			`;
 			} else if (selectedValue === 'crashlogger') {
-				crashDirectory.textContent = '[Skyrim_Directory]\\Data\\SKSE\\Plugins\\CrashLogger\\Logs<br>-OR- [My_Documents]\\My Games\\Skyrim Special Edition\\SKSE';
+				crashDirectory.textContent = '[My_Documents]\\My Games\\Skyrim Special Edition\\SKSE';
 				pageTitle.textContent = "Phostwood's Skyrim Crash Log Analyzer";
 				logInstructions.innerHTML = `
 				<strong>Find your crash logs at:</strong><br>
 				<code id="crashDirectory">${crashDirectory.textContent}</code><br>
-				Replace [Skyrim_Directory] or [My_Documents] with your actual directory path.<br>
+				Replace [My_Documents] with your actual directory path.<br>
 			`;
 			} else if (selectedValue === 'trainwreck') {
 				crashDirectory.textContent = '[My_Documents]\\My Games\\Skyrim Special Edition\\SKSE\\Crashlogs';

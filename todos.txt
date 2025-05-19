@@ -1,11 +1,18 @@
-✅Version 1.22.21 is now live:
+✅Version 1.23.1 is now live:
 https://phostwood.github.io/crash-analyzer/
 
-1. XAudio update:
-	- refinements to troubleshooting steps
-	- reference: https://www.reddit.com/r/skyrimmods/comments/1jbak3v/comment/mpq85jb/
-	- TY for lollllll_nope
+- ✅slightly lowered goal percentage from 80-90% to 75-90%
 
+- ✅❓ Possible Texture Issue Indicators Found:
+	- small clarifications and a note about MO2
+
+- ✅Fix u/Phostwood links from here to Reddit, updating old links to new replacement posts:
+		- OLD: https://www.reddit.com/r/Nolvus/comments/1chuod0/how_to_apply_order_button_usage_in_the_nolvus/
+		- NEW: https://www.reddit.com/r/Nolvus/comments/1kp1lrw/guide_using_the_apply_order_button_in_nolvus/
+
+- ✅new animated clock, and new layout for donations section.
+
+- ✅links to perspective crash logging mods directly below their listed directories for finding their logs
 
 
 
@@ -13,14 +20,16 @@ https://phostwood.github.io/crash-analyzer/
 
 1. Enhancement to Files and Elements:  Highlights "(char*)" lines
 	- If line contains "(char*)" then skip rest of checks (either showing whole line, or not showing it at all)
-		- strip out strings, and if what's left has >2 characers, then display whole line?
+		- strip out strings, and if what's left has >2 characters, then display whole line?
+			- strip out the identifying "(char*)"
 			- strip out "Skyrim.exe" and others skip things like that (there's a list already)
 			- then strip out all non-alphabet characters
+			- (also strip out white space characters, but they should already be stripped out?) 
 			- if >2 characters, show whole string, without anything stripped out
 
 2. New Advanced Users test for "(char*) "SmoothCamMCM"
-	SmoothCam may be crashing, so disable it and see.
-	If it is responsible, check if you meet the requirements."
+	- https://www.reddit.com/r/skyrimmods/comments/1kavpv9/game_crashes_randomly_after_loading/
+	- something like RomatebitegeL's: "SmoothCam may be crashing, so disable it and see. If it is responsible, check if you meet the requirements."
 
 
 
