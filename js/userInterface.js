@@ -293,55 +293,39 @@ document.addEventListener('DOMContentLoaded', function () {
 	
 	// Shared function to show format selection popup
 	function showFormatSelectionPopup(contentProvider, callback) {
-		// Create custom dialog with buttons
-		var dialogOverlay = document.createElement('div');
-		dialogOverlay.style.position = 'fixed';
-		dialogOverlay.style.top = '0';
-		dialogOverlay.style.left = '0';
-		dialogOverlay.style.width = '100%';
-		dialogOverlay.style.height = '100%';
-		dialogOverlay.style.backgroundColor = 'rgba(0,0,0,0.5)';
-		dialogOverlay.style.zIndex = '1000';
-		dialogOverlay.style.display = 'flex';
-		dialogOverlay.style.justifyContent = 'center';
-		dialogOverlay.style.alignItems = 'center';
-
-		var dialogBox = document.createElement('div');
-		dialogBox.style.backgroundColor = 'white';
-		dialogBox.style.padding = '20px';
-		dialogBox.style.borderRadius = '5px';
-		dialogBox.style.maxWidth = '400px';
-		dialogBox.style.textAlign = 'center';
+		// Create the dialog HTML using template literals
+		var dialogHTML = `
+			<div style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5); z-index: 1000; display: flex; justify-content: center; align-items: center;">
+				<div style="background-color: white; padding: 20px; border-radius: 5px; max-width: 400px; text-align: center;">
+					<h3 style="margin-top: 0; color: #333;">Copy to clipboard with markdown formatting for:</h3>
+					<div style="display: flex; justify-content: space-around; margin-top: 20px;">
+						<button id="redditBtn" style="padding: 8px 16px;">Reddit</button>
+						<button id="discordBtn" style="padding: 8px 16px;">Discord</button>
+					</div>
+					<div style="margin-top: 15px; text-align: center;">
+						<input type="checkbox" id="disableMarkdownLinks">
+						<label for="disableMarkdownLinks" style="margin-left: 5px; color: #000;">Disable markdown links</label>
+					</div>
+				</div>
+			</div>
+		`;
 		
-		var dialogTitle = document.createElement('h3');
-		dialogTitle.textContent = 'Copy to clipboard with markdown formatting for:';
-		dialogTitle.style.marginTop = '0';
-		dialogTitle.style.color = '#333';
+		// Create a container for the dialog
+		var dialogContainer = document.createElement('div');
+		dialogContainer.innerHTML = dialogHTML;
 		
-		var buttonContainer = document.createElement('div');
-		buttonContainer.style.display = 'flex';
-		buttonContainer.style.justifyContent = 'space-around';
-		buttonContainer.style.marginTop = '20px';
+		// Append the dialog to the body
+		var dialogElement = dialogContainer.firstElementChild;
+		document.body.appendChild(dialogElement);
 		
-		var redditBtn = document.createElement('button');
-		redditBtn.textContent = 'Reddit';
-		redditBtn.style.padding = '8px 16px';
-		
-		var discordBtn = document.createElement('button');
-		discordBtn.textContent = 'Discord';
-		discordBtn.style.padding = '8px 16px';
-		
-		buttonContainer.appendChild(redditBtn);
-		buttonContainer.appendChild(discordBtn);
-		
-		dialogBox.appendChild(dialogTitle);
-		dialogBox.appendChild(buttonContainer);
-		dialogOverlay.appendChild(dialogBox);
-		document.body.appendChild(dialogOverlay);
+		// Get references to the buttons and checkbox
+		var redditBtn = dialogElement.querySelector('#redditBtn');
+		var discordBtn = dialogElement.querySelector('#discordBtn');
+		var disableLinksCheckbox = dialogElement.querySelector('#disableMarkdownLinks');
 		
 		// Button event handlers
 		function handleButtonClick(formatType) {
-			document.body.removeChild(dialogOverlay);
+			document.body.removeChild(dialogElement);
 			
 			var analyzerCitation = getAnalyzerCitation();
 			
@@ -355,6 +339,12 @@ document.addEventListener('DOMContentLoaded', function () {
 			var content = contentProvider();
 			var markdown = convertHTMLToMarkdown(content);
 			var finalMarkdown = markdown + analyzerCitation;
+			
+			// Check if disable markdown links is checked
+			if (disableLinksCheckbox.checked) {
+				finalMarkdown = finalMarkdown.replace(/\]\(/g, ']:(');
+			}
+			
 			copyToClipboard(finalMarkdown);
 			
 			// Reset the format flags after copying
@@ -373,8 +363,7 @@ document.addEventListener('DOMContentLoaded', function () {
 		discordBtn.addEventListener('click', function() {
 			handleButtonClick("Discord");
 		});
-	}
-	
+	};
 
 
 

@@ -1,22 +1,13 @@
-✅Version 1.23.1 is now live:
+✅Version 1.23.2 is now live:
 https://phostwood.github.io/crash-analyzer/
 
-- ✅slightly lowered goal percentage from 80-90% to 75-90%
-
-- ✅❓ Possible Texture Issue Indicators Found:
-	- small clarifications and a note about MO2
-
-- ✅Fix u/Phostwood links from here to Reddit, updating old links to new replacement posts:
-		- OLD: https://www.reddit.com/r/Nolvus/comments/1chuod0/how_to_apply_order_button_usage_in_the_nolvus/
-		- NEW: https://www.reddit.com/r/Nolvus/comments/1kp1lrw/guide_using_the_apply_order_button_in_nolvus/
-
-- ✅new animated clock, and new layout for donations section.
-
-- ✅links to perspective crash logging mods directly below their listed directories for finding their logs
+1. New feature when copying markdown to clipboard: "Disable markdown links" checkbox
 
 
 
 --- Next version(s): ---
+
+2. ⭐️⭐️⭐️⭐️ New Ostim test suggested in r/Phostwood
 
 1. Enhancement to Files and Elements:  Highlights "(char*)" lines
 	- If line contains "(char*)" then skip rest of checks (either showing whole line, or not showing it at all)
@@ -64,7 +55,7 @@ https://phostwood.github.io/crash-analyzer/
 
 --
 
-0. ⭐️⭐️⭐️⭐️ New Ostim test suggested in r/Phostwood
+
 
 
 0. Possibly missing some animation indictors? https://discord.com/channels/872252014002843658/1356122186733195304/1356171765029535827
