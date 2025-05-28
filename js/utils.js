@@ -21,7 +21,7 @@ Utils.isDebugging = false; // Set this to false to disable debugging (non-error)
 //Utils.debugBatch = ['generateLogSummary', 'processLines', 'splitIntoLines', 'getLogSectionsMap', 'getLogSectionsMap'];
 //Utils.debugBatch = ['getLogType', 'userInterface.js'];
 //Utils.debugBatch = ['analyzeLog', 'getBadlyOrganizedNolvusPlugins' ];
-Utils.debugBatch = ['getLogSectionsMap_long'];
+//Utils.debugBatch = ['getLogSectionsMap_long'];
 //Utils.debugBatch = ['hasSkyrimAE'];
 //Utils.debugBatch = ['getLogSectionsMap_long', 'getLogType', 'getLogSectionsMap'];
 //Utils.debugBatch = ['loadAndAnalyzeTestLog'];
@@ -36,7 +36,7 @@ Utils.debugBatch = ['getLogSectionsMap_long'];
 //Utils.debugBatch = ['Utils.FilenamesTracker'];
 //Utils.debugBatch = ['disableAnalyzeButtonAndTrackUniqueCrashLogCount'];
 
-
+Utils.debugBatch = ['Utils.hasGamePluginsLoaded'];
 
 
 
@@ -415,6 +415,62 @@ Utils.countNullVoid = function(crashLog) {
 };
 
 
+Utils.hasGamePluginsLoaded = function (modCounts, pluginList = []) {
+    Utils.debuggingLog(['Utils.hasGamePluginsLoaded'], 'modCounts.gamePlugins:', modCounts.gamePlugins);
+    Utils.debuggingLog(['Utils.hasGamePluginsLoaded'], 'pluginList:', pluginList);
+    // Convert pluginList to array if it's a string, then filter out empty entries
+    const pluginsArray = Array.isArray(pluginList) ? pluginList : (pluginList ? pluginList.split('\n') : []);
+    const expectedBaseMods = pluginsArray.filter(plugin => plugin && plugin.trim());
+    Utils.debuggingLog(['Utils.hasGamePluginsLoaded'], 'expectedBaseMods:', expectedBaseMods);
+    
+    // First condition: if modCounts.gamePlugins < 5, then they aren't loaded
+    if (modCounts.gamePlugins < 5) {
+        return false;
+    }
+
+    // Second condition: if last plugin contains ".esm", then they aren't loaded
+    if (expectedBaseMods.length > 0) {
+        const lastPlugin = expectedBaseMods[expectedBaseMods.length - 1].trim();
+        Utils.debuggingLog(['Utils.hasGamePluginsLoaded'], 'lastPlugin:', lastPlugin);
+        if (lastPlugin && lastPlugin.toLowerCase().includes('.esm')) {
+            return false;
+        }
+    }
+
+    // Third condition: if no mods exist outside of expected base mods
+    if (expectedBaseMods.length === 0) {
+        return false; // No plugins at all
+    }
+
+    // Check if all plugins are in the expected base mods list (case-insensitive)
+    const expectedSet = new Set(EXPECTED_BASE_MODS.map(mod => mod.toLowerCase()));
+    
+    // Extract clean filenames from plugin entries and log plugins that aren't in the expectedSet
+    const cleanPlugins = expectedBaseMods.map(plugin => {
+        const trimmed = plugin.trim();
+        // Extract filename from crash log format like "\t[ 0] Skyrim.esm" or similar patterns
+        const match = trimmed.match(/\]\s*([^[\]]+\.(esm|esl|esp))$/i) || 
+                     trimmed.match(/([^[\]\\\/\t]+\.(esm|esl|esp))$/i);
+        return match ? match[1].trim() : trimmed;
+    });
+    
+    const pluginsNotInExpectedSet = cleanPlugins.filter(plugin => 
+        !expectedSet.has(plugin.toLowerCase())
+    );
+    Utils.debuggingLog(['Utils.hasGamePluginsLoaded'], 'plugins not in expectedSet:', pluginsNotInExpectedSet);
+    
+    const hasOnlyBaseMods = cleanPlugins.every(plugin =>
+        expectedSet.has(plugin.toLowerCase())
+    );
+    Utils.debuggingLog(['Utils.hasGamePluginsLoaded'], 'hasOnlyBaseMods:', hasOnlyBaseMods);
+
+    if (hasOnlyBaseMods) {
+        return false;
+    }
+
+    return true; //Passed all checks for false
+}
+
 
 Utils.countNonEslPlugins = function(crashLogSection) {
     //NOTE: complicated in that some .esp files are flagged to behave in this manner like .esl files.
@@ -440,7 +496,7 @@ Utils.countNonEslPlugins = function(crashLogSection) {
         }
     }
 
-    const nonEslPluginsCount = parseInt(largestHex, 16);
+    const nonEslPluginsCount = parseInt(largestHex, 16) +1; //+1 since plugins start counting at zero
     
     return {
         largestHex: `[${largestHex}]`,

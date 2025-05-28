@@ -455,7 +455,8 @@ function checkForMissingMasters(sections) {
     const modCounts = Utils.modCounts(sections);
     const hasBeesInstalled = sections.fullLogFileLowerCase.includes('BackportedESLSupport.dll'.toLowerCase());
     Utils.debuggingLog(['checkForMissingMasters'], 'modCounts:', modCounts);
-    let hasLoadedGamePlugins = modCounts.gamePlugins > 0;
+    let hasLoadedGamePlugins = Utils.hasGamePluginsLoaded(modCounts, sections.gamePlugins);
+    Utils.debuggingLog(['Utils.hasGamePluginsLoaded', 'checkForMissingMasters'], 'hasLoadedGamePlugins:', hasLoadedGamePlugins);
     let diagnoses = '';
 
     if (sections.logType === "Trainwreck") {
@@ -483,7 +484,7 @@ function checkForMissingMasters(sections) {
         
         // Special message for no plugins only case
         if (onlyNoPlugins) {
-            diagnoses += 'No game plugins were detected in your log. If your modlist is intentionally designed to have zero plugins (rare), you can ignore this warning. Otherwise, this indicates a potential problem with your load order that needs investigation. ';
+            diagnoses += 'Few or no game plugins were detected in your log. If your modlist is intentionally designed to have few or zero plugins (rare), you can ignore this warning. Otherwise, this indicates a potential problem with your load order that needs investigation. ';
         }
         
         diagnoses += 'Your load order might be missing required master files or other dependency, which can lead to instability and crashes. NOTE: Review other high-likelihood diagnoses first, as some of them can cause (or appear to cause) this issue. Here are some possible causes and solutions:<ul>';
@@ -533,7 +534,7 @@ function checkForMissingMasters(sections) {
                 diagnoses += `<li><code>SettingT&lt;INISettingCollection&gt;*</code> - INI setting collection error detected</li>`;
             }
             if (!hasLoadedGamePlugins) {
-                diagnoses += `<li><code>No plugins</code> - No game plugins were detected in the log</li>`;
+                diagnoses += `<li><code>No plugins</code> - plugins appear to have not fully loaded?</li>`;
             }
 
         diagnoses += '</ul></ul></li>';
@@ -541,6 +542,7 @@ function checkForMissingMasters(sections) {
 
     return diagnoses;
 }
+
 
 
 
@@ -1965,6 +1967,9 @@ function analyzeAnimationLoaderIssues(sections) {
             <li>Incompatible animation mods between different behavior engines</li>
             <li>Incorrect load order for animation frameworks</li>
             <li>Corrupted behavior files from incomplete downloads or updates</li>
+            <li>Incorrect versions of related patches</li>
+            </ul>
+            <li>Incorrect configuration of your Animation Loader/Behavior Engine</li>
             </ul>
         </li>`;
 
@@ -2419,7 +2424,7 @@ function checkLotdKaragasTowerDoorCrash(sections) {
                         <li>Load a save from before entering Karagas' Maze</li>
                         <li>Dismiss all followers and pet followers (including mod-added ones like Inigo, Meeko, etc.)</li>
                         <li>Complete the dungeon without followers</li>
-                        <li>You can safely resummon followers once inside the tower</li>
+                        <li>You can safely resume followers once inside the tower</li>
                     </ol>
                 </li>
                 <li>Technical details:

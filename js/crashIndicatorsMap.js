@@ -258,7 +258,10 @@ const crashIndicators = {
             { code: 'DetourNavMesh', description: "Detour navigation mesh system error" },
             { code: 'PathingStreamManager', description: "Path streaming management failure" },
             { code: 'NavmeshProcessing', description: "Navigation mesh processing error" },
-            { code: 'PathSmoothing', description: "Path smoothing calculation issue" }
+            { code: 'PathSmoothing', description: "Path smoothing calculation issue" },
+            { code: 'Path Following Movement State', description: "Path following movement state error" },
+            { code: 'MovementPostUpdateArbiter', description: "Movement post-update arbiter issue" },
+            { code: 'MovementPlannerAgentWarp', description: "Movement planner agent warp error" },
         ]
     },
 

@@ -1,13 +1,63 @@
-✅Version 1.23.2 is now live:
+✅Version 1.23.3 is now live:
 https://phostwood.github.io/crash-analyzer/
 
-1. New feature when copying markdown to clipboard: "Disable markdown links" checkbox
+
+1. ✅BUG FIX: Add to Missing Masters check:
+	- Don't count base plugins towards plugins didn't load test
+		- new "expectedBaseMods.js" data file
+		- includes game base .esm files and Creation Club content
+	- If last plugin listed contains:
+		"ccbgssse014" ... then probably a missing masters/dependency
+	-Inspiration:
+		https://www.reddit.com/r/skyrimmods/comments/1ktpzi5/help_ctd_opening_inventory_or_looting/
+
+2. ✅ Typo (see separate notes): resummon  -> resume
+
+3. ✅❓Animation Loader/Behavior Engine Issue Detected: 
+	- check for: ~~"Incorrect versions of patches or bad configurations for your Animation Loader/Behavior Engine"
+
+4. ✅Added newly-discovered Pathing Issue indicators:
+	- source: https://www.reddit.com/r/skyrimmods/comments/1kusls1/comment/mu5mp4y/?context=3
+	- (char*) "Path Following Movement State"
+	- MovementPostUpdateArbiter
+	- MovementPlannerAgentWarp
+
+5. ✅Bug fix for max plugins. Largest allowable isn't FE, its FD
+	- THANK SieurPersil !
 
 
 
 --- Next version(s): ---
 
+1. Repost and fix links to this reddit post:
+	- https://www.reddit.com/r/Nolvus/comments/1b041m9/reference_keep_your_active_esmsesps_count_to_254/
+
+1. Sometimes incomplete log files (like where it doesn't even show the REgisters or the Stack) can be fixed by reverting to an old save? 
+	- source: https://discord.com/channels/902984082181484615/1133753226991255562/1376200636424650803
+
+1. ❓ Possible dxgi.dll Compatibility Notice:
+	- can this be fixed by reinstalling DirectX?
+
+3. Add instructions on checking for missing masters using xEdit? (see FAQ from GTS Discord, or better yet, find a good link on the subject?)
+
+
+1. Skeleton-only lists should not throw a mesh issue....
+
+3. Some way of emphasizing the first mod in the top quarter of the Stack? Maybe a separate test?
+
+4. Donation Section: Buy me a mead? New mead animated gif?
+
 2. ⭐️⭐️⭐️⭐️ New Ostim test suggested in r/Phostwood
+
+4. Link to Safe Save Collection?  https://www.nexusmods.com/games/skyrimspecialedition/collections/4o4jxh
+
+	- Thanks: Ceri; Goolock of Yig, QuietSerpa, and BuccaneerSerpa (Rak!)
+		- Mention on GTS Discord?
+
+1. Test for using Oldrim versions instead of SE/AE versions of mods?
+https://www.reddit.com/r/skyrimmods/comments/1kr73bt/skyrim_keeps_crashing_with_exception_access/
+
+
 
 1. Enhancement to Files and Elements:  Highlights "(char*)" lines
 	- If line contains "(char*)" then skip rest of checks (either showing whole line, or not showing it at all)
