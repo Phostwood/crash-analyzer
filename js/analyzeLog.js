@@ -198,6 +198,12 @@ async function analyzeLog() {
         diagnosesCount++;
     }
 
+    //❗ Probable New Game Crash (Missing INI Files) Detected:
+    const newGameCrashDiagnosis = analyzeNewGameCrash(sections);
+    if(newGameCrashDiagnosis) {
+        diagnoses += newGameCrashDiagnosis;
+        diagnosesCount++;
+    }
 
 
 

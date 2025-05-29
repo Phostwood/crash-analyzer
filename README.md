@@ -1,6 +1,6 @@
 # Phostwood's Crash Analyzers:
 
-With over 550 hours of ongoing development, these advanced analyzers examine Nolvus (and general Skyrim) crash logs to help diagnose and fix 75-90% of crashes with identifiable causes, providing well-researched troubleshooting steps and links. It's currently helping over 100 different Skyrim modders each day, and stands apart from other automated analyzers with its advanced diagnoses, detailed troubleshooting steps (for most crash types) and frequent updates.
+With over 550 hours of ongoing development, these advanced analyzers examine Nolvus (and general Skyrim) crash logs to help diagnose and fix 75-90% of crashes with identifiable causes, providing well-researched troubleshooting steps and links. It's currently helping almost 200 different Skyrim modders each day, and stands apart from other automated analyzers with its advanced diagnoses, detailed troubleshooting steps (for most crash types) and frequent updates.
 While not a replacement for talented human crash log readers, it works much faster and, when used judiciously, can free up these rare experts to focus on the more challenging crash logs that require human analysis. 
 
 

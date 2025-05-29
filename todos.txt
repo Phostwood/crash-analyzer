@@ -1,29 +1,12 @@
-✅Version 1.23.3 is now live:
+✅Version 1.23.4 is now live:
 https://phostwood.github.io/crash-analyzer/
 
 
-1. ✅BUG FIX: Add to Missing Masters check:
-	- Don't count base plugins towards plugins didn't load test
-		- new "expectedBaseMods.js" data file
-		- includes game base .esm files and Creation Club content
-	- If last plugin listed contains:
-		"ccbgssse014" ... then probably a missing masters/dependency
-	-Inspiration:
-		https://www.reddit.com/r/skyrimmods/comments/1ktpzi5/help_ctd_opening_inventory_or_looting/
+✅1. New test: ❗ Probable New Game Crash (Missing INI Files) Detected: 
+	- Thanks added to:
+		- SpinPigeon
+		- DOGGO323
 
-2. ✅ Typo (see separate notes): resummon  -> resume
-
-3. ✅❓Animation Loader/Behavior Engine Issue Detected: 
-	- check for: ~~"Incorrect versions of patches or bad configurations for your Animation Loader/Behavior Engine"
-
-4. ✅Added newly-discovered Pathing Issue indicators:
-	- source: https://www.reddit.com/r/skyrimmods/comments/1kusls1/comment/mu5mp4y/?context=3
-	- (char*) "Path Following Movement State"
-	- MovementPostUpdateArbiter
-	- MovementPlannerAgentWarp
-
-5. ✅Bug fix for max plugins. Largest allowable isn't FE, its FD
-	- THANK SieurPersil !
 
 
 
