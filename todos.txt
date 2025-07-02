@@ -1,16 +1,100 @@
-✅Version 1.23.4 is now live:
+✅Version 1.23.5 is now live:
 https://phostwood.github.io/crash-analyzer/
 
 
-✅1. New test: ❗ Probable New Game Crash (Missing INI Files) Detected: 
-	- Thanks added to:
-		- SpinPigeon
-		- DOGGO323
+1. Mentions of overclocking need to include mention of XMP memory ... find a link?
 
+2. Updated donations section
+
+
+
+
+
+--- NEXT VERSIONS: ---
+
+0. Add two stress test tools for when you're getting frequent crashes for seemingly random, undiagnosiable reasons:
+https://www.ocbase.com/download
+ 
+https://apps.microsoft.com/detail/xpfmmcr4r5mxgs?hl=en-US&gl=US
+
+0. Intel has a tool now that can help identify that cpu bug - https://www.intel.com/content/www/us/en/support/articles/000005567/processors.html
+
+
+1. Missing Master:
+	- Added instruction at top:
+		- Auto-installing Modlist User: typically this indicates you need to autosort your modlist. Check with your modlist's support for details (Nolvus has an "Apply Sort" button in its desktop. Vortex has a Plugins: Sort button.). Or you could have not installed required Creation Club Content, or have installed other mods via Skyrim's built in mod loader (see below for details).
+	- NOTE: See start of new test for this in Claude
+
+2. Missing Masters SSEdit instructions from GTS's Discord:
+	- https://discord.com/channels/902984082181484615/1239418241462439936/1239418241462439936
+		- might make a good more info link ... best I've seen that doesn't rely on MO2
+		- 
+	- "P.S. Dwarven Armored Mudcrab and Alternate Armors - Elven Hunter are notorious for not downloading the first time. You might need to open their respective pages on the Creations menu and download from there."
+		- at least acknowledge that the CC content sometimes doesn't fully install?
+
+3. Missing Masters again:
+	- if your log is cut off and extra short, it could mean you have some sort of save file corruption. Usually you'll need to work backwards trying progressively older saves until one works.
+
+
+
+6. "Crashes after reloading saves midgame are unavoidable"
+
+	To prevent this, quit out of Skyrim entirely, then restart and reload.
+
+	Or, to likely-mitigate the  issue, use  "Clean Save Auto-reloader":
+	https://www.nexusmods.com/skyrimspecialedition/mods/88219
+
+	For a more thorough  approach , try the "Safe Save Helpers"  mod collection.
+	https://www.nexusmods.com/games/skyrimspecialedition/collections/4o4jxh/mods
+
+	Also, to prevent  automatically reloading after dying, try a fun  alternate death mod, like  "Shadow of Skyrim - Nemesis and Alternative Death System":
+	https://www.nexusmods.com/skyrimspecialedition/mods/65136
+
+
+7. Change ticking clock to a dollar bill? Or a begging animation? Change these frequently ... cycle through the best ones...
+
+
+8. High Memory usage should only be in diagnosis if "suspect"/critical ... otherwise move to Insights section
+	- we want to keep those "General Guidelines" showing up....
+
+
+--- NEXT VERSION: ---
+
+6. ❓ Possible Shader/Lighting Issue:
+	- Add info about changing to a smaller screen resolution before playing. Sometimes that can help simplify things and help the hardware to keep up....
+	- https://discord.com/channels/902984082181484615/1133753226991255562/1382768070656790608
+
+7. Saving/Loading Issues:
+	- Additional indicators for save/loading issues, all found in all three of SpinPigeon's cited example files:
+		- BGSSaveLoadManager (existing sole indicator checked in my analyzer for this issue)
+		- BGSLoadGameBuffer
+		- Win32FileType
+		- .ess
+		- saveload
+		- LoadRequest
+		- BSWin32SaveDataSystemUtility
+	- Something like this?
+		- "Loading a second file (automatically due to death, or manually for any reason) into Skyrim often ends up mixing aspects of your prior game and with the newly loaded save. This is why its a best practice to quit to desktop before loading a second file into a running instance of Skyrim. Because of this, many loading issues can be fixed simply by quitting out of Skyrim, and reloading the desired save"
+	- checking list of indicators with SpinPigeon: https://discord.com/channels/902984082181484615/1133753226991255562/1378538268030926858
+
+
+8. ReSaver: paraphrasing: "WARNING, do not use this to clean your saves automatically, I would recommend this tool only to have a look at what's going on in your save. Cleaning is a destructive process, and should only be done as a last resort!"
 
 
 
 --- Next version(s): ---
+
+3. KERNELBASE Crash Detected:
+	- "Review the rest of the advice in this report (above and below), and see if there are strong indications of any better-isolated isolated issue. Sometimes other mods/issues can cause a "KERNELBASE Crash". "
+		- Add to this: "Missing Masters (see below) can often also cause this issue
+		- Maybe move Missing Masters above Kernelbase? Or Kernelbase below Missing Masters?
+
+
+5. ❓ Animations:
+	- "Animation issue makes sense for that crash. I should probably note in my analyzer's info on those that a bad save can cause animation issues (and that often rerunning Nemesis can fix)."
+	- https://discord.com/channels/902984082181484615/1133753226991255562/1378393836157538484
+	- BUT did SpinPigeon take this back?
+		- https://discord.com/channels/902984082181484615/1133753226991255562/1378395712219381882
 
 1. Repost and fix links to this reddit post:
 	- https://www.reddit.com/r/Nolvus/comments/1b041m9/reference_keep_your_active_esmsesps_count_to_254/

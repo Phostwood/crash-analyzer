@@ -273,6 +273,11 @@ span {
     animation: jiggle 2s infinite;
 }
 
+.kofi-button2 img {
+    height: 4em;
+    animation: jiggle 2s infinite;
+}
+
 .kofi-button span {
     font-family: 'Roboto Condensed', sans-serif;
 }

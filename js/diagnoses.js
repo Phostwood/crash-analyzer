@@ -367,7 +367,7 @@ function checkForD6dddaEasyVersion(sections) {
                     <ol>
                         <li>Close unnecessary background applications that may be consuming memory.</li>
                         ${verifyWindowsPageFileListItem}
-                        <li>Return any overclocked hardware to stock speeds, as unstable overclocks are known for causing crashes that can look like memory issues in crash logs.</li>
+                        <li>Return any overclocked hardware (including RAM using XMP or AMD EXPO) to stock speeds, as unstable overclocks are known for causing crashes that can look like memory issues in crash logs.</li>
                         <li>Maintain <a href="https://computercity.com/hardware/storage/how-much-space-should-i-leave-on-my-ssd">at least 10-20% free space</a> on your SSD for optimal performance.</li>
                         <li>Review your modlist's (or individual mods') recommended hardware requirements to verify you aren't overly below their system recommendations.</li>
                         <li>Hardware Diagnostics: If crashes persist, run Windows Memory Diagnostic or <a href="https://www.memtest86.com/">MemTest86</a> to check for faulty RAM. While rare, recurring D6DDDA crashes can sometimes indicate hardware issues.</li>
@@ -395,7 +395,7 @@ function checkForD6dddaAdvancedVersion(sections) {
                     <ol>
                         <li>Close unnecessary background applications that may be consuming memory.</li>
                         ${verifyWindowsPageFileListItem}
-                        <li>Return any overclocked hardware to stock speeds, as unstable overclocks are known for causing crashes that can look like memory issues in crash logs.</li>
+                        <li>Return any overclocked hardware (including RAM using XMP or AMD EXPO) to stock speeds, as unstable overclocks are known for causing crashes that can look like memory issues in crash logs.</li>
                         <li>Maintain <a href="https://computercity.com/hardware/storage/how-much-space-should-i-leave-on-my-ssd">at least 10-20% free space</a> on your SSD for optimal performance.</li>
                         <li>🚀 For systems with less than 12GB VRAM (or more for ultrawide/high-resolution displays) (<a href="https://www.lifewire.com/how-to-check-vram-5235783">check your VRAM here</a>), consider using <a href="https://www.nexusmods.com/skyrimspecialedition/mods/90557">VRAMr</a>. This tool automatically compresses texture files across your load order, reducing VRAM usage while maintaining visual fidelity and improving stability.</li>
                         <li>Review your modlist's (or individual mods') recommended hardware requirements to verify you aren't overly below their system recommendations.</li>
@@ -734,7 +734,7 @@ function analyzeMemoryIssues(sections) {
             <ul>
             <li>Reboot PC and close any unnecessary applications to maximize available RAM for Skyrim.</li>
             ${verifyWindowsPageFileListItem}
-            <li>Return any overclocked hardware to stock speeds, as unstable overclocks are known for causing crashes that can look like memory issues in crash logs.</li>
+            <li>Return any overclocked hardware (including RAM using XMP or AMD EXPO) to stock speeds, as unstable overclocks are known for causing crashes that can look like memory issues in crash logs.</li>
             <li>Maintain <a href="https://computercity.com/hardware/storage/how-much-space-should-i-leave-on-my-ssd">at least 10-20% free space</a> on your SSD for optimal performance.</li>
             <li>Review your modlist's (or individual mods') recommended hardware requirements to verify you aren't overly below their system recommendations.</li>
             <li>Consider running memory diagnostic tools (Windows Memory Diagnostic or <a href="https://www.memtest86.com/">MemTest86</a>)</li>
@@ -1778,7 +1778,7 @@ function generateNoCrashDetectedMessage() {
                         <li>Sometimes it can help to <b>separate from your followers</b> to get past a crash point. Ask NPC and pet and horse followers to "wait" at a safe location, away from the crash-prone loading area (cell). This reduces script load and rendering complexities in crash-prone areas. This can be especially helpful during visually busy scenes like combat, and also with crashes that occur when loading into a new area. Afterwards, return to collect your followers once you're past the problematic spot. Alternatively, many follower frameworks will also allow teleporting companions back once you are past the crash-prone segment.</li> 
                         ${verifyWindowsPageFileListItem}
                         <li>Maintain <a href="https://computercity.com/hardware/storage/how-much-space-should-i-leave-on-my-ssd">at least 10-20% free space</a> on your SSD for optimal performance.</li>
-                        <li>Return any <b>overclocked hardware</b> to stock speeds.</li>
+                        <li>Return any <b>overclocked hardware</b> (including RAM using XMP or AMD EXPO) to stock speeds.</li>
                     </ul>
                 </li>
                 <li>🔧Verify that you have already correctly installed and configured <b>SSE Engine Fixes</b>: <a href="#" class="toggleButton">⤵️ show more</a>
