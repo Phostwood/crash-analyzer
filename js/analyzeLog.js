@@ -379,6 +379,15 @@ async function analyzeLog() {
         diagnosesCount++;
     }
 
+
+    // ❗ DynDOLOD v3.0.34 Crash Issue Detected:
+    const analyzeDynDOLODv3034IssueDiagnosis = analyzeDynDOLODv3034Issue(sections);
+    if (analyzeDynDOLODv3034IssueDiagnosis) {
+        diagnoses += analyzeDynDOLODv3034IssueDiagnosis;
+        diagnosesCount++;
+    }
+    
+
     // SSE Fixes issues
     const sseFixesResults = analyzeSSEFixesIssues(sections);
     if (sseFixesResults.insights) {

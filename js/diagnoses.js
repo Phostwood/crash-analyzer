@@ -857,6 +857,46 @@ function analyzeDragonsEyeMinimapIssue(sections) {
 }
 
 
+//❗ DynDOLOD v3.0.34 Crash Issue Detected:
+function analyzeDynDOLODv3034Issue(sections) {
+    let insights = '';
+    const dllFileName = 'DynDOLOD.DLL';
+    const targetVersion = '3.0.34';
+    
+    // Check if bottomHalf contains DynDOLOD.DLL and version 3.0.34 on the same line
+    const bottomHalfLines = sections.bottomHalf.split('\n');
+    const hasDllAndVersion = bottomHalfLines.some(line => 
+        line.toLowerCase().includes(dllFileName.toLowerCase()) && 
+        line.includes(targetVersion)
+    );
+    
+    if (hasDllAndVersion) {
+        // Check if topHalf contains both DynDOLOD.DLL.NG and DynDOLOD.esm
+        const topHalfLower = sections.topHalf.toLowerCase();
+        const hasDllNG = topHalfLower.includes('dyndolod.dll.ng');
+        const hasEsm = topHalfLower.includes('dyndolod.esm');
+        
+        if (hasDllNG && hasEsm) {
+             insights += `
+            <li>❗ <b>DynDOLOD v3.0.34 Crash Issue Detected:</b> This version of DynDOLOD is suspected to have stability issues.
+                <ol>
+                    <li>If this crash repeats frequently, the only "fix" seems to be downgrading to the more stable version of DynDOLOD, <b>version 33</b> from <a href="https://www.nexusmods.com/skyrimspecialedition/mods/97720?tab=files" target="_blank">this page on NexusMods.com</a>. Also, once version 35 is available, it will hopefully address this issue.</li>
+                    <li><b>For Advanced Users:</b> They're investigating this issue on <a href="https://stepmodifications.org/forum/topic/21092-crash/" target="_blank">this official thread</a>. There's also a test DLL there. If you want to contribute to that thread, please send the crashlog there along with other DynDOLOD logs: <a href="https://dyndolod.info/Official-DynDOLOD-Support-Forum#Post-Logs" target="_blank">Official DynDOLOD Support Forum</a></li>
+                    <li>Detected indicators: <a href="#" class="toggleButton">⤵️ show more</a>
+                        <ul class="extraInfo" style="display:none">
+                            <li><code>DynDOLOD.DLL</code> - version <code>3.0.34</code> detected in crash log</li>
+                            <li><code>DynDOLOD.DLL.NG</code> - found in top section of crash log</li>
+                            <li><code>DynDOLOD.esm</code> - found in top section of crash log</li>
+                        </ul>
+                    </li>
+                </ol>
+            </li>`;
+        }
+    }
+    
+    return insights;
+}
+
 
 //❗ Possible Visual C++ Runtime DLL Issues Detected:
 function analyzeVCRuntimeIssue(sections) {
