@@ -315,3 +315,9 @@ span {
     display: block;
     opacity: 1;
 }
+
+.important-emoji span {
+    display: inline-block; /* Important for transform to work */
+    font-size: clamp(1.5rem, 0.661vw + 1.347rem, 3rem); /* same size as H1 */
+    animation: jiggle 2s infinite;
+}

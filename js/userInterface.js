@@ -260,7 +260,7 @@ document.addEventListener('DOMContentLoaded', function () {
 	window.addEmojiClickEvent = function() {
 		var elements = document.querySelectorAll('li, details');
 		elements.forEach(function (element) {
-			var regex = /[\u{1F300}-\u{1F5FF}\u{1F600}-\u{1F64F}\u{1F680}-\u{1F6FF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}]/gu;
+			var regex = /[\u{1F300}-\u{1F5FF}\u{1F600}-\u{1F64F}\u{1F680}-\u{1F6FF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}\u{1F989}\u{1FA9B}\u{1F916}]/gu;
 			var matches = element.textContent.match(regex);
 			if (matches) {
 				matches.forEach(function (match) {

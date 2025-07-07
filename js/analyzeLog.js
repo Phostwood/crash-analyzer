@@ -103,6 +103,13 @@ async function analyzeLog() {
     }
 
 
+    // 🤖 For Users of Auto-Installing Modlists:
+    const checkCommonModlistIssuesDiagnosis = checkCommonModlistIssues(sections);
+    if(checkCommonModlistIssuesDiagnosis) {
+        diagnoses += checkCommonModlistIssuesDiagnosis;
+        diagnosesCount++;
+    }
+
     // ❗ First-Line Engine Fixes Issue:
     const firstLineEngineFixesDiagnosis = analyzeFirstLineEngineFixesCrash(sections);
     if(firstLineEngineFixesDiagnosis) {

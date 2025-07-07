@@ -1092,7 +1092,7 @@ function analyzeDawnguardHorseIssue(sections) {
         diagnosis +=  `
         <li>🎯 <b>Dawnguard Horse Issue Detected:</b> This is a specific variant of NavMesh/Pathing Issues (see below). The Dawnguard Horse from Skyrim Immersive Creatures is a common example. You can fix the issue with the following steps:
         <ol>
-            <li>Download and install <a href="https://www.nexusmods.com/skyrimspecialedition/mods/164" target="_blank">SSEEdit</a>.</li>
+            <li>Download and install <a href="https://www.nexusmods.com/skyrimspecialedition/mods/164" target="_blank">SSEEdit (xEdit)</a>.</li>
             <li>Open SSEEdit, enable "Skyrim Immersive Creatures" mod, and click "Open Plugins Selected."</li>
             <li>Once finished loading, search for Editor ID: <code>SIC_WERoad07</code> and delete this whole form ID.</li>
             <li>Save changes and close SSEEdit.</li>
@@ -1224,7 +1224,7 @@ function analyzeAnimationIssues(sections) {
 
         animationInsights += `
             <li>If you are using <a href="https://www.nexusmods.com/skyrimspecialedition/mods/33746">Dynamic Animation Replacer</a> as your animation framework, consider upgrading to its drop-in replacement mod, <a href="https://www.nexusmods.com/skyrimspecialedition/mods/92109">Open Animation Replacer</a>.</li>
-            <li>For more detailed analysis, use tools like <a href="https://www.nexusmods.com/skyrimspecialedition/mods/164">SSEEdit</a> to examine animation-related records in your mods.</li>
+            <li>For more detailed analysis, use tools like <a href="https://www.nexusmods.com/skyrimspecialedition/mods/164">SSEEdit (xEdit)</a> to examine animation-related records in your mods.</li>
             </ul>
         </li>
 
@@ -1476,7 +1476,7 @@ function analyzeBGSSaveLoadManagerIssue(sections) {
             ${Utils.isSkyrimPage ? checkSaveFileSize : ''}
             <li>If crash is repetitive, try loading from your <b>last working save</b>. If possible, identify this file, and load this last save game that worked and try to play from there.</li>
             <li>💾 Consider using save cleaning tools to remove orphaned scripts and other potential corruption. <a href="https://www.nexusmods.com/skyrim/mods/76776">FallrimTools ReSaver</a> can sometimes fix corrupted save files. See also these <a href="https://www.reddit.com/r/skyrimmods/s/fbMRv343vm">instructions by Krispyroll</a> and more information in <a href="https://www.reddit.com/r/skyrimmods/comments/1d0r0f0/reading_crash_logs/##:~:text=Resaver">Krispyroll's Reading Crash Logs Guide</a>. NOTE: Always keep backups of your saves before attempting fixes or using cleaning tools.</li>
-            <li><b>Advanced Users</b> can try using <a href="https://www.nexusmods.com/skyrimspecialedition/mods/164">SSEEdit</a> and <a href="https://www.nexusmods.com/skyrimspecialedition/mods/68889">Find dangerous ESLs - xEdit script</a> for isolating ESL plugins that may potentially corrupt game saves and cause crashes.</a>
+            <li><b>Advanced Users</b> can try using <a href="https://www.nexusmods.com/skyrimspecialedition/mods/164">SSEEdit (xEdit)</a> and <a href="https://www.nexusmods.com/skyrimspecialedition/mods/68889">Find dangerous ESLs - xEdit script</a> for isolating ESL plugins that may potentially corrupt game saves and cause crashes.</a>
             <li>🛡️ Consider following <b>Jerilith's 2025 Skyrim Safe-Save-Guide [sexy free edition]</b> (quoted below). Not adhering to these guidelines over time may contribute to broken save files. Note: The necessity of some of these rules has been debated; however, many believe these rules can help prevent issues when other causes are unknown, especially with large modlists and 500+ hour playthroughs.
             <ol>
                 <li>Do not Save in combat.</li>
@@ -2969,7 +2969,7 @@ function analyzeCoTDivideByZeroCrash(sections) {
         insights += `<li>❗ <b>Climates Of Tamriel Divide By Zero Crash Detected:</b> This is a known issue with Climates of Tamriel causing a divide by zero error. Here's how to resolve it:<ol>
             <li>For existing saves (advanced users only):
                 <ul>
-                <li>Try using <a href="https://www.nexusmods.com/skyrimspecialedition/mods/5031">ReSaver</a> and <a href="https://www.nexusmods.com/skyrimspecialedition/mods/164">SSEEdit</a> to remove the associated FormID</li>
+                <li>Try using <a href="https://www.nexusmods.com/skyrimspecialedition/mods/5031">ReSaver</a> and <a href="https://www.nexusmods.com/skyrimspecialedition/mods/164">SSEEdit (xEdit)</a> to remove the associated FormID</li>
                 </ul>
             </li>
             <li>Recommended fix for newer Skyrim versions:
@@ -3156,4 +3156,237 @@ function analyzeNewGameCrash(sections) {
     }
     
     return diagnoses;
+}
+
+
+
+
+
+// 🤖 For Users of Auto-Installing Modlists:
+// Streamlined function for modlist/collection users with automated installers
+function checkCommonModlistIssues(sections) {
+    let diagnoses = '';
+    
+    // Get basic mod information
+    const modCounts = Utils.modCounts(sections);
+    const hasBeesInstalled = sections.fullLogFileLowerCase.includes('BackportedESLSupport.dll'.toLowerCase());
+    let hasLoadedGamePlugins = Utils.hasGamePluginsLoaded(modCounts, sections.gamePlugins);
+    
+    // Special handling for Trainwreck logs
+    if (sections.logType === "Trainwreck") {
+        hasLoadedGamePlugins = true;
+    }
+
+    // Check for Missing Masters/Dependencies
+    const hasMissingMasters = (sections.hasSkyrimAE && sections.firstLine.includes('0198090')) ||
+        (!sections.hasSkyrimAE && (sections.firstLine.includes('5E1F22'))) ||
+        sections.topHalf.includes('SettingT<INISettingCollection>*') ||
+        !hasLoadedGamePlugins;
+
+    // Check for Object Reference issues
+    const hasObjectRefIssues = checkForObjectReferencePatterns(sections);
+    
+    // Check for save/load issues
+    const hasSaveLoadIssues = sections.topHalf.toLowerCase().includes('BGSSaveLoadManager'.toLowerCase());
+
+    // Main diagnosis section
+    if (hasMissingMasters || hasObjectRefIssues.found || hasSaveLoadIssues) {
+        diagnoses += `
+            <li><span class="important-emoji">🤖</span> <b>For Users of Auto-Installing Modlists:</b> Your crash appears to be related to common installation or configuration problems. Following these steps and best practices will fix issues for auto-installing modlists more often than not:  (NOTE: this section is still under development) <a href="#" class="toggleButton">⤵️ show more</a>
+                <ul class="extraInfo" style="display:none">
+                    <li>Initial Setup: if you haven't already, <b>launch Skyrim once from Steam</b> to download any AE content and set up default configuration files. <a href="https://gatetosovngarde.wiki.gg/wiki/Installation_Guide#A_Clean_And_Proper_Skyrim." target="_blank">More info</a> (GTS reference, but this section is broadly applicable)</li>
+
+                    <li>🖥️ Verify your hardware/OS settings:
+                        <ul>
+                            <li>Always try the classic computer solution - <b>restart your PC</b>: This clears memory and resolves many system-level issues, especially after extended gaming sessions. It's surprising how many issues this old IT tip still fixes...</li>
+                            ${verifyWindowsPageFileListItem}
+                            <li>Maintain <a href="https://computercity.com/hardware/storage/how-much-space-should-i-leave-on-my-ssd">at least 10-20% free space</a> on your SSD for optimal performance.</li>
+                            <li>Return any <b>overclocked hardware</b> (including RAM using XMP or AMD EXPO) to stock speeds.</li>
+                        </ul>
+                    </li>
+                    
+                    <li>Use installer to ensure your modlist/collection downloaded and installed completely without errors:
+                        <ul>`;
+        
+        diagnoses += `
+                            <li>🪛 <b>Nolvus Users:</b> <a href="#" class="toggleButton">⤵️ show more</a>
+                                <ul class="extraInfo" style="display:none">
+									<li>Use the "Apply Order" button in Nolvus Dashboard. <a href="https://www.reddit.com/r/Nolvus/comments/1kp1lrw/guide_using_the_apply_order_button_in_nolvus/"  target="_blank">See guide</a>. If you've added custom mods, re-enable and reposition them afterward.</li>
+								</ul>
+							</li>
+
+                            <li>🪛 <b>Wabbajack Users:</b> <a href="#" class="toggleButton">⤵️ show more</a>
+                                <ul class="extraInfo" style="display:none">
+                                    <li><b>Problem:</b> Wabbajack 4.0 removed the verify button (extremely useful for ensuring proper installation).</li>
+                                    <li><b>Solution:</b> Use Wabbajack 3.7.5.3 for verification:
+                                        <ol>
+                                            <li>Download from: <a href="https://github.com/wabbajack-tools/wabbajack/releases/tag/3.7.5.3" target="_blank">https://github.com/wabbajack-tools/wabbajack/releases/tag/3.7.5.3</a></li>
+                                            <li>Create folder <code>3.7.5.3</code> in your Wabbajack directory</li>
+                                            <li>Extract downloaded zip into that folder</li>
+                                            <li>Run <code>wabbajack.exe</code> from the 3.7.5.3 folder</li>
+                                            <li>Repeat installation steps until download phase</li>
+                                            <li><b>Check "overwrite" option</b> only if you intend to use 3.7.5.3 as the installer (not needed for verification only)</li>
+                                            <li>Complete verification process</li>
+                                        </ol>
+                                    </li>
+                                    <li><b>Note:</b> This method also works for verifying existing installations.</li>
+                                </ul>
+                            </li>
+                            
+                            <li>🪛 <b>Vortex Collections Users:</b> <a href="#" class="toggleButton">⤵️ show more</a>
+                                <ul class="extraInfo" style="display:none">
+                                    <li>80+% of crashes shared in forums can be fixed by following these Vortex-specific steps.</li>
+                                    <li>Initial Steps: (These two steps alone fix many crashes.)
+                                        <ul>
+                                            <li><b>Enable All Plugins:</b> In the Plugins tab, check that ALL of the collection's plugins that are expected to be enabled. <i>Tip: Select a single plugin, then use CTRL+A to select all mods at once, and click "Enable".</i></li>
+                                            <li><b>Sort Plugins:</b> Use "Sort now" in the Plugins tab. NOTE: Do to a suspected Vortex bug, <b>you may need to repeat this step 2-3 times</b> for it to fully sort.</li>
+                                        </ul>
+                                    </li>
+                                    <li><b>If Issues Persist...</b>
+                                        <ol>
+                                            <li>In Vortex, go to "Mods" tab</li>
+                                            <li>Purge mods</li>
+                                            <li>Re-enable all mods</li>
+                                            <li>Deploy mods</li>
+                                            <li>Sort plugins again</li>
+                                        </ol>
+                                    </li>
+                                    <li><b>Check Notifications:</b> Click the notification bell in Vortex (top right) and resolve any warnings.
+                                        <ul>
+                                            <li>If you see "<b>Cycles in sorting rules</b>":
+                                                <ul>
+                                                    <li>Search for your collection name in the Mods tab</li>
+                                                    <li>Right-click the collection → "Apply Collection Rules"</li>
+                                                    <li><a href="https://gatetosovngarde.wiki.gg/wiki/Resolving_Cycles"  target="_blank">Screenshots and more info</a> (Made for GTS, but should be applicable to other Vortex users.)</li>
+                                                </ul>
+                                            </li>
+                                            <li>If you see an "<b>Unparsed</b>" error, they can usually be dealt with by re-installing the issue mod.</li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                    
+                    `;
+
+        // Specific issue details
+        if (hasSaveLoadIssues) {
+            diagnoses += generateSaveLoadDetails();
+        }
+
+        // Important reminders and context
+        diagnoses += `
+                    <li>🦉 <b>Best Practices</b> for playing a stable heavily-modded Skyrim: (Experienced modders have differing opinions, and some of these recommendations are considered <a href="https://www.reddit.com/r/skyrimmods/comments/1ls2j8b/best_practices_for_playing_a_stable_modded_skyrim/"  target="_blank">controversial</a>, but according to three top modlist communities, breaking these may cause crashes even with a stable modlist)
+                        <ul>
+                            <li><b>Never use the in-game Creations menu</b> while using external mod managers - it conflicts with MO2/Vortex</li>
+
+                            <li><b>Alt+Tab considerations:</b> Avoid Alt+Tabbing, especially playing full screen, or while loading/saving, or any intensive scenes. If you must, switch applications during periods of inactivity and after pausing Skyrim with the [\`] key (entering the command line menu).</li>
+
+                            <li>If one save won't load, quit to the desktop, relaunch Skyrim and try to <b>load an older save</b>.</li>
+
+                            <li>Sometimes it can help to <b>separate from your followers</b> to get past a crash point. Ask followers/pets/steeds to "wait" at a safe location, away from the crash-prone loading area (cell) ... and then collect them again later after getting past the crashing area.</li> 
+
+                            <li><b>Normal crash frequency:</b> One random crash every 4+ hours of consecutive gameplay is probably within normal for any heavily modded Skyrim, especially if the modlists is straining the limits of your hardware. Even un-modded Skyrim crashes.</li>
+
+                            <li><b>Significance:</b> Don't try to fix what might not be broken. If indications of the same issue don't repeat across multiple crash logs, they probably aren't significant.</li>
+
+                            <li><b>Avoid Mid-game loading:</b> Skyrim is believed to be most stable when only loading one save file per launching. Subsequent loads without quitting to desktop first may cause random crashes. To avoid re-loading midgame and/or after dying, consider adding any of these mods/collections if your modlist doesn't already include them or their equivalents:
+								<ul>
+									<li><a href="https://www.nexusmods.com/skyrimspecialedition/mods/88219"  target="_blank">Clean Save Auto-reloader</a> can be used to prevent accidental mid-game loads by automatically re-launching Skyrim.</li>
+									<li><a href="https://www.nexusmods.com/games/skyrimspecialedition/collections/4o4jxh/mods"  target="_blank">Safe Save Helpers</a> mod collection provides Vortex users a more thorough approach to preventing these issues. Non-Vortex users may also find it interesteing reading, and derive some good mod recommendations from it.</li>
+									<li>An "alternate death mod" can be fun, and aid in game stability by continuing the game after dying, without need to do a mid-game reload. Popular examples of alternate death mods include: 
+										<ul>
+											<li><a href="https://www.nexusmods.com/skyrimspecialedition/mods/65136"  target="_blank">Shadow of Skyrim - Nemesis and Alternative Death System</a>. Currently used by Nolvus 6 beta. Instead of dying, you respawn in a dynamic location without reloading and the NPC who killed you becomes your nemesis. WARNINGS: if a quest expects you to be trapped, this might break that quest by teleporting you out of its expected location. Also, some configurations may need to be made and/or patches added to prevent issues with your modlist.</li>
+											<li><a href="https://www.nexusmods.com/skyrimspecialedition/mods/69267" target="_blank">Respawn - Soulslike Edition</a>. Currently used by Lorerim. Implements a Dark Souls-inspired death system where you respawn at safe locations and drop gold/equipment in a "grave" at your death location to retrieve. Optional features include XP loss on death and enemy resurrection in the death area.</li>
+                                            <li><a href="https://www.nexusmods.com/skyrimspecialedition/mods/136825"  target="_blank">Shades of Mortality - Death Alternative SKSE</a> Often recommended for adding to Gate to Sovngarde. Reportedly does an excellent job of providing broad compatibility without needing additional patches or configurations. Broadly compatible with other mods except those that serve the same purpose.</li>
+										</ul>
+									</li>
+								</ul>
+							</li>
+                            <li><b>Safe saving practices:</b> Save only during downtime when nothing is going on, disable auto-saves, wait 20-ish seconds before saving in newly-loaded areas (allows scripts to settle).</li>
+                            <li><b>References:</b>
+								<ul>
+									<li><a href="https://gatetosovngarde.wiki.gg/wiki/Safe_Saving"  target="_blank">Gate to Sovngarde's "Safe Saving" wiki page</a></li>
+									<li><a href="https://www.reddit.com/r/Nolvus/comments/1ka74em/jeriliths_2025_skyrim_safesaveguide_sexy_free/"  target="_blank">Jerilith's 2025 Skyrim Safe-Save-Guide [sexy free edition]</a> for Nolvus (and any modlist)</li>
+									<li><a href="https://lorerim.com/support/saves/"  target="_blank">Lorerim's "Safe Saving & Loading" wiki page</a></li>
+								</ul>
+							</li>
+                        </ul>
+                    </li>
+                   <li>🧩 <b>Best Practices</b> for modding on top of an auto-installing modlist:
+                        <ul>
+                            <li><b>Warning!</b> Usually this <b>voids full support</b> from modlist Discords. Some will still help you (potentially in a separate channel dedicated to customizers), but they will usually expect more effort from you in return.</li>
+                            <li>Be patient and expect to do some work (see below) ... or consider leaving your modlist as the auto-installed installation.</li>
+                            <li>Review your <b>modlist's Discord</b> for mods recommended by others, as well as for any other mods you'd like to add. You can often save time by learning from others' experiences.</li>
+                            <li>Choose your mods carefully, <b>read</b> all of a mod's documentation beforehand, including at least skimming its forum/Discord.</li>
+                            <li>Only add one mod (or two) at a time, and usually start a new character for each round of testing. Test thoroughly before adding more mods. <b>EXCEPTION:</b> Sometimes a small group of mods can be added at once if they are known to work with your modlist (and with each other).</li>
+                            <li>Check for <b>patches</b> for making your mods cross-compatible with each other. Or, learn to use <a href="https://www.nexusmods.com/skyrimspecialedition/mods/164" target="_blank">SSEEdit (xEdit)</a> to make your own patches.</li>
+                            <li><b>Finalize your modlist</b> before starting a new character for a real playthrough. Test thoroughly beforehand, because many mods are not safe to remove without starting a new character.</li>
+                            <li><b>Load order</b> can be very important. Either read up on this, or consult your modlist's Discord for advice on how to place/prioritize your added mods.</li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>`;
+    }
+
+    return diagnoses;
+}
+
+// Helper function to check for object reference patterns
+function checkForObjectReferencePatterns(sections) {
+    let found = false;
+    let details = [];
+
+    if (sections.logType === "CrashLogger") {
+        const objectRefNoneRegex = /object reference:\s*none/i;
+        const lines = sections.topHalf.split('\n');
+        
+        lines.forEach((line, index) => {
+            if (objectRefNoneRegex.test(line) && !found) {
+                found = true;
+                // Extract file information from surrounding context
+                const context = lines.slice(Math.max(0, index-5), index+10);
+                const fileLines = context.filter(l => l.toLowerCase().includes('file:'));
+                if (fileLines.length > 0) {
+                    const mostLikelyFile = fileLines[fileLines.length - 1].split(':')[1]?.trim();
+                    if (mostLikelyFile && !['Skyrim.esm', 'Update.esm', 'Dawnguard.esm', 'HearthFires.esm', 'Dragonborn.esm'].includes(mostLikelyFile)) {
+                        details.push({ type: 'Object Reference: None', file: mostLikelyFile });
+                    }
+                }
+            }
+        });
+    } else if (sections.logType === "NetScriptFramework") {
+        const nsfNullBaseFormRegex = /\(FormId.+BaseForm:\s*null/;
+        const lines = sections.topHalf.split('\n');
+        
+        lines.forEach(line => {
+            if (nsfNullBaseFormRegex.test(line)) {
+                const fileMatch = line.match(/File:\s*`([^`]+)`/);
+                if (fileMatch) {
+                    const files = fileMatch[1].split(' <- ').map(f => f.trim());
+                    const mostLikelyFile = files[0];
+                    if (!['Skyrim.esm', 'Update.esm', 'Dawnguard.esm', 'HearthFires.esm', 'Dragonborn.esm'].includes(mostLikelyFile)) {
+                        found = true;
+                        details.push({ type: 'BaseForm: null', file: mostLikelyFile });
+                    }
+                }
+            }
+        });
+    }
+
+    return { found, details };
+}
+
+
+// Helper function for save/load details
+function generateSaveLoadDetails() {
+    return `
+        <li><b>Save/Load Issues:</b> Problems saving or loading game files:
+            <ul>
+                <li>Try loading from your last working save</li>
+                <li>If crashes occur only while saving, this may be related to missing masters (addressed above)</li>
+                <li>💾 Advanced: Use <a href="https://www.nexusmods.com/skyrim/mods/76776"  target="_blank">FallrimTools ReSaver</a> for save cleaning (backup first!)</li>
+            </ul>
+        </li>`;
 }
