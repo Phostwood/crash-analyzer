@@ -1,18 +1,11 @@
-✅Version 1.23.7 is now live:
+✅Version 1.24.1 is now live:
 https://phostwood.github.io/crash-analyzer/
 
 
-1. New test right at the top: 🤖 For Users of Auto-Installing Modlists: 
-	- still under development(it's been a lot of research and writing), but I decided it's already better than not having it
-	- Includes:
-		- Initial Setup
-		- 🖥️ Verify your hardware/OS settings
-		- 🪛 Using installer tools to troubleshoot (for Nolvus, Wabbajack, and Vortex users)
-		- 🦉 Best Practices for playing a stable heavily-modded Skyrim:
-		- 🧩 Best Practices for modding on top of an auto-installing modlist:
-		- Many thanks to ✅Hexanode, ✅Katoh, Jerelith, SpinPigeon, ✅bachmanis, and Demognomicon for their reviews and suggestions, as well as several others who gave feedback on my related Reddit post:
-			- https://www.reddit.com/r/skyrimmods/comments/1ls2j8b/best_practices_for_playing_a_stable_modded_skyrim/
-
+1. 🤖 For Users of Auto-Installing Modlists
+	- Word softening changes on crash frequency (Thanks Alexjp127 for the suggestion!)
+2. ❗ DynDOLOD v3.0.34 Crash Issue Detected:
+	- Added Vortex-specific instructions (Thanks SpinPigeon for verifying!)
 
 
 --- NEXT VERSIONS: ---

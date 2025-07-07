@@ -881,6 +881,7 @@ function analyzeDynDOLODv3034Issue(sections) {
             <li>❗ <b>DynDOLOD v3.0.34 Crash Issue Detected:</b> This version of DynDOLOD is suspected to have stability issues.
                 <ol>
                     <li>If this crash repeats frequently, the only "fix" seems to be downgrading to the more stable version of DynDOLOD, <b>version 33</b> from <a href="https://www.nexusmods.com/skyrimspecialedition/mods/97720?tab=files" target="_blank">this page on NexusMods.com</a>. Also, once version 35 is available, it will hopefully address this issue.</li>
+                    <li><b>For Vortex Users:</b>After installing the old v33 version, then remove the current v34 to prevent conflicts. Then prioritize <code>DynDOLOD DLL NG and Scripts 3.00 (vAlpha-33)</code> to load <i>AFTER</i> its <code>DynDOLOD Resources SE 3.00 (vAlpha-56)</code> mod.</ii>
                     <li><b>For Advanced Users:</b> They're investigating this issue on <a href="https://stepmodifications.org/forum/topic/21092-crash/" target="_blank">this official thread</a>. There's also a test DLL there. If you want to contribute to that thread, please send the crashlog there along with other DynDOLOD logs: <a href="https://dyndolod.info/Official-DynDOLOD-Support-Forum#Post-Logs" target="_blank">Official DynDOLOD Support Forum</a></li>
                     <li>Detected indicators: <a href="#" class="toggleButton">⤵️ show more</a>
                         <ul class="extraInfo" style="display:none">
@@ -3287,7 +3288,8 @@ function checkCommonModlistIssues(sections) {
 
                             <li>Sometimes it can help to <b>separate from your followers</b> to get past a crash point. Ask followers/pets/steeds to "wait" at a safe location, away from the crash-prone loading area (cell) ... and then collect them again later after getting past the crashing area.</li> 
 
-                            <li><b>Normal crash frequency:</b> One random crash every 4+ hours of consecutive gameplay is probably within normal for any heavily modded Skyrim, especially if the modlists is straining the limits of your hardware. Even un-modded Skyrim crashes.</li>
+                            <li><b>Normal crash frequency:</b> Crashing less than every 4 hours usually isn't a large concern for any heavily modded Skyrim, especially if the modlists is straining the limits of your hardware. Even un-modded Skyrim crashes.
+                            </li>
 
                             <li><b>Significance:</b> Don't try to fix what might not be broken. If indications of the same issue don't repeat across multiple crash logs, they probably aren't significant.</li>
 
