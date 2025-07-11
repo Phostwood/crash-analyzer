@@ -38,6 +38,9 @@ async function analyzeLog() {
     let insights = '';
     let insightsCount = 0;
 
+    let hasUnlikelyErrorForAutoInstallerModlist = false;
+    let hasSaveLoadIssues = false;
+
     Utils.splitLogIntoLines(logFile);
 
     //DISABLE UNLESS NEEDED: NolvusUtils.compareLogToVanillaNolvusPluginsLines(logFile);	
@@ -66,7 +69,6 @@ async function analyzeLog() {
         diagnoses += tooManyNonEslPluginsResult;
         diagnosesCount++;
     }
-    
 
     //STRINGS crash
     const stringsCrashDiagnosis = analyzeStringsCrash(sections);
@@ -102,13 +104,6 @@ async function analyzeLog() {
         diagnosesCount++;
     }
 
-
-    // 🤖 For Users of Auto-Installing Modlists:
-    const checkCommonModlistIssuesDiagnosis = checkCommonModlistIssues(sections);
-    if(checkCommonModlistIssuesDiagnosis) {
-        diagnoses += checkCommonModlistIssuesDiagnosis;
-        diagnosesCount++;
-    }
 
     // ❗ First-Line Engine Fixes Issue:
     const firstLineEngineFixesDiagnosis = analyzeFirstLineEngineFixesCrash(sections);
@@ -282,6 +277,7 @@ async function analyzeLog() {
     const objectRefNoneDiagnosis = checkForObjectReferenceNone(sections);
     Utils.debuggingLog(['objectRefNoneDiagnosis', 'analyzeLog.js'], `objectRefNoneDiagnosis for diagnostic section:`, objectRefNoneDiagnosis);
     if (objectRefNoneDiagnosis) {
+        hasUnlikelyErrorForAutoInstallerModlist = true;
         diagnoses += objectRefNoneDiagnosis;
         diagnosesCount++;
     }
@@ -440,6 +436,7 @@ async function analyzeLog() {
 
     //❗ Potential Missing Masters Detected: 
     const missingMastersDiagnosis = checkForMissingMasters(sections);
+    if (missingMastersDiagnosis) hasUnlikelyErrorForAutoInstallerModlist = true;
     Utils.debuggingLog(['missingMastersDiagnosis', 'analyzeLog.js'], `missingMastersDiagnosis for diagnostic section:'`, missingMastersDiagnosis);
     Utils.debuggingLog(['missingMastersDiagnosis', 'analyzeLog.js'], `Utils.isSkyrimPage for diagnostic section:'`, Utils.isSkyrimPage);
     if (Utils.isSkyrimPage && missingMastersDiagnosis) {
@@ -991,9 +988,10 @@ async function analyzeLog() {
     }
 
 
-    //❓ BGSSaveLoadManager Issue Detected: 
+    //❓ BGSSaveLoadManager Issue Detected:
     const bgsSaveLoadInsights = analyzeBGSSaveLoadManagerIssue(sections);
     if (bgsSaveLoadInsights) {
+        hasSaveLoadIssues = true;
         insights += bgsSaveLoadInsights;
         insightsCount++;
     }
@@ -1173,6 +1171,12 @@ async function analyzeLog() {
         } END DISABLED TEST */
 
 
+    // ALWAYS SHOWS at top of Diagnostics
+    // 🤖 For Users of Auto-Installing Modlists:
+    const checkCommonModlistIssuesDiagnosis = checkCommonModlistIssues(sections, hasUnlikelyErrorForAutoInstallerModlist, hasSaveLoadIssues);
+    if(checkCommonModlistIssuesDiagnosis) {
+        diagnoses = checkCommonModlistIssuesDiagnosis + diagnoses;
+    }
 
 
     var outputHtml = '<ul>' + diagnoses + '</ul>';

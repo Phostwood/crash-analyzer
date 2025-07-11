@@ -318,6 +318,8 @@ span {
 
 .important-emoji span {
     display: inline-block; /* Important for transform to work */
-    font-size: clamp(1.5rem, 0.661vw + 1.347rem, 3rem); /* same size as H1 */
+    /* 1.5x size of H1: font sz: 36 to 72  */
+    font-size: clamp(2.25rem, 0.992vw + 2.021rem, 4.5rem);
+    line-height: clamp(3.825rem, 0.893vw + 3.619rem, 5.85rem);
     animation: jiggle 2s infinite;
 }

@@ -260,7 +260,8 @@ document.addEventListener('DOMContentLoaded', function () {
 	window.addEmojiClickEvent = function() {
 		var elements = document.querySelectorAll('li, details');
 		elements.forEach(function (element) {
-			var regex = /[\u{1F300}-\u{1F5FF}\u{1F600}-\u{1F64F}\u{1F680}-\u{1F6FF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}\u{1F989}\u{1FA9B}\u{1F916}]/gu;
+			// Combined regex that handles both single emojis and the keycap sequence
+			var regex = /[\u{1F300}-\u{1F5FF}\u{1F600}-\u{1F64F}\u{1F680}-\u{1F6FF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}\u{1F989}\u{1FA9B}\u{1F916}]|\u{0031}\u{FE0F}\u{20E3}|\u{0032}\u{FE0F}\u{20E3}|\u{0033}\u{FE0F}\u{20E3}/gu;
 			var matches = element.textContent.match(regex);
 			if (matches) {
 				matches.forEach(function (match) {
@@ -269,9 +270,11 @@ document.addEventListener('DOMContentLoaded', function () {
 					span.style.cursor = 'pointer';
 					span.style.position = 'relative';
 					span.style.zIndex = '1';
-					element.innerHTML = element.innerHTML.replace(new RegExp(match, 'gu'), span.outerHTML);
+					// Escape special regex characters in the match for replacement
+					var escapedMatch = match.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+					element.innerHTML = element.innerHTML.replace(new RegExp(escapedMatch, 'gu'), span.outerHTML);
 				});
-	
+
 				var spans = element.querySelectorAll('span');
 				spans.forEach(function (span) {
 					span.addEventListener('click', function (event) {
@@ -327,8 +330,6 @@ document.addEventListener('DOMContentLoaded', function () {
 		function handleButtonClick(formatType) {
 			document.body.removeChild(dialogElement);
 			
-			var analyzerCitation = getAnalyzerCitation();
-			
 			if (formatType === "Reddit") {
 				window.redditFormat = true;
 			} else {
@@ -338,6 +339,7 @@ document.addEventListener('DOMContentLoaded', function () {
 			// Get content from the provided function
 			var content = contentProvider();
 			var markdown = convertHTMLToMarkdown(content);
+			var analyzerCitation = getAnalyzerCitation(formatType, markdown.length);
 			var finalMarkdown = markdown + analyzerCitation;
 			
 			// Check if disable markdown links is checked
@@ -513,13 +515,18 @@ document.addEventListener('DOMContentLoaded', function () {
 	}
 
 
-	window.getAnalyzerCitation = function()  {
+	window.getAnalyzerCitation = function(formatType, markdownLength)  {
 		let analyzerCitation = '';
 
 		if(Utils.isSkyrimPage) {
 			analyzerCitation = '\n\n~~\n\nResult(s) from Phostwood\'s Skyrim Crash Log Analyzer ' + convertHTMLToMarkdown(getVersionNumber()) + '\n\n🔎 Automate analysis of your Skyrim SE/AE crash logs at: \n\nhttps://phostwood.github.io/crash-analyzer/skyrim.html';
 		} else {
 			analyzerCitation = '\n\n~~\n\nResult(s) from Nolvus Crash Log Analyzer ' + convertHTMLToMarkdown(getVersionNumber()) + '\n\n🔎 Automate analysis of your Nolvus crash logs at: \n\nhttps://phostwood.github.io/crash-analyzer/';
+		}
+
+		if (markdownLength > 1635 && formatType !== "Reddit") {
+			//Help shorten it to fit into Discord posts
+			analyzerCitation = '\n\n~~\n\n https://phostwood.github.io/crash-analyzer/';
 		}
 		
 		Utils.debuggingLog(['userInterface.js'], 'analyzerCitation:', analyzerCitation);

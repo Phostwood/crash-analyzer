@@ -1,11 +1,55 @@
-✅Version 1.24.1.2 is now live:
+✅Version 1.24.2 is now live:
 https://phostwood.github.io/crash-analyzer/
 
+1. 🤖 Best Practices for Auto-Installing Modlist Users:
+  - ✅ Styled the robot emoji to be even larger
+  - ✅ Added info on disabling Autosaves to auto-installing modlists 
+  - ✅ Made so shows up (collapsed by default) at the top of all diagnoses, and reworded a bit for that context. Want it to be more of an always there reference even if your crash log doesn't include parts that are relevant to each section
+		- Added new 👉 emoji to indicate sections that may be particularly relevant to provided crash log
+  - ✅ Added some more emojis, for easy copy paste of more focused, Discord-sized posts
+  - ✅ Consolidated significance-determining code stay in one place, with its original report section
+  - ✅ Tweaked many troubleshooting instructions to clarify and shorten them, most subsections should now fit into a Discord post
+  - ✅ Added to Hardware/OS section: <li>If you have less than 32GB of RAM, quit out of all other applications before launching your modlist.</li>
+  - Softened the 80+% thing, as it seems like it's been fewer than that recent ... changed to "more often than not" and "usually"
+	- also changed "Never use" to "Avoid using" and "may"
+  - Added to Vortex section:
+  	- (⚠️ Wait for spinners to stop after each step!)
+	- <li>Go to Vortex's "Settings", click "Reset Suppressed Notifications" and restart Vortex.</li>
 
-1. 🤖 For Users of Auto-Installing Modlists
-	- Word softening changes on crash frequency (Thanks Alexjp127 for the suggestion!)
 2. ❗ DynDOLOD v3.0.34 Crash Issue Detected:
-	- Added Vortex-specific instructions (Thanks SpinPigeon for verifying!)
+	- ✅ Isolated new indictor: "DynDOLOD::LargeREFRFix"
+	- ✅ Made test more flexible to include unspecified .esp versions (and/or affected subsequent versions) with new indicator
+	- ✅ Updated with ability to upgrade to v36 instead of downgrading to v33
+	- ➡️TODO: need to improve NetScriptFramework Regex for Stack to allow "{" within its output, instead of prematurely ending it
+		- Deemed a separate issue. Largely a performance tweak. "{" is really rare in crash logs
+
+3. ❗ Critical First-Line Error Detected:
+	- Added new instructions:
+		- <li>Make sure the mod that contains <code>${detectedFile}</code> is enabled (Vortex especially sometimes disables them). If already enabled, consider redownloading and carefully reinstalling the mod, as this may be a quickest fix.</li>
+	- Small clarifications
+
+
+
+
+--- NEXT: IMPORTANT? --
+
+1. TODO: need to improve NetScriptFramework Regex for Stack to allow "{" within its output, instead of prematurely ending it
+	- Deemed a separate issue. Largely a performance tweak. "{" is really rare in crash logs
+	- OR DELAY? (it seems very rare ... but then the current test would be quite slow running on especially long logs, and the way it is set up, it will always search for the string int he full log)   Bug with variable topHalf with NetScriptFramework?
+- Truncated?
+- Doesn't show headings? Does it need to?
+
+sections.Stack is being cut short in this log:
+"DynDOLODv34 maybe but not GTS - Crash_2025_7_8_0-40-49.txt"
+
+By this line at the curly braces ... which I'm pretty sure is a rare thing:
+[SP+2E0]  0x7FFA51912070     (DynDOLOD.DLL+B2070) (char*) "LargeREFRFix load3d {:08X}"
+
+
+2. 
+
+
+
 
 
 --- NEXT VERSIONS: ---
