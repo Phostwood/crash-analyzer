@@ -1,34 +1,13 @@
-✅Version 1.24.2 is now live:
+✅Version 1.24.3 is now live:
 https://phostwood.github.io/crash-analyzer/
 
-1. 🤖 Best Practices for Auto-Installing Modlist Users:
-  - ✅ Styled the robot emoji to be even larger
-  - ✅ Added info on disabling Autosaves to auto-installing modlists 
-  - ✅ Made so shows up (collapsed by default) at the top of all diagnoses, and reworded a bit for that context. Want it to be more of an always there reference even if your crash log doesn't include parts that are relevant to each section
-		- Added new 👉 emoji to indicate sections that may be particularly relevant to provided crash log
-  - ✅ Added some more emojis, for easy copy paste of more focused, Discord-sized posts
-  - ✅ Consolidated significance-determining code stay in one place, with its original report section
-  - ✅ Tweaked many troubleshooting instructions to clarify and shorten them, most subsections should now fit into a Discord post
-  - ✅ Added to Hardware/OS section: <li>If you have less than 32GB of RAM, quit out of all other applications before launching your modlist.</li>
-  - Softened the 80+% thing, as it seems like it's been fewer than that recent ... changed to "more often than not" and "usually"
-	- also changed "Never use" to "Avoid using" and "may"
-  - Added to Vortex section:
-  	- (⚠️ Wait for spinners to stop after each step!)
-	- <li>Go to Vortex's "Settings", click "Reset Suppressed Notifications" and restart Vortex.</li>
+1. "Animation Issue Detected:" AND "Animation Loader/Behavior Engine Issue Detected" sections:
+     - Found some new indicators for Animation/Behavior issues, with help from Lakoor!
+	 	- Thanked Lakoor in both Skyrim.html and Index.html
+	 - Also added a couple others from Ennui's Keyword Bank (Thanks, Ennui!)
+	 - Shuffled some indicators around between the two, to better reflect their likely diagnosis
 
-2. ❗ DynDOLOD v3.0.34 Crash Issue Detected:
-	- ✅ Isolated new indictor: "DynDOLOD::LargeREFRFix"
-	- ✅ Made test more flexible to include unspecified .esp versions (and/or affected subsequent versions) with new indicator
-	- ✅ Updated with ability to upgrade to v36 instead of downgrading to v33
-	- ➡️TODO: need to improve NetScriptFramework Regex for Stack to allow "{" within its output, instead of prematurely ending it
-		- Deemed a separate issue. Largely a performance tweak. "{" is really rare in crash logs
-
-3. ❗ Critical First-Line Error Detected:
-	- Added new instructions:
-		- <li>Make sure the mod that contains <code>${detectedFile}</code> is enabled (Vortex especially sometimes disables them). If already enabled, consider redownloading and carefully reinstalling the mod, as this may be a quickest fix.</li>
-	- Small clarifications
-
-
+2. Mesh Issues:  removed "hkprigidbody", as Ennui's Keyword Bank puts it under Skeleton Issues, and it makes more sense there. I'll add it there with upcoming overhaul of Skeleton issue test.
 
 
 --- NEXT: IMPORTANT? --
@@ -117,6 +96,11 @@ https://apps.microsoft.com/detail/xpfmmcr4r5mxgs?hl=en-US&gl=US
 		- BSWin32SaveDataSystemUtility
 	- Something like this?
 		- "Loading a second file (automatically due to death, or manually for any reason) into Skyrim often ends up mixing aspects of your prior game and with the newly loaded save. This is why its a best practice to quit to desktop before loading a second file into a running instance of Skyrim. Because of this, many loading issues can be fixed simply by quitting out of Skyrim, and reloading the desired save"
+			- References:
+				- GTS
+				- Lorerim
+				- Nolvus
+				- Reddit article someone found when I posted the best practices for review
 	- checking list of indicators with SpinPigeon: https://discord.com/channels/902984082181484615/1133753226991255562/1378538268030926858
 
 

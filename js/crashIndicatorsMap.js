@@ -105,7 +105,6 @@ const crashIndicators = {
             { code: 'bssegmentedtrishape', description: "Segmented triangle shape" },
             { code: 'bssubindextrishape', description: "Subindex triangle shape" },
             { code: 'bstrishape', description: "BSTriShape node" },
-            { code: 'hkprigidbody', description: "Havok physics rigid body" },
             //TOO BROAD: { code: 'mesh', description: "General mesh-related" },
             { code: 'nigeometry', description: "Geometry data" },
             { code: 'nimaterialproperty', description: "Material property" },
@@ -146,14 +145,13 @@ const crashIndicators = {
         ],
         codes: [
             { code: '.hkx', description: "Havok animation file" },
+            { code: 'ahkpCharacterRigidBody', description: "Havok character rigid body physics" },
             { code: 'animation', description: "General animation-related (lower-confidence indicator)" },
             { code: 'animationgraph', description: "Animation graph" },
-            //MAYBE MOVE THE FOLLOWING to Behavior/Loader "animationLoaderIssues" section below?
+            { code: 'bhkCharRigidBodyController', description: "Bethesda character rigid body controller" },
+            { code: 'BSAnimationGraphManager', description: "Bethesda animation graph management system" },
             { code: 'bshkbanimationgraph', description: "Bethesda Havok animation graph" },
-            { code: 'hkbclipgenerator', description: "Havok clip generator" },
-            { code: 'hkbehaviorgraph', description: "Havok behavior graph" },
-            { code: 'hkbStateMachine', description: "Havok behavior state machine" },
-            { code: 'hkbvariablebindingset', description: "Havok variable binding set" }
+            { code: 'hkpSimpleConstraintContactMgr', description: "Havok constraint contact manager" }
         ]
     },
     animationLoaderIssues: {
@@ -165,18 +163,22 @@ const crashIndicators = {
             { code: '.hkx', description: "Havok animation file" },
             { code: '0_master.hkb', description: "Master behavior file" },
             { code: '67B88B', description: "suspected animation loader, hexcode indicator" }, //PURPOSEFULLY NOT INCLUDED IN HEX CODES SECTION (since only suspected?)
-            { code: 'BSAnimationGraphManager', description: "Bethesda animation graph management system" }, //MAYBE MOVE to "animationIssues" section above?
             { code: 'behavior', description: "Generic behavior file reference (lower-confidence indicator)" },
             { code: 'bshkbanimationgraph', description: "Bethesda Havok animation graph" },
+            { code: 'BShkbAnimationGraph', description: "Bethesda Havok animation graph system" },
             { code: 'dynamicanimationreplacer.dll', description: "DAR loader detected" },
             { code: 'dynamicanimationreplacer.ini', description: "DAR configuration file" },
             { code: 'hkbBehaviorGraph', description: "Havok behavior graph system" },
             { code: 'hkbCharacter', description: "Havok behavior character controller" },
+            { code: 'hkbClipGenerator', description: "Havok behavior clip generator" },
+            { code: 'hkbclipgenerator', description: "Havok clip generator" },
+            { code: 'hkbehaviorgraph', description: "Havok behavior graph" },
+            { code: 'hkbStateMachine', description: "Havok behavior state machine" },
+            { code: 'hkbvariablebindingset', description: "Havok variable binding set" },
             { code: 'openanimationreplacer.dll', description: "OAR loader detected" },
             { code: 'openanimationreplacer.pdb', description: "OAR debug symbols" }
         ]
     },
-
     /* animationLoaderIssues: {
         //DELETE:
         codes: [
@@ -351,10 +353,6 @@ const crashIndicators = {
         { code: 'esp', description: "ESP file issue" },
         { code: 'esm', description: "ESM file issue" },
         { code: 'esl', description: "ESL file issue" }
-    ],
-    physicsIssues: [
-        { code: 'havok', description: "General Havok physics problem" },
-        { code: 'hkpworld', description: "Havok physics world issue" }
     ],
     audioIssues: [
         { code: 'bgsoundoutput', description: "Sound output problem" },
