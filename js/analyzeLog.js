@@ -193,12 +193,21 @@ async function analyzeLog() {
     }
 
 
+    // ❗ Core Impact Framework Corruption Bug Detected:
+    const checkCoreImpactCorruptionCrashDiagnosis = checkCoreImpactCorruptionCrash(sections);
+    if(checkCoreImpactCorruptionCrashDiagnosis) {
+        diagnoses += checkCoreImpactCorruptionCrashDiagnosis;
+        diagnosesCount++;
+    }
+
+
     //❗ Probable 2A690D NavMesh Crash Detected:
     const check2A690DCrashDiagnosis = check2A690DCrash(sections);
     if(check2A690DCrashDiagnosis) {
         diagnoses += check2A690DCrashDiagnosis;
         diagnosesCount++;
     }
+    
 
     //❗ Probable New Game Crash (Missing INI Files) Detected:
     const newGameCrashDiagnosis = analyzeNewGameCrash(sections);

@@ -1,13 +1,16 @@
-✅Version 1.24.3 is now live:
+✅Version 1.24.4 is now live:
 https://phostwood.github.io/crash-analyzer/
 
-1. "Animation Issue Detected:" AND "Animation Loader/Behavior Engine Issue Detected" sections:
-     - Found some new indicators for Animation/Behavior issues, with help from Lakoor!
-	 	- Thanked Lakoor in both Skyrim.html and Index.html
-	 - Also added a couple others from Ennui's Keyword Bank (Thanks, Ennui!)
-	 - Shuffled some indicators around between the two, to better reflect their likely diagnosis
+1. Replaced recommendation for Shadows of Skyrim (when listed by itself) with the easier to configure alt death mod
 
-2. Mesh Issues:  removed "hkprigidbody", as Ennui's Keyword Bank puts it under Skeleton Issues, and it makes more sense there. I'll add it there with upcoming overhaul of Skeleton issue test.
+2. New test: ❗ Probable Core Impact Framework Corruption Bug Detected
+
+
+
+
+--- Next version? ---
+2. ??New version of BGSAutosave test??
+3. ??New test for missing AE content?? - "High Confidence" when at least x mods are showing up?
 
 
 --- NEXT: IMPORTANT? --

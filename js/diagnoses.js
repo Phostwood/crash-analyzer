@@ -3334,3 +3334,92 @@ function checkCommonModlistIssues(sections, hasUnlikelyErrorForAutoInstallerModl
 
     return diagnoses;
 };
+
+
+// ❗ Core Impact Framework Corruption Bug Detected:
+function checkCoreImpactCorruptionCrash(sections) {
+    let insights = '';
+    // Check for 1AD5B40 crash pattern in the first-line error of the crash log
+    const firstLineLower = sections.firstLine.toLowerCase();
+    const hasFirstLineHexCode = firstLineLower.includes('1AD5B40'.toLowerCase());  // NOTE: this alone is fairly rare, but not unheard of for completely different issues
+    const hasTruncatedCrashLogLength = sections.fullLogFileLowerCase.length < 5000; //NOTE: a bit over double the longest known cutoff
+    const hasAffectedCoreImpactFrameworkVersion = Utils.getDllVersionFromLog(sections, `CoreImpactFramework.dll`) == '1.1.1';
+    const hasAffectedDismemberingFrameworkVersion = Utils.getDllVersionFromLog(sections, `DismemberingFramework.dll`) == '1.1.2';
+
+    /* console.log("Hex code detected?", hasFirstLineHexCode);
+    console.log("Crash log truncated?", hasTruncatedCrashLogLength);
+    console.log("Core Impact version affected?", hasAffectedCoreImpactFrameworkVersion);
+    console.log("Dismembering version affected?", hasAffectedDismemberingFrameworkVersion); */
+
+    /* NOTE ON ISOLATING THIS ISSUE: below is a collection of related first-line hexcodes for logs affected by this issue, turns out the first one in each line is not unique, and the last one is very rare, but not unique to this issue:
+        0x7FF7633A5B40 SkyrimSE.exe+1AD5B40
+        0x7FF6BAD75B40 SkyrimSE.exe+1AD5B40
+        0x7FF628DC5B40 SkyrimSE.exe+1AD5B40
+        0x7FF628DC5B40 SkyrimSE.exe+1AD5B40
+        0x000141AD5B40 SkyrimSE.exe+1AD5B40
+        0x7FF673125B40 SkyrimSE.exe+1AD5B40
+        0x7FF7BCCB5B40 SkyrimSE.exe+1AD5B40
+        0x7FF685605B40 SkyrimSE.exe+1AD5B40
+        0x7FF6D3CD5B40 SkyrimSE.exe+1AD5B40
+        0x7FF783605B40 SkyrimSE.exe+1AD5B40
+        0x7FF7D3715B40 SkyrimSE.exe+1AD5B40
+        0x7FF65ED95B40 SkyrimSE.exe+1AD5B40
+        0x7FF7FB0F5B40 SkyrimSE.exe+1AD5B40
+        0x7FF6ADF05B40 SkyrimSE.exe+1AD5B40
+        0x7FF628DC5B40 SkyrimSE.exe+1AD5B40
+        0x7FF6BAD75B40 SkyrimSE.exe+1AD5B40
+        0x7FF7633A5B40 SkyrimSE.exe+1AD5B40
+        0x7FF7633A5B40 SkyrimSE.exe+1AD5B40
+        0x1AD5B40 SkyrimSE.exe+1AD5B40
+    */
+
+    
+    if (hasFirstLineHexCode 
+        && (hasTruncatedCrashLogLength
+                || hasAffectedCoreImpactFrameworkVersion
+                || hasAffectedDismemberingFrameworkVersion) ) {
+        
+        // Build detected indicators list
+        let detectedIndicators = '';
+        if (hasFirstLineHexCode) {
+            detectedIndicators += `<li><code>SkyrimSE.exe+1AD5B40</code> - Core Impact Framework corruption hex code signature found in first error line. May occur with other non-related issues, but appears to be very rare. This issue is not flagged from this indicator alone.</li>`;
+        }
+        if (hasTruncatedCrashLogLength) {
+            detectedIndicators += `<li>Very short, truncated crash log (${sections.fullLogFileLowerCase.length} characters) - usually ending in the <code>PROBABLE CALL STACK:</code> section</li>`;
+        }
+        if (hasAffectedCoreImpactFrameworkVersion) {
+            detectedIndicators += `<li>Core Impact Framework version 1.1.1 detected - known affected version</li>`;
+        }
+        if (hasAffectedDismemberingFrameworkVersion) {
+            detectedIndicators += `<li>Dismembering Framework version 1.1.2 detected - known affected version</li>`;
+        }
+        
+        insights += `<li>❗ <b>Probable Core Impact Framework Corruption Bug Detected:</b>
+            This appears to be the "1AD5B40 crash" caused by mod interaction between Core Impact Framework and Dismembering Framework.
+            <ul>
+                <li><b>Gate to Sovngarde (GTS)</b> modlist users:
+                    <ul>
+                        <li>This is a known issue with GTS v84 that has been resolved in later versions</li>
+                        <li>Recommended fix: If you're using GTS version 84, <b>upgrade</b> to version 89 (or version 90 or newer if available and still compatible with your save files)</li>
+                    </ul>
+                </li>
+                <li>Recommended fix for everyone else:
+                    <ul>
+                        <li><b>Upgrade both mods:</b> Update "Core Impact Framework" AND "Dismembering Framework" to their newest stable versions</li>
+                        <li>Both mods should be updated together to resolve the interaction issue</li>
+                    </ul>
+                </li>
+                <li>Technical notes:
+                    <ul>
+                        <li>This is reportedly a rare bug outside of Gate to Sovngarde modlist</li>
+                        <li>The corruption occurs due to specific interaction between older versions of the two framework mods</li>
+                    </ul>
+                </li>
+                <li>Detected indicators: <a href="#" class="toggleButton">⤵️ show more</a><ul class="extraInfo" style="display:none">
+                    ${detectedIndicators}
+                </ul></li>
+            </ul>
+        </li>`;
+    }
+    return insights;
+}
