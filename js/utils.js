@@ -36,7 +36,7 @@ Utils.isDebugging = false; // Set this to false to disable debugging (non-error)
 //Utils.debugBatch = ['Utils.FilenamesTracker'];
 //Utils.debugBatch = ['disableAnalyzeButtonAndTrackUniqueCrashLogCount'];
 
-Utils.debugBatch = ['analyzeDynDOLODv3034Issue'];
+Utils.debugBatch = ['systemMemoryValues, analyzeMemoryIssues'];
 
 
 

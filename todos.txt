@@ -1,9 +1,17 @@
-✅Version 1.24.4 is now live:
+✅Version 1.24.5 is now live:
 https://phostwood.github.io/crash-analyzer/
 
-1. Replaced recommendation for Shadows of Skyrim (when listed by itself) with the easier to configure alt death mod
-
-2. New test: ❗ Probable Core Impact Framework Corruption Bug Detected
+1. ✅FIXED: Why is "hasCriticalRam: false" when crash-2025-07-18-18-01-49.log is changed to have "PHYSICAL MEMORY: 31.64 GB/31.82 GB"
+2. ✅ 🤖 Best Practices for Auto-Installing Modlist Users:
+	- Only show when relevant: "Any suggestions noted with "👉" below have inidicators of possible relevancy in your provided crash log"
+	- Additional pointer on section header
+	- Other new pointers
+2. ✅BUG FIX on shortened footer from last version! Needs to link to skyrim.html when on that page!
+2. ✅ Added Alt+Tab info to Keyboard issue
+4. ✅❗ skee64.dll Issue Detected: 
+	- ✨ As a potential easy fix, consider trying RaceMenu OverlayFix and Various Mod Fixes.
+	- Thanks SpinPigeon for sharing this!
+	- Confirmation of it helping and two example logs to test on: https://discord.com/channels/902984082181484615/1133753226991255562/1404570714303893575
 
 
 

@@ -1,7 +1,7 @@
 //All diagnosing functions for both analyzeLog.js's diagnoses and insights variables. Only use insights.js if there needs to be a version of a function unique to the insights variable
 
 // --- Shared Constants ---
-const verifyWindowsPageFileListItem = `<li>💾 Verify your <a href="https://www.nolvus.net/appendix/pagefile">Windows Pagefile is properly configured</a> (nolvus.net link, but broadly applicable). The most common stability-focused recommendation is setting the Pagefile's minimum and maximum to 40GB. ⚠️NOTE: some sources say Skyrim's engine was programmed to require high Pagefile usage even when there is more than enough RAM available. To be on the safe side, ensure your Pagefile settings even if you somehow have a terrabyte of RAM.</li>`;
+const verifyWindowsPageFileListItem = `💾 Verify your <a href="https://www.nolvus.net/appendix/pagefile">Windows Pagefile is properly configured</a> (nolvus.net link, but broadly applicable). The most common stability-focused recommendation is setting the Pagefile's minimum and maximum to 40GB. ⚠️NOTE: some sources say Skyrim's engine was programmed to require high Pagefile usage even when there is more than enough RAM available. To be on the safe side, ensure your Pagefile settings even if you somehow have a terrabyte of RAM.`;
 
 const reinstallEngineFixes = `
     <!--<ul>-->
@@ -366,7 +366,7 @@ function checkForD6dddaEasyVersion(sections) {
                 <li>System Memory Management:
                     <ol>
                         <li>Close unnecessary background applications that may be consuming memory.</li>
-                        ${verifyWindowsPageFileListItem}
+                        <li>${verifyWindowsPageFileListItem}<li>
                         <li>Return any overclocked hardware (including RAM using XMP or AMD EXPO) to stock speeds, as unstable overclocks are known for causing crashes that can look like memory issues in crash logs.</li>
                         <li>Maintain <a href="https://computercity.com/hardware/storage/how-much-space-should-i-leave-on-my-ssd">at least 10-20% free space</a> on your SSD for optimal performance.</li>
                         <li>Review your modlist's (or individual mods') recommended hardware requirements to verify you aren't overly below their system recommendations.</li>
@@ -394,7 +394,7 @@ function checkForD6dddaAdvancedVersion(sections) {
                 <li>System Memory Management:
                     <ol>
                         <li>Close unnecessary background applications that may be consuming memory.</li>
-                        ${verifyWindowsPageFileListItem}
+                        <li>${verifyWindowsPageFileListItem}</li>
                         <li>Return any overclocked hardware (including RAM using XMP or AMD EXPO) to stock speeds, as unstable overclocks are known for causing crashes that can look like memory issues in crash logs.</li>
                         <li>Maintain <a href="https://computercity.com/hardware/storage/how-much-space-should-i-leave-on-my-ssd">at least 10-20% free space</a> on your SSD for optimal performance.</li>
                         <li>🚀 For systems with less than 12GB VRAM (or more for ultrawide/high-resolution displays) (<a href="https://www.lifewire.com/how-to-check-vram-5235783">check your VRAM here</a>), consider using <a href="https://www.nexusmods.com/skyrimspecialedition/mods/90557">VRAMr</a>. This tool automatically compresses texture files across your load order, reducing VRAM usage while maintaining visual fidelity and improving stability.</li>
@@ -421,7 +421,7 @@ function checkForHighMemoryUsage(sections) {
         diagnosis += `<li>${warningIcon}<b> ${warningLevel} Memory Usage Detected:</b> High memory usage may lead to instability. Note that excess memory usage can often be <i>caused</i> by other issues in this report. Key steps for early consideration (especially if this issue comes up frequently, and without other causes): <a href="#" class="toggleButton">⤵️ show more</a>
             <ul class="extraInfo" style="display:none">
                 <li>Close unnecessary background applications</li>
-                ${verifyWindowsPageFileListItem}
+                <li>${verifyWindowsPageFileListItem}</li>
                 <li>Consider these optimization strategies:
                     <ul>
                         <li>Switch texture mods to 1K or 2K variants</li>
@@ -687,6 +687,7 @@ function analyzeMemoryIssues(sections) {
         const diagnosticInfo = [];
         let hasWarnings = false;
         let hasMemoryInfo = false;
+        let hasCriticalRam = false;
     
         // Check RAM usage
         if (sections.systemPhysicalMemory !== undefined && sections.systemPhysicalMemoryMax !== undefined) {
@@ -696,6 +697,9 @@ function analyzeMemoryIssues(sections) {
             
             if (sections.lowRam || sections.criticalRam) {
                 hasWarnings = true;
+            }
+            if (sections.criticalRam) {
+                hasCriticalRam = true;
             }
             if (usedRam > 0) { hasMemoryInfo = true; }
         }
@@ -712,12 +716,13 @@ function analyzeMemoryIssues(sections) {
             if (usedVram > 0) { hasMemoryInfo = true; }
         }
     
-        return { diagnosticInfo, hasWarnings, hasMemoryInfo };
+        return { diagnosticInfo, hasWarnings, hasMemoryInfo, hasCriticalRam };
     }
 
     const hexCodeIssue = findMemoryHexCodeIssue(sections);
     const memoryCodeIssues = findMemoryCodeIssues(sections);
     const priorityIssue = (hexCodeIssue || sections.firstLine.includes('tbbmalloc.dll') );
+    let hasCriticalRam = false;
     Utils.debuggingLog(['analyzeMemoryIssues', 'analyzeLog.js'], 'hexCodeIssue:', hexCodeIssue);
     Utils.debuggingLog(['analyzeMemoryIssues', 'analyzeLog.js'], 'memoryCodeIssues:', memoryCodeIssues);
 
@@ -733,7 +738,7 @@ function analyzeMemoryIssues(sections) {
         <li><b>System Resource Management:</b>
             <ul>
             <li>Reboot PC and close any unnecessary applications to maximize available RAM for Skyrim.</li>
-            ${verifyWindowsPageFileListItem}
+            <li>${verifyWindowsPageFileListItem}</li>
             <li>Return any overclocked hardware (including RAM using XMP or AMD EXPO) to stock speeds, as unstable overclocks are known for causing crashes that can look like memory issues in crash logs.</li>
             <li>Maintain <a href="https://computercity.com/hardware/storage/how-much-space-should-i-leave-on-my-ssd">at least 10-20% free space</a> on your SSD for optimal performance.</li>
             <li>Review your modlist's (or individual mods') recommended hardware requirements to verify you aren't overly below their system recommendations.</li>
@@ -770,7 +775,11 @@ function analyzeMemoryIssues(sections) {
         </li>`;
 
 
-        const { diagnosticInfo, hasWarnings, hasMemoryInfo } = getMemoryUsageStatus(sections);
+        const { diagnosticInfo, hasWarnings, hasMemoryInfo, hasCriticalRam } = getMemoryUsageStatus(sections);
+        Utils.debuggingLog(['analyzeMemoryIssues', 'analyzeLog.js'], 'diagnosticInfo:', diagnosticInfo);
+        Utils.debuggingLog(['analyzeMemoryIssues', 'analyzeLog.js'], 'hasWarnings:', hasWarnings);
+        Utils.debuggingLog(['analyzeMemoryIssues', 'analyzeLog.js'], 'hasMemoryInfo:', hasMemoryInfo);
+        Utils.debuggingLog(['analyzeMemoryIssues', 'analyzeLog.js'], 'hasCriticalRam:', hasCriticalRam);
         if (diagnosticInfo.length > 0 && hasMemoryInfo) {
             memoryInsights += `<li>System Memory Status ${hasWarnings ? '❗' : ''}: <a href="#" class="toggleButton">⤵️ show more</a><ul class="extraInfo" style="display:none">`;
             memoryInsights += diagnosticInfo.join('');
@@ -810,7 +819,7 @@ function analyzeMemoryIssues(sections) {
         memoryInsights += '</ol></li>';
     }
 
-    return memoryInsights;
+    return (memoryInsights, hasCriticalRam);
 }
 
 
@@ -1605,7 +1614,7 @@ function checkKernelbaseCrash(sections, Utils, jContainersCrash, win24H2Upscaler
                     <ol>
                         <li><b>First</b>, try to reproduce the crash after rebooting your PC and playing the game again. If this was a one-time occurrence, you probably don't need to follow the more intensive troubleshooting steps below.</li>
                         <li>Review the rest of the advice in this report (above and below), and see if there are strong indications of any better-isolated isolated issue. Sometimes other mods/issues can cause a "KERNELBASE Crash".</li>
-                        ${verifyWindowsPageFileListItem}
+                        <li>${verifyWindowsPageFileListItem}</li>
                         <li>Check with the <b>Nolvus community</b> to see if others are encountering this issue due to a new Windows update or the like.</li>
                         <li>You can restore the original sorting of all vanilla Nolvus mods using the <b>Apply Order</b> button in the Nolvus Dashboard. For more information and a screenshot, see this r/Nolvus post <a href="https://www.reddit.com/r/Nolvus/comments/1kp1lrw/guide_using_the_apply_order_button_in_nolvus/">How To: "Apply Order" button usage in the Nolvus Dashboard</a>.</li>
                         <li><b>Reinstall Nolvus</b> to ensure the installation is not corrupted. Make sure to back up any important data before doing this. For detailed instructions, see this <a href="https://docs.google.com/document/d/1R_AVeneeCiqs0XGYzggXx34v3Ufq5eUHNoCHo3QE-G8/edit">guide</a>.</li>
@@ -1621,7 +1630,7 @@ function checkKernelbaseCrash(sections, Utils, jContainersCrash, win24H2Upscaler
                         <li><b>First</b>, try to reproduce the crash after rebooting your PC and playing the game again. If this was a one-time occurrence, you probably don't need to follow the more intensive troubleshooting steps below.</li>
                         <li>Review the rest of the advice in this report (above and below), and see if there are strong indications of any better-isolated isolated issue. Sometimes other mods/issues can cause a "KERNELBASE Crash".</li>
 
-                        ${verifyWindowsPageFileListItem}
+                        <li>${verifyWindowsPageFileListItem}</li>
 
                         <li>Check with the <b>${!Utils.isSkyrimPage ? 'Nolvus community' : 'Skyrim modding community'}</b> to see if others are encountering this issue due to a new Windows update or the like.</li>
 
@@ -1841,7 +1850,7 @@ function generateNoCrashDetectedMessage() {
                         <li>Always try the classic computer solution - <b>restart your PC</b>: This clears memory and resolves many system-level issues, especially after extended gaming sessions. It's surprising how many issues this old IT tip still fixes...</li>
                         <li>If one save won't load, quit to the desktop, relaunch Skyrim and try to <b>load an older save</b>.</li>
                         <li>Sometimes it can help to <b>separate from your followers</b> to get past a crash point. Ask NPC and pet and horse followers to "wait" at a safe location, away from the crash-prone loading area (cell). This reduces script load and rendering complexities in crash-prone areas. This can be especially helpful during visually busy scenes like combat, and also with crashes that occur when loading into a new area. Afterwards, return to collect your followers once you're past the problematic spot. Alternatively, many follower frameworks will also allow teleporting companions back once you are past the crash-prone segment.</li> 
-                        ${verifyWindowsPageFileListItem}
+                        <li>${verifyWindowsPageFileListItem}</li>
                         <li>Maintain <a href="https://computercity.com/hardware/storage/how-much-space-should-i-leave-on-my-ssd">at least 10-20% free space</a> on your SSD for optimal performance.</li>
                         <li>Return any <b>overclocked hardware</b> (including RAM using XMP or AMD EXPO) to stock speeds.</li>
                     </ul>
@@ -1869,7 +1878,7 @@ function generateNoCrashDetectedMessage() {
                                 <li>Always try the classic computer solution - <b>restart your PC</b>: This clears memory and resolves many system-level issues, especially after extended gaming sessions. It's surprising how many issues this old IT tip still fixes...</li>
                                 <li>If one save won't load, quit to the desktop, relaunch Skyrim and try to <b>load an older save</b>.</li>
                                 <li>Sometimes it can help to <b>separate from your followers</b> to get past a crash point. Ask NPC and pet and horse followers to "wait" at a safe location, away from the crash-prone loading area (cell). This reduces script load and rendering complexities in crash-prone areas. This can be especially helpful during visually busy scenes like combat, and also with crashes that occur when loading into a new area. Afterwards, return to collect your followers once you're past the problematic spot. Alternatively, many follower frameworks will also allow teleporting companions back once you are past the crash-prone segment.</li> 
-                                ${verifyWindowsPageFileListItem}
+                                <li>${verifyWindowsPageFileListItem}</li>
                                 <li>Maintain <a href="https://computercity.com/hardware/storage/how-much-space-should-i-leave-on-my-ssd">at least 10-20% free space</a> on your SSD for optimal performance.</li>
                                 <li>Return any <b>overclocked hardware</b> (including RAM using XMP or AMD EXPO) to stock speeds.</li>
                                 <li>Review saving guidelines at <a href="https://www.reddit.com/r/Nolvus/comments/1ka74em/jeriliths_2025_skyrim_safesaveguide_sexy_free/">Jerilith's 2025 Skyrim Safe-Save-Guide [sexy free edition]</a></li> as following these guidelines may help minimize late-game issues with loading save files.</li>
@@ -2264,6 +2273,8 @@ function analyzeKeyboardCrash(sections) {
             <li>First steps:
                 <ul>
                 <li>Restart your computer to refresh the system</li>
+                <li>🔀 <b>Alt+Tab considerations:</b> Somtimes Alt+tabbing can cause this indicator to show up in crash logs. Avoid Alt+Tabbing, especially playing full screen, or while loading/saving, or any intensive scenes. If you must, switch applications during periods of inactivity and after pausing Skyrim with the [\`] key (entering the command line menu).</li>
+
                 <li>Check for and install any keyboard driver updates</li>
                 </ul>
             </li>
@@ -2930,6 +2941,7 @@ function analyzeSkee64Issue(sections, forFirstLine = false) {
         ) {
         insights += `
         <li>${emoji} <b>skee64.dll Issue Detected:</b> The presence of <code>skee64.dll</code> in the ${logPortionText} of a crash log can indicate issues with the <b>RaceMenu</b> mod and/or incompatibility issues with mods that affect character models or body or face meshes. To troubleshoot this issue:<ol>
+            <li>✨ As a potential easy fix, consider trying <a href="https://www.nexusmods.com/skyrimspecialedition/mods/138586">RaceMenu OverlayFix and Various Mod Fixes</a>.</li>
             <li>Frequently, this error has recently been associated with the <b>loading of presets</b> (either downloaded or made personally). The cause of the preset issue is currently unknown. If it is this preset issue, it can often show up many hours into gameplay, for causes unknown. The only lasting fix seems to be to create a new character, without loading any character presets.<ul>
                 <li>Or alternately, try using Pan's steps (modified from Klaufen's) for fixing (often temporarily) many delayed preset-caused crashes:<ol>
                     <li>Load a save that works, doesn't matter how far back you are in the playthrough</li>
@@ -3188,21 +3200,21 @@ function analyzeNewGameCrash(sections) {
 
 // 🤖 For Users of Auto-Installing Modlists:
 // Streamlined function for modlist/collection users with automated installers
-function checkCommonModlistIssues(sections, hasUnlikelyErrorForAutoInstallerModlist, hasSaveLoadIssues) {
+function checkCommonModlistIssues(sections, hasUnlikelyErrorForAutoInstallerModlist, hasSaveLoadIssues, hasKeyboardIssue, hasPagefileIndicator) {
        
     // DECIDED TO ALWAYS show this at the top. It's collapsed anyway, and pretty much any issue in an auto-installing modlist could easily be caused by these issues. Also, support functions were centralized into analyzeLog.js so that such diagnositics are centralized into one piece of code. Also, troubleshooting instructions were centralized into the main text block, with some minor conditionals inserted.
     // Main diagnosis section
     let diagnoses = `
-        <li><span class="important-emoji">🤖</span> <b>Best Practices for Auto-Installing Modlist Users:</b> Since most well-crafted auto-installing modlists are generally  stable, these guidelines should help <b>resolve most common issues</b> that may arise, and custom modders may also find them useful. (NOTE: this section is currently being developed) <a href="#" class="toggleButton">⤵️ show more</a>
+        <li>${(hasUnlikelyErrorForAutoInstallerModlist || hasSaveLoadIssues || hasKeyboardIssue ||  hasPagefileIndicator) ? '👉 ' : ''}<span class="important-emoji">🤖</span> <b>Best Practices for Auto-Installing Modlist Users:</b> Since most well-crafted auto-installing modlists are generally  stable, these guidelines should help <b>resolve most common issues</b> that may arise, and custom modders may also find them useful. (NOTE: this section is currently being developed) <a href="#" class="toggleButton">⤵️ show more</a>
             <ul class="extraInfo" style="display:none">
-                <li>Any suggestions noted with a "👉" below are likely to be <b>especially relevant</b> to the provided crash log.</li>
+                ${(hasUnlikelyErrorForAutoInstallerModlist || hasSaveLoadIssues || hasKeyboardIssue ||  hasPagefileIndicator) ? '<li>Any suggestions noted with "👉" below have inidicators of <b>possible relevancy</b> in your provided crash log.</li>' : ''}
                 <li>1️⃣ Initial Setup: if you haven't already, <b>launch Skyrim once from Steam</b> (not through your mod manager) and click "Options" to generate default ini files and download any AE content. Close the launcher completely, then launch through your mod manager as usual. <a href="https://gatetosovngarde.wiki.gg/wiki/Installation_Guide#A_Clean_And_Proper_Skyrim." target="_blank">More info</a> (GTS reference, but this section is broadly applicable)</li>
 
                 <li>🖥️ Verify your hardware/OS settings:
                     <ul>
                         <li>Always try the classic computer solution - <b>restart your PC</b>: This clears memory and resolves many system-level issues, especially after extended gaming sessions. It's surprising how many issues this old IT tip still fixes...</li>
-                        <li>If you have less than 32GB of RAM, quit out of all other applications before launching your modlist. NOTE: This might also be a good suggestion even if you have more then 32GB of RAM.</li>
-                        ${verifyWindowsPageFileListItem}
+                        <li>Consider quitting out of all other applications before launching your modlist, especially if you have less than 32GB of RAM.</li>
+                        <li>${hasPagefileIndicator ? '👉' : ''}${verifyWindowsPageFileListItem}</li>
                         <li>Maintain <a href="https://computercity.com/hardware/storage/how-much-space-should-i-leave-on-my-ssd">at least 10-20% free space</a> on your SSD for optimal performance.</li>
                         <li>Return any <b>overclocked hardware</b> (including RAM using XMP or AMD EXPO) to stock speeds.</li>
                     </ul>
@@ -3283,7 +3295,7 @@ function checkCommonModlistIssues(sections, hasUnlikelyErrorForAutoInstallerModl
                     <ul>
                         <li><b>Avoid using the in-game Creations menu</b> while using external mod managers - it may conflict with MO2/Vortex</li>
 
-                        <li>🔀 <b>Alt+Tab considerations:</b> Avoid Alt+Tabbing, especially playing full screen, or while loading/saving, or any intensive scenes. If you must, switch applications during periods of inactivity and after pausing Skyrim with the [\`] key (entering the command line menu).</li>
+                        <li>${hasKeyboardIssue ? '👉' : ''}🔀 <b>Alt+Tab considerations:</b> Avoid Alt+Tabbing, especially playing full screen, or while loading/saving, or any intensive scenes. If you must, switch applications during periods of inactivity and after pausing Skyrim with the [\`] key (entering the command line menu).</li>
 
                         <li>If one save won't load, quit to the desktop, relaunch Skyrim and try to <b>load an older save</b>.</li>
 

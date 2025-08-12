@@ -40,6 +40,7 @@ async function analyzeLog() {
 
     let hasUnlikelyErrorForAutoInstallerModlist = false;
     let hasSaveLoadIssues = false;
+    let hasPagefileIndicator = false;
 
     Utils.splitLogIntoLines(logFile);
 
@@ -308,6 +309,7 @@ async function analyzeLog() {
     if(kernelBaseDiagnosis) {
         diagnoses += kernelBaseDiagnosis;
         diagnosesCount++;
+        hasPagefileIndicator = true;
     }
 
 
@@ -360,6 +362,7 @@ async function analyzeLog() {
     if (d6dddaDiagnosis) {
         diagnoses += d6dddaDiagnosis;
         diagnosesCount++;
+        hasPagefileIndicator = true;
     }
 
     // ❗Incompatible Snow Mods Detected:
@@ -473,6 +476,7 @@ async function analyzeLog() {
     if (criticalMemoryUsage) {
         diagnoses += criticalMemoryUsage;
         diagnosesCount++;
+        hasPagefileIndicator = true;
     }
 
 
@@ -869,10 +873,13 @@ async function analyzeLog() {
     }
 
     //Memory issues:
-    const memoryInsights = analyzeMemoryIssues(sections);
+    const { memoryInsights, hasCriticalRam} = analyzeMemoryIssues(sections);
     if (memoryInsights) {
         insights += memoryInsights;
         insightsCount++;
+        if (hasCriticalRam) {
+            hasPagefileIndicator = true;
+        }
     }
 
 
@@ -1056,9 +1063,11 @@ async function analyzeLog() {
 
     //❓ Keyboard Input Issue Detected: 
     const keyboardCrashInsight = analyzeKeyboardCrash(sections);
+    let hasKeyboardIssue = false;
     if (keyboardCrashInsight) {
         insights += keyboardCrashInsight;
         insightsCount++;
+        hasKeyboardIssue = true;
     }
 
 
@@ -1182,7 +1191,7 @@ async function analyzeLog() {
 
     // ALWAYS SHOWS at top of Diagnostics
     // 🤖 For Users of Auto-Installing Modlists:
-    const checkCommonModlistIssuesDiagnosis = checkCommonModlistIssues(sections, hasUnlikelyErrorForAutoInstallerModlist, hasSaveLoadIssues);
+    const checkCommonModlistIssuesDiagnosis = checkCommonModlistIssues(sections, hasUnlikelyErrorForAutoInstallerModlist, hasSaveLoadIssues, hasKeyboardIssue, hasPagefileIndicator);
     if(checkCommonModlistIssuesDiagnosis) {
         diagnoses = checkCommonModlistIssuesDiagnosis + diagnoses;
     }
