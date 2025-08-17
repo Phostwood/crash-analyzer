@@ -1,6 +1,6 @@
 # Phostwood's Crash Analyzers:
 
-With over 550 hours of ongoing development, these advanced analyzers examine Nolvus (and general Skyrim) crash logs to help diagnose and fix 75-90% of crashes with identifiable causes, providing well-researched troubleshooting steps and links. It's currently helping almost 200 different Skyrim modders each day, and stands apart from other automated analyzers with its advanced diagnoses, detailed troubleshooting steps (for most crash types) and frequent updates.
+With over 600 hours of ongoing development, these advanced analyzers examine Nolvus and general Skyrim crash logs to help diagnose and fix 75-90% of crashes with identifiable causes, providing well-researched troubleshooting steps and links. It's currently helping almost 200 different Skyrim modders each day, and stands apart from other automated analyzers with its advanced diagnoses, detailed troubleshooting steps (for common crash types) and frequent updates.
 While not a replacement for talented human crash log readers, it works much faster and, when used judiciously, can free up these rare experts to focus on the more challenging crash logs that require human analysis. 
 
 
@@ -15,7 +15,7 @@ And again, this analyzer is not intended to replace the invaluable expertise of 
 - [Imagine us manually analyzing 150 crash logs each day? If not, thank Phostwood's Crash Log Analyzer for its help.](https://www.reddit.com/r/skyrimmods/comments/1jfwuw1/imagine_us_manually_analyzing_150_crash_logs_each/)
 - [A Data-Driven Performance Review of My Crash Log Analyzer](https://www.reddit.com/r/skyrimmods/comments/1j44ezl/a_datadriven_performance_review_of_my_crash_log/)
 - Join our new [r/Phostwood](https://www.reddit.com/r/Phostwood) sub on Reddit
-- Join our new [#phostcrashlogs](https://discord.gg/WH79twvc) channel on Discord!
+- Join our new [#phostcrashlogs](https://discord.gg/Wnsgra4B8Z) channel on Discord!
 
 **Two versions for Skyrim:**
 

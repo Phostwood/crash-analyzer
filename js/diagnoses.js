@@ -2720,7 +2720,7 @@ function analyzeENBShaderLightingIssues(sections) {
     Utils.debuggingLog(['analyzeENBShaderLightingIssues', 'analyzeLog.js'], 'shaderCodeIssues:', shaderCodeIssues);
 
     if (shaderCodeIssues.length > 0) {
-        shaderInsights += `<li>❓ <b>Possible Shader/Lighting Issue:</b> While this crash includes indications of lighting/shader/enb systems, the root cause often lies elsewhere. Follow these steps:
+        shaderInsights += `<li>❓ <b>Possible Shader/Lighting Issue:</b> While this crash includes indications of lighting/shadows/shader/enb systems, the root cause often lies elsewhere. Follow these steps:
         <ol>
         <li>Check for Cell and Record Conflicts:
             <ul>
@@ -2754,7 +2754,7 @@ function analyzeENBShaderLightingIssues(sections) {
             ${Utils.LootListItemIfSkyrim}
             <li>Review compatibility between character overhauls and lighting systems. Some character overhauls modify rendering processes which can cause conflicts. Check for compatibility patches.</li>
             <li>Check for ENB preset compatibility with your weather mod</li>
-            <li>Look for conflicts between graphical mods (enb, lighting, weather, parallax, meshes, textures, new cells/locations, character overhauls etc.)</li>
+            <li>Look for conflicts between graphical mods (enb, lighting, shadows, shaders, weather, parallax, meshes, textures, new cells/locations, character overhauls etc.)</li>
             <li>Consider testing without ENB by temporarily renaming <code>d3d11.dll</code> to <code>d3d11.dll.backup</code></li>
             <li>Review GPU driver version compatibility</li>
             <li>Check Windows display settings for HDR conflicts</li>
@@ -3302,7 +3302,7 @@ function checkCommonModlistIssues(sections, hasUnlikelyErrorForAutoInstallerModl
 
                         <li>Sometimes it can help to <b>separate from your followers</b> to get past a crash point. Ask followers/pets/steeds to "wait" at a safe location, away from the crash-prone loading area (cell) ... and then collect them again later after getting past the crashing area.</li> 
 
-                        <li><b>Normal crash frequency:</b> Crashing less than every 4 hours usually isn't a large concern for any heavily modded Skyrim, especially if the modlists is straining the limits of your hardware. Even un-modded Skyrim crashes.
+                        <li><b>Normal crash frequency:</b> Crashing less than every 4 hours usually isn't a large concern for any heavily modded Skyrim, especially if the modlist is straining the limits of your hardware. Even un-modded Skyrim crashes.
                         </li>
 
                         <li><b>Significance:</b> Don't try to fix what might not be broken. If indications of the same issue don't repeat across multiple crash logs, they probably aren't significant.</li>

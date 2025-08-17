@@ -298,6 +298,16 @@ span {
     background-color: #72a4f2;
 }
 
+/* Help Me Out Message Styling */
+#help-me-out {
+    font-family: 'Roboto Condensed', sans-serif;
+    color: gold;
+    font-size: clamp(1.25rem, 0.496vw + 1.135rem, 2.375rem);
+    line-height: clamp(2.125rem, 0.424vw + 2.027rem, 3.088rem);
+    margin-top: 1em;
+}
+
+
 /* Thank You Message Styling */
 #thank-you-message {
     display: none;

@@ -1,12 +1,12 @@
-✅Version 1.24.6 is now live:
+✅Version 1.24.7 is now live:
 https://phostwood.github.io/crash-analyzer/
 
-1. 🤖 Best Practices for Auto-Installing Modlist Users:
-	- Added: <li>🔄 <b>Consult before updating any mods:</b> Check with the collection's community before updating individual mods, as collections often include compatibility patches dependent on specific mod versions. Bulk updates frequently break functionality and cause crashes.</li>
-2. ❓ DynDOLOD.esm Detected:
-	- removed un-related line, from this very old test:
-		- <li>If you\'re having trouble saving in Skyrim SE, install SSE Engine Fixes 4.8+ and set <code>SaveGameMaxSize = true</code> in <code>EngineFixes.toml</code>.</li>
-
+1. ❓ Possible Shader/Lighting Issue:
+	- added info to include shadow-casting mods in with this category
+2. Donations section
+	- moved to JS include for easier updates on both versions of the analyzer
+	- changes and refinements
+3. Fixed Discord link (prior invitation link had expired)
 
 
 --- Next version? ---
