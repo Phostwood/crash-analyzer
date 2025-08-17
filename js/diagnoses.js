@@ -3293,6 +3293,7 @@ function checkCommonModlistIssues(sections, hasUnlikelyErrorForAutoInstallerModl
 
                 <li>🦉 <b>Best Practices</b> for playing a stable heavily-modded Skyrim: (Experienced modders have differing opinions, and some of these recommendations are considered <a href="https://www.reddit.com/r/skyrimmods/comments/1ls2j8b/best_practices_for_playing_a_stable_modded_skyrim/"  target="_blank">controversial</a>, but according to three top modlist communities, breaking these may cause crashes even with a stable modlist)
                     <ul>
+                        <li>🔄 <b>Consult before updating any mods:</b> Check with the collection's community before updating individual mods, as collections often include compatibility patches dependent on specific mod versions. Bulk updates frequently break functionality and cause crashes.</li>
                         <li><b>Avoid using the in-game Creations menu</b> while using external mod managers - it may conflict with MO2/Vortex</li>
 
                         <li>${hasKeyboardIssue ? '👉' : ''}🔀 <b>Alt+Tab considerations:</b> Avoid Alt+Tabbing, especially playing full screen, or while loading/saving, or any intensive scenes. If you must, switch applications during periods of inactivity and after pausing Skyrim with the [\`] key (entering the command line menu).</li>

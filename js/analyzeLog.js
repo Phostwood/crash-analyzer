@@ -1082,8 +1082,7 @@ async function analyzeLog() {
             '<li>Review DynDOLOD\'s log messages and summary for warnings about issues known to cause CTDs.</li>';
             if (Utils.isSkyrimPage) {
                 insights += '<li>Avoid using the experimental <code>TreeFullFallBack=0</code> setting unless you fully understand its purpose and effects.</li>' +
-                '<li>For large load orders, consider setting <code>Temporary=1</code> in <code>DynDOLOD_[GameMode].ini</code>, or preferably, convert large new land plugins to ESM.</li>' +
-                '<li>If you\'re having trouble saving in Skyrim SE, install SSE Engine Fixes 4.8+ and set <code>SaveGameMaxSize = true</code> in <code>EngineFixes.toml</code>.</li>';
+                '<li>For large load orders, consider setting <code>Temporary=1</code> in <code>DynDOLOD_[GameMode].ini</code>, or preferably, convert large new land plugins to ESM.</li>';
             }
             insights += '<li>For further assistance, consult the <a href="https://dyndolod.info/FAQ">DynDOLOD FAQ</a> or post on the official DynDOLOD support forum with detailed information and crash logs.</li>' +
             '</ol></li>';

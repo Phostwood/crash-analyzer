@@ -1,24 +1,19 @@
-✅Version 1.24.5 is now live:
+✅Version 1.24.6 is now live:
 https://phostwood.github.io/crash-analyzer/
 
-1. ✅FIXED: Why is "hasCriticalRam: false" when crash-2025-07-18-18-01-49.log is changed to have "PHYSICAL MEMORY: 31.64 GB/31.82 GB"
-2. ✅ 🤖 Best Practices for Auto-Installing Modlist Users:
-	- Only show when relevant: "Any suggestions noted with "👉" below have inidicators of possible relevancy in your provided crash log"
-	- Additional pointer on section header
-	- Other new pointers
-2. ✅BUG FIX on shortened footer from last version! Needs to link to skyrim.html when on that page!
-2. ✅ Added Alt+Tab info to Keyboard issue
-4. ✅❗ skee64.dll Issue Detected: 
-	- ✨ As a potential easy fix, consider trying RaceMenu OverlayFix and Various Mod Fixes.
-	- Thanks SpinPigeon for sharing this!
-	- Confirmation of it helping and two example logs to test on: https://discord.com/channels/902984082181484615/1133753226991255562/1404570714303893575
-
+1. 🤖 Best Practices for Auto-Installing Modlist Users:
+	- Added: <li>🔄 <b>Consult before updating any mods:</b> Check with the collection's community before updating individual mods, as collections often include compatibility patches dependent on specific mod versions. Bulk updates frequently break functionality and cause crashes.</li>
+2. ❓ DynDOLOD.esm Detected:
+	- removed un-related line, from this very old test:
+		- <li>If you\'re having trouble saving in Skyrim SE, install SSE Engine Fixes 4.8+ and set <code>SaveGameMaxSize = true</code> in <code>EngineFixes.toml</code>.</li>
 
 
 
 --- Next version? ---
 2. ??New version of BGSAutosave test??
 3. ??New test for missing AE content?? - "High Confidence" when at least x mods are showing up?
+	- or better yet, test AE version and then for all AE content, and list any missing ones
+
 
 
 --- NEXT: IMPORTANT? --
@@ -31,6 +26,9 @@ https://phostwood.github.io/crash-analyzer/
 
 sections.Stack is being cut short in this log:
 "DynDOLODv34 maybe but not GTS - Crash_2025_7_8_0-40-49.txt"
+
+BUT THEN ... who is still using NSF? I'm not saying I don't want to support it, but usage is probably far lower than Crash Logger, and this bug is really rare in NSF...
+
 
 By this line at the curly braces ... which I'm pretty sure is a rare thing:
 [SP+2E0]  0x7FFA51912070     (DynDOLOD.DLL+B2070) (char*) "LargeREFRFix load3d {:08X}"
@@ -50,7 +48,7 @@ https://www.ocbase.com/download
 https://apps.microsoft.com/detail/xpfmmcr4r5mxgs?hl=en-US&gl=US
 
 0. Intel has a tool now that can help identify that cpu bug - https://www.intel.com/content/www/us/en/support/articles/000005567/processors.html
-
+	- or maybe it doesn't do that?
 
 1. Missing Master:
 	- Added instruction at top:
