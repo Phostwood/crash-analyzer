@@ -3436,3 +3436,27 @@ function checkCoreImpactCorruptionCrash(sections) {
     }
     return insights;
 }
+
+
+
+// ❗ Possible GTS T-Pose Animal Crash Detected:
+function checkTPoseAnimalCrash(sections) {
+    let insights = '';
+    // Check for specific T-Pose crash pattern in top third of crash log
+    const crashPattern = `(ActorMovementMessageMap<16>::MessageHandlerWrapper<MovementMessageWarpToLocation>*)`;
+    
+    if (sections.topThird.toLowerCase().includes(crashPattern.toLowerCase())) {
+        
+        insights += `<li>❗ <b>Possible GTS T-Pose Animal Crash Detected:</b>
+            If you are playing <b>Gate to Sovngarde (GTS)</b> versions 90 or 91, then they have an easy fix to prevent future occurences of this crash.
+            <ul>
+                <li><b>Recommended fix:</b> Download the <a href="https://www.nexusmods.com/skyrimspecialedition/mods/97490?tab=files" target="_blank">T-Pose Animal Fix by SpinPigeon</a> from "JaySerpa's Small Mods and Resources (Mostly for GTS)" files tab</li>
+                <li><b>Alternative:</b> Update to GTS version 92 (or higher) which includes this fix already</li>
+                <li>Detected indicators: <a href="#" class="toggleButton">⤵️ show more</a><ul class="extraInfo" style="display:none">
+                    <li><code>(ActorMovementMessageMap&lt;16&gt;::MessageHandlerWrapper&lt;MovementMessageWarpToLocation&gt;*)</code> - T-Pose animal fix crash signature found in top third of crash log</li>
+                </ul></li>
+            </ul>
+        </li>`;
+    }
+    return insights;
+}

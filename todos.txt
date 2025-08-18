@@ -1,12 +1,9 @@
-✅Version 1.24.7 is now live:
+✅Version 1.24.8 is now live:
 https://phostwood.github.io/crash-analyzer/
 
-1. ❓ Possible Shader/Lighting Issue:
-	- added info to include shadow-casting mods in with this category
-2. Donations section
-	- moved to JS include for easier updates on both versions of the analyzer
-	- changes and refinements
-3. Fixed Discord link (prior invitation link had expired)
+1. New test: ❗ Possible GTS T-Pose Animal Crash Detected
+
+
 
 
 --- Next version? ---

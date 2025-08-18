@@ -446,6 +446,14 @@ async function analyzeLog() {
         //EXCLUDED: diagnosesCount++;
     }
 
+    // ❗ Possible GTS T-Pose Animal Crash Detected:
+    const checkTPoseAnimalCrashDiagnosis = checkTPoseAnimalCrash(sections);
+    if(checkTPoseAnimalCrashDiagnosis) {
+        diagnoses += checkTPoseAnimalCrashDiagnosis;
+        diagnosesCount++;
+    }
+
+
     //❗ Potential Missing Masters Detected: 
     const missingMastersDiagnosis = checkForMissingMasters(sections);
     if (missingMastersDiagnosis) hasUnlikelyErrorForAutoInstallerModlist = true;
