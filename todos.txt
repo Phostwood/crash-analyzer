@@ -6,7 +6,7 @@ https://phostwood.github.io/crash-analyzer/
 		- "Recommended Tools:"
 		- "🎯 Exceeded Maximum ESMs+ESPs Plugins Limit!"
 	- Added Rivussy to "Thank You" section and DM-ed them
-	- Thanked MaskPlague for making it, and shared that it was added
+	- Thanked MaskPlague for making it, and shared that itwas added
 
 2.  Display nested Log Summary (Beta)
 	- Changed to clarify: "Display nested Log Summary (Beta feature)"
