@@ -459,10 +459,21 @@ async function analyzeLog() {
     if (missingMastersDiagnosis) hasUnlikelyErrorForAutoInstallerModlist = true;
     Utils.debuggingLog(['missingMastersDiagnosis', 'analyzeLog.js'], `missingMastersDiagnosis for diagnostic section:'`, missingMastersDiagnosis);
     Utils.debuggingLog(['missingMastersDiagnosis', 'analyzeLog.js'], `Utils.isSkyrimPage for diagnostic section:'`, Utils.isSkyrimPage);
+    hasMissingMasters = false;
+    if (missingMastersDiagnosis) {
+        hasMissingMasters = true;
+    }
     if (Utils.isSkyrimPage && missingMastersDiagnosis) {
         diagnoses += missingMastersDiagnosis;
         diagnosesCount++;
         //NOTE: for Nolvus users, this result will still show up in the Advanced User's insights, below
+    }
+
+    // ⚠️ Missing Creation Club Content Detected:
+    const checkMissingCreationClubContentDiagnosis = checkMissingCreationClubContent(sections, hasMissingMasters);
+    if(checkMissingCreationClubContentDiagnosis) {
+        diagnoses += checkMissingCreationClubContentDiagnosis;
+        diagnosesCount++;
     }
 
     //❗ Missing SSE Engine Fixes:
@@ -510,6 +521,7 @@ async function analyzeLog() {
             diagnosesCount++;
         }
     }
+
 
     
     //🎯 Antivirus Issue Detected:
