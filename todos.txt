@@ -1,40 +1,17 @@
-✅Version 1.24.9 is now live:
+✅Version 1.25.1 is now live:
 https://phostwood.github.io/crash-analyzer/
 
-1. ✅New test: ⚠️ Missing Creation Club Content Detected: (and variations)
-	- ✅Tested (among many more)
-	    - ✅old Skyrim 3-missing on Skyrim.html
-		- ✅old Skyrim 3-missing on index.html
-		- ✅old Skyrim with all CC on Skyrim.html
-		- ✅old Skyrim with all CC on index.html
-		- ✅old Skyrim truncated on Skyrim.html
-		- ✅old Skyrim truncated on index.html
-		- ✅3-missing on Skyrim
-		- ✅3-missing on Nolvus
-		- ✅truncated log on Skyrim
-		- ✅truncated log on Nolvus
-		- ✅all present with MM on Skyrim
-		- ✅all present with MM on Nolvus
+1. "ESLifier to find ESL flaggable mods, compact form IDs, and patch ALL dependent plugins/files automatically."
+	- Added to to two sections:
+		- "Recommended Tools:"
+		- "🎯 Exceeded Maximum ESMs+ESPs Plugins Limit!"
+	- Added Rivussy to "Thank You" section and DM-ed them
+	- Thanked MaskPlague for making it, and shared that it was added
 
-2. ✅ ❗ Potential Missing Masters/Dependency Detected:
-	- New bullet point mentioning Creation Club content and tweaks
-	- Code tweak to work with new test (above)
+2.  Display nested Log Summary (Beta)
+	- Changed to clarify: "Display nested Log Summary (Beta feature)"
 
-3. ✅❗ Possible GTS T-Pose Animal Crash Detected
-	- clarified wording
 
-4. ✅ Moved SpinPigeon to "Special Thanks" (and shared with him)
-
-5. ✅ Try experimental Files/Elements upgrade --> Display nested Log Summary  (Beta)
-	- just a change in its text, no code change, just upgrading it from experimental to Beta since it is what I use more often than not
-
-6. ✅ Thanks Yous: Deleted DOOGO323 since same user is now known as Hexanode who was also thanked :-)
-
-7. ✅ 🤖 Best Practices for Auto-Installing Modlist Users:
-	- Added 💀 emoji to Alternate Death section for easy copy-paste of subsection 
-
-8. ✅❗ Possible GTS T-Pose Animal Crash Detected:
-	- Text clarifications about the cause and fix
 
 
 
