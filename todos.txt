@@ -1,15 +1,49 @@
-✅Version 1.25.1 is now live:
+✅Version 1.25.2 is now live:
 https://phostwood.github.io/crash-analyzer/
 
-1. "ESLifier to find ESL flaggable mods, compact form IDs, and patch ALL dependent plugins/files automatically."
-	- Added to to two sections:
-		- "Recommended Tools:"
-		- "🎯 Exceeded Maximum ESMs+ESPs Plugins Limit!"
-	- Added Rivussy to "Thank You" section and DM-ed them
-	- Thanked MaskPlague for making it, and shared that itwas added
+1. ❗ Probable New Game Crash (Missing INI Files) Detected: 
+	- Added before and after steps specific to Vortex users
 
-2.  Display nested Log Summary (Beta)
-	- Changed to clarify: "Display nested Log Summary (Beta feature)"
+
+
+
+
+NEXT VERSION:
+
+1. ⭐️⭐️⭐️⭐️⭐️⭐️New test: levelList crash
+
+https://www.reddit.com/r/skyrimmods/s/vbsk6s7eFB
+https://old.reddit.com/r/skyrimmods/comments/1i4tel9/crash_while_saving_at_random/
+
+See log file on laptop:
+LeveledList issue maybe - dyfXstQz.txt
+
+
+"RomatebitegeL[F] 2 points 22 days ago 
+
+Yes LeveledItem (53) would be the indicator with the form id associated with it. And I do believe 53 is always at the end.
+
+It would be great if you could make your analyzer shows as a culprit, in unsure logs, the most showed form id as the probable culprit. This is one thing Skyrim Crash Decoder in fact does well.
+
+So in this log with OP (that also seems to have been solved) that would have been LeveledItem with form id 0009AF0A.
+
+Then you can just add the info about deleting it with Resaver. When your analyzer catches this too, then it will become an even more powerful tool!
+
+"
+
+
+Reportedly, this fixed it:
+LeveledList Crash Fix
+https://www.nexusmods.com/skyrimspecialedition/mods/129136
+requires Skyrim SE version 1.6.1130+
+
+
+20250211 fix confirmed: https://old.reddit.com/r/skyrimmods/comments/1in3esq/experiencing_crashing_when_making_any_type_of_save/
+
+
+Maybe this too?
+https://www.reddit.com/r/skyrimmods/comments/1mqrgxk/game_crashes_on_savingfast_travelloading/
+
 
 
 
@@ -17,6 +51,11 @@ https://phostwood.github.io/crash-analyzer/
 
 
 --- Next version? ---
+⭐️⭐️1. Fix broken HTML formatting:
+	- ❓ Possible Animation Loader/Behavior Engine Issue Detected:
+	- ❗ First-Line Engine Fixes Issue:
+
+
 ⭐️FIX BUG when a second hide menu is closed?
 
 2. ??New version of BGSAutosave test??
