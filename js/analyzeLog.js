@@ -429,7 +429,14 @@ async function analyzeLog() {
        diagnoses += hasWIDeadBodyCleanupCell;
        diagnosesCount++;
    }
-    
+
+    // ❗ Probable LeveledItem Save Crash Detected
+   const hascheckLeveledItemCrash = checkLeveledItemCrash(sections);
+   if (hascheckLeveledItemCrash) {
+       diagnoses += hascheckLeveledItemCrash;
+       diagnosesCount++;
+   }
+
 
 
     //❗Possible Visual C++ Runtime DLL Issue Detected:
