@@ -1,75 +1,25 @@
-✅Version 1.25.3 is now live:
+✅Version 1.25.4 is now live:
 https://phostwood.github.io/crash-analyzer/
 
-1. New test: ❗ Probable LeveledItem Save Crash Detected
-2. Added some cautions on most mentions of ReSaver:
-	- <li><a href="https://www.nexusmods.com/skyrim/mods/76776">FallrimTools ReSaver</a> can be used to diagnose and sometimes fix corrupted save files, and can also be (carefully) used by advanced users to remove specific problematic FormIDs from your save files. ⚠️ <strong>CAUTION:</strong> Fixing/editing save files has inherent risks and should be avoided when possible. If you can instead revert to an acceptable older save file, that is often preferable in the long run.</li>
+1. ❓ Possible Animation Loader/Behavior Engine Issue Detected:
+	- Fixed HTML formatting that was incompatible with the analyzer's click-to-copy feature
 
-
-
-
-
-NEXT VERSION:
-
-1. ⭐️⭐️⭐️⭐️⭐️⭐️New test: levelList crash
-
-Tested with library, this indicator seems reliable, and found 20 matches:
-	LeveledItem (53)
-
-This is the mod to fix the issue, but it might not fix already-broken saves?
-https://www.nexusmods.com/skyrimspecialedition/mods/129136
-
-If the save file needs to be fixed with ReSaver, then the user needs to be sure to check the "Display nested Log Summary (Beta feature)" in my analyzer, and from there match a FormID to the `LeveledItem (53)` indicator. 
-
-https://www.reddit.com/r/skyrimmods/s/vbsk6s7eFB
-https://old.reddit.com/r/skyrimmods/comments/1i4tel9/crash_while_saving_at_random/
-
-See log file on laptop:
-LeveledList issue maybe - dyfXstQz.txt
-
-
-"RomatebitegeL[F] 2 points 22 days ago 
-
-Yes LeveledItem (53) would be the indicator with the form id associated with it. And I do believe 53 is always at the end.
-
-It would be great if you could make your analyzer shows as a culprit, in unsure logs, the most showed form id as the probable culprit. This is one thing Skyrim Crash Decoder in fact does well.
-
-So in this log with OP (that also seems to have been solved) that would have been LeveledItem with form id 0009AF0A.
-
-Then you can just add the info about deleting it with Resaver. When your analyzer catches this too, then it will become an even more powerful tool!
-
-"
-
-
-Reportedly, this fixed it:
-LeveledList Crash Fix
-https://www.nexusmods.com/skyrimspecialedition/mods/129136
-requires Skyrim SE version 1.6.1130+
-
-
-20250211 fix confirmed: https://old.reddit.com/r/skyrimmods/comments/1in3esq/experiencing_crashing_when_making_any_type_of_save/
-
-
-Maybe this too?
-https://www.reddit.com/r/skyrimmods/comments/1mqrgxk/game_crashes_on_savingfast_travelloading/
-
-
-
+2. Updated ReadMe and donations sections with newest data
 
 
 
 
 --- Next version? ---
-⭐️⭐️1. Fix broken HTML formatting:
-	- ❓ Possible Animation Loader/Behavior Engine Issue Detected:
-	- ❗ First-Line Engine Fixes Issue:
 
+3. TODO: Update Test Log for the newer tests
 
 ⭐️FIX BUG when a second hide menu is closed?
 
 2. ??New version of BGSAutosave test??
 
-
+3. Fix HTML formatting:
+	- ❗ First-Line Engine Fixes Issue:
+		- I don't see the issue. Need to record a crash log that triggers this
 
 
 --- NEXT: IMPORTANT? --

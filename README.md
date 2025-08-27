@@ -5,7 +5,7 @@ While not a replacement for talented human crash log readers, it works much fast
 
 
 **The Value of Automation:**
-I've developed my Phostwood's Skyrim Crash Log Analyzers to address a significant need in our modding community. **Each day**, the tool assists over **100 Skyrim modders** with diagnosing over **150 different crash logs** — far more than the volunteers in all of our communities could competently, manually handle. Detailed analysis of crash logs containing thousands of lines is precisely the kind of task that benefits from automation, especially given how few community members have both the expertise and available time to regularly assist others with crash log interpretation.
+I've developed my Phostwood's Skyrim Crash Log Analyzers to address a significant need in our modding community. **Each day**, the tool assists an average of over **200 Skyrim modders** with diagnosing over **325 different crash logs** — far more than the volunteers in all of our communities could competently, manually handle. Detailed analysis of crash logs containing thousands of lines is precisely the kind of task that benefits from automation, especially given how few community members have both the expertise and available time and energy to regularly assist others with crash log interpretation.
 
 And again, this analyzer is not intended to replace the invaluable expertise of the skilled manual crash log readers in our Skyrim modding communities. These experts are truly worth their weight in gold Septims! My goal is to free up more of their time so they can focus on the tricky logs where automated analysis is less helpful.
 
@@ -21,18 +21,18 @@ And again, this analyzer is not intended to replace the invaluable expertise of 
 
 Both share 98% of the same code, and both have graduated from beta. Usage requires an internet connection, is hosted for free by GitHub Pages:
 
-1. [Phostwood's Nolvus Crash Log Analyzer](https://phostwood.github.io/crash-analyzer/)
+1. [Phostwood's Nolvus Crash Log Analyzer](https://phostwood.github.io/crash-analyzer/) (the project started here)
 2. [Phostwood's Skyrim Crash Log Analyzer](https://phostwood.github.io/crash-analyzer/skyrim.html)
 
 **Current Usage:**
-1. Daily average of over 120 unique users
-2. Current weekly unique users: 664
-3. Last 30 days unique users: 2K
-3. Total Unique Users users since launch: 7.4K
+1. Daily average of over 200 unique users viewing over 325 crash logs
+2. Current weekly unique users: 1,100
+3. Last 30 days unique users: 3,200
+3. Total Unique Users users since started gathering Google Analytics (April 10, 2024): 19,000K
 
 **Please support:**
 
-Thanks to our dedicated community of **15 financial supporters**, we've been able to sustain this project's development. While their contributions are invaluable, our current funding averages less than 40¢ per development hour. We're deeply grateful for every supporter and would welcome others who value this work to join them in ensuring its continued growth and improvement.
+Thanks to our dedicated community of **38 financial supporters** (four of which are subscribed to contribute each month!), we've been able to sustain this project's development. While their contributions are invaluable, our current funding still averages less than $1 per development hour. We're deeply grateful for every supporter and would welcome others who value this work to join them in ensuring its continued growth and improvement.
 
 [<img src="./Patreon.png">](https://www.patreon.com/Phostwood)
 or [<img src="./phostwood-Ko-fi-Horizontal.jpg">](https://ko-fi.com/phostwood)
