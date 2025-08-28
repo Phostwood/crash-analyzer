@@ -1,10 +1,8 @@
-✅Version 1.25.4 is now live:
+✅Version 1.25.5 is now live:
 https://phostwood.github.io/crash-analyzer/
 
-1. ❓ Possible Animation Loader/Behavior Engine Issue Detected:
-	- Fixed HTML formatting that was incompatible with the analyzer's click-to-copy feature
+1. Added "Soul Resurrection - Injury and Alternative Death System" to both mentions of alternate death mods.
 
-2. Updated ReadMe and donations sections with newest data
 
 
 

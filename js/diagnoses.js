@@ -3321,7 +3321,9 @@ function checkCommonModlistIssues(sections, hasUnlikelyErrorForAutoInstallerModl
                                     <ul>
                                         <li><a href="https://www.nexusmods.com/skyrimspecialedition/mods/65136"  target="_blank">Shadow of Skyrim - Nemesis and Alternative Death System</a>. Currently used by <b>Nolvus 6 beta</b>. WARNINGS: quests that expect you trapped could break when you are teleported. Also, you may need configs and/or patches to prevent issues.</li>
                                         <li><a href="https://www.nexusmods.com/skyrimspecialedition/mods/69267" target="_blank">Respawn - Soulslike Edition</a>. Currently used by <b>Lorerim</b>. WARNINGS: quests that expect you trapped could break when you are teleported. Also, you may need configs and/or patches to prevent issues.</li>
-                                        <li><a href="https://www.nexusmods.com/skyrimspecialedition/mods/136825"  target="_blank">Shades of Mortality - Death Alternative SKSE</a> Instead of dying, you go ethereal and take configurable penalties. Often recommended for adding to <b>Gate to Sovngarde</b>. Broadly compatible with other mods.</li>
+                                        <li><a href="https://www.nexusmods.com/skyrimspecialedition/mods/128265"  target="_blank">Soul Resurrection - Injury and Alternative Death System</a>. Similar to Shades of Mortality (below). Known for being broadly compatible and doesn't risk breaking scripts/quests by teleporting you out any less-flexible situations. Often recommended for adding to <b>Gate to Sovngarde</b>.
+                                        </li>
+                                        <li><a href="https://www.nexusmods.com/skyrimspecialedition/mods/136825"  target="_blank">Shades of Mortality - Death Alternative SKSE</a>  Similar to Soul Resurrection (above). Instead of dying, you go ethereal and take configurable penalties. Often recommended for adding to <b>Gate to Sovngarde</b>. Broadly compatible with other mods.</li>
                                     </ul>
                                 </li>
                             </ul>
