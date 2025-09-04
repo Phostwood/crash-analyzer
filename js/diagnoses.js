@@ -2713,11 +2713,16 @@ function analyzeDbSkseFunctionsCrash(sections) {
 //❓ Possible Shader/Lighting Issue:
 function analyzeENBShaderLightingIssues(sections) {
     let shaderInsights = '';
+    let hasCommunityShaders = false;
 
     function findShaderCodeIssues(sections) {
         return crashIndicators.enbShaderLightingIssues.codes.filter(({ code }) =>
             sections.topHalf.toLowerCase().includes(code.toLowerCase())
         );
+    }
+
+    if (sections.topHalf.toLowerCase().includes('communityshaders.dll') ) {
+        hasCommunityShaders = true;
     }
 
     const shaderCodeIssues = findShaderCodeIssues(sections);
@@ -2726,6 +2731,7 @@ function analyzeENBShaderLightingIssues(sections) {
     if (shaderCodeIssues.length > 0) {
         shaderInsights += `<li>❓ <b>Possible Shader/Lighting Issue:</b> While this crash includes indications of lighting/shadows/shader/enb systems, the root cause often lies elsewhere. Follow these steps:
         <ol>
+        ${(hasCommunityShaders) ? '<li>☂️ <b>Possible Community Shaders Issue:</b> As a potential quick fix, try deleting the ShaderCache folder (e.g., <code>C:\\Program Files (x86)\\Steam\\steamapps\\shadercache</code> ) or press the [End] key in-game and click "Clear Shader Cache" via the menu ... Community Shaders will then rebuild in game, and/or on next launch.</li>' : ''}
         <li>Check for Cell and Record Conflicts:
             <ul>
                 <li>Look for mods that modify the same interior/exterior spaces</li>
@@ -3211,7 +3217,7 @@ function checkCommonModlistIssues(sections, hasUnlikelyErrorForAutoInstallerModl
     // DECIDED TO ALWAYS show this at the top. It's collapsed anyway, and pretty much any issue in an auto-installing modlist could easily be caused by these issues. Also, support functions were centralized into analyzeLog.js so that such diagnositics are centralized into one piece of code. Also, troubleshooting instructions were centralized into the main text block, with some minor conditionals inserted.
     // Main diagnosis section
     let diagnoses = `
-        <li>${(hasUnlikelyErrorForAutoInstallerModlist || hasSaveLoadIssues || hasKeyboardIssue ||  hasPagefileIndicator) ? '👉 ' : ''}<span class="important-emoji">🤖</span> <b>Best Practices for Auto-Installing Modlist Users:</b> Since most well-crafted auto-installing modlists are generally  stable, these guidelines should help <b>resolve most common issues</b> that may arise, and custom modders may also find them useful. (NOTE: this section is currently being developed) <a href="#" class="toggleButton">⤵️ show more</a>
+        <li>${(hasUnlikelyErrorForAutoInstallerModlist || hasSaveLoadIssues || hasKeyboardIssue ||  hasPagefileIndicator) ? '👉 ' : ''}<span class="important-emoji">🤖</span> <b>Best Practices for Auto-Installing Modlist Users:</b> Since most well-crafted auto-installing modlists, such as <b>Nolvus</b>, <b>Wabbajack modlists</b>, and <b>Nexus Mods Collections</b>, are generally stable, these guidelines should help resolve most common issues that may arise, and <b>custom modders</b> may also find them insightful. <a href="#" class="toggleButton">⤵️ show more</a>
             <ul class="extraInfo" style="display:none">
                 ${(hasUnlikelyErrorForAutoInstallerModlist || hasSaveLoadIssues || hasKeyboardIssue ||  hasPagefileIndicator) ? '<li>Any suggestions noted with "👉" below have inidicators of <b>possible relevancy</b> in your provided crash log.</li>' : ''}
                 <li>1️⃣ Initial Setup: if you haven't already, <b>launch Skyrim once from Steam</b> (not through your mod manager) and click "Options" to generate default ini files and download any AE content. Close the launcher completely, then launch through your mod manager as usual. <a href="https://gatetosovngarde.wiki.gg/wiki/Installation_Guide#A_Clean_And_Proper_Skyrim." target="_blank">More info</a> (GTS reference, but this section is broadly applicable)</li>
@@ -3315,7 +3321,7 @@ function checkCommonModlistIssues(sections, hasUnlikelyErrorForAutoInstallerModl
 
                         <li>${hasSaveLoadIssues ? '👉' : ''}🚫 <b>Avoid Mid-game loading:</b> Skyrim is believed to be most stable with just the first loading per launch. Subsequent save-file loads without quitting to desktop first may cause random crashes. <b>Make it easier</b> to avoid this by adding any of these mods/collections (if your modlist doesn't already include them or equivalents):
                             <ul>
-                                <li><a href="https://www.nexusmods.com/skyrimspecialedition/mods/88219"  target="_blank">Clean Save Auto-reloader</a> automatically re-launches Skyrim (from desktop) with each reload.</li>
+                                <li><a href="https://www.nexusmods.com/skyrimspecialedition/mods/88219"  target="_blank">Clean Save Auto-reloader</a> automatically re-launches Skyrim from desktop with each reload, potentially adding minutes of game startup time.</li>
                                 <li><a href="https://www.nexusmods.com/games/skyrimspecialedition/collections/4o4jxh/mods" target="_blank">Safe Save Helpers</a> mod collection provides users an automated and more thorough approach.</li>
                                 <li>💀 An <b>alternate death mod</b> can be fun, and aid in game stability by continuing the game after dying, without need to quit to desktop. Popular examples: 
                                     <ul>
