@@ -74,7 +74,8 @@ const crashIndicators = {
             { name: 'FistBloodMed', description: "Medium blood impact effect for unarmed attacks" },
             { name: 'FistBloodLg', description: "Large blood impact effect for unarmed attacks" }, //theoretical only?
             { name: 'ImpactArrowDirt01', description: "Arrow dirt impact effect" },
-            { name: 'ImpactArrowDust01', description: "Arrow dust impact effect" }
+            { name: 'ImpactArrowDust01', description: "Arrow dust impact effect" },
+            { name: 'PierceBone', description: "Bone piercing effect" }
         ],
         files: [
             { name: 'FpsFixPlugin.dll', description: "SSE Fixes plugin file" }

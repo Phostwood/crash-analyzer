@@ -14,7 +14,7 @@
         If so, can you help me out?<br></span>
     </div>
     <br>
-    <span style="font-size: 2em;">🪙</span> Please <b>consider supporting its continued development</b>. Out of 18,000 users, fewer than 40 have ever donated, with only four monthly subscribers currently supporting the project. Even a <b>$1 donation</b> (a frugal coffee!) on <a href="https://ko-fi.com/phostwood">Ko-fi</a> or <a href="https://www.patreon.com/Phostwood">Patreon</a> shows your appreciation and helps validate ongoing improvements.<br>
+    <span style="font-size: 2em;">🪙</span> Please <b>consider supporting its continued development</b>. Out of 21,000 users, fewer than 45 have ever donated, with only five monthly subscribers currently supporting the project. Even a <b>$1 donation</b> (a frugal coffee!) on <a href="https://ko-fi.com/phostwood">Ko-fi</a> or <a href="https://www.patreon.com/Phostwood">Patreon</a> shows your appreciation and helps validate ongoing improvements.<br>
     <br>
     <span style="font-size: 2em;">🪙</span> With over <b>600 hours of ongoing development</b>, this advanced analyzer examines modded Skyrim crash logs to help diagnose and fix 75-90% of crashes with identifiable causes, providing well-researched troubleshooting steps and links. It's currently helping almost 200 different Skyrim modders analyze over 300 crash logs each day, standing apart from other automated analyzers with its advanced diagnoses, detailed troubleshooting steps, and frequent updates.<br>
     <br>

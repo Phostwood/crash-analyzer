@@ -1505,12 +1505,12 @@ function analyzeBGSSaveLoadManagerIssue(sections) {
         </li>`;
 
         insights += `
-        <li>❓ <b>BGSSaveLoadManager Issue Detected:</b> This error is associated with problems either saving and/or loading game save files.
+        <li>❓ <b>BGSSaveLoadManager Issue Detected:</b> This indicator is often associated with problems either saving and/or loading game save files.
         <ol>
             <li>If the crash <b>only occurs while <i>saving</i></b>, you may have a Missing Masters. You will likely see separate troubleshooting steps for that higher up in this report, and if not, you can find them by using this analyzer's "use the Test Log" link at the top.</li>
             ${Utils.isSkyrimPage ? checkSaveFileSize : ''}
             <li>If crash is repetitive, try loading from your <b>last working save</b>. If possible, identify this file, and load this last save game that worked and try to play from there.</li>
-            <li>💾 Consider using save cleaning tools to remove orphaned scripts and other potential corruption. <a href="https://www.nexusmods.com/skyrim/mods/76776">FallrimTools ReSaver</a> can sometimes fix corrupted save files. See also these <a href="https://www.reddit.com/r/skyrimmods/s/fbMRv343vm">instructions by Krispyroll</a> and more information in <a href="https://www.reddit.com/r/skyrimmods/comments/1d0r0f0/reading_crash_logs/##:~:text=Resaver">Krispyroll's Reading Crash Logs Guide</a>. NOTE: Always keep backups of your saves before attempting fixes or using cleaning tools.</li>
+            <li>💾 Consider using save cleaning tools to remove orphaned scripts and other potential corruption. <a href="https://www.nexusmods.com/skyrim/mods/76776">FallrimTools ReSaver</a> can often identify and sometimes successfully fix corrupted save files. See also these <a href="https://www.reddit.com/r/skyrimmods/s/fbMRv343vm">instructions by Krispyroll</a> and more information in <a href="https://www.reddit.com/r/skyrimmods/comments/1d0r0f0/reading_crash_logs/##:~:text=Resaver">Krispyroll's Reading Crash Logs Guide</a>. NOTE: Always keep backups of your saves before attempting fixes or using cleaning tools. ⚠️ <strong>CAUTION:</strong> Fixing/editing save files has inherent risks and should be avoided when possible. If you can instead revert to an acceptable older save file, that is often preferable in the long run.</li>
             <li><b>Advanced Users</b> can try using <a href="https://www.nexusmods.com/skyrimspecialedition/mods/164">SSEEdit (xEdit)</a> and <a href="https://www.nexusmods.com/skyrimspecialedition/mods/68889">Find dangerous ESLs - xEdit script</a> for isolating ESL plugins that may potentially corrupt game saves and cause crashes.</a>
             <li>🛡️ Consider following <b>Jerilith's 2025 Skyrim Safe-Save-Guide [sexy free edition]</b> (quoted below). Not adhering to these guidelines over time may contribute to broken save files. Note: The necessity of some of these rules has been debated; however, many believe these rules can help prevent issues when other causes are unknown, especially with large modlists and 500+ hour playthroughs.
             <ol>
@@ -3438,6 +3438,7 @@ function checkCoreImpactCorruptionCrash(sections) {
                 </li>
                 <li>Technical notes:
                     <ul>
+                        <li>After fix is applied, you may still have a broken save file, and need to either revert to an older save, or repair one as per these <a target="_blank" href="https://gatetosovngarde.wiki.gg/wiki/Meta:V84%2B_Save_File_Fix">save file repair instructions</a>.</li>
                         <li>This is reportedly a rare bug outside of Gate to Sovngarde modlist</li>
                         <li>The corruption occurs due to specific interaction between older versions of the two framework mods</li>
                     </ul>
@@ -3685,7 +3686,8 @@ function checkLeveledItemCrash(sections) {
         This crash typically occurs during saving, fast travel, or loading and is caused by corrupted leveled list data in your save file.
         <ul>
             <li><b>Primary fix:</b> Install <a href="https://www.nexusmods.com/skyrimspecialedition/mods/129136" target="_blank">LeveledList Crash Fix</a> (requires Skyrim SE version 1.6.1130+)</li>
-            <li><b>For existing corrupted saves:</b> The mod may not fix already-broken save files. You may need to use <a href="https://www.nexusmods.com/skyrim/mods/76776" target="_blank">FallrimTools ReSaver</a> to remove the problematic FormID from your save file</li>
+            <li><b>For existing corrupted saves:</b> The mod may not fix already-broken save files. You may need to use <a href="https://www.nexusmods.com/skyrim/mods/76776" target="_blank">FallrimTools ReSaver</a> to remove the problematic FormID from your save file. ⚠️ <strong>CAUTION:</strong> Fixing/editing save files has inherent risks and should be avoided when possible. If you can instead revert to an acceptable older save file, that is often preferable in the long run.
+            </li>
             <li><b>To identify the specific FormID:</b> Enable "<b>Display nested Log Summary (Beta feature)</b>" in this analyzer and look for the FormID associated with the <code>LeveledItem (53)</code> entry within the 🔎 <b>Files/Elements</b> section of this report.</li>
             <li><a href="https://www.nexusmods.com/skyrim/mods/76776">FallrimTools ReSaver</a> can be used to diagnose and sometimes fix corrupted save files, and can also be (carefully) used by advanced users to remove specific problematic FormIDs from your save files. ⚠️ <strong>CAUTION:</strong> Fixing/editing save files has inherent risks and should be avoided when possible. If you can instead revert to an acceptable older save file, that is often preferable in the long run.</li>
             <li>Detected indicators: <a href="#" class="toggleButton">⤵️ show more</a><ul class="extraInfo" style="display:none">
