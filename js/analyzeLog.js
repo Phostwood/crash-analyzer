@@ -477,9 +477,10 @@ async function analyzeLog() {
     }
 
     // ⚠️ Missing Creation Club Content Detected:
-    const checkMissingCreationClubContentDiagnosis = checkMissingCreationClubContent(sections, hasMissingMasters);
-    if(checkMissingCreationClubContentDiagnosis) {
-        diagnoses += checkMissingCreationClubContentDiagnosis;
+    const checkMissingCreationClubContentResult = checkMissingCreationClubContent(sections, hasMissingMasters);
+    const hasMissingCC = checkMissingCreationClubContentResult.hasMissingCC;
+    if(checkMissingCreationClubContentResult.insights) {
+        diagnoses += checkMissingCreationClubContentResult.insights;
         diagnosesCount++;
     }
 
@@ -1217,7 +1218,7 @@ async function analyzeLog() {
 
     // ALWAYS SHOWS at top of Diagnostics
     // 🤖 For Users of Auto-Installing Modlists:
-    const checkCommonModlistIssuesDiagnosis = checkCommonModlistIssues(sections, hasUnlikelyErrorForAutoInstallerModlist, hasSaveLoadIssues, hasKeyboardIssue, hasPagefileIndicator);
+    const checkCommonModlistIssuesDiagnosis = checkCommonModlistIssues(sections, hasUnlikelyErrorForAutoInstallerModlist, hasSaveLoadIssues, hasKeyboardIssue, hasPagefileIndicator, hasMissingCC);
     if(checkCommonModlistIssuesDiagnosis) {
         diagnoses = checkCommonModlistIssuesDiagnosis + diagnoses;
     }

@@ -3212,7 +3212,7 @@ function analyzeNewGameCrash(sections) {
 
 // 🤖 For Users of Auto-Installing Modlists:
 // Streamlined function for modlist/collection users with automated installers
-function checkCommonModlistIssues(sections, hasUnlikelyErrorForAutoInstallerModlist, hasSaveLoadIssues, hasKeyboardIssue, hasPagefileIndicator) {
+function checkCommonModlistIssues(sections, hasUnlikelyErrorForAutoInstallerModlist, hasSaveLoadIssues, hasKeyboardIssue, hasPagefileIndicator, hasMissingCC) {
        
     // DECIDED TO ALWAYS show this at the top. It's collapsed anyway, and pretty much any issue in an auto-installing modlist could easily be caused by these issues. Also, support functions were centralized into analyzeLog.js so that such diagnositics are centralized into one piece of code. Also, troubleshooting instructions were centralized into the main text block, with some minor conditionals inserted.
     // Main diagnosis section
@@ -3261,8 +3261,9 @@ function checkCommonModlistIssues(sections, hasUnlikelyErrorForAutoInstallerModl
                         <li>🪛 <b>Vortex Collections Users:</b> <a href="#" class="toggleButton">⤵️ show more</a>
                             <ul class="extraInfo" style="display:none">
                                 <li>More often than not, crashes shared in forums can be fixed by following these Vortex-specific steps:</li>
-                                <li>1️⃣ Initial Steps: These two steps alone fix many crashes. (⚠️ Wait for spinners to stop after each step!)
+                                <li>1️⃣ Initial Steps: These ${hasMissingCC ? 'three': 'two'} steps alone fix many crashes. (⚠️ Wait for spinners to stop after each step!)
                                     <ol>
+                                        ${hasMissingCC ? '<li><b>Verify CC content:</b> If you own Skyrim Anniversary Edition with all Creation Club (CC) content and have mods that expect CC content to be available, check Vortex\'s Plugins tab → Filter "Loaded by Engine" and verify 80 total files (5 <code>.esm</code> + 74 CC files + <code>_ResourcePack.esl</code>). If any are missing, refer to <a href="#missing-cc">Missing CC instructions</a> below.</li>':''}
                                         <li><b>Enable All Plugins:</b> In the Plugins tab, check that ALL of the collection's plugins that are expected to be enabled. <i>Tip: Select a single plugin, then use CTRL+A to select all mods at once, and click "Enable".</i></li>
                                         <li><b>Sort Plugins:</b> Use "Sort now" in the Plugins tab. NOTE: Do to a suspected Vortex bug, <b>you may need to repeat this step 2-3 times</b> for it to fully sort.</li>
                                     </ol>
@@ -3486,6 +3487,7 @@ function checkMissingCreationClubContent(sections, hasMissingMasters) {
     Utils.debuggingLog(['checkMissingCreationClubContent'], `Utils.isSkyrimPage: ${Utils.isSkyrimPage}`);
     
     let insights = '';
+    let hasMissingCC = false;
     if (hasMissingMasters && (sections.hasSkyrimAE || !Utils.isSkyrimPage)) {
         // Expected Creation Club files with titles (74 total CC files)
         const expectedCCFiles = {
@@ -3601,6 +3603,7 @@ function checkMissingCreationClubContent(sections, hasMissingMasters) {
         
         if (!hasAllExpectedCCFiles || isPluginsSectionTruncated) {
             let detectedIndicators = '';
+            hasMissingCC = true;
             
             if (missingCount > 0) {
                 detectedIndicators += `<li>Missing ${missingCount} out of ${expectedTotalFiles} expected Creation Club files</li>`;
@@ -3619,9 +3622,9 @@ function checkMissingCreationClubContent(sections, hasMissingMasters) {
             }
 
             if (isPluginsSectionTruncated) {
-                insights += '<li>❓ <b>Truncated Crash Log, Possibly Missing Creation Club Content:</b> '
+                insights += '<li>❓ <span id="missing-cc"><b>Truncated Crash Log, Possibly Missing Creation Club Content:</b></span> '
             } else {
-                insights += '<li>⚠️ <b>Missing Creation Club Content Detected:</b> '
+                insights += '<li>⚠️ <span id="missing-cc"><b>Missing Creation Club Content Detected:</b></span> '
             }
 
             insights +=
@@ -3669,7 +3672,10 @@ function checkMissingCreationClubContent(sections, hasMissingMasters) {
         insights = ''
     }
     
-    return insights;
+    return {
+        insights: insights,
+        hasMissingCC: hasMissingCC 
+    };
 }
 
 
