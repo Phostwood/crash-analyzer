@@ -1,16 +1,11 @@
-✅Version 1.25.9 is now live:
+✅Version 1.26.1 is now live:
 https://phostwood.github.io/crash-analyzer/
 
-1. 🔎 Files/Elements (explainersMap.js):
-	- Added new indicators for "potentially <b>unhelpful</b> crash log"
-2. Recommended Tools:
-	- Added: Binary search isn't a really a "tool", but a technique for isolating the mod(s) causing a crash. It can be tedious and slow, but always works when a mod is the culprit.
-3. 💾 Verify your Windows Pagefile is properly configured 
-	- changed "setting" to "expanding"
-	- added:  (or potentially more if you have more RAM, and/or play with an especially heavy modlist)
-		- https://www.thewindowsclub.com/best-page-file-size-for-64-bit-versions-of-windows
-4. ❗ Probable Core Impact Framework Corruption Bug Detected:
-	- added info about replacing Dismemberment Framework Patch designed to work with older versions 
+1.  Added Ennui's guides to "Recommended References"
+	- Permission approved at: https://discord.com/channels/872252014002843658/1418717195378233470/1418725114912051280
+
+
+
 
 
 --- Next version? ---
