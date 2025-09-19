@@ -1,12 +1,16 @@
-✅Version 1.25.8 is now live:
+✅Version 1.25.9 is now live:
 https://phostwood.github.io/crash-analyzer/
 
-1. 🤖 Best Practices for Auto-Installing Modlist Users:
-	- ✅ checkMissingCreationClubContentDiagnosis() now returns hasMissingCC flag
-	- ✅ NEW context-sensitive "Verify CC content" bullet point for Vortex users
-		- ❓Does Wabbajack and/or Nolvus installer already check for these❓
-
-
+1. 🔎 Files/Elements (explainersMap.js):
+	- Added new indicators for "potentially <b>unhelpful</b> crash log"
+2. Recommended Tools:
+	- Added: Binary search isn't a really a "tool", but a technique for isolating the mod(s) causing a crash. It can be tedious and slow, but always works when a mod is the culprit.
+3. 💾 Verify your Windows Pagefile is properly configured 
+	- changed "setting" to "expanding"
+	- added:  (or potentially more if you have more RAM, and/or play with an especially heavy modlist)
+		- https://www.thewindowsclub.com/best-page-file-size-for-64-bit-versions-of-windows
+4. ❗ Probable Core Impact Framework Corruption Bug Detected:
+	- added info about replacing Dismemberment Framework Patch designed to work with older versions 
 
 
 --- Next version? ---

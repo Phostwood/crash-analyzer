@@ -277,5 +277,9 @@ if (typeof Utils === 'undefined') {
         ['xefx_loader.dll', '(Intel Xe <b>Graphics</b> Loader)'],
         ['xinput1_3.dll', '(XInput library for <b>controller</b> support)'],
         ['zavcore.dll', '(ZoneAlarm Core <b>Antivirus</b> Module)'],
+        ['shadow scene node', '(potentially <b>unhelpful</b> crash log)'],
+        ['worldroot camera', '(potentially <b>unhelpful</b> crash log)'],
+        ['worldroot cameranode', '(potentially <b>unhelpful</b> crash log)'],
+        ['worldroot node', '(potentially <b>unhelpful</b> crash log)'],
     ]);
 }

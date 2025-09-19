@@ -1,7 +1,7 @@
 //All diagnosing functions for both analyzeLog.js's diagnoses and insights variables. Only use insights.js if there needs to be a version of a function unique to the insights variable
 
 // --- Shared Constants ---
-const verifyWindowsPageFileListItem = `💾 Verify your <a href="https://www.nolvus.net/appendix/pagefile">Windows Pagefile is properly configured</a> (nolvus.net link, but broadly applicable). The most common stability-focused recommendation is setting the Pagefile's minimum and maximum to 40GB. ⚠️NOTE: some sources say Skyrim's engine was programmed to require high Pagefile usage even when there is more than enough RAM available. To be on the safe side, ensure your Pagefile settings even if you somehow have a terrabyte of RAM.`;
+const verifyWindowsPageFileListItem = `💾 Verify your <a href="https://www.nolvus.net/appendix/pagefile">Windows Pagefile is properly configured</a> (nolvus.net link, but broadly applicable). The most common stability-focused recommendation is expanding the Pagefile's minimum and maximum to 40GB (or <a href="https://www.thewindowsclub.com/best-page-file-size-for-64-bit-versions-of-windows">potentially more</a> if you have more RAM, and/or play with an especially heavy modlist). ⚠️NOTE: some sources say Skyrim's engine was programmed to require Pagefile usage even when there is more than enough RAM available. To be on the safe side, ensure your Pagefile settings even if you somehow have a terrabyte of RAM.`;
 
 const reinstallEngineFixes = `
     <!--<ul>-->
@@ -3429,17 +3429,18 @@ function checkCoreImpactCorruptionCrash(sections) {
                     <ul>
                         <li>This is a known issue with GTS v84 that has been resolved in later versions</li>
                         <li>Recommended fix: If you're using GTS version 84, <b>upgrade</b> to version 89 (or version 90 or newer if available and still compatible with your save files)</li>
+                        <li>Alternate fix: Update <code>Core Impact Framework</code> AND <code>Dismembering Framework</code> to their newest stable versions. Remove <code>DF - Creatures by Xtudo - Draugrs - Dry Blood</code> patch. Download and install <a href="https://www.nexusmods.com/skyrimspecialedition/mods/126608?tab=files&file_id=552042&nmm=1">this patch</a>. (GTS Discord has <a href="https://discord.com/channels/902984082181484615/1386196834091012126/1386196834091012126">more information</a> on the patches.)</li>
                     </ul>
                 </li>
                 <li>Recommended fix for everyone else:
                     <ul>
-                        <li><b>Upgrade both mods:</b> Update "Core Impact Framework" AND "Dismembering Framework" to their newest stable versions</li>
+                        <li><b>Upgrade both mods:</b> Update <code>Core Impact Framework</code> AND <code>Dismembering Framework</code> to their newest stable versions</li>
                         <li>Both mods should be updated together to resolve the interaction issue</li>
                     </ul>
                 </li>
-                <li>Technical notes:
+                <li>Additional notes:
                     <ul>
-                        <li>After fix is applied, you may still have a broken save file, and need to either revert to an older save, or repair one as per these <a target="_blank" href="https://gatetosovngarde.wiki.gg/wiki/Meta:V84%2B_Save_File_Fix">save file repair instructions</a>.</li>
+                        <li><b>After fix is applied:</b> you may still have a broken save file, and need to either revert to an older save, or repair one as per these <a target="_blank" href="https://gatetosovngarde.wiki.gg/wiki/Meta:V84%2B_Save_File_Fix">save file repair instructions</a>.</li>
                         <li>This is reportedly a rare bug outside of Gate to Sovngarde modlist</li>
                         <li>The corruption occurs due to specific interaction between older versions of the two framework mods</li>
                     </ul>
