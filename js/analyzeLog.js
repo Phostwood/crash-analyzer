@@ -798,7 +798,12 @@ async function analyzeLog() {
         insightsCount++;
     }
 
-
+    // ❓ CompassNavigationOverhaul Crash Bug Detected:
+    const CompassNavigationOverhaulCrashResults = checkCompassNavigationOverhaulCrash(sections);
+    if (CompassNavigationOverhaulCrashResults) {
+        insights += CompassNavigationOverhaulCrashResults;
+        insightsCount++;
+    }
 
     // Check for KERNELBASE Crash excluding JContainers and JSON parse error
     //NOTE: Nolvus-only version. Equivalent information already shows in the diagnoses sectoion above for Non-Nolvus (general Skyrim) version

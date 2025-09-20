@@ -1,10 +1,8 @@
-✅Version 1.26.1 is now live:
+✅Version 1.26.2 is now live:
 https://phostwood.github.io/crash-analyzer/
 
-1.  Added Ennui's guides to "Recommended References"
-	- Permission approved at: https://discord.com/channels/872252014002843658/1418717195378233470/1418725114912051280
-
-
+1.  New test: ❓ CompassNavigationOverhaul Crash Bug Detected:
+	- Thanks, RomatebitegeL!
 
 
 

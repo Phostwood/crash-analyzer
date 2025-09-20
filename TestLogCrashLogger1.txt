@@ -424,6 +424,7 @@ STACK:
   nvwgf2umx.dll	//NVIDIA graphics driver
   0x0 on thread	//Lighting or Shadows
   HUD	or menus or maps		//HUD
+  HUDMENU	// used for CompassNavigationOverhaul test
   XPMSE						//XPMSE
   XAudio						//XAudio
   bswin32keyboarddevice		//keyboard
@@ -562,6 +563,7 @@ MODULES:
 	comctl32.dll
 	concrt140.dll
 	comdlg32.dll
+	CompassNavigationOverhaul.dll
 	compstui.dll
 	con_bypass.dll
 	console.dll

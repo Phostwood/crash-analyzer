@@ -3705,3 +3705,28 @@ function checkLeveledItemCrash(sections) {
     }
     return insights;
 }
+
+
+
+// ❓ CompassNavigationOverhaul Crash Bug Detected:
+function checkCompassNavigationOverhaulCrash(sections) {
+    let insights = '';
+    const hasHudMenu = sections.topHalf.toLowerCase().includes('hudmenu');
+    const hasCompassNavigationOverhaul = sections.fullLogFileLowerCase.includes('compassnavigationoverhaul.dll');
+
+    if (hasHudMenu && hasCompassNavigationOverhaul) {
+        insights += `<li>❓ <b>Possible CompassNavigationOverhaul Crash Detected:</b>
+            This may be a crash caused by an outdated version of Compass Navigation Overhaul mod.
+            <ul>
+                <li><b>Update the mod:</b> Download and install the latest version of <a href="https://www.nexusmods.com/skyrimspecialedition/mods/74484">Compass Navigation Overhaul</a> from Nexus Mods</li>
+                <li>The outdated version of this mod's DLL file is known to cause regular crashes with <code>HUDMenu</code> references</li>
+                <li>The mod doesn't include version numbers in its DLL, making it difficult to verify from a crash log</li>
+                <li>Detected indicators: <a href="#" class="toggleButton">⤵️ show more</a><ul class="extraInfo" style="display:none">
+                    <li><code>HUDMenu</code> reference found in crash log - common crash signature for UI-related crashes</li>
+                    <li><code>CompassNavigationOverhaul.dll</code> detected in crash log - this mod is known to cause crashes when outdated</li>
+                </ul></li>
+            </ul>
+        </li>`;
+    }
+    return insights;
+}
