@@ -3730,3 +3730,49 @@ function checkCompassNavigationOverhaulCrash(sections) {
     }
     return insights;
 }
+
+
+// ❗ Outdated CrashLogger SSE Detected:
+function checkCrashLoggerVersionUpdate(sections) {
+    let insights = '';
+    
+    // Only check if this is a CrashLogger log
+    if (sections.logType !== "CrashLogger") {
+        return insights;
+    }
+    
+    // Extract version from the second line of header
+    const headerLines = sections.header.split('\n');
+    if (headerLines.length < 2) {
+        return insights;
+    }
+    
+    const versionLine = headerLines[1];
+    const versionMatch = versionLine.match(/CrashLoggerSSE v(\d+-\d+-\d+-\d+)/);
+    
+    if (!versionMatch) {
+        return insights;
+    }
+    
+    // Convert version format from "1-15-0-0" to "1.15.0.0" for comparison
+    const foundVersion = versionMatch[1].replace(/-/g, '.');
+    const minimumVersion = "1.15.0.0";
+    
+    // Compare versions - if found version is less than 1.15.0.0, recommend update
+    if (Utils.compareVersions(foundVersion, minimumVersion) < 0) {
+        insights += `<li>❗ <b>Outdated CrashLogger SSE Detected:</b>
+            You are using an outdated version of CrashLogger SSE (v${foundVersion}).
+            <ul>
+                <li><b>Update recommended:</b> Download and install the latest version of <a href="https://www.nexusmods.com/skyrimspecialedition/mods/59818">Crash Logger SSE AE VR</a> from Nexus Mods</li>
+                <li>Newer versions include bug fixes and improved crash detection capabilities</li>
+                <li>Current version detected: <code>v${foundVersion}</code> (should be v1.15.0.0 or later)</li>
+                <li>Detected indicators: <a href="#" class="toggleButton">⤵️ show more</a><ul class="extraInfo" style="display:none">
+                    <li>CrashLogger SSE version <code>${versionMatch[1]}</code> found in crash log header</li>
+                    <li>Minimum recommended version is <code>1.15.0.0</code></li>
+                </ul></li>
+            </ul>
+        </li>`;
+    }
+    
+    return insights;
+}

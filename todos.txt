@@ -1,8 +1,8 @@
-✅Version 1.26.2 is now live:
+✅Version 1.26.3 is now live:
 https://phostwood.github.io/crash-analyzer/
 
-1.  New test: ❓ CompassNavigationOverhaul Crash Bug Detected:
-	- Thanks, RomatebitegeL!
+1.  New test:  ❗ Outdated CrashLogger SSE Detected:
+
 
 
 
@@ -45,10 +45,6 @@ By this line at the curly braces ... which I'm pretty sure is a rare thing:
 
 --- NEXT VERSIONS: ---
 
-0. Add two stress test tools for when you're getting frequent crashes for seemingly random, undiagnosiable reasons:
-https://www.ocbase.com/download
- 
-https://apps.microsoft.com/detail/xpfmmcr4r5mxgs?hl=en-US&gl=US
 
 0. Intel has a tool now that can help identify that cpu bug - https://www.intel.com/content/www/us/en/support/articles/000005567/processors.html
 	- or maybe it doesn't do that?

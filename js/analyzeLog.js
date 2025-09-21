@@ -491,6 +491,13 @@ async function analyzeLog() {
         diagnosesCount++;
     }
 
+    //❗ Outdated CrashLogger SSE Detected
+    const checkCrashLoggerVersionUpdateResult = checkCrashLoggerVersionUpdate(sections);
+    if(checkCrashLoggerVersionUpdateResult) {
+        diagnoses += checkCrashLoggerVersionUpdateResult;
+        diagnosesCount++;
+    }
+
     //❗ Redundant BEES Installation Detected:
     const redundantBEES = checkForRedundantBEES(sections);
     if(redundantBEES) {
