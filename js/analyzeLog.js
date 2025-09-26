@@ -491,13 +491,6 @@ async function analyzeLog() {
         diagnosesCount++;
     }
 
-    //❗ Outdated CrashLogger SSE Detected
-    const checkCrashLoggerVersionUpdateResult = checkCrashLoggerVersionUpdate(sections);
-    if(checkCrashLoggerVersionUpdateResult) {
-        diagnoses += checkCrashLoggerVersionUpdateResult;
-        diagnosesCount++;
-    }
-
     //❗ Redundant BEES Installation Detected:
     const redundantBEES = checkForRedundantBEES(sections);
     if(redundantBEES) {
@@ -537,6 +530,21 @@ async function analyzeLog() {
         }
     }
 
+
+    //⚠️ Outdated CrashLogger SSE Detected
+    const checkCrashLoggerVersionUpdateResult = checkCrashLoggerVersionUpdate(sections);
+    if(checkCrashLoggerVersionUpdateResult) {
+        diagnoses += checkCrashLoggerVersionUpdateResult;
+        diagnosesCount++;
+    }
+
+
+    //⚠️ Intel 13th/14th Gen CPU Instability Risk:
+    const checkIntelCPUIssueResult = checkIntelCPUIssue(sections);
+    if(checkIntelCPUIssueResult) {
+        diagnoses += checkIntelCPUIssueResult;
+        diagnosesCount++;
+    }
 
     
     //🎯 Antivirus Issue Detected:
@@ -931,7 +939,7 @@ async function analyzeLog() {
     if (skeletonMatches.length > 0) {
         insights += '<li>❓ <b>Possible Skeleton Crash Detected:</b> The crash log suggests <code>' + skeletonMatches.length + '</code> potential skeleton integrity issues. Skeleton Issues are FREQUENTLY NOT the crash culprit when other issues are present. To address this:<ol>' +
             '<li>Verify that mods like XPMSSE are properly installed and not overwritten by other mods.</li>' +
-            `<li>Utilize tools such as FNIS or Nemesis to rebuild animations, particularly if you have added mods that modify character or creature animations. ${!Utils.isSkyrimPage ? 'Follow these' : 'As an example, consider these'} instructions for <a href="https://www.nolvus.net/guide/asc/output/nemesis">regenerating Nemesis for Nolvus</a>.</li>` +
+            `<li>Utilize tools such as FNIS or Nemesis or Pandora to rebuild animations, particularly if you have added mods that modify character or creature animations. ${!Utils.isSkyrimPage ? 'Follow these' : 'As an example, consider these'} instructions for <a href="https://www.nolvus.net/guide/asc/output/nemesis">regenerating Nemesis for Nolvus</a>.</li>` +
             '<li>Inspect other mods that may alter skeleton structures. Disable them in gradually shrinking groups to pinpoint the issue.</li>' +
             '<li>If identifiable, using <a href="https://www.nexusmods.com/skyrimspecialedition/mods/23316">Cathedral Asset Optimizer (CAO)</a> may help fix the problematic NIF file(s)</li>' +
             `</ol>${!Utils.isSkyrimPage ? 'For detailed steps and more troubleshooting advice, visit the <a href="https://www.nolvus.net/catalog/crashlog?acc=accordion-1-9">Skeleton Crash</a> and <a href="https://www.nolvus.net/catalog/crashlog?acc=accordion-1-7">Load Order Crash</a> sections on Nolvus.' : ''}</li>`;

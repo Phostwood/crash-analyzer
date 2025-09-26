@@ -2017,7 +2017,7 @@ function analyzeAnimationLoaderIssues(sections) {
                                 <li>Check/enable all relevant boxes/options to generate the correct files for your installed mods</li>
                             </ul>
                         </li>
-                        <li>If using <a href="https://www.nexusmods.com/skyrimspecialedition/mods/3038">FNIS</a>: Run GenerateFNISforUsers.exe</li>
+                        <li>If using <a href="https://www.nexusmods.com/skyrimspecialedition/mods/3038">FNIS</a>, consider upgrading to Nemesis or Pandora instead. Otherwise run GenerateFNISforUsers.exe</li>
                         <li>If using <a href="https://www.nexusmods.com/skyrimspecialedition/mods/60033">Nemesis</a>: Run Nemesis Unlimited Behavior Engine
                             <ul>
                                 <li>reference: <a href="https://www.reddit.com/r/skyrimmods/comments/t2rk34/nemesis_pro_tip/">guide to clearing Nemesis cache</a></li>
@@ -3732,7 +3732,7 @@ function checkCompassNavigationOverhaulCrash(sections) {
 }
 
 
-// ❗ Outdated CrashLogger SSE Detected:
+// ⚠️ Outdated CrashLogger SSE Detected:
 function checkCrashLoggerVersionUpdate(sections) {
     let insights = '';
     
@@ -3760,7 +3760,7 @@ function checkCrashLoggerVersionUpdate(sections) {
     
     // Compare versions - if found version is less than 1.15.0.0, recommend update
     if (Utils.compareVersions(foundVersion, minimumVersion) < 0) {
-        insights += `<li>❗ <b>Outdated CrashLogger SSE Detected:</b>
+        insights += `<li>⚠️ <b>Outdated CrashLogger SSE Detected:</b>
             You are using an outdated version of CrashLogger SSE (v${foundVersion}).
             <ul>
                 <li><b>Update recommended:</b> Download and install the latest version of <a href="https://www.nexusmods.com/skyrimspecialedition/mods/59818">Crash Logger SSE AE VR</a> from Nexus Mods</li>
@@ -3770,6 +3770,37 @@ function checkCrashLoggerVersionUpdate(sections) {
                     <li>CrashLogger SSE version <code>${versionMatch[1]}</code> found in crash log header</li>
                     <li>Minimum recommended version is <code>1.15.0.0</code></li>
                 </ul></li>
+            </ul>
+        </li>`;
+    }
+    
+    return insights;
+}
+
+
+// ⚠️ Intel 13th/14th Gen CPU Instability Risk:
+function checkIntelCPUIssue(sections) {
+    let insights = '';
+    
+    // Check if header contains Intel 13th or 14th gen indicators
+    if (!sections.header) {
+        return insights;
+    }
+    
+    const header = sections.header;
+    const hasIntel13th = header.includes("13th Gen Intel(R)");
+    const hasIntel14th = /Core\(TM\) i[579]-14\d{3}/.test(header);
+    
+    if (hasIntel13th || hasIntel14th) {
+        const generation = hasIntel13th ? "13th" : "14th";
+        
+        insights += `<li>⚠️ <b>Intel ${generation} Gen CPU Instability Risk:</b>
+            Your system uses an Intel ${generation} generation processor, which if not on an updated BIOS has known stability issues that can cause random crashes and shorten CPU lifespan. <a href="#" class="toggleButton">⤵️ show more</a><ul class="extraInfo" style="display:none">
+                <li><b>Critical BIOS update required:</b> Check your motherboard manufacturer's website for the latest BIOS/microcode update</li>
+                <li><b>Risk without update:</b> Random crashes during CPU-intensive gameplay and potential shortened processor lifespan</li>
+                <li><b>Update availability:</b> BIOS fixes are released by individual motherboard manufacturers - not all have updates available yet</li>
+                <li><b>Diagnostic tool:</b> Run Intel's <a href="https://www.intel.com/content/www/us/en/download/15951/intel-processor-diagnostic-tool.html" target="_blank">Processor Diagnostic Tool</a> to check if your CPU is affected</li>
+                <li><b>More information:</b> <a href="https://community.intel.com/t5/Mobile-and-Desktop-Processors/Microcode-0x129-Update-for-Intel-Core-13th-and-14th-Gen-Desktop/m-p/1622129" target="_blank">Intel Community Thread</a> with technical details</li>
             </ul>
         </li>`;
     }

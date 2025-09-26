@@ -1,9 +1,17 @@
-✅Version 1.26.3 is now live:
+✅Version 1.26.4 is now live:
 https://phostwood.github.io/crash-analyzer/
 
-1.  New test:  ❗ Outdated CrashLogger SSE Detected:
+1. ❗ Outdated CrashLogger SSE Detected:
+	- changed emoji to indicate more of a "meta" issue: ⚠️ 
 
+2. ❓ Possible Animation Loader/Behavior Engine Issue Detected: 
+	- Changed:
+		- If using FNIS, consider upgrading to Nemesis or Pandora instead. Otherwise run GenerateFNISforUsers.exe
+	- Original:
+		- If using FNIS: Run GenerateFNISforUsers.exe
+	- Thank you J3w3ls for the suggestion!
 
+3. New test: ⚠️ Intel 13th Gen CPU Instability Risk:
 
 
 --- Next version? ---
