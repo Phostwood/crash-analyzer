@@ -3794,13 +3794,103 @@ function checkIntelCPUIssue(sections) {
     if (hasIntel13th || hasIntel14th) {
         const generation = hasIntel13th ? "13th" : "14th";
         
-        insights += `<li>⚠️ <b>Intel ${generation} Gen CPU Instability Risk:</b>
-            Your system uses an Intel ${generation} generation processor, which if not on an updated BIOS has known stability issues that can cause random crashes and shorten CPU lifespan. <a href="#" class="toggleButton">⤵️ show more</a><ul class="extraInfo" style="display:none">
+       insights += `<li>⚠️ <b>Intel ${generation} Gen CPU Instability Risk:</b>
+            Your system uses an Intel ${generation} generation processor, which if not on an updated BIOS has known stability issues that can cause random crashes and shorten CPU lifespan. <b>CORRECTION MADE on September 30!</b> <a href="#" class="toggleButton">⤵️ show more</a><ul class="extraInfo" style="display:none">
                 <li><b>Critical BIOS update required:</b> Check your motherboard manufacturer's website for the latest BIOS/microcode update</li>
                 <li><b>Risk without update:</b> Random crashes during CPU-intensive gameplay and potential shortened processor lifespan</li>
-                <li><b>Update availability:</b> BIOS fixes are released by individual motherboard manufacturers - not all have updates available yet</li>
-                <li><b>Diagnostic tool:</b> Run Intel's <a href="https://www.intel.com/content/www/us/en/download/15951/intel-processor-diagnostic-tool.html" target="_blank">Processor Diagnostic Tool</a> to check if your CPU is affected</li>
+                <li><b>Update availability:</b> BIOS fixes are released by individual motherboard manufacturers — not all have updates available yet</li>
+                <li><b>Check your microcode version:</b> Open PowerShell and run:
+                    <code id="microcodeCmd">'0x{0:X}' -f [BitConverter]::ToUInt32((Get-ItemProperty "HKLM:\\HARDWARE\\DESCRIPTION\\System\\CentralProcessor\\0").'Update Revision',0)</code>
+                    <button onclick="navigator.clipboard.writeText(document.getElementById('microcodeCmd').innerText)" class="no-markdown">Copy to Clipboard</button>
+                    <ul>
+                        <li>If the result is below <code>0x129</code> (or <code>0x12B</code> once released), update your BIOS.</li>
+                    </ul>
+                </li>
+                <li><b>Stress test tool:</b> Run Intel's <a href="https://www.intel.com/content/www/us/en/download/15951/intel-processor-diagnostic-tool.html" target="_blank">Processor Diagnostic Tool</a> to stress-test your CPU.<ul>
+                    <li><i>Note:</i> After updating, a stress test helps confirm if your CPU is still healthy — failures may indicate damage that the update cannot prevent (or reverse).</li>
+                    </ul>
+                </li>
                 <li><b>More information:</b> <a href="https://community.intel.com/t5/Mobile-and-Desktop-Processors/Microcode-0x129-Update-for-Intel-Core-13th-and-14th-Gen-Desktop/m-p/1622129" target="_blank">Intel Community Thread</a> with technical details</li>
+            </ul>
+        </li>`;
+
+    }
+    
+    return insights;
+}
+
+
+
+// ❗ Probable Death Drop Overhaul Crash Detected:
+function checkDeathDropOverhaulCrash(sections) {
+    let insights = '';
+    let indicators = [];
+    let indicatorCount = 0;
+    
+    // Indicator 1: Check for outdated DLL version (v1.2.0 or v1.2.1)
+    const dllVersion = Utils.getDllVersionFromLog(sections, 'DeathDropOverhaul.dll');
+    Utils.debuggingLog(['checkDeathDropOverhaulCrash'], `dllVersion: ${dllVersion}`);
+
+    const hasOutdatedVersion = dllVersion && 
+        (Utils.compareVersions(dllVersion, '1.2.0.0') == 0
+            || Utils.compareVersions(dllVersion, '1.2.1.0') == 0);
+    Utils.debuggingLog(['checkDeathDropOverhaulCrash'], `hasOutdatedVersion: ${hasOutdatedVersion}`);
+    
+    if (hasOutdatedVersion) {
+        indicatorCount++;
+        indicators.push(`<code>DeathDropOverhaul.dll v${dllVersion}</code> detected in SKSE plugins - outdated version known to sometimes cause crashes`);
+    }
+    
+    // Indicator 2: Check for DeathDropOverhaul.dll in callstack or Stack
+    const inProbableCallstack = sections.probableCallstack && 
+        sections.probableCallstack.toLowerCase().includes('deathdropoverhaul.dll');
+    Utils.debuggingLog(['checkDeathDropOverhaulCrash'], `inProbableCallstack: ${inProbableCallstack}`);
+
+    const inStack = sections.stack && 
+        sections.stack.toLowerCase().includes('deathdropoverhaul.dll');
+    Utils.debuggingLog(['checkDeathDropOverhaulCrash'], `inStack: ${inStack}`);
+    
+    if (inProbableCallstack || inStack) {
+        indicatorCount++;
+        let location = '';
+        if (inProbableCallstack && inStack) {
+            location = 'probable call stack and stack trace';
+        } else if (inProbableCallstack) {
+            location = 'probable call stack';
+        } else {
+            location = 'stack trace';
+        }
+        indicators.push(`<code>DeathDropOverhaul.dll</code> reference found in ${location}`);
+    }
+    
+    // Indicator 3: Check for BaseExtraList in Stack (near top)
+    if (sections.stack) {
+        const stackLines = sections.stack.split('\n').slice(0, 50); // Check top ~50 lines
+        Utils.debuggingLog(['checkDeathDropOverhaulCrash'], `stackLines: ${stackLines.join('\n')}`);
+
+        const hasBaseExtraList = stackLines.some(line => 
+            line.toLowerCase().includes('baseextralist')
+        );
+        Utils.debuggingLog(['checkDeathDropOverhaulCrash'], `hasBaseExtraList: ${hasBaseExtraList}`);
+        
+        if (hasBaseExtraList) {
+            indicatorCount++;
+            indicators.push(`<code>BaseExtraList</code> reference found near top of stack trace - common signature for this crash`);
+        }
+    }
+
+    Utils.debuggingLog(['checkDeathDropOverhaulCrash'], `indicators: ${indicators}`);
+    
+    // Trigger if 2 or more indicators found
+    if (indicatorCount >= 2) {
+        insights += `<li>❗ <b>Probable Death Drop Overhaul Crash Detected:</b>
+            This crash is likely caused by outdated versions (v1.2.0 or v1.2.1) of the Death Drop Overhaul mod.
+            <ul>
+                <li><b>Update the mod:</b> Download and install version 1.2.2 or later of <a href="https://www.nexusmods.com/skyrimspecialedition/mods/151590" target="_blank">Death Drop Overhaul</a> from Nexus Mods</li>
+                <li><b>Fix details:</b> Version 1.2.2+ resolves crashes related to extra data processing in the inventory system</li>
+                <li>Detected indicators (${indicatorCount}/3): <a href="#" class="toggleButton">⤵️ show more</a><ul class="extraInfo" style="display:none">
+                    ${indicators.map(indicator => `<li>${indicator}</li>`).join('')}
+                </ul></li>
             </ul>
         </li>`;
     }

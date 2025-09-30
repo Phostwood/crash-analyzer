@@ -1,17 +1,11 @@
-✅Version 1.26.4 is now live:
+✅Version 1.26.5 is now live:
 https://phostwood.github.io/crash-analyzer/
 
-1. ❗ Outdated CrashLogger SSE Detected:
-	- changed emoji to indicate more of a "meta" issue: ⚠️ 
+1. New test: ❗ Probable Death Drop Overhaul Crash Detected: 
 
-2. ❓ Possible Animation Loader/Behavior Engine Issue Detected: 
-	- Changed:
-		- If using FNIS, consider upgrading to Nemesis or Pandora instead. Otherwise run GenerateFNISforUsers.exe
-	- Original:
-		- If using FNIS: Run GenerateFNISforUsers.exe
-	- Thank you J3w3ls for the suggestion!
-
-3. New test: ⚠️ Intel 13th Gen CPU Instability Risk:
+2. ⚠️ Intel 13th Gen CPU Instability Risk: 
+	- Correction on Intel 13/14 gen issue regarding Intel's tool, which doesn't actually check for the microcode update
+	- got AI to write a one-line script that outputs current microcode version via Windows PowerShell
 
 
 --- Next version? ---

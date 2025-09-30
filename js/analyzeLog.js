@@ -437,7 +437,12 @@ async function analyzeLog() {
        diagnosesCount++;
    }
 
-
+   // ❗ Probable Death Drop Overhaul Crash Detected:
+   const hascheckDeathDropOverhaulCrash = checkDeathDropOverhaulCrash(sections);
+   if (hascheckDeathDropOverhaulCrash) {
+       diagnoses += hascheckDeathDropOverhaulCrash;
+       diagnosesCount++;
+   }
 
     //❗Possible Visual C++ Runtime DLL Issue Detected:
     const vCRuntimeDiagnosis = analyzeVCRuntimeIssue(sections);

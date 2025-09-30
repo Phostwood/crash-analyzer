@@ -497,6 +497,18 @@ document.addEventListener('DOMContentLoaded', function () {
 		}
 	});
 
+	// Add a rule to exclude `class="no-markdown"` indicated content from markdown text
+	// Example: <button onclick="navigator.clipboard.writeText(document.getElementById('microcodeCmd').innerText)" class="no-markdown">Copy to Clipboard</button>
+	turndownService.addRule('ignoreNoMarkdown', {
+		filter: function (node) {
+			return node.nodeType === 1 && node.classList.contains('no-markdown');
+		},
+		replacement: function () {
+			return ''; // strip it out of the Markdown
+		}
+	});
+
+
 	// Function to convert HTML to Markdown for Discord
 	window.convertHTMLToMarkdown = function(html) {
 		html = removeMoreInfoLinks(html);
