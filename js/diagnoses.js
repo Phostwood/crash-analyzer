@@ -3803,7 +3803,8 @@ function checkIntelCPUIssue(sections) {
                     <code id="microcodeCmd">'0x{0:X}' -f [BitConverter]::ToUInt32((Get-ItemProperty "HKLM:\\HARDWARE\\DESCRIPTION\\System\\CentralProcessor\\0").'Update Revision',0)</code>
                     <button onclick="navigator.clipboard.writeText(document.getElementById('microcodeCmd').innerText)" class="no-markdown">Copy to Clipboard</button>
                     <ul>
-                        <li>If the result is below <code>0x129</code> (or <code>0x12B</code> once released), update your BIOS.</li>
+                        <li>If the result is lower than <code>0x129</code>, update your BIOS. Acceptable versions as of September 30, 2025 are: <code>0x129</code>, <code>0x12B</code> (September 2024), or the latest <code>0x12F</code> (May 2025).</li>
+
                     </ul>
                 </li>
                 <li><b>Stress test tool:</b> Run Intel's <a href="https://www.intel.com/content/www/us/en/download/15951/intel-processor-diagnostic-tool.html" target="_blank">Processor Diagnostic Tool</a> to stress-test your CPU.<ul>

@@ -1,11 +1,9 @@
-✅Version 1.26.5 is now live:
+✅Version 1.26.5.2 is now live:
 https://phostwood.github.io/crash-analyzer/
 
-1. New test: ❗ Probable Death Drop Overhaul Crash Detected: 
-
-2. ⚠️ Intel 13th Gen CPU Instability Risk: 
-	- Correction on Intel 13/14 gen issue regarding Intel's tool, which doesn't actually check for the microcode update
-	- got AI to write a one-line script that outputs current microcode version via Windows PowerShell
+1. ⚠️ Intel 13th Gen CPU Instability Risk: 
+	- update this line with date(s) and clarification:
+	<li>If the result is lower than <code>0x129</code>, update your BIOS. Acceptable versions as of September 30, 2025 are: <code>0x129</code>, <code>0x12B</code> (September 2024), or the latest <code>0x12F</code> (May 2025).</li>
 
 
 --- Next version? ---
