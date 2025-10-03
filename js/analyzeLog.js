@@ -653,6 +653,12 @@ async function analyzeLog() {
         //insightsCount++;
     }
 
+    // 🎯 Highest-Confidence Indicators:
+    const highestPriorityIndicatorsResults = highestPriorityIndicators(sections);
+    if (highestPriorityIndicatorsResults) {
+        insights += highestPriorityIndicatorsResults;
+    }
+
     insights += '</ul><h5>Higher-Confidence Test Results:</h5><ul>';
 
     //VRAMr Gorehowl

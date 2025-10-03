@@ -36,7 +36,7 @@ window.LogSummary = {
 
         if (namedElementMatches.length > 0) {
             insights += this.generateSectionDescriptions(sectionsMap);
-            insights += '<ul>' + Utils.highlightFilenames(this.processColoredListItems(namedElementMatches)) + '</ul>';
+            insights += '<ul class="extraInfo" style="display:none">' + Utils.highlightFilenames(this.processColoredListItems(namedElementMatches)) + '</ul>';
             insights += '</li>';
             insightsCount++;
         }
@@ -423,7 +423,7 @@ window.LogSummary = {
             }
         }).join(' ');
 
-        return `<li>🔎 <b>Files/Elements</b> listed within ${sectionDescriptions} sections of the crash log. Items are sorted by priority, with lower numbers (and higher positions in the list) indicating a higher likelihood of contributing to the crash. Items at the very top of the <code>Stack</code> can also have added weight for predicting causality. <code><span style="color:#FF0000">[1]</span> First Line</code> files are nearly always involved in (and frequently the cause of) the crash. Pay extra attention to anything related to <b>mods you have recently added</b> to ${Utils.NolvusOrSkyrimText}:`;
+        return `<li>🔎 <b>Files/Elements</b> listed within ${sectionDescriptions} sections of the crash log. Items are sorted by priority, with lower numbers (and higher positions in the list) indicating a higher likelihood of contributing to the crash. Items at the very top of the <code>Stack</code> can also have added weight for predicting causality. <code><span style="color:#FF0000">[1]</span> First Line</code> files are nearly always involved in (and frequently the cause of) the crash. Pay extra attention to anything related to <b>mods you have recently added</b> to ${Utils.NolvusOrSkyrimText}: <a href="#" class="toggleButton">⤵️ show more</a>`;
     },
 
 };

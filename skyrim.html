@@ -28,7 +28,7 @@
 	<meta name="description" content="Advanced Skyrim crash log analyzer that helps diagnose and fix 75-90% of crashes with identifiable causes. Provides detailed troubleshooting steps for common crash types. Updated frequently with new crash patterns and solutions.">
 
 	<meta charset="UTF-8">
-	<meta name="version" content="1.26.5.2">
+	<meta name="version" content="1.26.6">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 	<link rel="icon" type="image/x-icon" href="https://phostwood.github.io/crash-analyzer/favicon.ico">
@@ -57,6 +57,9 @@
 				// Donations section
 				'./js/donation-section.js',
 
+				// Thank Yous section
+				'./js/thank-you-section.js',
+
 				// Utility scripts
 				'./js/utils.js',
 				'./js/explainersMap.js',
@@ -84,6 +87,11 @@
 				
 				// Main application script
 				'./js/analyzeLog.js',
+
+				// Highest Priority Indicators
+				'./js/highestPriorityIndicators.js',
+
+
 				
 				// UI script (last)
 				'./js/userInterface.js'
@@ -110,7 +118,7 @@
 	</header>
 	<main>
 		<section class="textarea-container">
-			<p>Last updated: September 30, 2025 &nbsp; <span id="versionNumber"></span></p>
+			<p>Last updated: October 3, 2025 &nbsp; <span id="versionNumber"></span></p>
 			<p>(<strong>refresh daily</strong> to ensure you are using the latest version)</p>
 
 			<p><a href='https://ko-fi.com/I2I219OKJM' target='_blank'><img height='36' style='border:0px;height:36px;' src='https://storage.ko-fi.com/cdn/kofi6.png?v=6' border='0' alt='Buy Me a Coffee at ko-fi.com' /></a></p>
@@ -169,6 +177,7 @@
 		<button id="convert-button" style="display: none;">Copy Diagnoses</button>
 		<article id="result"><code>(click "Choose File" or copy-paste file contents for analyzing)</code><p>&nbsp;</p></article>
 		<script type='text/javascript' src='https://storage.ko-fi.com/cdn/widget/Widget_2.js'></script><script type='text/javascript'>kofiwidget2.init('Support me on Ko-fi', '#72a4f2', 'I2I219OKJM');kofiwidget2.draw();</script><br>
+		<div id="highest-priority-indicators-section"></div>
 		<article id="speculation"></article>
 		<h4 class="hidden">Notes:</h4>
 		<aside id="footer">
@@ -233,10 +242,8 @@
 					<!-- TEMPLATE: <li><a href=""></a></li> -->
 				</ul>
 			</p>
-			<p><strong>Thank You</strong> to Alexious, Alexjp127, anonik123, Arthritic Gamer, Azrael, bachmanis, Blackread, CJ, Demognomicon, Eleros, ennui, Ferrrett33, Finya, Gaetan, Griz, Hexanode, ItsMadManBen, Iyzik, Jerilith, J3w3ls, Katoh, keyf, lakoor, Leet, lollllll_nope, Lord Kroq-Gar, MaskPlague, n7magistrate, Orionis, Pan, patchuli, R., rachelcurren, Riderofchaos1337, Rivussy, Shaddoll_Shekhinaga, SieurPersil, syzygy, Vektor, Vulken, and wankingSkeever!
-			</p>
-			<p><strong>Special Thanks</strong> to Corrupt Bliss, Discrepancy, Krispyroll, RomatebitegeL, and SpinPigeon!
-			</p>
+
+		<div id="thank-you-section"></div>
 			
 		</aside>
 		<aside id="patreon">

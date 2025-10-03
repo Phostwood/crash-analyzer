@@ -27,7 +27,7 @@ button {
 }
 
 code,
-textarea {
+textarea, pre {
     font-family: monospace;
     font-size: clamp(0.875rem, 0.11vw + 0.85rem, 1.125rem);
     line-height: clamp(1.463rem, -0.011vw + 1.49rem, 1.488rem);
@@ -150,7 +150,7 @@ strong {
     /* Nolvus orange color for bold text */
 }
 
-code {
+code, pre {
     color: #f0c491;
     margin-left: 0;
     padding-left: 0;

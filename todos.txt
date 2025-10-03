@@ -1,9 +1,29 @@
-✅Version 1.26.5.2 is now live:
+✅Version 1.26.6 is now live:
 https://phostwood.github.io/crash-analyzer/
 
-1. ⚠️ Intel 13th Gen CPU Instability Risk: 
-	- update this line with date(s) and clarification:
+1. ✅  ⚠️ Intel 13th Gen CPU Instability Risk: 
+	- ✅update this line with date(s) and clarification:
 	<li>If the result is lower than <code>0x129</code>, update your BIOS. Acceptable versions as of September 30, 2025 are: <code>0x129</code>, <code>0x12B</code> (September 2024), or the latest <code>0x12F</code> (May 2025).</li>
+	- ✅link to app tools when script doesn't work
+	- ✅add info on software driver microcode updates like this link?
+	https://www.reddit.com/r/GamingLaptops/comments/1engies/intelhow_to_update_your_microcode_for_intel_hx/
+		- ✅ and thank umberember
+
+2. ✅New section: 🎯 Highest-Confidence Indicators:
+	- ✅De-noised and deduped view of tops of Stack, Probable Call Stack, and Registers sections
+	- ✅Bug when Stack isn't finished. see log: UVreGdin.txt
+		-✅ FIXED: Create script to add any missing sections (just for CrashLog Analyzer SSE)
+
+3. ✅"Show more" buttons for:
+	- ✅  🔎 Files/Elements 
+	- ✅  📊 Mod Prominence Analysis:
+	- ✅  new section: 🎯 Highest-Confidence Indicators:
+
+4. ✅FIXED: Changes to this version broke:
+	- ✅FIXED: "Display nested Log Summary (Beta feature)"
+	- ✅FIXED: Utils weren't loading as expected
+
+
 
 
 --- Next version? ---

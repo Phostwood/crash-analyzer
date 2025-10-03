@@ -10,7 +10,7 @@ Utils.modFileExtensions = ['.dll', '.esl', '.esm', '.esp', '.exe', '.skse', '.sk
 Utils.unlikelyCulprits = ['clr.dll', 'd3d12core.dll', 'd3dcompiler_47.dll', 'kernel32.dll', 'kernelbase.dll', 
     'msvcp140.dll', 'ntdll.dll', 'runtime.dll', 'steamclient64.dll', 'system.ni.dll', 
     'ucrtbase.dll', 'uiautomationcore.dll', 'win32u.dll', 'xinput1_3.dll']; //REMOVED: 'vcruntime140.dll',
-Utils.removeList = ['Dawnguard.esm', 'Dragonborn.esm', 'null', 'null)', 'NetScriptFramework', 'SkyrimSE.exe', 'skyrim.esm', 'SkyrimVR.exe'].map(item => item.toLowerCase());
+Utils.removeList = ['Dawnguard.esm', 'Dragonborn.esm', 'null', 'null)', 'NetScriptFramework', 'SkyrimSE.exe', 'skyrim.esm', 'SkyrimVR.exe', 'CrashLogger.dll'].map(item => item.toLowerCase());
 
 
 
@@ -714,6 +714,9 @@ Utils.getLogSectionsMap = function(logFile) {
 
     const logType = this.getLogType(this.logLines);
     Utils.logType = logType;
+    // Add missing section headers for truncated CrashLogger logs
+    logFile = this.addMissingSectionHeaders(logFile, logType);
+
     Utils.debuggingLog(['getLogSectionsMap'], 'Detected log type:', Utils.logType);
 
     const sectionDefinitions = [
@@ -1411,6 +1414,91 @@ Utils.processExplainersAndUnlikely = function(namedElementMatches) {
         return { ...item, match: processedItem };
     }).filter(item => item !== undefined);
 }
+
+
+Utils.addMissingSectionHeaders = function(logFile, logType) {
+    // Only process CrashLogger logs
+    if (logType !== "CrashLogger") {
+        return logFile;
+    }
+    
+    // Define the expected section headers in order
+    const sectionHeaders = [
+        'PROBABLE CALL STACK:',
+        'REGISTERS:',
+        'STACK:',
+        'MODULES:',
+        'SKSE PLUGINS:',
+        'PLUGINS:'
+    ];
+    
+    // Track which sections are present
+    const presentSections = new Set();
+    
+    // Check which sections exist in logLines
+    for (let i = 0; i < this.logLines.length; i++) {
+        const line = this.logLines[i].trim();
+        for (const header of sectionHeaders) {
+            if (line.startsWith(header)) {
+                presentSections.add(header);
+                break;
+            }
+        }
+    }
+    
+    // Find the last present section
+    let lastPresentIndex = -1;
+    let lastPresentHeader = null;
+    for (let i = sectionHeaders.length - 1; i >= 0; i--) {
+        if (presentSections.has(sectionHeaders[i])) {
+            lastPresentIndex = i;
+            lastPresentHeader = sectionHeaders[i];
+            break;
+        }
+    }
+    
+    if (lastPresentIndex === -1) {
+        return logFile;
+    }
+    
+    // Add missing headers after the last present section
+    const missingHeaders = sectionHeaders.slice(lastPresentIndex + 1);
+    
+    if (missingHeaders.length === 0) {
+        return logFile;
+    }
+    
+    // Find the line index of the last present header
+    let insertIndex = -1;
+    for (let i = this.logLines.length - 1; i >= 0; i--) {
+        if (this.logLines[i].trim().startsWith(lastPresentHeader)) {
+            insertIndex = i + 1;
+            break;
+        }
+    }
+    
+    if (insertIndex === -1) {
+        return logFile;
+    }
+    
+    // Skip to the end of the last section's content
+    while (insertIndex < this.logLines.length && this.logLines[insertIndex].trim() !== '') {
+        insertIndex++;
+    }
+    
+    // Add missing section headers
+    const newLines = [];
+    for (const header of missingHeaders) {
+        newLines.push('');
+        newLines.push(header);
+    }
+    
+    // Insert the new lines
+    this.logLines.splice(insertIndex, 0, ...newLines);
+    
+    // Reconstruct and return the modified logFile
+    return this.logLines.join('\n');
+};
 
 
 document.addEventListener('DOMContentLoaded', function() {

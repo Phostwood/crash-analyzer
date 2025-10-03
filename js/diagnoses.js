@@ -2854,17 +2854,16 @@ function analyzeModProminence() {
     const entries = Object.entries(sortedData);
     
     if (entries.length > 0) {
-        modInsights += `<li>📊 <b>Mod Prominence Analysis:</b> The following mods appear frequently and/or with detailed information in the crash log. While this can indicate relevance to the crash cause, these mods might simply be more verbose in their logging and/or happened to be more active in the time leading up to the crash.
-            <ol>
+        modInsights += `<li>📊 <b>Mod Prominence Analysis:</b> The following mods appear frequently and/or with detailed information in the crash log. While this can indicate relevance to the crash cause, these mods might simply be more verbose in their logging and/or happened to be more active in the time leading up to the crash. <a href="#" class="toggleButton">⤵️ show more</a>
+            <ol class="extraInfo" style="display:none">
                 <li>This indicator is less likely to be causal unless it repeats across multiple related crash logs</li>
-                <li>If this report doesn't contain better indications (above or below), consider temporarily disabling the top-listed mod and any dependent mods, and attempt to reproduce the crash<ul>
+                <li>If multiple related crash logs do not contain better indications (above or below), consider temporarily disabling the top-listed mod and any dependent mods, and attempt to reproduce the crash<ul>
                     <li>NOTE: If tested from an old game save, many mods may cause different crashes from being removed. So, this test might need to be conducted from a new character.</li>
                 </ul></li>
                 <li>If the crash stops, investigate that mod's documentation and forum for any updates, known issues and/or patches, as well as its requirements, recommended load order and any incompatibilities. Also consider any recent changes to your load order which might have affected this mod.</li>
                 <li>If the crash continues (or if disabling this mod was infeasible), re-enable and try the next mod</li>
                 ${Utils.LootListItemIfSkyrim}
-
-                <li>Mods listed by prominence <code><span style="color:darkorange">(appearances : details)</span></code>: <a href="#" class="toggleButton">⤴️ hide</a><ul class="extraInfo">
+                <li>Mods listed by prominence <code><span style="color:darkorange">(appearances : details)</span></code>: <ul>
                     ${!window.location.href.toLowerCase().endsWith('?tryformids') ? '<li>NOTE: results may be more accurate with "Display nested Log Summary" (see checkbox at top of page)</li>' : ''}`;
                 // Add sorted mods to the list
                 entries.forEach(([filename, stats]) => {
@@ -3796,17 +3795,18 @@ function checkIntelCPUIssue(sections) {
         
        insights += `<li>⚠️ <b>Intel ${generation} Gen CPU Instability Risk:</b>
             Your system uses an Intel ${generation} generation processor, which if not on an updated BIOS has known stability issues that can cause random crashes and shorten CPU lifespan. <b>CORRECTION MADE on September 30!</b> <a href="#" class="toggleButton">⤵️ show more</a><ul class="extraInfo" style="display:none">
-                <li><b>Critical BIOS update required:</b> Check your motherboard manufacturer's website for the latest BIOS/microcode update</li>
-                <li><b>Risk without update:</b> Random crashes during CPU-intensive gameplay and potential shortened processor lifespan</li>
-                <li><b>Update availability:</b> BIOS fixes are released by individual motherboard manufacturers — not all have updates available yet</li>
                 <li><b>Check your microcode version:</b> Open PowerShell and run:
                     <code id="microcodeCmd">'0x{0:X}' -f [BitConverter]::ToUInt32((Get-ItemProperty "HKLM:\\HARDWARE\\DESCRIPTION\\System\\CentralProcessor\\0").'Update Revision',0)</code>
                     <button onclick="navigator.clipboard.writeText(document.getElementById('microcodeCmd').innerText)" class="no-markdown">Copy to Clipboard</button>
                     <ul>
                         <li>If the result is lower than <code>0x129</code>, update your BIOS. Acceptable versions as of September 30, 2025 are: <code>0x129</code>, <code>0x12B</code> (September 2024), or the latest <code>0x12F</code> (May 2025).</li>
-
+                        <li>If the script doesn't work, make sure you include the entire line including the beginning ' character. You can also try alternative tools like <a href="https://www.hwinfo.com/" target="_blank">HWInfo</a>, <a href="https://www.cpuid.com/softwares/cpu-z.html" target="_blank">CPU-Z</a>, or the <a href="https://www.intel.com/content/www/us/en/support/articles/000055672/processors.html" target="_blank">Intel® Processor Identification Utility</a>.</li>
                     </ul>
                 </li>
+                <li><b>Critical BIOS update required:</b> Check your motherboard manufacturer's website for the latest BIOS/microcode update</li>
+                <li><b>Risk without update:</b> Random crashes during CPU-intensive gameplay and potential shortened processor lifespan</li>
+                <li><b>Update availability:</b> BIOS fixes are released by individual motherboard manufacturers — some may not have updates available</li>
+                <li><b>No BIOS update available?</b> You may still be able to apply a <i>software driver-level microcode update</i> that loads during Windows startup. This won’t permanently update your BIOS, but it ensures the CPU runs with the latest microcode each boot. See this community guide for details: <a href="https://www.reddit.com/r/GamingLaptops/comments/1engies/intelhow_to_update_your_microcode_for_intel_hx/" target="_blank">How to update your Intel microcode via driver</a>.</li>
                 <li><b>Stress test tool:</b> Run Intel's <a href="https://www.intel.com/content/www/us/en/download/15951/intel-processor-diagnostic-tool.html" target="_blank">Processor Diagnostic Tool</a> to stress-test your CPU.<ul>
                     <li><i>Note:</i> After updating, a stress test helps confirm if your CPU is still healthy — failures may indicate damage that the update cannot prevent (or reverse).</li>
                     </ul>

@@ -398,29 +398,94 @@ document.addEventListener('DOMContentLoaded', function () {
 
 	// - - -  "Copy Diagnosis" button - - - 
 
-	// Function to remove "⤵️ show more" links and their associated content from HTML
-	window.removeMoreInfoLinks = function(html) {
-		// Create a temporary DOM to manipulate the HTML string
-		var tempDOM = document.createElement('div');
-		tempDOM.innerHTML = html;
 
-		// Remove "⤵️ show more" links and their associated content
+	// Function to remove "⤵️ show more" links and their associated content from HTML
+	window.removeMoreInfoLinks = function (html) {
+		// If the fragment starts with an LI, give the parser a valid context
+		var wrapperNeeded = /^\s*<li[\s>]/i.test(html);
+		var tempDOM = document.createElement('div');
+		tempDOM.innerHTML = wrapperNeeded ? `<ul>${html}</ul>` : html;
+
+		/**
+		 * Find the extraInfo element after a toggle button
+		 * Skips over text nodes and <br> tags to find the actual content element
+		 */
+		function findExtraInfoElement(toggleButton) {
+			var node = toggleButton.nextSibling;
+			while (node) {
+				// Skip text nodes and <br> tags
+				if (node.nodeType === Node.TEXT_NODE || 
+					(node.nodeType === Node.ELEMENT_NODE && node.tagName === 'BR')) {
+					node = node.nextSibling;
+					continue;
+				}
+				// Found an element - check if it's extraInfo
+				if (node.nodeType === Node.ELEMENT_NODE) {
+					if (node.classList && (node.classList.contains('extraInfo') || node.classList.contains('extraInfoOL'))) {
+						return node;
+					}
+					// If we found a different element, also return it (might be PRE without class)
+					if (node.tagName === 'PRE' || node.tagName === 'DIV' || node.tagName === 'OL' || node.tagName === 'UL') {
+						return node;
+					}
+				}
+				node = node.nextSibling;
+			}
+			return null;
+		}
+
+		/**
+		 * Remove all nodes between the toggle button and the target element
+		 */
+		function removeNodesInBetween(toggleButton, target) {
+			let current = toggleButton.nextSibling;
+			while (current && current !== target) {
+				let next = current.nextSibling;
+				current.remove();
+				current = next;
+			}
+		}
+
 		var moreInfoButtons = tempDOM.querySelectorAll('a.toggleButton');
 		moreInfoButtons.forEach(function (toggleButton) {
-			if (toggleButton.textContent === '⤵️ show more') {
-				var liNode = toggleButton;
-				while (liNode && liNode.nodeName !== 'LI') { // Keep going up until we find an li ancestor
-					liNode = liNode.parentNode;
+			var buttonText = toggleButton.textContent.trim();
+			if (buttonText === '⤵️ show more') {
+				// Collapsed: remove the toggle link and its hidden content
+				var extraInfoElement = findExtraInfoElement(toggleButton);
+				if (extraInfoElement) {
+					removeNodesInBetween(toggleButton, extraInfoElement);
+					extraInfoElement.remove();
+				} else {
+					// fallback: remove parent LI
+					var node = toggleButton.parentNode;
+					while (node) {
+						if (node.nodeType === Node.ELEMENT_NODE && node.tagName === 'LI') {
+							node.remove();
+							return;
+						}
+						node = node.parentNode;
+					}
 				}
-				if (liNode) {
-					// Remove the entire list item that contains the "⤵️ show more" link and its associated content
-					liNode.parentNode.removeChild(liNode);
-				}
+				toggleButton.remove();
 			}
+
+			if (buttonText === '⤴️ hide') {
+				// Expanded: keep the content, just remove the toggle link itself
+				toggleButton.remove();
+			}
+
 		});
 
+		// If we wrapped with <ul>, unwrap before returning
+		if (wrapperNeeded) {
+			var ul = tempDOM.querySelector('ul');
+			return ul ? ul.innerHTML : tempDOM.innerHTML;
+		}
 		return tempDOM.innerHTML;
-	}
+	};
+
+
+
 
 	// Function to remove "⤴️ hide" links from HTML
 	window.removeSkipTheseStepsLinks = function(html)  {
@@ -498,7 +563,7 @@ document.addEventListener('DOMContentLoaded', function () {
 	});
 
 	// Add a rule to exclude `class="no-markdown"` indicated content from markdown text
-	// Example: <button onclick="navigator.clipboard.writeText(document.getElementById('microcodeCmd').innerText)" class="no-markdown">Copy to Clipboard</button>
+	// Example: <button class="no-markdown" onclick="navigator.clipboard.writeText(document.getElementById('microcodeCmd').innerText)">Copy to Clipboard</button>
 	turndownService.addRule('ignoreNoMarkdown', {
 		filter: function (node) {
 			return node.nodeType === 1 && node.classList.contains('no-markdown');
@@ -572,31 +637,62 @@ document.addEventListener('DOMContentLoaded', function () {
 	toggleAdvancedElements();
 	addEmojiClickEvent();
 
+	// FIXED: Call initial setup functions and handle toggle buttons correctly
 	window.addEventListener('load', function() {
+		/**
+		 * Helper function to find the extraInfo element after a toggle button
+		 * This skips over <br> tags to find the actual content element
+		 */
+		function findExtraInfoElement(toggleButton) {
+			var node = toggleButton.nextSibling;
+			while (node) {
+				// Skip text nodes and <br> tags
+				if (node.nodeType === Node.TEXT_NODE || 
+					(node.nodeType === Node.ELEMENT_NODE && node.tagName === 'BR')) {
+					node = node.nextSibling;
+					continue;
+				}
+				// Found an element
+				if (node.nodeType === Node.ELEMENT_NODE) {
+					if (node.classList && (node.classList.contains('extraInfo') || node.classList.contains('extraInfoOL'))) {
+						return node;
+					}
+					// Return first element found (might be PRE without class)
+					return node;
+				}
+				node = node.nextSibling;
+			}
+			return null;
+		}
+
 		// Set all toggleButtons to display as "⤴️ hide"
 		document.querySelectorAll('.toggleButton').forEach(function (toggleButton) {
-			var extraInfo = toggleButton.nextElementSibling;
-			if (extraInfo.classList.contains('extraInfoOL')) {
-				extraInfo.style.display = 'block'; // Use block for OL elements
-			} else {
-				extraInfo.style.display = 'list-item'; // Keep list-item for UL elements
+			var extraInfo = findExtraInfoElement(toggleButton);
+			if (extraInfo) {
+				if (extraInfo.classList.contains('extraInfoOL')) {
+					extraInfo.style.display = 'block';
+				} else {
+					extraInfo.style.display = 'list-item';
+				}
+				toggleButton.textContent = '⤴️ hide';
 			}
-			toggleButton.textContent = '⤴️ hide';
 		});
 
 		document.body.addEventListener('click', function (event) {
 			if (event.target.className === 'toggleButton') {
-				var extraInfo = event.target.nextElementSibling;
-				if (extraInfo.style.display === 'none') {
-					if (extraInfo.classList.contains('extraInfoOL')) {
-						extraInfo.style.display = 'block'; // Use block for OL elements
+				var extraInfo = findExtraInfoElement(event.target);
+				if (extraInfo) {
+					if (extraInfo.style.display === 'none') {
+						if (extraInfo.classList.contains('extraInfoOL')) {
+							extraInfo.style.display = 'block';
+						} else {
+							extraInfo.style.display = 'list-item';
+						}
+						event.target.textContent = '⤴️ hide';
 					} else {
-						extraInfo.style.display = 'list-item'; // Keep list-item for UL elements
+						extraInfo.style.display = 'none';
+						event.target.textContent = '⤵️ show more';
 					}
-					event.target.textContent = '⤴️ hide';
-				} else {
-					extraInfo.style.display = 'none';
-					event.target.textContent = '⤵️ show more';
 				}
 				event.preventDefault();
 			}
