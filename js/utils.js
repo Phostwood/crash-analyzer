@@ -686,10 +686,14 @@ Utils.preProcessLogFile = function(logFile) {
     // Remove any leading or trailing whitespace
     //DISABLED SINCE CrashLogger and Trainwreck use significant indentations:  logFile = logFile.trim();
     
+    // Remove the first line if it starts with "CRASH TIME:"
+    logFile = logFile.replace(/^CRASH TIME:.*\r?\n/, '');
+    
     // Add more pre-processing steps here as needed
     
     return logFile;
 };
+
 
 
 

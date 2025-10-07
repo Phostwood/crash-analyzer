@@ -361,6 +361,7 @@ function checkForD6dddaEasyVersion(sections) {
             <ol>
                 <li>Corrupt Texture (.dds) or Mesh (.nif) Files:
                     <ol>
+                        <li>If you haven't already, upgrade your <a href="https://www.nexusmods.com/skyrimspecialedition/mods/17230">SSE Engine Fixes</a> to version Version 7.0.18 or greater, as it includes a fix to prevent many of these crashes. NOTE: Skyrim version 1.6.140 (and possibly others?) appears to not be supported yet.</li>
                         <li>Compare multiple crash logs if possible. If subsequent crashes list the same texture or mesh files (see "Advanced Users" section below), you likely have a corrupt texture file or, less commonly, a corrupt mesh. Once you've identified the problematic mod, try downloading it again before reinstalling, as the corruption may have occurred during the initial download. For more details, see the Texture Issues and Mesh Issues sections in this report (in the Advanced Users section, below).</li>
                     </ol>
                 </li>
@@ -387,6 +388,7 @@ function checkForD6dddaAdvancedVersion(sections) {
             <ol>
                  <li>Corrupt Texture (.dds) or Mesh (.nif) Files:
                     <ol>
+                        <li>If you haven't already, upgrade your <a href="https://www.nexusmods.com/skyrimspecialedition/mods/17230">SSE Engine Fixes</a> to version Version 7.0.18 or greater, as it includes a fix to prevent many of these crashes.</li>
                         <li>Compare multiple crash logs if possible. If subsequent crashes list the same texture or mesh files (see their own sections in "Advanced Users"), you likely have a corrupt texture file or, less commonly, a corrupt mesh. Once you've identified the problematic mod, try downloading it again before reinstalling, as the corruption may have occurred during the initial download.</li>
                         <li>If the source mod has a corrupted image file, you can try using <a href="https://www.nexusmods.com/skyrimspecialedition/mods/23316">Cathedral Assets Optimizer (CAO)</a> to repair potentially damaged texture/mesh/animation files. This tool can fix formatting issues and also optimize file sizes while maintaining visual quality.</li>
                         <li>If you identify a specific problematic image file in a source mod, contact the mod author for assistance or potential fixes.</li>
@@ -515,6 +517,8 @@ function checkForMissingMasters(sections) {
 
         diagnoses +=
             '<li><b>Identifying Missing Masters:</b> Mod Organizer 2 (MO2) typically displays warning icons (yellow triangle with exclamation mark) for plugins with missing masters. <a href="https://imgur.com/izlF0GO">View Screenshot</a>. Or alternately, check the <b>🔎 Files/Elements</b> section of this report and look at mods higher up the list, which could help isolate which mod might be missing something. Review the mod on Nexus and consider reinstalling any likely causal mods to see if you missed a patch or requirement.</li>' +
+
+            '<li><b>Advanced Users</b> can use <a href="https://www.nexusmods.com/skyrimspecialedition/mods/164">SSEEdit (xEdit)</a> to isolate missing dependencies.</li>' +
 
             '<li><b>Missing Dependency:</b> If you\'ve recently removed, disabled, or forgot to install a required mod, others may still depend on it. You might need to either install the missing dependency or remove its master requirement from dependent plugins. See this guide on <a href="https://github.com/LivelyDismay/Learn-To-Mod/blob/main/lessons/Remove%20a%20Master.md">Removing a Master Requirement</a>.</li>' +
 
@@ -3314,7 +3318,7 @@ function checkCommonModlistIssues(sections, hasUnlikelyErrorForAutoInstallerModl
 
                         <li>Sometimes it can help to <b>separate from your followers</b> to get past a crash point. Ask followers/pets/steeds to "wait" at a safe location, away from the crash-prone loading area (cell) ... and then collect them again later after getting past the crashing area.</li> 
 
-                        <li><b>Normal crash frequency:</b> Crashing less than every 4 hours usually isn't a large concern for any heavily modded Skyrim, especially if the modlist is straining the limits of your hardware. Even un-modded Skyrim crashes.
+                        <li><b>Normal crash frequency:</b> Unless multiple crash logs indicate a repeating pattern, crashing less than every 4 hours usually isn't a large concern for any heavily modded Skyrim, especially if the modlist is straining the limits of your hardware. Even un-modded Skyrim crashes.
                         </li>
 
                         <li><b>Significance:</b> Don't try to fix what might not be broken. If indications of the same issue don't repeat across multiple crash logs, they probably aren't significant.</li>
@@ -3480,7 +3484,7 @@ function checkTPoseAnimalCrash(sections) {
 
 
 
-// ⚠️ <b>Missing Creation Club Content Detected:
+// ⚠️ Missing Creation Club Content Detected:
 function checkMissingCreationClubContent(sections, hasMissingMasters) {
     Utils.debuggingLog(['checkMissingCreationClubContent'], `hasMissingMasters: ${hasMissingMasters}`);
     Utils.debuggingLog(['checkMissingCreationClubContent'], `sections.hasSkyrimAE: ${sections.hasSkyrimAE}`);
@@ -3489,6 +3493,8 @@ function checkMissingCreationClubContent(sections, hasMissingMasters) {
     let insights = '';
     let hasMissingCC = false;
     if (hasMissingMasters && (sections.hasSkyrimAE || !Utils.isSkyrimPage)) {
+        //NOTE: Nolvus has AE content even though not AE version (because it is downgraded)
+            // But otherwise, if not AE version, assume not downgraded, and assume no AE content is expected
         // Expected Creation Club files with titles (74 total CC files)
         const expectedCCFiles = {
             'ccasvsse001-almsivi.esm': 'Ghosts of the Tribunal',
@@ -3564,9 +3570,13 @@ function checkMissingCreationClubContent(sections, hasMissingMasters) {
             'ccrmssse001-necrohouse.esl': 'Gallows Hall',
             'ccedhsse003-redguard.esl': 'Redguard Elite Armaments',
             'cceejsse004-hall.esl': 'Hendraheim',
-            'cccbhsse001-gaunt.esl': 'Fearsome Fists',
-            '_ResourcePack.esl': '(shared CC resources)'
+            'cccbhsse001-gaunt.esl': 'Fearsome Fists'
         };
+
+        // Add _ResourcePack.esl only for Skyrim pages
+        if (Utils.isSkyrimPage) {
+            expectedCCFiles['_ResourcePack.esl'] = '(shared CC resources)';
+        }
 
         // Count CC files in the log
         const pluginsList = sections.gamePlugins.toLowerCase();
@@ -3588,8 +3598,8 @@ function checkMissingCreationClubContent(sections, hasMissingMasters) {
             //NOTE: it is possible to however have AE loaded, and purposefully not install the CC content. But all in all, this seemed the safest number?
             //NOTE: This truncated test is specific to the CC content ... other truncated booleans may have different cut off points relative to different standards
         
-        // Expected total CC files loaded by engine (base game + 74 CC files)
-        const expectedTotalFiles = 75; // 1 base + 74 CC
+        // Expected total CC files loaded by engine (base game + CC files)
+        const expectedTotalFiles = Utils.isSkyrimPage ? 75 : 74; // Skyrim: 1 base + 74 CC, Non-Skyrim: 74 CC only
         const foundCCCount = foundCCFiles.length;
         const missingCount = expectedTotalFiles - foundCCCount;
         const hasAllExpectedCCFiles = (foundCCCount === expectedTotalFiles);
@@ -3627,8 +3637,21 @@ function checkMissingCreationClubContent(sections, hasMissingMasters) {
                 insights += '<li>⚠️ <span id="missing-cc"><b>Missing Creation Club Content Detected:</b></span> '
             }
 
+            // Determine verification text based on page type
+            const vortexVerificationText = Utils.isSkyrimPage 
+                ? `<li><b>Vortex Users:</b> Check Vortex Plugins tab → Filter "Loaded by Engine" and verify ${expectedTotalFiles +5} total files (5 <code>.esm</code> + ${expectedTotalFiles -1} CC files + <code>_ResourcePack.esl</code>)</li>`
+                : ``;
+            
+            const mo2VerificationText = Utils.isSkyrimPage
+                ? `<li><b>MO2 Users:</b> Search for and verify (${expectedTotalFiles} related files  CC files + <code>_ResourcePack.esl</code>)</li>`
+                : `<li>Search for and verify ${expectedTotalFiles} CC files</li>`;
+            
+            const ccPrefixNote = Utils.isSkyrimPage
+                ? `<li>All CC files start with a "<code>cc</code>" prefix, except for the related <code>_ResourcePack.esl</code> file.</li>`
+                : `<li>All CC files start with a "<code>cc</code>" prefix.</li>`;
+
             insights +=
-                `If you own the Skyrim Anniversary Edition, with the inclusion of all the Creation Club (CC) content, and have any mods that expect CC content to be available, then missing CC content could be causing your Missing Masters issues. The fully downloaded Creation Club content should have ${expectedTotalFiles} Creation Club files loaded, but ${foundCCCount === 0 ? "zero" : "only " + foundCCCount} CC ${foundCCCount === 1 ? "file was" : "files were"} detected. ${isPluginsSectionTruncated ? ' However, your log file appears to have been cut short, so it\'s impossible to determine with confidence from this crash log.' : ''}.
+                `If you own the Skyrim Anniversary Edition, with the inclusion of all the Creation Club (CC) content, and have any mods that expect CC content to be available, then missing CC content could be causing your Missing Masters issue. The fully downloaded Creation Club content should have ${expectedTotalFiles} Creation Club files loaded, but ${foundCCCount === 0 ? "zero" : "only " + foundCCCount} CC ${foundCCCount === 1 ? "file was" : "files were"} detected. ${isPluginsSectionTruncated ? ' However, your log file appears to have been cut short, so it\'s impossible to determine with confidence from this crash log.' : ''}
                 <ul>
                     <li><b>Download Instructions:</b>
                         <ul>
@@ -3646,9 +3669,9 @@ function checkMissingCreationClubContent(sections, hasMissingMasters) {
                     </li>
                     <li><b>Verification:</b>
                         <ul>
-                            <li><b>Vortex Users:</b> Check Vortex Plugins tab → Filter "Loaded by Engine" and verify 80 total files (5 <code>.esm</code> + ${expectedTotalFiles - 1} CC files + <code>_ResourcePack.esl</code>)</li>
-                            <li><b>MO2 Users:</b> Search for and verify 75 related files  (${expectedTotalFiles - 1} CC files + <code>_ResourcePack.esl</code>)</li>
-                            <li>All CC files start with a "<code>cc</code>" prefix, except for the related <code>_ResourcePack.esl</code> file.</li>
+                            ${vortexVerificationText}
+                            ${mo2VerificationText}
+                            ${ccPrefixNote}
                             <li><a href="https://ck.uesp.net/wiki/Creation_Club_Content_by_Filename">Reference list</a></li>
                         </ul>
                     </li>
@@ -3677,6 +3700,7 @@ function checkMissingCreationClubContent(sections, hasMissingMasters) {
         hasMissingCC: hasMissingCC 
     };
 }
+
 
 
 
@@ -3755,19 +3779,19 @@ function checkCrashLoggerVersionUpdate(sections) {
     
     // Convert version format from "1-15-0-0" to "1.15.0.0" for comparison
     const foundVersion = versionMatch[1].replace(/-/g, '.');
-    const minimumVersion = "1.15.0.0";
+    const minimumVersion = "1.16.0.0";
     
-    // Compare versions - if found version is less than 1.15.0.0, recommend update
+    // Compare versions - if found version is less than 1.16.0.0, recommend update
     if (Utils.compareVersions(foundVersion, minimumVersion) < 0) {
         insights += `<li>⚠️ <b>Outdated CrashLogger SSE Detected:</b>
             You are using an outdated version of CrashLogger SSE (v${foundVersion}).
             <ul>
                 <li><b>Update recommended:</b> Download and install the latest version of <a href="https://www.nexusmods.com/skyrimspecialedition/mods/59818">Crash Logger SSE AE VR</a> from Nexus Mods</li>
                 <li>Newer versions include bug fixes and improved crash detection capabilities</li>
-                <li>Current version detected: <code>v${foundVersion}</code> (should be v1.15.0.0 or later)</li>
+                <li>Current version detected: <code>v${foundVersion}</code> (should be v${minimumVersion} or later)</li>
                 <li>Detected indicators: <a href="#" class="toggleButton">⤵️ show more</a><ul class="extraInfo" style="display:none">
                     <li>CrashLogger SSE version <code>${versionMatch[1]}</code> found in crash log header</li>
-                    <li>Minimum recommended version is <code>1.15.0.0</code></li>
+                    <li>Minimum recommended version is <code>${minimumVersion}</code></li>
                 </ul></li>
             </ul>
         </li>`;
@@ -3803,7 +3827,7 @@ function checkIntelCPUIssue(sections) {
                         <li>If the script doesn't work, make sure you include the entire line including the beginning ' character. You can also try alternative tools like <a href="https://www.hwinfo.com/" target="_blank">HWInfo</a>, <a href="https://www.cpuid.com/softwares/cpu-z.html" target="_blank">CPU-Z</a>, or the <a href="https://www.intel.com/content/www/us/en/support/articles/000055672/processors.html" target="_blank">Intel® Processor Identification Utility</a>.</li>
                     </ul>
                 </li>
-                <li><b>Critical BIOS update required:</b> Check your motherboard manufacturer's website for the latest BIOS/microcode update</li>
+                <li><b>Critical BIOS update required:</b> Check your motherboard manufacturer's website for the latest BIOS/microcode update. Windows Updates do <u>not</u> include the 13th/14th Gen instability microcode fixes.</li>
                 <li><b>Risk without update:</b> Random crashes during CPU-intensive gameplay and potential shortened processor lifespan</li>
                 <li><b>Update availability:</b> BIOS fixes are released by individual motherboard manufacturers — some may not have updates available</li>
                 <li><b>No BIOS update available?</b> You may still be able to apply a <i>software driver-level microcode update</i> that loads during Windows startup. This won’t permanently update your BIOS, but it ensures the CPU runs with the latest microcode each boot. See this community guide for details: <a href="https://www.reddit.com/r/GamingLaptops/comments/1engies/intelhow_to_update_your_microcode_for_intel_hx/" target="_blank">How to update your Intel microcode via driver</a>.</li>

@@ -12,6 +12,7 @@ And again, this analyzer is not intended to replace the invaluable expertise of 
 
 
 **Announcement links:**
+- [New Feature: 🎯 Highest-Confidence Indicators](https://www.reddit.com/r/Phostwood/comments/1nx0zfw/new_feature_highestconfidence_indicators/)
 - [New features and updates to Phostwood's Skyrim Crash Log Analyzer v1.25.4](https://www.reddit.com/r/skyrimmods/comments/1n1q9o7/new_features_and_updates_to_phostwoods_skyrim/)
 - [Imagine us manually analyzing 150 crash logs each day? If not, thank Phostwood's Crash Log Analyzer for its help.](https://www.reddit.com/r/skyrimmods/comments/1jfwuw1/imagine_us_manually_analyzing_150_crash_logs_each/)
 - [A Data-Driven Performance Review of My Crash Log Analyzer](https://www.reddit.com/r/skyrimmods/comments/1j44ezl/a_datadriven_performance_review_of_my_crash_log/)
