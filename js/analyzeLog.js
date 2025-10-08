@@ -259,7 +259,7 @@ async function analyzeLog() {
     // Check for KERNELBASE JSON Crash
     if (sections.firstLine.toLowerCase().includes('KERNELBASE.dll'.toLowerCase()) && sections.topHalf.includes('json.exception.parse_error')) {
         diagnoses += `<li>🎯 <b>KERNELBASE JSON Crash Detected:</b> Usually, this issue stems from one of three causes:<ol>
-            <li>Overwriting or reinstalling <b>SSE Engine Fixes</b> can cause the <code>MaxStdio</code> value to be set too low, which can lead to crashes in ${Utils.NolvusOrSkyrimText}. For example, an individual who reinstalled papermaps found that it reset their SSE Engine Fixes values. To fix this:<ol>
+            <li><b>For Engine Fixes prior to version 7:</b> Overwriting or reinstalling <b>SSE Engine Fixes</b> can cause the <code>MaxStdio</code> value to be set too low, which can lead to crashes in ${Utils.NolvusOrSkyrimText}. For example, an individual who reinstalled papermaps found that it reset their SSE Engine Fixes values. To fix this:<ol>
             <li>Open Mod Organizer 2 (MO2).</li>
             <li>In the "1.2 BUG FIXES & TWEAKS" section, right-click on "SSE Engine Fixes" and select "Information...".</li>
             <li>Click on the "Textfiles" tab.</li>
@@ -536,6 +536,14 @@ async function analyzeLog() {
     }
 
 
+    //⚠️ Low System RAM Detected:
+    const checkLowSystemRAMResult = checkLowSystemRAM(sections);
+    if(checkLowSystemRAMResult) {
+        diagnoses += checkLowSystemRAMResult;
+        diagnosesCount++;
+    }
+
+
     //⚠️ Outdated CrashLogger SSE Detected
     const checkCrashLoggerVersionUpdateResult = checkCrashLoggerVersionUpdate(sections);
     if(checkCrashLoggerVersionUpdateResult) {
@@ -548,6 +556,14 @@ async function analyzeLog() {
     const checkIntelCPUIssueResult = checkIntelCPUIssue(sections);
     if(checkIntelCPUIssueResult) {
         diagnoses += checkIntelCPUIssueResult;
+        diagnosesCount++;
+    }
+
+
+    //⚠️ Update Engine Fixes for Better Stability:
+    const checkEngineFixesUpdateResult = checkEngineFixesUpdate(sections);
+    if(checkEngineFixesUpdateResult) {
+        diagnoses += checkEngineFixesUpdateResult;
         diagnosesCount++;
     }
 

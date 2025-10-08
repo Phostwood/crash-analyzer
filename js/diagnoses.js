@@ -11,7 +11,7 @@ const reinstallEngineFixes = `
                 <li>Part 2: DLL files are manually placed into Skyrim folder</li>
             </ul>
         </li>
-        <li>Configure <code>EngineFixes.toml</code> with:
+        <li><b>For Engine Fixes prior to version 7:</b> Configure <code>EngineFixes.toml</code> with:
             <ul>
                 <li>Option 1 (Recommended): Download the <a href="https://www.nexusmods.com/skyrimspecialedition/mods/108069">pre-configured TOML file</a></li>
                 <li>Option 2: Manually configure following this <a href="https://www.reddit.com/r/skyrimmods/comments/tpmf8x/crash_on_load_and_save_corruption_finally_solved/">settings guide</a>. Verify/Edit these settings in <code>EngineFixes.toml</code> :
@@ -260,7 +260,15 @@ function generateDiagnosis(crashTitle, otherFiles, mostLikelyFile) {
         // NOTE: So, if version in log is even older, then it will also not be compatible with the most recent version of Skyrim
     const dllMostRecentVersion = dllVersionKeys[0]; // Get the latest version
     const compatData = dllCompatibleSkyrimVersionsMap[dllName][dllMostRecentVersion];
-    Utils.debuggingLog(['hasCompatibleDll', 'analyzeLog.js'], `dllName: ${dllName}, dllVersionFromLog: ${dllVersionFromLog}, skyrimVersion: ${skyrimVersion}, compatData: ${compatData}`);
+    Utils.debuggingLog(['hasCompatibleDll', 'analyzeLog.js'], `dllName: ${dllName}, dllVersionFromLog: ${dllVersionFromLog}, skyrimVersion: ${skyrimVersion}, compatData: ${JSON.stringify(compatData)}`);
+
+    // NEW: If log's DLL version is below ignoreVersionsBelow, then assume compatible and skip
+    if (compatData.ignoreVersionsBelow &&
+        Utils.compareVersions(dllVersionFromLog, compatData.ignoreVersionsBelow) < 0) {
+        Utils.debuggingLog(['hasCompatibleDll', 'analyzeLog.js'], 
+            `TRUE: ${dllName} v${dllVersionFromLog} is below ignoreVersionsBelow (${compatData.ignoreVersionsBelow}), ignoring`);
+        return true;
+    }
 
     
     //IF log's DLL version is newer than Map version, then assume compatibility
@@ -1500,7 +1508,7 @@ function analyzeBGSSaveLoadManagerIssue(sections) {
         const checkSaveFileSize = `
         <li>Try <a href="https://www.reddit.com/r/skyrimmods/comments/tpmf8x/crash_on_load_and_save_corruption_finally_solved/">expanding your save file size</a>. Then open the last save that works and play on from there, and hopefully, there will not be any more crashes. Requires the <b>HIGHLY RECOMMENDED</b> foundational mod <a href="https://www.nexusmods.com/skyrimspecialedition/mods/17230">SSE Engine Fixes</a>. Be sure to carefully install the correct versions of both Parts 1 and 2.
             <ul>
-                <li>Verify these settings in <code>EngineFixes.toml</code></li>
+                <li><b>For Engine Fixes prior to version 7:</b> Verify these settings in <code>EngineFixes.toml</code></li>
                 <ul>
                     <li><code>SaveGameMaxSize = true</code></li>
                     <li><code>MaxStdio = 8192</code></li>
@@ -3915,6 +3923,91 @@ function checkDeathDropOverhaulCrash(sections) {
                 <li><b>Fix details:</b> Version 1.2.2+ resolves crashes related to extra data processing in the inventory system</li>
                 <li>Detected indicators (${indicatorCount}/3): <a href="#" class="toggleButton">⤵️ show more</a><ul class="extraInfo" style="display:none">
                     ${indicators.map(indicator => `<li>${indicator}</li>`).join('')}
+                </ul></li>
+            </ul>
+        </li>`;
+    }
+    
+    return insights;
+}
+
+
+// ⚠️ Update Engine Fixes for Better Stability:
+function checkEngineFixesUpdate(sections) {
+    let insights = '';
+    const latestVersion = '7.0.19.0';
+    
+    if( !( sections.hasSkyrimSE1597 || sections.hasSkyrimAE1170 ) ){
+        Utils.debuggingLog(['checkEngineFixesUpdate'], `sections.hasSkyrimSE1597: ${sections.hasSkyrimSE1597}`);
+        Utils.debuggingLog(['checkEngineFixesUpdate'], `sections.hasSkyrimAE1170: ${sections.hasSkyrimAE1170}`);
+        return '';
+    }
+    // Check for ShadowSceneNode in top half of crash log
+    const hasShadowSceneNode = sections.topHalf && 
+        sections.topHalf.toLowerCase().includes('shadowscenenode');
+    Utils.debuggingLog(['checkEngineFixesUpdate'], `hasShadowSceneNode: ${hasShadowSceneNode}`);
+    
+    // Check Engine Fixes version
+    const engineFixesVersion = Utils.getDllVersionFromLog(sections, 'EngineFixes.dll');
+    Utils.debuggingLog(['checkEngineFixesUpdate'], `engineFixesVersion: ${engineFixesVersion}`);
+    
+    const hasOutdatedVersion = engineFixesVersion && 
+        Utils.compareVersions(engineFixesVersion, latestVersion) < 0;
+    Utils.debuggingLog(['checkEngineFixesUpdate'], `hasOutdatedVersion: ${hasOutdatedVersion}`);
+
+    const hasPreventableCrash = hasShadowSceneNode && (hasOutdatedVersion || !engineFixesVersion);
+    Utils.debuggingLog(['checkEngineFixesUpdate'], `hasPreventableCrash: ${hasPreventableCrash}`);
+    
+    // Only show if ShadowSceneNode detected AND Engine Fixes is outdated (or not detected)
+    if (hasOutdatedVersion || hasPreventableCrash) {
+        insights += `<li>⚠️ <b>Update Engine Fixes for Better Stability:</b>
+            Some ${hasPreventableCrash ? 'crashes of this type' : 'crash types'} may be prevented by updating SSE Engine Fixes to the latest version.
+            <ul>
+                <li><b>Action recommended:</b> Read instructions and carefully ${engineFixesVersion ? 'update' : 'install'} <a href="https://www.nexusmods.com/skyrimspecialedition/mods/17230" target="_blank">SSE Engine Fixes</a> to version ${latestVersion} or newer</li>
+                <li><b>Note:</b> While your Skyrim version ${sections.SkyrimVersion} should be compatilble, Skyrim version 1.6.140 (and potentially other versions) are not supported in the newer versions of Engine Fixes.</li>
+                <li>Detected indicators: <a href="#" class="toggleButton">⤵️ show more</a><ul class="extraInfo" style="display:none">
+                    ${hasPreventableCrash ? '<li><code>ShadowSceneNode</code> found in top half of crash log</li>' : ''}
+                    ${engineFixesVersion ? '<li><code>EngineFixes.dll v' + engineFixesVersion + '</code> (latest version is v' + latestVersion + ' or newer)</li>' :''}
+                </ul></li>
+            </ul>
+        </li>`;
+    }
+    
+    return insights;
+}
+
+
+
+// ⚠️ Low System RAM Detected:
+function checkLowSystemRAM(sections) {
+    let insights = '';
+    
+    // Check system physical memory
+    const systemRAM = sections.systemPhysicalMemoryMax;
+    Utils.debuggingLog(['checkLowSystemRAM'], `systemRAM: ${systemRAM}`);
+    
+    if (!systemRAM) {
+        return insights;
+    }
+    
+    if (systemRAM <= 16) {
+        const isVeryLowRAM = systemRAM <= 8;
+        
+        insights += `<li>⚠️ <b>${isVeryLowRAM ? 'Very ' : ''}Low System RAM Detected (${systemRAM}GB):</b>
+            Your system has limited RAM, which can cause crashes and instability in heavily-modded Skyrim.
+            <ul>
+                <li><b>Configure Windows Pagefile:</b> Set a <a href="https://www.nolvus.net/appendix/pagefile">custom pagefile</a> (nolvus.net link, but broadly applicable) with minimum 20,000 MB (ideally 40,000 MB) and maximum 40,000 MB to help compensate for limited RAM. While the pagefile is important to Skyrim with any amount of RAM, it is especialy important with 16GB or less.</li>
+                <li><b>Close background applications:</b> Before launching Skyrim, close all unnecessary programs to free up as much RAM as possible</li>
+                ${isVeryLowRAM ? `<li><b>System Requirements:</b> Steam's recommended spec for un-modded Skyrim is 8GB RAM. Your system is at or below the recommended for the base game</li>
+                <li><b>Mod Selection Guidelines:</b> With ${systemRAM}GB of RAM, you need to be extremely selective with mods:
+                    <ul>
+                        <li>Choose lightweight mods and avoid resource-intensive options</li>
+                        <li><b>Skip entirely:</b> Physics mods, ENB, Community Shaders, heavy lighting overhauls, and other performance-intensive modifications</li>
+                        <li>Focus on gameplay and content mods rather than visual enhancements</li>
+                    </ul>
+                </li>` : ''}
+                <li>Detected indicators: <a href="#" class="toggleButton">⤵️ show more</a><ul class="extraInfo" style="display:none">
+                    <li>PHYSICAL MEMORY: <code>${systemRAM}GB</code> (${isVeryLowRAM ? '8' : '16'}GB or less)</li>
                 </ul></li>
             </ul>
         </li>`;

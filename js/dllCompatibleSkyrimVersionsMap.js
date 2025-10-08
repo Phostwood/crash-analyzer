@@ -15,6 +15,7 @@ const dllCompatibleSkyrimVersionsMap = {
             minSkyrim: null, // unknown
             maxSkyrim: '1.6.1129.9999',
             recommendedVersion: '1.5.1',
+            ignoreVersionsBelow: '1.3.2',
             modName: 'ConsoleUtilSSE NG',
             url: 'https://www.nexusmods.com/skyrimspecialedition/mods/76649',
             note: 'NOTE: this mod completely replaces the old ConsoleUtil mod. Be sure to disable the old one.<br>⚠️NOTE: If you are using <a href ="https://www.nexusmods.com/skyrimspecialedition/mods/133569">ConsoleUtil Extended</a> version 1.0.1, it <b>is compatible</b>, but shows up in crash logs exactly like an old versions of Console Util SSE'
@@ -117,7 +118,7 @@ const dllCompatibleSkyrimVersionsMap = {
             recommendedVersion: '1.0.0',
             modName: 'SkyClimb 1.6.1170 Fix',
             url: 'https://www.nexusmods.com/skyrimspecialedition/mods/124203',
-            note: 'NOTE: place after the original in your <b>load order</b>'
+            note: 'NOTE: place after the original in your load order. <b>Or alternately</b> (recommended) switch to <a href="https://www.nexusmods.com/skyrimspecialedition/mods/132292">SkyParkour</a>.'
         }
     }
     

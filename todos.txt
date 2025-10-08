@@ -1,29 +1,50 @@
-✅Version 1.26.7 is now live:
+✅Version 1.26.8 is now live:
 https://phostwood.github.io/crash-analyzer/
 
+1. ✅ new test: ⚠️ Update Engine Fixes for Better Stability:
+	- update recommendation for [SSE Engine Fixes](https://www.nexusmods.com/skyrimspecialedition/mods/17230) when "ShadowSceneNode" is detected ... or just an old version of Engine Fixes
+	- test for current version of Engine Fixes if listed
+	- Thank Demo and SpinPigeon
+	- needs more testing
 
-1. ✅⚠️ Intel 13th/14th Gen CPU Instability Risk:
-	- ✅ ADDED: "Windows Updates do <u>not</u> include the 13th/14th Gen instability microcode fixes."
-	- Thanks Lakoor!
+2. ✅ new test: ⚠️ Low System RAM Detected (15.93GB):
+	- Stress importance of pagefile. min 40,000 (at least 20,000) max 40,000
+	- Close all other applications before launching Skyrim to free up as much RAM as possible
+	- If 8GB or less mention
+		- Steam’s minimum/recommended specs for un-modded Skyrim
+		- advise being extra choosy with mod selection
+		- advise completely skipping: physics, ENB, CS, heavy lighting mods, etc.
+		
+3. ✅ BUG FIX: Change Console Utilities version to 1.4?
+	- Add new field (and make it functional):
+		-ignoreVersionsBelow: '1.3.2',
+	- Thank SieurPersil
+	- https://www.reddit.com/r/Phostwood/comments/1nuqc45/console_utilities_extended/
 
-2. ✅❗ D6DDDA Crash Detected:
-	- ✅ ADDED: <li>If you haven't already, upgrade your <a href="https://www.nexusmods.com/skyrimspecialedition/mods/17230">SSE Engine Fixes</a> to version Version 7.0.18 or greater, as it includes a fix to prevent many of these crashes.</li>
-		- ✅Mention not working with 1.6.140
-	- Thanks Demo!
+4. ✅ Updated Engine Fixes instructions:
+	- ✅Inserted "<b>For Engine Fixes prior to version 7:</b>"
+	- https://www.reddit.com/r/Phostwood/comments/1o0xagt/help_with_new_install_instructions_for_engine/
+		- Thank RomatebitegeL
 
-3. ✅⚠️ Missing Creation Club Content Detected:
-	- ✅ When Nolvus page, removed _ResourcePack.esl from check
-	- Thanks Demo!
-
-4. ✅⚠️ Outdated CrashLogger SSE Detected:
-	- ✅ Updated to 1.16.0.0 released October 7 (today)
-	- ✅ Also now strips out first line "CRASH TIME:" if in crash log, to keep existing code compatible (the rest of CrashLogger's changes seem to be already compatible?)
+5. ✅ SkyClimb.dll
+	- ✅ added: <b>Or alternately</b> (recommended) switch to <a href="https://www.nexusmods.com/skyrimspecialedition/mods/132292">SkyParkour</a>
 
 
+6. ✅ Utils.getLogType()
+	- Fixed bug with Crash Logger SSE v1.16.0 (created yesterday)
+	- Seemed to work without this working? But Still want it fixed just in case...
 
 
 
 --- Next version? ---
+
+1. New test for NetScriptFramework log, where I recommend switching to Crash Logger SSE
+
+2. 🎯 Highest-Confidence Indicators:
+	- add firstLine crash to summary when significant indicators found
+	- maybe remove Probable Call Stack and Registers when no significant indicators?
+
+---
 
 3. TODO: Update Test Log for the newer tests
 

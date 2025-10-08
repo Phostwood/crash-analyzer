@@ -36,8 +36,7 @@ Utils.isDebugging = false; // Set this to false to disable debugging (non-error)
 //Utils.debugBatch = ['Utils.FilenamesTracker'];
 //Utils.debugBatch = ['disableAnalyzeButtonAndTrackUniqueCrashLogCount'];
 
-Utils.debugBatch = ['checkDeathDropOverhaulCrash'];
-
+Utils.debugBatch = ['checkEngineFixesUpdate'];
 
 
 Utils.isSkyrimPage = window.location.href.toLowerCase().includes('skyrim.html');
@@ -303,6 +302,11 @@ testCompareVersions();
 
 
 Utils.getSkyrimVersion = function(sectionHeader) {
+    if (!sectionHeader || typeof sectionHeader !== 'string') {
+        console.warn('ERROR: sectionHeader is missing or not a string.');
+        return null;
+    }
+
     const lowerCaseLog = sectionHeader.toLowerCase();
     let version = null;
 
@@ -369,6 +373,22 @@ Utils.hasSkyrimAE1170 = function(sectionHeader) {
     Utils.debuggingLog(['hasSkyrimAE1170'], 'hasSkyrimAE1170 flag set to:', hasSkyrimAE1170);
     return hasSkyrimAE1170;
 };
+
+/* UNUSED:
+Utils.hasSkyrimAE140 = function(sectionHeader) {
+    if (Utils.hasSkyrimAE(sectionHeader) && !Utils.hasSkyrimAE1170(sectionHeader)) {
+        return true;
+    } else {
+        return false;
+    }
+};
+*/
+
+Utils.hasSkyrimSE1597 = function(sectionHeader) {
+    const version = Utils.getSkyrimVersion(sectionHeader);
+    return version === '1.5.97' || version === '1.5.97.0';
+};
+
 
 
 Utils.pluginChecker = function(crashLog, plugins) {
@@ -557,7 +577,7 @@ Utils.getLogType = function(lines) {
     if (lines.length > 2 && lines[2].includes('NetScriptFramework')) {
         Utils.debuggingLog(['getLogType'], 'Detected NetScriptFramework log');
         return 'NetScriptFramework';
-    } else if (lines.length > 1 && lines[1].includes('CrashLoggerSSE')) {
+    } else if (lines.length > 1 && (lines[1].includes('CrashLoggerSSE') || lines[2].includes('CrashLoggerSSE'))) {
         Utils.debuggingLog(['getLogType'], 'Detected CrashLogger log');
         return 'CrashLogger';
     } else if (lines.length > 1 && lines[1].toLowerCase().includes('trainwreck')) {
@@ -1037,7 +1057,8 @@ Utils.getLogSectionsMap = function(logFile) {
     //wrong way to set since not already set before?: sectionsMap.set('hasNewEslSupport', Utils.hasNewEslSupport(sections.header));
     sections.hasSkyrimAE1170 = this.hasSkyrimAE1170(sections.header);
     //wrong way to set since not already set before?: sectionsMap.set('hasSkyrimAE1170', Utils.hasSkyrimAE1170(sections.header));
-
+    sections.hasSkyrimSE1597 = this.hasSkyrimSE1597(sections.header);
+    sections.SkyrimVersion = this.getSkyrimVersion(sections.header);
 
     sections.secondLine = this.logLines[1];
     sections.thirdLine = this.logLines[2];
