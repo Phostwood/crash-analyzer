@@ -15,6 +15,12 @@ function highestPriorityIndicators(sections) {
   
   let report = `<li><b>🎯 Highest-Confidence Indicators:</b> Many crash logs may appear to have multiple possible causes, but this crash log summary can usually help isolate the most likely cause. Below is a "de-noised" and deduped view of the what are typically the most important sections in most crash logs. Entries near the top generally being more significant than those below. Cross-reference these with the "🔎 Files/Elements" above and the listed "Detected indicators" below in this report for additional context. <b>Notes:</b> (<b>1</b>) While these are usually excellent starting points, they won't always point to the cause. (<b>2</b>) Some lines may be especially long and may require scrolling side-to-side to see in full. <a href="#" class="toggleButton">⤵️ show more</a><br><br><pre class="extraInfo" style="display:none;"><code>`;
   
+  // Process first error line, but only display if significant indicators found
+  if (sections.firstLine) {
+    const cleaned = stripNoise(sections.firstLine);
+    report += cleaned ? 'Summarized <b>First-Line Error:</b>\n' + cleaned + '\n\n' : ''; 
+  }
+
   // Process STACK section (first 300 lines only)
   if (hasStack) {
     report += 'Summarized top of <b>STACK:</b>\n';
@@ -102,6 +108,8 @@ function stripNoise(text) {
       content = content.replace(/\[int:.*?\]/g, '');
       content = content.replace(/\[[0-9]+\]/g, '');
       content = content.replace(/->\s*\d+/g, '');
+      content = content.replace(/Unhandled exception\s+"EXCEPTION_ACCESS_VIOLATION"\s+at\s*/i, '');
+
       
       // Remove assembly instructions
       //content = content.replace(/\b(mov|movups|movss|sbb|xor|lea|sub|ret|jmp|je|jne|cmp)\b.*/gi, ''); // excluded and, or, test, and other standalone words

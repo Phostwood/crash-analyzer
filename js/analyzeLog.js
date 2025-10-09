@@ -598,6 +598,12 @@ async function analyzeLog() {
     }
     
 
+    //⚠️ Skyrim NetScriptFramework Legacy Notice
+    const checkNetScriptFrameworkStatusResult = checkNetScriptFrameworkStatus(sections);
+    if(checkNetScriptFrameworkStatusResult) {
+        diagnoses += checkNetScriptFrameworkStatusResult;
+        diagnosesCount++;
+    }
 
     
     Utils.debuggingLog(['checkForNolvusModlist'], 'sections.gamePlugins:', sections.gamePlugins);
@@ -609,7 +615,7 @@ async function analyzeLog() {
 
     // Default to unknown crash
     if (diagnosesCount < 1) {
-        diagnoses += generateNoCrashDetectedMessage();
+        diagnoses += generateNoCrashDetectedMessage(sections);
         //DON'T COUNT: diagnosesCount++;
     }
 

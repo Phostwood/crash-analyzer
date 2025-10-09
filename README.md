@@ -27,10 +27,10 @@ Both share 98% of the same code, and both have graduated from beta. Usage requir
 2. [Phostwood's Skyrim Crash Log Analyzer](https://phostwood.github.io/crash-analyzer/skyrim.html)
 
 **Current Usage:**
-1. Daily average of almost 200 unique users viewing nearly 300 crash logs
-2. Current weekly unique users: 908
-3. Last 30 days unique users: 3,300
-4. Total Unique Users users since started gathering Google Analytics (April 10, 2024): 21,000K
+1. Daily average of around 200 unique users viewing nearly 300 crash logs
+2. Current weekly unique users: 1K
+3. Last 30 days unique users: 3,3K
+4. Total Unique Users users since started gathering Google Analytics (April 10, 2024): 23,000K
 
 **Please support:**
 

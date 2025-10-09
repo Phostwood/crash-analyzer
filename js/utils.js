@@ -390,6 +390,19 @@ Utils.hasSkyrimSE1597 = function(sectionHeader) {
 };
 
 
+Utils.hasEngineFixesPre7 = function(sections) {
+    // Check Engine Fixes version
+    const engineFixesVersion = Utils.getDllVersionFromLog(sections, 'EngineFixes.dll');
+    Utils.debuggingLog(['checkEngineFixesUpdate'], `engineFixesVersion: ${engineFixesVersion}`);
+    
+    const hasEngineFixesPre7Result = engineFixesVersion && 
+    Utils.compareVersions(engineFixesVersion, '7') < 0;
+    Utils.debuggingLog(['checkEngineFixesUpdate'], `hasEngineFixesPre7Result: ${hasEngineFixesPre7Result}`);
+
+    return hasEngineFixesPre7Result;
+};
+
+
 
 Utils.pluginChecker = function(crashLog, plugins) {
     const lowerCaseLog = crashLog.toLowerCase();
@@ -1059,6 +1072,7 @@ Utils.getLogSectionsMap = function(logFile) {
     //wrong way to set since not already set before?: sectionsMap.set('hasSkyrimAE1170', Utils.hasSkyrimAE1170(sections.header));
     sections.hasSkyrimSE1597 = this.hasSkyrimSE1597(sections.header);
     sections.SkyrimVersion = this.getSkyrimVersion(sections.header);
+    sections.hasEngineFixesPre7 = this.hasEngineFixesPre7(sections);
 
     sections.secondLine = this.logLines[1];
     sections.thirdLine = this.logLines[2];

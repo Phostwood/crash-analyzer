@@ -3,26 +3,38 @@
 // --- Shared Constants ---
 const verifyWindowsPageFileListItem = `💾 Verify your <a href="https://www.nolvus.net/appendix/pagefile">Windows Pagefile is properly configured</a> (nolvus.net link, but broadly applicable). The most common stability-focused recommendation is expanding the Pagefile's minimum and maximum to 40GB (or <a href="https://www.thewindowsclub.com/best-page-file-size-for-64-bit-versions-of-windows">potentially more</a> if you have more RAM, and/or play with an especially heavy modlist). ⚠️NOTE: some sources say Skyrim's engine was programmed to require Pagefile usage even when there is more than enough RAM available. To be on the safe side, ensure your Pagefile settings even if you somehow have a terrabyte of RAM.`;
 
-const reinstallEngineFixes = `
-    <!--<ul>-->
-        <li>WARNING: <a href="https://www.nexusmods.com/skyrimspecialedition/mods/17230">SSE Engine Fixes</a> is <strong>frequently misinstalled</strong>, so be careful to follow instructions on its Nexus page to install BOTH parts:
-            <ul>
-                <li>Part 1: The SKSE plugin. Be sure to download the current and correct version of Engine Fixes, for your version of Skyrim, and install with your mod manager</li>
-                <li>Part 2: DLL files are manually placed into Skyrim folder</li>
-            </ul>
-        </li>
-        <li><b>For Engine Fixes prior to version 7:</b> Configure <code>EngineFixes.toml</code> with:
-            <ul>
-                <li>Option 1 (Recommended): Download the <a href="https://www.nexusmods.com/skyrimspecialedition/mods/108069">pre-configured TOML file</a></li>
-                <li>Option 2: Manually configure following this <a href="https://www.reddit.com/r/skyrimmods/comments/tpmf8x/crash_on_load_and_save_corruption_finally_solved/">settings guide</a>. Verify/Edit these settings in <code>EngineFixes.toml</code> :
+function reinstallEngineFixesInstructions (sections) {
+
+    const reinstallEngineFixes = `
+        <!--<ul>-->
+            <li>WARNING: <a href="https://www.nexusmods.com/skyrimspecialedition/mods/17230">SSE Engine Fixes</a> is <strong>frequently misinstalled</strong>, so be careful to follow instructions on its Nexus page to install BOTH parts:
+                <ul>
+                    <li>Part 1: The SKSE plugin. Be sure to download the current and correct version of Engine Fixes, for your version of Skyrim, and install with your mod manager</li>
+                    <li>Part 2: DLL files are manually placed into Skyrim folder</li>
+                </ul>
+            </li>
+            ${sections.hasEngineFixesPre7 ? `
+                <li><b>For Engine Fixes prior to version 7:</b> Configure <code>EngineFixes.toml</code> with:
                     <ul>
-                        <li><code>SaveGameMaxSize = true</code></li>
-                        <li><code>MaxStdio = 8192</code></li>
+                        <li>Option 1: Download the <a href="https://www.nexusmods.com/skyrimspecialedition/mods/108069">pre-configured TOML file</a></li>
+                        <li>Option 2: Manually configure following this <a href="https://www.reddit.com/r/skyrimmods/comments/tpmf8x/crash_on_load_and_save_corruption_finally_solved/">settings guide</a>. Verify/Edit these settings in <code>EngineFixes.toml</code> :
+                            <ul>
+                                <li><code>SaveGameMaxSize = true</code></li>
+                                <li><code>MaxStdio = 8192</code></li>
+                            </ul>
+                        </li>
+                        ${sections.hasSkyrimAE1170 || sections.hasSkyrimSE1597 ? `
+                            <li>Option 3 (Recommended): Upgrade to latest version 7 of Engine Fixes for more bug fixes and better stability.</li>
+                        ` : ''}
                     </ul>
                 </li>
-            </ul>
-        </li>
-    <!--</ul>-->`;
+            ` : ''}
+        <!--</ul>-->
+    `;
+
+    return reinstallEngineFixes;
+}
+
 
 
 //NonESL Plugins Count Warning
@@ -518,7 +530,7 @@ function checkForMissingMasters(sections) {
             diagnoses += `
             <li><b>Consider reinstalling:</b> <b>SSE Engine Fixes</b> <a href="#" class="toggleButton">⤵️ show more</a>
                 <ul class="extraInfo" style="display:none">
-                    ${reinstallEngineFixes}
+                    ${reinstallEngineFixesInstructions(sections)}
                 </ul>
             </li>`;
         }
@@ -1507,13 +1519,18 @@ function analyzeBGSSaveLoadManagerIssue(sections) {
     if (sections.topHalf.toLowerCase().includes('BGSSaveLoadManager'.toLowerCase())) {
         const checkSaveFileSize = `
         <li>Try <a href="https://www.reddit.com/r/skyrimmods/comments/tpmf8x/crash_on_load_and_save_corruption_finally_solved/">expanding your save file size</a>. Then open the last save that works and play on from there, and hopefully, there will not be any more crashes. Requires the <b>HIGHLY RECOMMENDED</b> foundational mod <a href="https://www.nexusmods.com/skyrimspecialedition/mods/17230">SSE Engine Fixes</a>. Be sure to carefully install the correct versions of both Parts 1 and 2.
-            <ul>
-                <li><b>For Engine Fixes prior to version 7:</b> Verify these settings in <code>EngineFixes.toml</code></li>
+            ${sections.hasEngineFixesPre7 ? `
                 <ul>
-                    <li><code>SaveGameMaxSize = true</code></li>
-                    <li><code>MaxStdio = 8192</code></li>
+                    <li><b>For Engine Fixes prior to version 7:</b> Verify these settings in <code>EngineFixes.toml</code></li>
+                    <ul>
+                        <li><code>SaveGameMaxSize = true</code></li>
+                        <li><code>MaxStdio = 8192</code></li>
+                    </ul>
+                    ${sections.hasSkyrimAE1170 || sections.hasSkyrimSE1597 ? `
+                        <li>Or alternately, (recommended) upgrade to latest version 7 of Engine Fixes for more bug fixes and better stability.</li>
+                    ` : ''}
                 </ul>
-            </ul>
+            ` : ''}
         </li>`;
 
         insights += `
@@ -1733,7 +1750,7 @@ function analyzeEngineFixes(sections) {
                 
                 <li><strong>Required Steps:</strong>
                     <ul>
-                        ${reinstallEngineFixes}
+                        ${reinstallEngineFixesInstructions(sections)}
                     </ul>
                 </li>
 
@@ -1851,7 +1868,7 @@ function analyzeStringsCrash(sections) {
 
 
 //❓No highest-confidence crash indicators detected.
-function generateNoCrashDetectedMessage() {
+function generateNoCrashDetectedMessage(sections) {
     let diagnoses = '<li>❓ <b>No highest-confidence crash indicators detected.</b><ul>';
 
     if (Utils.isSkyrimPage) {
@@ -1871,7 +1888,7 @@ function generateNoCrashDetectedMessage() {
                 </li>
                 <li>🔧Verify that you have already correctly installed and configured <b>SSE Engine Fixes</b>: <a href="#" class="toggleButton">⤵️ show more</a>
                     <ul class="extraInfo" style="display:none">
-                        ${reinstallEngineFixes}
+                        ${reinstallEngineFixesInstructions(sections)}
                     </ul>
                 </li>
                 <li>Towards isolating the cause, try individually disabling any mods listed in the "🔎 <b>Files/Elements</b>" section of this report (see below). Be mindful of any dependencies when doing so. Generally either test with a new character, and/or avoid saving while testing with an existing character.</li>
@@ -2587,7 +2604,7 @@ function analyzeWheelerCrash(sections, logFile) {
         insights += `<li>❗ <b>Wheeler Issue Detected:</b><ol>
             <li><b>First,</b> install the <a href="https://www.nexusmods.com/skyrimspecialedition/mods/132074">Wheeler CTD-Fix mod</a> to potentially resolve crashes associated with the Wheeler mod.</li>
             <li><b>However,</b> if the Wheeler CTD-Fix mod is already installed but you are still seeing this crash, <b>Consider reinstalling:</b> <a href="https://www.nexusmods.com/skyrimspecialedition/mods/17230">SSE Engine Fixes</a>
-                ${reinstallEngineFixes}
+                ${reinstallEngineFixesInstructions(sections)}
                 <li>Detected indicators: <a href="#" class="toggleButton">⤵️ show more</a><ul class="extraInfo" style="display:none">
                     <li><code>wheeler.dll</code> - detected in top quarter sections of crash log</li>
                     <li><code>EngineFixes.dll</code> - already installed</li>
@@ -2846,7 +2863,7 @@ function analyzeFirstLineEngineFixesCrash(sections) {
     if (sections.firstLine.toLowerCase().includes('EngineFixes.dll'.toLowerCase())) {  // If we found it in either location
         diagnoses += `
             <li>❗ <b>First-Line Engine Fixes Issue:</b> Engine Fixes in the first error line of the crash log may indicate an improperly installed Engine Fixes mod, or that a mod which uses it may have an incompatibility.
-                ${reinstallEngineFixes}
+                ${reinstallEngineFixesInstructions(sections)}
                 <ul>
                     <li>If confident Engine Fixes is correctly installed, but issue reoccurs, attempt to isolate conflicting mod by temporarily disabling mods (one-by-one, or in shrinking groups) which show up in the <b>🔎 Files/Elements</b> section of this report</li>
                 </ul>
@@ -3659,7 +3676,7 @@ function checkMissingCreationClubContent(sections, hasMissingMasters) {
                 : `<li>All CC files start with a "<code>cc</code>" prefix.</li>`;
 
             insights +=
-                `If you own the Skyrim Anniversary Edition, with the inclusion of all the Creation Club (CC) content, and have any mods that expect CC content to be available, then missing CC content could be causing your Missing Masters issue. The fully downloaded Creation Club content should have ${expectedTotalFiles} Creation Club files loaded, but ${foundCCCount === 0 ? "zero" : "only " + foundCCCount} CC ${foundCCCount === 1 ? "file was" : "files were"} detected. ${isPluginsSectionTruncated ? ' However, your log file appears to have been cut short, so it\'s impossible to determine with confidence from this crash log.' : ''}
+                `If you own the Skyrim Anniversary Edition, with the inclusion of all the Creation Club (CC) content, and have any mods that expect CC content to be available, then missing CC content could be causing your Missing Masters issue. The fully downloaded Creation Club content should have ${expectedTotalFiles} Creation Club files loaded, but ${foundCCCount === 0 ? "zero" : "only " + foundCCCount} CC ${foundCCCount === 1 ? "file was" : "files were"} detected. ${isPluginsSectionTruncated ? ' However, your log file appears to have been cut short, so it\'s impossible to determine with confidence from this crash log.' : 'NOTE: some log files are cut short before listing all the CC content, so this message could be incorrect.'}
                 <ul>
                     <li><b>Download Instructions:</b>
                         <ul>
@@ -3964,7 +3981,6 @@ function checkEngineFixesUpdate(sections) {
             Some ${hasPreventableCrash ? 'crashes of this type' : 'crash types'} may be prevented by updating SSE Engine Fixes to the latest version.
             <ul>
                 <li><b>Action recommended:</b> Read instructions and carefully ${engineFixesVersion ? 'update' : 'install'} <a href="https://www.nexusmods.com/skyrimspecialedition/mods/17230" target="_blank">SSE Engine Fixes</a> to version ${latestVersion} or newer</li>
-                <li><b>Note:</b> While your Skyrim version ${sections.SkyrimVersion} should be compatilble, Skyrim version 1.6.140 (and potentially other versions) are not supported in the newer versions of Engine Fixes.</li>
                 <li>Detected indicators: <a href="#" class="toggleButton">⤵️ show more</a><ul class="extraInfo" style="display:none">
                     ${hasPreventableCrash ? '<li><code>ShadowSceneNode</code> found in top half of crash log</li>' : ''}
                     ${engineFixesVersion ? '<li><code>EngineFixes.dll v' + engineFixesVersion + '</code> (latest version is v' + latestVersion + ' or newer)</li>' :''}
@@ -4009,6 +4025,31 @@ function checkLowSystemRAM(sections) {
                 <li>Detected indicators: <a href="#" class="toggleButton">⤵️ show more</a><ul class="extraInfo" style="display:none">
                     <li>PHYSICAL MEMORY: <code>${systemRAM}GB</code> (${isVeryLowRAM ? '8' : '16'}GB or less)</li>
                 </ul></li>
+            </ul>
+        </li>`;
+    }
+    
+    return insights;
+}
+
+
+// ⚠️ Skyrim NetScriptFramework Legacy Notice
+function checkNetScriptFrameworkStatus(sections) {
+    let insights = '';
+    
+    // Check if header contains NetScriptFramework indicator
+    if (!sections.header) {
+        return insights;
+    }
+    
+    const header = sections.header;
+    const hasNetScriptFramework = /NetScriptFramework|NSF/.test(header);
+    
+    if (hasNetScriptFramework) {
+        insights += `<li>⚠️ <b>Legacy Crash Logging Mod Detected:</b>
+            <a href="https://www.nexusmods.com/skyrimspecialedition/mods/21294">NetScriptFramework</a> (NSF) was last updated in <b>October 2021</b> and no longer supports recent Skyrim versions. This analyzer still supports it, but new features won't include NSF-specific development. <b>Better alternative:</b> <a href="https://www.nexusmods.com/skyrimspecialedition/mods/59818" target="_blank">Crash Logger SSE</a> is actively maintained and supports SSE/AE/VR Skyrim versions. <a href="#" class="toggleButton">⤵️ show more</a><ul class="extraInfo" style="display:none">
+                <li><b>Why switch:</b> Access to all analyzer features, full version compatibility, and active development.</li>
+                <li><b>Recommendation:</b> Switch to <a href="https://www.nexusmods.com/skyrimspecialedition/mods/59818" target="_blank">Crash Logger SSE</a>. Migration is straightforward, just install it, and disable other crash logging mods. New crash logs will be output to: <code>[Skyrim_Directory]\\Data\\SKSE\\Plugins\\NetScriptFramework\\Crash</code> ... replacing <code>[Skyrim_Directory]</code> with your actual Skyrim installation directory path.</li>
             </ul>
         </li>`;
     }
