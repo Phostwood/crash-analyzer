@@ -2604,11 +2604,13 @@ function analyzeWheelerCrash(sections, logFile) {
         insights += `<li>❗ <b>Wheeler Issue Detected:</b><ol>
             <li><b>First,</b> install the <a href="https://www.nexusmods.com/skyrimspecialedition/mods/132074">Wheeler CTD-Fix mod</a> to potentially resolve crashes associated with the Wheeler mod.</li>
             <li><b>However,</b> if the Wheeler CTD-Fix mod is already installed but you are still seeing this crash, <b>Consider reinstalling:</b> <a href="https://www.nexusmods.com/skyrimspecialedition/mods/17230">SSE Engine Fixes</a>
-                ${reinstallEngineFixesInstructions(sections)}
-                <li>Detected indicators: <a href="#" class="toggleButton">⤵️ show more</a><ul class="extraInfo" style="display:none">
+                <ul>
+                    ${reinstallEngineFixesInstructions(sections)}
+                </ul>
+            <li>Detected indicators: <a href="#" class="toggleButton">⤵️ show more</a><ul class="extraInfo" style="display:none">
                     <li><code>wheeler.dll</code> - detected in top quarter sections of crash log</li>
                     <li><code>EngineFixes.dll</code> - already installed</li>
-                </ul></li>
+            </ul></li>
             </li>
         </ol></li>
         `;
@@ -2863,8 +2865,8 @@ function analyzeFirstLineEngineFixesCrash(sections) {
     if (sections.firstLine.toLowerCase().includes('EngineFixes.dll'.toLowerCase())) {  // If we found it in either location
         diagnoses += `
             <li>❗ <b>First-Line Engine Fixes Issue:</b> Engine Fixes in the first error line of the crash log may indicate an improperly installed Engine Fixes mod, or that a mod which uses it may have an incompatibility.
-                ${reinstallEngineFixesInstructions(sections)}
                 <ul>
+                    ${reinstallEngineFixesInstructions(sections)}
                     <li>If confident Engine Fixes is correctly installed, but issue reoccurs, attempt to isolate conflicting mod by temporarily disabling mods (one-by-one, or in shrinking groups) which show up in the <b>🔎 Files/Elements</b> section of this report</li>
                 </ul>
             </li>`;

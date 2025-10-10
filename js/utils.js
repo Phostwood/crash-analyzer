@@ -395,8 +395,8 @@ Utils.hasEngineFixesPre7 = function(sections) {
     const engineFixesVersion = Utils.getDllVersionFromLog(sections, 'EngineFixes.dll');
     Utils.debuggingLog(['checkEngineFixesUpdate'], `engineFixesVersion: ${engineFixesVersion}`);
     
-    const hasEngineFixesPre7Result = engineFixesVersion && 
-    Utils.compareVersions(engineFixesVersion, '7') < 0;
+    const hasEngineFixesPre7Result = !engineFixesVersion || (engineFixesVersion && 
+    Utils.compareVersions(engineFixesVersion, '7') < 0) || (engineFixesVersion && engineFixesVersion.includes('(unlisted in NSF logs)'));
     Utils.debuggingLog(['checkEngineFixesUpdate'], `hasEngineFixesPre7Result: ${hasEngineFixesPre7Result}`);
 
     return hasEngineFixesPre7Result;
