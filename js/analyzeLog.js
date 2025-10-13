@@ -982,6 +982,13 @@ async function analyzeLog() {
 
     insights += '</ul><h5>Mod-specific Issues:</h5><ul>';
 
+    // ❓ Possible eFPS Issue detected
+    const checkPossibleEfpsIssueInights = checkPossibleEfpsIssue(sections);
+    if (checkPossibleEfpsIssueInights) {
+        insights += checkPossibleEfpsIssueInights;
+        insightsCount++;
+    }
+
     //Monster Mod
     if (sections.firstLine.includes('5999C7') || sections.firstLine.includes('D02C2C')) {
         insights += '<li>❓ <b>5999C7 or D02C2C Detected:</b> These errors are often related to <b>"Monster Mod.esp"</b>. This mod is commonly thought to cause numerous errors and crashes to desktop (CTD), even with unofficial patches and the latest updates. If you prefer to keep the mod, consider the following steps:<ol>' +
@@ -1050,7 +1057,7 @@ async function analyzeLog() {
         insights += '<li>❓ <b>7428B1 Detected:</b> This error is often connected to issues with the <b>"SSE Engine Fixes"</b> mod. To troubleshoot, consider the following steps:<ol>' +
             '<li>Check if you are using the <b>"Equipment Durability System"</b> mod, which can cause issues when an enchanted weapon breaks.</li>' +
             '<li>Look for conflicts with other mods that modify characters while they are holding a weapon. This includes mods that alter animations, equipment, or character models.</li>' +
-            '<li>Ensure that "SSE Engine Fixes" is properly installed and configured according to the latest instructions provided by the mod author.</li>' +
+            '<li>Ensure that "SSE Engine Fixes" is properly installed and configured according to the latest <a href="https://www.nexusmods.com/skyrimspecialedition/mods/17230?tab=posts">installation instructions</a> (found in the top sticky posts in the mod\'s forum).</li>' +
             '<li>If the problem persists, try disabling the "Equipment Durability System" mod and any other recently added mods one by one to identify the conflict.</li>' +
             '</ol></li>';
         insightsCount++;

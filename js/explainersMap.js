@@ -166,6 +166,7 @@ if (typeof Utils === 'undefined') {
         ['nxmhandler.dll', '(Nexus Mod Manager URL handler - <b>mod manager</b>)'],
         ['occlusion.esp', '(<b>DynDOLOD</b> occlusion optimization file)'],
         ['oleacc.dll', '(Active Accessibility Core Component - MS <b>Windows</b>)'],
+        ['occ_skyrim_tamriel.esp', '(<b>eFPS - Exterior FPS boost</b> - sometimes needs patches)'],
         ['onecorecommonproxystub.dll', '(<b>Windows</b> system component)'],
         ['onecoreuapcommonproxystub.dll', '(OneCore UAP Common Proxy Stub - MS <b>Windows</b>)'],
         ['openanimationreplacer.dll', '(aka OAR - <i>newer</i> <b>animation</b> replacer mod)'],

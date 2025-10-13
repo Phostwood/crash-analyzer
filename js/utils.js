@@ -1077,6 +1077,15 @@ Utils.getLogSectionsMap = function(logFile) {
     sections.secondLine = this.logLines[1];
     sections.thirdLine = this.logLines[2];
 
+    // Create truncated stack sections
+    if (sections.stack) {
+        const stackLines = sections.stack.split('\n');
+
+        sections.stackTop50 = stackLines.slice(0, 50).join('\n');
+        sections.stackTop100 = stackLines.slice(0, 100).join('\n');
+    }
+
+
     // Create composite sections
     sections.header = sections.header; //QUESTION: WHY DO I HAVE TO RE-SPECIFY THIS SECTION?
     sections.topQuarter = [sections.firstLine, sections.relevantObjects, sections.probableCallstack].filter(Boolean).join('\n\n');

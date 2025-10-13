@@ -1,17 +1,14 @@
-✅Version 1.26.9 is now live:
+✅Version 1.27.1 is now live:
 https://phostwood.github.io/crash-analyzer/
 
+1. new test: ❓ Possible eFPS Issue detected:
+	- Thanks SpinPigeon!
+2. Engine Fixes
+	- added links to official instructions
+	- made a few other minor clarifications/tweaks in troubleshooting instructions
+3. Code:
+	- new sections.stackTop50 and sections.stackTop100 for isolating test to top-of-stack indicators
 
-0. ✅ Updated Engine Fixes instructions:
-	- Don't show non-applicable instructions for v7+
-	- Thanks RomatebitegeL!
-
-1. ✅ New test for NetScriptFramework log, where I recommend switching to Crash Logger SSE
-
-2. ✅ 🎯 Highest-Confidence Indicators:
-	- add firstLine crash to summary when significant indicators found
-
-3. ✅ Updated Donations section and ReadMe file
 
 
 ---

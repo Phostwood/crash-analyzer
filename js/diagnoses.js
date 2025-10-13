@@ -7,7 +7,7 @@ function reinstallEngineFixesInstructions (sections) {
 
     const reinstallEngineFixes = `
         <!--<ul>-->
-            <li>WARNING: <a href="https://www.nexusmods.com/skyrimspecialedition/mods/17230">SSE Engine Fixes</a> is <strong>frequently misinstalled</strong>, so be careful to follow instructions on its Nexus page to install BOTH parts:
+            <li>WARNING: <a href="https://www.nexusmods.com/skyrimspecialedition/mods/17230">SSE Engine Fixes</a> is <strong>frequently misinstalled</strong>, so be careful to follow <a href="https://www.nexusmods.com/skyrimspecialedition/mods/17230?tab=posts">installation instructions</a> found in the top sticky posts in the mod's forum, to install BOTH parts:
                 <ul>
                     <li>Part 1: The SKSE plugin. Be sure to download the current and correct version of Engine Fixes, for your version of Skyrim, and install with your mod manager</li>
                     <li>Part 2: DLL files are manually placed into Skyrim folder</li>
@@ -381,7 +381,7 @@ function checkForD6dddaEasyVersion(sections) {
             <ol>
                 <li>Corrupt Texture (.dds) or Mesh (.nif) Files:
                     <ol>
-                        <li>If you haven't already, upgrade your <a href="https://www.nexusmods.com/skyrimspecialedition/mods/17230">SSE Engine Fixes</a> to version Version 7.0.18 or greater, as it includes a fix to prevent many of these crashes. NOTE: Skyrim version 1.6.140 (and possibly others?) appears to not be supported yet.</li>
+                        <li>If you haven't already, upgrade your <a href="https://www.nexusmods.com/skyrimspecialedition/mods/17230">SSE Engine Fixes</a> to Version 7.0.18 or greater, as it includes a fix to prevent many of these crashes. NOTE: Skyrim version 1.6.140 (and possibly others?) appears to not be supported yet.</li>
                         <li>Compare multiple crash logs if possible. If subsequent crashes list the same texture or mesh files (see "Advanced Users" section below), you likely have a corrupt texture file or, less commonly, a corrupt mesh. Once you've identified the problematic mod, try downloading it again before reinstalling, as the corruption may have occurred during the initial download. For more details, see the Texture Issues and Mesh Issues sections in this report (in the Advanced Users section, below).</li>
                     </ol>
                 </li>
@@ -1518,7 +1518,7 @@ function analyzeBGSSaveLoadManagerIssue(sections) {
     let insights = '';
     if (sections.topHalf.toLowerCase().includes('BGSSaveLoadManager'.toLowerCase())) {
         const checkSaveFileSize = `
-        <li>Try <a href="https://www.reddit.com/r/skyrimmods/comments/tpmf8x/crash_on_load_and_save_corruption_finally_solved/">expanding your save file size</a>. Then open the last save that works and play on from there, and hopefully, there will not be any more crashes. Requires the <b>HIGHLY RECOMMENDED</b> foundational mod <a href="https://www.nexusmods.com/skyrimspecialedition/mods/17230">SSE Engine Fixes</a>. Be sure to carefully install the correct versions of both Parts 1 and 2.
+        <li>Try <a href="https://www.reddit.com/r/skyrimmods/comments/tpmf8x/crash_on_load_and_save_corruption_finally_solved/">expanding your save file size</a>. Then open the last save that works and play on from there, and hopefully, there will not be any more crashes. Requires the <b>HIGHLY RECOMMENDED</b> foundational mod <a href="https://www.nexusmods.com/skyrimspecialedition/mods/17230">SSE Engine Fixes</a>. Be sure to carefully follow <a href="https://www.nexusmods.com/skyrimspecialedition/mods/17230?tab=posts">installation instructions</a> found in the top sticky posts in the mod's forum, for the correct versions of both Parts 1 and 2.
             ${sections.hasEngineFixesPre7 ? `
                 <ul>
                     <li><b>For Engine Fixes prior to version 7:</b> Verify these settings in <code>EngineFixes.toml</code></li>
@@ -3955,6 +3955,7 @@ function checkDeathDropOverhaulCrash(sections) {
 function checkEngineFixesUpdate(sections) {
     let insights = '';
     const latestVersion = '7.0.19.0';
+    const shadowSceneFixingVersion = '7.0.18.0';
     
     if( !( sections.hasSkyrimSE1597 || sections.hasSkyrimAE1170 ) ){
         Utils.debuggingLog(['checkEngineFixesUpdate'], `sections.hasSkyrimSE1597: ${sections.hasSkyrimSE1597}`);
@@ -3974,7 +3975,12 @@ function checkEngineFixesUpdate(sections) {
         Utils.compareVersions(engineFixesVersion, latestVersion) < 0;
     Utils.debuggingLog(['checkEngineFixesUpdate'], `hasOutdatedVersion: ${hasOutdatedVersion}`);
 
-    const hasPreventableCrash = hasShadowSceneNode && (hasOutdatedVersion || !engineFixesVersion);
+
+    const hasShadowSceneFixingVersion = engineFixesVersion && 
+        Utils.compareVersions(engineFixesVersion, shadowSceneFixingVersion) >= 0;
+    Utils.debuggingLog(['checkEngineFixesUpdate'], `shadowSceneFixingVersion: ${shadowSceneFixingVersion}`);
+
+    const hasPreventableCrash = hasShadowSceneNode && (!hasShadowSceneFixingVersion || !engineFixesVersion);
     Utils.debuggingLog(['checkEngineFixesUpdate'], `hasPreventableCrash: ${hasPreventableCrash}`);
     
     // Only show if ShadowSceneNode detected AND Engine Fixes is outdated (or not detected)
@@ -3982,7 +3988,7 @@ function checkEngineFixesUpdate(sections) {
         insights += `<li>⚠️ <b>Update Engine Fixes for Better Stability:</b>
             Some ${hasPreventableCrash ? 'crashes of this type' : 'crash types'} may be prevented by updating SSE Engine Fixes to the latest version.
             <ul>
-                <li><b>Action recommended:</b> Read instructions and carefully ${engineFixesVersion ? 'update' : 'install'} <a href="https://www.nexusmods.com/skyrimspecialedition/mods/17230" target="_blank">SSE Engine Fixes</a> to version ${latestVersion} or newer</li>
+                <li><b>Action recommended:</b> ${engineFixesVersion ? 'Update' : 'Install'} <a href="https://www.nexusmods.com/skyrimspecialedition/mods/17230" target="_blank">SSE Engine Fixes</a> to version ${latestVersion} or newer. Be sure to carefully follow <a href="https://www.nexusmods.com/skyrimspecialedition/mods/17230?tab=posts">installation instructions</a> found in the top sticky posts in the mod's forum.</li>
                 <li>Detected indicators: <a href="#" class="toggleButton">⤵️ show more</a><ul class="extraInfo" style="display:none">
                     ${hasPreventableCrash ? '<li><code>ShadowSceneNode</code> found in top half of crash log</li>' : ''}
                     ${engineFixesVersion ? '<li><code>EngineFixes.dll v' + engineFixesVersion + '</code> (latest version is v' + latestVersion + ' or newer)</li>' :''}
@@ -4056,5 +4062,32 @@ function checkNetScriptFrameworkStatus(sections) {
         </li>`;
     }
     
+    return insights;
+}
+
+
+
+// ❓ Possible eFPS Issue detected
+function checkPossibleEfpsIssue(sections) {
+    let insights = '';
+    const hasBSGeometryListCulling = sections.stackTop100?.includes('BSGeometryListCullingProcess');
+    const hasBSScriptCodeTasklet = sections.stackTop100?.includes('BSScript::Internal::CodeTasklet');
+    const hasOccTamriel = sections.bottomHalf?.toLowerCase().includes('occ_skyrim_tamriel.esp');
+
+    if (hasBSGeometryListCulling && hasBSScriptCodeTasklet && hasOccTamriel) {
+        insights += `<li>❓ <b>Possible eFPS Issue detected:</b>
+            If better diagnoses aren't listed in this report, this crash may be related to the <a href="https://www.nexusmods.com/skyrimspecialedition/mods/54907">eFPS - Exterior FPS boost</a> mod.
+            <ul>
+                <li><b>Remove eFPS:</b> Temporarily uninstall or disable the eFPS mod and test stability without it</li>
+                <li><b>Check for patches:</b> Search for existing patches that resolve conflicts between eFPS and other mods in your load order</li>
+                <li><b>Advanced users:</b> If no patch exists, consider creating a custom patch to address conflicts</li>
+                <li>Detected indicators: <a href="#" class="toggleButton">⤵️ show more</a><ul class="extraInfo" style="display:none">
+                    <li><code>BSGeometryListCullingProcess</code> found in top 100 lines of Stack</li>
+                    <li><code>BSScript::Internal::CodeTasklet</code> found in top 100 lines of Stack</li>
+                    <li><code>occ_skyrim_tamriel.esp</code> detected in plugin list</li>
+                </ul></li>
+            </ul>
+        </li>`;
+    }
     return insights;
 }
