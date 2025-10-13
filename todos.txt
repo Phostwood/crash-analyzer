@@ -1,13 +1,12 @@
-✅Version 1.27.1 is now live:
+✅Version 1.27.2 is now live:
 https://phostwood.github.io/crash-analyzer/
 
-1. new test: ❓ Possible eFPS Issue detected:
-	- Thanks SpinPigeon!
-2. Engine Fixes
-	- added links to official instructions
-	- made a few other minor clarifications/tweaks in troubleshooting instructions
-3. Code:
-	- new sections.stackTop50 and sections.stackTop100 for isolating test to top-of-stack indicators
+1. BUG FIX for .Strings crash
+	- 2 of 3 indicators have changed position slightly with either NSF --> Crash Logger, or with Nolvus v5 --> v6? New test is loosened to accommodate.
+	- Thanks GGs!
+	- Add GGs to Thank Yous
+	- https://discord.com/channels/740569699900719145/755346172243214376/1427208720462516314
+
 
 
 

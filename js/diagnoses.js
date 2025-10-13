@@ -1841,8 +1841,8 @@ function analyzeFirstLine(sections) {
 function analyzeStringsCrash(sections) {
     let insights = '';
     let hasPrimaryIndicator = sections.topThird.toLowerCase().includes('.STRINGS'.toLowerCase());
-    let hasSecondaryIndicators = sections.topQuarter.toLowerCase().includes('BGSStoryManagerBranchNode'.toLowerCase())
-        && sections.topQuarter.toLowerCase().includes('PlayerCharacter'.toLowerCase());
+    let hasSecondaryIndicators = sections.topHalf.toLowerCase().includes('BGSStoryManagerBranchNode'.toLowerCase())
+        && sections.topHalf.toLowerCase().includes('PlayerCharacter'.toLowerCase());
     if (hasPrimaryIndicator && hasSecondaryIndicators) {
         insights += `<li>🎯 <b>.STRINGS Crash Detected:</b> This error typically occurs when there is a unique or non-standard character in the <code>sLanguage</code> line of your <b>skyrim.ini</b> file. To resolve this issue:<ol>
             <li>Locate your <b>skyrim.ini</b> file.</li>
@@ -1855,8 +1855,8 @@ function analyzeStringsCrash(sections) {
             <li>Detected indicators: <a href="#" class="toggleButton">⤵️ show more</a>
                 <ul class="extraInfo" style="display:none">
                     <li><code>.STRINGS</code> - detected in top third of the log (<i>above</i> the Stack section)</li>
-                    <li><code>'BGSStoryManagerBranchNode'</code> - detected in top quarter of the log  (<i>above</i> the Registers section)</li>
-                    <li><code>'PlayerCharacter'</code> - detected in top quarter of the log (<i>above</i> the Registers section)</li>
+                    <li><code>'BGSStoryManagerBranchNode'</code> - detected in top half of the log (<i>above</i> the mod lists)</li>
+                    <li><code>'PlayerCharacter'</code> - detected in top half of the log (<i>above</i> the mod lists)</li>
                 </ul>
             </li>
             </ol></li>`;
