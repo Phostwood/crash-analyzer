@@ -34,7 +34,7 @@ Both share 98% of the same code, and both have graduated from beta. Usage requir
 
 **Please support:**
 
-Thanks to our dedicated community of **42 financial supporters** (five of which are subscribed to contribute each month!), we've been able to sustain this project's development. While their contributions are invaluable, our current funding still averages less than $1 per development hour. We're deeply grateful for every supporter and would welcome others who value this work to join them in ensuring its continued growth and improvement.
+Thanks to our dedicated community of **42 financial supporters** (four of which are subscribed to contribute each month!), we've been able to sustain this project's development. While their contributions are invaluable, our current funding still averages less than $1 per development hour. We're deeply grateful for every supporter and would welcome others who value this work to join them in ensuring its continued growth and improvement.
 
 [<img src="./Patreon.png">](https://www.patreon.com/Phostwood)
 or [<img src="./phostwood-Ko-fi-Horizontal.jpg">](https://ko-fi.com/phostwood)

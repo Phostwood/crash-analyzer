@@ -1,13 +1,16 @@
-✅Version 1.27.2 is now live:
+✅Version 1.27.3 is now live:
 https://phostwood.github.io/crash-analyzer/
 
-1. BUG FIX for .Strings crash
-	- 2 of 3 indicators have changed position slightly with either NSF --> Crash Logger, or with Nolvus v5 --> v6? New test is loosened to accommodate.
-	- Thanks GGs!
-	- Add GGs to Thank Yous
-	- https://discord.com/channels/740569699900719145/755346172243214376/1427208720462516314
-
-
+1. New test: ❓ Possible geometry culling / occlusion-related issue (low confidence)
+	- thanks Lethallan17 (✅added) and RomatebitegeL !
+2. ❗ Suspiciously High Memory Usage Detected:
+	- BUG FIX: no longer lists this section when memory-lines are truncated or removed
+3. 🎯 .STRINGS Crash Detected:
+	- added clarification: "Even a dot above the "I" (ex: "İ") or the like can cause a crash."
+4. ❓ Possible eFPS Issue detected:
+	- loosened test to no longer test for 'BSScript::Internal::CodeTasklet' indicator, as it was found to not be in a new related crash log, and is already explained to be a low-priority test.
+5. Fixed code typo (transparent to usage) where "Inights" was corrected to "Insights"
+6. Readme.md - updated number of subscribers
 
 
 ---

@@ -1033,10 +1033,12 @@ Utils.getLogSectionsMap = function(logFile) {
             sections.availableVram = sections.systemGpuMemoryMax - sections.systemGpuMemory;
         }
 
-        if (sections.availableRam < criticalRamThresholdGb) sections.criticalRam = true;
-        if (sections.availableRam < lowRamThresholdGb) sections.lowRam = true;
-        if (sections.availableVram < criticalVramThresholdGb) sections.criticalVram = true;
-        if (sections.availableVram < lowVramThresholdGb) sections.lowVram = true;
+        if (physicalMemoryMatch || gpuMemoryMatch) {
+            if (sections.availableRam < criticalRamThresholdGb) sections.criticalRam = true;
+            if (sections.availableRam < lowRamThresholdGb) sections.lowRam = true;
+            if (sections.availableVram < criticalVramThresholdGb) sections.criticalVram = true;
+            if (sections.availableVram < lowVramThresholdGb) sections.lowVram = true;
+        }
     }
 
 

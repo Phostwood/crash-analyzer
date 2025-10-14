@@ -1848,7 +1848,7 @@ function analyzeStringsCrash(sections) {
             <li>Locate your <b>skyrim.ini</b> file.</li>
             <li>Optionally, make a quick backup copy of this file and store it outside your ${Utils.SkyrimOrNolvusText} installation.</li>
             <li>Open the original file for editing, and locate the line that reads <code>sLanguage=ENGLISH</code>.</li>
-            <li>Ensure that there are no unique characters or typos in this line. It should only contain standard text.</li>
+            <li>Ensure that there are no unique characters or typos in this line. It should only contain standard text. Even a dot above the "<code>I</code>" (ex: "<code>ENGLİSH</code>") or the like can cause a crash.</li>
             <li>Save the changes and restart ${Utils.SkyrimOrNolvusText} to see if the issue has been resolved.</li>
             <li>See <a href="https://raw.githubusercontent.com/Phostwood/crash-analyzer/refs/heads/main/images/corruptstringsfixtutorial.png">screenshot tutorial</a> by Discrepancy using Mod Organizer 2 (MO2).
             <li>More information and troubleshooting tips under <a href="https://www.nolvus.net/catalog/crashlog?acc=accordion-1-1">.STRINGS Crash</a/>.</li>
@@ -4071,10 +4071,9 @@ function checkNetScriptFrameworkStatus(sections) {
 function checkPossibleEfpsIssue(sections) {
     let insights = '';
     const hasBSGeometryListCulling = sections.stackTop100?.includes('BSGeometryListCullingProcess');
-    const hasBSScriptCodeTasklet = sections.stackTop100?.includes('BSScript::Internal::CodeTasklet');
     const hasOccTamriel = sections.bottomHalf?.toLowerCase().includes('occ_skyrim_tamriel.esp');
 
-    if (hasBSGeometryListCulling && hasBSScriptCodeTasklet && hasOccTamriel) {
+    if (hasBSGeometryListCulling && hasOccTamriel) {
         insights += `<li>❓ <b>Possible eFPS Issue detected:</b>
             If better diagnoses aren't listed in this report, this crash may be related to the <a href="https://www.nexusmods.com/skyrimspecialedition/mods/54907">eFPS - Exterior FPS boost</a> mod.
             <ul>
@@ -4083,7 +4082,6 @@ function checkPossibleEfpsIssue(sections) {
                 <li><b>Advanced users:</b> If no patch exists, consider creating a custom patch to address conflicts</li>
                 <li>Detected indicators: <a href="#" class="toggleButton">⤵️ show more</a><ul class="extraInfo" style="display:none">
                     <li><code>BSGeometryListCullingProcess</code> found in top 100 lines of Stack</li>
-                    <li><code>BSScript::Internal::CodeTasklet</code> found in top 100 lines of Stack</li>
                     <li><code>occ_skyrim_tamriel.esp</code> detected in plugin list</li>
                 </ul></li>
             </ul>
@@ -4091,3 +4089,39 @@ function checkPossibleEfpsIssue(sections) {
     }
     return insights;
 }
+
+
+
+// ❓ Possible geometry culling / occlusion-related issue (low confidence)
+function checkPossibleGeometryCullingIssue(sections) {
+    let insights = '';
+    const hasBSGeometryListCulling = sections.stackTop100?.includes('BSGeometryListCullingProcess');
+
+    if (hasBSGeometryListCulling) {
+        insights += `<li>❓ <b>Possible geometry culling / occlusion-related issue:</b>
+            <code>BSGeometryListCullingProcess</code> refers to the engine's scene-graph culling routine, 
+            which determines which 3D objects (geometry) should be rendered or hidden based on visibility, occlusion, and camera position. 
+            When it appears near the top of the Stack section of a crash log, it usually means the crash occurred during this visibility-checking phase.
+            <ul>
+                <li><b>Reportedly sometimes related mods:</b> 
+                    <a href="https://www.nexusmods.com/skyrimspecialedition/mods/16736">Facelight Plus</a>, 
+                    <a href="https://www.nexusmods.com/skyrimspecialedition/mods/54907">eFPS - Exterior FPS boost</a>, and
+                    <a href="https://www.nexusmods.com/skyrimspecialedition/mods/149004">Hyperspecific Occlusion Addon</a>
+                </li>
+                <li><b>General categories:</b>
+                    <ul>
+                        <li>Mods that alter occlusion data to improve performance</li>
+                        <li>Dynamic face/lighting effect mods</li>
+                        <li>LOD and worldspace overhauls</li>
+                        <li>Mesh replacers</li>
+                    </ul>
+                </li>
+                <li><b>Suggested checks:</b> If better diagnoses aren't listed in this report, research potentially related mods for version compatibility, updates, and patches. 
+                    Then temporarily disable, update, and/or patch towards isolating or fixing the issue.</li>
+                <li>Detected indicator: <code>BSGeometryListCullingProcess</code> in first 100 lines of Stack section of log</li>
+            </ul>
+        </li>`;
+    }
+    return insights;
+}
+

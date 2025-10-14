@@ -885,9 +885,9 @@ async function analyzeLog() {
     insightsCount += hairResult.insightsCount;
 
     //NavMesh Pathing issues:
-    const pathingInights = analyzePathingIssues(sections);
-    if (pathingInights) {
-        insights += pathingInights;
+    const pathingInsights = analyzePathingIssues(sections);
+    if (pathingInsights) {
+        insights += pathingInsights;
         insightsCount++;
     }
 
@@ -932,24 +932,24 @@ async function analyzeLog() {
 
 
    //❓ Possible dxgi.dll Compatibility Notice:
-   const dxgiInights = analyzeDXGIIssues(sections);
-   if (dxgiInights) {
-       insights += dxgiInights;
+   const dxgiInsights = analyzeDXGIIssues(sections);
+   if (dxgiInsights) {
+       insights += dxgiInsights;
        insightsCount++;
    }
 
     //❓ Potential Upscaler Issue Detected:
-    const upscalerInights = analyzeUpscalerIssues(sections);
-    if (upscalerInights) {
-        insights += upscalerInights;
+    const upscalerInsights = analyzeUpscalerIssues(sections);
+    if (upscalerInsights) {
+        insights += upscalerInsights;
         insightsCount++;
     }
 
 
     //❓ Possible Shader/Lighting Issue:
-    const enbShaderLightingInights = analyzeENBShaderLightingIssues(sections);
-    if (enbShaderLightingInights) {
-        insights += enbShaderLightingInights;
+    const enbShaderLightingInsights = analyzeENBShaderLightingIssues(sections);
+    if (enbShaderLightingInsights) {
+        insights += enbShaderLightingInsights;
         insightsCount++;
     }
 
@@ -983,9 +983,9 @@ async function analyzeLog() {
     insights += '</ul><h5>Mod-specific Issues:</h5><ul>';
 
     // ❓ Possible eFPS Issue detected
-    const checkPossibleEfpsIssueInights = checkPossibleEfpsIssue(sections);
-    if (checkPossibleEfpsIssueInights) {
-        insights += checkPossibleEfpsIssueInights;
+    const checkPossibleEfpsIssueInsights = checkPossibleEfpsIssue(sections);
+    if (checkPossibleEfpsIssueInsights) {
+        insights += checkPossibleEfpsIssueInsights;
         insightsCount++;
     }
 
@@ -1156,6 +1156,14 @@ async function analyzeLog() {
         insights += keyboardCrashInsight;
         insightsCount++;
         hasKeyboardIssue = true;
+    }
+
+
+    //❓ Possible geometry culling / occlusion-related issue (low confidence)
+    const checkPossibleGeometryCullingIssueInsights = checkPossibleGeometryCullingIssue(sections);
+    if (checkPossibleGeometryCullingIssueInsights) {
+        insights += checkPossibleGeometryCullingIssueInsights;
+        insightsCount++;
     }
 
 
