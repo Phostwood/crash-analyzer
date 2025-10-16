@@ -536,13 +536,15 @@ function checkForMissingMasters(sections) {
         }
 
         diagnoses +=
-            '<li><b>Identifying Missing Masters:</b> Mod Organizer 2 (MO2) typically displays warning icons (yellow triangle with exclamation mark) for plugins with missing masters. <a href="https://imgur.com/izlF0GO">View Screenshot</a>. Or alternately, check the <b>🔎 Files/Elements</b> section of this report and look at mods higher up the list, which could help isolate which mod might be missing something. Review the mod on Nexus and consider reinstalling any likely causal mods to see if you missed a patch or requirement.</li>' +
+            `<li><b>Identifying Missing Masters:</b> Mod Organizer 2 (MO2) typically displays warning icons (yellow triangle with exclamation mark) for plugins with missing masters. <a href="https://imgur.com/izlF0GO">View Screenshot</a>. Or alternately, check the <b>🔎 Files/Elements</b> section of this report and look at mods higher up the list, which could help isolate which mod might be missing something. Review the mod on Nexus and consider reinstalling any likely causal mods to see if you missed a patch or requirement.</li>
 
-            '<li><b>Advanced Users</b> can use <a href="https://www.nexusmods.com/skyrimspecialedition/mods/164">SSEEdit (xEdit)</a> to isolate missing dependencies.</li>' +
+            <li><b>Load Order Dependency Issue:</b> Even if all required masters are installed and enabled, a plugin can still fail if its dependencies are loaded <i>after</i> it in your load order. In this case, the dependent mod tries to access data that isn't yet available, leading to errors or crashes. Consult documentation for related mods, and use your mod manager's sorting tools to ensure masters and required plugins always load before the mods that depend on them. NOTE: this is a very common issue when installing or updating Vortex Collections, but usually easily fixable by enabling all mods, and clicking "Sort Now" several times. See details in above "🤖 Best Practices for Auto-Installing Modlist Users" section.</li>
 
-            '<li><b>Missing Dependency:</b> If you\'ve recently removed, disabled, or forgot to install a required mod, others may still depend on it. You might need to either install the missing dependency or remove its master requirement from dependent plugins. See this guide on <a href="https://github.com/LivelyDismay/Learn-To-Mod/blob/main/lessons/Remove%20a%20Master.md">Removing a Master Requirement</a>.</li>' +
+            <li><b>Advanced Users</b> can use <a href="https://www.nexusmods.com/skyrimspecialedition/mods/164">SSEEdit (xEdit)</a> to isolate missing dependencies.</li>
 
-            '<li><b>Version Mismatch:</b> Ensure all your mods are compatible with your Skyrim version (SE or AE). Always check the mod\'s description page for version compatibility.</li>' +
+            <li><b>Missing Dependency:</b> If you\'ve recently removed, disabled, or forgot to install a required mod, others may still depend on it. You might need to either install the missing dependency or remove its master requirement from dependent plugins. See this guide on <a href="https://github.com/LivelyDismay/Learn-To-Mod/blob/main/lessons/Remove%20a%20Master.md">Removing a Master Requirement</a>.</li>
+
+            <li><b>Version Mismatch:</b> Ensure all your mods are compatible with your Skyrim version (SE or AE). Always check the mod\'s description page for version compatibility.</li>` +
             
             Utils.LootListItemIfSkyrim;
         
@@ -2982,20 +2984,6 @@ function analyzeSkee64Issue(sections, forFirstLine = false) {
         insights += `
         <li>${emoji} <b>skee64.dll Issue Detected:</b> The presence of <code>skee64.dll</code> in the ${logPortionText} of a crash log can indicate issues with the <b>RaceMenu</b> mod and/or incompatibility issues with mods that affect character models or body or face meshes. To troubleshoot this issue:<ol>
             <li>✨ As a potential easy fix, consider trying <a href="https://www.nexusmods.com/skyrimspecialedition/mods/138586">RaceMenu OverlayFix and Various Mod Fixes</a>.</li>
-            <li>Frequently, this error has recently been associated with the <b>loading of presets</b> (either downloaded or made personally). The cause of the preset issue is currently unknown. If it is this preset issue, it can often show up many hours into gameplay, for causes unknown. The only lasting fix seems to be to create a new character, without loading any character presets.<ul>
-                <li>Or alternately, try using Pan's steps (modified from Klaufen's) for fixing (often temporarily) many delayed preset-caused crashes:<ol>
-                    <li>Load a save that works, doesn't matter how far back you are in the playthrough</li>
-                    <li>Type <code>showracemenu</code> in console and save your character preset (note: if you already have your character preset saved, you can skip these first 2 steps)</li>
-                    <li>Hide the <code>skee64.dll</code> using MO2 (or find and temporarily move this file to your desktop)<ul>
-                        <li>For MO2 users: To hide a mod or file in MO2, right-click on the mod in the left pane, select "Information...", go to the "Filetree" tab, right-click on the file you want to hide (e.g., <code>skee64.dll</code>), and select "Hide". See <a href="./images/MO2-hide-file-instructions.png">screenshot instructions</a></li>
-                    </ul></li>
-                    <li>Boot up the game, now your latest save should load</li>
-                    <li>Chill in the game for 30-60s for everything to load, then make a new save</li>
-                    <li>Repeat step 3, but unhide <code>skee64.dll</code> (or return it from your desktop to its original location)</li>
-                    <li>Load into the save you just made, repeat step 2 and load your saved preset</li>
-                    <li>NOTE: This will hopefully fix the issue for at least some additional hours, but if the issue later reoccurs, these same steps may need to be repeated.</li>
-                </ol></li>
-            </ul></li>
             <li>Another common cause for these crashes is "overlays" - wearable tattoos, piercings, or other cosmetic character modifications. If you're using such overlays:<ul>
                 <li><b>IMPORTANT:</b> If the overlay item is removable, remove it in-game before disabling the problematic mod to avoid corrupting your save.</li>
             </ul></li>
@@ -3963,8 +3951,8 @@ function checkEngineFixesUpdate(sections) {
         return '';
     }
     // Check for ShadowSceneNode in top half of crash log
-    const hasShadowSceneNode = sections.topHalf && 
-        sections.topHalf.toLowerCase().includes('shadowscenenode');
+    const hasShadowSceneNode = sections.highestConfidenceIndicators && 
+        sections.highestConfidenceIndicators.toLowerCase().includes('shadowscenenode');
     Utils.debuggingLog(['checkEngineFixesUpdate'], `hasShadowSceneNode: ${hasShadowSceneNode}`);
     
     // Check Engine Fixes version
@@ -3990,7 +3978,7 @@ function checkEngineFixesUpdate(sections) {
             <ul>
                 <li><b>Action recommended:</b> ${engineFixesVersion ? 'Update' : 'Install'} <a href="https://www.nexusmods.com/skyrimspecialedition/mods/17230" target="_blank">SSE Engine Fixes</a> to version ${latestVersion} or newer. Be sure to carefully follow <a href="https://www.nexusmods.com/skyrimspecialedition/mods/17230?tab=posts">installation instructions</a> found in the top sticky posts in the mod's forum.</li>
                 <li>Detected indicators: <a href="#" class="toggleButton">⤵️ show more</a><ul class="extraInfo" style="display:none">
-                    ${hasPreventableCrash ? '<li><code>ShadowSceneNode</code> found in top half of crash log</li>' : ''}
+                    ${hasPreventableCrash ? '<li><code>ShadowSceneNode</code> found in highest-confidence sections of crash log</li>' : ''}
                     ${engineFixesVersion ? '<li><code>EngineFixes.dll v' + engineFixesVersion + '</code> (latest version is v' + latestVersion + ' or newer)</li>' :''}
                 </ul></li>
             </ul>
@@ -4020,7 +4008,7 @@ function checkLowSystemRAM(sections) {
         insights += `<li>⚠️ <b>${isVeryLowRAM ? 'Very ' : ''}Low System RAM Detected (${systemRAM}GB):</b>
             Your system has limited RAM, which can cause crashes and instability in heavily-modded Skyrim.
             <ul>
-                <li><b>Configure Windows Pagefile:</b> Set a <a href="https://www.nolvus.net/appendix/pagefile">custom pagefile</a> (nolvus.net link, but broadly applicable) with minimum 20,000 MB (ideally 40,000 MB) and maximum 40,000 MB to help compensate for limited RAM. While the pagefile is important to Skyrim with any amount of RAM, it is especialy important with 16GB or less.</li>
+                <li><b>Configure Windows Pagefile:</b> Set a <a href="https://www.nolvus.net/appendix/pagefile">custom pagefile</a> (nolvus.net link, but broadly applicable) with minimum 20,000 MB (ideally 40,000 MB) and maximum 40,000 MB to help compensate for limited RAM. While the pagefile is important to Skyrim with any amount of RAM, it is especially important with 16GB or less.</li>
                 <li><b>Close background applications:</b> Before launching Skyrim, close all unnecessary programs to free up as much RAM as possible</li>
                 ${isVeryLowRAM ? `<li><b>System Requirements:</b> Steam's recommended spec for un-modded Skyrim is 8GB RAM. Your system is at or below the recommended for the base game</li>
                 <li><b>Mod Selection Guidelines:</b> With ${systemRAM}GB of RAM, you need to be extremely selective with mods:
@@ -4119,6 +4107,68 @@ function checkPossibleGeometryCullingIssue(sections) {
                 <li><b>Suggested checks:</b> If better diagnoses aren't listed in this report, research potentially related mods for version compatibility, updates, and patches. 
                     Then temporarily disable, update, and/or patch towards isolating or fixing the issue.</li>
                 <li>Detected indicator: <code>BSGeometryListCullingProcess</code> in first 100 lines of Stack section of log</li>
+            </ul>
+        </li>`;
+    }
+    return insights;
+}
+
+
+// ❓ Possible file system / OneDrive / permissions issue (medium confidence)
+function checkPossibleFilesystemIssue(sections) {
+    let insights = '';
+    const text = (sections.highestConfidenceIndicators || '').toLowerCase();
+
+    const hasFileSystemError = text.includes('filesystem_error');
+    const hasIFileStream = text.includes('ifilestream');
+    const hasSaveStorageWrapper = text.includes('savestoragewrapper');
+    const hasSaveFileHandle = text.includes('savefilehandlereaderwriter');
+    const hasWin32File = text.includes('win32filetype');
+    const hasSKSEStorage = text.includes('sksepersistentobjectstorage');
+
+    // New path-based checks
+    const hasOneDrivePath = text.includes('onedrive');
+    const hasDocumentsPath = text.includes('documents\\my games\\skyrim') || text.includes('documents/my games/skyrim');
+
+    if (
+        hasFileSystemError ||
+        hasIFileStream ||
+        hasSaveStorageWrapper ||
+        hasSaveFileHandle ||
+        hasWin32File ||
+        hasSKSEStorage ||
+        hasOneDrivePath ||
+        hasDocumentsPath
+    ) {
+        insights += `<li>❓ <b>Possible file system / OneDrive / permissions issue (medium confidence):</b>
+            These crash indicators suggest the game may be unable to access files correctly.
+            <ul>
+                <li><b>Check file paths:</b> Ensure your Skyrim installation and mod paths are not deeply nested. Windows has a 260-character path limit. If necessary, move (or reinstall) Skyrim to a shorter root directory, and/or remove or relocate mods that require shorter paths. 
+                    See <a href="https://gatetosovngarde.wiki.gg/wiki/Collection_Tweaks_and_Maintenance#Moving_Your_Skyrim_Install">Vortex instructions</a> (partially re-applicable to MO2). 
+                    NOTE: some auto-installing modlists (like Nolvus) make a copy of all necessary Skyrim files local to their own modlist installation. For these, consult their modlist documentation and/or community.
+                </li>
+                <li><b>Verify permissions:</b> Run the game and mod manager with administrator rights. Ensure your Skyrim and Mods folders are not set to read-only.</li>
+                <li><b>Check OneDrive:</b> If your Documents folder is actively syncing, or if OneDrive has glitched and left files locked after syncing, Skyrim may fail to save or load files. 
+                    See <a href="https://docs.google.com/document/d/1Ot0l8uFv-AJZr1X6vRMQNovhua_NUtE_HhbkrfJi1Ss/edit?tab=t.0">Ways To Get Rid Of OneDrive</a> (Google Doc) and 
+                    <a href="https://steamcommunity.com/app/489830/discussions/0/2263565217515804221/">Steam Community - Skyrim vs. OneDrive</a>. 
+                    Where possible, avoid extreme measures like uninstalling OneDrive; instead, adjust sync settings or exclude your Skyrim folders.
+                </li>
+                <li><b>Check free space:</b> Make sure your SSD or HDD has sufficient free space. Skyrim and SKSE may fail to write saves or cache files if the drive is nearly full. Aim to keep at least several GB free. Ideally, maintain <a href="https://computercity.com/hardware/storage/how-much-space-should-i-leave-on-my-ssd">at least 10-20% free space</a> on your SSD for optimal performance.</li>
+                <li><b>Check autosaves:</b> Autosaves during especially busy times can cause crashes. Consider disabling or fixing autosaves with mods such as 
+                    <a href="https://www.nexusmods.com/skyrimspecialedition/mods/81502">Disable Auto Save</a>, or manually edit your own <code>Skyrim.ini</code> file with <code>bDisableAutoSave=1</code>.
+                </li>
+                <li>Detected indicators from highest-confidence sections of crash log: 
+                    <ul class="extraInfo">
+                        ${hasFileSystemError ? '<li><code>filesystem_error</code></li>' : ''}
+                        ${hasIFileStream ? '<li><code>IFileStream</code></li>' : ''}
+                        ${hasSaveStorageWrapper ? '<li><code>SaveStorageWrapper</code></li>' : ''}
+                        ${hasSaveFileHandle ? '<li><code>SaveFileHandleReaderWriter</code></li>' : ''}
+                        ${hasWin32File ? '<li><code>Win32FileType</code></li>' : ''}
+                        ${hasSKSEStorage ? '<li><code>SKSEPersistentObjectStorage</code></li>' : ''}
+                        ${hasOneDrivePath ? '<li><code>OneDrive path detected</code></li>' : ''}
+                        ${hasDocumentsPath ? '<li><code>Documents\\My Games\\Skyrim path detected</code></li>' : ''}
+                    </ul>
+                </li>
             </ul>
         </li>`;
     }

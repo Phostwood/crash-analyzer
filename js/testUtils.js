@@ -112,7 +112,7 @@ if (typeof Utils === 'undefined') {
     
         // If no matches were found, add an explanatory message
         if (pathsSet.size === 0) {
-            pathsSet.add('UNLIKELY CAUSE: No specific memory-related files were found in the crash log. However, memory issues can still occur without leaving file traces. Consider monitoring system resource usage during gameplay.');
+            pathsSet.add('LESS-LIKELY CAUSE: No specific memory-related files were found in the crash log. However, memory issues can still occur without leaving file traces. Consider monitoring system resource usage during gameplay.');
         }
     
         // Check for specific memory allocation indicators
@@ -170,7 +170,7 @@ if (typeof Utils === 'undefined') {
         let pathsSet = new Set(Utils.getMatchingFilePaths(logText, fileExtensions));
     
         if (pathsSet.size === 0) {
-            pathsSet.add('UNLIKELY CAUSE: Since no animation files were found in crash log, this is less likely to be the culprit. However, as a last resort, consider decompressing relevant <code>.bsa</code> archives.');
+            pathsSet.add('LESS-LIKELY CAUSE: Since no animation files were found in crash log, this is less likely to be the culprit. However, as a last resort, consider decompressing relevant <code>.bsa</code> archives.');
         }
     
         const hkbRegex = /hkbBehaviorGraph\((Name: `[^`]+`)\)/gi;
@@ -197,7 +197,7 @@ if (typeof Utils === 'undefined') {
     
         if (pathsSet.size === 0) {
             Utils.debuggingLog(['extractSkyrimTexturePathsToListItems', 'Utils.js'], 'No texture files found, adding default message');
-            pathsSet.add('UNLIKELY CAUSE: Since no texture files were found in crash log, this is less likely to be the culprit. However, as a last resort, consider decompressing relevant ".bsa" archives.');
+            pathsSet.add('LESS-LIKELY CAUSE: Since no texture files were found in crash log, this is less likely to be the culprit. However, as a last resort, consider decompressing relevant ".bsa" archives.');
         }
         
         const result = Utils.processListItems([...pathsSet]);
@@ -206,14 +206,14 @@ if (typeof Utils === 'undefined') {
     };
     
     Utils.extractNifPathsToListItems = function(logText, forFirstLine = false) {
-        const fileExtensions = "nif|tri|bto|bsa";
+        const fileExtensions = "nif(?:\\.Dm)?|tri|bto|bsa"; // Allow ".nif" and ".nif.Dm"
         let pathsSet = new Set(Utils.getMatchingFilePaths(logText, fileExtensions));
     
         if (pathsSet.size === 0) {
             if (forFirstLine) {
                 pathsSet.add('No mesh files were found in crash log. However, as a last resort, consider decompressing relevant ".bsa" archives.');
             } else {
-                pathsSet.add('UNLIKELY CAUSE: Since no mesh files were found in crash log, this is less likely to be the culprit. However, as a last resort, consider decompressing relevant ".bsa" archives.');
+                pathsSet.add('LESS-LIKELY CAUSE: Since no mesh files were found in crash log, this is less likely to be the culprit. However, as a last resort, consider decompressing relevant ".bsa" archives.');
             }
         }
     
@@ -275,7 +275,7 @@ Utils.addMentionedFilesListItems = function(sections, fileType) {
     // Check if there are any .bsa files in the list items
     const hasBsaFile = arrayListItems.some(item => item.includes('.bsa') && !item.includes('".bsa"'));
         //NOTE: remember to keep the quotes on lines like this, otherwise hasBsaFile will be incorrectly set to true
-        // 'UNLIKELY CAUSE: Since no animation files were found in crash log, this is less likely to be the culprit. However, as a last resort, consider decompressing relevant ".bsa" archives.'
+        // 'LESS-LIKELY CAUSE: Since no animation files were found in crash log, this is less likely to be the culprit. However, as a last resort, consider decompressing relevant ".bsa" archives.'
 
     // Process the list items to HTML
     const processedListItems = Utils.processListItems(arrayListItems);

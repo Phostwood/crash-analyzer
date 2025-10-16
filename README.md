@@ -28,13 +28,12 @@ Both share 98% of the same code, and both have graduated from beta. Usage requir
 
 **Current Usage:**
 1. Daily average of around 200 unique users viewing nearly 300 crash logs
-2. Current weekly unique users: 1K
-3. Last 30 days unique users: 3,3K
-4. Total Unique Users users since started gathering Google Analytics (April 10, 2024): 23,000K
+2. Monthly average of over 3,000 unique users
+3. Total Unique Users users since started gathering Google Analytics (April 10, 2024): 23,000
 
 **Please support:**
 
-Thanks to our dedicated community of **42 financial supporters** (four of which are subscribed to contribute each month!), we've been able to sustain this project's development. While their contributions are invaluable, our current funding still averages less than $1 per development hour. We're deeply grateful for every supporter and would welcome others who value this work to join them in ensuring its continued growth and improvement.
+Thanks to our dedicated community of **42 financial supporters** (five of which are subscribed to contribute each month!), we've been able to sustain this project's development. While their contributions are invaluable, our current funding still averages less than $1 per development hour. We're deeply grateful for every supporter and would welcome others who value this work to join them in ensuring its continued growth and improvement.
 
 [<img src="./Patreon.png">](https://www.patreon.com/Phostwood)
 or [<img src="./phostwood-Ko-fi-Horizontal.jpg">](https://ko-fi.com/phostwood)

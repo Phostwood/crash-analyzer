@@ -119,6 +119,7 @@ const crashIndicators = {
             { code: 'trishape', description: "Triangle shape in mesh" },
             { code: '.tri', description: "Mesh file for 3D wireframe" },
             { code: '.nif', description: "Mesh file for 3D wireframe" },
+            { code: '.nif.dm', description: "Mesh file for 3D wireframe" },
             { code: '.bto', description: "Bethesda mesh optimization file" }            
         ]
     },

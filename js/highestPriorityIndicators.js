@@ -24,9 +24,7 @@ function highestPriorityIndicators(sections) {
   // Process STACK section (first 300 lines only)
   if (hasStack) {
     report += 'Summarized top of <b>STACK:</b>\n';
-    const stackLines = sections.stack.split('\n').slice(0, 300);
-    const truncatedStack = stackLines.join('\n');
-    const cleaned = stripNoise(truncatedStack);
+    const cleaned = stripNoise(sections.stackTop300); // first 300 lines only
     const truncated = cleaned.split('\n').slice(0, 20).join('\n'); // Only output 20 lines
     report += truncated ? truncated + '\n\n' : '(No significant indicators found)\n\n';
   }
@@ -34,9 +32,7 @@ function highestPriorityIndicators(sections) {
   // Process PROBABLE CALL STACK section (first 50 lines only)
   if (hasProbableCallstack) {
     report += 'Summarized top of <b>PROBABLE CALL STACK:</b>\n';
-    const probableCallstackLines = sections.probableCallstack.split('\n').slice(0, 50);
-    const truncatedprobableCallstack = probableCallstackLines.join('\n');
-    const cleaned = stripNoise(truncatedprobableCallstack);
+    const cleaned = stripNoise(sections.probableCallstackTop50);  // first 50 lines only
     const truncated = cleaned.split('\n').slice(0, 10).join('\n'); // Only output 10 lines
     report += truncated ? truncated + '\n\n' : '(No significant indicators found)\n\n';
   }
@@ -44,9 +40,7 @@ function highestPriorityIndicators(sections) {
   // Process REGISTERS: section (first 50 lines only)
   if (hasRegisters) {
     report += 'Summarized top of <b>REGISTERS:</b>\n';
-    const registersLines = sections.registers.split('\n').slice(0, 50);
-    const truncatedRegisters = registersLines.join('\n');
-    const cleaned = stripNoise(truncatedRegisters);
+    const cleaned = stripNoise(sections.registersTop50); // first 50 lines only
     const truncated = cleaned.split('\n').slice(0, 10).join('\n'); // Only output 10 lines
     report += truncated ? truncated + '\n' : '(No significant indicators found)\n';
   }

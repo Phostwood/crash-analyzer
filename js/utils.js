@@ -4,7 +4,7 @@ Utils.logLines = [];
 
 // Constants
 Utils.fileExtensions = ['.bat', '.bik', '.bmp', '.bsa', '.bsl', '.bto', '.btr', '.cpp', '.dds', '.dll', '.esl', '.esm',
-    '.esp', '.exe', '.fuz', '.hkb', '.hkx', '.ini', '.json', '.lip', '.nif', '.pex', '.psc',
+    '.esp', '.exe', '.fuz', '.hkb', '.hkx', '.ini', '.json', '.lip', '.nif', '.nif.dm', '.pex', '.psc',
     '.seq', '.skse', '.skse64', '.swf', '.tga', '.tri', '.txt', '.wav', '.xml', '.xwm'];
 Utils.modFileExtensions = ['.dll', '.esl', '.esm', '.esp', '.exe', '.skse', '.skse64', '.swf'];
 Utils.unlikelyCulprits = ['clr.dll', 'd3d12core.dll', 'd3dcompiler_47.dll', 'kernel32.dll', 'kernelbase.dll', 
@@ -1043,6 +1043,7 @@ Utils.getLogSectionsMap = function(logFile) {
 
 
 
+
     // Log all memory-related values
     Utils.debuggingLog(['systemMemoryValues', 'getLogSectionsMap'], {
         physicalMemoryMatch: sections.physicalMemoryMatch,
@@ -1085,6 +1086,11 @@ Utils.getLogSectionsMap = function(logFile) {
 
         sections.stackTop50 = stackLines.slice(0, 50).join('\n');
         sections.stackTop100 = stackLines.slice(0, 100).join('\n');
+        sections.stackTop300 = stackLines.slice(0, 300).join('\n'); 
+        
+        sections.probableCallstackTop50 = sections.probableCallstack.split('\n').slice(0, 50).join('\n');
+        sections.registersTop50 = sections.registers.split('\n').slice(0, 50).join('\n');
+        sections.highestConfidenceIndicators = sections.stackTop300 + sections.probableCallstackTop50 + sections.registersTop50;
     }
 
 

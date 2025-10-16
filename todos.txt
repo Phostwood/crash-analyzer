@@ -1,16 +1,31 @@
-✅Version 1.27.3 is now live:
+✅Version 1.27.4 is now live:
 https://phostwood.github.io/crash-analyzer/
 
-1. New test: ❓ Possible geometry culling / occlusion-related issue (low confidence)
-	- thanks Lethallan17 (✅added) and RomatebitegeL !
-2. ❗ Suspiciously High Memory Usage Detected:
-	- BUG FIX: no longer lists this section when memory-lines are truncated or removed
-3. 🎯 .STRINGS Crash Detected:
-	- added clarification: "Even a dot above the "I" (ex: "İ") or the like can cause a crash."
-4. ❓ Possible eFPS Issue detected:
-	- loosened test to no longer test for 'BSScript::Internal::CodeTasklet' indicator, as it was found to not be in a new related crash log, and is already explained to be a low-priority test.
-5. Fixed code typo (transparent to usage) where "Inights" was corrected to "Insights"
-6. Readme.md - updated number of subscribers
+1. New test: ❓ Possible file system / OneDrive / permissions issue
+
+2. ❓ Possible Mesh Issue Indicators Found: 
+	- BUG FIX: now works with (rare) instances of ".nif.Dm" extensions
+
+3. ❗ Potential Missing Masters/Dependency Detected:
+	- CLARIFICATION: added new list item: Load Order Dependency Issue:
+
+4. ❓ skee64.dll Issue Detected:
+	- UPDATE: removed out-dated info on preset issues, now often preventable with "RaceMenu OverlayFix and Various Mod Fixes" mod
+
+5. Donations section and Readme.txt
+	- Back up to 5 monthly subscribers!
+	- Added info on over 3,000 monthly visitors
+	- Refined first bullet point
+	- Other minor tweaks
+
+6. On mesh/texture/etc. lists:
+	- Changed "UNLIKELY CAUSE" to "LESS-LIKELY CAUSE"
+
+7. Code:
+	- new sections.stackTop300, sections.probableCallstackTop50, sections.registersTop50, and sections.highestConfidenceIndicators
+	- improved some code formatting
+
+8. Also fixed some typos
 
 
 ---

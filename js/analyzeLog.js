@@ -1036,6 +1036,13 @@ async function analyzeLog() {
 
     insights += '</ul><h5>Miscellaneous Issues:</h5><ul>';
 
+    // ❓ Possible file system / OneDrive / permissions issue (medium confidence)
+    const checkPossibleFilesystemIssueInsights = checkPossibleFilesystemIssue(sections);
+    if (checkPossibleFilesystemIssueInsights) {
+        insights += checkPossibleFilesystemIssueInsights;
+        insightsCount++;
+    }
+
 
     // ❓ Possible Shadowrend Issue:
     // NOTE: Nolvus users also see a shortened version of this in the Diagnoses section at top
