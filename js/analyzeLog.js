@@ -511,6 +511,13 @@ async function analyzeLog() {
         hasPagefileIndicator = true;
     }
 
+    // ❗ Possible Mod Organizer 2 Virtual File System (USVFS) issue (medium confidence)
+    const checkUsvfsIssueResult = checkUsvfsIssue(sections);
+    if(checkUsvfsIssueResult) {
+        diagnoses += checkUsvfsIssueResult;
+        diagnosesCount++;
+    }
+
 
     //❓ Possible Shadow Scene Node Crash Detected:
    const shadowScene = analyzeShadowSceneIssues(sections);
@@ -534,6 +541,7 @@ async function analyzeLog() {
             diagnosesCount++;
         }
     }
+
 
 
     //⚠️ Low System RAM Detected:

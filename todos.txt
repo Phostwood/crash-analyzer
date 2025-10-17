@@ -1,31 +1,16 @@
-✅Version 1.27.4 is now live:
+✅Version 1.27.5 is now live:
 https://phostwood.github.io/crash-analyzer/
 
-1. New test: ❓ Possible file system / OneDrive / permissions issue
+1. ✅new test: ❓ Possible Mod Organizer 2 Virtual File System (USVFS) issue: 
+	- first draft approved
+	- Thanks RomatebitegeL!
+	- https://www.reddit.com/r/Phostwood/comments/1o8if5u/comment/njwq5c5/
+	- let him know, and change post's status once live
 
-2. ❓ Possible Mesh Issue Indicators Found: 
-	- BUG FIX: now works with (rare) instances of ".nif.Dm" extensions
+2. ✅clarification: 🎯 "Object Reference: None" Detected: 
+	- Inserted line about load order and Vortex Collections
+3. ✅additions and clarifications: 🤖 Best Practices for Auto-Installing Modlist Users
 
-3. ❗ Potential Missing Masters/Dependency Detected:
-	- CLARIFICATION: added new list item: Load Order Dependency Issue:
-
-4. ❓ skee64.dll Issue Detected:
-	- UPDATE: removed out-dated info on preset issues, now often preventable with "RaceMenu OverlayFix and Various Mod Fixes" mod
-
-5. Donations section and Readme.txt
-	- Back up to 5 monthly subscribers!
-	- Added info on over 3,000 monthly visitors
-	- Refined first bullet point
-	- Other minor tweaks
-
-6. On mesh/texture/etc. lists:
-	- Changed "UNLIKELY CAUSE" to "LESS-LIKELY CAUSE"
-
-7. Code:
-	- new sections.stackTop300, sections.probableCallstackTop50, sections.registersTop50, and sections.highestConfidenceIndicators
-	- improved some code formatting
-
-8. Also fixed some typos
 
 
 ---

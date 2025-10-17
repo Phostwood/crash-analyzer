@@ -224,7 +224,7 @@ function generateDiagnosis(crashTitle, otherFiles, mostLikelyFile) {
                 <li>Consider temporarily disabling it (and all its dependencies) to isolate the issue.</li>
                 <li>Verify it's the correct version for your Skyrim, and your other mods</li>
                 <li>Check for missing required files, or recommended patches</li>
-                <li>Verify its in the correct load order (check mod author's recommendation)</li>
+                <li>Verify its in the correct load order (check mod author's recommendation). NOTE: this is a very common issue when installing or updating Vortex Collections, but usually easily fixable by enabling all mods, and clicking "Sort Now" several times. See details in above "🤖 Best Practices for Auto-Installing Modlist Users" section.</li>
                 <li>Check any configurations or configuration files (or for some mod types it may need to be regenerated)</li>
                 <li>Consider re-downloading (and carefully reinstalling) in case the first download was corrupted</li>
             </ul>
@@ -3243,12 +3243,14 @@ function checkCommonModlistIssues(sections, hasUnlikelyErrorForAutoInstallerModl
                 <li>🖥️ Verify your hardware/OS settings:
                     <ul>
                         <li>Always try the classic computer solution - <b>restart your PC</b>: This clears memory and resolves many system-level issues, especially after extended gaming sessions. It's surprising how many issues this old IT tip still fixes...</li>
-                        <li>Consider quitting out of all other applications before launching your modlist, especially if you have less than 32GB of RAM.</li>
+                        <li>⚡ Consider quitting out of all other applications before launching your modlist, particularly resource-intensive programs (e.g., web browsers with many tabs, other games, or video editors), or if you have less than 32GB of RAM.</li>
                         <li>${hasPagefileIndicator ? '👉' : ''}${verifyWindowsPageFileListItem}</li>
                         <li>Maintain <a href="https://computercity.com/hardware/storage/how-much-space-should-i-leave-on-my-ssd">at least 10-20% free space</a> on your SSD for optimal performance.</li>
-                        <li>Return any <b>overclocked hardware</b> (including RAM using XMP or AMD EXPO) to stock speeds.</li>
+                        <li>🖼️ Ensure your graphics driver is up-to-date, as outdated drivers can cause crashes, graphical glitches, or performance issues.</li>
+                        <li>🔥 Return any <b>overclocked hardware</b> (including RAM using XMP or AMD EXPO) to stock speeds.</li>
                     </ul>
                 </li>
+
                 
                 <li>${hasUnlikelyErrorForAutoInstallerModlist ? '👉' : ''}Use installer to ensure your modlist/collection downloaded and installed completely without errors:
                     <ul>
@@ -3338,7 +3340,7 @@ function checkCommonModlistIssues(sections, hasUnlikelyErrorForAutoInstallerModl
 
                         <li><b>Significance:</b> Don't try to fix what might not be broken. If indications of the same issue don't repeat across multiple crash logs, they probably aren't significant.</li>
 
-                        <li>${hasSaveLoadIssues ? '👉' : ''}🚫 <b>Avoid Mid-game loading:</b> Skyrim is believed to be most stable with just the first loading per launch. Subsequent save-file loads without quitting to desktop first may cause random crashes. <b>Make it easier</b> to avoid this by adding any of these mods/collections (if your modlist doesn't already include them or equivalents):
+                        <li>${hasSaveLoadIssues ? '👉' : ''}🚫 <b>Avoid loading saves mid-session:</b> Skyrim is believed to be most stable with just the first loading per launch. Subsequent save-file loads without quitting to desktop first may cause random crashes. <b>Make it easier</b> to avoid this by adding any of these mods/collections (if your modlist doesn't already include them or equivalents):
                             <ul>
                                 <li><a href="https://www.nexusmods.com/skyrimspecialedition/mods/88219"  target="_blank">Clean Save Auto-reloader</a> automatically re-launches Skyrim from desktop with each reload, potentially adding minutes of game startup time.</li>
                                 <li><a href="https://www.nexusmods.com/games/skyrimspecialedition/collections/4o4jxh/mods" target="_blank">Safe Save Helpers</a> mod collection provides users an automated and more thorough approach.</li>
@@ -3353,7 +3355,7 @@ function checkCommonModlistIssues(sections, hasUnlikelyErrorForAutoInstallerModl
                                 </li>
                             </ul>
                         </li>
-                        <li>${hasSaveLoadIssues ? '👉' : ''}💾 <b>Safe saving practices:</b> <a href="https://www.nexusmods.com/skyrimspecialedition/mods/81502">Disable autosaves</a>. Save only during downtime when nothing is going on, wait 20-ish seconds before saving in newly-loaded areas (allows scripts to settle).</li>
+                        <li>${hasSaveLoadIssues ? '👉' : ''}📂 <b>Safe saving practices:</b> <a href="https://www.nexusmods.com/skyrimspecialedition/mods/81502">Disable autosaves</a>. Save only during downtime when nothing is going on, wait 20-ish seconds before saving in newly-loaded areas (allows scripts to settle).</li>
                         <li><b>References</b> on safe saving and safe loading practices:
                             <ul>
                                 <li><a href="https://gatetosovngarde.wiki.gg/wiki/Safe_Saving"  target="_blank">Gate to Sovngarde's "Safe Saving" wiki page</a></li>
@@ -4175,3 +4177,28 @@ function checkPossibleFilesystemIssue(sections) {
     return insights;
 }
 
+
+// ❓ Possible Mod Organizer 2 Virtual File System (USVFS) issue (medium confidence)
+function checkUsvfsIssue(sections) {
+    let insights = '';
+    const text = (sections.highestConfidenceIndicators || '').toLowerCase();
+
+    const hasUsvfs = text.includes('usvfs_x64.dll');
+
+    if (hasUsvfs) {
+        insights += `<li>❓ <b>Possible Mod Organizer 2 Virtual File System (USVFS) issue:</b>
+            This crash log's highest-confidence sections reference <code>usvfs_x64.dll</code>, which is part of Mod Organizer 2's virtual file system layer. Crashes here usually mean the game failed while interacting with MO2's file redirection system, not Skyrim itself.
+            <ul>
+                <li><b>Check Antivirus/Security Software:</b> This is the most common cause. Some antivirus tools interfere with USVFS injection. Add exceptions to your antivirus software for MO2 and Skyrim.</li>
+                <li><b>Update MO2:</b> Consider upgrading if you aren't running the latest stable build of Mod Organizer 2.</li>
+                <li>Detected indicators from highest-confidence sections of crash log:
+                    <ul class="extraInfo">
+                        ${hasUsvfs ? '<li><code>usvfs_x64.dll</code></li>' : ''}
+                    </ul>
+                </li>
+            </ul>
+        </li>`;
+    }
+
+    return insights;
+}
