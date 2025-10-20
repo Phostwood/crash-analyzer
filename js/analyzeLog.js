@@ -1300,10 +1300,17 @@ async function analyzeLog() {
 
 
     // ALWAYS SHOWS at top of Diagnostics
-    // 🤖 For Users of Auto-Installing Modlists:
-    const checkCommonModlistIssuesDiagnosis = checkCommonModlistIssues(sections, hasUnlikelyErrorForAutoInstallerModlist, hasSaveLoadIssues, hasKeyboardIssue, hasPagefileIndicator, hasMissingCC);
-    if(checkCommonModlistIssuesDiagnosis) {
-        diagnoses = checkCommonModlistIssuesDiagnosis + diagnoses;
+    // 🤖 Troubleshooting Auto-Installing Modlists:
+    const checkAutoInstallerIssuesDiagnosis = checkAutoInstallerIssues(sections, hasUnlikelyErrorForAutoInstallerModlist, hasSaveLoadIssues, hasKeyboardIssue, hasPagefileIndicator, hasMissingCC);
+    if(checkAutoInstallerIssuesDiagnosis) {
+        diagnoses = checkAutoInstallerIssuesDiagnosis + diagnoses;
+    }
+
+    // ALWAYS SHOWS at bottom of Diagnostics
+    // 🎲 Reduce Random Crashes:
+    const checkRandomIssuesDiagnosis = checkRandomIssues(sections, hasUnlikelyErrorForAutoInstallerModlist, hasSaveLoadIssues, hasKeyboardIssue, hasPagefileIndicator, hasMissingCC);
+    if(checkRandomIssuesDiagnosis) {
+        diagnoses = diagnoses + checkRandomIssuesDiagnosis;
     }
 
 

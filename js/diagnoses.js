@@ -1,7 +1,15 @@
 //All diagnosing functions for both analyzeLog.js's diagnoses and insights variables. Only use insights.js if there needs to be a version of a function unique to the insights variable
 
 // --- Shared Constants ---
-const verifyWindowsPageFileListItem = `💾 Verify your <a href="https://www.nolvus.net/appendix/pagefile">Windows Pagefile is properly configured</a> (nolvus.net link, but broadly applicable). The most common stability-focused recommendation is expanding the Pagefile's minimum and maximum to 40GB (or <a href="https://www.thewindowsclub.com/best-page-file-size-for-64-bit-versions-of-windows">potentially more</a> if you have more RAM, and/or play with an especially heavy modlist). ⚠️NOTE: some sources say Skyrim's engine was programmed to require Pagefile usage even when there is more than enough RAM available. To be on the safe side, ensure your Pagefile settings even if you somehow have a terrabyte of RAM.`;
+const verifyWindowsPageFileListItem = `💾 Verify your <a href="https://www.nolvus.net/appendix/pagefile">Windows Pagefile is properly configured</a> (nolvus.net link, but broadly applicable). The most common stability-focused recommendation for Skyrim is setting both the minimum and maximum Pagefile size to <b>40,000 MB (≈40 GB)</b>. This value is widely used as a safe baseline for heavily-modded setups. <a href="#" class="toggleButton">⤵️ show more</a>
+<ul class="extraInfo" style="display:none">
+    <li>Your maximum Pagefile size should be at least your total RAM + 257 MB to allow Windows to generate a complete memory crash dump if needed.</li>
+    <li>Microsoft's general guidance: minimum = 1.5x your installed RAM, maximum = up to 4x your RAM (<a href="https://www.thewindowsclub.com/best-page-file-size-for-64-bit-versions-of-windows">source</a>).</li>
+    <li>Skyrim's engine is unusual in that it reportedly requires Pagefile usage even when plenty of physical RAM is available.</li>
+    <li>For heavily-modded Skyrim, the common recommendation is setting both min and max to 40,000 MB (≈40 GB).</li>
+    <li>For especially heavy modlists or high-RAM systems, you may want to increase the Pagefile beyond 40 GB, but 40,000 MB is the safe minimum baseline.</li>
+</ul>`;
+
 
 function reinstallEngineFixesInstructions (sections) {
 
@@ -1899,7 +1907,8 @@ function generateNoCrashDetectedMessage(sections) {
                 <li>${Utils.LootIfSkyrim}</li>
                 <li><b>If you haven't already</b>, share your logs with <a href="https://www.reddit.com/r/skyrimmods/">r/SkyrimMods</a>. Share multiple logs (using <a href="http://www.pastebin.com">www.pastebin.com</a>) when possible and mention in your post that you've already used Phostwood's analyzer and followed its recommendations. The manual crash log reading gurus there can catch some things that automated analyzers will never be able to. This tool only aims to help with 70 to 90% of human-solvable crash logs...</li>
                 <li><b>As a last resort:</b> Try disabling groups of mods at a time (being mindful of masters and dependencies) until the crash stops. While tedious, this can help isolate almost any problematic mod combinations.</li>
-            </ul></li>`;
+            </ol>
+        </li>`;
     } else {
         //NOLVUS version:
         diagnoses += `
@@ -3183,12 +3192,14 @@ function analyzeXAudioIssue(sections) {
     let insights = '';
 
     if (sections.topHalf.toLowerCase().includes('XAudio'.toLowerCase())) {
-        insights += `<li>❓ <b>XAudio Issue Detected:</b> The 'XAudio' error may indicate a problem with the game's audio processing components. XAudio is a part of the Windows audio infrastructure, separate from DirectX. To resolve audio issues, follow these steps:<ol>
-            <li>Ensure your sound card drivers are up to date. Visit the manufacturer's website for the latest driver software.</li>
+        insights += `<li>❓ <b>XAudio Issue Detected:</b> Seeing 'XAudio' in the crash log may indicate a problem with the game's audio processing components. XAudio is part of the Windows audio infrastructure, separate from DirectX. This crash is often caused by audio driver issues or incompatible mods. Try these steps:<ol>
+            <li>Ensure your sound card drivers are up to date. Visit your sound card manufacturer's website for the latest driver software.</li>
+            <li>Change your Windows audio format to a lower sample rate. Right-click your speaker icon in the system tray, select "Open Sound settings," then go to "Advanced" and try changing the sample rate to 16 bit, 44100 Hz (or lower). This resolves many XAudio crashes.</li>
             <li>Check the game's audio settings and adjust them if necessary.</li>
-            <li>If you're using audio mods, verify their compatibility with your version of Skyrim and other installed mods.</li>
-            <li>Sometimes, changing the audioformat, and/or sample rate of the audio file(s) can resolve issues.</li>
-            <li>Consult the Skyrim modding community forums for specific solutions to XAudio-related errors.</li>
+            <li>If you're using audio-related mods, verify their compatibility with your version of Skyrim and that they don't conflict with other installed mods.</li>
+            <li>Try reinstalling Direct X, as this sometimes helps. See <a href="https://mspoweruser.com/how-to-reinstall-directx-on-windows-11-a-step-by-step-guide/">How To Reinstall DirectX On Windows 11: A Step-by-Step Guide</a></li>
+            <li>Disable all mods and launch the game to confirm the crash is resolved. If it is, systematically re-enable mods in small groups to isolate which mod(s) are causing the issue.</li>
+            <li>Consult the Skyrim modding community forums (such as r/skyrimmods) for specific solutions to XAudio-related errors if the above steps don't resolve the issue.</li>
             </ol></li>`;
     }
 
@@ -3228,31 +3239,18 @@ function analyzeNewGameCrash(sections) {
 
 
 
-// 🤖 For Users of Auto-Installing Modlists:
+// 🤖 Troubleshooting Auto-Installing Modlists:
 // Streamlined function for modlist/collection users with automated installers
-function checkCommonModlistIssues(sections, hasUnlikelyErrorForAutoInstallerModlist, hasSaveLoadIssues, hasKeyboardIssue, hasPagefileIndicator, hasMissingCC) {
+function checkAutoInstallerIssues(sections, hasUnlikelyErrorForAutoInstallerModlist, hasSaveLoadIssues, hasKeyboardIssue, hasPagefileIndicator, hasMissingCC) {
        
-    // DECIDED TO ALWAYS show this at the top. It's collapsed anyway, and pretty much any issue in an auto-installing modlist could easily be caused by these issues. Also, support functions were centralized into analyzeLog.js so that such diagnositics are centralized into one piece of code. Also, troubleshooting instructions were centralized into the main text block, with some minor conditionals inserted.
     // Main diagnosis section
     let diagnoses = `
-        <li>${(hasUnlikelyErrorForAutoInstallerModlist || hasSaveLoadIssues || hasKeyboardIssue ||  hasPagefileIndicator) ? '👉 ' : ''}<span class="important-emoji">🤖</span> <b>Best Practices for Auto-Installing Modlist Users:</b> Since most well-crafted auto-installing modlists, such as <b>Nolvus</b>, <b>Wabbajack modlists</b>, and <b>Nexus Mods Collections</b>, are generally stable, these guidelines should help resolve most common issues that may arise, and <b>custom modders</b> may also find them insightful. <a href="#" class="toggleButton">⤵️ show more</a>
+        <li>${(hasUnlikelyErrorForAutoInstallerModlist || hasSaveLoadIssues || hasKeyboardIssue ||  hasPagefileIndicator) ? '👉 ' : ''}<span class="important-emoji">🤖</span> <b>Troubleshooting Auto-Installing Modlists:</b> Since most well-crafted auto-installing modlists, such as <b>Nolvus</b>, <b>Wabbajack modlists</b>, and <b>Nexus Mods Collections</b>, are generally stable, these guidelines (along with the "Reduce Random Crashes" section below) should help resolve most common issues that may arise. Custom modders may also find them insightful.
+        <a href="#" class="toggleButton">⤵️ show details</a>
             <ul class="extraInfo" style="display:none">
-                ${(hasUnlikelyErrorForAutoInstallerModlist || hasSaveLoadIssues || hasKeyboardIssue ||  hasPagefileIndicator) ? '<li>Any suggestions noted with "👉" below have inidicators of <b>possible relevancy</b> in your provided crash log.</li>' : ''}
-                <li>1️⃣ Initial Setup: if you haven't already, <b>launch Skyrim once from Steam</b> (not through your mod manager) and click "Options" to generate default ini files and download any AE content. Close the launcher completely, then launch through your mod manager as usual. <a href="https://gatetosovngarde.wiki.gg/wiki/Installation_Guide#A_Clean_And_Proper_Skyrim." target="_blank">More info</a> (GTS reference, but this section is broadly applicable)</li>
-
-                <li>🖥️ Verify your hardware/OS settings:
-                    <ul>
-                        <li>Always try the classic computer solution - <b>restart your PC</b>: This clears memory and resolves many system-level issues, especially after extended gaming sessions. It's surprising how many issues this old IT tip still fixes...</li>
-                        <li>⚡ Consider quitting out of all other applications before launching your modlist, particularly resource-intensive programs (e.g., web browsers with many tabs, other games, or video editors), or if you have less than 32GB of RAM.</li>
-                        <li>${hasPagefileIndicator ? '👉' : ''}${verifyWindowsPageFileListItem}</li>
-                        <li>Maintain <a href="https://computercity.com/hardware/storage/how-much-space-should-i-leave-on-my-ssd">at least 10-20% free space</a> on your SSD for optimal performance.</li>
-                        <li>🖼️ Ensure your graphics driver is up-to-date, as outdated drivers can cause crashes, graphical glitches, or performance issues.</li>
-                        <li>🔥 Return any <b>overclocked hardware</b> (including RAM using XMP or AMD EXPO) to stock speeds.</li>
-                    </ul>
-                </li>
-
+                ${(hasUnlikelyErrorForAutoInstallerModlist || hasSaveLoadIssues || hasKeyboardIssue ||  hasPagefileIndicator) ? '<li>Any suggestions noted with "👉" below have indicators of <b>possible relevancy</b> in your provided crash log.</li>' : ''}
                 
-                <li>${hasUnlikelyErrorForAutoInstallerModlist ? '👉' : ''}Use installer to ensure your modlist/collection downloaded and installed completely without errors:
+                <li>${hasUnlikelyErrorForAutoInstallerModlist ? '👉' : ''}Ensure modlist/collection is <b>fully downloaded and correctly installed</b> without errors:
                     <ul>
                         <li>🪛 <b>Nolvus Users:</b> <a href="#" class="toggleButton">⤵️ show more</a>
                             <ul class="extraInfo" style="display:none">
@@ -3315,30 +3313,72 @@ function checkCommonModlistIssues(sections, hasUnlikelyErrorForAutoInstallerModl
                         </li>
                     </ul>
                 </li>
-    
-                <li>${hasSaveLoadIssues ? '👉' : ''}<b>Save/Load Issues:</b> Problems saving or loading game files:
+
+                 <li>💬 <b>Consult before updating any mods:</b> Check with the collection's community before updating individual mods, as collections often include compatibility patches dependent on specific mod versions. Bulk updates frequently break functionality and cause crashes.</li>
+
+                <li>🧩 <b>Best Practices</b> for modding on top of an auto-installing modlist:
                     <ul>
-                        <li>Try loading from your last working save</li>
-                        <li>If crashes occur only while saving, this may be related to missing masters (addressed above)</li>
-                        <li>💾 Advanced: Use <a href="https://www.nexusmods.com/skyrim/mods/76776"  target="_blank">FallrimTools ReSaver</a> for save cleaning. ⚠️ <strong>CAUTION:</strong> Fixing/editing save files has inherent risks and should be avoided when possible. If you can instead revert to an acceptable older save file, that is often preferable in the long run.</li>
+                        <li><b>Warning!</b> Usually this <b>voids full support</b> from modlist Discords. Some will still help you (potentially in a separate channel dedicated to customizers), but they will usually expect more effort from you in return.</li>
+                        <li><b>Be patient</b> and expect to do some work (see below) ... or consider leaving your modlist as the auto-installed installation.</li>
+                        <li><b>Avoid using the in-game Creations menu</b> while using external mod managers - it may conflict with MO2/Vortex</li>
+                        <li>Review your <b>modlist's Discord</b> for mods recommended by others, as well as for any other mods you'd like to add. You can often save time by learning from others' experiences.</li>
+                        <li>Choose your mods carefully, <b>read</b> all of a mod's documentation beforehand, including at least skimming its forum/Discord.</li>
+                        <li>Only add <b>one mod (or two) at a time</b>, and usually start a new character for each round of testing. Test thoroughly before adding more mods. <b>EXCEPTION:</b> Sometimes a small group of mods can be added at once if they are known to work with your modlist (and with each other).</li>
+                        <li>Check for <b>patches</b> for making your mods cross-compatible with each other. Or, learn to use <a href="https://www.nexusmods.com/skyrimspecialedition/mods/164" target="_blank">SSEEdit (xEdit)</a> to make your own patches.</li>
+                        <li><b>Finalize your modlist</b> before starting a new character for a real playthrough. Test thoroughly beforehand, because many mods are not safe to remove without starting a new character.</li>
+                        <li>Avoid stacking <b>multiple mods</b> that serve the <b>same purpose</b> (e.g., more than one weather overhaul, lighting system, or animation framework). Conflicting mods in the same category often overwrite each other or cause instability.</li>
+                        <li><b>Load order</b> can be very important. Either read up on this, or consult your modlist's Discord for advice on how to place/prioritize your added mods.</li>
+                    </ul>
+                </li>
+            </ul>
+        </li>`;
+
+    return diagnoses;
+};
+
+// 🎲 Reduce Random Crashes:
+function checkRandomIssues(sections, hasUnlikelyErrorForAutoInstallerModlist, hasSaveLoadIssues, hasKeyboardIssue, hasPagefileIndicator, hasMissingCC) {
+       
+    let diagnoses = `
+        <li>${(hasUnlikelyErrorForAutoInstallerModlist || hasSaveLoadIssues || hasKeyboardIssue ||  hasPagefileIndicator) ? '👉 ' : ''}<span class="important-emoji">🎲</span> <b>Reduce Random Crashes:</b> Best practices for game stability: <a href="#" class="toggleButton">⤵️ More details</a>
+            <ul class="extraInfo" style="display:none">
+                <li>${hasPagefileIndicator ? '👉' : ''} 💾 Set your Windows Pagefile to 40,000 min and max</li>
+                <li>${hasKeyboardIssue ? '👉' : ''} 🔀 Avoid Alt+Tabbing</li>
+                <li>${hasSaveLoadIssues ? '👉' : ''} 🚫 Avoid loading saves mid-session</li>
+                <li>${hasSaveLoadIssues ? '👉' : ''} 💀 Consider using an alternate death mod</li>
+                <li>${hasSaveLoadIssues ? '👉' : ''} 📂  Practice safe saving (disable autosaves, save only during calm moments)</li>
+                <li>⚡ Quit other resource-hungry apps before launching your modlist</li>
+                <li>🖼️ Keep your graphics driver up-to-date</li>
+                <li>🔥 Return any overclocked hardware (including RAM using XMP or AMD EXPO) to stock speeds</li>
+                <li>🛑 Don't try to "fix" random issues. Except for a confident diagnosis or safe and prudent upgrades, wait for specific indications to repeat across multiple crash logs.</br>
+                    ${(hasPagefileIndicator || hasKeyboardIssue || hasSaveLoadIssues) ? '</br><span style="font-size: 0.9em; margin: 8px 0;"><b>Legend:</b> 👉 = Possible relevancy detected in your crash log</span></br>' : ''}
+                    </br>
+                    <b>Full List and Details:</b>
+                </li>
+
+                <li>🖥️ Verify your hardware/OS settings:
+                    <ul>
+                        <li>Always try the classic computer solution - <b>restart your PC</b>: This clears memory and resolves many system-level issues, especially after extended gaming sessions. It's surprising how many issues this old IT tip still fixes...</li>
+                        <li>⚡ Consider quitting out of all other applications before launching your modlist, particularly resource-intensive programs (e.g., web browsers with many tabs, other games, or video editors), or if you have less than 32GB of RAM.</li>
+                        <li>${hasPagefileIndicator ? '👉' : ''}${verifyWindowsPageFileListItem}</li>
+                        <li>Maintain <a href="https://computercity.com/hardware/storage/how-much-space-should-i-leave-on-my-ssd">at least 10-20% free space</a> on your SSD for optimal performance.</li>
+                        <li>🖼️ Ensure your <b>graphics driver</b> is up-to-date, as outdated drivers can cause crashes, graphical glitches, or performance issues.</li>
+                        <li>🔥 Return any <b>overclocked hardware</b> (including RAM using XMP or AMD EXPO) to stock speeds.</li>
                     </ul>
                 </li>
 
                 <li>🦉 <b>Best Practices</b> for playing a stable heavily-modded Skyrim: (Experienced modders have differing opinions, and some of these recommendations are considered <a href="https://www.reddit.com/r/skyrimmods/comments/1ls2j8b/best_practices_for_playing_a_stable_modded_skyrim/"  target="_blank">controversial</a>, but according to three top modlist communities, breaking these may cause crashes even with a stable modlist)
                     <ul>
-                        <li>🔄 <b>Consult before updating any mods:</b> Check with the collection's community before updating individual mods, as collections often include compatibility patches dependent on specific mod versions. Bulk updates frequently break functionality and cause crashes.</li>
-                        <li><b>Avoid using the in-game Creations menu</b> while using external mod managers - it may conflict with MO2/Vortex</li>
-
                         <li>${hasKeyboardIssue ? '👉' : ''}🔀 <b>Alt+Tab considerations:</b> Avoid Alt+Tabbing, especially playing full screen, or while loading/saving, or any intensive scenes. If you must, switch applications during periods of inactivity and after pausing Skyrim with the [\`] key (entering the command line menu).</li>
 
-                        <li>If one save won't load, quit to the desktop, relaunch Skyrim and try to <b>load an older save</b>.</li>
+                        <li>${hasSaveLoadIssues ? '👉 ' : ''}If one save won't load, quit to the desktop, relaunch Skyrim and try to <b>load an older save</b>.</li>
 
                         <li>Sometimes it can help to <b>separate from your followers</b> to get past a crash point. Ask followers/pets/steeds to "wait" at a safe location, away from the crash-prone loading area (cell) ... and then collect them again later after getting past the crashing area.</li> 
 
                         <li><b>Normal crash frequency:</b> Unless multiple crash logs indicate a repeating pattern, crashing less than every 4 hours usually isn't a large concern for any heavily modded Skyrim, especially if the modlist is straining the limits of your hardware. Even un-modded Skyrim crashes.
                         </li>
 
-                        <li><b>Significance:</b> Don't try to fix what might not be broken. If indications of the same issue don't repeat across multiple crash logs, they probably aren't significant.</li>
+                        <li>🛑 Don't try to "fix" random issues. Except for a confident diagnosis or safe and prudent upgrades, it's generally best to wait for specific indications to repeat across <b>multiple crash logs</b>. Trying to fix one-off random issues may lead to more issues.</li>
 
                         <li>${hasSaveLoadIssues ? '👉' : ''}🚫 <b>Avoid loading saves mid-session:</b> Skyrim is believed to be most stable with just the first loading per launch. Subsequent save-file loads without quitting to desktop first may cause random crashes. <b>Make it easier</b> to avoid this by adding any of these mods/collections (if your modlist doesn't already include them or equivalents):
                             <ul>
@@ -3363,18 +3403,6 @@ function checkCommonModlistIssues(sections, hasUnlikelyErrorForAutoInstallerModl
                                 <li><a href="https://lorerim.com/support/saves/"  target="_blank">Lorerim's "Safe Saving & Loading" wiki page</a></li>
                             </ul>
                         </li>
-                    </ul>
-                </li>
-                <li>🧩 <b>Best Practices</b> for modding on top of an auto-installing modlist:
-                    <ul>
-                        <li><b>Warning!</b> Usually this <b>voids full support</b> from modlist Discords. Some will still help you (potentially in a separate channel dedicated to customizers), but they will usually expect more effort from you in return.</li>
-                        <li>Be patient and expect to do some work (see below) ... or consider leaving your modlist as the auto-installed installation.</li>
-                        <li>Review your <b>modlist's Discord</b> for mods recommended by others, as well as for any other mods you'd like to add. You can often save time by learning from others' experiences.</li>
-                        <li>Choose your mods carefully, <b>read</b> all of a mod's documentation beforehand, including at least skimming its forum/Discord.</li>
-                        <li>Only add one mod (or two) at a time, and usually start a new character for each round of testing. Test thoroughly before adding more mods. <b>EXCEPTION:</b> Sometimes a small group of mods can be added at once if they are known to work with your modlist (and with each other).</li>
-                        <li>Check for <b>patches</b> for making your mods cross-compatible with each other. Or, learn to use <a href="https://www.nexusmods.com/skyrimspecialedition/mods/164" target="_blank">SSEEdit (xEdit)</a> to make your own patches.</li>
-                        <li><b>Finalize your modlist</b> before starting a new character for a real playthrough. Test thoroughly beforehand, because many mods are not safe to remove without starting a new character.</li>
-                        <li><b>Load order</b> can be very important. Either read up on this, or consult your modlist's Discord for advice on how to place/prioritize your added mods.</li>
                     </ul>
                 </li>
             </ul>

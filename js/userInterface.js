@@ -43,6 +43,21 @@ document.addEventListener('DOMContentLoaded', function () {
 				<strong>Find your crash logs at:</strong><br>
 				<code id="crashDirectory">${crashDirectory.textContent}</code><br>
 				Replace [My_Documents] with your actual directory path.<br>
+				<br>
+				<b>Log files aren't showing up?</b> <a href="#" class="toggleButton">⤵️ show more</a>
+				<ul class="extraInfo" style="display:none">
+					<li><b>Carefully reinstall</b> your crash logging mod. <a href="https://www.nexusmods.com/skyrimspecialedition/mods/59818">Crash Logger SSE</a> is usually the recommended option. <b>Only one</b> crash logging mod may be used, so be sure to remove or disable all other crash logging mods.</li>
+					<li><b>Check OneDrive:</b> If your Documents folder is actively syncing, or if OneDrive has glitched and left files locked after syncing, Skyrim may fail to save or load files. 
+						See <a href="https://docs.google.com/document/d/1Ot0l8uFv-AJZr1X6vRMQNovhua_NUtE_HhbkrfJi1Ss/edit?tab=t.0">Ways To Get Rid Of OneDrive</a> (Google Doc) and 
+						<a href="https://steamcommunity.com/app/489830/discussions/0/2263565217515804221/">Steam Community - Skyrim vs. OneDrive</a>. 
+						Where possible, avoid extreme measures like uninstalling OneDrive; instead, adjust sync settings or exclude your Skyrim folders.
+					</li>
+					<li><b>Verify permissions:</b> Run the game and mod manager with administrator rights. Ensure your Skyrim and Mods folders are not set to read-only.</li>
+					<li><b>Check free space:</b> Make sure your SSD or HDD has sufficient free space. Skyrim and SKSE may fail to write saves or cache files if the drive is nearly full. Aim to keep at least several GB free. Ideally, maintain <a href="https://computercity.com/hardware/storage/how-much-space-should-i-leave-on-my-ssd">at least 10-20% free space</a> on your SSD for optimal performance.</li>
+					<li>Consider temporarily switching to <b>Trainwreck</b>, as while it usually lacks important indicators, it is sometimes able to output crash logs where others can not.</li>
+					<li>Consider trying <a href="https://www.nexusmods.com/skyrimspecialedition/mods/79406">ProcMon - Skyrim Disk Usage Profiles</a> for viewing what mod/data was last loaded before your Skyrim crashed or froze ... reportedly often useful for isolating  crashes/freezes that won't output a crash log.</li>
+					<li>Consult <a href="#footer">Skyrim modding communities</a>, as they may have additional advice on dealing with specific types of freezes that don't output crash logs.</li>
+				</ul>
 			`;
 			} else if (selectedValue === 'trainwreck') {
 				crashDirectory.textContent = '[My_Documents]\\My Games\\Skyrim Special Edition\\SKSE\\Crashlogs';
@@ -666,7 +681,7 @@ document.addEventListener('DOMContentLoaded', function () {
 		}
 
 		// Set all toggleButtons to display as "⤴️ hide"
-		document.querySelectorAll('.toggleButton').forEach(function (toggleButton) {
+/* UNNECESSARY? (and caused problems with new section: "Log files aren't showing up?")		document.querySelectorAll('.toggleButton').forEach(function (toggleButton) {
 			var extraInfo = findExtraInfoElement(toggleButton);
 			if (extraInfo) {
 				if (extraInfo.classList.contains('extraInfoOL')) {
@@ -676,7 +691,7 @@ document.addEventListener('DOMContentLoaded', function () {
 				}
 				toggleButton.textContent = '⤴️ hide';
 			}
-		});
+		}); */
 
 		document.body.addEventListener('click', function (event) {
 			if (event.target.className === 'toggleButton') {

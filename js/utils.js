@@ -1083,15 +1083,29 @@ Utils.getLogSectionsMap = function(logFile) {
     // Create truncated stack sections
     if (sections.stack) {
         const stackLines = sections.stack.split('\n');
-
         sections.stackTop50 = stackLines.slice(0, 50).join('\n');
         sections.stackTop100 = stackLines.slice(0, 100).join('\n');
-        sections.stackTop300 = stackLines.slice(0, 300).join('\n'); 
-        
-        sections.probableCallstackTop50 = sections.probableCallstack.split('\n').slice(0, 50).join('\n');
-        sections.registersTop50 = sections.registers.split('\n').slice(0, 50).join('\n');
-        sections.highestConfidenceIndicators = sections.stackTop300 + sections.probableCallstackTop50 + sections.registersTop50;
+        sections.stackTop300 = stackLines.slice(0, 300).join('\n');
     }
+
+    // Create truncated probable callstack section (only if it exists)
+    if (sections.probableCallstack) {
+        sections.probableCallstackTop50 = sections.probableCallstack.split('\n').slice(0, 50).join('\n');
+    } else {
+        sections.probableCallstackTop50 = '';
+    }
+
+    // Create truncated registers section (only if it exists)
+    if (sections.registers) {
+        sections.registersTop50 = sections.registers.split('\n').slice(0, 50).join('\n');
+    } else {
+        sections.registersTop50 = '';
+    }
+
+    // Combine for highest confidence indicators
+    sections.highestConfidenceIndicators = (sections.stackTop300 || '') + 
+                                        (sections.probableCallstackTop50 || '') + 
+                                        (sections.registersTop50 || '');
 
 
     // Create composite sections
@@ -1473,87 +1487,90 @@ Utils.processExplainersAndUnlikely = function(namedElementMatches) {
 
 
 Utils.addMissingSectionHeaders = function(logFile, logType) {
-    // Only process CrashLogger logs
-    if (logType !== "CrashLogger") {
-        return logFile;
+  // Only process CrashLogger logs
+  if (logType !== "CrashLogger") {
+    return logFile;
+  }
+
+  // Split logFile into lines
+  const logLines = logFile.split('\n');
+
+  // Define the expected section headers in order
+  const sectionHeaders = [
+    'PROBABLE CALL STACK:',
+    'REGISTERS:',
+    'STACK:',
+    'MODULES:',
+    'SKSE PLUGINS:',
+    'PLUGINS:'
+  ];
+
+  // Track which sections are present
+  const presentSections = new Set();
+
+  // Check which sections exist in logLines
+  for (let i = 0; i < logLines.length; i++) {
+    const line = logLines[i].trim();
+    for (const header of sectionHeaders) {
+      if (line.startsWith(header)) {
+        presentSections.add(header);
+        break;
+      }
     }
-    
-    // Define the expected section headers in order
-    const sectionHeaders = [
-        'PROBABLE CALL STACK:',
-        'REGISTERS:',
-        'STACK:',
-        'MODULES:',
-        'SKSE PLUGINS:',
-        'PLUGINS:'
-    ];
-    
-    // Track which sections are present
-    const presentSections = new Set();
-    
-    // Check which sections exist in logLines
-    for (let i = 0; i < this.logLines.length; i++) {
-        const line = this.logLines[i].trim();
-        for (const header of sectionHeaders) {
-            if (line.startsWith(header)) {
-                presentSections.add(header);
-                break;
-            }
-        }
+  }
+
+  // Find the last present section
+  let lastPresentIndex = -1;
+  let lastPresentHeader = null;
+  for (let i = sectionHeaders.length - 1; i >= 0; i--) {
+    if (presentSections.has(sectionHeaders[i])) {
+      lastPresentIndex = i;
+      lastPresentHeader = sectionHeaders[i];
+      break;
     }
-    
-    // Find the last present section
-    let lastPresentIndex = -1;
-    let lastPresentHeader = null;
-    for (let i = sectionHeaders.length - 1; i >= 0; i--) {
-        if (presentSections.has(sectionHeaders[i])) {
-            lastPresentIndex = i;
-            lastPresentHeader = sectionHeaders[i];
-            break;
-        }
+  }
+
+  if (lastPresentIndex === -1) {
+    return logFile;
+  }
+
+  // Add missing headers after the last present section
+  const missingHeaders = sectionHeaders.slice(lastPresentIndex + 1);
+
+  if (missingHeaders.length === 0) {
+    return logFile;
+  }
+
+  // Find the line index of the last present header
+  let insertIndex = -1;
+  for (let i = logLines.length - 1; i >= 0; i--) {
+    if (logLines[i].trim().startsWith(lastPresentHeader)) {
+      insertIndex = i + 1;
+      break;
     }
-    
-    if (lastPresentIndex === -1) {
-        return logFile;
-    }
-    
-    // Add missing headers after the last present section
-    const missingHeaders = sectionHeaders.slice(lastPresentIndex + 1);
-    
-    if (missingHeaders.length === 0) {
-        return logFile;
-    }
-    
-    // Find the line index of the last present header
-    let insertIndex = -1;
-    for (let i = this.logLines.length - 1; i >= 0; i--) {
-        if (this.logLines[i].trim().startsWith(lastPresentHeader)) {
-            insertIndex = i + 1;
-            break;
-        }
-    }
-    
-    if (insertIndex === -1) {
-        return logFile;
-    }
-    
-    // Skip to the end of the last section's content
-    while (insertIndex < this.logLines.length && this.logLines[insertIndex].trim() !== '') {
-        insertIndex++;
-    }
-    
-    // Add missing section headers
-    const newLines = [];
-    for (const header of missingHeaders) {
-        newLines.push('');
-        newLines.push(header);
-    }
-    
-    // Insert the new lines
-    this.logLines.splice(insertIndex, 0, ...newLines);
-    
-    // Reconstruct and return the modified logFile
-    return this.logLines.join('\n');
+  }
+
+  if (insertIndex === -1) {
+    return logFile;
+  }
+
+  // Skip to the end of the last section's content
+  while (insertIndex < logLines.length && logLines[insertIndex].trim() !== '') {
+    insertIndex++;
+  }
+
+  // Add missing section headers
+  const newLines = [];
+  for (const header of missingHeaders) {
+    newLines.push('');
+    newLines.push(header);
+  }
+
+  // Insert the new lines
+  logLines.splice(insertIndex, 0, ...newLines);
+
+  // Reconstruct and return the modified logFile
+  return logLines.join('\n');
 };
 
 

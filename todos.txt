@@ -1,15 +1,29 @@
-✅Version 1.27.5 is now live:
+✅Version 1.27.6 is now live:
 https://phostwood.github.io/crash-analyzer/
 
-1. ✅new test: ❓ Possible Mod Organizer 2 Virtual File System (USVFS) issue: 
-	- first draft approved
-	- Thanks RomatebitegeL!
-	- https://www.reddit.com/r/Phostwood/comments/1o8if5u/comment/njwq5c5/
-	- let him know, and change post's status once live
+1. new section: "Log files aren't showing up?"
+	- New expanding section, just below the "where to find your crash logs" lines with recommendations from the existing file system / onedrive diagnosis ... Plus a few issue-specific recommendations
 
-2. ✅clarification: 🎯 "Object Reference: None" Detected: 
-	- Inserted line about load order and Vortex Collections
-3. ✅additions and clarifications: 🤖 Best Practices for Auto-Installing Modlist Users
+2. reworked: 🤖 Best Practices for Auto-Installing Modlist Users: 
+	- Redid "Autoinstalling" section as two separate sections: 
+	- "🤖 Troubleshooting Auto-Installing Modlists:" at top of diagnosis section
+	- "🎲 Reduce Random Crashes:" at bottom of diagnosis section
+	- Removed list item on New Game crashes, since doesn't really fit into either category, and already has it's own separate test in Diagnoses, "❗ Probable New Game Crash (Missing INI Files) Detected:"
+	- Some other related clarifications and tweaks
+
+3. improved instructions: ❓ XAudio Issue Detected: 
+	- XAudio additions from RomatebitegeL
+	- Thank you RomatebitegeL!
+	- https://www.reddit.com/r/skyrimmods/comments/1oa12h7/comment/nk7di3b/?context=1
+
+4. BUG FIX: Fix adding Probable CallStack to when Registers section is missing
+	- test log: crash-2025-10-18-15-41-36.log
+
+5. improved instructions: 💾 Verify your Windows Pagefile is properly configured:
+	- Added clarifications and detail that I wrote up when answering a question
+	- New info defaults to hidden, expandable with "show more" link
+
+6. formatting fix: ❓No highest-confidence crash indicators detected
 
 
 
