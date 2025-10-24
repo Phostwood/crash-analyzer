@@ -397,7 +397,7 @@ function checkForD6dddaEasyVersion(sections) {
                     <ol>
                         <li>Close unnecessary background applications that may be consuming memory.</li>
                         <li>${verifyWindowsPageFileListItem}<li>
-                        <li>Return any overclocked hardware (including RAM using XMP or AMD EXPO) to stock speeds, as unstable overclocks are known for causing crashes that can look like memory issues in crash logs.</li>
+                        <li>Return any overclocked hardware (<b>excluding</b> RAM using XMP or AMD EXPO) to stock speeds, as unstable overclocks are known for causing crashes that can look like memory issues in crash logs.</li>
                         <li>Maintain <a href="https://computercity.com/hardware/storage/how-much-space-should-i-leave-on-my-ssd">at least 10-20% free space</a> on your SSD for optimal performance.</li>
                         <li>Review your modlist's (or individual mods') recommended hardware requirements to verify you aren't overly below their system recommendations.</li>
                         <li>Hardware Diagnostics: If crashes persist, run Windows Memory Diagnostic or <a href="https://www.memtest86.com/">MemTest86</a> to check for faulty RAM. While rare, recurring D6DDDA crashes can sometimes indicate hardware issues.</li>
@@ -426,7 +426,7 @@ function checkForD6dddaAdvancedVersion(sections) {
                     <ol>
                         <li>Close unnecessary background applications that may be consuming memory.</li>
                         <li>${verifyWindowsPageFileListItem}</li>
-                        <li>Return any overclocked hardware (including RAM using XMP or AMD EXPO) to stock speeds, as unstable overclocks are known for causing crashes that can look like memory issues in crash logs.</li>
+                        <li>Return any overclocked hardware (<b>excluding</b> RAM using XMP or AMD EXPO) to stock speeds, as unstable overclocks are known for causing crashes that can look like memory issues in crash logs.</li>
                         <li>Maintain <a href="https://computercity.com/hardware/storage/how-much-space-should-i-leave-on-my-ssd">at least 10-20% free space</a> on your SSD for optimal performance.</li>
                         <li>🚀 For systems with less than 12GB VRAM (or more for ultrawide/high-resolution displays) (<a href="https://www.lifewire.com/how-to-check-vram-5235783">check your VRAM here</a>), consider using <a href="https://www.nexusmods.com/skyrimspecialedition/mods/90557">VRAMr</a>. This tool automatically compresses texture files across your load order, reducing VRAM usage while maintaining visual fidelity and improving stability.</li>
                         <li>Review your modlist's (or individual mods') recommended hardware requirements to verify you aren't overly below their system recommendations.</li>
@@ -775,7 +775,7 @@ function analyzeMemoryIssues(sections) {
             <ul>
             <li>Reboot PC and close any unnecessary applications to maximize available RAM for Skyrim.</li>
             <li>${verifyWindowsPageFileListItem}</li>
-            <li>Return any overclocked hardware (including RAM using XMP or AMD EXPO) to stock speeds, as unstable overclocks are known for causing crashes that can look like memory issues in crash logs.</li>
+            <li>Return any overclocked hardware (<b>excluding</b> RAM using XMP or AMD EXPO) to stock speeds, as unstable overclocks are known for causing crashes that can look like memory issues in crash logs.</li>
             <li>Maintain <a href="https://computercity.com/hardware/storage/how-much-space-should-i-leave-on-my-ssd">at least 10-20% free space</a> on your SSD for optimal performance.</li>
             <li>Review your modlist's (or individual mods') recommended hardware requirements to verify you aren't overly below their system recommendations.</li>
             <li>Consider running memory diagnostic tools (Windows Memory Diagnostic or <a href="https://www.memtest86.com/">MemTest86</a>)</li>
@@ -1893,7 +1893,7 @@ function generateNoCrashDetectedMessage(sections) {
                         <li>Sometimes it can help to <b>separate from your followers</b> to get past a crash point. Ask NPC and pet and horse followers to "wait" at a safe location, away from the crash-prone loading area (cell). This reduces script load and rendering complexities in crash-prone areas. This can be especially helpful during visually busy scenes like combat, and also with crashes that occur when loading into a new area. Afterwards, return to collect your followers once you're past the problematic spot. Alternatively, many follower frameworks will also allow teleporting companions back once you are past the crash-prone segment.</li> 
                         <li>${verifyWindowsPageFileListItem}</li>
                         <li>Maintain <a href="https://computercity.com/hardware/storage/how-much-space-should-i-leave-on-my-ssd">at least 10-20% free space</a> on your SSD for optimal performance.</li>
-                        <li>Return any <b>overclocked hardware</b> (including RAM using XMP or AMD EXPO) to stock speeds.</li>
+                        <li>Return any <b>overclocked hardware</b> (<b>excluding</b> RAM using XMP or AMD EXPO) to stock speeds.</li>
                     </ul>
                 </li>
                 <li>🔧Verify that you have already correctly installed and configured <b>SSE Engine Fixes</b>: <a href="#" class="toggleButton">⤵️ show more</a>
@@ -1922,7 +1922,7 @@ function generateNoCrashDetectedMessage(sections) {
                                 <li>Sometimes it can help to <b>separate from your followers</b> to get past a crash point. Ask NPC and pet and horse followers to "wait" at a safe location, away from the crash-prone loading area (cell). This reduces script load and rendering complexities in crash-prone areas. This can be especially helpful during visually busy scenes like combat, and also with crashes that occur when loading into a new area. Afterwards, return to collect your followers once you're past the problematic spot. Alternatively, many follower frameworks will also allow teleporting companions back once you are past the crash-prone segment.</li> 
                                 <li>${verifyWindowsPageFileListItem}</li>
                                 <li>Maintain <a href="https://computercity.com/hardware/storage/how-much-space-should-i-leave-on-my-ssd">at least 10-20% free space</a> on your SSD for optimal performance.</li>
-                                <li>Return any <b>overclocked hardware</b> (including RAM using XMP or AMD EXPO) to stock speeds.</li>
+                                <li>Return any <b>overclocked hardware</b> (<b>excluding</b> RAM using XMP or AMD EXPO) to stock speeds.</li>
                                 <li>Review saving guidelines at <a href="https://www.reddit.com/r/Nolvus/comments/1ka74em/jeriliths_2025_skyrim_safesaveguide_sexy_free/">Jerilith's 2025 Skyrim Safe-Save-Guide [sexy free edition]</a></li> as following these guidelines may help minimize late-game issues with loading save files.</li>
                             </ul>
                         </li>
@@ -3282,32 +3282,40 @@ function checkAutoInstallerIssues(sections, hasUnlikelyErrorForAutoInstallerModl
                                 <li>1️⃣ Initial Steps: These ${hasMissingCC ? 'three': 'two'} steps alone fix many crashes. (⚠️ Wait for spinners to stop after each step!)
                                     <ol>
                                         ${hasMissingCC ? '<li><b>Verify CC content:</b> If you own Skyrim Anniversary Edition with all Creation Club (CC) content and have mods that expect CC content to be available, check Vortex\'s Plugins tab → Filter "Loaded by Engine" and verify 80 total files (5 <code>.esm</code> + 74 CC files + <code>_ResourcePack.esl</code>). If any are missing, refer to <a href="#missing-cc">Missing CC instructions</a> below.</li>':''}
-                                        <li><b>Enable All Plugins:</b> In the Plugins tab, check that ALL of the collection's plugins that are expected to be enabled. <i>Tip: Select a single plugin, then use CTRL+A to select all mods at once, and click "Enable".</i></li>
-                                        <li><b>Sort Plugins:</b> Use "Sort now" in the Plugins tab. NOTE: Do to a suspected Vortex bug, <b>you may need to repeat this step 2-3 times</b> for it to fully sort.</li>
+                                        <li><b>Enable Collection Plugins:</b> In the Plugins tab, verify that all plugins from the collection that should be enabled are enabled. <i>Tip: If unsure which plugins should be enabled, select a single plugin, use CTRL+A to select all, and click "Enable" - then disable any you specifically want disabled.</i></li>
+                                        <li><b>Sort Plugins:</b> Use "Sort now" in the Plugins tab. NOTE: Due to a suspected Vortex bug, <b>you may need to repeat this step 2-3 times</b> for it to fully sort.</li>
+                                        <li><b>Reset Load Order Files (if needed):</b> Try this if you still see any plugins with "Load Order" values of "-1" or "???", or if plugins that should load last (like <code>Occlusion.esp</code>, <code>DynDOLOD.esp</code>, or map mods like "Paper Maps") aren't loading last, or if plugins still don't appear to be sorting correctly:
+                                            <ol>
+                                                <li>Go to the Mods tab → click the folder icon → "Open Game Application Data Folder"</li>
+                                                <li>Close Vortex</li>
+                                                <li>In the data folder, delete <code>loadorder.txt</code> and <code>plugins.txt</code></li>
+                                                <li>Restart Vortex</li>
+                                                <li>Enable all plugins and sort again (repeat the Enable and Sort steps above)</li>
+                                            </ol>
+                                        </li>
                                     </ol>
                                 </li>
-                                <li>2️⃣ <b>If Issues Persist try this</b> (⚠️ Wait for spinners to stop after each step!)
+                                <li>2️⃣ <b>If Issues Persist:</b> Check and resolve notifications, then purge/deploy if needed.
                                     <ol>
-                                        <li>In Vortex, go to "Mods" tab</li>
-                                        <li>Purge mods</li>
-                                        <li>Re-enable all mods</li>
-                                        <li>Deploy mods</li>
-                                        <li>Sort plugins again</li>
-                                    </ol>
-                                </li>
-                                <li>3️⃣ <b>Check Notifications:</b> Click the notification bell in Vortex (top right) and resolve any warnings.
-                                    <ul>
                                         <li>Go to Vortex's "Settings", click "Reset Suppressed Notifications" and restart Vortex.</li>
+                                        <li>Click the notification bell in Vortex (top right) and attempt to address any warnings by web searching for troubleshooting steps or asking for help as needed.</li>
                                         <li>If you see "<b>Cycles in sorting rules</b>":
                                             <ul>
                                                 <li>Search for your collection name in the Mods tab</li>
                                                 <li>Right-click the collection → "Apply Collection Rules"</li>
-                                                <li><a href="https://gatetosovngarde.wiki.gg/wiki/Resolving_Cycles"  target="_blank">Screenshots and more info</a> (Made for GTS, but should be applicable to other Vortex users.)</li>
+                                                <li><a href="https://gatetosovngarde.wiki.gg/wiki/Resolving_Cycles" target="_blank">Screenshots and more info</a> (Made for GTS, but should be applicable to other Vortex users.)</li>
                                             </ul>
                                         </li>
                                         <li>If you see an "<b>Unparsed</b>" error, they can usually be dealt with by re-installing the issue mod.</li>
-                                        <li>Attempt to also address any/all other notifications, by web searching for troubleshooting steps and/or asking for help as needed.</li>
-                                    </ul>
+                                        <li><b>If crashes continue after addressing notifications:</b>
+                                            <ol type="a">
+                                                <li>Go to "Mods" tab</li>
+                                                <li>Purge mods</li>
+                                                <li>Deploy mods</li>
+                                                <li>Enable all plugins and sort again (as in Initial Steps above)</li>
+                                            </ol>
+                                        </li>
+                                    </ol>
                                 </li>
                             </ul>
                         </li>
@@ -3348,8 +3356,8 @@ function checkRandomIssues(sections, hasUnlikelyErrorForAutoInstallerModlist, ha
                 <li>${hasSaveLoadIssues ? '👉' : ''} 💀 Consider using an alternate death mod</li>
                 <li>${hasSaveLoadIssues ? '👉' : ''} 📂  Practice safe saving (disable autosaves, save only during calm moments)</li>
                 <li>⚡ Quit other resource-hungry apps before launching your modlist</li>
-                <li>🖼️ Keep your graphics driver up-to-date</li>
-                <li>🔥 Return any overclocked hardware (including RAM using XMP or AMD EXPO) to stock speeds</li>
+                <li>🖼️ Keep your graphics driver reasonably current, but test each update—if a new driver causes issues, roll back to the last stable version that worked well for you.</li>
+                <li>🔥 Return any overclocked hardware (<b>excluding</b> RAM using XMP or AMD EXPO) to stock speeds</li>
                 <li>🛑 Don't try to "fix" random issues. Except for a confident diagnosis or safe and prudent upgrades, wait for specific indications to repeat across multiple crash logs.</br>
                     ${(hasPagefileIndicator || hasKeyboardIssue || hasSaveLoadIssues) ? '</br><span style="font-size: 0.9em; margin: 8px 0;"><b>Legend:</b> 👉 = Possible relevancy detected in your crash log</span></br>' : ''}
                     </br>
@@ -3362,8 +3370,8 @@ function checkRandomIssues(sections, hasUnlikelyErrorForAutoInstallerModlist, ha
                         <li>⚡ Consider quitting out of all other applications before launching your modlist, particularly resource-intensive programs (e.g., web browsers with many tabs, other games, or video editors), or if you have less than 32GB of RAM.</li>
                         <li>${hasPagefileIndicator ? '👉' : ''}${verifyWindowsPageFileListItem}</li>
                         <li>Maintain <a href="https://computercity.com/hardware/storage/how-much-space-should-i-leave-on-my-ssd">at least 10-20% free space</a> on your SSD for optimal performance.</li>
-                        <li>🖼️ Ensure your <b>graphics driver</b> is up-to-date, as outdated drivers can cause crashes, graphical glitches, or performance issues.</li>
-                        <li>🔥 Return any <b>overclocked hardware</b> (including RAM using XMP or AMD EXPO) to stock speeds.</li>
+                        <li>🖼️ Keep your <b>graphics driver</b> reasonably current, as outdated drivers can cause crashes, graphical glitches, or performance issues. For <b>NVIDIA and AMD</b> cards, download drivers from their official websites. However, <b>not every driver update is an improvement</b>—some may introduce new bugs or performance regressions. When updating, monitor for issues and be prepared to <b>roll back</b> if you experience problems. Stick with whichever version proves most stable for your specific hardware and games. For <b>Intel integrated graphics</b>, Windows Update typically provides sufficient driver updates.</li>
+                        <li>🔥 Return any overclocked hardware to <b>stock speeds</b> when troubleshooting, as overclocks can cause instability and crashes. This includes <b>CPU overclocks, GPU overclocks, and custom voltage settings</b>. You can <b>exclude RAM using XMP or AMD EXPO</b>, since these are manufacturer-tested profiles and rarely the culprit.</li>
                     </ul>
                 </li>
 
@@ -3375,7 +3383,7 @@ function checkRandomIssues(sections, hasUnlikelyErrorForAutoInstallerModlist, ha
 
                         <li>Sometimes it can help to <b>separate from your followers</b> to get past a crash point. Ask followers/pets/steeds to "wait" at a safe location, away from the crash-prone loading area (cell) ... and then collect them again later after getting past the crashing area.</li> 
 
-                        <li><b>Normal crash frequency:</b> Unless multiple crash logs indicate a repeating pattern, crashing less than every 4 hours usually isn't a large concern for any heavily modded Skyrim, especially if the modlist is straining the limits of your hardware. Even un-modded Skyrim crashes.
+                        <li><b>Normal crash frequency:</b> Unless multiple crash logs indicate a repeating pattern, crashing less than every 4 hours usually isn't a large concern for any heavily modded Skyrim, especially if the modlist is straining the limits of your hardware.
                         </li>
 
                         <li>🛑 Don't try to "fix" random issues. Except for a confident diagnosis or safe and prudent upgrades, it's generally best to wait for specific indications to repeat across <b>multiple crash logs</b>. Trying to fix one-off random issues may lead to more issues.</li>
