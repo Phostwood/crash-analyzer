@@ -1,35 +1,43 @@
-✅Version 1.27.7 is now live:
+✅Version 1.27.8 is now live:
 https://phostwood.github.io/crash-analyzer/
 
-1. 🪛 Vortex Collections Users:
-	- Expanded Stage 1 to include a check and fix if not sorting
-	- Reorganizations and refinements
-	- Thank you Lakoor and SpinPigeon!
 
-2. Changes to "Reduce Random Crashes:" as evolved from posting PSA to r/SkyrimMods
-	- XMP now excluded from overclocking warning (this was also changed throughout several tests' troubleshooting steps)
-	- Refined/Clarified advice on 
-	- Other small refinements
-	- Thank you: Crackborn, Night_Thastus, and Sir_Lith!
+1. 💾 Verify your Windows Pagefile is properly configured
+	- refinements and clarifications from feedback to: https://www.reddit.com/r/skyrimmods/comments/1ocdtmt/psa_reducing_random_crashes/
+	- (especially for 16GB of RAM or less)
+	- Users with <b>48GB of RAM or more</b> can probably keep their Pagefiles set to automatic management.
+	- REMOVED: Skyrim's engine is unusual in that it reportedly requires Pagefile usage even when plenty of physical RAM is available.
+	- For heavily-modded Skyrim, the common recommendation is setting both min and max to ≈40GB. Sources: <a href="https://www.nolvus.net/appendix/pagefile">Nolvus</a>, <a href="https://www.lorerim.com/read-me">Lorerim</a>, and <a href="https://gatetosovngarde.wiki.gg/wiki/Collection_Performance_Tweaks#Pagefile">Gate to Sovngarde</a> ... among others
+	- other minor tweaks and reorganizations
+
+2. 🎲 Reduce Random Crashes:
+	- Softening/refinement: 🔥 Return any overclocked hardware to <b>stock speeds</b> when troubleshooting, as overclocks can cause instability and crashes. This includes <b>CPU overclocks, GPU overclocks, and custom voltage settings</b>. You can <b><i>usually</i> exclude RAM using XMP or AMD EXPO</b>, as long as your hardware conforms to manufacturer-tested profiles.
+	- Linked to: https://www.reddit.com/r/skyrimmods/comments/1oeve11/is_there_a_truely_stable_modlist/ as a source that heavily modded Skyrim just sometimes crashes
+
+3. mentions of XMP ... added "usually":  <i>usually</i> <b>excluding</b> RAM using XMP ...
+
+4. Reviewed GPU driver update recommendations throughout to ensure they don't clash with what's now said in "🎲 Reduce Random Crashes:" as of prior update. NOTE: Some of them do recommend updating to the newest version, but this is only when there are indicators suggesting that drivers may be an issue.
 
 
-- - -
 
-Next version:
+- - - next version - - -
 
-1. Fix bug affecting bi2iMtk0.txt ... this should flag both the low memory tests: RAM: 14.65 GiB/15.34 GiB
+2. Fix bug affecting bi2iMtk0.txt ... this should flag both the low memory tests: RAM: 14.65 GiB/15.34 GiB
 	- https://www.reddit.com/r/skyrimmods/comments/1oclwoh/comment/nkoo6jo/?context=1
 
+0. Post research question on r/SkyrimMods about recommended Windows Pagefile settings
+	- Maybe start with using ProcMon to test Pagefile usage?
+	- see Notepad++ txt file with some drafted notes
 
-2. Verify GPU driver update recommendations throughout ... at least when appropriate
+4. Use line? "Commonalities between multiple crash logs can often be the best indicators of causality"
 
+7. Add filenames checked for regarding overlays. Example: what should I look for to verify Overwolf is no longer there?
 
-3. Use line? "Commonalities between multiple crash logs can often be the best indicators of causality"
+8. Get a screenshot of Eagle Eye asking for septims to use in the donation section
 
-4. NOTE: Pagefile recommendation is controversial. Many Collection helpers swear by this advice and say they seen it help numerous users. However, some IT/programming types say it's wasted SSD space, and they strongly recommend keeping your pageflies to system managed. If you have the SSD space, perhaps experiment and decide for yourself if expanding your pagefile is helpful. This pagefile recommendation may change if a more decisive determination is eventually made, especially if we can achieve some kind of better consensus between the various Skyrim modding communities.
+5. NOTE: Pagefile recommendation is controversial. Many Collection helpers swear by this advice and say they seen it help numerous users. However, some IT/programming types say it's wasted SSD space, and they strongly recommend keeping your pageflies to system managed. If you have the SSD space, perhaps experiment and decide for yourself if expanding your pagefile is helpful. This pagefile recommendation may change if a more decisive determination is eventually made, especially if we can achieve some kind of better consensus between the various Skyrim modding communities.
 
-5. Pagefile should possibly be modernized to recommend 40GB or more, always setting min and max to the same value, about 1GB more than the amount of installed RAM. Theoretically this improves Skyrim stability by preventing a delay in access due to the Pagefile being expanded during especially taxing times.
-
+6. Pagefile should possibly be modernized to recommend 40GB or more, always setting min and max to the same value, about 1GB more than the amount of installed RAM. Theoretically this improves Skyrim stability by preventing a delay in access due to the Pagefile being expanded during especially taxing times.
 
 
 ---

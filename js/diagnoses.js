@@ -1,13 +1,13 @@
 //All diagnosing functions for both analyzeLog.js's diagnoses and insights variables. Only use insights.js if there needs to be a version of a function unique to the insights variable
 
 // --- Shared Constants ---
-const verifyWindowsPageFileListItem = `💾 Verify your <a href="https://www.nolvus.net/appendix/pagefile">Windows Pagefile is properly configured</a> (nolvus.net link, but broadly applicable). The most common stability-focused recommendation for Skyrim is setting both the minimum and maximum Pagefile size to <b>40,000 MB (≈40 GB)</b>. This value is widely used as a safe baseline for heavily-modded setups. <a href="#" class="toggleButton">⤵️ show more</a>
+const verifyWindowsPageFileListItem = `💾 Verify your <a href="https://www.nolvus.net/appendix/pagefile">Windows Pagefile is properly configured</a> (nolvus.net link, but broadly applicable). The most common stability-focused recommendation for Skyrim is setting both the minimum and maximum Pagefile size to <b>40,000 MB (≈40 GB)</b> (especially for 16GB of RAM or less). This value is widely used as a safe baseline for heavily-modded setups. <a href="#" class="toggleButton">⤵️ show more</a>
 <ul class="extraInfo" style="display:none">
-    <li>Your maximum Pagefile size should be at least your total RAM + 257 MB to allow Windows to generate a complete memory crash dump if needed.</li>
-    <li>Microsoft's general guidance: minimum = 1.5x your installed RAM, maximum = up to 4x your RAM (<a href="https://www.thewindowsclub.com/best-page-file-size-for-64-bit-versions-of-windows">source</a>).</li>
-    <li>Skyrim's engine is unusual in that it reportedly requires Pagefile usage even when plenty of physical RAM is available.</li>
-    <li>For heavily-modded Skyrim, the common recommendation is setting both min and max to 40,000 MB (≈40 GB).</li>
-    <li>For especially heavy modlists or high-RAM systems, you may want to increase the Pagefile beyond 40 GB, but 40,000 MB is the safe minimum baseline.</li>
+    <li>Users with <b>48GB of RAM or more</b> can probably keep their Pagefiles set to automatic management.</li>
+    <li>Microsoft's general guidance: minimum = 1.5x your installed RAM, maximum = up to 4x your RAM (<a href="https://www.thewindowsclub.com/best-page-file-size-for-64-bit-versions-of-windows">source</a>). Your maximum Pagefile size should be at least your total RAM + 257 MB to allow Windows to generate a complete memory crash dump if needed.</li>
+    <li>Some theorize that heavily-modded Skyrim can at times be crash-prone when Pagefiles are forced to expand at times of especially high RAM usage. Hence, the recommendation to lock the pagefile to the same size for both minimum and maximum.</li>
+    <li>For heavily-modded Skyrim, the common recommendation is setting both min and max to ≈40GB. Sources: <a href="https://www.nolvus.net/appendix/pagefile">Nolvus</a>, <a href="https://www.lorerim.com/read-me">Lorerim</a>, and <a href="https://gatetosovngarde.wiki.gg/wiki/Collection_Performance_Tweaks#Pagefile">Gate to Sovngarde</a> ... among others</li>
+    <li>For especially heavy modlists, you may want to increase the Pagefile beyond 40 GB, but this is usually a safe baseline.</li>
 </ul>`;
 
 
@@ -397,7 +397,7 @@ function checkForD6dddaEasyVersion(sections) {
                     <ol>
                         <li>Close unnecessary background applications that may be consuming memory.</li>
                         <li>${verifyWindowsPageFileListItem}<li>
-                        <li>Return any overclocked hardware (<b>excluding</b> RAM using XMP or AMD EXPO) to stock speeds, as unstable overclocks are known for causing crashes that can look like memory issues in crash logs.</li>
+                        <li>Return any overclocked hardware (<i>usually</i> <b>excluding</b> RAM using XMP or AMD EXPO) to stock speeds, as unstable overclocks are known for causing crashes that can look like memory issues in crash logs.</li>
                         <li>Maintain <a href="https://computercity.com/hardware/storage/how-much-space-should-i-leave-on-my-ssd">at least 10-20% free space</a> on your SSD for optimal performance.</li>
                         <li>Review your modlist's (or individual mods') recommended hardware requirements to verify you aren't overly below their system recommendations.</li>
                         <li>Hardware Diagnostics: If crashes persist, run Windows Memory Diagnostic or <a href="https://www.memtest86.com/">MemTest86</a> to check for faulty RAM. While rare, recurring D6DDDA crashes can sometimes indicate hardware issues.</li>
@@ -426,7 +426,7 @@ function checkForD6dddaAdvancedVersion(sections) {
                     <ol>
                         <li>Close unnecessary background applications that may be consuming memory.</li>
                         <li>${verifyWindowsPageFileListItem}</li>
-                        <li>Return any overclocked hardware (<b>excluding</b> RAM using XMP or AMD EXPO) to stock speeds, as unstable overclocks are known for causing crashes that can look like memory issues in crash logs.</li>
+                        <li>Return any overclocked hardware (<i>usually</i> <b>excluding</b> RAM using XMP or AMD EXPO) to stock speeds, as unstable overclocks are known for causing crashes that can look like memory issues in crash logs.</li>
                         <li>Maintain <a href="https://computercity.com/hardware/storage/how-much-space-should-i-leave-on-my-ssd">at least 10-20% free space</a> on your SSD for optimal performance.</li>
                         <li>🚀 For systems with less than 12GB VRAM (or more for ultrawide/high-resolution displays) (<a href="https://www.lifewire.com/how-to-check-vram-5235783">check your VRAM here</a>), consider using <a href="https://www.nexusmods.com/skyrimspecialedition/mods/90557">VRAMr</a>. This tool automatically compresses texture files across your load order, reducing VRAM usage while maintaining visual fidelity and improving stability.</li>
                         <li>Review your modlist's (or individual mods') recommended hardware requirements to verify you aren't overly below their system recommendations.</li>
@@ -775,7 +775,7 @@ function analyzeMemoryIssues(sections) {
             <ul>
             <li>Reboot PC and close any unnecessary applications to maximize available RAM for Skyrim.</li>
             <li>${verifyWindowsPageFileListItem}</li>
-            <li>Return any overclocked hardware (<b>excluding</b> RAM using XMP or AMD EXPO) to stock speeds, as unstable overclocks are known for causing crashes that can look like memory issues in crash logs.</li>
+            <li>Return any overclocked hardware (<i>usually</i> <b>excluding</b> RAM using XMP or AMD EXPO) to stock speeds, as unstable overclocks are known for causing crashes that can look like memory issues in crash logs.</li>
             <li>Maintain <a href="https://computercity.com/hardware/storage/how-much-space-should-i-leave-on-my-ssd">at least 10-20% free space</a> on your SSD for optimal performance.</li>
             <li>Review your modlist's (or individual mods') recommended hardware requirements to verify you aren't overly below their system recommendations.</li>
             <li>Consider running memory diagnostic tools (Windows Memory Diagnostic or <a href="https://www.memtest86.com/">MemTest86</a>)</li>
@@ -1893,7 +1893,7 @@ function generateNoCrashDetectedMessage(sections) {
                         <li>Sometimes it can help to <b>separate from your followers</b> to get past a crash point. Ask NPC and pet and horse followers to "wait" at a safe location, away from the crash-prone loading area (cell). This reduces script load and rendering complexities in crash-prone areas. This can be especially helpful during visually busy scenes like combat, and also with crashes that occur when loading into a new area. Afterwards, return to collect your followers once you're past the problematic spot. Alternatively, many follower frameworks will also allow teleporting companions back once you are past the crash-prone segment.</li> 
                         <li>${verifyWindowsPageFileListItem}</li>
                         <li>Maintain <a href="https://computercity.com/hardware/storage/how-much-space-should-i-leave-on-my-ssd">at least 10-20% free space</a> on your SSD for optimal performance.</li>
-                        <li>Return any <b>overclocked hardware</b> (<b>excluding</b> RAM using XMP or AMD EXPO) to stock speeds.</li>
+                        <li>Return any <b>overclocked hardware</b> (<i>usually</i> <b>excluding</b> RAM using XMP or AMD EXPO) to stock speeds.</li>
                     </ul>
                 </li>
                 <li>🔧Verify that you have already correctly installed and configured <b>SSE Engine Fixes</b>: <a href="#" class="toggleButton">⤵️ show more</a>
@@ -1922,7 +1922,7 @@ function generateNoCrashDetectedMessage(sections) {
                                 <li>Sometimes it can help to <b>separate from your followers</b> to get past a crash point. Ask NPC and pet and horse followers to "wait" at a safe location, away from the crash-prone loading area (cell). This reduces script load and rendering complexities in crash-prone areas. This can be especially helpful during visually busy scenes like combat, and also with crashes that occur when loading into a new area. Afterwards, return to collect your followers once you're past the problematic spot. Alternatively, many follower frameworks will also allow teleporting companions back once you are past the crash-prone segment.</li> 
                                 <li>${verifyWindowsPageFileListItem}</li>
                                 <li>Maintain <a href="https://computercity.com/hardware/storage/how-much-space-should-i-leave-on-my-ssd">at least 10-20% free space</a> on your SSD for optimal performance.</li>
-                                <li>Return any <b>overclocked hardware</b> (<b>excluding</b> RAM using XMP or AMD EXPO) to stock speeds.</li>
+                                <li>Return any <b>overclocked hardware</b> (<i>usually</i> <b>excluding</b> RAM using XMP or AMD EXPO) to stock speeds.</li>
                                 <li>Review saving guidelines at <a href="https://www.reddit.com/r/Nolvus/comments/1ka74em/jeriliths_2025_skyrim_safesaveguide_sexy_free/">Jerilith's 2025 Skyrim Safe-Save-Guide [sexy free edition]</a></li> as following these guidelines may help minimize late-game issues with loading save files.</li>
                             </ul>
                         </li>
@@ -3350,15 +3350,15 @@ function checkRandomIssues(sections, hasUnlikelyErrorForAutoInstallerModlist, ha
     let diagnoses = `
         <li>${(hasUnlikelyErrorForAutoInstallerModlist || hasSaveLoadIssues || hasKeyboardIssue ||  hasPagefileIndicator) ? '👉 ' : ''}<span class="important-emoji">🎲</span> <b>Reduce Random Crashes:</b> Best practices for game stability: <a href="#" class="toggleButton">⤵️ More details</a>
             <ul class="extraInfo" style="display:none">
-                <li>${hasPagefileIndicator ? '👉' : ''} 💾 Set your Windows Pagefile to 40,000 min and max</li>
+                <li>${hasPagefileIndicator ? '👉' : ''} 💾 Set your Windows Pagefile to 40,000 min and max  (especially for 16GB of RAM or less)</li>
                 <li>${hasKeyboardIssue ? '👉' : ''} 🔀 Avoid Alt+Tabbing</li>
                 <li>${hasSaveLoadIssues ? '👉' : ''} 🚫 Avoid loading saves mid-session</li>
                 <li>${hasSaveLoadIssues ? '👉' : ''} 💀 Consider using an alternate death mod</li>
                 <li>${hasSaveLoadIssues ? '👉' : ''} 📂  Practice safe saving (disable autosaves, save only during calm moments)</li>
                 <li>⚡ Quit other resource-hungry apps before launching your modlist</li>
                 <li>🖼️ Keep your graphics driver reasonably current, but test each update—if a new driver causes issues, roll back to the last stable version that worked well for you.</li>
-                <li>🔥 Return any overclocked hardware (<b>excluding</b> RAM using XMP or AMD EXPO) to stock speeds</li>
-                <li>🛑 Don't try to "fix" random issues. Except for a confident diagnosis or safe and prudent upgrades, wait for specific indications to repeat across multiple crash logs.</br>
+                <li>🔥 Return any overclocked hardware (<i>usually</i> <b>excluding</b> RAM using XMP or AMD EXPO) to stock speeds</li>
+                <li>🛑 Otherwise it's usually best to not try to "fix" random issues. Except for a confident diagnosis or safe and prudent specific reinstalls/upgrades, wait for indications to repeat across multiple crash logs.</br>
                     ${(hasPagefileIndicator || hasKeyboardIssue || hasSaveLoadIssues) ? '</br><span style="font-size: 0.9em; margin: 8px 0;"><b>Legend:</b> 👉 = Possible relevancy detected in your crash log</span></br>' : ''}
                     </br>
                     <b>Full List and Details:</b>
@@ -3371,7 +3371,7 @@ function checkRandomIssues(sections, hasUnlikelyErrorForAutoInstallerModlist, ha
                         <li>${hasPagefileIndicator ? '👉' : ''}${verifyWindowsPageFileListItem}</li>
                         <li>Maintain <a href="https://computercity.com/hardware/storage/how-much-space-should-i-leave-on-my-ssd">at least 10-20% free space</a> on your SSD for optimal performance.</li>
                         <li>🖼️ Keep your <b>graphics driver</b> reasonably current, as outdated drivers can cause crashes, graphical glitches, or performance issues. For <b>NVIDIA and AMD</b> cards, download drivers from their official websites. However, <b>not every driver update is an improvement</b>—some may introduce new bugs or performance regressions. When updating, monitor for issues and be prepared to <b>roll back</b> if you experience problems. Stick with whichever version proves most stable for your specific hardware and games. For <b>Intel integrated graphics</b>, Windows Update typically provides sufficient driver updates.</li>
-                        <li>🔥 Return any overclocked hardware to <b>stock speeds</b> when troubleshooting, as overclocks can cause instability and crashes. This includes <b>CPU overclocks, GPU overclocks, and custom voltage settings</b>. You can <b>exclude RAM using XMP or AMD EXPO</b>, since these are manufacturer-tested profiles and rarely the culprit.</li>
+                        <li>🔥 Return any overclocked hardware to <b>stock speeds</b> when troubleshooting, as overclocks can cause instability and crashes. This includes <b>CPU overclocks, GPU overclocks, and custom voltage settings</b>. You can <b><i>usually</i> exclude RAM using XMP or AMD EXPO</b>, as long as your hardware conforms to manufacturer-tested profiles.</li>
                     </ul>
                 </li>
 
@@ -3383,7 +3383,7 @@ function checkRandomIssues(sections, hasUnlikelyErrorForAutoInstallerModlist, ha
 
                         <li>Sometimes it can help to <b>separate from your followers</b> to get past a crash point. Ask followers/pets/steeds to "wait" at a safe location, away from the crash-prone loading area (cell) ... and then collect them again later after getting past the crashing area.</li> 
 
-                        <li><b>Normal crash frequency:</b> Unless multiple crash logs indicate a repeating pattern, crashing less than every 4 hours usually isn't a large concern for any heavily modded Skyrim, especially if the modlist is straining the limits of your hardware.
+                        <li><b>Normal crash frequency:</b> Unless multiple crash logs indicate a repeating pattern, crashing less than every 4 hours usually isn't a large concern <a href="https://www.reddit.com/r/skyrimmods/comments/1oeve11/is_there_a_truely_stable_modlist/">for any heavily modded Skyrim</a>, especially if the modlist is straining the limits of your hardware.
                         </li>
 
                         <li>🛑 Don't try to "fix" random issues. Except for a confident diagnosis or safe and prudent upgrades, it's generally best to wait for specific indications to repeat across <b>multiple crash logs</b>. Trying to fix one-off random issues may lead to more issues.</li>
