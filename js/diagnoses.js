@@ -649,24 +649,16 @@ function checkLogTypeAndProvideRecommendations(logType, sections) {
 
     if (logType === "Trainwreck") {
         message += `<li>⚠️ <b>Trainwreck Log Detected:</b> While Trainwreck provides partial crash information, it frequently lacks indicators provided by other logging options. In many situations, relying on Trainwreck can prevent a helpful diagnosis.
-        <ul>`;
-
-        if (sections.hasSkyrimAE) {
-            message += `
-                <li>For Skyrim AE (version 1.6+), we strongly recommend using <a href='https://www.nexusmods.com/skyrimspecialedition/mods/59818'>Crash Logger SSE</a> (newest version) instead. It provides more detailed crash information, aiding in better diagnosis.</li>
-                <li><b>Additional Information when switching to Crash Logger SSE:</b>
-                    <ul>
-                        <li>You don't need the old version of Crash Logger to run it. For simplicity's sake, we recommend not even downloading the old version or at least disabling it.</li>
-                        <li>Be sure to <b>disable Trainwreck</b> and any other crash logging mods. Only have Crash Logger SSE enabled.</li>
-                        <li>Trainwreck logs show up here: <code>[Your Documents]/My Games/Skyrim Special Edition/SKSE/Crashlogs</code></li>
-                        <li>But Crash Logger SSE logs usually show up <b>one directory higher</b>. Note: It's often a long directory, so sort the files by <b>Date Modified</b> to have the most recent files at the top: <code>[Your Documents]/My Games/Skyrim Special Edition/SKSE/</code></li>
-                    </ul>
-                </li>`;
-        } else {
-            message += `<li>For Skyrim SE (version 1.5), we strongly recommend using <a href='https://www.nexusmods.com/skyrimspecialedition/mods/21294'>.NET Script Framework</a> instead. It offers more detailed crash information, which is crucial for accurate diagnosis.</li>`;
-        }
-
-        message += `
+        <ul>
+            <li>For Skyrim AE (version 1.6+) down to Skyrim SE (version 1.5), we strongly recommend using <a href='https://www.nexusmods.com/skyrimspecialedition/mods/59818'>Crash Logger SSE</a> (newest version) instead. It provides more detailed crash information, aiding in better diagnosis.</li>
+            <li><b>Additional Information when switching to Crash Logger SSE:</b>
+                <ul>
+                    <li>You don't need the old version of Crash Logger to run it. For simplicity's sake, we recommend not even downloading the old version or at least disabling it.</li>
+                    <li>Be sure to <b>disable Trainwreck</b> and any other crash logging mods. Only have Crash Logger SSE enabled.</li>
+                    <li>Trainwreck logs show up here: <code>[Your Documents]/My Games/Skyrim Special Edition/SKSE/Crashlogs</code></li>
+                    <li>But Crash Logger SSE logs usually show up <b>one directory higher</b>. Note: It's often a long directory, so sort the files by <b>Date Modified</b> to have the most recent files at the top: <code>[Your Documents]/My Games/Skyrim Special Edition/SKSE/</code></li>
+                </ul>
+            </li>
             <li>Remember to only have one logging mod enabled at a time.</li>
             <li>🚨 <b>Trainwreck as Backup:</b> Trainwreck remains the best backup option when other logging mods won't output a crash log for specific, rarer crash types. But unless you've already tried a better logging mod for this specific reoccurring crash, we highly recommend using an alternative instead of Trainwreck.</li>
         </ul>
@@ -4126,13 +4118,16 @@ function checkPossibleGeometryCullingIssue(sections) {
     if (hasBSGeometryListCulling) {
         insights += `<li>❓ <b>Possible geometry culling / occlusion-related issue:</b>
             <code>BSGeometryListCullingProcess</code> refers to the engine's scene-graph culling routine, 
-            which determines which 3D objects (geometry) should be rendered or hidden based on visibility, occlusion, and camera position. 
+            which determines which 3D objects should be rendered or hidden based on visibility, occlusion, and camera position. 
             When it appears near the top of the Stack section of a crash log, it usually means the crash occurred during this visibility-checking phase.
             <ul>
-                <li><b>Reportedly sometimes related mods:</b> 
+                <li><b>Known trigger:</b> Opening the map in areas with too many occluders (occlusion planes are invisible barriers that tell the engine to skip rendering unseeable objects behind them). 
+                    The engine appears to have a limit on the number of occlusion planes it can process.</li>
+                <li><b>Reportedly related mods:</b> 
                     <a href="https://www.nexusmods.com/skyrimspecialedition/mods/16736">Facelight Plus</a>, 
-                    <a href="https://www.nexusmods.com/skyrimspecialedition/mods/54907">eFPS - Exterior FPS boost</a>, and
-                    <a href="https://www.nexusmods.com/skyrimspecialedition/mods/149004">Hyperspecific Occlusion Addon</a>
+                    <a href="https://www.nexusmods.com/skyrimspecialedition/mods/54907">eFPS - Exterior FPS boost</a>, 
+                    <a href="https://www.nexusmods.com/skyrimspecialedition/mods/149004">Hyperspecific Occlusion Addon</a>, 
+                    <a href="https://www.nexusmods.com/skyrimspecialedition/mods/37982">Capital Whiterun Expansion</a>, and <a href="https://www.nexusmods.com/skyrimspecialedition/mods/112964">Capital Whiterun Expansion Lite</a>
                 </li>
                 <li><b>General categories:</b>
                     <ul>
@@ -4140,10 +4135,16 @@ function checkPossibleGeometryCullingIssue(sections) {
                         <li>Dynamic face/lighting effect mods</li>
                         <li>LOD and worldspace overhauls</li>
                         <li>Mesh replacers</li>
+                        <li>City expansion/overhaul mods (especially Whiterun)</li>
                     </ul>
                 </li>
-                <li><b>Suggested checks:</b> If better diagnoses aren't listed in this report, research potentially related mods for version compatibility, updates, and patches. 
-                    Then temporarily disable, update, and/or patch towards isolating or fixing the issue.</li>
+                <li><b>Suggested checks:</b> 
+                    <ul>
+                        <li>If crashes occur when opening the map in specific areas, temporarily disable mods that add occlusion planes</li>
+                        <li>Advanced users: Use xEdit or Creation Kit to disable some occlusion planes in affected areas to stay under the engine limit</li>
+                        <li>Research potentially related mods for version compatibility, updates, and patches</li>
+                    </ul>
+                </li>
                 <li>Detected indicator: <code>BSGeometryListCullingProcess</code> in first 100 lines of Stack section of log</li>
             </ul>
         </li>`;

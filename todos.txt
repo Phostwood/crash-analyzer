@@ -1,27 +1,16 @@
-✅Version 1.27.8 is now live:
+✅Version 1.27.9 is now live:
 https://phostwood.github.io/crash-analyzer/
 
+1. ⚠️ Trainwreck Log Detected:
+	- Now always recommends Crash Logger SSE (instead of recommending NetScript Framework for Skyrim SE 1.5)
 
-1. 💾 Verify your Windows Pagefile is properly configured
-	- refinements and clarifications from feedback to: https://www.reddit.com/r/skyrimmods/comments/1ocdtmt/psa_reducing_random_crashes/
-	- (especially for 16GB of RAM or less)
-	- Users with <b>48GB of RAM or more</b> can probably keep their Pagefiles set to automatic management.
-	- REMOVED: Skyrim's engine is unusual in that it reportedly requires Pagefile usage even when plenty of physical RAM is available.
-	- For heavily-modded Skyrim, the common recommendation is setting both min and max to ≈40GB. Sources: <a href="https://www.nolvus.net/appendix/pagefile">Nolvus</a>, <a href="https://www.lorerim.com/read-me">Lorerim</a>, and <a href="https://gatetosovngarde.wiki.gg/wiki/Collection_Performance_Tweaks#Pagefile">Gate to Sovngarde</a> ... among others
-	- other minor tweaks and reorganizations
+2. ❓ Possible geometry culling / occlusion-related issue (low confidence)
+	- Additions and improvements to description and troubleshooting steps from Hexanode. Thank you!
+	- Technical reviewers: Hexanode and Blackread. Thank you!
 
-2. 🎲 Reduce Random Crashes:
-	- Softening/refinement: 🔥 Return any overclocked hardware to <b>stock speeds</b> when troubleshooting, as overclocks can cause instability and crashes. This includes <b>CPU overclocks, GPU overclocks, and custom voltage settings</b>. You can <b><i>usually</i> exclude RAM using XMP or AMD EXPO</b>, as long as your hardware conforms to manufacturer-tested profiles.
-	- Linked to: https://www.reddit.com/r/skyrimmods/comments/1oeve11/is_there_a_truely_stable_modlist/ as a source that heavily modded Skyrim just sometimes crashes
+	
 
-3. mentions of XMP ... added "usually":  <i>usually</i> <b>excluding</b> RAM using XMP ...
-
-4. Reviewed GPU driver update recommendations throughout to ensure they don't clash with what's now said in "🎲 Reduce Random Crashes:" as of prior update. NOTE: Some of them do recommend updating to the newest version, but this is only when there are indicators suggesting that drivers may be an issue.
-
-
-
-- - - next version - - -
-
+- - - next version - - - 
 2. Fix bug affecting bi2iMtk0.txt ... this should flag both the low memory tests: RAM: 14.65 GiB/15.34 GiB
 	- https://www.reddit.com/r/skyrimmods/comments/1oclwoh/comment/nkoo6jo/?context=1
 

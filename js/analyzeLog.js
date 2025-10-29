@@ -703,6 +703,14 @@ async function analyzeLog() {
         insightsCount++;
     }
 
+    
+    //❓ Possible geometry culling / occlusion-related issue (low confidence)
+    const checkPossibleGeometryCullingIssueInsights = checkPossibleGeometryCullingIssue(sections);
+    if (checkPossibleGeometryCullingIssueInsights) {
+        insights += checkPossibleGeometryCullingIssueInsights;
+        insightsCount++;
+    }
+
 
     //ENB issue (long, but collapsable version)
     if (sections.firstLine.includes('d3d11.dll')) {
@@ -1171,14 +1179,6 @@ async function analyzeLog() {
         insights += keyboardCrashInsight;
         insightsCount++;
         hasKeyboardIssue = true;
-    }
-
-
-    //❓ Possible geometry culling / occlusion-related issue (low confidence)
-    const checkPossibleGeometryCullingIssueInsights = checkPossibleGeometryCullingIssue(sections);
-    if (checkPossibleGeometryCullingIssueInsights) {
-        insights += checkPossibleGeometryCullingIssueInsights;
-        insightsCount++;
     }
 
 
