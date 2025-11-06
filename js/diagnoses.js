@@ -32,7 +32,7 @@ function reinstallEngineFixesInstructions (sections) {
                             </ul>
                         </li>
                         ${sections.hasSkyrimAE1170 || sections.hasSkyrimSE1597 ? `
-                            <li>Option 3 (Recommended): Upgrade to latest version 7 of Engine Fixes for more bug fixes and better stability.</li>
+                            <li><b>Option 3 (Recommended):</b>  <a href="https://www.nexusmods.com/skyrimspecialedition/mods/17230">Upgrade to latest version 7</a> of Engine Fixes for more bug fixes and better stability.</li>
                         ` : ''}
                     </ul>
                 </li>
@@ -1529,7 +1529,7 @@ function analyzeBGSSaveLoadManagerIssue(sections) {
                         <li><code>MaxStdio = 8192</code></li>
                     </ul>
                     ${sections.hasSkyrimAE1170 || sections.hasSkyrimSE1597 ? `
-                        <li>Or alternately, (recommended) upgrade to latest version 7 of Engine Fixes for more bug fixes and better stability.</li>
+                        <li><b>Or alternately,</b> (recommended) <a href="https://www.nexusmods.com/skyrimspecialedition/mods/17230">upgrade to latest version 7</a> of Engine Fixes for more bug fixes and better stability.</li>
                     ` : ''}
                 </ul>
             ` : ''}
@@ -1539,7 +1539,7 @@ function analyzeBGSSaveLoadManagerIssue(sections) {
         <li>❓ <b>BGSSaveLoadManager Issue Detected:</b> This indicator is often associated with problems either saving and/or loading game save files.
         <ol>
             <li>If the crash <b>only occurs while <i>saving</i></b>, you may have a Missing Masters. You will likely see separate troubleshooting steps for that higher up in this report, and if not, you can find them by using this analyzer's "use the Test Log" link at the top.</li>
-            ${Utils.isSkyrimPage ? checkSaveFileSize : ''}
+            ${sections.hasEngineFixesPre7 && Utils.isSkyrimPage ? checkSaveFileSize : ''}
             <li>If crash is repetitive, try loading from your <b>last working save</b>. If possible, identify this file, and load this last save game that worked and try to play from there.</li>
             <li>💾 Consider using save cleaning tools to remove orphaned scripts and other potential corruption. <a href="https://www.nexusmods.com/skyrim/mods/76776">FallrimTools ReSaver</a> can often identify and sometimes successfully fix corrupted save files. See also these <a href="https://www.reddit.com/r/skyrimmods/s/fbMRv343vm">instructions by Krispyroll</a> and more information in <a href="https://www.reddit.com/r/skyrimmods/comments/1d0r0f0/reading_crash_logs/##:~:text=Resaver">Krispyroll's Reading Crash Logs Guide</a>. NOTE: Always keep backups of your saves before attempting fixes or using cleaning tools. ⚠️ <strong>CAUTION:</strong> Fixing/editing save files has inherent risks and should be avoided when possible. If you can instead revert to an acceptable older save file, that is often preferable in the long run.</li>
             <li><b>Advanced Users</b> can try using <a href="https://www.nexusmods.com/skyrimspecialedition/mods/164">SSEEdit (xEdit)</a> and <a href="https://www.nexusmods.com/skyrimspecialedition/mods/68889">Find dangerous ESLs - xEdit script</a> for isolating ESL plugins that may potentially corrupt game saves and cause crashes.</a>
@@ -3375,7 +3375,7 @@ function checkRandomIssues(sections, hasUnlikelyErrorForAutoInstallerModlist, ha
 
                         <li>Sometimes it can help to <b>separate from your followers</b> to get past a crash point. Ask followers/pets/steeds to "wait" at a safe location, away from the crash-prone loading area (cell) ... and then collect them again later after getting past the crashing area.</li> 
 
-                        <li><b>Normal crash frequency:</b> Unless multiple crash logs indicate a repeating pattern, crashing less than every 4 hours usually isn't a large concern <a href="https://www.reddit.com/r/skyrimmods/comments/1oeve11/is_there_a_truely_stable_modlist/">for any heavily modded Skyrim</a>, especially if the modlist is straining the limits of your hardware.
+                        <li>😐 <b>Normal crash frequency:</b> Unless multiple crash logs indicate a repeating pattern, crashing less than every 4 hours usually isn't a large concern <a href="https://www.reddit.com/r/skyrimmods/comments/1oeve11/is_there_a_truely_stable_modlist/">for any heavily modded Skyrim</a>, especially if the modlist is straining the limits of your hardware.
                         </li>
 
                         <li>🛑 Don't try to "fix" random issues. Except for a confident diagnosis or safe and prudent upgrades, it's generally best to wait for specific indications to repeat across <b>multiple crash logs</b>. Trying to fix one-off random issues may lead to more issues.</li>

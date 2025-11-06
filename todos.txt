@@ -1,22 +1,52 @@
-✅Version 1.27.9 is now live:
+✅Version 1.28.1 is now live:
 https://phostwood.github.io/crash-analyzer/
 
-1. ⚠️ Trainwreck Log Detected:
-	- Now always recommends Crash Logger SSE (instead of recommending NetScript Framework for Skyrim SE 1.5)
+1. ❓ Version Compatibility Notice: 
+	- DAR --> OAR: added "While neither mod is likely to be the cause of crashes, OAR is a worthy upgrade."
 
-2. ❓ Possible geometry culling / occlusion-related issue (low confidence)
-	- Additions and improvements to description and troubleshooting steps from Hexanode. Thank you!
-	- Technical reviewers: Hexanode and Blackread. Thank you!
+2. 🎲 Reduce Random Crashes:  added 😐 emoji to "Normal crash frequency: Unless multiple crash logs indicate a repeating pattern, crashing less than every 4 hours usually isn't a large concern for any heavily modded Skyrim..."
 
-	
+3. ❓ BGSSaveLoadManager Issue Detected: 
+	-  REMOVED this section if Engine Fixes 7+, AND mention it is only for pre-7
+		- Try expanding your save file size. 
 
-- - - next version - - - 
-2. Fix bug affecting bi2iMtk0.txt ... this should flag both the low memory tests: RAM: 14.65 GiB/15.34 GiB
-	- https://www.reddit.com/r/skyrimmods/comments/1oclwoh/comment/nkoo6jo/?context=1
+4. ❗ Missing SSE Engine Fixes: 
+	- regarding this section: For Engine Fixes prior to version 7: 
+		- specifically recommend using the latest version
+
+5. Added https://prime95.net/ to the list of free stress testers. CPU-specific.
+
+
+
+
+--- next version ---
+
+
+9. Update Donations numbers, and swap Patreon banner for Ko-Fi, and say "This project needs more re-occurring monthly donations" or whatever Ko-Fi calls them?
+
+10. asked Crash Logger SSE author ... waiting for response.
+	- https://www.nexusmods.com/skyrimspecialedition/mods/59818?tab=posts&BH=0
+	- 20251105
+
+11. Asked J3w3ls ... waiting for response:
+	- https://discord.com/channels/872252014002843658/878565217288728576/1435753945468244170
+
+
+6. Add more info on finding broken meshes and textures. Link to Everything app. Mention MO2.
+	- meshes
+	- textures
+	- other?
+
+7. Consider adding mini-elements list after highest priority log summary? Only list those with explainers. Maybe call it "Mentioned mods:" or something?
+
+
+0. Monitor in-game pagefile size and usage
 
 0. Post research question on r/SkyrimMods about recommended Windows Pagefile settings
 	- Maybe start with using ProcMon to test Pagefile usage?
 	- see Notepad++ txt file with some drafted notes
+	- 5. NOTE: Pagefile recommendation is controversial. Many Collection helpers swear by this advice and say they seen it help numerous users. However, some IT/programming types say it's wasted SSD space, and they strongly recommend keeping your pageflies to system managed. If you have the SSD space, perhaps experiment and decide for yourself if expanding your pagefile is helpful. This pagefile recommendation may change if a more decisive determination is eventually made, especially if we can achieve some kind of better consensus between the various Skyrim modding communities.
+	- 6. Pagefile should possibly be modernized to recommend 40GB or more, always setting min and max to the same value, about 1GB more than the amount of installed RAM. Theoretically this improves Skyrim stability by preventing a delay in access due to the Pagefile being expanded during especially taxing times.
 
 4. Use line? "Commonalities between multiple crash logs can often be the best indicators of causality"
 
@@ -24,9 +54,6 @@ https://phostwood.github.io/crash-analyzer/
 
 8. Get a screenshot of Eagle Eye asking for septims to use in the donation section
 
-5. NOTE: Pagefile recommendation is controversial. Many Collection helpers swear by this advice and say they seen it help numerous users. However, some IT/programming types say it's wasted SSD space, and they strongly recommend keeping your pageflies to system managed. If you have the SSD space, perhaps experiment and decide for yourself if expanding your pagefile is helpful. This pagefile recommendation may change if a more decisive determination is eventually made, especially if we can achieve some kind of better consensus between the various Skyrim modding communities.
-
-6. Pagefile should possibly be modernized to recommend 40GB or more, always setting min and max to the same value, about 1GB more than the amount of installed RAM. Theoretically this improves Skyrim stability by preventing a delay in access due to the Pagefile being expanded during especially taxing times.
 
 
 ---
@@ -35,7 +62,7 @@ https://phostwood.github.io/crash-analyzer/
 
 ⭐️FIX BUG when a second hide menu is closed?
 
-2. ??New version of BGSAutosave test??
+2. ??New version of BGSAutosave test?? with added indicators
 
 3. Fix HTML formatting:
 	- ❗ First-Line Engine Fixes Issue:

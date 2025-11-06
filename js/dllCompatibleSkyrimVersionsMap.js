@@ -63,7 +63,7 @@ const dllCompatibleSkyrimVersionsMap = {
             recommendedVersion: '2.3.6',
             modName: 'Open Animation Replacer (OAR)',
             url: 'https://www.nexusmods.com/skyrimspecialedition/mods/92109',
-            note: 'NOTE: this mod is a fully-backwards-compatible drop-in-replacement for the old Dynamic Animation Replacer (DAR). Be sure to disable the old one.'
+            note: 'NOTE: this mod is a fully-backwards-compatible drop-in-replacement for the old Dynamic Animation Replacer (DAR). Be sure to disable the old one. While neither mod is likely to be the cause of crashes, OAR is a worthy upgrade.'
         }
     },
     
