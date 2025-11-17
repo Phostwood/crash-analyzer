@@ -543,6 +543,13 @@ async function analyzeLog() {
     }
 
 
+   //❓ Possible armor weight perk calculation issue:
+   const armorWeightPerkIssue = checkArmorWeightPerkIssue(sections);
+   if(armorWeightPerkIssue) {
+       diagnoses += armorWeightPerkIssue;
+       diagnosesCount++;
+   }
+
 
     //⚠️ Low System RAM Detected:
     const checkLowSystemRAMResult = checkLowSystemRAM(sections);

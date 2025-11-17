@@ -1,28 +1,42 @@
-✅Version 1.28.1 is now live:
+✅Version 1.28.2 is now live:
 https://phostwood.github.io/crash-analyzer/
 
-1. ❓ Version Compatibility Notice: 
-	- DAR --> OAR: added "While neither mod is likely to be the cause of crashes, OAR is a worthy upgrade."
+1. New test: ❓ Possible armor weight perk calculation issue: 
+	- Than you: RomatebitegeL!
+	- https://www.reddit.com/r/Phostwood/comments/1or0dyw/skyrimseexe0cd9f7c_crash/
+	- indicator: SkyrimSE.exe+0CD9F7C
+		- hits in 2 files of 8502 searched
+	- secondary indicator? PEBQEAVInputEvent ()
+		- hits in 34 files of 8502 searched
 
-2. 🎲 Reduce Random Crashes:  added 😐 emoji to "Normal crash frequency: Unless multiple crash logs indicate a repeating pattern, crashing less than every 4 hours usually isn't a large concern for any heavily modded Skyrim..."
-
-3. ❓ BGSSaveLoadManager Issue Detected: 
-	-  REMOVED this section if Engine Fixes 7+, AND mention it is only for pre-7
-		- Try expanding your save file size. 
-
-4. ❗ Missing SSE Engine Fixes: 
-	- regarding this section: For Engine Fixes prior to version 7: 
-		- specifically recommend using the latest version
-
-5. Added https://prime95.net/ to the list of free stress testers. CPU-specific.
+2. 🎲 Reduce Random Crashes:
+	- short version: 😐 Crashing less than every 4 hours usually isn't a large concern for any heavily modded Skyrim
+	- 😐 <b>Normal crash frequency:</b> Occasional instability is <a href="https://www.reddit.com/r/skyrimmods/comments/1oeve11/is_there_a_truely_stable_modlist/">expected with any heavily modded Skyrim</a>, as the game's foundation itself isn't fully stable. Except for bug fixes, adding hundreds of mods from different authors in varying combinations increases the complexity and likelihood of instability. Unless multiple crash logs share a repeating cause, crashes averaging less frequently than once every 4 hours should not be cause for immediate concern.
+	
+3. Donations section and ReadMe: Updated Donations numbers, and swapped Patreon banner for Ko-Fi, and say "This project needs more monthly tippers."
 
 
 
 
 --- next version ---
 
+4. 🎯 Highest-Confidence Indicators: 
+	- Maybe start it out expanded?
 
-9. Update Donations numbers, and swap Patreon banner for Ko-Fi, and say "This project needs more re-occurring monthly donations" or whatever Ko-Fi calls them?
+
+5. link to: https://www.reddit.com/r/skyrimmods/comments/1owwsiq/list_of_testing_and_troubleshooting_tools/
+	- Or add the newly discovered tools
+		- but also add the poster of this thread to my Thank Yous list
+
+
+2. Add more info on finding broken meshes and textures. Link to Everything app. Mention MO2. Instructions for checking in xEdit?
+	- Advanced Users can use SSEEdit (xEdit) to isolate the source of a specific nif/texture.
+	- LINK: https://www.reddit.com/r/skyrimmods/comments/1oqcipb/comment/nnjz803/?utm_source=share&utm_medium=web3x&utm_name=web3xcss&utm_term=1&utm_content=share_button
+	- how to? https://www.reddit.com/r/skyrimmods/comments/tt5iv0/psa_learn_how_to_use_xedit/
+	- meshes
+	- textures
+	- other?
+
 
 10. asked Crash Logger SSE author ... waiting for response.
 	- https://www.nexusmods.com/skyrimspecialedition/mods/59818?tab=posts&BH=0
@@ -32,10 +46,7 @@ https://phostwood.github.io/crash-analyzer/
 	- https://discord.com/channels/872252014002843658/878565217288728576/1435753945468244170
 
 
-6. Add more info on finding broken meshes and textures. Link to Everything app. Mention MO2.
-	- meshes
-	- textures
-	- other?
+
 
 7. Consider adding mini-elements list after highest priority log summary? Only list those with explainers. Maybe call it "Mentioned mods:" or something?
 

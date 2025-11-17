@@ -3350,6 +3350,7 @@ function checkRandomIssues(sections, hasUnlikelyErrorForAutoInstallerModlist, ha
                 <li>⚡ Quit other resource-hungry apps before launching your modlist</li>
                 <li>🖼️ Keep your graphics driver reasonably current, but test each update—if a new driver causes issues, roll back to the last stable version that worked well for you.</li>
                 <li>🔥 Return any overclocked hardware (<i>usually</i> <b>excluding</b> RAM using XMP or AMD EXPO) to stock speeds</li>
+                <li>😐 Averaging less than one crash in 4 hours usually isn't a major concern for any heavily modded Skyrim</li>
                 <li>🛑 Otherwise it's usually best to not try to "fix" random issues. Except for a confident diagnosis or safe and prudent specific reinstalls/upgrades, wait for indications to repeat across multiple crash logs.</br>
                     ${(hasPagefileIndicator || hasKeyboardIssue || hasSaveLoadIssues) ? '</br><span style="font-size: 0.9em; margin: 8px 0;"><b>Legend:</b> 👉 = Possible relevancy detected in your crash log</span></br>' : ''}
                     </br>
@@ -3375,8 +3376,8 @@ function checkRandomIssues(sections, hasUnlikelyErrorForAutoInstallerModlist, ha
 
                         <li>Sometimes it can help to <b>separate from your followers</b> to get past a crash point. Ask followers/pets/steeds to "wait" at a safe location, away from the crash-prone loading area (cell) ... and then collect them again later after getting past the crashing area.</li> 
 
-                        <li>😐 <b>Normal crash frequency:</b> Unless multiple crash logs indicate a repeating pattern, crashing less than every 4 hours usually isn't a large concern <a href="https://www.reddit.com/r/skyrimmods/comments/1oeve11/is_there_a_truely_stable_modlist/">for any heavily modded Skyrim</a>, especially if the modlist is straining the limits of your hardware.
-                        </li>
+                       <li>😐 <b>Normal crash frequency:</b> Occasional instability is <a href="https://www.reddit.com/r/skyrimmods/comments/1oeve11/is_there_a_truely_stable_modlist/">expected with any heavily modded Skyrim</a>, as the game's foundation itself isn't fully stable. Except for bug fixes, adding hundreds of mods from different authors in varying combinations increases the complexity and likelihood of instability. Unless multiple crash logs share a repeating cause, crashes averaging less frequently than once every 4 hours should not be cause for immediate concern.</li>
+
 
                         <li>🛑 Don't try to "fix" random issues. Except for a confident diagnosis or safe and prudent upgrades, it's generally best to wait for specific indications to repeat across <b>multiple crash logs</b>. Trying to fix one-off random issues may lead to more issues.</li>
 
@@ -4237,5 +4238,43 @@ function checkUsvfsIssue(sections) {
         </li>`;
     }
 
+    return insights;
+}
+
+
+
+// ❓ Possible armor weight perk calculation issue (medium confidence)
+function checkArmorWeightPerkIssue(sections) {
+    let insights = '';
+    const text = (sections.highestConfidenceIndicators || '').toLowerCase();
+    
+    const hasSkyrimExeOffset = text.includes('skyrimse.exe+0cd9f7c');
+    const hasInputEvent = text.includes('pebqeavinputevent');
+
+    if (hasSkyrimExeOffset || hasInputEvent) {
+        insights += `<li>❓ <b>Possible armor weight perk calculation issue:</b>
+            This crash signature has been associated with a bug in how the game calculates armor weight perks. 
+            The issue appears to be triggered during gameplay, potentially when the game recalculates character stats or processes equipment changes.
+            <ul>
+                <li><b>If using OStim:</b> Update to the latest version, as newer versions may have addressed this issue</li>
+                <li><b>Install and configure Scrambled Bugs:</b>
+                    <ul>
+                        <li>Install <a href="https://www.nexusmods.com/skyrimspecialedition/mods/43532">Scrambled Bugs</a> if not already installed</li>
+                        <li>Open <code>Data/SKSE/Plugins/ScrambledBugs.json</code> in a text editor</li>
+                        <li>Find the <code>"modArmorWeightPerkEntryPoint"</code> setting and set it to <code>false</code></li>
+                        <li>Save the file and test stability</li>
+                    </ul>
+                </li>
+                <li><b>Additional context:</b> This fix has resolved crashes for multiple users experiencing this specific issue. 
+                    See <a href="https://www.reddit.com/r/Phostwood/comments/1or0dyw/skyrimseexe0cd9f7c_crash/">this discussion</a> for more details.</li>
+                <li>Detected indicators from highest-confidence sections of crash log:
+                    <ul class="extraInfo">
+                        ${hasSkyrimExeOffset ? '<li><code>SkyrimSE.exe+0CD9F7C</code> (primary indicator)</li>' : ''}
+                        ${hasInputEvent ? '<li><code>PEBQEAVInputEvent</code> (secondary indicator)</li>' : ''}
+                    </ul>
+                </li>
+            </ul>
+        </li>`;
+    }
     return insights;
 }
