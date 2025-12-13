@@ -4076,7 +4076,7 @@ function checkNetScriptFrameworkStatus(sections) {
         insights += `<li>⚠️ <b>Legacy Crash Logging Mod Detected:</b>
             <a href="https://www.nexusmods.com/skyrimspecialedition/mods/21294">NetScriptFramework</a> (NSF) was last updated in <b>October 2021</b> and no longer supports recent Skyrim versions. This analyzer still supports it, but new features won't include NSF-specific development. <b>Better alternative:</b> <a href="https://www.nexusmods.com/skyrimspecialedition/mods/59818" target="_blank">Crash Logger SSE</a> is actively maintained and supports SSE/AE/VR Skyrim versions. <a href="#" class="toggleButton">⤵️ show more</a><ul class="extraInfo" style="display:none">
                 <li><b>Why switch:</b> Access to all analyzer features, full version compatibility, and active development.</li>
-                <li><b>Recommendation:</b> Switch to <a href="https://www.nexusmods.com/skyrimspecialedition/mods/59818" target="_blank">Crash Logger SSE</a>. Migration is straightforward, just install it, and disable other crash logging mods. New crash logs will be output to: <code>[Skyrim_Directory]\\Data\\SKSE\\Plugins\\NetScriptFramework\\Crash</code> ... replacing <code>[Skyrim_Directory]</code> with your actual Skyrim installation directory path.</li>
+                <li><b>Recommendation:</b> Switch to <a href="https://www.nexusmods.com/skyrimspecialedition/mods/59818" target="_blank">Crash Logger SSE</a>. Migration is straightforward, just install it, and disable other crash logging mods. New crash logs will be output to: <code>[My_Documents]\\My Games\\Skyrim Special Edition\\SKSE</code> ... replacing <code>[Skyrim_Directory]</code> with your actual Skyrim installation directory path.</li>
             </ul>
         </li>`;
     }
@@ -4271,6 +4271,43 @@ function checkArmorWeightPerkIssue(sections) {
                     <ul class="extraInfo">
                         ${hasSkyrimExeOffset ? '<li><code>SkyrimSE.exe+0CD9F7C</code> (primary indicator)</li>' : ''}
                         ${hasInputEvent ? '<li><code>PEBQEAVInputEvent</code> (secondary indicator)</li>' : ''}
+                    </ul>
+                </li>
+            </ul>
+        </li>`;
+    }
+    return insights;
+}
+
+
+
+// ❗ Disarm crash detected
+function checkCombatMagicCasterDisarmIssue(sections) {
+    let insights = '';
+    const text = (sections.highestConfidenceIndicators || '').toLowerCase();
+    
+    const hasCombatMagicCasterDisarm = text.includes('combatmagiccasterdisarm');
+    const hasEngineFixesDll = sections.bottomHalf.toLowerCase().includes('enginefixes.dll') || text.includes('enginefixes.dll');
+    
+    if (hasCombatMagicCasterDisarm) {
+        insights += `<li>❗ <b>Disarm crash detected:</b>
+            This crash signature is associated with the disarm mechanic in combat. The crash occurs when weapons are forcibly removed from NPCs or the player during combat, typically through the Disarm shout or similar effects.
+            <ul>
+                <li><b>Install Disarmless:</b> Install the <a href="https://www.nexusmods.com/skyrimspecialedition/mods/12631">Disarmless</a> mod, which removes the Disarm shout from either Draugr only, or the entire game including mods. This mod has resolved crashes for multiple users experiencing this specific issue and is the recommended fix.</li>
+                <li><b>Additional context:</b> This crash occurs during the disarm combat mechanic. Multiple users have reported this issue resolving immediately after installing Disarmless. 
+                    See discussions on <a href="https://www.nexusmods.com/skyrimspecialedition/mods/12631?tab=posts">Nexus Mods</a> and 
+                    <a href="https://www.reddit.com/r/Phostwood/comments/1pf8810/combatmagiccasterdisarm_crash/">Reddit</a>.</li>`;
+        
+        if (hasEngineFixesDll) {
+            insights += `
+                <li><b>Engine Fixes note:</b> Some users have reported this crash with version 7.x of <a href="https://www.nexusmods.com/skyrimspecialedition/mods/17230">Engine Fixes</a>. If installing Disarmless doesn't resolve the issue, check if there's a newer version of Engine Fixes released after December 12, 2024, as it may include a fix for this issue. As a last resort, you could try downgrading Engine Fixes to an earlier version (note: newer versions have important stability improvements, so this should only be done if other solutions fail).</li>`;
+        }
+        
+        insights += `
+                <li>Detected indicators:
+                    <ul class="extraInfo">
+                        ${hasCombatMagicCasterDisarm ? '<li><code>CombatMagicCasterDisarm</code> in highest-confidence sections of crash log</li>' : ''}
+                        ${hasEngineFixesDll ? '<li><code>EngineFixes.dll</code> present</li>' : ''}
                     </ul>
                 </li>
             </ul>

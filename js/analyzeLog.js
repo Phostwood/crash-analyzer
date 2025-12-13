@@ -444,6 +444,13 @@ async function analyzeLog() {
        diagnosesCount++;
    }
 
+    // ❗ Disarm crash detected
+   const hascheckCombatMagicCasterDisarmIssue = checkCombatMagicCasterDisarmIssue(sections);
+   if (hascheckCombatMagicCasterDisarmIssue) {
+       diagnoses += hascheckCombatMagicCasterDisarmIssue;
+       diagnosesCount++;
+   }
+
     //❗Possible Visual C++ Runtime DLL Issue Detected:
     const vCRuntimeDiagnosis = analyzeVCRuntimeIssue(sections);
     if (vCRuntimeDiagnosis) {
