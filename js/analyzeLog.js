@@ -444,7 +444,7 @@ async function analyzeLog() {
        diagnosesCount++;
    }
 
-    // ❗ Disarm crash detected
+    // ❗ Probable Disarm crash detected
    const hascheckCombatMagicCasterDisarmIssue = checkCombatMagicCasterDisarmIssue(sections);
    if (hascheckCombatMagicCasterDisarmIssue) {
        diagnoses += hascheckCombatMagicCasterDisarmIssue;

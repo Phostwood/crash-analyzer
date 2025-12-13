@@ -4281,7 +4281,7 @@ function checkArmorWeightPerkIssue(sections) {
 
 
 
-// ❗ Disarm crash detected
+// ❗ Probable Disarm crash detected
 function checkCombatMagicCasterDisarmIssue(sections) {
     let insights = '';
     const text = (sections.highestConfidenceIndicators || '').toLowerCase();
@@ -4290,8 +4290,8 @@ function checkCombatMagicCasterDisarmIssue(sections) {
     const hasEngineFixesDll = sections.bottomHalf.toLowerCase().includes('enginefixes.dll') || text.includes('enginefixes.dll');
     
     if (hasCombatMagicCasterDisarm) {
-        insights += `<li>❗ <b>Disarm crash detected:</b>
-            This crash signature is associated with the disarm mechanic in combat. The crash occurs when weapons are forcibly removed from NPCs or the player during combat, typically through the Disarm shout or similar effects.
+        insights += `<li>❗ <b>Probable Disarm crash detected:</b>
+            This crash signature is usually associated with the disarm mechanic in combat. The crash occurs when weapons are forcibly removed from NPCs or the player during combat, typically through the Disarm shout or similar effects.
             <ul>
                 <li><b>Install Disarmless:</b> Install the <a href="https://www.nexusmods.com/skyrimspecialedition/mods/12631">Disarmless</a> mod, which removes the Disarm shout from either Draugr only, or the entire game including mods. This mod has resolved crashes for multiple users experiencing this specific issue and is the recommended fix.</li>
                 <li><b>Additional context:</b> This crash occurs during the disarm combat mechanic. Multiple users have reported this issue resolving immediately after installing Disarmless. 
