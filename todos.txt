@@ -1,27 +1,31 @@
-✅Version 1.28.2 is now live:
+✅Version 1.28.3 is now live:
 https://phostwood.github.io/crash-analyzer/
 
-1. New test: ❓ Possible armor weight perk calculation issue: 
-	- Than you: RomatebitegeL!
-	- https://www.reddit.com/r/Phostwood/comments/1or0dyw/skyrimseexe0cd9f7c_crash/
-	- indicator: SkyrimSE.exe+0CD9F7C
-		- hits in 2 files of 8502 searched
-	- secondary indicator? PEBQEAVInputEvent ()
-		- hits in 34 files of 8502 searched
 
-2. 🎲 Reduce Random Crashes:
-	- short version: 😐 Crashing less than every 4 hours usually isn't a large concern for any heavily modded Skyrim
-	- 😐 <b>Normal crash frequency:</b> Occasional instability is <a href="https://www.reddit.com/r/skyrimmods/comments/1oeve11/is_there_a_truely_stable_modlist/">expected with any heavily modded Skyrim</a>, as the game's foundation itself isn't fully stable. Except for bug fixes, adding hundreds of mods from different authors in varying combinations increases the complexity and likelihood of instability. Unless multiple crash logs share a repeating cause, crashes averaging less frequently than once every 4 hours should not be cause for immediate concern.
-	
-3. Donations section and ReadMe: Updated Donations numbers, and swapped Patreon banner for Ko-Fi, and say "This project needs more monthly tippers."
+✅ 1. Bug fix: fix drop path for:
+Recommendation: Switch to Crash Logger SSE. Migration is straightforward, just install it, and disable other crash logging mods. New crash logs will be output to: [Skyrim_Directory]\Data\SKSE\Plugins\NetScriptFramework\Crash ... replacing [Skyrim_Directory] with your actual Skyrim installation directory path.
+
+✅ 2. New test: ❗ Disarm crash detected
+	- Thanks RomatebitegeL!
 
 
 
 
---- next version ---
+--- Next version ---
+
+
+2. Remove first-line for VCRUNTIME ... see reddit post:
+	- https://www.reddit.com/r/skyrimmods/comments/1p8jfv0/tips_for_reading_crash_logs_and_detecting_mods/
+	- maybe also remove first-line issue for Kernelbase? Or put it lower down the list when Kernelbase?
+
+3. Move VCRUNTIME recommendation down the list?
+
+
+
 
 4. 🎯 Highest-Confidence Indicators: 
 	- Maybe start it out expanded?
+	- Maybe not though since it's an advanced-users feature?
 
 
 5. link to: https://www.reddit.com/r/skyrimmods/comments/1owwsiq/list_of_testing_and_troubleshooting_tools/
@@ -38,12 +42,15 @@ https://phostwood.github.io/crash-analyzer/
 	- other?
 
 
+
+--- next version ---
+
 10. asked Crash Logger SSE author ... waiting for response.
-	- https://www.nexusmods.com/skyrimspecialedition/mods/59818?tab=posts&BH=0
+	- IGNORED: https://www.nexusmods.com/skyrimspecialedition/mods/59818?tab=posts&BH=0
 	- 20251105
 
 11. Asked J3w3ls ... waiting for response:
-	- https://discord.com/channels/872252014002843658/878565217288728576/1435753945468244170
+	- IGNORED: https://discord.com/channels/872252014002843658/878565217288728576/1435753945468244170
 
 
 
