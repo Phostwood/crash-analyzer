@@ -1147,8 +1147,8 @@ function analyzeMeshIssues(sections) {
 //🎯 Dawnguard Horse Issue Detected: 
 function analyzeDawnguardHorseIssue(sections) {
     let diagnosis = '';
-    const dawnguardHorseIssue = sections.topHalf.includes("Skyrim Immersive Creatures") && sections.topHalf.includes("Dawnguard Horse")
-        && (sections.topHalf.includes("Isran") || sections.topHalf.includes("Celann") );
+    const dawnguardHorseIssue = sections.topHalfFullLog.includes("Skyrim Immersive Creatures") && sections.topHalfFullLog.includes("Dawnguard Horse")
+        && (sections.topHalfFullLog.includes("Isran") || sections.topHalfFullLog.includes("Celann") );
     if (dawnguardHorseIssue) {
         diagnosis +=  `
         <li>🎯 <b>Dawnguard Horse Issue Detected:</b> This is a specific variant of NavMesh/Pathing Issues (see below). The Dawnguard Horse from Skyrim Immersive Creatures is a common example. You can fix the issue with the following steps:
@@ -1843,8 +1843,8 @@ function analyzeFirstLine(sections) {
 function analyzeStringsCrash(sections) {
     let insights = '';
     let hasPrimaryIndicator = sections.topThird.toLowerCase().includes('.STRINGS'.toLowerCase());
-    let hasSecondaryIndicators = sections.topHalf.toLowerCase().includes('BGSStoryManagerBranchNode'.toLowerCase())
-        && sections.topHalf.toLowerCase().includes('PlayerCharacter'.toLowerCase());
+    let hasSecondaryIndicators = sections.topHalfFullLog.toLowerCase().includes('BGSStoryManagerBranchNode'.toLowerCase())
+        && sections.topHalfFullLog.toLowerCase().includes('PlayerCharacter'.toLowerCase());
     if (hasPrimaryIndicator && hasSecondaryIndicators) {
         insights += `<li>🎯 <b>.STRINGS Crash Detected:</b> This error typically occurs when there is a unique or non-standard character in the <code>sLanguage</code> line of your <b>skyrim.ini</b> file. To resolve this issue:<ol>
             <li>Locate your <b>skyrim.ini</b> file.</li>
@@ -2898,7 +2898,7 @@ function analyzeModProminence() {
                 <li>If the crash continues (or if disabling this mod was infeasible), re-enable and try the next mod</li>
                 ${Utils.LootListItemIfSkyrim}
                 <li>Mods listed by prominence <code><span style="color:darkorange">(appearances : details)</span></code>: <ul>
-                    ${!window.location.href.toLowerCase().endsWith('?tryformids') ? '<li>NOTE: results may be more accurate with "Display nested Log Summary" (see checkbox at top of page)</li>' : ''}`;
+                    ${!window.location.href.toLowerCase().includes('?tryformids') ? '<li>NOTE: results may be more accurate with "Display nested Log Summary" (see checkbox at top of page)</li>' : ''}`;
                 // Add sorted mods to the list
                 entries.forEach(([filename, stats]) => {
                     modInsights += `
@@ -3006,7 +3006,7 @@ function checkForRedundantBEES(sections) {
     let diagnoses = '';
 
     if (sections.hasNewEslSupport) {
-        const hasBeesInstalled = sections.fullLogFileLowerCase.includes('BackportedESLSupport.dll'.toLowerCase());
+        const hasBeesInstalled = sections.fullLogFileLowerCaseFullLog.includes('BackportedESLSupport.dll'.toLowerCase());
         
         if (hasBeesInstalled) {
             diagnoses += `

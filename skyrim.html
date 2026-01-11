@@ -28,7 +28,7 @@
 	<meta name="description" content="Advanced Skyrim crash log analyzer that helps diagnose and fix 75-90% of crashes with identifiable causes. Provides detailed troubleshooting steps for common crash types. Updated frequently with new crash patterns and solutions.">
 
 	<meta charset="UTF-8">
-	<meta name="version" content="1.28.3.3">
+	<meta name="version" content="1.29.0">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 	<link rel="icon" type="image/x-icon" href="https://phostwood.github.io/crash-analyzer/favicon.ico">
@@ -77,7 +77,7 @@
 				'./js/expectedBaseMods.js',
 				
 				// Conditional core script
-				window.location.href.toLowerCase().endsWith('?tryformids')
+				window.location.href.toLowerCase().includes('?tryformids')
 					? './js/logSummaryAdvanced.js'
 					: './js/logSummary.js',
 				
@@ -118,7 +118,7 @@
 	</header>
 	<main>
 		<section class="textarea-container">
-			<p>Last updated: December 12, 2025 &nbsp; <span id="versionNumber"></span></p>
+			<p>Last updated: January 10, 2026 &nbsp; <span id="versionNumber"></span></p>
 			<p>(<strong>refresh daily</strong> to ensure you are using the latest version)</p>
 
 			<p><a href='https://ko-fi.com/I2I219OKJM' target='_blank'><img height='36' style='border:0px;height:36px;' src='https://storage.ko-fi.com/cdn/kofi6.png?v=6' border='0' alt='Buy Me a Coffee at ko-fi.com' /></a></p>
@@ -148,6 +148,7 @@
 			<textarea id="crashLog" rows="10" cols="50"
 				placeholder="Choose file (above), or drag-and-drop your log file onto this field, or copy-paste your entire Skyrim crash log content here..."></textarea><br>
 			<button id="analyzeButton" onclick="analyzeLog()">Analyze</button><button id="clearButton" onclick="clearAll()">Clear</button><br>
+			<span style="white-space: nowrap;"><input type="checkbox" id="analyzeFullLog"  name="analyzeFullLog"> <label for="analyzeFullLog">Analyze full log (may show many additional possible causes)</label></span><br>
 			<span style="white-space: nowrap;"><input type="checkbox" id="tryFormIDs"  name="tryFormIDs"> <label for="tryFormIDs">Display nested Log Summary  (Beta feature)</label></span><span id="fileFlags"></span><br>
 			<span style="white-space: nowrap; color:#32CD32; display: none;" id="scrollDownInstructions">(scroll down to read analysis report)</span><br>
 			<!--dropped feature: now always enabled --> <input type="hidden" id="speculativeInsights" style="display: none;"name="speculativeInsights" class="advanced" checked>

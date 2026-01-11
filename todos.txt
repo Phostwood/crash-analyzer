@@ -1,18 +1,62 @@
-✅Version 1.28.3.3 is now live:
+✅Version 1.29.0 is now live:
 https://phostwood.github.io/crash-analyzer/
 
+1. Major New Feature! "Analyze full log (may show many additional possible causes)" checkbox
+	- now defaults to a more-focused report
+	- focuses most tests on highest confidence sections of the crash log, increasing likelihood of causation in listed possible causes
+		- STACK first 100 lines
+		- PROBABLE CALL STACK: first 50 lines
+		- REGISTERS: first 50 lines
+		- RELEVANT OBJECTS first 50 lines (NSF logs only)
+		- NOTE: this feature is primarily tested with Crash Logger SSE logs and may be less focusing with more line-dense NetScript Framework logs
+2. 🎯 Highest-Confidence Indicators:
+		- UI Change: made it display by default, as if you are looking in the Advanced Users section you should probably be reviewing this log summary
+		- Feature Change: now displays for NSF and Trainwreck logs as well, but also warns "(3) ⚠️This feature is primarily developed for Crash Logger SSE logs, and may be noisier and considerably less insightful with Netscript Framework or Trainwreck logs."
+		- Added truncated relevantObjects section for NSF compatibility
 
-✅ 1. Bug fix: fix drop path for:
-Recommendation: Switch to Crash Logger SSE. Migration is straightforward, just install it, and disable other crash logging mods. New crash logs will be output to: [Skyrim_Directory]\Data\SKSE\Plugins\NetScriptFramework\Crash ... replacing [Skyrim_Directory] with your actual Skyrim installation directory path.
 
-✅ 2. New test: ❗ Disarm crash detected
-	- Thanks RomatebitegeL!
+- - - with dev notes - - - 
+
+✅ 1. New feature! "[] Analyze full log (may show many additional possible causes)"
+	- ✅make checkboxes reload page like tryFormIds checkbox
+	- ✅when checked, map a bunch of log sections (and full log) to shortened higher-confidence lines/sections
+	- ✅test on index.html
+	- ✅test on skyrim.html
+	- ❌?WARNING: make note that it primarily for Crash Logger SSE
+		- Is this still the case?
+	- ✅ BUG FIX: make it so both of these can be checked together:
+		- Analyze full log (may show many additional possible causes)
+		- Display nested Log Summary (Beta feature)
+	- ✅ BUG FIX: make it work with NSF by adding short version of sections.relevantObjects
+	- ✅ WORKED AROUND: BUG FIX? maybe make it so it truncates to exactly what is shown?
+		- ISSUE: stripNoise() can remove many multiple lines, which might contain indicators for some tests?
+		- BEST SOLUTION: truncate Stack at first 150 --> 100 lines, and other sections at 50 lines
+	- ❌SKIP: Try making checkboxes clearing and analyze on change, instead of refreshing on change
+		- ISSUE: changing the URL automatically refreshes the page. Could store the checkboxes as cookies, but then wouldn't be able to (intuitively) read values from the URL. So, it's a tradeoff, and right now at least I'm leaning towards just keeping them both as URLs
+	- BUG: new feature breaks these logs' diagnoses:
+		- ✅FIXED: Dawnguard Horse - High RAM Usage - Low System RAM - Dy2zNGTc.txt
+			- ✅create new sections.topHalfFull?
+			- ✅ also tested on other releated logs
+		- ✅FIXED: confirmed CompassNavigationOverhaul - Crash Log (60).txt
+			- create new sections.fullLogFileLowerCaseFullLog
+		- ✅FIXED: CompassNavigationOverhaul - crash-2024-08-10-08-41-52.log.txt
+		- ✅FIXED: Dragons Eye Minimap - WorldRoot - Crash Log (60).txt
+			- ✅ also tested on other releated logs
+		- ✅FIXED: Redundant BEES
+		- ✅FIXED: STRINGS crash
+		- TRADE OFF: Because NetScriptFramework logs have extra dense log lines, this will be much less successful at focusing
+	- ✅NOW that sections.BottomHalf is fixed, perhaps some/all of the fixed tests above can be reverted to checking highest confidence sections? Maybe also shorten Stack from 150 lines back down to 100?
 
 
+	2. 🎯 Highest-Confidence Indicators:
+		- UI Change: made it display by default, as if you are looking in the Advanced Users section you should probably be reviewing this log summary
+		- Feature Change: now displays for NSF and Trainwreck logs as well, but also warns "(3) ⚠️This feature is primarily developed for Crash Logger SSE logs, and may be noisier and considerably less insightful with Netscript Framework or Trainwreck logs."
+		- Added truncated relevantObjects section for NSF compatibility
 
 
---- Next version ---
+- - - Next Version - - - 
 
+1. Bug fix from my Discord channel? (or explain why it isn't a bug)
 
 2. Remove first-line for VCRUNTIME ... see reddit post:
 	- https://www.reddit.com/r/skyrimmods/comments/1p8jfv0/tips_for_reading_crash_logs_and_detecting_mods/
@@ -24,7 +68,7 @@ Recommendation: Switch to Crash Logger SSE. Migration is straightforward, just i
 
 
 4. 🎯 Highest-Confidence Indicators: 
-	- Maybe start it out expanded?
+	- Maybe start it out expanded? Or at least start out as expanded if nothing good in the Diagnoses section
 	- Maybe not though since it's an advanced-users feature?
 
 

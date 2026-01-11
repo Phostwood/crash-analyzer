@@ -713,22 +713,30 @@ document.addEventListener('DOMContentLoaded', function () {
 			}
 		});
 
-		if (window.location.href.toLowerCase().endsWith('?advanced')) {
+		
+		/* UNUSED LEGACY CODE:
+		if (window.location.href.toLowerCase().includes('?advanced')) {
 			document.getElementById('speculativeInsights').checked = true;
 		}
+		*/
 
-		if (window.location.href.toLowerCase().endsWith('?tryFormIDs'.toLowerCase())) {
+		// Initialize tryFormIDs checkbox based on URL
+		if (Utils.getQueryParams().has('tryFormIDs')) {
 			document.getElementById('tryFormIDs').checked = true;
 		}
 
 		document.getElementById('tryFormIDs').addEventListener('change', function(e) {
-			if (e.target.checked) {
-				// Force a page reload by directly setting location
-				window.location = window.location.pathname + '?tryFormIDs';
-			} else {
-				window.location = window.location.pathname;
-			}
+			Utils.setQueryParam('tryFormIDs', e.target.checked);
 		});
+
+		// Initialize analyzeFullLog checkbox based on URL
+		if (Utils.getQueryParams().has('analyzeFullLog')) {
+			document.getElementById('analyzeFullLog').checked = true;
+		}
+
+		document.getElementById('analyzeFullLog').addEventListener('change', function(e) {
+			Utils.setQueryParam('analyzeFullLog', e.target.checked);
+		});	
 
 	});
 

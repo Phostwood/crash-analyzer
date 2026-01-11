@@ -97,6 +97,40 @@ Utils.init = function() {
     this.isReady = true;
 };
 
+// Helper function to get query parameters
+Utils.getQueryParams = function() {
+    const params = new URLSearchParams(window.location.search);
+    return params;
+};
+
+// Helper function to update a query parameter
+Utils.setQueryParam = function(key, value) {
+    const params = new URLSearchParams(window.location.search);
+    if (value === false || value === null || value === undefined) {
+        params.delete(key);
+    } else if (value === true || value === '') {
+        // For boolean true or empty string, add just the key
+        params.delete(key); // Remove first to avoid duplicates
+        params.append(key, '');
+    } else {
+        // For actual values, set normally
+        params.set(key, value);
+    }
+    
+    // Manually build the query string
+    const paramArray = [];
+    for (const [key, val] of params.entries()) {
+        if (val === '') {
+            paramArray.push(key);  // No '=' for empty values
+        } else {
+            paramArray.push(key + '=' + encodeURIComponent(val));  // '=' for real values
+        }
+    }
+    const queryString = paramArray.length > 0 ? '?' + paramArray.join('&') : '';
+    const newUrl = window.location.pathname + queryString;
+    window.location = newUrl;
+};
+
 
 Utils.debuggingLog = (function() {
     let counter = 1;
@@ -1083,8 +1117,8 @@ Utils.getLogSectionsMap = function(logFile) {
     // Create truncated stack sections
     if (sections.stack) {
         const stackLines = sections.stack.split('\n');
-        sections.stackTop50 = stackLines.slice(0, 50).join('\n');
-        sections.stackTop100 = stackLines.slice(0, 100).join('\n');
+        sections.stackTop50 = stackLines.slice(0, 50).join('\n'); //Currently unused
+        sections.stackTop100 = stackLines.slice(0, 100).join('\n'); //100 could be too short?
         sections.stackTop300 = stackLines.slice(0, 300).join('\n');
     }
 
@@ -1102,27 +1136,56 @@ Utils.getLogSectionsMap = function(logFile) {
         sections.registersTop50 = '';
     }
 
-    // Combine for highest confidence indicators
-    sections.highestConfidenceIndicators = (sections.stackTop300 || '') + 
-                                        (sections.probableCallstackTop50 || '') + 
-                                        (sections.registersTop50 || '');
-
+    // Create truncated relevantObjects section (only if it exists)
+    if (sections.relevantObjects) {
+        sections.relevantObjectsTop50 = sections.relevantObjects.split('\n').slice(0, 50).join('\n');
+    } else {
+        sections.relevantObjectsTop50 = '';
+    }
 
     // Create composite sections
-    sections.header = sections.header; //QUESTION: WHY DO I HAVE TO RE-SPECIFY THIS SECTION?
-    sections.topQuarter = [sections.firstLine, sections.relevantObjects, sections.probableCallstack].filter(Boolean).join('\n\n');
-    sections.topThird = [sections.firstLine, sections.relevantObjects, sections.probableCallstack, sections.registers].filter(Boolean).join('\n\n');
-    sections.topHalf = [sections.firstLine, sections.relevantObjects, sections.probableCallstack, sections.registers, sections.stack].filter(Boolean).join('\n\n');
+    sections.topHalfFullLog = [sections.firstLine, sections.relevantObjects, sections.probableCallstack, sections.registers, sections.stack].filter(Boolean).join('\n\n');
+    sections.fullLogFileLowerCaseFullLog = logFile.toLowerCase();
+
+    // APPLIES EITHER WAY: Common sections regardless of condition
+    // Combine for highest confidence indicators (ALWAYS uses truncated versions)
+    sections.highestConfidenceIndicators = [sections.stackTop100, sections.relevantObjectsTop50, sections.probableCallstackTop50, sections.registersTop50].filter(Boolean).join('\n\n');
+
     sections.bottomHalf = [sections.modules, sections.sksePlugins, sections.plugins, sections.gamePlugins].filter(Boolean).join('\n\n');
-    sections.topThirdNoHeading = [sections.relevantObjects, sections.probableCallstack, sections.registers].filter(Boolean).join('\n\n');
-    sections.fullLogFileLowerCase = logFile.toLowerCase();
-    sections.fullLogFile = logFile;
     sections.hasNsfLog = Utils.getLogType(Utils.logLines) == 'NetScriptFramework';
     sections.hasCrashLoggerSseLog = Utils.getLogType(Utils.logLines) == 'CrashLogger';
     sections.hasTrainwreck = Utils.getLogType(Utils.logLines) == 'Trainwreck';
     sections.hasNolvusV6 = Utils.getNolvusVersion(sections) == 6;
     sections.hasNolvusV5 = Utils.getNolvusVersion(sections) == 5;
 
+
+    // Check the condition
+    if (window.location.href.toLowerCase().includes('analyzefulllog')) {
+        // Create composite sections with full data
+        sections.topQuarter = [sections.firstLine, sections.relevantObjects, sections.probableCallstack].filter(Boolean).join('\n\n');
+        sections.topThird = [sections.firstLine, sections.relevantObjects, sections.probableCallstack, sections.registers].filter(Boolean).join('\n\n');
+        sections.topHalf = [sections.firstLine, sections.relevantObjects, sections.probableCallstack, sections.registers, sections.stack].filter(Boolean).join('\n\n');
+        sections.topThirdNoHeading = [sections.relevantObjects, sections.probableCallstack, sections.registers].filter(Boolean).join('\n\n');
+        sections.fullLogFile = logFile;
+        sections.fullLogFileLowerCase = logFile.toLowerCase();
+        
+    } else {
+        // CONDITION = FALSE: Use truncated sections
+        sections.stack = sections.stackTop100 || '';
+        sections.probableCallstack = sections.probableCallstackTop50 || '';
+        sections.registers = sections.registersTop50 || '';
+        sections.relevantObjects = sections.relevantObjectsTop50 || '';
+        
+        // Create composite sections with truncated data
+        sections.topQuarter = [sections.firstLine, sections.relevantObjectsTop50, sections.probableCallstackTop50].filter(Boolean).join('\n\n');
+        sections.topThird = [sections.firstLine, sections.relevantObjectsTop50, sections.probableCallstackTop50, sections.registersTop50].filter(Boolean).join('\n\n');
+        sections.topHalf = [sections.firstLine, sections.relevantObjectsTop50, sections.probableCallstackTop50, sections.registersTop50, sections.stackTop100].filter(Boolean).join('\n\n');
+        sections.topThirdNoHeading = [sections.relevantObjectsTop50, sections.probableCallstackTop50, sections.registersTop50].filter(Boolean).join('\n\n');
+        
+        // Create truncated fullLogFile from topHalf + bottomHalf
+        sections.fullLogFile = [sections.topHalf, sections.bottomHalf].filter(Boolean).join('\n\n');
+        sections.fullLogFileLowerCase = sections.fullLogFile.toLowerCase();
+    }
     
 
     // Add debugging output for the entire sections object
