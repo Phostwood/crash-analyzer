@@ -4,7 +4,7 @@ Utils.logLines = [];
 
 // Constants
 Utils.fileExtensions = ['.bat', '.bik', '.bmp', '.bsa', '.bsl', '.bto', '.btr', '.cpp', '.dds', '.dll', '.esl', '.esm',
-    '.esp', '.exe', '.fuz', '.hkb', '.hkx', '.ini', '.json', '.lip', '.nif', '.nif.dm', '.pex', '.psc',
+    '.esp', '.ess', '.exe', '.fuz', '.hkb', '.hkx', '.ini', '.json', '.lip', '.nif', '.nif.dm', '.pex', '.psc',
     '.seq', '.skse', '.skse64', '.swf', '.tga', '.tri', '.txt', '.wav', '.xml', '.xwm'];
 Utils.modFileExtensions = ['.dll', '.esl', '.esm', '.esp', '.exe', '.skse', '.skse64', '.swf'];
 Utils.unlikelyCulprits = ['clr.dll', 'd3d12core.dll', 'd3dcompiler_47.dll', 'kernel32.dll', 'kernelbase.dll', 
@@ -1149,7 +1149,7 @@ Utils.getLogSectionsMap = function(logFile) {
 
     // APPLIES EITHER WAY: Common sections regardless of condition
     // Combine for highest confidence indicators (ALWAYS uses truncated versions)
-    sections.highestConfidenceIndicators = [sections.stackTop100, sections.relevantObjectsTop50, sections.probableCallstackTop50, sections.registersTop50].filter(Boolean).join('\n\n');
+    sections.highestConfidenceIndicators = [sections.firstLine, sections.stackTop100, sections.relevantObjectsTop50, sections.probableCallstackTop50, sections.registersTop50].filter(Boolean).join('\n\n');
 
     sections.bottomHalf = [sections.modules, sections.sksePlugins, sections.plugins, sections.gamePlugins].filter(Boolean).join('\n\n');
     sections.hasNsfLog = Utils.getLogType(Utils.logLines) == 'NetScriptFramework';

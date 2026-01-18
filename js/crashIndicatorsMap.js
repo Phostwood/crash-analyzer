@@ -25,6 +25,34 @@ const crashIndicators = {
         ]        
     },
 
+    nvidiaDriverIssues: {
+        hexCodes: [
+            // Space for future hex codes
+        ],
+        codes: [
+            { code: 'nvwgf2umx.dll', description: "NVIDIA Windows Graphics Foundation driver" },
+            { code: 'nvlddmkm.sys', description: "NVIDIA Windows Kernel Mode Driver" },
+            { code: 'nvoglv32.dll', description: "NVIDIA OpenGL driver (32-bit)" },
+            { code: 'nvoglv64.dll', description: "NVIDIA OpenGL driver (64-bit)" },
+            { code: 'nvwgf2um.dll', description: "NVIDIA User Mode Driver" },
+            { code: 'nvapi64.dll', description: "NVIDIA API (64-bit)" },
+            { code: 'nvgpucomp64.dll', description: "NVIDIA GPU Compute driver (64-bit)" }
+        ]
+    },
+
+    sseEngineFixesFiles: {
+        hexCodes: [
+            // Space for future hex codes
+        ],
+        codes: [
+            { code: 'EngineFixes.dll', description: "SSE Engine Fixes SKSE plugin" },
+            { code: 'engine_fixes.dll', description: "SSE Engine Fixes SKSE plugin (alternate)" },
+            { code: 'd3dx9_42.dll', description: "DirectX 9 runtime library (possibly from SSE Engine Fixes)" },
+            { code: 'tbbmalloc.dll', description: "Intel Threading Building Blocks memory allocator (likely from SSE Engine Fixes)" },
+            { code: 'tbb.dll', description: "Intel Threading Building Blocks library (likely from SSE Engine Fixes)" }
+        ]
+    },
+
     vcRuntimeIssues: {
         hexCodes: [
             // Space for future hex codes
@@ -208,7 +236,7 @@ const crashIndicators = {
             { code: 'heap corruption', description: "Memory heap corruption detected" },
             { code: 'bad_alloc', description: "Memory allocation failure" },
             { code: 'no_alloc', description: "Memory allocation not possible" },
-            { code: 'tbbmalloc.dll', description: "Threading Building Blocks memory allocator issue" },
+            { code: 'tbbmalloc.dll', description: "Intel Threading Building Blocks Memory Allocator (likely from <b>SSE Engine Fixes</b> - Part 2  ... less likely culprit)" },
             { code: 'virtual memory', description: "Virtual memory management issue" },
             { code: 'memory leak', description: "Potential memory leak detected" },
             { code: 'stack overflow', description: "Stack memory overflow" },

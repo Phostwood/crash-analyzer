@@ -24,16 +24,16 @@ function reinstallEngineFixesInstructions (sections) {
             ${sections.hasEngineFixesPre7 ? `
                 <li><b>For Engine Fixes prior to version 7:</b> Configure <code>EngineFixes.toml</code> with:
                     <ul>
-                        <li>Option 1: Download the <a href="https://www.nexusmods.com/skyrimspecialedition/mods/108069">pre-configured TOML file</a></li>
-                        <li>Option 2: Manually configure following this <a href="https://www.reddit.com/r/skyrimmods/comments/tpmf8x/crash_on_load_and_save_corruption_finally_solved/">settings guide</a>. Verify/Edit these settings in <code>EngineFixes.toml</code> :
+                        ${sections.hasSkyrimAE1170 || sections.hasSkyrimSE1597 ? `
+                            <li><b>Option 1 (Recommended):</b> <a href="https://www.nexusmods.com/skyrimspecialedition/mods/17230">Upgrade to latest version 7</a> of Engine Fixes for more bug fixes and better stability.</li>
+                        ` : ''}
+                        <li><b>Option ${sections.hasSkyrimAE1170 || sections.hasSkyrimSE1597 ? '2' : '1'}:</b> Download the <a href="https://www.nexusmods.com/skyrimspecialedition/mods/108069">pre-configured TOML file</a></li>
+                        <li><b>Option ${sections.hasSkyrimAE1170 || sections.hasSkyrimSE1597 ? '3' : '2'}:</b> Manually configure following this <a href="https://www.reddit.com/r/skyrimmods/comments/tpmf8x/crash_on_load_and_save_corruption_finally_solved/">settings guide</a>. Verify/Edit these settings in <code>EngineFixes.toml</code> :
                             <ul>
                                 <li><code>SaveGameMaxSize = true</code></li>
                                 <li><code>MaxStdio = 8192</code></li>
                             </ul>
                         </li>
-                        ${sections.hasSkyrimAE1170 || sections.hasSkyrimSE1597 ? `
-                            <li><b>Option 3 (Recommended):</b>  <a href="https://www.nexusmods.com/skyrimspecialedition/mods/17230">Upgrade to latest version 7</a> of Engine Fixes for more bug fixes and better stability.</li>
-                        ` : ''}
                     </ul>
                 </li>
             ` : ''}
@@ -894,6 +894,72 @@ function analyzeDragonsEyeMinimapIssue(sections) {
 }
 
 
+//🎯 NVIDIA Driver Issue Detected:
+function analyzeNVIDIADriverIssue(sections, diagnosisOrInsight='diagnosis') {
+    let insights = '';
+    
+    // Check if any NVIDIA DLL appears in first line
+    const nvidiaFileInFirstLine = crashIndicators.nvidiaDriverIssues.codes.some(
+        ({ code }) => sections.firstLine.toLowerCase().includes(code.toLowerCase())
+    );
+    
+    // Get matching NVIDIA indicators
+    const matchingNVIDIACodes = crashIndicators.nvidiaDriverIssues.codes.filter(
+        ({ code }) => sections.topHalf.toLowerCase().includes(code.toLowerCase())        
+    );
+
+    if (nvidiaFileInFirstLine &&  diagnosisOrInsight !== 'diagnosis') {
+        return '';
+    }
+
+    if (matchingNVIDIACodes.length >= 1 && (nvidiaFileInFirstLine || diagnosisOrInsight !== 'diagnosis')) {
+        let detectionMessage = '';
+        let detectedIndicators = '';
+        const emoji = nvidiaFileInFirstLine ? '🎯' : '❗ Potential';
+        
+        if (nvidiaFileInFirstLine) {
+            // Find which DLL file was detected in the first line
+            const detectedDll = crashIndicators.nvidiaDriverIssues.codes.find(
+                ({ code }) => sections.firstLine.toLowerCase().includes(code.toLowerCase())
+            );
+            
+            // Remove duplicates: exclude the first-line DLL from the later list
+            const filteredMatches = matchingNVIDIACodes.filter(
+                ({ code }) => code.toLowerCase() !== detectedDll.code.toLowerCase()
+            );
+            
+            detectionMessage = 'The appearance of NVIDIA driver files in the first line of your crash log is often associated with NVIDIA graphics driver issues.';
+            detectedIndicators = `<li><code>${detectedDll.code}</code> - ${detectedDll.description} detected in first line</li>`;
+            filteredMatches.forEach(({ code, description }) => {
+                detectedIndicators += `<li><code>${code}</code> - ${description}</li>`;
+            });
+        } else {
+            detectionMessage = 'NVIDIA driver files were found in your crash log, which may indicate graphics driver issues.';
+            matchingNVIDIACodes.forEach(({ code, description }) => {
+                detectedIndicators += `<li><code>${code}</code> - ${description}</li>`;
+            });
+        }
+        
+        insights += `
+        <li>${emoji} <b>NVIDIA Driver Issue Detected:</b> ${detectionMessage}
+            <ol>
+                <li><b>Update your NVIDIA drivers</b> to the latest version. You can download the latest drivers from the <a href="https://www.nvidia.com/Download/index.aspx">NVIDIA website</a>.</li>
+                <li>Check for any GPU overclocking settings that may be causing instability and reset them to stock speeds.</li>
+                <li>Check if any graphics mods like ENB or Upscaler or Reshade, etc. are hooking into the graphics driver by overriding the detected file(s) (see "Detected indicators" below). If so, experiment with disabling, reinstalling, reconfiguring and/or checking for related conflicts.</li>
+                <li>If the above does not resolve the issue, try performing a clean installation of the drivers using a tool like Display Driver Uninstaller (DDU) to remove all traces of the previous drivers before installing the new ones.</li>
+                <li>Detected indicators: <a href="#" class="toggleButton">⤵️ show more</a>
+                    <ul class="extraInfo" style="display:none">
+                        ${detectedIndicators}
+                    </ul>
+                </li>
+            </ol>
+        </li>`;
+    }
+    
+    return insights;
+}
+
+
 //❗ DynDOLOD v3.0.34 Crash Issue Detected:
 function analyzeDynDOLODv3034Issue(sections) {
     let insights = '';
@@ -1635,21 +1701,24 @@ function analyzeJContainersCrash(sections) {
 function checkKernelbaseCrash(sections, Utils, jContainersCrash, win24H2UpscalerCrash, isDiagnosesSection = false) {
     let diagnoses = '';
 
-    // Check for KERNELBASE Crash excluding JContainers and JSON parse error
+    // Check for KERNELBASE Crash EXCLUDING JContainers and JSON parse error
     if (sections.firstLine.toLowerCase().includes('KERNELBASE.dll'.toLowerCase()) && 
         !jContainersCrash && 
         !win24H2UpscalerCrash &&
         !sections.topHalf.includes('json.exception.parse_error')) {
-    
+        
+        /* //Top Section Version NO LONGER USED, deemed too misleading for the top section
+        
         if (!Utils.isSkyrimPage && isDiagnosesSection) { // SHORT VERSION - Only for Nolvus in diagnoses section
+            
             diagnoses += `
                 <li>❗ <b>KERNELBASE Crash Detected:</b> This rare issue could be related to a specific added mod, or to hardware or a system-wide issue. Here are some steps you can try:
                     <ol>
                         <li><b>First</b>, try to reproduce the crash after rebooting your PC and playing the game again. If this was a one-time occurrence, you probably don't need to follow the more intensive troubleshooting steps below.</li>
-                        <li>Review the rest of the advice in this report (above and below), and see if there are strong indications of any better-isolated isolated issue. Sometimes other mods/issues can cause a "KERNELBASE Crash".</li>
+                        <li>Review the rest of the advice in this report (from the top of this page to the bottom), and see if there are strong indications of any better-isolated issue. Many times other mods/issues can cause a "KERNELBASE Crash".</li>
                         <li>${verifyWindowsPageFileListItem}</li>
                         <li>Check with the <b>Nolvus community</b> to see if others are encountering this issue due to a new Windows update or the like.</li>
-                        <li>You can restore the original sorting of all vanilla Nolvus mods using the <b>Apply Order</b> button in the Nolvus Dashboard. For more information and a screenshot, see this r/Nolvus post <a href="https://www.reddit.com/r/Nolvus/comments/1kp1lrw/guide_using_the_apply_order_button_in_nolvus/">How To: "Apply Order" button usage in the Nolvus Dashboard</a>.</li>
+                        <li>You can restore the original sorting of all vanilla Nolvus v5 mods using the <b>Apply Order</b> button in the Nolvus Dashboard. For more information and a screenshot, see this r/Nolvus post <a href="https://www.reddit.com/r/Nolvus/comments/1kp1lrw/guide_using_the_apply_order_button_in_nolvus/">How To: "Apply Order" button usage in the Nolvus Dashboard</a>.</li>
                         <li><b>Reinstall Nolvus</b> to ensure the installation is not corrupted. Make sure to back up any important data before doing this. For detailed instructions, see this <a href="https://docs.google.com/document/d/1R_AVeneeCiqs0XGYzggXx34v3Ufq5eUHNoCHo3QE-G8/edit">guide</a>.</li>
                         <li>Check the <b>Windows Event Log</b> for any related issues. You can do this by opening the Event Viewer (search for it in the Start Menu), then navigate to Windows Logs > Application. Look for any recent errors that might be related to your issue. For detailed instructions, see this <a href="https://support.microsoft.com/en-us/windows/open-event-viewer-17d427d2-43d6-5e01-8535-1fc570ea8a14">Microsoft guide</a>.</li>
                         <li>If the issue persists, consider reaching out to the <b>Nolvus Discord</b> for additional help.</li>
@@ -1657,73 +1726,75 @@ function checkKernelbaseCrash(sections, Utils, jContainersCrash, win24H2Upscaler
                     </ol>
                 </li>`;
         } else if ((Utils.isSkyrimPage && isDiagnosesSection) || (!Utils.isSkyrimPage && !isDiagnosesSection) ) { // LONG VERSION - For non-Nolvus or when not in diagnoses section
-            diagnoses += `
-                <li>❗ <b>KERNELBASE Crash Detected:</b> This issue can be caused by many different factors: a specific mod, hardware problems, or system-wide issues like Windows Updates, malware, drive corruption, or corrupted file permissions. Here are troubleshooting steps to try, ordered from easiest to most difficult (and most likely to help):
-                    <ol>
-                        <li><b>First</b>, try to reproduce the crash after rebooting your PC and playing the game again. If this was a one-time occurrence, you probably don't need to follow the more intensive troubleshooting steps below.</li>
-                        <li>Review the rest of the advice in this report (above and below), and see if there are strong indications of any better-isolated isolated issue. Sometimes other mods/issues can cause a "KERNELBASE Crash".</li>
+        */
+        
+        diagnoses += `
+            <li>❓ <b>KERNELBASE Crash Detected:</b> This issue can be caused by many different factors: usually by a specific mod, but sometimes by a hardware problem, or system-wide issues like Windows Updates, malware, drive corruption, or corrupted file permissions. Here are troubleshooting steps to consider, ordered from easiest to most difficult:
+                <ol>
+                    <li><b>First</b>, try to reproduce the crash after rebooting your PC and playing the game again. If this was a one-time occurrence, you probably don't need to follow the more intensive troubleshooting steps below.</li>
+                    <li>Review the rest of the advice in this report (from the top of this page to the very bottom), and see if there are strong indications of any better-isolated isolated issue. Most often other mods/issues will be the cause a "KERNELBASE Crash".</li>
 
-                        <li>${verifyWindowsPageFileListItem}</li>
+                    <li>${verifyWindowsPageFileListItem}</li>
 
-                        <li>Check with the <b>${!Utils.isSkyrimPage ? 'Nolvus community' : 'Skyrim modding community'}</b> to see if others are encountering this issue due to a new Windows update or the like.</li>
+                    <li>Check with the <b>${!Utils.isSkyrimPage ? 'Nolvus community' : 'Skyrim modding community'}</b> to see if others are encountering this issue due to a new Windows update or the like.</li>
 
-                        ${!Utils.isSkyrimPage ? `
-                        <li>You can restore the original sorting of all vanilla Nolvus mods using the <b>Apply Order</b> button in the Nolvus Dashboard. For more information and a screenshot, see this r/Nolvus post <a href="https://www.reddit.com/r/Nolvus/comments/1kp1lrw/guide_using_the_apply_order_button_in_nolvus/">How To: "Apply Order" button usage in the Nolvus Dashboard</a>.</li>
-                        ` : ''}
-                        
-                        ${!Utils.isSkyrimPage ? `
-                        <li><b>Reinstall Nolvus</b> to ensure the installation is not corrupted. Make sure to back up any important data before doing this. For detailed instructions, see this <a href="https://docs.google.com/document/d/1R_AVeneeCiqs0XGYzggXx34v3Ufq5eUHNoCHo3QE-G8/edit">guide</a>.</li>
-                        ` : ''}
-
-
-                        <li>Try disabling, updating, or redownloading and reinstalling mods ${!Utils.isSkyrimPage ? 'you may have added to Nolvus' : ''} that appear in the 🔎<b>Files/Elements</b> section, especially SKSE plugins:
-                            <ul>
-                                <li><b>Start with SKSE plugins</b> (those ending in <code>.dll</code>) as they're particularly sensitive to Windows updates and system changes. They can be usually be safely disabled in groups of 5-10 to identify issues (except for Engine Fixes, which should stay enabled).</li>
-                                <li>Other ${!Utils.isSkyrimPage ? 'added ' : ''}<b>suspect mods</b> (and their dependencies) can also be temporarily disabled to test if they're causing the crash.</li>
-                                <li><b>CAUTION:</b> When downloading and reinstalling mods, only use versions compatible with your Skyrim version and other mods.</li>
-                                <li>If you see <code>VCRUNTIME140.dll</code> in the report, download and install the latest version for your hardware from <a href="https://learn.microsoft.com/en-us/cpp/windows/latest-supported-vc-redist?view=msvc-170">Microsoft Visual C++ Redistributable (x64)</a>.</li>
-                            </ul>
-                        </li>
+                    ${!Utils.isSkyrimPage ? `
+                    <li>You can restore the original sorting of all vanilla Nolvus mods using the <b>Apply Order</b> button in the Nolvus Dashboard. For more information and a screenshot, see this r/Nolvus post <a href="https://www.reddit.com/r/Nolvus/comments/1kp1lrw/guide_using_the_apply_order_button_in_nolvus/">How To: "Apply Order" button usage in the Nolvus Dashboard</a>.</li>
+                    ` : ''}
+                    
+                    ${!Utils.isSkyrimPage ? `
+                    <li><b>Reinstall Nolvus</b> to ensure the installation is not corrupted. Make sure to back up any important data before doing this. For detailed instructions, see this <a href="https://docs.google.com/document/d/1R_AVeneeCiqs0XGYzggXx34v3Ufq5eUHNoCHo3QE-G8/edit">guide</a>.</li>
+                    ` : ''}
 
 
-                        <li><b>Run DISM and SFC scans:</b> Run built-in Windows command line "tools that can repair corrupted or missing system files and restore the health of your computer." See instructions and screenshots in step 1 of <a href="Kernelbase.dll: What It Is & How To Fix Errors">Kernelbase.dll: What It Is & How To Fix Errors</a>.
-                            <ul>
-                                <li>As administrator, run these commands:
-                                    <ol>
-                                        <li><code>dism /online /cleanup-image /restorehealth</code>
-                                            <ul>
-                                                <li>CAUTION: in some cases it is best to have all important files backed up before running this command</li>
-                                            </ul>
-                                        </li>
-                                        <li><code>sfc /scannow</code></li>
-                                    </ol>
-                                </li>
-                                <li>Reboot your PC and play. If it crashes again, check your new crash log.</li>
-                            </ul>
-                        </li>
+                    <li>Try disabling, updating, or redownloading and reinstalling mods ${!Utils.isSkyrimPage ? 'you may have added to Nolvus' : ''} that appear in the 🔎<b>Files/Elements</b> section, especially SKSE plugins:
+                        <ul>
+                            <li><b>Start with SKSE plugins</b> (those ending in <code>.dll</code>) as they're particularly sensitive to Windows updates and system changes. They can be usually be safely disabled in groups of 5-10 to identify issues (except for Engine Fixes, which should stay enabled).</li>
+                            <li>Other ${!Utils.isSkyrimPage ? 'added ' : ''}<b>suspect mods</b> (and their dependencies) can also be temporarily disabled to test if they're causing the crash.</li>
+                            <li><b>CAUTION:</b> When downloading and reinstalling mods, only use versions compatible with your Skyrim version and other mods.</li>
+                            <li>If you see <code>VCRUNTIME140.dll</code> in the report, download and install the latest version for your hardware from <a href="https://learn.microsoft.com/en-us/cpp/windows/latest-supported-vc-redist?view=msvc-170">Microsoft Visual C++ Redistributable (x64)</a>.</li>
+                        </ul>
+                    </li>
 
-                        <li>Check the <b>Windows Event Log</b> for any related issues. You can do this by opening the <b>Event Viewer</b> (search for it in the Start Menu), then navigate to Windows Logs > Application. Look for any recent errors that might be related to your issue. For detailed instructions, see this <a href="https://support.microsoft.com/en-us/windows/open-event-viewer-17d427d2-43d6-5e01-8535-1fc570ea8a14">Microsoft guide</a>.</li>
-                        
-                        <li>Ensure your <b>Windows is up to date</b>, as well as any drivers and applicable BIOS updates. You can check for Microsoft updates by going to Settings > Update & Security > Windows Update. Many motherboards (or PC manufacturers) will also have important <b>BIOS</b> firmware updates at their websites, and/or accesible from their own update application.</li>
-                        
-                        <li>Run a full system <b>scan for any viruses</b> or malware. We generally recommend using the built-in Windows Security for this.</li>
-                        
-                        <li>Try <b>disabling mods</b> ${!Utils.isSkyrimPage ? 'you may have added to Nolvus' : ''} in large, gradually smaller and more isolating groups to see if the issue persists. <b>Start with SKSE plugins</b> (those ending in <code>.dll</code>) as they're particularly sensitive to Windows updates and system changes. They can be usually be safely disabled in groups of 5-10 to identify issues (except for Engine Fixes, which should stay enabled). If you didn't already above, consider starting with mods that show up in the 🔎<b>Files/Elements</b> section of this report. This can help identify if a specific mod is causing the problem.</li>
-                        
-                        <li>Reset your <b>file permissions</b>. See <a href="https://www.thewindowsclub.com/how-to-reset-file-folder-permissions-to-default-in-windows-10">How to reset all User Permissions to default in Windows 11/10</a>, or seek assistance from the ${Utils.SkyrimOrNolvusText} community. Alternatively, an easy <b>workaround</b> is to <a href = "https://support.microsoft.com/en-us/windows/create-a-local-user-or-administrator-account-in-windows-20de74e0-ac7f-3502-a866-32915af2a34d#WindowsVersion=Windows_11">create a new Windows User</a> and create a new ${Utils.SkyrimOrNolvusText} save (playthrough) from the new user.</li>
-                        
-                        <li><b>Use CHKDSK</b> to scan your hard drive for any corruption. You can do this by opening the Command Prompt as an administrator and running the command <code>chkdsk /f</code>. Note that you might need to restart your computer for the scan to run. Be aware that frequent use of <code>chkdsk</code> on SSDs can potentially shorten its lifespan due to the intensive write operations it performs.</li>
-                        
-                        ${Utils.isSkyrimPage ? `
-                        <li>If you are using an auto-installed modlist (like a Wabbajack) <b>consider reinstalling</b> it to ensure your current installation is not corrupted. Make certain to backup any important data before doing this.</li>
-                        ` : ''}
-                        
-                        <li>Perform a <b>Repair Upgrade</b> using the Windows 11 or Windows 10 ISO file. For detailed instructions, see this <a href="https://answers.microsoft.com/en-us/windows/forum/all/how-to-perform-a-repair-upgrade-using-the-windows/35160fbe-9352-4e70-9887-f40096ec3085">guide</a>.</li>
 
-                        <li>If you are still encountering this issue (and after also consulting with the ${!Utils.isSkyrimPage ? 'Nolvus community' : 'Skyrim modding community'}), review the remaining ideas in <a href="https://malwaretips.com/blogs/kernelbase-dll-what-it-is-how-to-fix-errors/">Kernelbase.dll: What It Is & How To Fix Errors</a>. ⚠️CAUTION: it is probably best to avoid doing a full Sytem Restore or Resetting your PC unless you know what you are doing, and you are encountering kernel errors with additional software besides just Skyrim.</li>
-                    </ol>
-                </li>`;
-        }
+                    <li><b>Run DISM and SFC scans:</b> Run built-in Windows command line "tools that can repair corrupted or missing system files and restore the health of your computer." See instructions and screenshots in step 1 of <a href="Kernelbase.dll: What It Is & How To Fix Errors">Kernelbase.dll: What It Is & How To Fix Errors</a>.
+                        <ul>
+                            <li>As administrator, run these commands:
+                                <ol>
+                                    <li><code>dism /online /cleanup-image /restorehealth</code>
+                                        <ul>
+                                            <li>CAUTION: in some cases it is best to have all important files backed up before running this command</li>
+                                        </ul>
+                                    </li>
+                                    <li><code>sfc /scannow</code></li>
+                                </ol>
+                            </li>
+                            <li>Reboot your PC and play. If it crashes again, check your new crash log.</li>
+                        </ul>
+                    </li>
+
+                    <li>Check the <b>Windows Event Log</b> for any related issues. You can do this by opening the <b>Event Viewer</b> (search for it in the Start Menu), then navigate to Windows Logs > Application. Look for any recent errors that might be related to your issue. For detailed instructions, see this <a href="https://support.microsoft.com/en-us/windows/open-event-viewer-17d427d2-43d6-5e01-8535-1fc570ea8a14">Microsoft guide</a>.</li>
+                    
+                    <li>Ensure your <b>Windows is up to date</b>, as well as any drivers and applicable BIOS updates. You can check for Microsoft updates by going to Settings > Update & Security > Windows Update. Many motherboards (or PC manufacturers) will also have important <b>BIOS</b> firmware updates at their websites, and/or accesible from their own update application.</li>
+                    
+                    <li>Run a full system <b>scan for any viruses</b> or malware. We generally recommend using the built-in Windows Security for this.</li>
+                    
+                    <li>Try <b>disabling mods</b> ${!Utils.isSkyrimPage ? 'you may have added to Nolvus' : ''} in large, gradually shrinking and more isolating groups to see if the issue persists. <b>Start with SKSE plugins</b> (those ending in <code>.dll</code>) as they're particularly sensitive to Windows updates and system changes. They can be usually be safely disabled in groups of 5-10 to identify issues (except for Engine Fixes, which should stay enabled). If you didn't already above, consider starting with mods that show up in the 🔎<b>Files/Elements</b> section of this report. This can help identify if a specific mod is causing the problem.</li>
+                    
+                    <li>Reset your <b>file permissions</b>. ⚠️CAUTION: Make certain to <b>backup</b> any important data before doing this. See <a href="https://www.thewindowsclub.com/how-to-reset-file-folder-permissions-to-default-in-windows-10">How to reset all User Permissions to default in Windows 11/10</a>, or seek assistance from the ${Utils.SkyrimOrNolvusText} community. Alternatively, an easy <b>workaround</b> is to <a href = "https://support.microsoft.com/en-us/windows/create-a-local-user-or-administrator-account-in-windows-20de74e0-ac7f-3502-a866-32915af2a34d#WindowsVersion=Windows_11">create a new Windows User</a> and create a new ${Utils.SkyrimOrNolvusText} save (playthrough) from the new user.</li>
+                    
+                    <li><b>Use CHKDSK</b> to scan your hard drive for any corruption. You can do this by opening the Command Prompt as an administrator and running the command <code>chkdsk /f</code>. Note that you might need to restart your computer for the scan to run. Be aware that frequent use of <code>chkdsk</code> on SSDs can potentially shorten its lifespan due to the intensive write operations it performs. ⚠️CAUTION: Make certain to <b>backup</b> any important data before doing this.</li>
+                    
+                    ${Utils.isSkyrimPage ? `
+                    <li>If you are using an auto-installed modlist (like a Wabbajack or Nexus Collection) <b>consider reinstalling</b> it to ensure your current installation is not corrupted. ⚠️CAUTION: Make certain to <b>backup</b> any important data before doing this.</li>
+                    ` : ''}
+                    
+                    <li>Perform a <b>Repair Upgrade</b> using the Windows 11 or Windows 10 ISO file. For detailed instructions, see this <a href="https://answers.microsoft.com/en-us/windows/forum/all/how-to-perform-a-repair-upgrade-using-the-windows/35160fbe-9352-4e70-9887-f40096ec3085">guide</a>. ⚠️CAUTION: Make certain to <b>backup</b> any important data before doing this.</li>
+
+                    <li>If you are still encountering this issue (and after also consulting with the ${!Utils.isSkyrimPage ? 'Nolvus community' : 'Skyrim modding community'}), review the remaining ideas in <a href="https://malwaretips.com/blogs/kernelbase-dll-what-it-is-how-to-fix-errors/">Kernelbase.dll: What It Is & How To Fix Errors</a>. ⚠️CAUTION: it is probably best to avoid doing a full Sytem Restore or Resetting your PC unless you really <b>know what you are doing</b>, and you are encountering kernel errors with additional software besides just Skyrim. ⚠️CAUTION: Make certain to <b>backup</b> any important data before doing this.</li>
+                </ol>
+            </li>
+        `;
     }
 
     return diagnoses;
@@ -1776,26 +1847,53 @@ function analyzeEngineFixes(sections) {
 
 
 //❗Critical First-Line Error Detected:
-function analyzeFirstLine(sections) {
+function analyzeFirstLine(sections, diagnosisOrInsight) {
     let insights = '';
-    const ignoreFiles = ['Dawnguard.esm', 'Dragonborn.esm', 'null', 'null)', 'SkyrimSE.exe', 'skyrim.esm', 'SkyrimVR.exe'];
+    const ignoreFiles = ['Dawnguard.esm', 'Dragonborn.esm', 'null', 'null)', 'SkyrimSE.exe', 'skyrim.esm', 'SkyrimVR.exe', 'VCRUNTIME140.dll', 'ntdll.dll', 'JContainers64.dll', 'skee64.dll', 'KERNELBASE.dll', 'DbSkseFunctions.dll', 'nvngx_dlssg.dll', ...crashIndicators.nvidiaDriverIssues.codes.map(({ code }) => code), ...crashIndicators.sseEngineFixesFiles.codes.map(({ code }) => code)]; //NOTE: these already have their own specific and better test, or are just too generic/foundational to realistically place blame on 
+    const insightFiles = ['po3_PapyrusExtender.dll', 'PapyrusTweaks.dll', 'skse64_1_6_1170.dll', 'skse64_1_6_1179.dll', 'skse64_1_6_640.dll', 'skse64_1_5_97.dll', 'sksevr_1_4_15.dll']; //NOTE: these are placed near the bottom of the report, since they are usually not at fault, and putting them at the top gives these intructions too much priority
     
     // Extract filename from sections.firstLine (actual location can vary between log types) if it exists
     const firstLine = sections.firstLine || '';
     const fileMatch = firstLine.match(/\b([^\/\\\s]+\.(?:esm|exe|esp|esl|dll|pex|skse|skse64))\b/i);
     const detectedFile = fileMatch ? fileMatch[1] : null;
     
-    if (detectedFile && !ignoreFiles.includes(detectedFile)) {
+    // Case-insensitive comparison helper
+    const caseInsensitiveIncludes = (array, value) => {
+        return array.some(item => item.toLowerCase() === value.toLowerCase());
+    };
+    
+    if (detectedFile && !caseInsensitiveIncludes(ignoreFiles, detectedFile)) {
+        const isInsightFile = caseInsensitiveIncludes(insightFiles, detectedFile);
+        
+        // Return blank string if diagnosis section and file is in insightFiles
+        if (diagnosisOrInsight === 'diagnosis' && isInsightFile) {
+            return '';
+        }
+        
+        // Return blank string if insight section and file is NOT in insightFiles
+        if (diagnosisOrInsight === 'insight' && !isInsightFile) {
+            return '';
+        }
+        
+        // Determine icon based on section
+        const icon = diagnosisOrInsight === 'insight' ? '❓' : '❗';
+
+        const raw = Utils.explainersMap.get(detectedFile);
+        const cleaned = typeof raw === "string" ? raw.trim() : raw;
+        const explanation = (cleaned && cleaned !== "undefined") ? ` ${cleaned}` : "";
+
+        
         insights += `
-        <li>❗ <b>Critical First-Line Error Detected:</b> <code>${detectedFile}</code>
+        <li>${icon} <b>First-Line Error Detected:</b> <code>${detectedFile} ${explanation}</code> 
             <ol>
-                <li>Skim other sections of this report (above and below) for any more-specific information about <code>${detectedFile}</code>. (Scroll down to the bottom of the page to ensure you've reviewed everything.)</li>
+                <li>First, skim other sections of this report (above and below) for any more-specific issues that may involve <code>${detectedFile}</code>. (Scroll up to the top and down to the very bottom of the page to ensure you've reviewed everything.)</li>
                 <li>Make sure the mod that contains <code>${detectedFile}</code> is enabled (Vortex especially sometimes disables them). If already enabled, consider redownloading and carefully reinstalling the mod, as this may be a quickest fix.</li>
                 <li><strong>What This Means:</strong>
                     <ul>
                         <li>The file <code>${detectedFile}</code> is directly involved in the crash sequence</li>
-                        <li>While this file is related to the crash, it may not be the root cause</li>
+                        <li>While this file is related to the crash, <b>it may not be the root cause</b></li>
                         <li>This type of error often indicates missing dependencies, version mismatches, or incompatible files</li>
+                        <li>Infrastructure mods (examples: <code>EngineFixes.dll</code>, <code>OpenAnimationReplacer.dll</code>, <code>PapyrusTweaks.dll</code>, <code>po3_PapyrusExtender.dll</code>, <code>skse64_1_6_1170.dll</code>, etc.) are typically not at fault. Instead, review mods that list these infrastructure mods as a dependency.</li>
                     </ul>
                 </li>
                 
@@ -1830,6 +1928,29 @@ function analyzeFirstLine(sections) {
                         <li>The error might be caused by an interaction between mods rather than a single file</li>
                     </ul>
                 </li>
+            </ol>
+        </li>`;
+    }
+    
+    return insights;
+}
+
+
+
+//🎯 Paid FSR3 Upscaler Issue Detected:
+function analyzePaidFSR3UpstalerIssue(sections) {
+    let insights = '';
+    const dllFileName = 'nvngx_dlssg.dll';
+    
+    if (sections.firstLine.toLowerCase().includes(dllFileName.toLowerCase())) {
+        insights += `
+        <li>🎯 <b>Paid FSR3 Upscaler Issue Detected:</b> Having the <code>${dllFileName}</code> file showing up in the first line of your crash log is frequently linked to NVIDIA graphics drivers and/or Puredark's paid upscaler (FG Build Alpha 03 and later).
+            <ol>
+                <li><b>Update your NVIDIA drivers</b> to the latest version. You can download the latest drivers from the <a href="https://www.nvidia.com/Download/index.aspx">NVIDIA website</a>.</li>
+                <li><b>Incompatible settings in the upscaler:</b> Choosing a bad upscale type or other setting can cause this issue. Review and verify the recommended settings in <a href="https://docs.google.com/document/d/1YVFKcJN2xuvhln9B6vablzOzQu-iKC4EDcbjOW-SEsA/edit?usp=sharing">Nolvus DLSS Upscaler Installation Guide</a>.</li>
+                <li><b>Incompatible hardware:</b> This issue can also be caused by incompatible hardware (AMD instead of NVIDIA, GTX instead of RTX, RTX non-40xx instead of RTX 40xx, and so on).</li>
+                <li>Check for any GPU overclocking settings that may be causing instability and reset them to stock speeds.</li>
+                <li>If the above does not resolve the issue, try performing a clean installation of the drivers using a tool like Display Driver Uninstaller (DDU) to remove all traces of the previous drivers before installing the new ones.</li>
             </ol>
         </li>`;
     }
@@ -2865,12 +2986,18 @@ function analyzeUpscalerIssues(sections) {
 function analyzeFirstLineEngineFixesCrash(sections) {
     let diagnoses = '';
     
-    if (sections.firstLine.toLowerCase().includes('EngineFixes.dll'.toLowerCase())) {  // If we found it in either location
+    // Check for any Engine Fixes related DLLs
+    const engineFixesFiles = [...crashIndicators.sseEngineFixesFiles.codes.map(({ code }) => code)];
+    const foundFile = engineFixesFiles.find(file => 
+        sections.firstLine.toLowerCase().includes(file.toLowerCase())
+    );
+    
+    if (foundFile) {  // If we found any Engine Fixes file in the first line
         diagnoses += `
-            <li>❗ <b>First-Line Engine Fixes Issue:</b> Engine Fixes in the first error line of the crash log may indicate an improperly installed Engine Fixes mod, or that a mod which uses it may have an incompatibility.
+            <li>❗ <b>First-Line Engine Fixes Issue:</b> <code>${foundFile}</code> in the first error line of the crash log may indicate an improperly installed Engine Fixes mod, or that a mod which uses it may have an issue or incompatibility.
                 <ul>
                     ${reinstallEngineFixesInstructions(sections)}
-                    <li>If confident Engine Fixes is correctly installed, but issue reoccurs, attempt to isolate conflicting mod by temporarily disabling mods (one-by-one, or in shrinking groups) which show up in the <b>🔎 Files/Elements</b> section of this report</li>
+                    <li><b>Once confident Engine Fixes is correctly installed</b>, if issue still reoccurs, attempt to isolate conflicting or problematic mod(s) by temporarily disabling mods (one-by-one, or in shrinking groups) which show up in the <b>🔎 Files/Elements</b> section of this report</li>
                 </ul>
             </li>`;
     }
@@ -3801,7 +3928,7 @@ function checkCompassNavigationOverhaulCrash(sections) {
 }
 
 
-// ⚠️ Outdated CrashLogger SSE Detected:
+// ⚠️ Consider Upgrading CrashLogger SSE:
 function checkCrashLoggerVersionUpdate(sections) {
     let insights = '';
     
@@ -3829,15 +3956,14 @@ function checkCrashLoggerVersionUpdate(sections) {
     
     // Compare versions - if found version is less than 1.16.0.0, recommend update
     if (Utils.compareVersions(foundVersion, minimumVersion) < 0) {
-        insights += `<li>⚠️ <b>Outdated CrashLogger SSE Detected:</b>
-            You are using an outdated version of CrashLogger SSE (v${foundVersion}).
+        insights += `<li>⚠️ <b>Consider Upgrading CrashLogger SSE:</b>
+            A newer version of CrashLogger SSE is available, and in some cases may provide an improved crash log for better diagnoses.
             <ul>
-                <li><b>Update recommended:</b> Download and install the latest version of <a href="https://www.nexusmods.com/skyrimspecialedition/mods/59818">Crash Logger SSE AE VR</a> from Nexus Mods</li>
-                <li>Newer versions include bug fixes and improved crash detection capabilities</li>
-                <li>Current version detected: <code>v${foundVersion}</code> (should be v${minimumVersion} or later)</li>
+                <li>Download and install the latest version of <a href="https://www.nexusmods.com/skyrimspecialedition/mods/59818">Crash Logger SSE AE VR</a> from Nexus Mods</li>
+                <li>Newer versions include bug fixes for slightly improved crash logging capabilities</li>
                 <li>Detected indicators: <a href="#" class="toggleButton">⤵️ show more</a><ul class="extraInfo" style="display:none">
                     <li>CrashLogger SSE version <code>${versionMatch[1]}</code> found in crash log header</li>
-                    <li>Minimum recommended version is <code>${minimumVersion}</code></li>
+                    <li>Recommended version is <code>${minimumVersion} or later</code></li>
                 </ul></li>
             </ul>
         </li>`;
@@ -3970,7 +4096,7 @@ function checkDeathDropOverhaulCrash(sections) {
 }
 
 
-// ⚠️ Update Engine Fixes for Better Stability:
+// ⚠️ Consider Updating Engine Fixes:
 function checkEngineFixesUpdate(sections) {
     let insights = '';
     const latestVersion = '7.0.19.0';
@@ -4004,13 +4130,13 @@ function checkEngineFixesUpdate(sections) {
     
     // Only show if ShadowSceneNode detected AND Engine Fixes is outdated (or not detected)
     if (hasOutdatedVersion || hasPreventableCrash) {
-        insights += `<li>⚠️ <b>Update Engine Fixes for Better Stability:</b>
-            Some ${hasPreventableCrash ? 'crashes of this type' : 'crash types'} may be prevented by updating SSE Engine Fixes to the latest version.
+        insights += `<li>⚠️ <b>Consider Updating SSE Engine Fixes:</b>
+            Some ${hasPreventableCrash ? 'crashes of this type' : 'crash types'} may be preventable by updating SSE Engine Fixes to the latest version.
             <ul>
-                <li><b>Action recommended:</b> ${engineFixesVersion ? 'Update' : 'Install'} <a href="https://www.nexusmods.com/skyrimspecialedition/mods/17230" target="_blank">SSE Engine Fixes</a> to version ${latestVersion} or newer. Be sure to carefully follow <a href="https://www.nexusmods.com/skyrimspecialedition/mods/17230?tab=posts">installation instructions</a> found in the top sticky posts in the mod's forum.</li>
+                <li>${engineFixesVersion ? 'Update' : 'Install'} <a href="https://www.nexusmods.com/skyrimspecialedition/mods/17230" target="_blank">SSE Engine Fixes</a> to version ${latestVersion} or newer. Be sure to carefully follow <a href="https://www.nexusmods.com/skyrimspecialedition/mods/17230?tab=posts">installation instructions</a> found in the top sticky posts in the mod's forum.</li>
                 <li>Detected indicators: <a href="#" class="toggleButton">⤵️ show more</a><ul class="extraInfo" style="display:none">
                     ${hasPreventableCrash ? '<li><code>ShadowSceneNode</code> found in highest-confidence sections of crash log</li>' : ''}
-                    ${engineFixesVersion ? '<li><code>EngineFixes.dll v' + engineFixesVersion + '</code> (latest version is v' + latestVersion + ' or newer)</li>' :''}
+                    ${engineFixesVersion ? '<li><code>EngineFixes.dll v' + engineFixesVersion + '</code> (consider upgrading to v' + latestVersion + ' or newer)</li>' :''}
                 </ul></li>
             </ul>
         </li>`;

@@ -1,60 +1,78 @@
-✅Version 1.29.0 is now live:
+✅Version 1.29.1 is now live:
 https://phostwood.github.io/crash-analyzer/
 
-1. Major New Feature! "Analyze full log (may show many additional possible causes)" checkbox
-	- now defaults to a more-focused report
-	- focuses most tests on highest confidence sections of the crash log, increasing likelihood of causation in listed possible causes
-		- STACK first 100 lines
-		- PROBABLE CALL STACK: first 50 lines
-		- REGISTERS: first 50 lines
-		- RELEVANT OBJECTS first 50 lines (NSF logs only)
-		- NOTE: this feature is primarily tested with Crash Logger SSE logs and may be less focusing with more line-dense NetScript Framework logs
-2. 🎯 Highest-Confidence Indicators:
-		- UI Change: made it display by default, as if you are looking in the Advanced Users section you should probably be reviewing this log summary
-		- Feature Change: now displays for NSF and Trainwreck logs as well, but also warns "(3) ⚠️This feature is primarily developed for Crash Logger SSE logs, and may be noisier and considerably less insightful with Netscript Framework or Trainwreck logs."
-		- Added truncated relevantObjects section for NSF compatibility
+1. ❗ Critical First-Line Error Detected:
+	- now ignores first-line files that already have better separate tests, or aren't otherwise helpful in diagnoses
+	- demotes some less-helpful First-Line Errors to the bottom of the report
+	- improved troubleshooting instructions
+
+2. Refactored, reordered in report, and/or tweaked troubleshooting instructions for:
+	- ❗ skee64.dll Issue Detected
+	- 🎯 NVIDIA Driver Issue Detected
+	- ❗ Paid FSR3 Upscaler Issue Detected
+	- ❗ KERNELBASE Crash Detected
+	- ❗ First-Line Engine Fixes Issue
+
+⭐️AFTER: mention that Silly Angel is now thanked
 
 
-- - - with dev notes - - - 
 
-✅ 1. New feature! "[] Analyze full log (may show many additional possible causes)"
-	- ✅make checkboxes reload page like tryFormIds checkbox
-	- ✅when checked, map a bunch of log sections (and full log) to shortened higher-confidence lines/sections
-	- ✅test on index.html
-	- ✅test on skyrim.html
-	- ❌?WARNING: make note that it primarily for Crash Logger SSE
-		- Is this still the case?
-	- ✅ BUG FIX: make it so both of these can be checked together:
-		- Analyze full log (may show many additional possible causes)
-		- Display nested Log Summary (Beta feature)
-	- ✅ BUG FIX: make it work with NSF by adding short version of sections.relevantObjects
-	- ✅ WORKED AROUND: BUG FIX? maybe make it so it truncates to exactly what is shown?
-		- ISSUE: stripNoise() can remove many multiple lines, which might contain indicators for some tests?
-		- BEST SOLUTION: truncate Stack at first 150 --> 100 lines, and other sections at 50 lines
-	- ❌SKIP: Try making checkboxes clearing and analyze on change, instead of refreshing on change
-		- ISSUE: changing the URL automatically refreshes the page. Could store the checkboxes as cookies, but then wouldn't be able to (intuitively) read values from the URL. So, it's a tradeoff, and right now at least I'm leaning towards just keeping them both as URLs
-	- BUG: new feature breaks these logs' diagnoses:
-		- ✅FIXED: Dawnguard Horse - High RAM Usage - Low System RAM - Dy2zNGTc.txt
-			- ✅create new sections.topHalfFull?
-			- ✅ also tested on other releated logs
-		- ✅FIXED: confirmed CompassNavigationOverhaul - Crash Log (60).txt
-			- create new sections.fullLogFileLowerCaseFullLog
-		- ✅FIXED: CompassNavigationOverhaul - crash-2024-08-10-08-41-52.log.txt
-		- ✅FIXED: Dragons Eye Minimap - WorldRoot - Crash Log (60).txt
-			- ✅ also tested on other releated logs
-		- ✅FIXED: Redundant BEES
-		- ✅FIXED: STRINGS crash
-		- TRADE OFF: Because NetScriptFramework logs have extra dense log lines, this will be much less successful at focusing
-	- ✅NOW that sections.BottomHalf is fixed, perhaps some/all of the fixed tests above can be reverted to checking highest confidence sections? Maybe also shorten Stack from 150 lines back down to 100?
+- - - development notes from this version - - - 
+
+✅FIXED: BUG: firstLine nvgpucomp64 - SKSE AE LOG.txt displays NVIDIA issue twice
+❌NotABug: BUG:From Demo: Crash Logger for 1.5.97 is an older version? If so, adjust that test.
 
 
-	2. 🎯 Highest-Confidence Indicators:
-		- UI Change: made it display by default, as if you are looking in the Advanced Users section you should probably be reviewing this log summary
-		- Feature Change: now displays for NSF and Trainwreck logs as well, but also warns "(3) ⚠️This feature is primarily developed for Crash Logger SSE logs, and may be noisier and considerably less insightful with Netscript Framework or Trainwreck logs."
-		- Added truncated relevantObjects section for NSF compatibility
+✅ Utils:
+- Utils.fileExtensions: added .ess files
+- THEORETICAL BUG FIX? sections.highestConfidenceIndicators: added sections.firstLine
 
+✅Review the recent Nolvus post
+
+- ✅review all NotePad++ filesearch matches (Crash Logger and Trainwreck)
+	- ✅rename all matching crash log filenames with "firstLine SKSE64-dll - " 
+- ✅review all currently downloadable versions
+	- https://skse.silverlock.org/
+
+
+0. ✅ 🎯 NVIDIA Driver Issue Detected: 
+	- ✅ refactor into modern function
+		- ✅ need an example: Dragon's Eye Minimap
+	- ✅ use a mapping
+	- ✅ add nvgpucomp64.dll to the mapping
+	- ✅ any others to add to mapping?
+	- ✅ add all mappings to analyzeFirstLine's ignoreFiles in a programmatic way
+
+0. WHILE DOING CODE REVIEW: other changes made to special tests for First-Line Errors that were excluded when First-Line Error Detected
+
+1. ✅❗ Critical First-Line Error Detected: FIrst line exceptions:
+	- ✅maybe move them into Advanced Section? ... or do away with them entirely??
+		- ✅ANSWER: probably depends on the file
+	- ✅ Kernelbase (move to advanced users)
+	- skee64.dll (IGNORE LIST ... already has own test)
+	- ✅ JContainers64.dll (IGNORE LIST ... already has own test)
+	- ✅ EngineFixes.dll (and its other files) (move to advanced users)
+		- ✅tbbmalloc.dll (move to advanced users) ... mention from Engine Fixes
+			- ✅also d3dx9_42.dll
+	- ✅ DbSkseFunctions.dll (move to advanced users) (LATER: create new test showing to review SKSE log file, and look at SKSE-using mods)
+	- ✅ ntdll.dll (IGNORE LIST)
+	- ✅ VCRUNTIME140.dll (IGNORE LIST)
+	- ❌NEW TEST
+	 LATER: OpenAnimationReplacer.dll  (maybe create new specialized test? . bump the animation one to the top?)
+	- ✅ Revise instructions to emphasize that frameworks are usually NOT directly responsible
+	- ❌ DAR? (although I don't see any examples of, and it already recommends switching to OAR)
+	- ✅added explainer to the filename
+	- ✅test some NSF logs
+
+
+- Donations section: slightly new look and squeezed it down a bit
 
 - - - Next Version - - - 
+
+0. mention controversy and two schools of thought on configuring Windows Pagefile
+	- const verifyWindowsPageFileListItem
+	- ⚠️ Low System RAM Detected
+		- maybe reuse the const here too?
 
 1. Bug fix from my Discord channel? (or explain why it isn't a bug)
 
@@ -64,12 +82,6 @@ https://phostwood.github.io/crash-analyzer/
 
 3. Move VCRUNTIME recommendation down the list?
 
-
-
-
-4. 🎯 Highest-Confidence Indicators: 
-	- Maybe start it out expanded? Or at least start out as expanded if nothing good in the Diagnoses section
-	- Maybe not though since it's an advanced-users feature?
 
 
 5. link to: https://www.reddit.com/r/skyrimmods/comments/1owwsiq/list_of_testing_and_troubleshooting_tools/

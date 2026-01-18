@@ -10,27 +10,30 @@
             <span></span>
         </span>
         </a> &nbsp;
-        <a href="https://ko-fi.com/phostwood"><img src="./phostwood-Ko-fi-Horizontal.jpg" alt="Support me on Ko-fi" style="height: 113px; border-width: 5px; border-color: black; border-style: solid;"></a>
+        <a href="https://ko-fi.com/phostwood"><img src="./images/NosterEagleEye.png" alt="Support me on Ko-fi" style="height: 113px; border-width: 5px; border-color: black; border-style: solid;"></a>
         </br>
-        <span id="help-me-out">This project needs more monthly tippers.<br></span>
+        <span id="help-me-out">"Can you spare a septim?" - Noster Eagle-Eye<br></span>
     </div>
     <br>
-    <span style="font-size: 2em;">🪙</span> Please <b>consider supporting this project's continued development</b>. With 26,000 all-time users and over 3,600 monthly visitors, the community of financial supporters remains remarkably small — only 45 have ever donated, and just seven generous monthly subscribers currently sustain the project. <b>Monthly patrons are especially valued</b> since they provide reliable support for ongoing improvements. Whether you're able to contribute $1 (the cost of a frugal coffee!) or more—as a one-time gift or monthly subscription on <a href="https://ko-fi.com/phostwood">Ko-fi</a> or <a href="https://www.patreon.com/Phostwood">Patreon</a> — your support directly validates and enables future development.<br>
+    <span style="font-size: 2em;">🪙</span> Please consider supporting this project's continued development. With 33,000 all-time users and over 4,500 monthly visitors, the community of financial supporters remains remarkably small — only 55 have ever donated, and <b>just eight generous monthly subscribers currently sustain the project.</b> On <a href="https://ko-fi.com/phostwood">Ko-fi</a> or <a href="https://www.patreon.com/Phostwood">Patreon</a> — your support directly validates and enables future development.<br>
     <br>
-    <span style="font-size: 2em;">🪙</span> With over <b>650 hours of ongoing development</b>, this advanced analyzer examines modded Skyrim crash logs to help diagnose and fix 75-90% of crashes with identifiable causes, providing well-researched troubleshooting steps and links. It's currently helping almost 200 different Skyrim modders analyze over 300 crash logs each day, standing apart from other automated analyzers with its advanced diagnoses, detailed troubleshooting steps, and frequent updates.<br>
+    <span style="font-size: 2em;">🪙</span> With over <b>700 hours of ongoing development</b>, this advanced analyzer examines modded Skyrim crash logs to help diagnose and fix 75-90% of crashes with identifiable causes, while providing many well-researched troubleshooting steps and links. It's currently helping over 250 different Skyrim modders analyze almost 400 crash logs each day.<br>
     <br>
     <small><i>Interested in exclusive advertising opportunities? <a href="https://www.reddit.com/r/Phostwood">Get in touch</a>.</i></small>
     <br><br>
     <div id="quote"></div>
 
-    <!-- Custom Ko-fi Button -->
-    <a href="https://ko-fi.com/phostwood" id="kofi-button" target="_blank">
-        <div class="kofi-button">
-        <img src="https://storage.ko-fi.com/cdn/cup-border.png" alt="Support me on Ko-fi">
-        <span>Spare a coin on Ko-fi</span>
-        </div>
-    </a>
-    <br><br>
+    <div align="center">
+      <!-- Custom Ko-fi Button -->
+      <a href="https://ko-fi.com/phostwood" id="kofi-button" target="_blank">
+          <div class="kofi-button">
+          <img src="https://storage.ko-fi.com/cdn/cup-border.png" alt="Support me on Ko-fi">
+          <span>Spare a coin on Ko-fi</span>
+          </div>
+      </a>
+    </div>
+    <br>
+    
     </span>
 
     <!-- Thank You Message -->

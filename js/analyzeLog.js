@@ -160,13 +160,11 @@ async function analyzeLog() {
         diagnosesCount++; // Increment the count of diagnoses detected
     }
 
-    //NVIDIA graphics driver
-    if (sections.firstLine.toLowerCase().includes('nvwgf2umx.dll') || sections.firstLine.toLowerCase().includes('nvlddmkm.sys') || sections.firstLine.toLowerCase().includes('nvoglv32.dll') || sections.firstLine.toLowerCase().includes('nvoglv64.dll') || sections.firstLine.toLowerCase().includes('nvwgf2um.dll') || sections.firstLine.toLowerCase().includes('nvapi64.dll')) {
-        diagnoses += '<li>🎯 <b>NVIDIA Driver Issue Detected:</b> The appearance of NVIDIA driver .dll files in the first line of your crash log is often associated with NVIDIA graphics driver issues. To resolve this, try the following steps:<ol>' +
-            '<li><b>Update your NVIDIA drivers</b> to the latest version. You can download the latest drivers from the <a href="https://www.nvidia.com/Download/index.aspx">NVIDIA website</a>.</li>' +
-            '<li>Check for any GPU overclocking settings that may be causing instability and reset them to stock speeds.</li>' +
-            '<li>If the above does not resolve the issue, try performing a clean installation of the drivers using a tool like Display Driver Uninstaller (DDU) to remove all traces of the previous drivers before installing the new ones.</li>' +
-            '</ol></li>';
+
+    // 🎯 NVIDIA Driver Issue Detected:
+    const firstLineNVIDIADriverIssue = analyzeNVIDIADriverIssue(sections, 'diagnosis');
+    if(firstLineNVIDIADriverIssue) {
+        diagnoses += firstLineNVIDIADriverIssue;
         diagnosesCount++;
     }
 
@@ -218,7 +216,6 @@ async function analyzeLog() {
     }
 
 
-
     //SkyrimUpscaler crash
     // Files names from Puredark's Upscalers:
     // All three: SkyrimUpscaler.dll, nvngx_dlss.dll, PDPerfPlugin.dll
@@ -241,19 +238,6 @@ async function analyzeLog() {
             '</ol></li>';
         diagnosesCount++;
     }
-
-    //Paid FSR3 Upscaler
-    if (sections.firstLine.toLowerCase().includes('nvngx_dlssg.dll')) {
-        diagnoses += '<li>🎯 <b>Paid FSR3 Upscaler Issue Detected:</b> Having the "nvngx_dlssg.dll" error showing up in the first line of your crash log is frequently linked to NVIDIA graphics drivers and/or Puredark\'s paid upsclaler (FG Build Alpha 03 and later). To resolve this, try the following steps:<ol>' +
-            '<li><b>Update your NVIDIA drivers</b> to the latest version. You can download the latest drivers from the <a href="https://www.nvidia.com/Download/index.aspx">NVIDIA website</a>.</li>' +
-            '<li><b>Incompatible settings in the upscaler:</b> Choosing a bad upscale type or other setting can cause this issue. Review and verify the recommended settings in <a href="https://docs.google.com/document/d/1YVFKcJN2xuvhln9B6vablzOzQu-iKC4EDcbjOW-SEsA/edit?usp=sharing">Nolvus DLSS Upscaler Installation Guide</a>.</li>' +
-            '<li><b>Incompatible hardware:</b> This issue can also be caused by incompatible hardware (AMD instead of NVIDIA, GTX instead of RTX, RTX non-40xx instead of  RTX 40xx, and so on).</li>' +
-            '<li>Check for any GPU overclocking settings that may be causing instability and reset them to stock speeds.</li>' +
-            '<li>If the above does not resolve the issue, try performing a clean installation of the drivers using a tool like Display Driver Uninstaller (DDU) to remove all traces of the previous drivers before installing the new ones.</li>' +
-            '</ol></li>';
-        diagnosesCount++;
-    }
-
 
 
     // Check for KERNELBASE JSON Crash
@@ -303,14 +287,23 @@ async function analyzeLog() {
 
 
 
-    // Check for KERNELBASE Crash excluding JContainers and JSON parse error
+/*OLD:     // Check for KERNELBASE Crash excluding JContainers and JSON parse error
     
     const kernelBaseDiagnosis = checkKernelbaseCrash(sections, Utils, jContainersCrash, win24H2UpscalerCrash,  true);
     if(kernelBaseDiagnosis) {
         diagnoses += kernelBaseDiagnosis;
         diagnosesCount++;
         hasPagefileIndicator = true;
+    } */
+
+
+    //❗ Paid FSR3 Upscaler Issue Detected:
+    const paidFSR3UpstalerIssue = analyzePaidFSR3UpstalerIssue(sections);
+    if(paidFSR3UpstalerIssue) {
+        diagnoses += paidFSR3UpstalerIssue;
+        diagnosesCount++;
     }
+    
 
 
     //❗ skee64.dll Issue Detected:
@@ -326,7 +319,7 @@ async function analyzeLog() {
     // Check for first-line error
     let firstLineDiagnosis = null;
     if (Utils.isSkyrimPage) { //Goes into top section for Skyrim users and bottom section for Nolvus users
-        firstLineDiagnosis = analyzeFirstLine(sections);
+        firstLineDiagnosis = analyzeFirstLine(sections, 'diagnosis');
         if (firstLineDiagnosis) {
             diagnoses += firstLineDiagnosis;
             diagnosesCount++;
@@ -566,11 +559,14 @@ async function analyzeLog() {
     }
 
 
-    //⚠️ Outdated CrashLogger SSE Detected
-    const checkCrashLoggerVersionUpdateResult = checkCrashLoggerVersionUpdate(sections);
-    if(checkCrashLoggerVersionUpdateResult) {
-        diagnoses += checkCrashLoggerVersionUpdateResult;
-        diagnosesCount++;
+    //⚠️ Consider Upgrading CrashLogger SSE
+    // Skipping this for Nolvus, as per request
+    if(Utils.isSkyrimPage) {
+        const checkCrashLoggerVersionUpdateResult = checkCrashLoggerVersionUpdate(sections);
+        if(checkCrashLoggerVersionUpdateResult) {
+            diagnoses += checkCrashLoggerVersionUpdateResult;
+            diagnosesCount++;
+        }
     }
 
 
@@ -582,11 +578,14 @@ async function analyzeLog() {
     }
 
 
-    //⚠️ Update Engine Fixes for Better Stability:
-    const checkEngineFixesUpdateResult = checkEngineFixesUpdate(sections);
-    if(checkEngineFixesUpdateResult) {
-        diagnoses += checkEngineFixesUpdateResult;
-        diagnosesCount++;
+    //⚠️ Consider Updating Engine Fixes:
+     // Skipping this for Nolvus, as per request
+    if(Utils.isSkyrimPage) {
+        const checkEngineFixesUpdateResult = checkEngineFixesUpdate(sections);
+        if(checkEngineFixesUpdateResult) {
+            diagnoses += checkEngineFixesUpdateResult;
+            diagnosesCount++;
+        }
     }
 
     
@@ -801,10 +800,10 @@ async function analyzeLog() {
     }
 
 
-    // ❗ Critical First-Line Error Detected: 
+    // ❗ First-Line Error Detected: 
     let firstLineInsight = null;
     if (!Utils.isSkyrimPage) { //Goes into top section for Skyrim users and bottom section for Nolvus users
-        firstLineInsight = analyzeFirstLine(sections);
+        firstLineInsight = analyzeFirstLine(sections, 'diagnosis');
         if (firstLineInsight) {
             insights += firstLineInsight;
             insightsCount++;
@@ -823,15 +822,13 @@ async function analyzeLog() {
     
 
 
-    //NVIDIA graphics driver
-    if (sections.topThirdNoHeading.toLowerCase().includes('nvwgf2umx.dll') || sections.topThirdNoHeading.toLowerCase().includes('nvlddmkm.sys') || sections.topThirdNoHeading.toLowerCase().includes('nvoglv32.dll') || sections.topThirdNoHeading.toLowerCase().includes('nvoglv64.dll') || sections.topThirdNoHeading.toLowerCase().includes('nvwgf2um.dll') || sections.topThirdNoHeading.toLowerCase().includes('nvapi64.dll')) {
-        insights += '<li>❗ <b>Potential NVIDIA Driver Issue Detected:</b> NVIDIA driver .dll files showing up in the top few sections of a crash log may be linked to NVIDIA graphics driver issues. To resolve this, try the following steps:<ol>' +
-            '<li><b>Update your NVIDIA drivers</b> to the latest version. You can download the latest drivers from the <a href="https://www.nvidia.com/Download/index.aspx">NVIDIA website</a>.</li>' +
-            '<li>If updating does not resolve the issue, perform a clean installation of the drivers using a tool like Display Driver Uninstaller (DDU) to remove all traces of the previous drivers before installing the new ones.</li>' +
-            '<li>Check for any GPU overclocking settings that may be causing instability and reset them to stock speeds.</li>' +
-            '</ol></li>';
+    // ❗ NVIDIA Driver Issue Detected:
+    const nonFirstLineNVIDIADriverIssue = analyzeNVIDIADriverIssue(sections, 'insight');
+    if(nonFirstLineNVIDIADriverIssue) {
+        insights += nonFirstLineNVIDIADriverIssue;
         insightsCount++;
     }
+
 
     //Memory issue (Missing Masters)
     // Check thought up by AI (MS Bing Copilot):
@@ -882,15 +879,6 @@ async function analyzeLog() {
         insights += CompassNavigationOverhaulCrashResults;
         insightsCount++;
     }
-
-    // Check for KERNELBASE Crash excluding JContainers and JSON parse error
-    //NOTE: Nolvus-only version. Equivalent information already shows in the diagnoses sectoion above for Non-Nolvus (general Skyrim) version
-    const kernelBaseInsights = checkKernelbaseCrash(sections, Utils, win24H2UpscalerCrash,  false);
-    if(kernelBaseInsights) {
-        insights += kernelBaseInsights;
-        insightsCount++;
-    }
-
 
     // Animations
     const animationInsights = analyzeAnimationIssues(sections);
@@ -1065,6 +1053,21 @@ async function analyzeLog() {
 
 
     insights += '</ul><h5>Miscellaneous Issues:</h5><ul>';
+
+    // Check for KERNELBASE Crash excluding JContainers and JSON parse error
+    const kernelBaseInsights = checkKernelbaseCrash(sections, Utils, win24H2UpscalerCrash);
+    if(kernelBaseInsights) {
+        insights += kernelBaseInsights;
+        insightsCount++;
+    }
+
+    // ❓ First-Line Error Detected: 
+    firstLineInsight = null;
+    firstLineInsight = analyzeFirstLine(sections, 'insight');
+    if (firstLineInsight) {
+        insights += firstLineInsight;
+        insightsCount++;
+    }
 
     // ❓ Possible file system / OneDrive / permissions issue (medium confidence)
     const checkPossibleFilesystemIssueInsights = checkPossibleFilesystemIssue(sections);
