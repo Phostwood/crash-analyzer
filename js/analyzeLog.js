@@ -106,14 +106,6 @@ async function analyzeLog() {
     }
 
 
-    // ❗ First-Line Engine Fixes Issue:
-    const firstLineEngineFixesDiagnosis = analyzeFirstLineEngineFixesCrash(sections);
-    if(firstLineEngineFixesDiagnosis) {
-        diagnoses += firstLineEngineFixesDiagnosis;
-        diagnosesCount++;
-    }
-
-
     // 🎯 DbSkseFunctions.dll Crash Detected:
     const dbSkseFunctionsDiagnosis = analyzeDbSkseFunctionsCrash(sections);
     if(dbSkseFunctionsDiagnosis) {
@@ -704,6 +696,13 @@ async function analyzeLog() {
 
     insights += '</ul><h5>Higher-Confidence Test Results:</h5><ul>';
 
+    //❓ ENB Water Feature Incompatibility - Missing Boiling Bubbles Asset
+    const enbWaterBoilBubblesResult = checkEnbWaterBoilBubblesIssue(sections);
+    if (enbWaterBoilBubblesResult) {
+        insights += enbWaterBoilBubblesResult;
+        insightsCount++;
+    }
+
     //VRAMr Gorehowl
     if (sections.firstLine.includes('D6DDDA') && sections.topQuarter.includes('Gorehowl')) {
         insights += '<li>🎯 <b>VRAMr Gorehowl Crash Detected:</b> The \'D6DDDA\' error, combined with references to the weapon "Gorehowl," indicates a specific issue related to VRAMr and the "Night at the Museum" quest. To address this issue:<ol>' +
@@ -912,6 +911,7 @@ async function analyzeLog() {
 
     insights += '</ul><h5>Memory and Graphics-related Issues:</h5><ul>';
 
+
     const meshInsights = analyzeMeshIssues(sections);
     if (meshInsights) {
         insights += meshInsights;
@@ -1053,6 +1053,13 @@ async function analyzeLog() {
 
 
     insights += '</ul><h5>Miscellaneous Issues:</h5><ul>';
+
+    // ❗ First-Line Engine Fixes Issue:
+    const firstLineEngineFixesDiagnosis = analyzeFirstLineEngineFixesCrash(sections);
+    if(firstLineEngineFixesDiagnosis) {
+        insights += firstLineEngineFixesDiagnosis;
+        insightsCount++;
+    }
 
     // Check for KERNELBASE Crash excluding JContainers and JSON parse error
     const kernelBaseInsights = checkKernelbaseCrash(sections, Utils, win24H2UpscalerCrash);

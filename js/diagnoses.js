@@ -1272,7 +1272,13 @@ function analyzePathingIssues(sections) {
                         </li>
                         <li>Consider disabling relevant location-modifying mods to identify conflicts. Also consider disabling mods that show up in the "Files/Elements" outline (higher up in this report).</li>
                         <li>Consider using <a href = "https://www.nexusmods.com/skyrimspecialedition/mods/136456">Debug Menu - In-Game Navmesh Viewer and More</a> to isolate issues and request fixes/patches from mod author(s)</li>
-                        <li>Additional advanced ideas and information are included in <a href="https://www.reddit.com/r/skyrimmods/comments/1d0r0f0/reading_crash_logs/##:~:text=These%20are%20Navmesh%20errors">Krispyroll's Reading Crash Logs Guide</a></li> 
+                        <li>Additional references for advanced users: 
+                            <ol>
+                                <li><a href="https://www.nexusmods.com/skyrimspecialedition/mods/119872">Kojaks NavMesh Hub</a></li>
+                                <li><a href="https://www.reddit.com/r/skyrimmods/comments/18s65sy/comment/kf7qpg1/?context=3&share_id=RfGnt0VSng-ABoIF5tgRk&utm_content=1&utm_medium=ios_app&utm_name=ioscss&utm_source=share&utm_term=1">bachmanis' throughts on troubleshooting navmesh issues</a> (see specific comment)</li>
+                                <li><a href="https://www.reddit.com/r/skyrimmods/comments/1d0r0f0/reading_crash_logs/##:~:text=These%20are%20Navmesh%20errors">Krispyroll's Reading Crash Logs Guide</a> (see specific section)</li>
+                            </ol>
+                        </li>
                     </ul>
                 </li>`;
                 
@@ -4134,6 +4140,7 @@ function checkEngineFixesUpdate(sections) {
             Some ${hasPreventableCrash ? 'crashes of this type' : 'crash types'} may be preventable by updating SSE Engine Fixes to the latest version.
             <ul>
                 <li>${engineFixesVersion ? 'Update' : 'Install'} <a href="https://www.nexusmods.com/skyrimspecialedition/mods/17230" target="_blank">SSE Engine Fixes</a> to version ${latestVersion} or newer. Be sure to carefully follow <a href="https://www.nexusmods.com/skyrimspecialedition/mods/17230?tab=posts">installation instructions</a> found in the top sticky posts in the mod's forum.</li>
+                <li>NOTE: you may also want to <b>review and possibly carry over any custom settings</b> in Engine Fixes' <code>.toml</code> and <code>.ini</code> files</li>
                 <li>Detected indicators: <a href="#" class="toggleButton">⤵️ show more</a><ul class="extraInfo" style="display:none">
                     ${hasPreventableCrash ? '<li><code>ShadowSceneNode</code> found in highest-confidence sections of crash log</li>' : ''}
                     ${engineFixesVersion ? '<li><code>EngineFixes.dll v' + engineFixesVersion + '</code> (consider upgrading to v' + latestVersion + ' or newer)</li>' :''}
@@ -4358,6 +4365,40 @@ function checkUsvfsIssue(sections) {
                 <li>Detected indicators from highest-confidence sections of crash log:
                     <ul class="extraInfo">
                         ${hasUsvfs ? '<li><code>usvfs_x64.dll</code></li>' : ''}
+                    </ul>
+                </li>
+            </ul>
+        </li>`;
+    }
+
+    return insights;
+}
+
+// ❓ ENB Water Feature Incompatibility - Missing Boiling Bubbles Asset
+function checkEnbWaterBoilBubblesIssue(sections) {
+    let insights = '';
+    const text = (sections.highestConfidenceIndicators || '').toLowerCase();
+    const bottomHalfText = (sections.bottomHalf || '').toLowerCase();
+
+    const hasMissingAsset = text.includes('mpswaterboilbubbles.nif');
+    const hasWaterForEnb = bottomHalfText.includes('Water for ENB'.toLowerCase());
+
+    if (hasMissingAsset && hasWaterForEnb) {
+        insights += `<li>❓ <b>ENB Water Feature Incompatibility - Missing Boiling Bubbles Asset:</b>
+            This crash appears to be caused by enabling specific ENB water-related features that reference asset files missing from <a href="https://www.nexusmods.com/skyrimspecialedition/mods/37061">Water for ENB</a>. The game attempts to load <code>MPSWaterBoilBubbles.nif</code>, which is currently not included in Water for ENB distributions.
+            <ul>
+                <li><b>Fix:</b> Try disabling all three of these configuration options for <b>Water</b> in <code>enbseries.ini</code>:
+                    <ul>
+                        <li><code>EnableVolumetricShadow</code></li>
+                        <li><code>EnableCloudsShadow</code></li>
+                        <li><code>EnableSelfReflection</code></li>
+                    </ul>
+                </li>
+                <li><b>Root Cause:</b> The enabled features attempt to render boiling water bubble effects using <code>pBoilBubbles</code> parameter, but the required mesh file (<code>MPSWaterBoilBubbles.nif</code>) is not present in current Water for ENB packages.</li>
+                <li>Detected indicators from highest-confidence sections of crash log:
+                    <ul class="extraInfo">
+                        <li><code>MPSWaterBoilBubbles.nif</code></li>
+                        <li><code>Water for ENB</code> (plugin detected)</li>
                     </ul>
                 </li>
             </ul>
