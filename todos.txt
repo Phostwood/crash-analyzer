@@ -1,20 +1,11 @@
-✅Version 1.29.2 is now live:
+✅Version 1.29.3 is now live:
 https://phostwood.github.io/crash-analyzer/
 
 
-1. NEW TEST: ❓ ENB Water Feature Incompatibility - Missing Boiling Bubbles Asset: This crash appears to be caused by enabling specific ENB water-related features that reference asset files missing from Water for ENB. The game attempts to load MPSWaterBoilBubbles.nif, which is currently not included in Water for ENB distributions. (and additional troubleshooting details)
-	- Thanks, The Wonton Cat!
-
-2. ⚠️ Consider Updating Engine Fixes:
-	- ADDED: "NOTE: you may also want to <b>review and possibly carry over any custom settings</b> in Engine Fixes' <code>.toml</code> and <code>.ini</code> files"
-	- Thanks, Venn!
-
-3. ❗ Probable NavMesh/Pathing Issue Detected:
-	- Added two new reference links for advanced troubleshooting
-	- Thanks, jura11!
-
-4. ❗ First-Line Engine Fixes Issue:
-	- Moved to bottom of report, as everything else should probably be addressed before this
+1. BUG FIX for issue spotted by EliseArtemia: https://discord.com/channels/1325222839275749407/1348452338742071377/1452513430740406385
+	- currently marking a long list as plugins as "no plugins" because its last plugin is mis-sorted, with a ".esm" at the end
+	- change that test so the ".esm" only applies if list of plugins is under 100(?) lines?
+	- Thank you EliseArtemia for sharing this bug!
 
 
 

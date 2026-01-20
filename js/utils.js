@@ -495,14 +495,17 @@ Utils.hasGamePluginsLoaded = function (modCounts, pluginList = []) {
         return false;
     }
 
-    // Second condition: if last plugin contains ".esm", then they aren't loaded
-    if (expectedBaseMods.length > 0) {
-        const lastPlugin = expectedBaseMods[expectedBaseMods.length - 1].trim();
-        Utils.debuggingLog(['Utils.hasGamePluginsLoaded'], 'lastPlugin:', lastPlugin);
-        if (lastPlugin && lastPlugin.toLowerCase().includes('.esm')) {
-            return false;
+    
+    /* DISABLED CODE: they could be out of sorting order
+        // Second condition: if last plugin contains ".esm", then they aren't loaded
+        if (expectedBaseMods.length > 0) {
+            const lastPlugin = expectedBaseMods[expectedBaseMods.length - 1].trim();
+            Utils.debuggingLog(['Utils.hasGamePluginsLoaded'], 'lastPlugin:', lastPlugin);
+            if (lastPlugin && lastPlugin.toLowerCase().includes('.esm')) {
+                return false;
+            }
         }
-    }
+    */
 
     // Third condition: if no mods exist outside of expected base mods
     if (expectedBaseMods.length === 0) {
