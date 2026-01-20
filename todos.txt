@@ -1,71 +1,22 @@
-✅Version 1.29.1 is now live:
+✅Version 1.29.2 is now live:
 https://phostwood.github.io/crash-analyzer/
 
-1. ❗ Critical First-Line Error Detected:
-	- now ignores first-line files that already have better separate tests, or aren't otherwise helpful in diagnoses
-	- demotes some less-helpful First-Line Errors to the bottom of the report
-	- improved troubleshooting instructions
 
-2. Refactored, reordered in report, and/or tweaked troubleshooting instructions for:
-	- ❗ skee64.dll Issue Detected
-	- 🎯 NVIDIA Driver Issue Detected
-	- ❗ Paid FSR3 Upscaler Issue Detected
-	- ❗ KERNELBASE Crash Detected
-	- ❗ First-Line Engine Fixes Issue
+1. NEW TEST: ❓ ENB Water Feature Incompatibility - Missing Boiling Bubbles Asset: This crash appears to be caused by enabling specific ENB water-related features that reference asset files missing from Water for ENB. The game attempts to load MPSWaterBoilBubbles.nif, which is currently not included in Water for ENB distributions. (and additional troubleshooting details)
+	- Thanks, The Wonton Cat!
 
-⭐️AFTER: mention that Silly Angel is now thanked
+2. ⚠️ Consider Updating Engine Fixes:
+	- ADDED: "NOTE: you may also want to <b>review and possibly carry over any custom settings</b> in Engine Fixes' <code>.toml</code> and <code>.ini</code> files"
+	- Thanks, Venn!
 
+3. ❗ Probable NavMesh/Pathing Issue Detected:
+	- Added two new reference links for advanced troubleshooting
+	- Thanks, jura11!
 
-
-- - - development notes from this version - - - 
-
-✅FIXED: BUG: firstLine nvgpucomp64 - SKSE AE LOG.txt displays NVIDIA issue twice
-❌NotABug: BUG:From Demo: Crash Logger for 1.5.97 is an older version? If so, adjust that test.
+4. ❗ First-Line Engine Fixes Issue:
+	- Moved to bottom of report, as everything else should probably be addressed before this
 
 
-✅ Utils:
-- Utils.fileExtensions: added .ess files
-- THEORETICAL BUG FIX? sections.highestConfidenceIndicators: added sections.firstLine
-
-✅Review the recent Nolvus post
-
-- ✅review all NotePad++ filesearch matches (Crash Logger and Trainwreck)
-	- ✅rename all matching crash log filenames with "firstLine SKSE64-dll - " 
-- ✅review all currently downloadable versions
-	- https://skse.silverlock.org/
-
-
-0. ✅ 🎯 NVIDIA Driver Issue Detected: 
-	- ✅ refactor into modern function
-		- ✅ need an example: Dragon's Eye Minimap
-	- ✅ use a mapping
-	- ✅ add nvgpucomp64.dll to the mapping
-	- ✅ any others to add to mapping?
-	- ✅ add all mappings to analyzeFirstLine's ignoreFiles in a programmatic way
-
-0. WHILE DOING CODE REVIEW: other changes made to special tests for First-Line Errors that were excluded when First-Line Error Detected
-
-1. ✅❗ Critical First-Line Error Detected: FIrst line exceptions:
-	- ✅maybe move them into Advanced Section? ... or do away with them entirely??
-		- ✅ANSWER: probably depends on the file
-	- ✅ Kernelbase (move to advanced users)
-	- skee64.dll (IGNORE LIST ... already has own test)
-	- ✅ JContainers64.dll (IGNORE LIST ... already has own test)
-	- ✅ EngineFixes.dll (and its other files) (move to advanced users)
-		- ✅tbbmalloc.dll (move to advanced users) ... mention from Engine Fixes
-			- ✅also d3dx9_42.dll
-	- ✅ DbSkseFunctions.dll (move to advanced users) (LATER: create new test showing to review SKSE log file, and look at SKSE-using mods)
-	- ✅ ntdll.dll (IGNORE LIST)
-	- ✅ VCRUNTIME140.dll (IGNORE LIST)
-	- ❌NEW TEST
-	 LATER: OpenAnimationReplacer.dll  (maybe create new specialized test? . bump the animation one to the top?)
-	- ✅ Revise instructions to emphasize that frameworks are usually NOT directly responsible
-	- ❌ DAR? (although I don't see any examples of, and it already recommends switching to OAR)
-	- ✅added explainer to the filename
-	- ✅test some NSF logs
-
-
-- Donations section: slightly new look and squeezed it down a bit
 
 - - - Next Version - - - 
 
