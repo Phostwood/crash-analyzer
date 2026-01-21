@@ -1,12 +1,10 @@
-✅Version 1.29.3.1 is now live:
+✅Version 1.29.4 is now live:
 https://phostwood.github.io/crash-analyzer/
 
 
-1. BUG FIX for issue spotted by EliseArtemia: https://discord.com/channels/1325222839275749407/1348452338742071377/1452513430740406385
-	- currently marking a long list as plugins as "no plugins" because its last plugin is mis-sorted, with a ".esm" at the end
-	- removed the assumption that a list ending with ".esm" must have zero add-on plugins
-	- Thank you EliseArtemia for sharing this bug!
-
+1. New test: ❗ Probable Custom Hair Color Mod Incompatibility
+	- Confusing logs, and more common that I would have guessed (8 logs in my collected library)
+	- Thank you RomatebitegeL for the idea and specifications!
 
 
 - - - Next Version - - - 

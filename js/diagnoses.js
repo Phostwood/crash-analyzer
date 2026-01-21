@@ -4482,3 +4482,32 @@ function checkCombatMagicCasterDisarmIssue(sections) {
     }
     return insights;
 }
+
+
+// ❗ Probable Custom Hair Color Mod Incompatibility
+function checkCustomHairColorIssue(sections) {
+    let insights = '';
+    const text = (sections.highestConfidenceIndicators || '').toLowerCase();
+
+    const hasBGSArtObjectCloneTask = text.includes('BGSArtObjectCloneTask'.toLowerCase());
+    const hasActorMagicCaster = text.includes('actormagiccaster');
+    const hasCustomHairColorDll = sections.fullLogFileLowerCase.includes('customhaircolor.dll');
+
+    if (hasBGSArtObjectCloneTask && hasActorMagicCaster && hasCustomHairColorDll) {
+        insights += `<li>❗ <b>Probable Custom Hair Color Mod Incompatibility:</b>
+            This crash is caused by the <a href="https://www.nexusmods.com/skyrimspecialedition/mods/102909">Custom Hair Color</a> mod, which has become incompatible with recent Skyrim updates or conflicts with other installed mods. This is a commonly reported crash pattern.
+            <ul>
+                <li><b>Fix:</b> Disable or uninstall the Custom Hair Color mod. Users have consistently reported that removing this mod resolves the crashes.</li>
+                <li>Detected indicators from crash log:
+                    <ul class="extraInfo">
+                        <li><code>BGSArtObjectCloneTask</code> in highest confidence portions of crash log</li>
+                        <li><code>ActorMagicCaster</code> in highest confidence portions of crash log</li>
+                        <li><code>CustomHairColor.dll</code> present in crash log</li>
+                    </ul>
+                </li>
+            </ul>
+        </li>`;
+    }
+
+    return insights;
+}

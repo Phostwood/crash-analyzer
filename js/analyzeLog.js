@@ -436,6 +436,14 @@ async function analyzeLog() {
        diagnosesCount++;
    }
 
+    // ❗ Probable Custom Hair Color Mod Incompatibility
+   const hasCustomHairColorIssue = checkCustomHairColorIssue(sections);
+   if (hasCustomHairColorIssue) {
+       diagnoses += hasCustomHairColorIssue;
+       diagnosesCount++;
+   }
+
+
     //❗Possible Visual C++ Runtime DLL Issue Detected:
     const vCRuntimeDiagnosis = analyzeVCRuntimeIssue(sections);
     if (vCRuntimeDiagnosis) {
