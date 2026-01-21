@@ -1,10 +1,14 @@
-✅Version 1.29.4 is now live:
+✅Version 1.29.5 is now live:
 https://phostwood.github.io/crash-analyzer/
 
 
 1. New test: ❗ Probable Custom Hair Color Mod Incompatibility
 	- Confusing logs, and more common that I would have guessed (8 logs in my collected library)
 	- Thank you RomatebitegeL for the idea and specifications!
+
+2. Recommended tweaks to Nolvus version's info on where to find crash logs
+	- Thank you Sapphire and 0ddAngel!
+
 
 
 - - - Next Version - - - 

@@ -4511,3 +4511,31 @@ function checkCustomHairColorIssue(sections) {
 
     return insights;
 }
+
+
+
+// ❗ Probable Arcanum - A New Age of Magic Incompatibility
+function checkArcanumJaceEyesCrash(sections) {
+    let insights = '';
+    const text = (sections.highestConfidenceIndicators || '').toLowerCase();
+
+    const hasJaceEyes = text.includes('00spjaceeyes');
+    const hasArcanumEsp = sections.fullLogFileLowerCase.includes('arcanum.esp');
+
+    if (hasJaceEyes && hasArcanumEsp) {
+        insights += `<li>❗ <b>Probable Arcanum - A New Age of Magic Incompatibility:</b>
+            Crash likely caused by <a href="https://www.nexusmods.com/skyrimspecialedition/mods/23488">Arcanum - A New Age of Magic</a>. The crash involves the "00SPJaceEyes" asset, which appears to have issues in the original mod.
+            <ul>
+                <li><b>Fix:</b> Replace the original mod with <a href="https://www.nexusmods.com/skyrimspecialedition/mods/65221">Arcanum - A New Age of Magic (Fixed)</a>, which addresses this crash. Alternatively, disable Arcanum entirely if the fixed version doesn't resolve the issue.</li>
+                <li>Detected indicators from crash log:
+                    <ul class="extraInfo">
+                        <li><code>00SPJaceEyes</code> in highest confidence portions of crash log</li>
+                        <li><code>Arcanum.esp</code> present in crash log</li>
+                    </ul>
+                </li>
+            </ul>
+        </li>`;
+    }
+
+    return insights;
+}

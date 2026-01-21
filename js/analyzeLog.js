@@ -443,6 +443,13 @@ async function analyzeLog() {
        diagnosesCount++;
    }
 
+    // ❗ Probable Arcanum - A New Age of Magic Incompatibility
+   const hasArcanumJaceEyesIssue = checkArcanumJaceEyesCrash(sections);
+   if (hasArcanumJaceEyesIssue) {
+       diagnoses += hasArcanumJaceEyesIssue;
+       diagnosesCount++;
+   }
+
 
     //❗Possible Visual C++ Runtime DLL Issue Detected:
     const vCRuntimeDiagnosis = analyzeVCRuntimeIssue(sections);
