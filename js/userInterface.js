@@ -43,9 +43,12 @@ document.addEventListener('DOMContentLoaded', function () {
 				<strong>Find your crash logs at:</strong><br>
 				<code id="crashDirectory">${crashDirectory.textContent}</code><br>
 				Replace [My_Documents] with your actual directory path.<br>
+				Crash logs are datetime stamped. For example from January 21: <code>crash-2026-01-21-10-20-23.log</code><br>
+			
 				<br>
 				<b>Log files aren't showing up?</b> <a href="#" class="toggleButton">⤵️ show more</a>
 				<ul class="extraInfo" style="display:none">
+					<li>Crash Logger SSE logs are dropped one directory up from where Trainwreck logs are dropped. See "<b>Find your crash logs at:</b>" above. Be sure you have checked the correct location.</li>
 					<li><b>Carefully reinstall</b> your crash logging mod. <a href="https://www.nexusmods.com/skyrimspecialedition/mods/59818">Crash Logger SSE</a> is usually the recommended option. <b>Only one</b> crash logging mod may be used, so be sure to remove or disable all other crash logging mods.</li>
 					<li><b>Check OneDrive:</b> If your Documents folder is actively syncing, or if OneDrive has glitched and left files locked after syncing, Skyrim may fail to save or load files. 
 						See <a href="https://docs.google.com/document/d/1Ot0l8uFv-AJZr1X6vRMQNovhua_NUtE_HhbkrfJi1Ss/edit?tab=t.0">Ways To Get Rid Of OneDrive</a> (Google Doc) and 

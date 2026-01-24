@@ -1,13 +1,19 @@
 //All diagnosing functions for both analyzeLog.js's diagnoses and insights variables. Only use insights.js if there needs to be a version of a function unique to the insights variable
 
 // --- Shared Constants ---
-const verifyWindowsPageFileListItem = `💾 Verify your <a href="https://www.nolvus.net/appendix/pagefile">Windows Pagefile is properly configured</a> (nolvus.net link, but broadly applicable). The most common stability-focused recommendation for Skyrim is setting both the minimum and maximum Pagefile size to <b>40,000 MB (≈40 GB)</b> (especially for 16GB of RAM or less). This value is widely used as a safe baseline for heavily-modded setups. <a href="#" class="toggleButton">⤵️ show more</a>
+const verifyWindowsPageFileListItem = `💾 Verify your <a href="https://www.nolvus.net/appendix/pagefile">Windows Pagefile is properly configured</a> (nolvus.net link, but broadly applicable). For heavily-modded Skyrim, the most common recommendation is setting both the minimum and maximum Pagefile size to <b>40,000 MB (≈40 GB)</b>, particularly if you have 16GB of RAM or less. <b>NOTE:</b> If you are following a specific modlist like Nolvus or Lorerim, use their recommended pagefile settings. <a href="#" class="toggleButton">⤵️ show more</a>
 <ul class="extraInfo" style="display:none">
-    <li>Users with <b>48GB of RAM or more</b> can probably keep their Pagefiles set to automatic management.</li>
-    <li>Microsoft's general guidance: minimum = 1.5x your installed RAM, maximum = up to 4x your RAM (<a href="https://www.thewindowsclub.com/best-page-file-size-for-64-bit-versions-of-windows">source</a>). Your maximum Pagefile size should be at least your total RAM + 257 MB to allow Windows to generate a complete memory crash dump if needed.</li>
-    <li>Some theorize that heavily-modded Skyrim can at times be crash-prone when Pagefiles are forced to expand at times of especially high RAM usage. Hence, the recommendation to lock the pagefile to the same size for both minimum and maximum.</li>
-    <li>For heavily-modded Skyrim, the common recommendation is setting both min and max to ≈40GB. Sources: <a href="https://www.nolvus.net/appendix/pagefile">Nolvus</a>, <a href="https://www.lorerim.com/read-me">Lorerim</a>, and <a href="https://gatetosovngarde.wiki.gg/wiki/Collection_Performance_Tweaks#Pagefile">Gate to Sovngarde</a> ... among others</li>
-    <li>For especially heavy modlists, you may want to increase the Pagefile beyond 40 GB, but this is usually a safe baseline.</li>
+    <li><b>Why 40GB?</b> This fixed size prevents the pagefile from needing to expand during gameplay, which some users report can cause crashes during memory usage spikes. The 40GB recommendation is widely adopted across major modlists (<a href="https://www.nolvus.net/appendix/pagefile">Nolvus</a>, <a href="https://www.lorerim.com/read-me">Lorerim</a>).</li>
+    <li><b>Alternative view:</b> Some technical experts question whether fixed pagefiles provide measurable stability benefits, noting that modern Windows handles automatic pagefile expansion efficiently. They suggest using system-managed pagefiles to avoid dedicating 40GB of SSD space.</li>
+    <li><b>RAM-based guidance:</b>
+        <ul>
+            <li>16GB RAM or less: 40GB fixed pagefile is commonly recommended, though some still prefer system-managed</li>
+            <li>24-32GB RAM: 40GB fixed pagefile recommended, or system-managed if preferred</li>
+            <li>64GB RAM or more: System-managed pagefile is usually sufficient</li>
+        </ul>
+    </li>
+    <li><b>Microsoft's general formula when manually configuring pagefile size:</b> Minimum = 1.5x your RAM, Maximum = 3-4x your RAM (<a href="https://www.thewindowsclub.com/best-page-file-size-for-64-bit-versions-of-windows">source</a>). For 16GB systems, 40GB falls within this range (24-64GB). Your maximum should be at least your total RAM plus several hundred MB for memory crash dumps.</li>
+    <li><b>For very heavy modlists:</b> Some users increase beyond 40GB, but 40GB is a safe baseline for most heavily-modded setups.</li>
 </ul>`;
 
 
@@ -396,7 +402,7 @@ function checkForD6dddaEasyVersion(sections) {
                 <li>System Memory Management:
                     <ol>
                         <li>Close unnecessary background applications that may be consuming memory.</li>
-                        <li>${verifyWindowsPageFileListItem}<li>
+                        <li>${verifyWindowsPageFileListItem}</li>
                         <li>Return any overclocked hardware (<i>usually</i> <b>excluding</b> RAM using XMP or AMD EXPO) to stock speeds, as unstable overclocks are known for causing crashes that can look like memory issues in crash logs.</li>
                         <li>Maintain <a href="https://computercity.com/hardware/storage/how-much-space-should-i-leave-on-my-ssd">at least 10-20% free space</a> on your SSD for optimal performance.</li>
                         <li>Review your modlist's (or individual mods') recommended hardware requirements to verify you aren't overly below their system recommendations.</li>
@@ -1261,6 +1267,7 @@ function analyzePathingIssues(sections) {
                         <li>If using a <b>horse</b> or mount, command mount to wait before fast traveling</li>
                         <li>If using a horse/mount and a <b>follower framework</b> (like Nether's Follower Framework), try disabling horse followers in its Mod Configuration Menu (MCM)</li>
                         ${!sections.hasNolvusV6 ? '<li>Consider trying the <a href="https://www.nexusmods.com/skyrimspecialedition/mods/52641">Navigator - Navmesh Fixes</a> mod (be sure to read notes on where to insert it in your load order)</li> ' : ''}
+                        <li>Try toggling all <b>NPC's AI movement off</b> temporarily using the <a href="https://skyrimcommands.com/command/tai">tai</a> and/or <a href="https://skyrimcommands.com/command/tcai">tcai</a> Skyrim <a href="https://en.uesp.net/wiki/Skyrim:Console">console commands</a>. This can be used to help verify a navmesh/pathing related issue and/or to potentially get you past a crash point as a workaround. Simply use the same command(s) again afterwards to toggle NPC movement back on.</li>
                     </ul>
                 </li> 
                 <li>Advanced Troubleshooting:
@@ -1275,7 +1282,7 @@ function analyzePathingIssues(sections) {
                         <li>Additional references for advanced users: 
                             <ol>
                                 <li><a href="https://www.nexusmods.com/skyrimspecialedition/mods/119872">Kojaks NavMesh Hub</a></li>
-                                <li><a href="https://www.reddit.com/r/skyrimmods/comments/18s65sy/comment/kf7qpg1/?context=3&share_id=RfGnt0VSng-ABoIF5tgRk&utm_content=1&utm_medium=ios_app&utm_name=ioscss&utm_source=share&utm_term=1">bachmanis' throughts on troubleshooting navmesh issues</a> (see specific comment)</li>
+                                <li><a href="https://www.reddit.com/r/skyrimmods/comments/18s65sy/comment/kf7qpg1/?context=3&share_id=RfGnt0VSng-ABoIF5tgRk&utm_content=1&utm_medium=ios_app&utm_name=ioscss&utm_source=share&utm_term=1">bachmanis' throughts on troubleshooting navmesh issues</a> (see specific replies)</li>
                                 <li><a href="https://www.reddit.com/r/skyrimmods/comments/1d0r0f0/reading_crash_logs/##:~:text=These%20are%20Navmesh%20errors">Krispyroll's Reading Crash Logs Guide</a> (see specific section)</li>
                             </ol>
                         </li>
@@ -3475,7 +3482,6 @@ function checkRandomIssues(sections, hasUnlikelyErrorForAutoInstallerModlist, ha
     let diagnoses = `
         <li>${(hasUnlikelyErrorForAutoInstallerModlist || hasSaveLoadIssues || hasKeyboardIssue ||  hasPagefileIndicator) ? '👉 ' : ''}<span class="important-emoji">🎲</span> <b>Reduce Random Crashes:</b> Best practices for game stability: <a href="#" class="toggleButton">⤵️ More details</a>
             <ul class="extraInfo" style="display:none">
-                <li>${hasPagefileIndicator ? '👉' : ''} 💾 Set your Windows Pagefile to 40,000 min and max  (especially for 16GB of RAM or less)</li>
                 <li>${hasKeyboardIssue ? '👉' : ''} 🔀 Avoid Alt+Tabbing</li>
                 <li>${hasSaveLoadIssues ? '👉' : ''} 🚫 Avoid loading saves mid-session</li>
                 <li>${hasSaveLoadIssues ? '👉' : ''} 💀 Consider using an alternate death mod</li>
@@ -3483,6 +3489,7 @@ function checkRandomIssues(sections, hasUnlikelyErrorForAutoInstallerModlist, ha
                 <li>⚡ Quit other resource-hungry apps before launching your modlist</li>
                 <li>🖼️ Keep your graphics driver reasonably current, but test each update—if a new driver causes issues, roll back to the last stable version that worked well for you.</li>
                 <li>🔥 Return any overclocked hardware (<i>usually</i> <b>excluding</b> RAM using XMP or AMD EXPO) to stock speeds</li>
+                <li>${hasPagefileIndicator ? '👉' : ''} 💾 Set your Windows Pagefile to 40,000 min and max  (especially for 16GB of RAM or less). NOTE this is <b>controversial</b>. Others recommend leaving it system managed.</li>
                 <li>😐 Averaging less than one crash in 4 hours usually isn't a major concern for any heavily modded Skyrim</li>
                 <li>🛑 Otherwise it's usually best to not try to "fix" random issues. Except for a confident diagnosis or safe and prudent specific reinstalls/upgrades, wait for indications to repeat across multiple crash logs.</br>
                     ${(hasPagefileIndicator || hasKeyboardIssue || hasSaveLoadIssues) ? '</br><span style="font-size: 0.9em; margin: 8px 0;"><b>Legend:</b> 👉 = Possible relevancy detected in your crash log</span></br>' : ''}
@@ -3494,10 +3501,10 @@ function checkRandomIssues(sections, hasUnlikelyErrorForAutoInstallerModlist, ha
                     <ul>
                         <li>Always try the classic computer solution - <b>restart your PC</b>: This clears memory and resolves many system-level issues, especially after extended gaming sessions. It's surprising how many issues this old IT tip still fixes...</li>
                         <li>⚡ Consider quitting out of all other applications before launching your modlist, particularly resource-intensive programs (e.g., web browsers with many tabs, other games, or video editors), or if you have less than 32GB of RAM.</li>
-                        <li>${hasPagefileIndicator ? '👉' : ''}${verifyWindowsPageFileListItem}</li>
                         <li>Maintain <a href="https://computercity.com/hardware/storage/how-much-space-should-i-leave-on-my-ssd">at least 10-20% free space</a> on your SSD for optimal performance.</li>
                         <li>🖼️ Keep your <b>graphics driver</b> reasonably current, as outdated drivers can cause crashes, graphical glitches, or performance issues. For <b>NVIDIA and AMD</b> cards, download drivers from their official websites. However, <b>not every driver update is an improvement</b>—some may introduce new bugs or performance regressions. When updating, monitor for issues and be prepared to <b>roll back</b> if you experience problems. Stick with whichever version proves most stable for your specific hardware and games. For <b>Intel integrated graphics</b>, Windows Update typically provides sufficient driver updates.</li>
                         <li>🔥 Return any overclocked hardware to <b>stock speeds</b> when troubleshooting, as overclocks can cause instability and crashes. This includes <b>CPU overclocks, GPU overclocks, and custom voltage settings</b>. You can <b><i>usually</i> exclude RAM using XMP or AMD EXPO</b>, as long as your hardware conforms to manufacturer-tested profiles.</li>
+                        <li>${hasPagefileIndicator ? '👉' : ''}${verifyWindowsPageFileListItem}</li>
                     </ul>
                 </li>
 
@@ -3522,7 +3529,7 @@ function checkRandomIssues(sections, hasUnlikelyErrorForAutoInstallerModlist, ha
                                     <ul>
                                         <li><a href="https://www.nexusmods.com/skyrimspecialedition/mods/65136"  target="_blank">Shadow of Skyrim - Nemesis and Alternative Death System</a>. Currently used by <b>Nolvus 6 beta</b>. WARNINGS: quests that expect you trapped could break when you are teleported. Also, you may need configs and/or patches to prevent issues.</li>
                                         <li><a href="https://www.nexusmods.com/skyrimspecialedition/mods/69267" target="_blank">Respawn - Soulslike Edition</a>. Currently used by <b>Lorerim</b>. WARNINGS: quests that expect you trapped could break when you are teleported. Also, you may need configs and/or patches to prevent issues.</li>
-                                        <li><a href="https://www.nexusmods.com/skyrimspecialedition/mods/128265"  target="_blank">Soul Resurrection - Injury and Alternative Death System</a>. Similar to Shades of Mortality (below). Known for being broadly compatible and doesn't risk breaking scripts/quests by teleporting you out any less-flexible situations. Often recommended for adding to <b>Gate to Sovngarde</b>.
+                                        <li><a href="https://www.nexusmods.com/skyrimspecialedition/mods/128265"  target="_blank">Soul Resurrection - Injury and Alternative Death System</a>. Similar to Shades of Mortality (below). Known for being broadly compatible and doesn't risk breaking scripts/quests by teleporting you out any less-flexible situations. <b>Most recommended</b> as an easy  addition to pretty much any modlist.
                                         </li>
                                         <li><a href="https://www.nexusmods.com/skyrimspecialedition/mods/136825"  target="_blank">Shades of Mortality - Death Alternative SKSE</a>  Similar to Soul Resurrection (above). Instead of dying, you go ethereal and take configurable penalties. Often recommended for adding to <b>Gate to Sovngarde</b>. Broadly compatible with other mods.</li>
                                     </ul>
@@ -4172,7 +4179,6 @@ function checkLowSystemRAM(sections) {
         insights += `<li>⚠️ <b>${isVeryLowRAM ? 'Very ' : ''}Low System RAM Detected (${systemRAM}GB):</b>
             Your system has limited RAM, which can cause crashes and instability in heavily-modded Skyrim.
             <ul>
-                <li><b>Configure Windows Pagefile:</b> Set a <a href="https://www.nolvus.net/appendix/pagefile">custom pagefile</a> (nolvus.net link, but broadly applicable) with minimum 20,000 MB (ideally 40,000 MB) and maximum 40,000 MB to help compensate for limited RAM. While the pagefile is important to Skyrim with any amount of RAM, it is especially important with 16GB or less.</li>
                 <li><b>Close background applications:</b> Before launching Skyrim, close all unnecessary programs to free up as much RAM as possible</li>
                 ${isVeryLowRAM ? `<li><b>System Requirements:</b> Steam's recommended spec for un-modded Skyrim is 8GB RAM. Your system is at or below the recommended for the base game</li>
                 <li><b>Mod Selection Guidelines:</b> With ${systemRAM}GB of RAM, you need to be extremely selective with mods:
@@ -4182,6 +4188,7 @@ function checkLowSystemRAM(sections) {
                         <li>Focus on gameplay and content mods rather than visual enhancements</li>
                     </ul>
                 </li>` : ''}
+                <li>${verifyWindowsPageFileListItem}</li>
                 <li>Detected indicators: <a href="#" class="toggleButton">⤵️ show more</a><ul class="extraInfo" style="display:none">
                     <li>PHYSICAL MEMORY: <code>${systemRAM}GB</code> (${isVeryLowRAM ? '8' : '16'}GB or less)</li>
                 </ul></li>

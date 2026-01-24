@@ -1,32 +1,31 @@
 ✅Version 1.29.5 is now live:
 https://phostwood.github.io/crash-analyzer/
 
+1. Windows Pagefile information: 
+	- lowered priority, softened, and hedged
+	- now mentions controversy and two schools of thought on configuring Windows Pagefile
+	- ⚠️ Low System RAM Detected
+		- now shares same text from verifyWindowsPageFileListItem
 
-1. New test: ❗ Probable Custom Hair Color Mod Incompatibility
-	- Confusing logs, and more common that I would have guessed (8 logs in my collected library)
-	- Thank you RomatebitegeL for the idea and specifications!
+2. "❗ Probable NavMesh/Pathing Issue Detected:"
+	- Added idea of using "tai" and "tcai" commands to help isolate/workaround
+	- Thank you deusexmachiatto for this idea!
 
-2. Recommended tweaks to Nolvus version's info on where to find crash logs
-	- Thank you Sapphire and 0ddAngel!
+3. "Find your crash logs at:" section:
+	- added note on crash log filenames being datetime stamped 
+
+4. "Log files aren't showing up?" section:
+	- added note to verify you're checking correct location
+
+5. "alternate death mod" section:
+	- added some contrast between "Soul Resurrection" and "Shades of Mortality" mods
+
 
 
 
 - - - Next Version - - - 
 
-0. mention controversy and two schools of thought on configuring Windows Pagefile
-	- const verifyWindowsPageFileListItem
-	- ⚠️ Low System RAM Detected
-		- maybe reuse the const here too?
-
-1. Bug fix from my Discord channel? (or explain why it isn't a bug)
-
-2. Remove first-line for VCRUNTIME ... see reddit post:
-	- https://www.reddit.com/r/skyrimmods/comments/1p8jfv0/tips_for_reading_crash_logs_and_detecting_mods/
-	- maybe also remove first-line issue for Kernelbase? Or put it lower down the list when Kernelbase?
-
-3. Move VCRUNTIME recommendation down the list?
-
-
+4. Add note on performance dips and stuttering can also come with increase in random crashes?
 
 5. link to: https://www.reddit.com/r/skyrimmods/comments/1owwsiq/list_of_testing_and_troubleshooting_tools/
 	- Or add the newly discovered tools
@@ -51,7 +50,8 @@ https://phostwood.github.io/crash-analyzer/
 
 11. Asked J3w3ls ... waiting for response:
 	- IGNORED: https://discord.com/channels/872252014002843658/878565217288728576/1435753945468244170
-
+	- Perhaps use r/SkyrimMod's instead? But it might be really out of date.
+	- Or make my own list drawing from both these sources? Perhaps find a good 3rd source?
 
 
 
