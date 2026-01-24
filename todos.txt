@@ -1,4 +1,4 @@
-✅Version 1.29.5 is now live:
+✅Version 1.29.6 is now live:
 https://phostwood.github.io/crash-analyzer/
 
 1. Windows Pagefile information: 
