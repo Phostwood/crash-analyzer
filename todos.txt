@@ -1,26 +1,17 @@
-✅Version 1.29.6 is now live:
+✅Version 1.29.7 is now live:
 https://phostwood.github.io/crash-analyzer/
 
-1. Windows Pagefile information: 
-	- lowered priority, softened, and hedged
-	- now mentions controversy and two schools of thought on configuring Windows Pagefile
-	- ⚠️ Low System RAM Detected
-		- now shares same text from verifyWindowsPageFileListItem
+1. ❓ <b>XAudio Issue Detected:
+	- Added link to "Sound Fix for Large Sector Drives" as a potentially easy fix
+	- Thank you, battdapsycho!
+		- https://discord.com/channels/215154001799413770/701100960134725713/1464810650042634310
 
-2. "❗ Probable NavMesh/Pathing Issue Detected:"
-	- Added idea of using "tai" and "tcai" commands to help isolate/workaround
-	- Thank you deusexmachiatto for this idea!
+2. ❗ First-Line Error Detected:
+	- Added "XAudio2_7.dll" to ignoreFiles list since it has its own specialized troubleshooting recommendations
 
-3. "Find your crash logs at:" section:
-	- added note on crash log filenames being datetime stamped 
-
-4. "Log files aren't showing up?" section:
-	- added note to verify you're checking correct location
-
-5. "alternate death mod" section:
-	- added some contrast between "Soul Resurrection" and "Shades of Mortality" mods
-
-
+3. 🎲 Reduce Random Crashes:
+	- NEW: "🐌 Stuttering, short freezes, or consistently low FPS (below 20) can share root causes with crashes — optimize textures, cap framerate, and adjust configurations." (and corresponding detailed version below it)
+	- ADDED: "The following are general stability guidelines that can be especially helpful for crashes with inconsistent indicators or unclear causes. They are not intended as replacements for analyzing specific crash logs or troubleshooting particular issues."
 
 
 - - - Next Version - - - 

@@ -1862,7 +1862,7 @@ function analyzeEngineFixes(sections) {
 //❗Critical First-Line Error Detected:
 function analyzeFirstLine(sections, diagnosisOrInsight) {
     let insights = '';
-    const ignoreFiles = ['Dawnguard.esm', 'Dragonborn.esm', 'null', 'null)', 'SkyrimSE.exe', 'skyrim.esm', 'SkyrimVR.exe', 'VCRUNTIME140.dll', 'ntdll.dll', 'JContainers64.dll', 'skee64.dll', 'KERNELBASE.dll', 'DbSkseFunctions.dll', 'nvngx_dlssg.dll', ...crashIndicators.nvidiaDriverIssues.codes.map(({ code }) => code), ...crashIndicators.sseEngineFixesFiles.codes.map(({ code }) => code)]; //NOTE: these already have their own specific and better test, or are just too generic/foundational to realistically place blame on 
+    const ignoreFiles = ['Dawnguard.esm', 'Dragonborn.esm', 'null', 'null)', 'SkyrimSE.exe', 'skyrim.esm', 'SkyrimVR.exe', 'VCRUNTIME140.dll', 'ntdll.dll', 'JContainers64.dll', 'skee64.dll', 'KERNELBASE.dll', 'DbSkseFunctions.dll', 'nvngx_dlssg.dll', 'XAudio2_7.dll', ...crashIndicators.nvidiaDriverIssues.codes.map(({ code }) => code), ...crashIndicators.sseEngineFixesFiles.codes.map(({ code }) => code)]; //NOTE: these already have their own specific and better test, or are just too generic/foundational to realistically place blame on 
     const insightFiles = ['po3_PapyrusExtender.dll', 'PapyrusTweaks.dll', 'skse64_1_6_1170.dll', 'skse64_1_6_1179.dll', 'skse64_1_6_640.dll', 'skse64_1_5_97.dll', 'sksevr_1_4_15.dll']; //NOTE: these are placed near the bottom of the report, since they are usually not at fault, and putting them at the top gives these intructions too much priority
     
     // Extract filename from sections.firstLine (actual location can vary between log types) if it exists
@@ -3325,6 +3325,7 @@ function analyzeXAudioIssue(sections) {
 
     if (sections.topHalf.toLowerCase().includes('XAudio'.toLowerCase())) {
         insights += `<li>❓ <b>XAudio Issue Detected:</b> Seeing 'XAudio' in the crash log may indicate a problem with the game's audio processing components. XAudio is part of the Windows audio infrastructure, separate from DirectX. This crash is often caused by audio driver issues or incompatible mods. Try these steps:<ol>
+            <li>As a potentially easy fix, try adding the <a href="https://www.nexusmods.com/skyrimspecialedition/mods/71567">Sound Fix for Large Sector Drives</a> mod</li>
             <li>Ensure your sound card drivers are up to date. Visit your sound card manufacturer's website for the latest driver software.</li>
             <li>Change your Windows audio format to a lower sample rate. Right-click your speaker icon in the system tray, select "Open Sound settings," then go to "Advanced" and try changing the sample rate to 16 bit, 44100 Hz (or lower). This resolves many XAudio crashes.</li>
             <li>Check the game's audio settings and adjust them if necessary.</li>
@@ -3489,12 +3490,13 @@ function checkRandomIssues(sections, hasUnlikelyErrorForAutoInstallerModlist, ha
                 <li>⚡ Quit other resource-hungry apps before launching your modlist</li>
                 <li>🖼️ Keep your graphics driver reasonably current, but test each update—if a new driver causes issues, roll back to the last stable version that worked well for you.</li>
                 <li>🔥 Return any overclocked hardware (<i>usually</i> <b>excluding</b> RAM using XMP or AMD EXPO) to stock speeds</li>
+                <li>🐌 Stuttering, short freezes, or consistently low FPS (below 20) can share root causes with crashes — optimize textures, cap framerate, and adjust configurations.</li>
                 <li>${hasPagefileIndicator ? '👉' : ''} 💾 Set your Windows Pagefile to 40,000 min and max  (especially for 16GB of RAM or less). NOTE this is <b>controversial</b>. Others recommend leaving it system managed.</li>
                 <li>😐 Averaging less than one crash in 4 hours usually isn't a major concern for any heavily modded Skyrim</li>
                 <li>🛑 Otherwise it's usually best to not try to "fix" random issues. Except for a confident diagnosis or safe and prudent specific reinstalls/upgrades, wait for indications to repeat across multiple crash logs.</br>
                     ${(hasPagefileIndicator || hasKeyboardIssue || hasSaveLoadIssues) ? '</br><span style="font-size: 0.9em; margin: 8px 0;"><b>Legend:</b> 👉 = Possible relevancy detected in your crash log</span></br>' : ''}
                     </br>
-                    <b>Full List and Details:</b>
+                    <b>Full List and Details:</b> The following are general stability guidelines that can be especially helpful for crashes with inconsistent indicators or unclear causes. They are not intended as replacements for analyzing specific crash logs or troubleshooting particular issues. 
                 </li>
 
                 <li>🖥️ Verify your hardware/OS settings:
@@ -3514,7 +3516,14 @@ function checkRandomIssues(sections, hasUnlikelyErrorForAutoInstallerModlist, ha
 
                         <li>${hasSaveLoadIssues ? '👉 ' : ''}If one save won't load, quit to the desktop, relaunch Skyrim and try to <b>load an older save</b>.</li>
 
-                        <li>Sometimes it can help to <b>separate from your followers</b> to get past a crash point. Ask followers/pets/steeds to "wait" at a safe location, away from the crash-prone loading area (cell) ... and then collect them again later after getting past the crashing area.</li> 
+                        <li>Sometimes it can help to <b>separate from your followers</b> to get past a crash point. Ask followers/pets/steeds to "wait" at a safe location, away from the crash-prone loading area (cell) ... and then collect them again later after getting past the crashing area.</li>
+
+                        <li>🐌 <b>Performance and Stability:</b> While low FPS doesn't directly cause crashes, both symptoms often share underlying causes (memory shortage, script overload, CPU bottlenecks). Warning signs may include stuttering, short freezes, or FPS consistently below 20.
+                            <ul>
+                                <li>Quick fixes: Switch to lower-resolution texture mods or use <a href="https://www.nexusmods.com/skyrimspecialedition/mods/75091" target="_blank">VRAMr</a> at Performance/Vanilla presets to optimize all textures (<a href="https://youtu.be/SHzSbX038ek?si=LO-pY6X2Z21vH5U2" target="_blank">tutorial</a>), cap FPS to 30-60 using <a href="https://www.nexusmods.com/skyrimspecialedition/mods/34705" target="_blank">SSE Display Tweaks</a>, and/or <a href="https://www.reddit.com/r/Nolvus/comments/1nefmi3/how_to_boost_fps_by_lowering_screen_resolution/">lower your screen resolution</a></li>
+                                <li>More information: See <a href="https://gatetosovngarde.wiki.gg/wiki/Collection_Performance_Tweaks" target="_blank">Gate to Sovngarde's Performance Guide</a> for (mostly) broadly applicable performance strategies</li>
+                            </ul>
+                        </li>
 
                        <li>😐 <b>Normal crash frequency:</b> Occasional instability is <a href="https://www.reddit.com/r/skyrimmods/comments/1oeve11/is_there_a_truely_stable_modlist/">expected with any heavily modded Skyrim</a>, as the game's foundation itself isn't fully stable. Except for bug fixes, adding hundreds of mods from different authors in varying combinations increases the complexity and likelihood of instability. Unless multiple crash logs share a repeating cause, crashes averaging less frequently than once every 4 hours should not be cause for immediate concern.</li>
 
