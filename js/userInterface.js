@@ -276,7 +276,7 @@ document.addEventListener('DOMContentLoaded', function () {
 	};
 
 	window.addEmojiClickEvent = function() {
-		var elements = document.querySelectorAll('li, details');
+		var elements = document.querySelectorAll('li, details, copypaste');
 		elements.forEach(function (element) {
 			// Combined regex that handles both single emojis and the keycap sequence
 			var regex = /[\u{1F300}-\u{1F5FF}\u{1F600}-\u{1F64F}\u{1F680}-\u{1F6FF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}\u{1F989}\u{1FA9B}\u{1F916}]|\u{0031}\u{FE0F}\u{20E3}|\u{0032}\u{FE0F}\u{20E3}|\u{0033}\u{FE0F}\u{20E3}/gu;
@@ -296,7 +296,7 @@ document.addEventListener('DOMContentLoaded', function () {
 				var spans = element.querySelectorAll('span');
 				spans.forEach(function (span) {
 					span.addEventListener('click', function (event) {
-						var parentElement = span.closest('li, details');
+						var parentElement = span.closest('li, details, copypaste');
 						if (parentElement) {
 							// Use the shared popup function
 							showFormatSelectionPopup(
@@ -590,6 +590,31 @@ document.addEventListener('DOMContentLoaded', function () {
 			return ''; // strip it out of the Markdown
 		}
 	});
+
+
+	
+	// Add a rule to convert <pre> blocks into Reddit-style fenced code blocks
+	turndownService.addRule('ignoreCodeInsidePre', {
+		filter: function (node) {
+			return node.nodeName === 'CODE' && node.parentNode.nodeName === 'PRE';
+		},
+		replacement: function (content, node) {
+			return node.textContent;
+		}
+	});
+	turndownService.addRule('preToFencedCode', {
+		filter: 'pre',
+		replacement: function (content, node) {
+			// Extract raw text inside <pre> without Turndown altering it
+			const raw = node.textContent || '';
+
+			// Ensure no accidental leading/trailing newlines
+			const cleaned = raw.replace(/^\n+|\n+$/g, '');
+
+			return '```\n' + cleaned + '\n```';
+		}
+	});
+
 
 
 	// Function to convert HTML to Markdown for Discord

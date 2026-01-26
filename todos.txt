@@ -1,19 +1,17 @@
-✅Version 1.29.7.3 is now live:
-https://phostwood.github.io/crash-analyzer/
+📢 Version 1.29.8 is now live:
+https://phostwood.github.io/crash-analyzer/skyrim.html
 
-1. ❓ <b>XAudio Issue Detected:
-	- Added link to "Sound Fix for Large Sector Drives" as a potentially easy fix
-	- Thank you, battdapsycho!
-		- https://discord.com/channels/215154001799413770/701100960134725713/1464810650042634310
+1. 🎯 Highest-Confidence Indicators: 
+	- ADDED: new clickable "📌" for a concise copy-paste of the summarized log, including Reddit/Discord markdown for proper formatting
+	- Hopefully this will prove especially useful on Reddit by making pertinent indicators text-searchable on Reddit or Google/Bing/etc.
 
-2. ❗ First-Line Error Detected:
-	- Added "XAudio2_7.dll" to ignoreFiles list since it has its own specialized troubleshooting recommendations
+2. Recommended References:
+	- ADDED: link to "J3w3ls' 7 principles of modding" at https://github.com/TheOneAndOnlyJ3w3ls/Skyrim-Modding-Tutorials/wiki/Page-1:-Modding-Skyrim-%E2%80%90-The-7-Principles
 
-3. 🎲 Reduce Random Crashes:
-	- NEW: "🐌 Stuttering, short freezes, or consistently low FPS (below 20) can share root causes with crashes — optimize textures, cap framerate, and adjust configurations." (and corresponding detailed version below it)
-	- ADDED: "The following are general stability guidelines that can be especially helpful for crashes with inconsistent indicators or unclear causes. They are not intended as replacements for analyzing specific crash logs or troubleshooting particular issues."
+3. ❓ Possible NavMesh/Pathing Indicators Found:
+	- ADDED: "An NPC or creature appears to be blocked from their expected navigation path. This can occur when an obstacle (such as a tree, rock, or clutter object) has been added by a mod that conflicts with the navigation mesh. AI pathing mods may also be incompatible or malfunctioning. Troubleshooting options are below:"
+	- ADDED: "If you have any AI pathing or behavior mods installed (such as NPC AI overhauls, movement mods, or follower AI enhancements), try temporarily disabling them to test for potential incompatibilities or malfunctions. Re-enable them one at a time to identify which specific mod may be causing the issue."
 
-NOTE: 1.29.7.3 includes the above, plus a corrected URL in the Reduce Random Crashes section
 
 
 

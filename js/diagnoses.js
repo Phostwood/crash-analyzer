@@ -1259,6 +1259,7 @@ function analyzePathingIssues(sections) {
 
     if (pathingIssueIndicators.length > 0) {
         pathingInsights += `<li>${isHighPriority ? '❗' : '❓'} <b>${isHighPriority ? 'Probable' : 'Possible'} NavMesh/Pathing ${isHighPriority ? 'Issue Detected' : 'Indicators Found'}:</b> 
+            <p>An NPC or creature appears to be blocked from their expected navigation path. This can occur when an obstacle (such as a tree, rock, or clutter object) has been added by a mod that conflicts with the navigation mesh. AI pathing mods may also be incompatible or malfunctioning. Troubleshooting options are below:</p>
             <ol>
                 <li>Potential easy fixes:
                     <ul>
@@ -1272,6 +1273,7 @@ function analyzePathingIssues(sections) {
                 </li> 
                 <li>Advanced Troubleshooting:
                     <ul>
+                        <li>If you have any <b>AI pathing or behavior mods</b> installed (such as NPC AI overhauls, movement mods, or follower AI enhancements), try temporarily disabling them to test for potential incompatibilities or malfunctions. Re-enable them one at a time to identify which specific mod may be causing the issue.</li>
                         <li>For persistent issues with specific NPCs or creatures unable to find a path, consider removing the problematic entity from your save file. Review the 🔎<b>Files/Elements</b> section of this report to identify relevant NPCs or creatures, then search for their occurrences in the crash log to find their FormIDs. FormIDs starting with either "0xFF" or "FF" indicate dynamically generated entities—these are safer to remove because they are created during gameplay rather than being permanent game assets.  While removing these entities can provide a temporary solution to allow your save file to load, be aware that the underlying issue may recur if the root cause isn't addressed. Such entities can be removed using <a href="https://www.nexusmods.com/skyrim/mods/76776">FallrimTools ReSaver</a> with minimal risk since the game should be able to regenerate them if needed. Always create a backup of your save file first.
                             <ul>
                                 <li>After loading your save in ReSaver, use the search bar to locate the specific FF FormID you found in the crash log. Delete the corresponding entry, then save your game under a new filename. This should allow the problematic save to load, hopefully giving you an opportunity to bypass the issue, and/or investigate and address the underlying conflict</li>

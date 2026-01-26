@@ -18,9 +18,9 @@ function highestPriorityIndicators(sections) {
   let report = `<li><b>🎯 Highest-Confidence Indicators:</b> Many crash logs may appear to have multiple possible causes, but this crash log summary can usually help isolate the most likely cause. Additionally, this summary can be very useful when no helpful diagnoses are found in this report. Below is a "de-noised" and deduped view of the what are typically the most important sections in most crash logs. Entries near the top generally being more significant than those below. Cross-reference these with the "🔎 Files/Elements" above and the listed "Detected indicators" below in this report for additional context. <b>Notes:</b> (<b>1</b>) While these are usually excellent starting points, they won't always point to the cause. (<b>2</b>) Some lines may be especially long and may require scrolling side-to-side to see in full. `;
   
   if (sections.hasCrashLoggerSseLog) {
-    report += `<a href="#" class="toggleButton">⤴️ hide</a><br><br><pre class="extraInfo" style="display: list-item;"><code>`;
+    report += `<a href="#" class="toggleButton">⤴️ hide</a><br><br><copypaste><pre class="extraInfo" style="display: list-item;"><code>📌`;
   } else {
-    report += `(<b>3</b>) ⚠️This feature is primarily developed for Crash Logger SSE logs, and may be noisier and considerably less insightful with Netscript Framework or Trainwreck logs. <a href="#" class="toggleButton">⤵️ show more</a><pre class="extraInfo" style="display:none"><code>`;
+    report += `(<b>3</b>) ⚠️This feature is primarily developed for Crash Logger SSE logs, and may be noisier and considerably less insightful with Netscript Framework or Trainwreck logs. <a href="#" class="toggleButton">⤵️ show more</a><copypaste><pre class="extraInfo" style="display:none"><code>📌`;
   } 
 
   //TODO FIX THIS?: report += displayFilename(input.files[0].name);
@@ -55,7 +55,7 @@ function highestPriorityIndicators(sections) {
     report += truncated ? truncated + '\n' : '(No significant indicators found)\n';
   }
   
-  report += '</code></pre><br></li>';
+  report += '</code></pre></copypaste><br></li>';
   
   report = Utils.highlightFilenames(report);
   
