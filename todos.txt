@@ -1,4 +1,4 @@
-✅Version 1.29.7 is now live:
+✅Version 1.29.7.2 is now live:
 https://phostwood.github.io/crash-analyzer/
 
 1. ❓ <b>XAudio Issue Detected:
@@ -12,6 +12,9 @@ https://phostwood.github.io/crash-analyzer/
 3. 🎲 Reduce Random Crashes:
 	- NEW: "🐌 Stuttering, short freezes, or consistently low FPS (below 20) can share root causes with crashes — optimize textures, cap framerate, and adjust configurations." (and corresponding detailed version below it)
 	- ADDED: "The following are general stability guidelines that can be especially helpful for crashes with inconsistent indicators or unclear causes. They are not intended as replacements for analyzing specific crash logs or troubleshooting particular issues."
+
+NOTE: 1.29.7.2 includes the above, plus a corrected URL in the Reduce Random Crashes section
+
 
 
 - - - Next Version - - - 
