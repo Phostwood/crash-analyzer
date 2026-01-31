@@ -37,6 +37,8 @@ async function analyzeLog() {
     let diagnosesCount = 0;
     let insights = '';
     let insightsCount = 0;
+    let suggestedMods = '';
+    let suggestedModsCount = 0;
 
     let hasUnlikelyErrorForAutoInstallerModlist = false;
     let hasSaveLoadIssues = false;
@@ -518,7 +520,7 @@ async function analyzeLog() {
         hasPagefileIndicator = true;
     }
 
-    // ❗ Possible Mod Organizer 2 Virtual File System (USVFS) issue (medium confidence)
+    // ❗ Possible Mod Organizer 2 Virtual File System (USVFS) issue
     const checkUsvfsIssueResult = checkUsvfsIssue(sections);
     if(checkUsvfsIssueResult) {
         diagnoses += checkUsvfsIssueResult;
@@ -731,7 +733,7 @@ async function analyzeLog() {
     }
 
     
-    //❓ Possible geometry culling / occlusion-related issue (low confidence)
+    //❓ Possible geometry culling / occlusion-related issue
     const checkPossibleGeometryCullingIssueInsights = checkPossibleGeometryCullingIssue(sections);
     if (checkPossibleGeometryCullingIssueInsights) {
         insights += checkPossibleGeometryCullingIssueInsights;
@@ -1091,7 +1093,7 @@ async function analyzeLog() {
         insightsCount++;
     }
 
-    // ❓ Possible file system / OneDrive / permissions issue (medium confidence)
+    // ❓ Possible file system / OneDrive / permissions issue
     const checkPossibleFilesystemIssueInsights = checkPossibleFilesystemIssue(sections);
     if (checkPossibleFilesystemIssueInsights) {
         insights += checkPossibleFilesystemIssueInsights;
@@ -1373,6 +1375,35 @@ async function analyzeLog() {
             }
         }
     }
+
+
+
+
+    // Call the function to analyze J3w3ls' Essential Mods
+    const j3w3lsModsAnalysis = analyzeJ3w3lsEssentialMods(sections);
+    if (j3w3lsModsAnalysis.trim() !== '') {
+        suggestedMods += j3w3lsModsAnalysis;
+        suggestedModsCount++;
+    }
+
+    // Output the suggestedMods section if there's content
+    if (Utils.isSkyrimPage) {
+        if (suggestedMods.trim() !== '') {
+            let outputHtml = `<h3><img src="./images/NewArrow.png" style="height: 2.5em;  vertical-align: middle;">Suggested Mods:</h3>
+                Mod suggestions based on recommended mods not found in your modslist. Please note that crash logs sometimes exclude mods. Based on their file types, some mods will (almost) never appear in crash logs. Also, your modlist may have valid reasons for excluding some of these, especially where already included mods would replace or conflict with suggested mods. Always research a mod before installing to understand what it does and assess potential conflicts. Also, many mods require starting a new playthrough when adding.<br>
+                <br>
+                ⚠️ CAUTION: if in doubt, avoid adding new mods to well crafted Nexus or Wabbajack Collections without first consulting their community.<br>
+                <br>` +
+                suggestedMods;
+            
+            showH4();
+            document.getElementById('suggestedMods').innerHTML = outputHtml;
+        }
+    }
+
+
+
+
 
     Utils.debuggingLog(['analyzeLog', 'analyzeLog.js'], 'diagnosesCount:', diagnosesCount);
     Utils.debuggingLog(['analyzeLog', 'analyzeLog.js'], 'insightsCount:', insightsCount);

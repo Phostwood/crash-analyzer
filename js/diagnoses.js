@@ -1236,7 +1236,7 @@ function analyzeDawnguardHorseIssue(sections) {
 }
 
 
-//❗ Probable NavMesh/Pathing Issue Detected:
+//❗ Probable NavMesh or AI Pathing Issue Detected:
 function analyzePathingIssues(sections) {
     let pathingInsights = '';
     let isHighPriority = false;
@@ -1258,7 +1258,7 @@ function analyzePathingIssues(sections) {
     Utils.debuggingLog(['analyzePathingIssues', 'diagnoses.js'], 'isHighPriority:', isHighPriority);
 
     if (pathingIssueIndicators.length > 0) {
-        pathingInsights += `<li>${isHighPriority ? '❗' : '❓'} <b>${isHighPriority ? 'Probable' : 'Possible'} NavMesh/Pathing ${isHighPriority ? 'Issue Detected' : 'Indicators Found'}:</b> 
+        pathingInsights += `<li>${isHighPriority ? '❗' : '❓'} <b>${isHighPriority ? 'Probable' : 'Possible'} NavMesh or AI Pathing ${isHighPriority ? 'Issue Detected' : 'Indicators Found'}:</b> 
             <p>An NPC or creature appears to be blocked from their expected navigation path. This can occur when an obstacle (such as a tree, rock, or clutter object) has been added by a mod that conflicts with the navigation mesh. AI pathing mods may also be incompatible or malfunctioning. Troubleshooting options are below:</p>
             <ol>
                 <li>Potential easy fixes:
@@ -1273,7 +1273,7 @@ function analyzePathingIssues(sections) {
                 </li> 
                 <li>Advanced Troubleshooting:
                     <ul>
-                        <li>If you have any <b>AI pathing or behavior mods</b> installed (such as NPC AI overhauls, movement mods, or follower AI enhancements), try temporarily disabling them to test for potential incompatibilities or malfunctions. Re-enable them one at a time to identify which specific mod may be causing the issue.</li>
+                        <li>If you have any <b>AI pathing or behavior mods</b> installed (such as NPC AI overhauls, movement mods, or follower AI enhancements), try temporarily disabling them to test for potential incompatibilities or malfunctions. Re-enable one at a time to identify which specific mod may be causing the issue.</li>
                         <li>For persistent issues with specific NPCs or creatures unable to find a path, consider removing the problematic entity from your save file. Review the 🔎<b>Files/Elements</b> section of this report to identify relevant NPCs or creatures, then search for their occurrences in the crash log to find their FormIDs. FormIDs starting with either "0xFF" or "FF" indicate dynamically generated entities—these are safer to remove because they are created during gameplay rather than being permanent game assets.  While removing these entities can provide a temporary solution to allow your save file to load, be aware that the underlying issue may recur if the root cause isn't addressed. Such entities can be removed using <a href="https://www.nexusmods.com/skyrim/mods/76776">FallrimTools ReSaver</a> with minimal risk since the game should be able to regenerate them if needed. Always create a backup of your save file first.
                             <ul>
                                 <li>After loading your save in ReSaver, use the search bar to locate the specific FF FormID you found in the crash log. Delete the corresponding entry, then save your game under a new filename. This should allow the problematic save to load, hopefully giving you an opportunity to bypass the issue, and/or investigate and address the underlying conflict</li>
@@ -4014,7 +4014,7 @@ function checkIntelCPUIssue(sections) {
         const generation = hasIntel13th ? "13th" : "14th";
         
        insights += `<li>⚠️ <b>Intel ${generation} Gen CPU Instability Risk:</b>
-            Your system uses an Intel ${generation} generation processor, which if not on an updated BIOS has known stability issues that can cause random crashes and shorten CPU lifespan. <b>CORRECTION MADE on September 30!</b> <a href="#" class="toggleButton">⤵️ show more</a><ul class="extraInfo" style="display:none">
+            Your system uses an Intel ${generation} generation processor, which if not on an updated BIOS has known stability issues that can cause random crashes and shorten CPU lifespan. <a href="#" class="toggleButton">⤵️ show more</a><ul class="extraInfo" style="display:none">
                 <li><b>Check your microcode version:</b> Open PowerShell and run:
                     <code id="microcodeCmd">'0x{0:X}' -f [BitConverter]::ToUInt32((Get-ItemProperty "HKLM:\\HARDWARE\\DESCRIPTION\\System\\CentralProcessor\\0").'Update Revision',0)</code>
                     <button onclick="navigator.clipboard.writeText(document.getElementById('microcodeCmd').innerText)" class="no-markdown">Copy to Clipboard</button>
@@ -4262,7 +4262,7 @@ function checkPossibleEfpsIssue(sections) {
 
 
 
-// ❓ Possible geometry culling / occlusion-related issue (low confidence)
+// ❓ Possible geometry culling / occlusion-related issue
 function checkPossibleGeometryCullingIssue(sections) {
     let insights = '';
     const hasBSGeometryListCulling = sections.stackTop100?.includes('BSGeometryListCullingProcess');
@@ -4305,7 +4305,7 @@ function checkPossibleGeometryCullingIssue(sections) {
 }
 
 
-// ❓ Possible file system / OneDrive / permissions issue (medium confidence)
+// ❓ Possible file system / OneDrive / permissions issue
 function checkPossibleFilesystemIssue(sections) {
     let insights = '';
     const text = (sections.highestConfidenceIndicators || '').toLowerCase();
@@ -4331,7 +4331,7 @@ function checkPossibleFilesystemIssue(sections) {
         hasOneDrivePath ||
         hasDocumentsPath
     ) {
-        insights += `<li>❓ <b>Possible file system / OneDrive / permissions issue (medium confidence):</b>
+        insights += `<li>❓ <b>Possible file system / OneDrive / permissions issue:</b>
             These crash indicators suggest the game may be unable to access files correctly.
             <ul>
                 <li><b>Check file paths:</b> Ensure your Skyrim installation and mod paths are not deeply nested. Windows has a 260-character path limit. If necessary, move (or reinstall) Skyrim to a shorter root directory, and/or remove or relocate mods that require shorter paths. 
@@ -4367,7 +4367,7 @@ function checkPossibleFilesystemIssue(sections) {
 }
 
 
-// ❓ Possible Mod Organizer 2 Virtual File System (USVFS) issue (medium confidence)
+// ❓ Possible Mod Organizer 2 Virtual File System (USVFS) issue
 function checkUsvfsIssue(sections) {
     let insights = '';
     const text = (sections.highestConfidenceIndicators || '').toLowerCase();
@@ -4428,7 +4428,7 @@ function checkEnbWaterBoilBubblesIssue(sections) {
 
 
 
-// ❓ Possible armor weight perk calculation issue (medium confidence)
+// ❓ Possible armor weight perk calculation issue
 function checkArmorWeightPerkIssue(sections) {
     let insights = '';
     const text = (sections.highestConfidenceIndicators || '').toLowerCase();
@@ -4555,5 +4555,141 @@ function checkArcanumJaceEyesCrash(sections) {
         </li>`;
     }
 
+    return insights;
+}
+
+
+
+
+//❗ Missing J3w3ls' Essential Mods:
+function analyzeJ3w3lsEssentialMods(sections) {
+    let insights = '';
+    //Maybe only show for sections.hasCrashLoggerSseLog ... or maybe just exclude for trainwreck?
+    
+    // Check if all plugins were loaded
+    const modCounts = Utils.modCounts(sections);
+    let hasLoadedGamePlugins = Utils.hasGamePluginsLoaded(modCounts, sections.gamePlugins);
+    
+    // Check for Missing Masters indicators
+    const hasMissingMastersIndicators = 
+        (sections.hasSkyrimAE && sections.firstLine.includes('0198090')) ||
+        (!sections.hasSkyrimAE && sections.firstLine.includes('5E1F22')) ||
+        sections.topHalf.includes('SettingT<INISettingCollection>*') ||
+        !hasLoadedGamePlugins;
+    
+    // Helper function to group mods by category
+    const groupByCategory = (modsArray) => {
+        const grouped = {};
+        modsArray.forEach(([key, mod]) => {
+            if (!grouped[mod.category]) {
+                grouped[mod.category] = [];
+            }
+            grouped[mod.category].push(mod);
+        });
+        return grouped;
+    };
+    
+    // Helper function to format a mod entry
+    const formatModEntry = (mod) => {
+        const hasLink = mod.url && mod.name;
+        const linkPart = hasLink ? `<a href="${mod.url}" target="_blank">${mod.name}</a>` : '';
+        const separator = hasLink && mod.notes ? ' - ' : '';
+        return `<li>${linkPart}${separator}${mod.notes}</li>`;
+    };
+    
+    // Helper function to render category list
+    const renderCategoryList = (modsByCategory) => {
+        let html = '';
+        Object.entries(modsByCategory).forEach(([category, mods]) => {
+            html += `
+                        <li><b>${category}:</b>
+                            <ul>`;
+            mods.forEach(mod => {
+                html += `
+                                ${formatModEntry(mod)}`;
+            });
+            html += `
+                            </ul>
+                        </li>`;
+        });
+        return html;
+    };
+    
+    // Filter for testable essential mods
+    const testableEssentialMods = Object.entries(skyrimEssentialMods)
+        .filter(([key, mod]) => 
+            (mod.category.includes('Essential') || mod.category.includes('Nice to Have') || mod.category.includes('Other Recommendations')) && 
+            mod.crashLogFilenames.length > 0
+        );
+    
+    // Filter for non-testable essential mods
+    const originallyNonTestable = Object.entries(skyrimEssentialMods)
+        .filter(([key, mod]) => 
+            (mod.category.includes('Essential') || mod.category.includes('Nice to Have') || mod.category.includes('Other Recommendations')) && 
+            mod.crashLogFilenames.length === 0
+        );
+    
+    let missingMods = [];
+    let nonTestableEssentialMods = [];
+    
+    if (hasMissingMastersIndicators) {
+        // All testable mods become non-testable due to incomplete plugin loading
+        nonTestableEssentialMods = [...testableEssentialMods, ...originallyNonTestable];
+    } else {
+        // Normal testing: find mods not present in crash log
+        missingMods = testableEssentialMods.filter(([key, mod]) => {
+            return !mod.crashLogFilenames.some(filename => 
+                sections.bottomHalf.toLowerCase().includes(filename.toLowerCase().trim())
+            );
+        });
+        nonTestableEssentialMods = originallyNonTestable;
+    }
+
+    // Only proceed if there are mods to report
+    if (missingMods.length === 0 && nonTestableEssentialMods.length === 0) {
+        return insights;
+    }
+    
+    // Shared header - only show once
+    const headerShown = missingMods.length > 0;
+    
+    if (headerShown) {
+        const modsByCategory = groupByCategory(missingMods);
+        
+        insights += `
+        <li>ℹ️ <b>J3w3ls' Essential Mods Not Found:</b> The following essential stability and bug-fixing mods from 
+            <a href="https://github.com/TheOneAndOnlyJ3w3ls/Skyrim-Modding-Tutorials/wiki/J3w3ls'-Essential-Mod-List" target="_blank">J3w3ls' Essential Mod List</a> 
+            were not detected in your crash log's mod list. These mods help prevent crashes and/or fix common bugs. J3w3ls is a highly experienced Skyrim modder, mod author, documentation writer, and veteran helper and admin from <a href="https://discord.com/invite/modding-guild-skyrim-guild-872252014002843658">The Modding Guild (Skyrim Guild) Discord</a>.
+            <ul>
+                <li><b>Missing Mods by Category:</b>
+                    <ul>${renderCategoryList(modsByCategory)}
+                    </ul>
+                </li>`;
+    } else {
+        insights += `
+        <li>ℹ️ <b>J3w3ls' Essential Mods:</b> Reference list from 
+            <a href="https://github.com/TheOneAndOnlyJ3w3ls/Skyrim-Modding-Tutorials/wiki/J3w3ls'-Essential-Mod-List" target="_blank">J3w3ls' Essential Mod List</a> - These mods help prevent crashes and/or fix common bugs. J3w3ls is a highly experienced Skyrim modder, mod author, documentation writer, and veteran helper and admin from <a href="https://discord.com/invite/modding-guild-skyrim-guild-872252014002843658">The Modding Guild (Skyrim Guild) Discord</a>.
+            <ul>`;
+    }
+
+    // Add non-testable section
+    if (nonTestableEssentialMods.length > 0) {
+        const nonTestableByCategory = groupByCategory(nonTestableEssentialMods);
+        const reasonText = hasMissingMastersIndicators 
+            ? '<b>Note:</b> Plugin loading was incomplete in this crash log, so these mods cannot be verified as installed or missing.' 
+            : 'These mods cannot be detected from crash logs due to their file types, so they may or may not already be installed. Only a manual review can determine.';
+
+        insights += `
+                <li><b>Essential Mods That Cannot Be Tested From This Crash Log:</b> <a href="#" class="toggleButton">⤵️ show</a>
+                    <ul class="extraInfo" style="display:none">
+                        <li>${reasonText}</li>${renderCategoryList(nonTestableByCategory)}
+                    </ul>
+                </li>`;
+    }
+
+    insights += `
+            </ul>
+        </li>`;
+    
     return insights;
 }

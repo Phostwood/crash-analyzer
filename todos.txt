@@ -1,23 +1,30 @@
-📢 Version 1.29.8 is now live:
+📢 Version 1.29.9 is now live:
 https://phostwood.github.io/crash-analyzer/skyrim.html
 
-1. 🎯 Highest-Confidence Indicators: 
-	- ADDED: new clickable "📌" for a concise copy-paste of the summarized log, including Reddit/Discord markdown for proper formatting
-	- Hopefully this will prove especially useful on Reddit by making pertinent indicators text-searchable on Reddit or Google/Bing/etc.
-
-2. Recommended References:
-	- ADDED: link to "J3w3ls' 7 principles of modding" at https://github.com/TheOneAndOnlyJ3w3ls/Skyrim-Modding-Tutorials/wiki/Page-1:-Modding-Skyrim-%E2%80%90-The-7-Principles
-
-3. ❓ Possible NavMesh/Pathing Indicators Found:
-	- ADDED: "An NPC or creature appears to be blocked from their expected navigation path. This can occur when an obstacle (such as a tree, rock, or clutter object) has been added by a mod that conflicts with the navigation mesh. AI pathing mods may also be incompatible or malfunctioning. Troubleshooting options are below:"
-	- ADDED: "If you have any AI pathing or behavior mods installed (such as NPC AI overhauls, movement mods, or follower AI enhancements), try temporarily disabling them to test for potential incompatibilities or malfunctions. Re-enable them one at a time to identify which specific mod may be causing the issue."
+1. New section to analysis! Suggested Mods: ℹ️ J3w3ls' Essential Mods Not Found:
+	- https://github.com/TheOneAndOnlyJ3w3ls/Skyrim-Modding-Tutorials/wiki/J3w3ls'-Essential-Mod-List
+	- at bottom of report in new section
+	- tests for truncated log first, and if truncated, skip the detectable ones
+	- lists all mods found missing from log, with their names and links and a note
+	- also lists non-dectable recommended mods in a default-hidden expandable section, for optional manual review
 
 
+2. ❓ Possible file system / OneDrive / permissions issue (medium confidence)
+	- Remove "medium confidence" thing?
+
+3. ❗ Probable NavMesh/Pathing Issue Detected:
+	- Changed title/name to:  ❗ Probable NavMesh or AI Pathing Issue Detected:
 
 
 - - - Next Version - - - 
 
-4. Add note on performance dips and stuttering can also come with increase in random crashes?
+3. New test from J3w3ls:
+	- "I think you could potentially check the order of the ESPs also
+		Unofficial Skyrim Modders Patch.esp
+		UOSC.esl
+		SimplyOptimizedScripts.esl"
+
+
 
 5. link to: https://www.reddit.com/r/skyrimmods/comments/1owwsiq/list_of_testing_and_troubleshooting_tools/
 	- Or add the newly discovered tools
@@ -39,12 +46,6 @@ https://phostwood.github.io/crash-analyzer/skyrim.html
 10. asked Crash Logger SSE author ... waiting for response.
 	- IGNORED: https://www.nexusmods.com/skyrimspecialedition/mods/59818?tab=posts&BH=0
 	- 20251105
-
-11. Asked J3w3ls ... waiting for response:
-	- IGNORED: https://discord.com/channels/872252014002843658/878565217288728576/1435753945468244170
-	- Perhaps use r/SkyrimMod's instead? But it might be really out of date.
-	- Or make my own list drawing from both these sources? Perhaps find a good 3rd source?
-
 
 
 7. Consider adding mini-elements list after highest priority log summary? Only list those with explainers. Maybe call it "Mentioned mods:" or something?
