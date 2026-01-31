@@ -1,4 +1,4 @@
-📢 Version 1.29.9 is now live:
+📢 Version 1.29.9.2 is now live:
 https://phostwood.github.io/crash-analyzer/skyrim.html
 
 1. New section to analysis! Suggested Mods: ℹ️ J3w3ls' Essential Mods Not Found:
@@ -14,6 +14,8 @@ https://phostwood.github.io/crash-analyzer/skyrim.html
 
 3. ❗ Probable NavMesh/Pathing Issue Detected:
 	- Changed title/name to:  ❗ Probable NavMesh or AI Pathing Issue Detected:
+
+4. v1.29.9.2: Upgraded J3w3ls from Thanks to Special Thanks!
 
 
 - - - Next Version - - - 
