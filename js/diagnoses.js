@@ -2078,10 +2078,20 @@ function analyzeOverlayIssues(sections, logFile) {
     let overlayFiles = [];
     let overlayInTopHalf = false;
     
+    // Files to skip - these match the overlay pattern but aren't actual overlays
+    const skipFiles = ['overlayfix.dll', 'gameoverlayrenderer64.dll'];
+    
+    // Track which specific files were found for each overlay
+    const overlayFileMap = new Map();
+    
     // Helper function to add unique overlay to list
-    function addUniqueOverlay(overlay) {
+    function addUniqueOverlay(overlay, filename = null) {
         if (!overlayFiles.includes(overlay)) {
             overlayFiles.push(overlay);
+            overlayFileMap.set(overlay, []);
+        }
+        if (filename && !overlayFileMap.get(overlay).includes(filename)) {
+            overlayFileMap.get(overlay).push(filename);
         }
     }
 
@@ -2091,11 +2101,16 @@ function analyzeOverlayIssues(sections, logFile) {
 
     // Process regex matches
     for (const match of matches) {
+        // Skip files that aren't actual overlays
+        if (skipFiles.includes(match.toLowerCase())) {
+            continue;
+        }
+        
         overlayInTopHalf = true;
         let found = false;
         for (const [overlay, files] of Object.entries(window.overlaySignatures)) {
             if (files.some(file => file.toLowerCase() === match.toLowerCase())) {
-                addUniqueOverlay(overlay);
+                addUniqueOverlay(overlay, match);
                 found = true;
                 break;
             }
@@ -2107,21 +2122,25 @@ function analyzeOverlayIssues(sections, logFile) {
 
     // Check known overlay signatures
     for (const [overlay, files] of Object.entries(window.overlaySignatures)) {
-        if (files.some(file => logFile.toLowerCase().includes(file.toLowerCase()))) {
-            addUniqueOverlay(overlay);
-            if (overlay !== 'Steam' && files.some(file => sections.topHalf.toLowerCase().includes(file.toLowerCase()))) {
-                overlayInTopHalf = true;
+        for (const file of files) {
+            if (logFile.toLowerCase().includes(file.toLowerCase())) {
+                addUniqueOverlay(overlay, file);
+                if (overlay !== 'Steam' && sections.topHalf.toLowerCase().includes(file.toLowerCase())) {
+                    overlayInTopHalf = true;
+                }
             }
         }
     }
 
     // Special case for Steam
     if (sections.topHalf.toLowerCase().includes('gameoverlayrenderer64.dll')) {
-        addUniqueOverlay('Steam');
+        addUniqueOverlay('Steam', 'gameoverlayrenderer64.dll');
     }
 
-    // Remove explicit mention of gameoverlayrenderer64.dll
-    overlayFiles = overlayFiles.filter(file => file.toLowerCase() !== 'gameoverlayrenderer64.dll');
+    // Remove files that aren't actual overlays
+    overlayFiles = overlayFiles.filter(file => 
+        !skipFiles.includes(file.toLowerCase())
+    );
 
     if (overlayFiles.length > 0) {
         const hasSteamOverlay = overlayFiles.some(file => file.toLowerCase().includes('steam'));
@@ -2143,7 +2162,14 @@ function analyzeOverlayIssues(sections, logFile) {
 
             diagnosis = `<li>${warningMessage} It's best to try disabling all overlays temporarily to ensure they aren't contributing to your crash.<ul>` +
                 `<li>List of detected overlays: <a href="#" class="toggleButton">⤴️ hide</a> <ul class="extraInfo">` +
-                overlayFiles.map(file => `<li><code>${file}</code></li>`).join('') +
+                overlayFiles.map(overlay => {
+                    const foundFiles = overlayFileMap.get(overlay);
+                    if (foundFiles && foundFiles.length > 0) {
+                        return `<li>${overlay}: &nbsp; <code>${foundFiles.join(', ')}</code></li>`;
+                    } else {
+                        return `<li><code>${overlay}</code></li>`;
+                    }
+                }).join('') +
                 steamNote + 
                 '</ul></li></ul></li>';
         }
@@ -2151,11 +2177,6 @@ function analyzeOverlayIssues(sections, logFile) {
 
     return diagnosis;
 }
-
-
-
-
-
 
 
 
@@ -3522,7 +3543,7 @@ function checkRandomIssues(sections, hasUnlikelyErrorForAutoInstallerModlist, ha
 
                         <li>🐌 <b>Performance and Stability:</b> While low FPS doesn't directly cause crashes, both symptoms often share underlying causes (memory shortage, script overload, CPU bottlenecks). Warning signs may include stuttering, short freezes, or FPS consistently below 20.
                             <ul>
-                                <li>Quick fixes: Switch to lower-resolution texture mods or use <a href="https://www.nexusmods.com/skyrimspecialedition/mods/90557" target="_blank">VRAMr</a> at Performance/Vanilla presets to optimize all textures (<a href="https://youtu.be/SHzSbX038ek?si=LO-pY6X2Z21vH5U2" target="_blank">tutorial</a>), cap FPS to 30-60 using <a href="https://www.nexusmods.com/skyrimspecialedition/mods/34705" target="_blank">SSE Display Tweaks</a>, and/or <a href="https://www.reddit.com/r/Nolvus/comments/1nefmi3/how_to_boost_fps_by_lowering_screen_resolution/">lower your screen resolution</a></li>
+                                <li>Quick fixes: Switch to lower-resolution texture mods or use <a href="https://www.nexusmods.com/skyrimspecialedition/mods/90557" target="_blank">VRAMr</a> at an appropriately-downscaling preset to optimize all textures and re-enode them to the faster-decompressing BC7 texture format (<a href="https://youtu.be/SHzSbX038ek?si=LO-pY6X2Z21vH5U2" target="_blank">tutorial</a>), cap FPS to 30-60 using <a href="https://www.nexusmods.com/skyrimspecialedition/mods/34705" target="_blank">SSE Display Tweaks</a>, and/or <a href="https://www.reddit.com/r/Nolvus/comments/1nefmi3/how_to_boost_fps_by_lowering_screen_resolution/">lower your screen resolution</a></li>
                                 <li>More information: See <a href="https://gatetosovngarde.wiki.gg/wiki/Collection_Performance_Tweaks" target="_blank">Gate to Sovngarde's Performance Guide</a> for (mostly) broadly applicable performance strategies</li>
                             </ul>
                         </li>
@@ -3976,7 +3997,7 @@ function checkCrashLoggerVersionUpdate(sections) {
     
     // Convert version format from "1-15-0-0" to "1.15.0.0" for comparison
     const foundVersion = versionMatch[1].replace(/-/g, '.');
-    const minimumVersion = "1.16.0.0";
+    const minimumVersion = " 1.17.0.0";
     
     // Compare versions - if found version is less than 1.16.0.0, recommend update
     if (Utils.compareVersions(foundVersion, minimumVersion) < 0) {
@@ -4691,5 +4712,39 @@ function analyzeJ3w3lsEssentialMods(sections) {
             </ul>
         </li>`;
     
+    return insights;
+}
+
+
+
+// ❗ Probable SkyTactics/SkyValor Combat Navmesh Crash
+function checkCombatNavmeshRetreatCrash(sections) {
+    let insights = '';
+    const text = (sections.highestConfidenceIndicators || '').toLowerCase();
+    const includedMods = sections.bottomHalf.toLowerCase() || '';
+
+    const hasCombatNavmeshCrash = text.includes('combatnavmeshsearcht<combatpathinggoalpolicyretreat,combatpathingsearchpolicystandard>');
+    const hasSkyTactics = includedMods.includes('skytactics - dynamic combat styles.esp') || includedMods.includes('skytactics.esp');
+    const hasSkyValor = includedMods.includes('skyvalor.esp');
+
+    // Show warning if crash signature is present, regardless of whether the ESPs are detected
+    // (since Crash Logger SSE often doesn't show all ESP files)
+    if (hasCombatNavmeshCrash) {
+        insights += `<li>❗ <b>Probable SkyTactics/SkyValor Combat Navmesh Crash:</b>
+            Crash signature indicates a combat pathfinding issue commonly associated with <a href="https://www.nexusmods.com/skyrimspecialedition/mods/131148">SkyTactics - Dynamic Combat Styles</a> and/or <a href="https://www.nexusmods.com/skyrimspecialedition/mods/106240">SkyValor</a>. This may be caused by a conflict between these mods and other installed mods.
+            <ul>
+                <li><b>Fix:</b> Disable SkyTactics and/or SkyValor if you have them installed. If the crash persists, systematically disable other related mods to identify the conflicting mod combination.</li>
+                ${hasSkyTactics || hasSkyValor ? '<li><b>Note:</b> One or both of these mods were detected in your load order.</li>' : '<li><b>Note:</b> These mods may be installed even if not detected in the crash log, as Crash Logger SSE does not always show all ESP files.</li>'}
+                <li>Detected indicators from crash log:
+                    <ul class="extraInfo">
+                        <li><code>CombatNavmeshSearchT&lt;CombatPathingGoalPolicyRetreat,CombatPathingSearchPolicyStandard&gt;</code> crash signature found</li>
+                        ${hasSkyTactics ? '<li><code>SkyTactics - Dynamic Combat Styles.esp</code> detected in bottom half of log</li>' : ''}
+                        ${hasSkyValor ? '<li><code>SkyValor.esp</code> detected in bottom half of log</li>' : ''}
+                    </ul>
+                </li>
+            </ul>
+        </li>`;
+    }
+
     return insights;
 }

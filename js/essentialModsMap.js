@@ -13,7 +13,7 @@ const skyrimEssentialMods = {
         category: 'Essentials',
         url: 'https://www.nexusmods.com/skyrimspecialedition/mods/49616',
         crashLogFilenames: ['Unofficial Skyrim Modders Patch.esp'],
-        notes: 'Community patch for modder resources and fixes. (NOTE: we generally disagree with its recommendation to use AI for crash logs)'
+        notes: 'Community patch for modder resources and fixes.'
     },
     
     navigator: {

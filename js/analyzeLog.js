@@ -452,11 +452,10 @@ async function analyzeLog() {
        diagnosesCount++;
    }
 
-
-    //❗Possible Visual C++ Runtime DLL Issue Detected:
-    const vCRuntimeDiagnosis = analyzeVCRuntimeIssue(sections);
-    if (vCRuntimeDiagnosis) {
-        diagnoses += vCRuntimeDiagnosis;
+   // ❗ Probable SkyTactics/SkyValor Combat Navmesh Crash
+    const hasCombatNavmeshRetreatCrash = checkCombatNavmeshRetreatCrash(sections);
+    if (hasCombatNavmeshRetreatCrash) {
+        diagnoses += hasCombatNavmeshRetreatCrash;
         diagnosesCount++;
     }
 
@@ -1071,6 +1070,13 @@ async function analyzeLog() {
 
     insights += '</ul><h5>Miscellaneous Issues:</h5><ul>';
 
+    //❗Possible Visual C++ Runtime DLL Issue Detected:
+    const vCRuntimeDiagnosis = analyzeVCRuntimeIssue(sections);
+    if (vCRuntimeDiagnosis) {
+        insights += vCRuntimeDiagnosis;
+        insightsCount++;
+    }
+
     // ❗ First-Line Engine Fixes Issue:
     const firstLineEngineFixesDiagnosis = analyzeFirstLineEngineFixesCrash(sections);
     if(firstLineEngineFixesDiagnosis) {
@@ -1411,6 +1417,7 @@ async function analyzeLog() {
 
     showCopyDiagnosesButton();
     addEmojiClickEvent();
+    window.openLinksInNewTab();
 
     Utils.setLogType(Utils.getLogType(Utils.logLines));
 
@@ -1438,3 +1445,6 @@ function scrollToDiagnosesHeader() {
         console.log("Element with ID 'diagnosesHeader' not found.");
     }
 }
+
+
+

@@ -131,6 +131,23 @@ document.addEventListener('DOMContentLoaded', function () {
 		clearResult();
 	};
 
+
+	window.openLinksInNewTab = function () {
+		// Get all anchor elements on the page
+		const links = document.querySelectorAll('a');
+		
+		// Loop through each link and set target to "_blank"
+		links.forEach(link => {
+			// Check if the href contains the excluded URL
+			if (!link.href.includes('phostwood.github.io/crash-analyzer')) {
+			link.target = '_blank';
+			// Optional: Add rel="noopener noreferrer" for security
+			// UNUSED, IS OPEN SOURCE CODE: link.rel = 'noopener noreferrer';
+			}
+		});
+	}
+
+
 	window.disableAnalyzeButtonAndTrackUniqueCrashLogCount = function () {
 		const analyzeButton = document.getElementById('analyzeButton');
 		const crashLogContent = document.getElementById('crashLog').value;
@@ -282,25 +299,39 @@ document.addEventListener('DOMContentLoaded', function () {
 			var regex = /[\u{1F300}-\u{1F5FF}\u{1F600}-\u{1F64F}\u{1F680}-\u{1F6FF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}\u{1F989}\u{1FA9B}\u{1F916}]|\u{0031}\u{FE0F}\u{20E3}|\u{0032}\u{FE0F}\u{20E3}|\u{0033}\u{FE0F}\u{20E3}/gu;
 			var matches = element.textContent.match(regex);
 			if (matches) {
+				// Store the original HTML
+				var html = element.innerHTML;
+				
+				// Replace all emojis at once
 				matches.forEach(function (match) {
 					var span = document.createElement('span');
 					span.textContent = match;
 					span.style.cursor = 'pointer';
 					span.style.position = 'relative';
 					span.style.zIndex = '1';
+					
 					// Escape special regex characters in the match for replacement
 					var escapedMatch = match.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-					element.innerHTML = element.innerHTML.replace(new RegExp(escapedMatch, 'gu'), span.outerHTML);
+					html = html.replace(new RegExp(escapedMatch, 'u'), span.outerHTML);
 				});
+				
+				// Update the element's HTML only once
+				element.innerHTML = html;
 
+				// Now add event listeners
 				var spans = element.querySelectorAll('span');
 				spans.forEach(function (span) {
 					span.addEventListener('click', function (event) {
 						var parentElement = span.closest('li, details, copypaste');
 						if (parentElement) {
-							// Use the shared popup function
+							// Store the clicked emoji in a variable
+							var clickedEmoji = span.textContent;
+							
+							// Use the shared popup function and pass the emoji
 							showFormatSelectionPopup(
-								function() { return parentElement.outerHTML; }
+								function() { return parentElement.outerHTML; },
+								null,
+								clickedEmoji  // Pass the emoji that was clicked
 							);
 						}
 						event.stopPropagation();
@@ -313,7 +344,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 	
 	// Shared function to show format selection popup
-	function showFormatSelectionPopup(contentProvider, callback) {
+	function showFormatSelectionPopup(contentProvider, callback, clickedEmoji = null) {
 		// Create the dialog HTML using template literals
 		var dialogHTML = `
 			<div style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5); z-index: 1000; display: flex; justify-content: center; align-items: center;">
@@ -357,7 +388,7 @@ document.addEventListener('DOMContentLoaded', function () {
 			// Get content from the provided function
 			var content = contentProvider();
 			var markdown = convertHTMLToMarkdown(content);
-			var analyzerCitation = getAnalyzerCitation(formatType, markdown.length);
+			var analyzerCitation = getAnalyzerCitation(formatType, markdown.length, clickedEmoji);
 			var finalMarkdown = markdown + analyzerCitation;
 			
 			// Check if disable markdown links is checked
@@ -382,6 +413,13 @@ document.addEventListener('DOMContentLoaded', function () {
 		
 		discordBtn.addEventListener('click', function() {
 			handleButtonClick("Discord");
+		});
+		
+		// Add click event to the overlay to close the dialog
+		dialogElement.addEventListener('click', function(e) {
+			if (e.target === dialogElement) {
+				document.body.removeChild(dialogElement);
+			}
 		});
 	};
 
@@ -635,10 +673,22 @@ document.addEventListener('DOMContentLoaded', function () {
 	}
 
 
-	window.getAnalyzerCitation = function(formatType, markdownLength)  {
+	window.getAnalyzerCitation = function(formatType, markdownLength, clickedEmoji = null)  {
 		let analyzerCitation = '';
+		
+		// If thumbtack emoji was clicked, return short citation format
+		if (clickedEmoji === '📌') {
+			if(Utils.isSkyrimPage) {
+				analyzerCitation = '\n\n~~\n\nSummarized at https://phostwood.github.io/crash-analyzer/skyrim.html';
+			} else {
+				analyzerCitation = '\n\n~~\n\nSummarized at https://phostwood.github.io/crash-analyzer/';
+			}
+			Utils.debuggingLog(['userInterface.js'], 'analyzerCitation (thumbtack short format):', analyzerCitation);
+			return analyzerCitation;
+		}
 
-		if (markdownLength > 1635 && formatType !== "Reddit") {
+		//OLD VERSION: if (markdownLength > 1635 && formatType !== "Reddit") {
+		if (formatType !== "Reddit") {
 			//Help shorten it to fit into Discord posts
 			if(Utils.isSkyrimPage) {
 				analyzerCitation = '\n\n~~\n\nhttps://phostwood.github.io/crash-analyzer/skyrim.html';
@@ -656,6 +706,7 @@ document.addEventListener('DOMContentLoaded', function () {
 		Utils.debuggingLog(['userInterface.js'], 'analyzerCitation:', analyzerCitation);
 		return analyzerCitation;
 	}
+	
 
 	// Function to copy text to clipboard
 	window.copyToClipboard = function(text)  {
@@ -883,5 +934,6 @@ if (kofiButton) {
 
 // Initialize the quote display
 displayQuote();
+openLinksInNewTab();
 
 });

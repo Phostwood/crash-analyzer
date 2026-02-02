@@ -1,21 +1,33 @@
-📢 Version 1.29.9.2 is now live:
+📢 Version 1.30.0 is now live:
 https://phostwood.github.io/crash-analyzer/skyrim.html
 
-1. New section to analysis! Suggested Mods: ℹ️ J3w3ls' Essential Mods Not Found:
-	- https://github.com/TheOneAndOnlyJ3w3ls/Skyrim-Modding-Tutorials/wiki/J3w3ls'-Essential-Mod-List
-	- at bottom of report in new section
-	- tests for truncated log first, and if truncated, skip the detectable ones
-	- lists all mods found missing from log, with their names and links and a note
-	- also lists non-dectable recommended mods in a default-hidden expandable section, for optional manual review
+1. NEW TEST: ❗ Probable SkyTactics/SkyValor Combat Navmesh Crash
+	- source: https://www.reddit.com/r/Phostwood/comments/1qste54/combatnavmeshsearchtcombatpathinggoalpolicyretreat/
+	- Thank you RomatebitegeL!
+
+2. UI Tweak: Improved emoji click's copy-to-clipboard functionality
+	- 📌 for Summarized Logs now has footer that simply says "Summarized at [url]"
+	- Any other emoji's Discord-selected footers are now shortened to just the URL to save Discord space
+	- Any other emoji's Reddit-selected footers remain unchanged
+	- Clicking outside of the Reddit or Discord popup box will now cancel the copy-to-clipboard and close the popup box
+
+3. UI Tweak: Now loads all external links in new tabs. Previously my implementation of this was inconsistent. Now it's uniformly applied. If this UI decision causes issues with anyone, I could always make it a configuration option later...
+
+4. DEMOTED:❗ Possible Visual C++ Runtime DLL Issue Detected:
+	- Moved to near the bottom of the report. Updating the VC Runtime from MS is a potential easy fix, but the extended troubleshooting advice it gives is more of a last resort, and in general I'd consider almost any non-full-log diagnosis before I'd bother with this.
+
+5. ❓ Possible Overlay Issue: 
+	- BUG FIX: No longer considers "OverlayFix.dll" a possible screen overlay (comes from completely unrelated "RaceMenu OverlayFix and Various Mod Fixes" mod)
+	- ENHANCEMENT: now displays found overlay filenames along with overlay name
+
+6. UPDATED INFO: As USMP no longer recommends AI for crash logs, I've removed the note that we recommend against USMP's advice on that.
+
+7. UPDATED INFO: Updated code to check for newest, "1.17.0" version of Crash Logger SSE
+
+8. EXPANDED RECOMMENDATION: VRAMr description now includes: "But even high-end PCs reportedly see reduced stuttering and faster loading times from SSD. Since VRAMr's BC7 texture format is "decoded much faster by your GPU in-game than any other format" and since it has options to do relatively minor or even zero texture downscaling, it's likely worth running for any Skyrim player."
+	- Thanks Drei!
 
 
-2. ❓ Possible file system / OneDrive / permissions issue (medium confidence)
-	- Remove "medium confidence" thing?
-
-3. ❗ Probable NavMesh/Pathing Issue Detected:
-	- Changed title/name to:  ❗ Probable NavMesh or AI Pathing Issue Detected:
-
-4. v1.29.9.2: Upgraded J3w3ls from Thanks to Special Thanks!
 
 
 - - - Next Version - - - 
