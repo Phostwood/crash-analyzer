@@ -32,11 +32,10 @@ Utils.isDebugging = false; // Set this to false to disable debugging (non-error)
 //Utils.debugBatch = ['hasSkyrimVersionOrHigher', 'hasSkyrimAE', 'hasNewEslSupport'];
 //Utils.debugBatch = ['getDllVersionFromLog', 'hasCompatibleDll', 'checkDllCompatibility', 'compareVersions'];
 //Utils.debugBatch = ['hasCompatibleDll', 'checkDllCompatibility', 'getDllVersionFromLog'];
-
 //Utils.debugBatch = ['Utils.FilenamesTracker'];
 //Utils.debugBatch = ['disableAnalyzeButtonAndTrackUniqueCrashLogCount'];
-
-Utils.debugBatch = ['checkEngineFixesUpdate'];
+//Utils.debugBatch = ['checkEngineFixesUpdate'];
+Utils.debugBatch = ['highestPriorityIndicators'];
 
 
 Utils.isSkyrimPage = window.location.href.toLowerCase().includes('skyrim.html');

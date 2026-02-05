@@ -1865,7 +1865,7 @@ function analyzeEngineFixes(sections) {
 function analyzeFirstLine(sections, diagnosisOrInsight) {
     let insights = '';
     const ignoreFiles = ['Dawnguard.esm', 'Dragonborn.esm', 'null', 'null)', 'SkyrimSE.exe', 'skyrim.esm', 'SkyrimVR.exe', 'VCRUNTIME140.dll', 'ntdll.dll', 'JContainers64.dll', 'skee64.dll', 'KERNELBASE.dll', 'DbSkseFunctions.dll', 'nvngx_dlssg.dll', 'XAudio2_7.dll', ...crashIndicators.nvidiaDriverIssues.codes.map(({ code }) => code), ...crashIndicators.sseEngineFixesFiles.codes.map(({ code }) => code)]; //NOTE: these already have their own specific and better test, or are just too generic/foundational to realistically place blame on 
-    const insightFiles = ['po3_PapyrusExtender.dll', 'PapyrusTweaks.dll', 'skse64_1_6_1170.dll', 'skse64_1_6_1179.dll', 'skse64_1_6_640.dll', 'skse64_1_5_97.dll', 'sksevr_1_4_15.dll']; //NOTE: these are placed near the bottom of the report, since they are usually not at fault, and putting them at the top gives these intructions too much priority
+    const insightFiles = ['po3_PapyrusExtender.dll', 'PapyrusTweaks.dll', 'skse64_1_6_1170.dll', 'skse64_1_6_1179.dll', 'skse64_1_6_640.dll', 'skse64_1_5_97.dll', 'sksevr_1_4_15.dll', 'fiss.dll']; //NOTE: these are placed near the bottom of the report, since they are usually not at fault, and putting them at the top gives these intructions too much priority
     
     // Extract filename from sections.firstLine (actual location can vary between log types) if it exists
     const firstLine = sections.firstLine || '';
@@ -3354,6 +3354,7 @@ function analyzeXAudioIssue(sections) {
             <li>Check the game's audio settings and adjust them if necessary.</li>
             <li>If you're using audio-related mods, verify their compatibility with your version of Skyrim and that they don't conflict with other installed mods.</li>
             <li>Try reinstalling Direct X, as this sometimes helps. See <a href="https://mspoweruser.com/how-to-reinstall-directx-on-windows-11-a-step-by-step-guide/">How To Reinstall DirectX On Windows 11: A Step-by-Step Guide</a></li>
+            <li>Disable the "Touch Keyboard and Handwriting Panel Service" in Windows (if present on your device). Press Win + R, type 'services.msc', press Enter. Find 'Touch Keyboard and Handwriting Panel Service', double-click it, click Stop, and select 'Disabled' at 'Startup type'. This service has been known to interfere with XAUDIO2_7.dll and cause crashes in games (often around 15 minutes into gameplay). Note: This service normally only exists on touchscreen-enabled devices. If you don't see it in your services list, skip this step.</li>
             <li>Disable all mods and launch the game to confirm the crash is resolved. If it is, systematically re-enable mods in small groups to isolate which mod(s) are causing the issue.</li>
             <li>Consult the Skyrim modding community forums (such as r/skyrimmods) for specific solutions to XAudio-related errors if the above steps don't resolve the issue.</li>
             </ol></li>`;
@@ -3543,7 +3544,7 @@ function checkRandomIssues(sections, hasUnlikelyErrorForAutoInstallerModlist, ha
 
                         <li>🐌 <b>Performance and Stability:</b> While low FPS doesn't directly cause crashes, both symptoms often share underlying causes (memory shortage, script overload, CPU bottlenecks). Warning signs may include stuttering, short freezes, or FPS consistently below 20.
                             <ul>
-                                <li>Quick fixes: Switch to lower-resolution texture mods or use <a href="https://www.nexusmods.com/skyrimspecialedition/mods/90557" target="_blank">VRAMr</a> at an appropriately-downscaling preset to optimize all textures and re-enode them to the faster-decompressing BC7 texture format (<a href="https://youtu.be/SHzSbX038ek?si=LO-pY6X2Z21vH5U2" target="_blank">tutorial</a>), cap FPS to 30-60 using <a href="https://www.nexusmods.com/skyrimspecialedition/mods/34705" target="_blank">SSE Display Tweaks</a>, and/or <a href="https://www.reddit.com/r/Nolvus/comments/1nefmi3/how_to_boost_fps_by_lowering_screen_resolution/">lower your screen resolution</a></li>
+                                <li>Quick fixes: Switch to lower-resolution texture mods or use <a href="https://www.nexusmods.com/skyrimspecialedition/mods/90557" target="_blank">VRAMr</a> at an appropriately-downscaling preset to optimize all textures and re-encode them to the faster-decompressing BC7 texture format (<a href="https://youtu.be/SHzSbX038ek?si=LO-pY6X2Z21vH5U2" target="_blank">tutorial</a>), cap FPS to 30-60 using <a href="https://www.nexusmods.com/skyrimspecialedition/mods/34705" target="_blank">SSE Display Tweaks</a>, and/or <a href="https://www.reddit.com/r/Nolvus/comments/1nefmi3/how_to_boost_fps_by_lowering_screen_resolution/">lower your screen resolution</a></li>
                                 <li>More information: See <a href="https://gatetosovngarde.wiki.gg/wiki/Collection_Performance_Tweaks" target="_blank">Gate to Sovngarde's Performance Guide</a> for (mostly) broadly applicable performance strategies</li>
                             </ul>
                         </li>
@@ -4740,6 +4741,38 @@ function checkCombatNavmeshRetreatCrash(sections) {
                         <li><code>CombatNavmeshSearchT&lt;CombatPathingGoalPolicyRetreat,CombatPathingSearchPolicyStandard&gt;</code> crash signature found</li>
                         ${hasSkyTactics ? '<li><code>SkyTactics - Dynamic Combat Styles.esp</code> detected in bottom half of log</li>' : ''}
                         ${hasSkyValor ? '<li><code>SkyValor.esp</code> detected in bottom half of log</li>' : ''}
+                    </ul>
+                </li>
+            </ul>
+        </li>`;
+    }
+
+    return insights;
+}
+
+
+// ❗ Probable FISSES Thread Safety Crash
+function checkFISSESThreadSafetyCrash(sections) {
+    let insights = '';
+    
+    const isFISSESCrash = (sections.firstLine || '').toLowerCase().includes('fiss.dll');
+
+    if (isFISSESCrash) {
+        insights += `<li>❗ <b>Probable FISSES Thread Safety Crash:</b>
+            Crash caused by <a href="https://www.nexusmods.com/skyrimspecialedition/mods/13956">FISSES (FileAccess Interface for Skyrim SE Scripts)</a>. FISS.dll is not thread-safe and crashes when multiple mods try to load their data files simultaneously during game startup.
+            <ul>
+                <li><b>Troubleshooting steps:</b>
+                    <ul>
+                        <li>Identify all mods using FISSES (check mod descriptions or MCM menus)</li>
+                        <li>When possible, consider replacing FISSES-dependent mods with alternatives that use <a href="https://www.nexusmods.com/skyrimspecialedition/mods/13048">PapyrusUtil SE</a> (which is thread-safe)</li>
+                        <li>Temporarily disable FISSES-dependent mods one at a time to identify the conflict</li>
+                        <li>If using a modlist like Nolvus, check if you've added other FISSES mods besides the already-included "Simply Balanced"</li>
+                        <li>If issues persist, disable all but one FISSES-dependent mod to prevent simultaneous file access</li>
+                    </ul>
+                </li>
+                <li>Detected indicators from crash log:
+                    <ul class="extraInfo">
+                        <li><code>fiss.dll</code> in first error line</li>
                     </ul>
                 </li>
             </ul>
