@@ -1,4 +1,4 @@
-📢 Version 1.30.1 is now live:
+📢 Version 1.30.1.1  is now live:
 https://phostwood.github.io/crash-analyzer/skyrim.html
 
 
@@ -12,6 +12,8 @@ https://phostwood.github.io/crash-analyzer/skyrim.html
 
 3. NEW INFO: ❓ XAudio Issue Detected:
 	- Added Info on "Disable the `Touch Keyboard and Handwriting Panel Service` "
+
+4. v1.30.1.1  also includes extra visual tweaks to donation-section and more emphasized links throughout
 
 
 - notes -

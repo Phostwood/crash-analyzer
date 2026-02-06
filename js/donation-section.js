@@ -10,9 +10,9 @@
             <span></span>
         </span>
         </a> &nbsp;
-        <a href="https://ko-fi.com/phostwood"><img src="./images/NosterEagleEye.png" alt="Support me on Ko-fi" style="height: 113px; border-width: 5px; border-color: black; border-style: solid;"></a>
+        <a href="https://ko-fi.com/phostwood"><img src="./images/Phostwood Avatar 100x102 - Designer (10).png" alt="Support me on Ko-fi" style="height: 113px; border-width: 5px; border-color: black; border-style: solid;"></a>
         </br>
-        <span id="help-me-out">"Can you spare a septim?" - Noster Eagle-Eye<br></span>
+        <span id="help-me-out">“Spare a septim for a humble crash-log analyzer?” — Phostwood<br></span>
     </div>
     <br>
     <span style="font-size: 2em;">🪙</span> Please consider supporting this project's continued development. With 33,000 all-time users and over 4,500 monthly visitors, the community of financial supporters remains remarkably small — only 55 have ever donated, and <b>just eight generous monthly subscribers currently sustain the project.</b> On <a href="https://ko-fi.com/phostwood">Ko-fi</a> or <a href="https://www.patreon.com/Phostwood">Patreon</a> — your support directly validates and enables future development.<br>

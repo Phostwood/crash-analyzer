@@ -142,6 +142,9 @@ ul ul {
 a {
     color: #89CFF0;
     /* Blue color for links */
+    font-size: clamp(1.125rem, 0.331vw + 1.049rem, 1.875rem); /* same as h5 */
+    line-height: clamp(1.912rem, 0.231vw + 1.859rem, 2.438rem); /* same as h5 */
+    font-weight: 500;
 }
 
 b,
