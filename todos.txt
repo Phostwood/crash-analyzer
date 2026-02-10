@@ -1,4 +1,4 @@
-📢 Version 1.30.2.1 is now live:
+📢 Version 1.30.2.2 is now live:
 https://phostwood.github.io/crash-analyzer/skyrim.html
 
 
@@ -22,6 +22,8 @@ https://phostwood.github.io/crash-analyzer/skyrim.html
 	- Thanks for the idea, ClipperClip!
 
 6. v1.30.2.1 - added links to new Privacy Policy page
+
+7. v1.30.2.2 - added section clarifying use of AI during development but "No AI Processing of Your Data" 
 
 
 ~ next version ~
