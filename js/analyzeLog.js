@@ -481,6 +481,14 @@ async function analyzeLog() {
     }
 
 
+    // ❗ NPCs Use Potions + Ultimate Animated Potions NG Incompatibility
+    const hasNPCsPotionsUAPNGCrash = checkNPCsPotionsUAPNGCrash(sections);
+    if(hasNPCsPotionsUAPNGCrash) {
+        diagnoses += hasNPCsPotionsUAPNGCrash;
+        diagnosesCount++;
+    }
+
+
     //❗ Potential Missing Masters Detected: 
     const missingMastersDiagnosis = checkForMissingMasters(sections);
     if (missingMastersDiagnosis) hasUnlikelyErrorForAutoInstallerModlist = true;

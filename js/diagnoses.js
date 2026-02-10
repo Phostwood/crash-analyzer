@@ -3051,38 +3051,35 @@ function analyzeModProminence() {
     const entries = Object.entries(sortedData);
     
     if (entries.length > 0) {
-        modInsights += `<li>📊 <b>Mod Prominence Analysis:</b> The following mods appear frequently and/or with detailed information in the crash log. While this can indicate relevance to the crash cause, these mods might simply be more verbose in their logging and/or happened to be more active in the time leading up to the crash. <a href="#" class="toggleButton">⤵️ show more</a>
-            <ol class="extraInfo" style="display:none">
-                <li>This indicator is less likely to be causal unless it repeats across multiple related crash logs</li>
-                <li>If multiple related crash logs do not contain better indications (above or below), consider temporarily disabling the top-listed mod and any dependent mods, and attempt to reproduce the crash<ul>
-                    <li>NOTE: If tested from an old game save, many mods may cause different crashes from being removed. So, this test might need to be conducted from a new character.</li>
-                </ul></li>
-                <li>If the crash stops, investigate that mod's documentation and forum for any updates, known issues and/or patches, as well as its requirements, recommended load order and any incompatibilities. Also consider any recent changes to your load order which might have affected this mod.</li>
-                <li>If the crash continues (or if disabling this mod was infeasible), re-enable and try the next mod</li>
-                ${Utils.LootListItemIfSkyrim}
-                <li>Mods listed by prominence <code><span style="color:darkorange">(appearances : details)</span></code>: <ul>
-                    ${!window.location.href.toLowerCase().includes('?tryformids') ? '<li>NOTE: results may be more accurate with "Display nested Log Summary" (see checkbox at top of page)</li>' : ''}`;
+        modInsights += `<li>📊 <b>Mod Prominence Analysis</b> <code><span style="color:darkorange">(appearances : details):</span></code><br>By itself, this list does NOT indicate causation.
+            <ul>
+                ${!window.location.href.toLowerCase().includes('?tryformids') ? '<li>NOTE: results may be more accurate with "Display nested Log Summary" (see checkbox at top of page)</li>' : ''}`;
                 // Add sorted mods to the list
                 entries.forEach(([filename, stats]) => {
                     modInsights += `
-                        <li><code><span style="color:darkorange">(${stats.count} : ${stats.sectionsCount})</span> ${filename}</code>
-                            <!-- <ul>
-                                <li>Appearances in log: ${stats.count}</li>
-                                <li>Entry details: ${stats.sectionsCount}</li>
-                            </ul> -->  
-                        </li>`;
-                        //Shortened out:  <ul>
-                        //Shortened out:      <li>Appearances in log: ${stats.count}</li>
-                        //Shortened out:          <li>Entry details: ${stats.sectionsCount}</li>
-                        //Shortened out:  </ul>
-                        //Shortened out:  <li>Prominence score: ${stats.sortWeight}</li>
-                        //UNUSED but considered this abbreviated version: (with <code>${stats.sectionsCount}</code> details in <code>${stats.count}</code> listings)
+                        <li><code><span style="color:darkorange">(${stats.count} : ${stats.sectionsCount})</span> ${filename}</code></li>`;
         });
 
         modInsights += `
-                    </ul>
+            </ul>
+            <ul style="list-style: none; margin-top: 10px; padding-left: 0;">
+                <li>
+                    <i>Interpretation Guide:</i> <a href="#" class="toggleButton">⤵️ show more</a>
+                    <div class="extraInfoOL" style="display:none; margin-top: 10px;">
+                        <p><i>The above mods appear frequently and/or with detailed information in the crash log. While this can indicate relevance to the crash cause, these mods might simply be more verbose in their logging and/or happened to be more active in the time leading up to the crash.</i></p>
+                        <ol>
+                            <li>🎯 <b>Highest-Confidence Indicators</b> (below) are typically a better determiner of a crash's cause. But this prominence list is often a useful supplement.</li>
+                            <li>This indicator is less likely to be causal unless it repeats across multiple related crash logs</li>
+                            <li>If multiple related crash logs do not contain better indications (above or below), consider temporarily disabling the top-listed mod and any dependent mods, and attempt to reproduce the crash<ul>
+                                <li>NOTE: If tested from an old game save, many mods may cause different crashes from being removed. So, this test might need to be conducted from a new character.</li>
+                            </ul></li>
+                            <li>If the crash stops, investigate that mod's documentation and forum for any updates, known issues and/or patches, as well as its requirements, recommended load order and any incompatibilities. Also consider any recent changes to your load order which might have affected this mod.</li>
+                            <li>If the crash continues (or if disabling this mod was infeasible), re-enable and try the next mod</li>
+                            ${Utils.LootListItemIfSkyrim}
+                        </ol>
+                    </div>
                 </li>
-            </ol>
+            </ul>
         </li>`;
     }
 
@@ -3433,47 +3430,18 @@ function checkAutoInstallerIssues(sections, hasUnlikelyErrorForAutoInstallerModl
                             </ul>
                         </li>
                         
-                        <li>🪛 <b>Vortex Collections Users:</b> <a href="#" class="toggleButton">⤵️ show more</a>
+                       <li>🪛 <b>Vortex Collections Users:</b> <a href="#" class="toggleButton">⤵️ show more</a>
                             <ul class="extraInfo" style="display:none">
                                 <li>More often than not, crashes shared in forums can be fixed by following these Vortex-specific steps:</li>
-                                <li>1️⃣ Initial Steps: These ${hasMissingCC ? 'three': 'two'} steps alone fix many crashes. (⚠️ Wait for spinners to stop after each step!)
+                                <li>1️⃣ Initial Steps: These first ${hasMissingCC ? 'three': 'two'} steps alone fix many crashes. (⚠️ Wait for spinners to stop after each step!)
                                     <ol>
                                         ${hasMissingCC ? '<li><b>Verify CC content:</b> If you own Skyrim Anniversary Edition with all Creation Club (CC) content and have mods that expect CC content to be available, check Vortex\'s Plugins tab → Filter "Loaded by Engine" and verify 80 total files (5 <code>.esm</code> + 74 CC files + <code>_ResourcePack.esl</code>). If any are missing, refer to <a href="#missing-cc">Missing CC instructions</a> below.</li>':''}
                                         <li><b>Enable Collection Plugins:</b> In the Plugins tab, verify that all plugins from the collection that should be enabled are enabled. <i>Tip: If unsure which plugins should be enabled, select a single plugin, use CTRL+A to select all, and click "Enable" - then disable any you specifically want disabled.</i></li>
-                                        <li><b>Sort Plugins:</b> Use "Sort now" in the Plugins tab. NOTE: Due to a suspected Vortex bug, <b>you may need to repeat this step 2-3 times</b> for it to fully sort.</li>
-                                        <li><b>Reset Load Order Files (if needed):</b> Try this if you still see any plugins with "Load Order" values of "-1" or "???", or if plugins that should load last (like <code>Occlusion.esp</code>, <code>DynDOLOD.esp</code>, or map mods like "Paper Maps") aren't loading last, or if plugins still don't appear to be sorting correctly:
-                                            <ol>
-                                                <li>Go to the Mods tab → click the folder icon → "Open Game Application Data Folder"</li>
-                                                <li>Close Vortex</li>
-                                                <li>In the data folder, delete <code>loadorder.txt</code> and <code>plugins.txt</code></li>
-                                                <li>Restart Vortex</li>
-                                                <li>Enable all plugins and sort again (repeat the Enable and Sort steps above)</li>
-                                            </ol>
-                                        </li>
+                                        <li><b>Sort Plugins:</b> Use "Sort now" in the Plugins tab. NOTE: Due to a suspected Vortex bug, <b>you may need to repeat this step 2-3 times</b> for it to fully sort. <b>If issues persist:</b> Close and reopen Vortex, disable and re-enable a relevant plugin (or use CTRL+A to toggle all), sort 2-3 times, deploy mods, then test.</li>
+                                        <li><b>Reset Load Order Files (if needed):</b> Try this if you still see plugins with "Load Order" values of "-1" or "???", or if plugins that should load last (like <code>Occlusion.esp</code>, <code>DynDOLOD.esp</code>, or map mods) aren't loading last: Go to Mods tab → folder icon → "Open Game Application Data Folder" → Close Vortex → Delete <code>loadorder.txt</code> and <code>plugins.txt</code> → Restart Vortex → Enable all plugins and sort again.</li>
                                     </ol>
                                 </li>
-                                <li>2️⃣ <b>If Issues Persist:</b> Check and resolve notifications, then purge/deploy if needed.
-                                    <ol>
-                                        <li>Go to Vortex's "Settings", click "Reset Suppressed Notifications" and restart Vortex.</li>
-                                        <li>Click the notification bell in Vortex (top right) and attempt to address any warnings by web searching for troubleshooting steps or asking for help as needed.</li>
-                                        <li>If you see "<b>Cycles in sorting rules</b>":
-                                            <ul>
-                                                <li>Search for your collection name in the Mods tab</li>
-                                                <li>Right-click the collection → "Apply Collection Rules"</li>
-                                                <li><a href="https://gatetosovngarde.wiki.gg/wiki/Resolving_Cycles" target="_blank">Screenshots and more info</a> (Made for GTS, but should be applicable to other Vortex users.)</li>
-                                            </ul>
-                                        </li>
-                                        <li>If you see an "<b>Unparsed</b>" error, they can usually be dealt with by re-installing the issue mod.</li>
-                                        <li><b>If crashes continue after addressing notifications:</b>
-                                            <ol type="a">
-                                                <li>Go to "Mods" tab</li>
-                                                <li>Purge mods</li>
-                                                <li>Deploy mods</li>
-                                                <li>Enable all plugins and sort again (as in Initial Steps above)</li>
-                                            </ol>
-                                        </li>
-                                    </ol>
-                                </li>
+                                <li>2️⃣ <b>If Issues Persist:</b> Go to Vortex Settings → "Reset Suppressed Notifications" → Restart Vortex → Click notification bell (top right) and address warnings. <b>For "Cycles in sorting rules":</b> Search collection name in Mods tab → Right-click collection → "Apply Collection Rules" (see <a href="https://gatetosovngarde.wiki.gg/wiki/Resolving_Cycles">GTS screenshot guide</a> - plugin names differ but process is the same). <b>For "Unparsed" errors:</b> Re-install the problem mod. <b>If crashes continue:</b> Purge mods → Deploy mods → Enable all plugins and sort again.</li>
                             </ul>
                         </li>
                     </ul>
@@ -4360,6 +4328,7 @@ function checkPossibleFilesystemIssue(sections) {
                     See <a href="https://gatetosovngarde.wiki.gg/wiki/Collection_Tweaks_and_Maintenance#Moving_Your_Skyrim_Install">Vortex instructions</a> (partially re-applicable to MO2). 
                     NOTE: some auto-installing modlists (like Nolvus) make a copy of all necessary Skyrim files local to their own modlist installation. For these, consult their modlist documentation and/or community.
                 </li>
+                <li><b>Add antivirus exclusions:</b> Your antivirus may be blocking file access or quarantining game files. Add exclusions for your Skyrim installation directory, mod manager directory, and <code>Documents\\My Games\\Skyrim Special Edition</code> folder in your antivirus software settings.</li>
                 <li><b>Verify permissions:</b> Run the game and mod manager with administrator rights. Ensure your Skyrim and Mods folders are not set to read-only.</li>
                 <li><b>Check OneDrive:</b> If your Documents folder is actively syncing, or if OneDrive has glitched and left files locked after syncing, Skyrim may fail to save or load files. 
                     See <a href="https://docs.google.com/document/d/1Ot0l8uFv-AJZr1X6vRMQNovhua_NUtE_HhbkrfJi1Ss/edit?tab=t.0">Ways To Get Rid Of OneDrive</a> (Google Doc) and 
@@ -4777,6 +4746,46 @@ function checkFISSESThreadSafetyCrash(sections) {
                 </li>
             </ul>
         </li>`;
+    }
+
+    return insights;
+}
+
+
+// ❗ NPCs Use Potions + Ultimate Animated Potions NG Incompatibility
+function checkNPCsPotionsUAPNGCrash(sections) {
+    let insights = '';
+    const highConfidence = (sections.highestConfidenceIndicators || '').toLowerCase();
+
+    const hasDraugr = highConfidence.includes('draugr');
+
+    if (hasDraugr) {
+        const fullLog = sections.fullLogFileLowerCase || '';
+        const hasNPCsUsePotions = fullLog.includes('npcsusepotions.esp');
+        const hasUAPNG = fullLog.includes('uapng.dll');
+
+        if (hasNPCsUsePotions && hasUAPNG) {
+            insights += `<li>❗ <b>NPCs Use Potions + Ultimate Animated Potions NG Incompatibility:</b>
+                Crash caused by an incompatibility between <a href="https://www.nexusmods.com/skyrimspecialedition/mods/67489">NPCs use Potions</a> and <a href="https://www.nexusmods.com/skyrimspecialedition/mods/97674">Ultimate Animated Potions NG</a>. This combination causes issues with NPC skeletons (particularly draugr) when they attempt to use animated potions.
+                <ul>
+                    <li><b>Fix options:</b>
+                        <ul>
+                            <li><b>Option 1:  (recommended)</b> Replace NPCs Use Potions with <a href="https://www.nexusmods.com/skyrimspecialedition/mods/40102">Smart NPC Potions - Enemies Use Potions and Poisons</a> (compatible alternative)</li>
+                            <li><b>Option 2:</b> Disable Ultimate Animated Potions NG and keep NPCs Use Potions</li>
+                            <li><b>Option 3:</b> Disable NPCs Use Potions and keep Ultimate Animated Potions NG</li>
+                            <!-- <li><b>Option 4:</b> If you want to keep both, find a way to exclude draugr from using potions (advanced)</li> -->
+                        </ul>
+                    </li>
+                    <li>Detected indicators from crash log:
+                        <ul class="extraInfo">
+                            <li><code>draugr</code> in highest confidence portions of crash log</li>
+                            <li><code>NPCsUsePotions.esp</code> present in crash log</li>
+                            <li><code>UAPNG.dll</code> present in crash log</li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>`;
+        }
     }
 
     return insights;

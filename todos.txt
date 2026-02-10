@@ -1,29 +1,47 @@
-📢 Version 1.30.1.1  is now live:
+📢 Version 1.30.2 is now live:
 https://phostwood.github.io/crash-analyzer/skyrim.html
 
 
-1. ENHANCEMENT for Summarized logs:
-	- Added the Crash Address (e.g., SkyrimSE.exe+0CEDB61), extracted from the log header, to support searching for past reports of the same crash.
-		- If no filename found, then displays entire first-line error
-	- Added the log’s filename, useful when posting multiple summaries from multiple logs in a single thread.
+1. NEW TEST: ❗ NPCs Use Potions + Ultimate Animated Potions NG Incompatibility
+	- Thank you mfvicli!
 
-2. NEW TEST: ❗ Probable FISSES Thread Safety Crash
-	- Thanks Vektor!
+2. MORE INFO for "Log files aren't showing up?" section:
+	- ADDED: info a bullet point on setting up antivirus exclusions
 
-3. NEW INFO: ❓ XAudio Issue Detected:
-	- Added Info on "Disable the `Touch Keyboard and Handwriting Panel Service` "
+3. MORE INFO: ❓ Possible file system / OneDrive / permissions issue:
+	- ADDED: info a bullet point on setting up antivirus exclusions
 
-4. v1.30.1.1  also includes extra visual tweaks to donation-section and more emphasized links throughout
+3. MORE INFO for "fully downloaded and correctly installed" ... "Vortex-specific steps"
+	- ADDED "If issues persist: Close and reopen Vortex, disable and re-enable a relevant plugin (or use CTRL+A to toggle all), sort 2-3 times, deploy mods, then test."
+		- Thank you Calaiope and SpinPigeon!
+
+4. 📊 Mod Prominence Analysis: 
+	- MOVED instructions BELOW the analysis, and make only the instructions show/hide
+
+5. New page: Privacy Policy
+	- Thanks for the idea, ClipperClip!
 
 
-- notes -
-1. ENHANCEMENT for Summarized logs:
-	- Added the Crash Address (e.g., SkyrimSE.exe+0CEDB61), extracted from the log header, to support searching for past reports of the same crash.
-		- If no filename found, then displays entire first-line error
-	- Added the log’s filename, useful when posting multiple summaries from multiple logs in a single thread.
-	- ✅BUG: fix Trainwwreck/NSF issue, or only enable for CLSSE
-	- ✅FORMATTING BUG: when collapsing and re-showing Summarized Log
-	- ✅BUG: copypaste broke?
+
+~ next version ~
+
+6. possible change to SoS+ JK's?
+	- https://www.reddit.com/r/skyrimmods/comments/1qzqg45/comment/o4hbggc/
+	- ClipperClip
+
+5. Test for Resaver issue and link to ReSaver Guide?
+
+https://discord.com/channels/902984082181484615/1251920329643921541
+
+https://discord.com/channels/902984082181484615/1251920329643921541/1251920756569407531
+
+
+recent example:
+https://discord.com/channels/902984082181484615/1133753226991255562/1466799850841444616
+
+... from  crash log: https://discord.com/channels/902984082181484615/1133753226991255562/1466798244997894299
+
+
 
 
 
