@@ -1,36 +1,24 @@
-📢 Version 1.30.2.2 is now live:
+📢 Version 1.30.3 is now live:
 https://phostwood.github.io/crash-analyzer/skyrim.html
 
 
-1. NEW TEST: ❗ NPCs Use Potions + Ultimate Animated Potions NG Incompatibility
-	- Thank you mfvicli!
-
-2. MORE INFO for "Log files aren't showing up?" section:
-	- ADDED: info a bullet point on setting up antivirus exclusions
-
-3. MORE INFO: ❓ Possible file system / OneDrive / permissions issue:
-	- ADDED: info a bullet point on setting up antivirus exclusions
-
-3. MORE INFO for "fully downloaded and correctly installed" ... "Vortex-specific steps"
-	- ADDED "If issues persist: Close and reopen Vortex, disable and re-enable a relevant plugin (or use CTRL+A to toggle all), sort 2-3 times, deploy mods, then test."
-		- Thank you Calaiope and SpinPigeon!
-
-4. 📊 Mod Prominence Analysis: 
-	- MOVED instructions BELOW the analysis, and make only the instructions show/hide
-
-5. New page: Privacy Policy
-	- Thanks for the idea, ClipperClip!
-
-6. v1.30.2.1 - added links to new Privacy Policy page
-
-7. v1.30.2.2 - added section clarifying use of AI during development but "No AI Processing of Your Data" 
-
-
-~ next version ~
-
-6. possible change to SoS+ JK's?
+1. ❗ Simplicity of Snow + JK's Skyrim Patch Missing:
+	- Disabled, possibly no longer relevant, need more data
 	- https://www.reddit.com/r/skyrimmods/comments/1qzqg45/comment/o4hbggc/
-	- ClipperClip
+	- https://www.reddit.com/r/skyrimmods/s/tb6WBs1ptd
+	- Thanks ClipperClip !
+
+
+2. NEW WARNING: ⚠️ Skyrim Crash Guard Detected - Crash Log Reliability Issue:
+	- Thank you Hexanode who pinged from GTS Discord, and Styyx - GTS Grandpa for their controlled test crash logs, and others for technical reviews
+	- Thank you ennui and pinged me from Modding Guild, patchuli for conversations with the mod author, and others for technical reviews of my instructions
+
+
+
+~~ next version ~~
+
+2. TODO: Update donations section
+
 
 5. Test for Resaver issue and link to ReSaver Guide?
 
@@ -43,6 +31,13 @@ recent example:
 https://discord.com/channels/902984082181484615/1133753226991255562/1466799850841444616
 
 ... from  crash log: https://discord.com/channels/902984082181484615/1133753226991255562/1466798244997894299
+
+
+
+~ next version ~
+
+
+
 
 
 

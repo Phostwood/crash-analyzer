@@ -66,6 +66,14 @@ async function analyzeLog() {
         diagnosesCount++;
     }
 
+    // ⚠️ Skyrim Crash Guard Detected - Crash Log Reliability Issue:
+    const hasSkyrimCrashGuard = checkSkyrimCrashGuard(sections);
+    if(hasSkyrimCrashGuard) {
+        diagnoses += hasSkyrimCrashGuard;
+        diagnosesCount++;
+    }
+
+
     //Check if too many active, non-ESL plugins
     const tooManyNonEslPluginsResult = checkForTooManyNonEslPlugins(sections.gamePlugins);
     if(tooManyNonEslPluginsResult) {
@@ -881,12 +889,14 @@ async function analyzeLog() {
     }
 
 
+    /* DISABLED: possibly no longer relevant, need more data:
     // ❗ Simplicity of Snow + JK's Skyrim Patch Missing:
     const simplicityOfSnowJKSkyrimPatchResults = checkSimplicityOfSnowJKSkyrimPatch(sections);
     if (simplicityOfSnowJKSkyrimPatchResults) {
         insights += simplicityOfSnowJKSkyrimPatchResults;
         insightsCount++;
     }
+        */
 
     
     //❗ Wheeler Issue Detected:

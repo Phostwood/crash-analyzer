@@ -2591,7 +2591,7 @@ function analyzeAntivirusIssues(sections) {
 }
 
 
-
+/* DISABLED: possibly no longer relevant, need more data:
 //❗ Simplicity of Snow + JK's Skyrim Patch Missing:
 function checkSimplicityOfSnowJKSkyrimPatch(sections) {
     let insights = '';
@@ -2626,6 +2626,7 @@ function checkSimplicityOfSnowJKSkyrimPatch(sections) {
 
     return insights;
 }
+*/
 
 
 //❗ Incompatible Snow Mods Detected:
@@ -4788,5 +4789,38 @@ function checkNPCsPotionsUAPNGCrash(sections) {
         }
     }
 
+    return insights;
+}
+
+
+
+
+// ⚠️ Skyrim Crash Guard Detected - Crash Log Reliability Issue:
+function checkSkyrimCrashGuard(sections) {
+    let insights = '';
+    
+    const headerMatch = sections.header && /skyrimcrashguard/i.test(sections.header);
+    const bottomHalfMatch = sections.bottomHalf && /skyrimcrashguard\.dll/i.test(sections.bottomHalf);
+    
+    if (headerMatch || bottomHalfMatch) {
+        let foundIn = [];
+        if (headerMatch) foundIn.push("header");
+        if (bottomHalfMatch) foundIn.push("module list");
+        
+        insights += `<li>⚠️ <b>Skyrim Crash Guard Detected - Crash Log Reliability Issue:</b>
+            <code>SkyrimCrashGuard</code> found in: ${foundIn.join(", ")}. We strongly recommend against using this mod for crash analysis as of February 2026.
+            <ul>
+                <li><b>Why this matters:</b> Crash Guard modifies game state to prevent crashes, which can corrupt data and make crash logs unreliable or misleading. This may result in incorrect diagnoses and false bug reports to mod authors.</li>
+                <li><b>CrashLogger SSE author warning (alandtse):</b>
+                    <blockquote>"Given it corrupts game state and hides crashes until it can't, any information generated about the crash when it eventually fails is invalid... it impacts other mod authors pretty badly. 1. It hides the real issue so the mod author responsible can't fix it. 2. When it does crash, it may point to an issue for a mod author which never would have happened without the corrupted game state."</blockquote>
+                    Sources: <a href="https://www.nexusmods.com/skyrimspecialedition/mods/59818?tab=posts" target="_blank">CrashLogger SSE forum (sticky #4)</a>, <a href="https://github.com/alandtse/CrashLoggerSSE/pull/19" target="_blank">GitHub PR #19</a>
+                </li>
+                <li><b>Recommendation:</b> For reliable crash analysis, uninstall Crash Guard and use <a href="https://www.nexusmods.com/skyrimspecialedition/mods/59818" target="_blank">Crash Logger SSE</a> alone.</li>
+                <li>If you keep Crash Guard installed, <b>PLEASE DO NOT seek community help with potentially affected crash logs, or use them to blame mod authors.</b></li>
+                <li><b>Note:</b> Results may vary—some logs may still be useful and the mod may improve over time. See <a href="https://www.nexusmods.com/skyrimspecialedition/mods/172203?tab=posts" target="_blank">Crash Guard forum</a> for discussion.</li>
+            </ul>
+        </li>`;
+    }
+    
     return insights;
 }
