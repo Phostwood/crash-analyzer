@@ -1,4 +1,4 @@
-📢 Version 1.30.3 is now live:
+📢 Version 1.30.3.1 is now live:
 https://phostwood.github.io/crash-analyzer/skyrim.html
 
 
@@ -13,12 +13,17 @@ https://phostwood.github.io/crash-analyzer/skyrim.html
 	- Thank you Hexanode who pinged from GTS Discord, and Styyx - GTS Grandpa for their controlled test crash logs, and others for technical reviews
 	- Thank you ennui and pinged me from Modding Guild, patchuli for conversations with the mod author, and others for technical reviews of my instructions
 
+3. v1.30.3.1:
+	- stronger formatting and small tweaks to Crash Guard warning
+	- updated CrashLogger SSE recommended version to  1.20.1
+
 
 
 ~~ next version ~~
 
 2. TODO: Update donations section
 
+3. Move Resaver Guide to GTS Wiki
 
 5. Test for Resaver issue and link to ReSaver Guide?
 
