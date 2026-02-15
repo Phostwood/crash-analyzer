@@ -1,21 +1,23 @@
-📢 Version 1.30.3.1 is now live:
+📢 Version 1.30.4 is now live:
 https://phostwood.github.io/crash-analyzer/skyrim.html
 
 
-1. ❗ Simplicity of Snow + JK's Skyrim Patch Missing:
-	- Disabled, possibly no longer relevant, need more data
-	- https://www.reddit.com/r/skyrimmods/comments/1qzqg45/comment/o4hbggc/
-	- https://www.reddit.com/r/skyrimmods/s/tb6WBs1ptd
-	- Thanks ClipperClip !
+1. BUG FIX: 🎯 <b>Exceeded Maximum ESMs+ESPs Plugins Limit!
+	- fixed broken reference link
+
+2. USER INTERFACE ENHANCEMENT: Expanded dropzone for crash log files, which can now be drag-and-dropped anywhere in the page. It also scrolls back to the top of the page afterwards.
+
+3. NEW TOOL: added links to Kyler45's Kodex
+	- wabbajack troubleshooting
+	- Recommended tools
+
+4. EXPERIMENTAL: Make analyzer's checkboxes (" 'Try harder' by analyzing full log (may show many additional possible causes)" and "Display nested Log Summary (Beta feature)") use local storage so it can keep the same crash log
+
+5. EXPERIMENTAL: Preparations for new MO2 plugin (details coming in next version)
 
 
-2. NEW WARNING: ⚠️ Skyrim Crash Guard Detected - Crash Log Reliability Issue:
-	- Thank you Hexanode who pinged from GTS Discord, and Styyx - GTS Grandpa for their controlled test crash logs, and others for technical reviews
-	- Thank you ennui and pinged me from Modding Guild, patchuli for conversations with the mod author, and others for technical reviews of my instructions
 
-3. v1.30.3.1:
-	- stronger formatting and small tweaks to Crash Guard warning
-	- updated CrashLogger SSE recommended version to  1.20.1
+
 
 
 

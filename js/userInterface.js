@@ -18,6 +18,97 @@ document.addEventListener('DOMContentLoaded', function() {
 	});
 });
 
+
+// Check if there's a pending crash log from the MO2 plugin (with chunking support)
+window.addEventListener('DOMContentLoaded', function() {
+    try {
+        // Check if we have chunked data
+        const totalChunks = localStorage.getItem('crashLog_totalChunks');
+        
+        if (totalChunks) {
+            const numChunks = parseInt(totalChunks, 10);
+            const totalSize = parseInt(localStorage.getItem('crashLog_totalSize') || '0', 10);
+            const filename = localStorage.getItem('crashLog_filename') || 'crash-log.log';
+            
+            Utils.debuggingLog(['DOMContentLoaded', 'localStorage'], `Found chunked crash log: ${numChunks} chunks, ${totalSize} chars`);
+            
+            try {
+                // Reassemble chunks
+                let reassembled = '';
+                for (let i = 0; i < numChunks; i++) {
+                    const chunk = localStorage.getItem(`crashLog_chunk_${i}`);
+                    if (chunk === null) {
+                        throw new Error(`Missing chunk ${i} of ${numChunks}`);
+                    }
+                    reassembled += chunk;
+                }
+                
+                Utils.debuggingLog(['DOMContentLoaded', 'localStorage'], `Reassembled ${reassembled.length} chars`);
+                
+                // Set the textarea value
+                document.getElementById('crashLog').value = reassembled;
+                
+                // Display the filename
+                displayFilename(filename);
+                
+                // Clear all chunks from localStorage
+                localStorage.removeItem('crashLog_totalChunks');
+                localStorage.removeItem('crashLog_totalSize');
+                localStorage.removeItem('crashLog_filename');
+                for (let i = 0; i < numChunks; i++) {
+                    localStorage.removeItem(`crashLog_chunk_${i}`);
+                }
+                
+                // Analyze the log after a brief delay
+                setTimeout(() => {
+                    analyzeLog();
+                }, 100);
+                
+            } catch (e) {
+                console.warn('Failed to reassemble chunked crash log:', e.message);
+                // Try to clean up chunks on error
+                try {
+                    localStorage.removeItem('crashLog_totalChunks');
+                    localStorage.removeItem('crashLog_totalSize');
+                    localStorage.removeItem('crashLog_filename');
+                    for (let i = 0; i < numChunks; i++) {
+                        localStorage.removeItem(`crashLog_chunk_${i}`);
+                    }
+                } catch (cleanupError) {
+                    // Ignore cleanup errors
+                }
+            }
+            
+            return;
+        }
+        
+        // Backward compatibility: check for old single-item storage
+        const pendingLog = localStorage.getItem('pendingCrashLog');
+        const pendingFilename = localStorage.getItem('pendingCrashLogFilename');
+        
+        if (pendingLog) {
+            Utils.debuggingLog(['DOMContentLoaded', 'localStorage'], 'Found pending crash log from plugin (legacy format)');
+            
+            document.getElementById('crashLog').value = pendingLog;
+            
+            if (pendingFilename) {
+                displayFilename(pendingFilename);
+            }
+            
+            localStorage.removeItem('pendingCrashLog');
+            localStorage.removeItem('pendingCrashLogFilename');
+            
+            setTimeout(() => {
+                analyzeLog();
+            }, 100);
+        }
+    } catch (e) {
+        // localStorage is corrupted or inaccessible
+        console.warn('localStorage unavailable or corrupted, skipping MO2 plugin crash log restore:', e.name);
+        return;
+    }
+});
+
 document.addEventListener('DOMContentLoaded', function () {
 
 	if (Utils.isSkyrimPage) {
@@ -286,6 +377,8 @@ document.addEventListener('DOMContentLoaded', function () {
 			var file = files[0];
 			if (file.type === 'text/plain' || file.name.endsWith('.txt') || file.name.endsWith('.log')) {
 				loadFile({ target: { files: [file] } });
+				// Scroll to top after initiating file load
+				window.scrollTo(0, 0);
 			} else {
 				console.error('Unsupported file type:', file.type);
 				alert('Unsupported file type. Please select a text file (.txt) containing a NetScriptFramework crash log.');
@@ -436,21 +529,29 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
 	// Setup the event listeners for drag and drop with visual feedback
-	document.getElementById('versionNumber').innerHTML = getVersionNumber();
+	// Use the body or a main container as the drop zone
+	var dropZone = document.body; // or document.getElementById('mainContainer')
+	var crashLogInput = document.getElementById('crashLog');
 
-	var dropZone = document.getElementById('crashLog');
 	dropZone.addEventListener('dragover', function (evt) {
 		handleDragOver(evt);
 		this.classList.add('dragover');
 	}, false);
-	dropZone.addEventListener('dragleave', function () {
-		this.classList.remove('dragover');
+
+	dropZone.addEventListener('dragleave', function (evt) {
+		// Only remove the class if we're leaving the dropZone itself, not a child
+		if (evt.target === this) {
+			this.classList.remove('dragover');
+		}
 	}, false);
+
 	dropZone.addEventListener('drop', function (evt) {
 		handleDrop(evt);
 		this.classList.remove('dragover');
 	}, false);
-	dropZone.addEventListener('input', clearResult, false);
+
+	// Keep the input event on the actual input field
+	crashLogInput.addEventListener('input', clearResult, false);
 
 
 	// - - -  "Copy Diagnosis" button - - - 
@@ -728,97 +829,157 @@ document.addEventListener('DOMContentLoaded', function () {
 	});
 
 
-	// Call initial setup functions
-	toggleAdvancedElements();
-	addEmojiClickEvent();
 
-	// FIXED: Call initial setup functions and handle toggle buttons correctly
-	window.addEventListener('load', function() {
-		/**
-		 * Helper function to find the extraInfo element after a toggle button
-		 * This skips over <br> tags to find the actual content element
-		 */
-		function findExtraInfoElement(toggleButton) {
-			var node = toggleButton.nextSibling;
-			while (node) {
-				// Skip text nodes and <br> tags
-				if (node.nodeType === Node.TEXT_NODE || 
-					(node.nodeType === Node.ELEMENT_NODE && node.tagName === 'BR')) {
-					node = node.nextSibling;
-					continue;
-				}
-				// Found an element
-				if (node.nodeType === Node.ELEMENT_NODE) {
-					if (node.classList && (node.classList.contains('extraInfo') || node.classList.contains('extraInfoOL'))) {
-						return node;
-					}
-					// Return first element found (might be PRE without class)
+
+
+	// Call initial setup functions
+// Call initial setup functions
+toggleAdvancedElements();
+addEmojiClickEvent();
+
+// FIXED: Call initial setup functions and handle toggle buttons correctly
+window.addEventListener('load', function() {
+	/**
+	 * Helper function to find the extraInfo element after a toggle button
+	 * This skips over <br> tags to find the actual content element
+	 */
+	function findExtraInfoElement(toggleButton) {
+		var node = toggleButton.nextSibling;
+		while (node) {
+			// Skip text nodes and <br> tags
+			if (node.nodeType === Node.TEXT_NODE || 
+				(node.nodeType === Node.ELEMENT_NODE && node.tagName === 'BR')) {
+				node = node.nextSibling;
+				continue;
+			}
+			// Found an element
+			if (node.nodeType === Node.ELEMENT_NODE) {
+				if (node.classList && (node.classList.contains('extraInfo') || node.classList.contains('extraInfoOL'))) {
 					return node;
 				}
-				node = node.nextSibling;
+				// Return first element found (might be PRE without class)
+				return node;
 			}
-			return null;
+			node = node.nextSibling;
 		}
+		return null;
+	}
 
-		// Set all toggleButtons to display as "⤴️ hide"
+	// Set all toggleButtons to display as "⤴️ hide"
 /* UNNECESSARY? (and caused problems with new section: "Log files aren't showing up?")		document.querySelectorAll('.toggleButton').forEach(function (toggleButton) {
-			var extraInfo = findExtraInfoElement(toggleButton);
+		var extraInfo = findExtraInfoElement(toggleButton);
+		if (extraInfo) {
+			if (extraInfo.classList.contains('extraInfoOL')) {
+				extraInfo.style.display = 'block';
+			} else {
+				extraInfo.style.display = 'list-item';
+			}
+			toggleButton.textContent = '⤴️ hide';
+		}
+	}); */
+
+	document.body.addEventListener('click', function (event) {
+		if (event.target.className === 'toggleButton') {
+			var extraInfo = findExtraInfoElement(event.target);
 			if (extraInfo) {
-				if (extraInfo.classList.contains('extraInfoOL')) {
-					extraInfo.style.display = 'block';
-				} else {
-					extraInfo.style.display = 'list-item';
-				}
-				toggleButton.textContent = '⤴️ hide';
-			}
-		}); */
-
-		document.body.addEventListener('click', function (event) {
-			if (event.target.className === 'toggleButton') {
-				var extraInfo = findExtraInfoElement(event.target);
-				if (extraInfo) {
-					if (extraInfo.style.display === 'none') {
-						if (extraInfo.classList.contains('extraInfoOL')) {
-							extraInfo.style.display = 'block';
-						} else {
-							extraInfo.style.display = 'list-item';
-						}
-						event.target.textContent = '⤴️ hide';
+				if (extraInfo.style.display === 'none') {
+					if (extraInfo.classList.contains('extraInfoOL')) {
+						extraInfo.style.display = 'block';
 					} else {
-						extraInfo.style.display = 'none';
-						event.target.textContent = '⤵️ show more';
+						extraInfo.style.display = 'list-item';
 					}
+					event.target.textContent = '⤴️ hide';
+				} else {
+					extraInfo.style.display = 'none';
+					event.target.textContent = '⤵️ show more';
 				}
-				event.preventDefault();
 			}
-		});
-
-		
-		/* UNUSED LEGACY CODE:
-		if (window.location.href.toLowerCase().includes('?advanced')) {
-			document.getElementById('speculativeInsights').checked = true;
+			event.preventDefault();
 		}
-		*/
-
-		// Initialize tryFormIDs checkbox based on URL
-		if (Utils.getQueryParams().has('tryFormIDs')) {
-			document.getElementById('tryFormIDs').checked = true;
-		}
-
-		document.getElementById('tryFormIDs').addEventListener('change', function(e) {
-			Utils.setQueryParam('tryFormIDs', e.target.checked);
-		});
-
-		// Initialize analyzeFullLog checkbox based on URL
-		if (Utils.getQueryParams().has('analyzeFullLog')) {
-			document.getElementById('analyzeFullLog').checked = true;
-		}
-
-		document.getElementById('analyzeFullLog').addEventListener('change', function(e) {
-			Utils.setQueryParam('analyzeFullLog', e.target.checked);
-		});	
-
 	});
+
+	
+	/* UNUSED LEGACY CODE:
+	if (window.location.href.toLowerCase().includes('?advanced')) {
+		document.getElementById('speculativeInsights').checked = true;
+	}
+	*/
+
+	// Initialize tryFormIDs checkbox based on URL
+	if (Utils.getQueryParams().has('tryFormIDs')) {
+		document.getElementById('tryFormIDs').checked = true;
+	}
+
+	document.getElementById('tryFormIDs').addEventListener('change', function(e) {
+		// Store crashLog before URL change
+		saveCrashLogToStorage();
+		Utils.setQueryParam('tryFormIDs', e.target.checked);
+	});
+
+	// Initialize analyzeFullLog checkbox based on URL
+	if (Utils.getQueryParams().has('analyzeFullLog')) {
+		document.getElementById('analyzeFullLog').checked = true;
+	}
+
+	document.getElementById('analyzeFullLog').addEventListener('change', function(e) {
+		// Store crashLog before URL change
+		saveCrashLogToStorage();
+		Utils.setQueryParam('analyzeFullLog', e.target.checked);
+	});	
+
+	// Restore crashLog from storage after page load
+	restoreCrashLogFromStorage();
+});
+
+/**
+ * Saves the crashLog textarea content to localStorage
+ */
+function saveCrashLogToStorage() {
+	const crashLogElement = document.getElementById('crashLog');
+	if (!crashLogElement || !crashLogElement.value) {
+		return; // Nothing to save
+	}
+	
+	try {
+		localStorage.setItem('urlChange_crashLog', crashLogElement.value);
+		Utils.debuggingLog(['localStorage', 'save'], `Saved crash log: ${crashLogElement.value.length} chars`);
+	} catch (e) {
+		console.error('Failed to save crash log to localStorage:', e);
+		// If storage fails, continue anyway - the URL change will still happen
+	}
+}
+
+/**
+ * Restores the crashLog textarea content from localStorage
+ */
+function restoreCrashLogFromStorage() {
+	try {
+		const storedLog = localStorage.getItem('urlChange_crashLog');
+		
+		if (!storedLog) {
+			return; // Nothing to restore
+		}
+		
+		Utils.debuggingLog(['localStorage', 'restore'], `Restoring crash log: ${storedLog.length} chars`);
+		
+		// Restore the textarea value
+		const crashLogElement = document.getElementById('crashLog');
+		if (crashLogElement) {
+			crashLogElement.value = storedLog;
+		}
+		
+		// Clear stored data
+		localStorage.removeItem('urlChange_crashLog');
+		
+	} catch (e) {
+		// localStorage is corrupted or inaccessible - silently ignore
+		console.warn('localStorage unavailable or corrupted, skipping crash log restore:', e.name);
+		return;
+	}
+}
+
+
+
 
 	// Add event listener for the Test Log link
 	document.getElementById('loadTestLog').addEventListener('click', function(e) {

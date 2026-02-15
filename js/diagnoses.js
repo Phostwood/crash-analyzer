@@ -57,7 +57,7 @@ function checkForTooManyNonEslPlugins(crashLogSection) {
     let diagnosis = '';
 
     if (countInfo.nonEslPluginsCount > 254) {
-        diagnosis += `<li>🎯 <b>Exceeded Maximum ESMs+ESPs Plugins Limit!</b> Your load order has <code>${countInfo.nonEslPluginsCount}</code> non-ESL-ed plugins, which is too many. Skyrim can only handle up to 254 non-ESL-ed plugins. 255 or more will cause game instability and crashes. For more information and a screenshot from Mod Organizer 2 (MO2), refer to this <a href="https://www.reddit.com/r/Nolvus/comments/1b041m9/reference_keep_your_active_esmsesps_count_to_254/">post</a>.
+        diagnosis += `<li>🎯 <b>Exceeded Maximum ESMs+ESPs Plugins Limit!</b> Your load order has <code>${countInfo.nonEslPluginsCount}</code> non-ESL-ed plugins, which is too many. Skyrim can only handle up to 254 non-ESL-ed plugins. 255 or more will cause game instability and crashes. For more information and a screenshot from Mod Organizer 2 (MO2), refer to this <a href="https://www.reddit.com/r/Nolvus/comments/1r3caqs/reference_keep_your_active_esmsesps_count_to_254/">post</a>.
         <ul>
             <li>Note: this number excludes <code>.esp</code> plugins that have been <i>flagged</i> as ESL, and are thus are displayed in the log with extra digits in their hex number (example: the uncounted <code>[FE 000]</code> versus the counted <code>[FF]</code>).</li>
             <li><a href = "${Utils.isSkyrimPage ? 'https://www.nexusmods.com/skyrimspecialedition/mods/21618' : 'https://docs.google.com/spreadsheets/d/10p_ZFCTxXg5ntdsQipOGLcMAnoYDOC4qBEIt5ZAOo-o/'}"> Information on safely squeezing in more mods.</a></li>
@@ -3415,19 +3415,31 @@ function checkAutoInstallerIssues(sections, hasUnlikelyErrorForAutoInstallerModl
 
                         <li>🪛 <b>Wabbajack Users:</b> <a href="#" class="toggleButton">⤵️ show more</a>
                             <ul class="extraInfo" style="display:none">
-                                <li><b>Problem:</b> Wabbajack 4.0 removed the verify button (extremely useful for ensuring proper installation).</li>
-                                <li><b>Solution:</b> Use Wabbajack 3.7.5.3 for verification:
-                                    <ol>
-                                        <li>Download from: <a href="https://github.com/wabbajack-tools/wabbajack/releases/tag/3.7.5.3" target="_blank">https://github.com/wabbajack-tools/wabbajack/releases/tag/3.7.5.3</a></li>
-                                        <li>Create folder <code>3.7.5.3</code> in your Wabbajack directory</li>
-                                        <li>Extract downloaded zip into that folder</li>
-                                        <li>Run <code>wabbajack.exe</code> from the 3.7.5.3 folder</li>
-                                        <li>Repeat installation steps until download phase</li>
-                                        <li><b>Check "overwrite" option</b> only if you intend to use 3.7.5.3 as the installer (not needed for verification only)</li>
-                                        <li>Complete verification process</li>
-                                    </ol>
+                                <li><b>Verification Options:</b></li>
+                                <li><b>Option 1 - Kodex (If Available):</b> Use the <a href="https://www.nexusmods.com/skyrimspecialedition/mods/157869" target="_blank">Kodex MO2 plugin</a> to verify your installation:
+                                    <ul>
+                                        <li><b>Note:</b> Only works if your modlist author included Kodex with the modlist (currently available in a growing number of lists)</li>
+                                        <li>Generates a detailed report comparing your installation against the modlist author's intended setup</li>
+                                        <li>Identifies disabled plugins, version mismatches, priority changes, and custom mods</li>
+                                        <li>To use: In Mod Organizer 2, click Plugins → "Generate Support Report" → Share the HTML file with modlist support</li>
+                                    </ul>
                                 </li>
-                                <li><b>Note:</b> This method also works for verifying existing installations.</li>
+                                <li><b>Option 2 - Wabbajack 3.7.5.3:</b> Use an older Wabbajack version for verification:
+                                    <ul>
+                                        <li><b>Note:</b> Wabbajack 4.0 removed the built-in verify button</li>
+                                        <li><b>Steps:</b>
+                                            <ol>
+                                                <li>Download from: <a href="https://github.com/wabbajack-tools/wabbajack/releases/tag/3.7.5.3" target="_blank">https://github.com/wabbajack-tools/wabbajack/releases/tag/3.7.5.3</a></li>
+                                                <li>Create folder <code>3.7.5.3</code> in your Wabbajack directory</li>
+                                                <li>Extract downloaded zip into that folder</li>
+                                                <li>Run <code>wabbajack.exe</code> from the 3.7.5.3 folder</li>
+                                                <li>Repeat installation steps until download phase</li>
+                                                <li><b>Check "overwrite" option</b> only if you intend to use 3.7.5.3 as the installer (not needed for verification only)</li>
+                                                <li>Complete verification process</li>
+                                            </ol>
+                                        </li>
+                                    </ul>
+                                </li>
                             </ul>
                         </li>
                         
