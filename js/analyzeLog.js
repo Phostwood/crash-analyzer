@@ -21,6 +21,7 @@ async function analyzeLog() {
     Utils.debuggingLog(['analyzeLog', 'analyzeLog.js'], 'logFile type:', typeof logFile);
     Utils.debuggingLog(['analyzeLog', 'analyzeLog.js'], 'First 100 characters of logFile:', logFile.substring(0, 100));
 
+    if (logFile.length <1) return;
     clearResult();
     disableAnalyzeButtonAndTrackUniqueCrashLogCount();
 

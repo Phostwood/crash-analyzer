@@ -1,4 +1,4 @@
-📢 Version 1.30.4 is now live:
+📢 Version 1.30.4.1 is now live:
 https://phostwood.github.io/crash-analyzer/skyrim.html
 
 
@@ -12,9 +12,10 @@ https://phostwood.github.io/crash-analyzer/skyrim.html
 	- Recommended tools
 
 4. EXPERIMENTAL: Make analyzer's checkboxes (" 'Try harder' by analyzing full log (may show many additional possible causes)" and "Display nested Log Summary (Beta feature)") use local storage so it can keep the same crash log
+	- Version 1.30.4.1: bug fix
 
 5. EXPERIMENTAL: Preparations for new MO2 plugin (details coming in next version)
-
+	- Version 1.30.4.1: bug fix
 
 
 

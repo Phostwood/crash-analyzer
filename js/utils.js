@@ -35,7 +35,7 @@ Utils.isDebugging = false; // Set this to false to disable debugging (non-error)
 //Utils.debugBatch = ['Utils.FilenamesTracker'];
 //Utils.debugBatch = ['disableAnalyzeButtonAndTrackUniqueCrashLogCount'];
 //Utils.debugBatch = ['checkEngineFixesUpdate'];
-Utils.debugBatch = ['highestPriorityIndicators'];
+Utils.debugBatch = ['localStorage'];
 
 
 Utils.isSkyrimPage = window.location.href.toLowerCase().includes('skyrim.html');

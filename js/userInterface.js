@@ -21,16 +21,86 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // Check if there's a pending crash log from the MO2 plugin (with chunking support)
 window.addEventListener('DOMContentLoaded', function() {
+    Utils.debuggingLog(['DOMContentLoaded', 'sessionStorage'], `DOMContentLoaded-ing...`);
+    
     try {
-        // Check if we have chunked data
-        const totalChunks = localStorage.getItem('crashLog_totalChunks');
+        // FIRST: Check sessionStorage for chunked data (primary method)
+        const totalChunks = sessionStorage.getItem('crashLog_totalChunks');
+        Utils.debuggingLog(['DOMContentLoaded', 'sessionStorage'], `sessionStorage totalChunks: ${totalChunks}`);
         
         if (totalChunks) {
             const numChunks = parseInt(totalChunks, 10);
+            const totalSize = parseInt(sessionStorage.getItem('crashLog_totalSize') || '0', 10);
+            const filename = sessionStorage.getItem('crashLog_filename') || 'crash-log.log';
+            
+            Utils.debuggingLog(['DOMContentLoaded', 'sessionStorage'], `Found chunked crash log: ${numChunks} chunks, ${totalSize} chars`);
+            
+            try {
+                // Reassemble chunks
+                let reassembled = '';
+                for (let i = 0; i < numChunks; i++) {
+                    const chunk = sessionStorage.getItem(`crashLog_chunk_${i}`);
+                    if (chunk === null) {
+                        throw new Error(`Missing chunk ${i} of ${numChunks}`);
+                    }
+                    reassembled += chunk;
+                }
+                
+                Utils.debuggingLog(['DOMContentLoaded', 'sessionStorage'], `Reassembled ${reassembled.length} chars (expected ${totalSize})`);
+                
+                // Set the textarea value
+                document.getElementById('crashLog').value = reassembled;
+                
+                // Display the filename
+                displayFilename(filename);
+                
+                // Clear all chunks from sessionStorage
+                sessionStorage.removeItem('crashLog_totalChunks');
+                sessionStorage.removeItem('crashLog_totalSize');
+                sessionStorage.removeItem('crashLog_filename');
+                for (let i = 0; i < numChunks; i++) {
+                    sessionStorage.removeItem(`crashLog_chunk_${i}`);
+                }
+                
+                Utils.debuggingLog(['DOMContentLoaded', 'sessionStorage'], 'Successfully loaded crash log from sessionStorage chunks');
+                
+                // Analyze the log after a brief delay
+                setTimeout(() => {
+                    analyzeLog();
+                }, 100);
+                
+                return;
+            } catch (e) {
+                console.error('Failed to reassemble chunked crash log:', e);
+                // Try to clean up chunks on error
+                try {
+                    sessionStorage.removeItem('crashLog_totalChunks');
+                    sessionStorage.removeItem('crashLog_totalSize');
+                    sessionStorage.removeItem('crashLog_filename');
+                    for (let i = 0; i < numChunks; i++) {
+                        sessionStorage.removeItem(`crashLog_chunk_${i}`);
+                    }
+                } catch (cleanupError) {
+                    console.warn('Failed to cleanup sessionStorage:', cleanupError);
+                }
+                
+                // Show error to user
+                alert(`Failed to load crash log from plugin: ${e.message}\n\nPlease try uploading the file manually.`);
+            }
+            
+            return;
+        }
+        
+        // FALLBACK 1: Check localStorage for chunked data (old method, might still be there)
+        const localTotalChunks = localStorage.getItem('crashLog_totalChunks');
+        Utils.debuggingLog(['DOMContentLoaded', 'localStorage'], `localStorage totalChunks: ${localTotalChunks}`);
+        
+        if (localTotalChunks) {
+            const numChunks = parseInt(localTotalChunks, 10);
             const totalSize = parseInt(localStorage.getItem('crashLog_totalSize') || '0', 10);
             const filename = localStorage.getItem('crashLog_filename') || 'crash-log.log';
             
-            Utils.debuggingLog(['DOMContentLoaded', 'localStorage'], `Found chunked crash log: ${numChunks} chunks, ${totalSize} chars`);
+            Utils.debuggingLog(['DOMContentLoaded', 'localStorage'], `Found chunked crash log in localStorage: ${numChunks} chunks, ${totalSize} chars`);
             
             try {
                 // Reassemble chunks
@@ -45,10 +115,7 @@ window.addEventListener('DOMContentLoaded', function() {
                 
                 Utils.debuggingLog(['DOMContentLoaded', 'localStorage'], `Reassembled ${reassembled.length} chars`);
                 
-                // Set the textarea value
                 document.getElementById('crashLog').value = reassembled;
-                
-                // Display the filename
                 displayFilename(filename);
                 
                 // Clear all chunks from localStorage
@@ -59,13 +126,13 @@ window.addEventListener('DOMContentLoaded', function() {
                     localStorage.removeItem(`crashLog_chunk_${i}`);
                 }
                 
-                // Analyze the log after a brief delay
                 setTimeout(() => {
                     analyzeLog();
                 }, 100);
                 
+                return;
             } catch (e) {
-                console.warn('Failed to reassemble chunked crash log:', e.message);
+                console.warn('Failed to reassemble chunked crash log from localStorage:', e.message);
                 // Try to clean up chunks on error
                 try {
                     localStorage.removeItem('crashLog_totalChunks');
@@ -78,11 +145,9 @@ window.addEventListener('DOMContentLoaded', function() {
                     // Ignore cleanup errors
                 }
             }
-            
-            return;
         }
         
-        // Backward compatibility: check for old single-item storage
+        // FALLBACK 2: Check for old single-item storage (legacy compatibility)
         const pendingLog = localStorage.getItem('pendingCrashLog');
         const pendingFilename = localStorage.getItem('pendingCrashLogFilename');
         
@@ -103,11 +168,12 @@ window.addEventListener('DOMContentLoaded', function() {
             }, 100);
         }
     } catch (e) {
-        // localStorage is corrupted or inaccessible
-        console.warn('localStorage unavailable or corrupted, skipping MO2 plugin crash log restore:', e.name);
+        // sessionStorage/localStorage is corrupted or inaccessible
+        console.warn('Storage unavailable or corrupted, skipping MO2 plugin crash log restore:', e);
         return;
     }
 });
+
 
 document.addEventListener('DOMContentLoaded', function () {
 
@@ -832,7 +898,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
 
-	// Call initial setup functions
 // Call initial setup functions
 toggleAdvancedElements();
 addEmojiClickEvent();
@@ -929,51 +994,74 @@ window.addEventListener('load', function() {
 
 	// Restore crashLog from storage after page load
 	restoreCrashLogFromStorage();
+	// Analyze the log after a brief delay
+	setTimeout(() => {
+		analyzeLog();
+	}, 100);
 });
 
 /**
- * Saves the crashLog textarea content to localStorage
+ * Stores the crashLog textarea and filename div content to localStorage
  */
 function saveCrashLogToStorage() {
-	const crashLogElement = document.getElementById('crashLog');
-	if (!crashLogElement || !crashLogElement.value) {
-		return; // Nothing to save
-	}
-	
 	try {
-		localStorage.setItem('urlChange_crashLog', crashLogElement.value);
-		Utils.debuggingLog(['localStorage', 'save'], `Saved crash log: ${crashLogElement.value.length} chars`);
+		const crashLogElement = document.getElementById('crashLog');
+		const filenameElement = document.getElementById('filename');
+		
+		if (crashLogElement && crashLogElement.value) {
+			localStorage.setItem('urlChange_crashLog', crashLogElement.value);
+		}
+		
+		if (filenameElement && filenameElement.innerHTML) {
+			localStorage.setItem('urlChange_filename', filenameElement.innerHTML);
+		}
+		
+		Utils.debuggingLog(['localStorage', 'store'], 
+			`Stored crash data: ${crashLogElement?.value.length || 0} chars log, ${filenameElement?.innerHTML.length || 0} chars filename`);
+		
 	} catch (e) {
-		console.error('Failed to save crash log to localStorage:', e);
-		// If storage fails, continue anyway - the URL change will still happen
+		console.warn('localStorage unavailable, skipping crash data storage:', e.name);
 	}
 }
 
 /**
- * Restores the crashLog textarea content from localStorage
+ * Restores the crashLog textarea and filename div content from localStorage
  */
 function restoreCrashLogFromStorage() {
 	try {
 		const storedLog = localStorage.getItem('urlChange_crashLog');
+		const storedFilename = localStorage.getItem('urlChange_filename');
 		
-		if (!storedLog) {
+		if (!storedLog && !storedFilename) {
 			return; // Nothing to restore
 		}
 		
-		Utils.debuggingLog(['localStorage', 'restore'], `Restoring crash log: ${storedLog.length} chars`);
+		Utils.debuggingLog(['localStorage', 'restore'], 
+			`Restoring crash data: ${storedLog?.length || 0} chars log, ${storedFilename?.length || 0} chars filename`);
 		
 		// Restore the textarea value
-		const crashLogElement = document.getElementById('crashLog');
-		if (crashLogElement) {
-			crashLogElement.value = storedLog;
+		if (storedLog) {
+			const crashLogElement = document.getElementById('crashLog');
+			if (crashLogElement) {
+				crashLogElement.value = storedLog;
+			}
+		}
+		
+		// Restore the filename div content
+		if (storedFilename) {
+			const filenameElement = document.getElementById('filename');
+			if (filenameElement) {
+				filenameElement.innerHTML = storedFilename;
+			}
 		}
 		
 		// Clear stored data
 		localStorage.removeItem('urlChange_crashLog');
+		localStorage.removeItem('urlChange_filename');
 		
 	} catch (e) {
 		// localStorage is corrupted or inaccessible - silently ignore
-		console.warn('localStorage unavailable or corrupted, skipping crash log restore:', e.name);
+		console.warn('localStorage unavailable or corrupted, skipping crash data restore:', e.name);
 		return;
 	}
 }
