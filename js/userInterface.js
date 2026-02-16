@@ -19,160 +19,90 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 
-// Check if there's a pending crash log from the MO2 plugin (with chunking support)
-window.addEventListener('DOMContentLoaded', function() {
-    Utils.debuggingLog(['DOMContentLoaded', 'sessionStorage'], `DOMContentLoaded-ing...`);
+
+
+// Listen for crash log data from MO2 plugin via postMessage
+(function() {
+    console.log('[MO2 Plugin] Initializing postMessage listener...');
     
-    try {
-        // FIRST: Check sessionStorage for chunked data (primary method)
-        const totalChunks = sessionStorage.getItem('crashLog_totalChunks');
-        Utils.debuggingLog(['DOMContentLoaded', 'sessionStorage'], `sessionStorage totalChunks: ${totalChunks}`);
+    let crashLogReceived = false;
+    
+    window.addEventListener('message', function(event) {
+        console.log('[MO2 Plugin] Received message from:', event.origin, 'type:', event.data.type);
         
-        if (totalChunks) {
-            const numChunks = parseInt(totalChunks, 10);
-            const totalSize = parseInt(sessionStorage.getItem('crashLog_totalSize') || '0', 10);
-            const filename = sessionStorage.getItem('crashLog_filename') || 'crash-log.log';
-            
-            Utils.debuggingLog(['DOMContentLoaded', 'sessionStorage'], `Found chunked crash log: ${numChunks} chunks, ${totalSize} chars`);
-            
-            try {
-                // Reassemble chunks
-                let reassembled = '';
-                for (let i = 0; i < numChunks; i++) {
-                    const chunk = sessionStorage.getItem(`crashLog_chunk_${i}`);
-                    if (chunk === null) {
-                        throw new Error(`Missing chunk ${i} of ${numChunks}`);
-                    }
-                    reassembled += chunk;
-                }
-                
-                Utils.debuggingLog(['DOMContentLoaded', 'sessionStorage'], `Reassembled ${reassembled.length} chars (expected ${totalSize})`);
-                
-                // Set the textarea value
-                document.getElementById('crashLog').value = reassembled;
-                
-                // Display the filename
-                displayFilename(filename);
-                
-                // Clear all chunks from sessionStorage
-                sessionStorage.removeItem('crashLog_totalChunks');
-                sessionStorage.removeItem('crashLog_totalSize');
-                sessionStorage.removeItem('crashLog_filename');
-                for (let i = 0; i < numChunks; i++) {
-                    sessionStorage.removeItem(`crashLog_chunk_${i}`);
-                }
-                
-                Utils.debuggingLog(['DOMContentLoaded', 'sessionStorage'], 'Successfully loaded crash log from sessionStorage chunks');
-                
-                // Analyze the log after a brief delay
-                setTimeout(() => {
-                    analyzeLog();
-                }, 100);
-                
-                return;
-            } catch (e) {
-                console.error('Failed to reassemble chunked crash log:', e);
-                // Try to clean up chunks on error
-                try {
-                    sessionStorage.removeItem('crashLog_totalChunks');
-                    sessionStorage.removeItem('crashLog_totalSize');
-                    sessionStorage.removeItem('crashLog_filename');
-                    for (let i = 0; i < numChunks; i++) {
-                        sessionStorage.removeItem(`crashLog_chunk_${i}`);
-                    }
-                } catch (cleanupError) {
-                    console.warn('Failed to cleanup sessionStorage:', cleanupError);
-                }
-                
-                // Show error to user
-                alert(`Failed to load crash log from plugin: ${e.message}\n\nPlease try uploading the file manually.`);
-            }
-            
+        // Accept messages from file:// origin (which shows as "null" in postMessage)
+        // or from null origin (local files)
+        if (event.origin !== 'null' && !event.origin.startsWith('file://')) {
+            console.log('[MO2 Plugin] Ignoring origin:', event.origin);
             return;
         }
         
-        // FALLBACK 1: Check localStorage for chunked data (old method, might still be there)
-        const localTotalChunks = localStorage.getItem('crashLog_totalChunks');
-        Utils.debuggingLog(['DOMContentLoaded', 'localStorage'], `localStorage totalChunks: ${localTotalChunks}`);
+        const data = event.data;
         
-        if (localTotalChunks) {
-            const numChunks = parseInt(localTotalChunks, 10);
-            const totalSize = parseInt(localStorage.getItem('crashLog_totalSize') || '0', 10);
-            const filename = localStorage.getItem('crashLog_filename') || 'crash-log.log';
-            
-            Utils.debuggingLog(['DOMContentLoaded', 'localStorage'], `Found chunked crash log in localStorage: ${numChunks} chunks, ${totalSize} chars`);
+        if (data.type === 'CRASH_LOG_DATA' && !crashLogReceived) {
+            console.log(`[MO2 Plugin] Received crash log: ${data.crashLog.length} chars`);
+            crashLogReceived = true;
             
             try {
-                // Reassemble chunks
-                let reassembled = '';
-                for (let i = 0; i < numChunks; i++) {
-                    const chunk = localStorage.getItem(`crashLog_chunk_${i}`);
-                    if (chunk === null) {
-                        throw new Error(`Missing chunk ${i} of ${numChunks}`);
-                    }
-                    reassembled += chunk;
+                // Set the textarea
+                const textarea = document.getElementById('crashLog');
+                if (!textarea) {
+                    throw new Error('Could not find crashLog textarea element');
                 }
                 
-                Utils.debuggingLog(['DOMContentLoaded', 'localStorage'], `Reassembled ${reassembled.length} chars`);
+                textarea.value = data.crashLog;
+                console.log('[MO2 Plugin] Crash log set in textarea');
                 
-                document.getElementById('crashLog').value = reassembled;
-                displayFilename(filename);
-                
-                // Clear all chunks from localStorage
-                localStorage.removeItem('crashLog_totalChunks');
-                localStorage.removeItem('crashLog_totalSize');
-                localStorage.removeItem('crashLog_filename');
-                for (let i = 0; i < numChunks; i++) {
-                    localStorage.removeItem(`crashLog_chunk_${i}`);
+                // Display filename
+                if (typeof displayFilename === 'function' && data.filename) {
+                    displayFilename(data.filename);
+                    console.log('[MO2 Plugin] Filename displayed:', data.filename);
                 }
                 
+                // Notify sender that we're done
+                if (event.source) {
+                    event.source.postMessage({
+                        type: 'CRASH_LOG_LOADED'
+                    }, event.origin);
+                    console.log('[MO2 Plugin] Sent CRASH_LOG_LOADED confirmation');
+                }
+                
+                // Analyze the log
                 setTimeout(() => {
-                    analyzeLog();
+                    if (typeof analyzeLog === 'function') {
+                        console.log('[MO2 Plugin] Calling analyzeLog()');
+                        analyzeLog();
+                    } else {
+                        console.warn('[MO2 Plugin] analyzeLog function not found');
+                    }
                 }, 100);
                 
-                return;
             } catch (e) {
-                console.warn('Failed to reassemble chunked crash log from localStorage:', e.message);
-                // Try to clean up chunks on error
-                try {
-                    localStorage.removeItem('crashLog_totalChunks');
-                    localStorage.removeItem('crashLog_totalSize');
-                    localStorage.removeItem('crashLog_filename');
-                    for (let i = 0; i < numChunks; i++) {
-                        localStorage.removeItem(`crashLog_chunk_${i}`);
-                    }
-                } catch (cleanupError) {
-                    // Ignore cleanup errors
+                console.error('[MO2 Plugin] Failed to process crash log:', e);
+                if (event.source) {
+                    event.source.postMessage({
+                        type: 'CRASH_LOG_ERROR',
+                        error: e.message
+                    }, event.origin);
                 }
             }
         }
-        
-        // FALLBACK 2: Check for old single-item storage (legacy compatibility)
-        const pendingLog = localStorage.getItem('pendingCrashLog');
-        const pendingFilename = localStorage.getItem('pendingCrashLogFilename');
-        
-        if (pendingLog) {
-            Utils.debuggingLog(['DOMContentLoaded', 'localStorage'], 'Found pending crash log from plugin (legacy format)');
-            
-            document.getElementById('crashLog').value = pendingLog;
-            
-            if (pendingFilename) {
-                displayFilename(pendingFilename);
-            }
-            
-            localStorage.removeItem('pendingCrashLog');
-            localStorage.removeItem('pendingCrashLogFilename');
-            
-            setTimeout(() => {
-                analyzeLog();
-            }, 100);
-        }
-    } catch (e) {
-        // sessionStorage/localStorage is corrupted or inaccessible
-        console.warn('Storage unavailable or corrupted, skipping MO2 plugin crash log restore:', e);
-        return;
+    });
+    
+    // Signal that we're ready to receive data (for window.opener)
+    if (window.opener && window.opener !== window) {
+        console.log('[MO2 Plugin] Detected window.opener, sending CRASH_LOG_READY');
+        window.opener.postMessage({
+            type: 'CRASH_LOG_READY'
+        }, '*');
+        console.log('[MO2 Plugin] Sent CRASH_LOG_READY message to opener');
+    } else {
+        console.log('[MO2 Plugin] No window.opener detected');
     }
-});
+    
+    console.log('[MO2 Plugin] Listener initialized and ready');
+})();
+
 
 
 document.addEventListener('DOMContentLoaded', function () {
