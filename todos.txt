@@ -1,4 +1,4 @@
-📢 Version 1.30.4.2 is now live:
+📢 Version 1.30.4.3 is now live:
 https://phostwood.github.io/crash-analyzer/skyrim.html
 
 
@@ -15,7 +15,7 @@ https://phostwood.github.io/crash-analyzer/skyrim.html
 	- Version 1.30.4.1: bug fix
 
 5. EXPERIMENTAL: Preparations for new MO2 plugin (details coming in next version)
-	- Version 1.30.4.2: bug fix
+	- Version 1.30.4.3: bug fix
 
 
 

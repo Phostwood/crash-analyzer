@@ -21,87 +21,149 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 
-// Listen for crash log data from MO2 plugin via postMessage
-(function() {
-    console.log('[MO2 Plugin] Initializing postMessage listener...');
+
+
+// Load crash log from query string parameter or wait for manual input/postMessage
+function initializeCrashLogLoader() {
+    console.log('[Crash Log Loader] Initializing...');
     
     let crashLogReceived = false;
     
-    window.addEventListener('message', function(event) {
-        console.log('[MO2 Plugin] Received message from:', event.origin, 'type:', event.data.type);
+    // Check for query string parameter first
+    const urlParams = new URLSearchParams(window.location.search);
+    const logUrl = urlParams.get('log');
+    
+    if (logUrl) {
+        loadCrashLogFromUrl(logUrl);
+    } else {
+        console.log('[Crash Log Loader] No query parameter found, ready for manual input');
+        setupPostMessageListener();
+    }
+    
+    // Fetch and insert crash log from Pastebin URL
+    async function loadCrashLogFromUrl(pastebinUrl) {
+        if (crashLogReceived) return;
         
-        // Accept messages from file:// origin (which shows as "null" in postMessage)
-        // or from null origin (local files)
-        if (event.origin !== 'null' && !event.origin.startsWith('file://')) {
-            console.log('[MO2 Plugin] Ignoring origin:', event.origin);
+        try {
+            console.log('[Crash Log Loader] Fetching from:', pastebinUrl);
+            
+            // Extract paste ID
+            let pasteId = pastebinUrl.split('pastebin.com/').pop().split('?')[0];
+            pasteId = pasteId.replace('raw/', ''); // Remove 'raw/' if present
+            
+            // Try multiple CORS proxy options
+            const proxyUrls = [
+                `https://corsproxy.io/?${encodeURIComponent(`https://pastebin.com/raw/${pasteId}`)}`,
+                `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(`https://pastebin.com/raw/${pasteId}`)}`,
+                `https://thingproxy.freeboard.io/fetch/${encodeURIComponent(`https://pastebin.com/raw/${pasteId}`)}`
+            ];
+            
+            let crashLogContent = null;
+            let lastError = null;
+            
+            // Try each proxy until one works
+            for (const proxyUrl of proxyUrls) {
+                try {
+                    console.log('[Crash Log Loader] Trying proxy:', proxyUrl.split('?')[0]);
+                    const response = await fetch(proxyUrl);
+                    if (response.ok) {
+                        crashLogContent = await response.text();
+                        console.log(`[Crash Log Loader] Success! Fetched ${crashLogContent.length} characters`);
+                        break;
+                    }
+                } catch (err) {
+                    lastError = err;
+                    console.log('[Crash Log Loader] Proxy failed, trying next...');
+                    continue;
+                }
+            }
+            
+            if (!crashLogContent) {
+                throw lastError || new Error('All proxies failed');
+            }
+            
+            insertCrashLog(crashLogContent, 'Crash Log (from Pastebin)');
+            crashLogReceived = true;
+            
+        } catch (e) {
+            console.error('[Crash Log Loader] Failed to fetch:', e);
+            
+            // Extract paste ID for manual link
+            let pasteId = pastebinUrl.split('pastebin.com/').pop().split('?')[0].replace('raw/', '');
+            
+            const manualMessage = `Failed to automatically load crash log from Pastebin.\n\n` +
+                `Please manually copy the crash log from:\n` +
+                `https://pastebin.com/raw/${pasteId}\n\n` +
+                `Then paste it into the text area below.`;
+            
+            alert(manualMessage);
+        }
+    }
+    
+    // Insert crash log into textarea and analyze
+    function insertCrashLog(content, filename) {
+        const textarea = document.getElementById('crashLog');
+        if (!textarea) {
+            console.error('[Crash Log Loader] Textarea not found');
             return;
         }
         
-        const data = event.data;
+        textarea.value = content;
+        console.log('[Crash Log Loader] Crash log inserted');
         
-        if (data.type === 'CRASH_LOG_DATA' && !crashLogReceived) {
-            console.log(`[MO2 Plugin] Received crash log: ${data.crashLog.length} chars`);
-            crashLogReceived = true;
-            
-            try {
-                // Set the textarea
-                const textarea = document.getElementById('crashLog');
-                if (!textarea) {
-                    throw new Error('Could not find crashLog textarea element');
-                }
-                
-                textarea.value = data.crashLog;
-                console.log('[MO2 Plugin] Crash log set in textarea');
-                
-                // Display filename
-                if (typeof displayFilename === 'function' && data.filename) {
-                    displayFilename(data.filename);
-                    console.log('[MO2 Plugin] Filename displayed:', data.filename);
-                }
-                
-                // Notify sender that we're done
-                if (event.source) {
-                    event.source.postMessage({
-                        type: 'CRASH_LOG_LOADED'
-                    }, event.origin);
-                    console.log('[MO2 Plugin] Sent CRASH_LOG_LOADED confirmation');
-                }
-                
-                // Analyze the log
-                setTimeout(() => {
-                    if (typeof analyzeLog === 'function') {
-                        console.log('[MO2 Plugin] Calling analyzeLog()');
-                        analyzeLog();
-                    } else {
-                        console.warn('[MO2 Plugin] analyzeLog function not found');
-                    }
-                }, 100);
-                
-            } catch (e) {
-                console.error('[MO2 Plugin] Failed to process crash log:', e);
-                if (event.source) {
-                    event.source.postMessage({
-                        type: 'CRASH_LOG_ERROR',
-                        error: e.message
-                    }, event.origin);
-                }
-            }
+        if (typeof displayFilename === 'function' && filename) {
+            displayFilename(filename);
         }
-    });
-    
-    // Signal that we're ready to receive data (for window.opener)
-    if (window.opener && window.opener !== window) {
-        console.log('[MO2 Plugin] Detected window.opener, sending CRASH_LOG_READY');
-        window.opener.postMessage({
-            type: 'CRASH_LOG_READY'
-        }, '*');
-        console.log('[MO2 Plugin] Sent CRASH_LOG_READY message to opener');
-    } else {
-        console.log('[MO2 Plugin] No window.opener detected');
+        
+        setTimeout(() => {
+            if (typeof analyzeLog === 'function') {
+                analyzeLog();
+            }
+        }, 100);
     }
     
-    console.log('[MO2 Plugin] Listener initialized and ready');
-})();
+    // Set up listener for postMessage (fallback method)
+    function setupPostMessageListener() {
+        window.addEventListener('message', function(event) {
+            if (crashLogReceived) return;
+            
+            // Accept messages from file:// or null origin
+            if (event.origin !== 'null' && !event.origin.startsWith('file://')) {
+                return;
+            }
+            
+            const data = event.data;
+            
+            if (data.type === 'CRASH_LOG_DATA') {
+                console.log(`[Crash Log Loader] Received via postMessage: ${data.crashLog.length} chars`);
+                crashLogReceived = true;
+                
+                insertCrashLog(data.crashLog, data.filename);
+                
+                if (event.source) {
+                    event.source.postMessage({ type: 'CRASH_LOG_LOADED' }, event.origin);
+                }
+            }
+        });
+        
+        // Signal ready to window.opener
+        if (window.opener && window.opener !== window) {
+            window.opener.postMessage({ type: 'CRASH_LOG_READY' }, '*');
+        }
+    }
+}
+
+// Initialize on page load
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initializeCrashLogLoader);
+} else {
+    initializeCrashLogLoader();
+}
+
+
+
+
+
 
 
 
