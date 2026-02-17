@@ -38,65 +38,188 @@ function initializeCrashLogLoader() {
     } else {
         console.log('[Crash Log Loader] No query parameter found, ready for manual input');
         setupPostMessageListener();
+        setupUrlDetection();
     }
     
-    // Fetch and insert crash log from Pastebin URL
-    async function loadCrashLogFromUrl(pastebinUrl) {
+    // Detect if user pastes a URL directly into textarea
+    function setupUrlDetection() {
+        const textarea = document.getElementById('crashLog');
+        if (!textarea) return;
+        
+        textarea.addEventListener('paste', function(event) {
+            setTimeout(() => {
+                const content = textarea.value.trim();
+                // Check if content looks like a URL
+                if (isValidPasteUrl(content)) {
+                    console.log('[Crash Log Loader] URL detected in paste, reloading with query string');
+                    // Reload page with URL as query parameter
+                    window.location.href = `${window.location.pathname}?log=${encodeURIComponent(content)}`;
+                }
+            }, 100);
+        });
+        
+        // Also check on blur (when user clicks away)
+        textarea.addEventListener('blur', function() {
+            const content = textarea.value.trim();
+            if (isValidPasteUrl(content) && content.length < 500) { // Only if it's short (likely just a URL)
+                if (confirm('It looks like you pasted a URL. Would you like to load the crash log from this URL automatically?')) {
+                    window.location.href = `${window.location.pathname}?log=${encodeURIComponent(content)}`;
+                }
+            }
+        });
+    }
+    
+	// Check if string is a valid paste URL
+	function isValidPasteUrl(str) {
+		if (!str || str.length > 500) return false;
+		// Match URLs with or without protocol
+		return str.match(/^(https?:\/\/)?(www\.)?(pastebin\.com|paste\.rs)\//i);
+	}
+    
+    // Fetch and insert crash log from URL
+    async function loadCrashLogFromUrl(pasteUrl) {
         if (crashLogReceived) return;
         
         try {
-            console.log('[Crash Log Loader] Fetching from:', pastebinUrl);
+            console.log('[Crash Log Loader] Fetching from:', pasteUrl);
             
-            // Extract paste ID
-            let pasteId = pastebinUrl.split('pastebin.com/').pop().split('?')[0];
-            pasteId = pasteId.replace('raw/', ''); // Remove 'raw/' if present
+            let fetchUrl = pasteUrl;
+            let serviceName = 'Unknown';
             
-            // Try multiple CORS proxy options
-            const proxyUrls = [
-                `https://corsproxy.io/?${encodeURIComponent(`https://pastebin.com/raw/${pasteId}`)}`,
-                `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(`https://pastebin.com/raw/${pasteId}`)}`,
-                `https://thingproxy.freeboard.io/fetch/${encodeURIComponent(`https://pastebin.com/raw/${pasteId}`)}`
-            ];
-            
-            let crashLogContent = null;
-            let lastError = null;
-            
-            // Try each proxy until one works
-            for (const proxyUrl of proxyUrls) {
-                try {
-                    console.log('[Crash Log Loader] Trying proxy:', proxyUrl.split('?')[0]);
-                    const response = await fetch(proxyUrl);
-                    if (response.ok) {
-                        crashLogContent = await response.text();
-                        console.log(`[Crash Log Loader] Success! Fetched ${crashLogContent.length} characters`);
-                        break;
+            // Detect service and convert to raw URL if needed
+            if (pasteUrl.includes('pastebin.com')) {
+                serviceName = 'Pastebin';
+                // Extract paste ID
+                let pasteId = pasteUrl.split('pastebin.com/').pop().split('?')[0];
+                pasteId = pasteId.replace('raw/', ''); // Remove 'raw/' if present
+                
+                // Try multiple CORS proxy options for Pastebin
+                const proxyUrls = [
+                    `https://corsproxy.io/?${encodeURIComponent(`https://pastebin.com/raw/${pasteId}`)}`,
+                    `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(`https://pastebin.com/raw/${pasteId}`)}`,
+                    `https://thingproxy.freeboard.io/fetch/${encodeURIComponent(`https://pastebin.com/raw/${pasteId}`)}`
+                ];
+                
+                let crashLogContent = null;
+                let lastError = null;
+                
+                // Try each proxy until one works
+                for (const proxyUrl of proxyUrls) {
+                    try {
+                        console.log('[Crash Log Loader] Trying proxy:', proxyUrl.split('?')[0]);
+                        const response = await fetch(proxyUrl);
+                        if (response.ok) {
+                            crashLogContent = await response.text();
+                            console.log(`[Crash Log Loader] Success! Fetched ${crashLogContent.length} characters`);
+                            break;
+                        }
+                    } catch (err) {
+                        lastError = err;
+                        console.log('[Crash Log Loader] Proxy failed, trying next...');
+                        continue;
                     }
-                } catch (err) {
-                    lastError = err;
-                    console.log('[Crash Log Loader] Proxy failed, trying next...');
-                    continue;
                 }
+                
+                if (!crashLogContent) {
+                    throw lastError || new Error('All proxies failed');
+                }
+                
+                // Decompress if needed
+                const decompressedContent = await decompressIfNeeded(crashLogContent);
+                if (!decompressedContent) return; // Decompression failed
+                
+                insertCrashLog(decompressedContent, `Crash Log (from ${serviceName})`);
+                crashLogReceived = true;
+                return;
+                
+            } else if (pasteUrl.includes('paste.rs')) {
+                serviceName = 'paste.rs';
+                // paste.rs returns plain text directly, no modification needed
+                fetchUrl = pasteUrl;
+                
+                console.log('[Crash Log Loader] Fetching from paste.rs:', fetchUrl);
+                const response = await fetch(fetchUrl);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
+                const crashLogContent = await response.text();
+                console.log(`[Crash Log Loader] Success! Fetched ${crashLogContent.length} characters`);
+                
+                // Decompress if needed
+                const decompressedContent = await decompressIfNeeded(crashLogContent);
+                if (!decompressedContent) return; // Decompression failed
+                
+                insertCrashLog(decompressedContent, `Crash Log (from ${serviceName})`);
+                crashLogReceived = true;
+                return;
+            } else {
+                throw new Error('Unsupported paste service. Only Pastebin and paste.rs are supported.');
             }
-            
-            if (!crashLogContent) {
-                throw lastError || new Error('All proxies failed');
-            }
-            
-            insertCrashLog(crashLogContent, 'Crash Log (from Pastebin)');
-            crashLogReceived = true;
             
         } catch (e) {
             console.error('[Crash Log Loader] Failed to fetch:', e);
             
-            // Extract paste ID for manual link
-            let pasteId = pastebinUrl.split('pastebin.com/').pop().split('?')[0].replace('raw/', '');
+            let manualUrl = pasteUrl;
+            if (pasteUrl.includes('pastebin.com')) {
+                let pasteId = pasteUrl.split('pastebin.com/').pop().split('?')[0].replace('raw/', '');
+                manualUrl = `https://pastebin.com/raw/${pasteId}`;
+            }
             
-            const manualMessage = `Failed to automatically load crash log from Pastebin.\n\n` +
-                `Please manually copy the crash log from:\n` +
-                `https://pastebin.com/raw/${pasteId}\n\n` +
+            const manualMessage = `Failed to automatically load crash log.\n\n` +
+                `Please manually copy the crash log from:\n${manualUrl}\n\n` +
                 `Then paste it into the text area below.`;
             
             alert(manualMessage);
+        }
+    }
+    
+    // Decompress content if it's gzipped
+    async function decompressIfNeeded(content) {
+        // Check if content is wrapped in <gzip> tags
+        const gzipMatch = content.match(/<gzip>(.*?)<\/gzip>/s);
+        if (!gzipMatch) {
+            // Not gzipped, return as-is
+            return content;
+        }
+        
+        try {
+            console.log('[Crash Log Loader] Detected gzipped content, decompressing...');
+            const base64Data = gzipMatch[1];
+            
+            // Decode base64
+            const binaryString = atob(base64Data);
+            const bytes = new Uint8Array(binaryString.length);
+            for (let i = 0; i < binaryString.length; i++) {
+                bytes[i] = binaryString.charCodeAt(i);
+            }
+            
+            console.log(`[Crash Log Loader] Compressed size: ${bytes.length} bytes`);
+            
+            // Try using DecompressionStream (modern browsers)
+            try {
+                const stream = new Response(bytes).body
+                    .pipeThrough(new DecompressionStream('gzip'));
+                const decompressed = await new Response(stream).text();
+                console.log(`[Crash Log Loader] Decompression successful! Decompressed size: ${decompressed.length} characters`);
+                return decompressed;
+            } catch (e) {
+                console.error('[Crash Log Loader] Native decompression failed:', e);
+                
+                // Fallback: Check if pako library is available
+                if (typeof pako !== 'undefined') {
+                    console.log('[Crash Log Loader] Trying pako library...');
+                    const decompressed = pako.inflate(bytes, { to: 'string' });
+                    console.log(`[Crash Log Loader] Decompression successful using pako! Size: ${decompressed.length} characters`);
+                    return decompressed;
+                } else {
+                    throw new Error('Browser does not support native gzip decompression and pako library is not available.');
+                }
+            }
+        } catch (e) {
+            console.error('[Crash Log Loader] Failed to decompress:', e);
+            alert('Failed to decompress crash log. The file may be corrupted.\n\nError: ' + e.message);
+            return null;
         }
     }
     

@@ -1,4 +1,4 @@
-📢 Version 1.30.4.3 is now live:
+📢 Version 1.30.4.4 is now live:
 https://phostwood.github.io/crash-analyzer/skyrim.html
 
 
@@ -15,9 +15,24 @@ https://phostwood.github.io/crash-analyzer/skyrim.html
 	- Version 1.30.4.1: bug fix
 
 5. EXPERIMENTAL: Preparations for new MO2 plugin (details coming in next version)
-	- Version 1.30.4.3: bug fix
+	- Version 1.30.4.4: bug fix
 
 
+UPCOMING: 
+6. New crash log sharing feature/page?
+	- share via pastebin
+	- if over 512KB, then compresses (as much as 35 times!)
+	- attempts to redact drive letters, usernames, and such from file paths (no guarantees!)
+
+7. New feature for loading crash logs from a URL
+	- works with Pastebin
+	- or works with any raw text sharing output URL
+
+8. Update privacy policy
+	- Google Fonts
+	- Any other script includes?
+	- Python script for MO2 plugin
+	- Pastebin (or other file sharing service linked to)
 
 
 
