@@ -54,7 +54,7 @@ class CrashLogQuickLink(mobase.IPluginTool):
             mobase.PluginSetting("enabled", "enable this plugin", True),
             mobase.PluginSetting("pastebin_api_key", "Pastebin API Developer Key (optional - leave blank to use paste.rs)", ""),
             mobase.PluginSetting("paste_expiration", "Paste expiration (N=Never, 1D=1 Day, 1W=1 Week, 1M=1 Month, 1Y=1 Year)", "1W"),
-            mobase.PluginSetting("always_copy_to_clipboard", "Always copy crash log to clipboard", True),
+            mobase.PluginSetting("always_copy_to_clipboard", "Always copy crash log to clipboard", False),
             mobase.PluginSetting("analyzer_url", "Crash Analyzer URL", "https://phostwood.github.io/crash-analyzer/skyrim.html")
         ]
     
@@ -123,7 +123,7 @@ class CrashLogQuickLink(mobase.IPluginTool):
                     crash_log_path = recent_crash_log[0]
                     # Read the crash log contents
                     try:
-                        with open(crash_log_path, "r", encoding="utf-8") as f:
+                        with open(crash_log_path, "r", encoding="utf-8", errors="replace") as f:
                             crash_log_contents = f.read()
                             # Redact sensitive information before returning
                             return self.redact_sensitive_info(crash_log_contents)
@@ -229,8 +229,11 @@ class CrashLogQuickLink(mobase.IPluginTool):
         qInfo("Uploading to paste.rs...")
         qInfo(f"Content length: {len(content)} bytes")
         
+        # Sanitize content - replace any non-ASCII characters that might cause issues
+        sanitized = content.encode('utf-8', errors='replace').decode('utf-8')
+        
         try:
-            req = urllib.request.Request('https://paste.rs/', data=content.encode('utf-8'))
+            req = urllib.request.Request('https://paste.rs/', data=sanitized.encode('utf-8'))
             req.add_header('User-Agent', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36')
             req.add_header('Content-Type', 'text/plain')
             
@@ -311,8 +314,8 @@ class CrashLogQuickLink(mobase.IPluginTool):
         if has_pastebin_key:
             # User has Pastebin API key
             if original_size <= 512 * 1024:
-                # ≤ 512KB: Send uncompressed to Pastebin
-                qInfo("Route: Pastebin (uncompressed, ≤512KB)")
+                # <= 512KB: Send uncompressed to Pastebin
+                qInfo("Route: Pastebin (uncompressed, <=512KB)")
                 prepared_content, final_size = self.prepare_content_for_upload(crash_log_content, compress=False)
                 service_name = "Pastebin"
                 was_compressed = False
@@ -327,8 +330,8 @@ class CrashLogQuickLink(mobase.IPluginTool):
         else:
             # No Pastebin API key
             if original_size <= 512 * 1024:
-                # ≤ 512KB: Send uncompressed to paste.rs
-                qInfo("Route: paste.rs (uncompressed, ≤512KB)")
+                # <= 512KB: Send uncompressed to paste.rs
+                qInfo("Route: paste.rs (uncompressed, <=512KB)")
                 prepared_content, final_size = self.prepare_content_for_upload(crash_log_content, compress=False)
                 service_name = "paste.rs"
                 was_compressed = False

@@ -15,7 +15,7 @@ https://phostwood.github.io/crash-analyzer/skyrim.html
 	- Version 1.30.4.1: bug fix
 
 5. EXPERIMENTAL: Preparations for new MO2 plugin (details coming in next version)
-	- Version 1.30.4.4: bug fix
+	- Version 1.30.4.5: bug fix
 
 
 UPCOMING: 
@@ -34,7 +34,7 @@ UPCOMING:
 	- Python script for MO2 plugin
 	- Pastebin (or other file sharing service linked to)
 
-
+9. Update donation section
 
 
 ~~ next version ~~
