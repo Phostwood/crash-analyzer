@@ -1,4 +1,4 @@
-📢 Version 1.30.4.4 is now live:
+📢 Version 1.30.4.6 is now live:
 https://phostwood.github.io/crash-analyzer/skyrim.html
 
 
@@ -14,30 +14,41 @@ https://phostwood.github.io/crash-analyzer/skyrim.html
 4. EXPERIMENTAL: Make analyzer's checkboxes (" 'Try harder' by analyzing full log (may show many additional possible causes)" and "Display nested Log Summary (Beta feature)") use local storage so it can keep the same crash log
 	- Version 1.30.4.1: bug fix
 
-5. EXPERIMENTAL: Preparations for new MO2 plugin (details coming in next version)
-	- Version 1.30.4.5: bug fix
+5. EXPERIMENTAL: New MO2 plugin (details coming in next version)
+	- Version 1.30.4.6: now uses CloudFlare Worker and R2 storage for dedicated crash log storage
 
-
-UPCOMING: 
-6. New crash log sharing feature/page?
-	- share via pastebin
-	- if over 512KB, then compresses (as much as 35 times!)
-	- attempts to redact drive letters, usernames, and such from file paths (no guarantees!)
-
-7. New feature for loading crash logs from a URL
+6. New feature for loading crash logs from a URL
 	- works with Pastebin
 	- or works with any raw text sharing output URL
+	- Version 1.30.4.6: now uses CloudFlare Worker and R2 storage for dedicated crash log storage/retrieval
 
-8. Update privacy policy
+7. Update privacy policy
 	- Google Fonts
-	- Any other script includes?
-	- Python script for MO2 plugin
-	- Pastebin (or other file sharing service linked to)
+	- Pastebin (or other file sharing service linked to) retrieval
+	- CloudFlare Worker and R2 storage/retrieval
 
-9. Update donation section
+8. Swapped the order of these two, so Engine Fixes is higher
+	- ⚠️ Consider Updating SSE Engine Fixes:
+	- ⚠️ Consider Upgrading CrashLogger SSE:
+
 
 
 ~~ next version ~~
+
+7. Update privacy policy
+	- Any other script includes?
+	- Python script for MO2 plugin
+	- CloudFlare worker attempts to redact potentially personal information from crash logs before storage. Also attempts to ensure only SkyrimSE+ crash logs are stored.  Reasonable attempts have also been made to prevent arbitrary scanning of crash logs without having access to a link's UUID. Reasonable security precautions have been taken. But the uploading of crash logs is provided as  a free (as in beer) (or optional gratuity-funded) service. Use at your own risk. No guarantees are made. CloudFlare privacy policy is involved. 
+	- No guarantees as the the safety or approriateness of anything regarding uploaded/shared Skyrim crash logs. Efforts are made to keep the storage clean of any non-authentic skyrim crash logs, but this filtering can not be guaranteed!
+	- Crashlogs have ben attempted to be anonymized, but not guaranteed. And Skyrim Crash logs are usually inherently pretty innocuous and safe to share anyway...
+	- You consent to sharing these crash logs with the world when you share them here. No crash logs stored should be considered private as links to it could be shared from anywhere. Ownership is perhaps public domain, but not readily accessible by anyone but developer(s) and shared third parties.
+	- No private data is stored in crashlog metadata about you or your usage of this service
+	- Allied programmers may on a case-by-case basis gain access to stored crash logs. One possible sharing being considered is towards training a crash-log-trained LLM for use in conjunction with this analyzer
+
+6. ?New crash log sharing feature/page?
+	- share via pastebin
+	- if over 512KB, then compresses (as much as 35 times!)
+	- attempts to redact drive letters, usernames, and such from file paths (no guarantees!)
 
 2. TODO: Update donations section
 

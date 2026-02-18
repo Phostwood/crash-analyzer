@@ -14,7 +14,7 @@
         </header>
 
         <main>
-            <p><em>Last Updated: February 9, 2026</em></p>
+            <p><em>Last Updated: February 18, 2026</em></p>
 
             <section>
                 <h2>Your Privacy Matters</h2>
@@ -37,6 +37,18 @@
             </section>
 
             <section>
+                <h2>Crash Log Upload Feature (MO2 Plugin)</h2>
+                <p>If you use the optional MO2 plugin to upload a crash log for sharing, the following applies:</p>
+                <ul>
+                    <li><strong>Redaction:</strong> Before storage, the server automatically redacts potentially sensitive information such as Windows usernames embedded in file paths, IP addresses, and email addresses.</li>
+                    <li><strong>No raw logs stored:</strong> Only the redacted, compressed version of your crash log is stored — the original is never retained.</li>
+                    <li><strong>Deduplication:</strong> A non-reversible hash (SHA-256) of your log is computed to avoid storing duplicate files. This hash cannot be used to reconstruct your log.</li>
+                    <li><strong>Storage:</strong> Redacted logs are stored via Cloudflare Workers and R2 (see Third-Party Services below). Logs are currently retained for for an indefinite period of time.</li>
+                    <li><strong>No account required:</strong> Uploads are anonymous. No login, email address, or personal information is collected.</li>
+                </ul>
+            </section>
+
+            <section>
                 <h2>Third-Party Web Statistics</h2>
                 <p>This site uses standard web usage statistic services that may collect data about your visit:</p>
                 <ol>
@@ -48,7 +60,18 @@
             </section>
 
             <section>
-                <h2>Open Source & Transparency</h2>
+                <h2>Third-Party Services</h2>
+                <p>This project also relies on the following third-party services. Their own privacy and data practices are beyond the scope of this policy — please review their respective privacy policies on their websites for details:</p>
+                <ul>
+                    <li><strong>Google Fonts</strong> — Used to load typefaces for the analyzer interface. Google's servers receive a request when the page loads. <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer">Privacy Policy</a></li>
+                    <li><strong>Cloudflare Workers &amp; R2</strong> — Used to receive, process, redact, and store crash logs uploaded via the optional MO2 plugin. Cloudflare may log metadata about requests (such as IP addresses) in accordance with their own policies. <a href="https://www.cloudflare.com/privacypolicy/" target="_blank" rel="noopener noreferrer">Privacy Policy</a></li>
+                    <li><strong>jsDelivr CDN</strong> — Used to load the Turndown JavaScript library (which converts HTML to Markdown). jsDelivr's servers receive a request when the page loads. <a href="https://www.jsdelivr.com/privacy-policy-jsdelivr-net" target="_blank" rel="noopener noreferrer">Privacy Policy</a></li>
+                    <li><strong>Pastebin and other file-sharing services</strong> — When you open a crash log shared via a Pastebin link (or a similar service such as paste.rs), the analyzer retrieves that log from the respective service's servers. We have no control over what data those services collect when your browser contacts them. Please review the privacy policy of whichever service hosted the link you are opening.</li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>Open Source &amp; Transparency</h2>
                 <p>This entire project is free and open source under the <a href="https://www.gnu.org/licenses/gpl-3.0.en.html" target="_blank" rel="noopener noreferrer">GPL-3.0 License</a>. Any programmer can review the code on GitHub to verify these privacy claims.</p>
             </section>
 

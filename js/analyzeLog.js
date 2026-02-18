@@ -591,6 +591,17 @@ async function analyzeLog() {
     }
 
 
+    //⚠️ Consider Updating Engine Fixes:
+     // Skipping this for Nolvus, as per request
+    if(Utils.isSkyrimPage) {
+        const checkEngineFixesUpdateResult = checkEngineFixesUpdate(sections);
+        if(checkEngineFixesUpdateResult) {
+            diagnoses += checkEngineFixesUpdateResult;
+            diagnosesCount++;
+        }
+    }
+
+
     //⚠️ Consider Upgrading CrashLogger SSE
     // Skipping this for Nolvus, as per request
     if(Utils.isSkyrimPage) {
@@ -607,17 +618,6 @@ async function analyzeLog() {
     if(checkIntelCPUIssueResult) {
         diagnoses += checkIntelCPUIssueResult;
         diagnosesCount++;
-    }
-
-
-    //⚠️ Consider Updating Engine Fixes:
-     // Skipping this for Nolvus, as per request
-    if(Utils.isSkyrimPage) {
-        const checkEngineFixesUpdateResult = checkEngineFixesUpdate(sections);
-        if(checkEngineFixesUpdateResult) {
-            diagnoses += checkEngineFixesUpdateResult;
-            diagnosesCount++;
-        }
     }
 
     
