@@ -23,24 +23,65 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 
+
+
 // Load crash log from query string parameter or wait for manual input/postMessage
 function initializeCrashLogLoader() {
     console.log('[Crash Log Loader] Initializing...');
     
+    const WORKER_BASE_URL = 'https://skyrim-crashlog-worker.phostwood.workers.dev';
+
     let crashLogReceived = false;
     
-    // Check for query string parameter first
+    // Check for query string parameters
     const urlParams = new URLSearchParams(window.location.search);
-    const logUrl = urlParams.get('log');
-    
-    if (logUrl) {
+    const uuid    = urlParams.get('UUID');   // from MO2 plugin upload
+    const logUrl  = urlParams.get('log');    // legacy Pastebin/paste.rs
+
+    if (uuid) {
+        loadCrashLogFromWorker(uuid);
+    } else if (logUrl) {
         loadCrashLogFromUrl(logUrl);
     } else {
         console.log('[Crash Log Loader] No query parameter found, ready for manual input');
         setupPostMessageListener();
         setupUrlDetection();
     }
-    
+
+    // ── Fetch from Cloudflare Worker by UUID ──────────────────────────────────
+    async function loadCrashLogFromWorker(uuid) {
+        if (crashLogReceived) return;
+
+        try {
+            console.log('[Crash Log Loader] Fetching from worker, UUID:', uuid);
+
+            const fetchUrl = `${WORKER_BASE_URL}/log/${uuid}`;
+            const response = await fetch(fetchUrl);
+
+            if (!response.ok) {
+                throw new Error(`Worker returned HTTP ${response.status}`);
+            }
+
+            // Worker stores raw gzip with Content-Encoding: gzip.
+            // The browser will decompress it automatically when fetched via fetch(),
+            // so we just read the decompressed text directly.
+            const crashLogContent = await response.text();
+            console.log(`[Crash Log Loader] Success! Fetched ${crashLogContent.length} characters from worker`);
+
+            insertCrashLog(crashLogContent, `Crash Log (UUID: ${uuid})`);
+            crashLogReceived = true;
+
+        } catch (e) {
+            console.error('[Crash Log Loader] Failed to fetch from worker:', e);
+            alert(
+                `Failed to automatically load crash log from the server.\n\n` +
+                `UUID: ${uuid}\n\n` +
+                `The log may have expired or the server may be temporarily unavailable.\n` +
+                `Please paste your crash log manually into the text area below.`
+            );
+        }
+    }
+
     // Detect if user pastes a URL directly into textarea
     function setupUrlDetection() {
         const textarea = document.getElementById('crashLog');
@@ -76,7 +117,7 @@ function initializeCrashLogLoader() {
 		return str.match(/^(https?:\/\/)?(www\.)?(pastebin\.com|paste\.rs)\//i);
 	}
     
-    // Fetch and insert crash log from URL
+    // Fetch and insert crash log from URL (Pastebin / paste.rs — unchanged)
     async function loadCrashLogFromUrl(pasteUrl) {
         if (crashLogReceived) return;
         
@@ -144,7 +185,7 @@ function initializeCrashLogLoader() {
                 }
                 
                 const crashLogContent = await response.text();
-                console.log(`[Crash Log Loader] Success! Fetched ${crashLogContent.length} characters`);
+                console.log(`[Crash Log Loader] Fetched ${crashLogContent.length} characters`);
                 
                 // Decompress if needed
                 const decompressedContent = await decompressIfNeeded(crashLogContent);
@@ -174,7 +215,7 @@ function initializeCrashLogLoader() {
         }
     }
     
-    // Decompress content if it's gzipped
+    // Decompress content if it's gzipped (used for Pastebin/paste.rs legacy path only)
     async function decompressIfNeeded(content) {
         // Check if content is wrapped in <gzip> tags
         const gzipMatch = content.match(/<gzip>(.*?)<\/gzip>/s);
@@ -282,7 +323,6 @@ if (document.readyState === 'loading') {
 } else {
     initializeCrashLogLoader();
 }
-
 
 
 

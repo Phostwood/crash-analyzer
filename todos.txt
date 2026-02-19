@@ -1,4 +1,4 @@
-📢 Version 1.30.4.6 is now live:
+📢 Version 1.30.4.6.1 is now live:
 https://phostwood.github.io/crash-analyzer/skyrim.html
 
 
@@ -20,7 +20,7 @@ https://phostwood.github.io/crash-analyzer/skyrim.html
 6. New feature for loading crash logs from a URL
 	- works with Pastebin
 	- or works with any raw text sharing output URL
-	- Version 1.30.4.6: now uses CloudFlare Worker and R2 storage for dedicated crash log storage/retrieval
+	- Version 1.30.4.6.1: now uses CloudFlare Worker and R2 storage for dedicated crash log storage/retrieval
 
 7. Update privacy policy
 	- Google Fonts
@@ -36,6 +36,8 @@ https://phostwood.github.io/crash-analyzer/skyrim.html
 ~~ next version ~~
 
 7. Update privacy policy
+	- This entire project is free and open source under the GPL-3.0 License. Any programmer can review the code on GitHub to verify these privacy claims.
+		- EXCEPT the server-side CloudFlare storage script, which is kept confidential to help prevent it from being abused. This part is NOT open source.
 	- Any other script includes?
 	- Python script for MO2 plugin
 	- CloudFlare worker attempts to redact potentially personal information from crash logs before storage. Also attempts to ensure only SkyrimSE+ crash logs are stored.  Reasonable attempts have also been made to prevent arbitrary scanning of crash logs without having access to a link's UUID. Reasonable security precautions have been taken. But the uploading of crash logs is provided as  a free (as in beer) (or optional gratuity-funded) service. Use at your own risk. No guarantees are made. CloudFlare privacy policy is involved. 
