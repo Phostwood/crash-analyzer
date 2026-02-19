@@ -21,6 +21,7 @@ https://phostwood.github.io/crash-analyzer/skyrim.html
 	- works with Pastebin
 	- or works with any raw text sharing output URL
 	- Version 1.30.4.6.1: now uses CloudFlare Worker and R2 storage for dedicated crash log storage/retrieval
+	- Version 1.30.4.7 Bug fix where results weren't being gzip-uncompressed
 
 7. Update privacy policy
 	- Google Fonts

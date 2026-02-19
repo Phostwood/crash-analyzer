@@ -56,17 +56,35 @@ function initializeCrashLogLoader() {
             console.log('[Crash Log Loader] Fetching from worker, UUID:', uuid);
 
             const fetchUrl = `${WORKER_BASE_URL}/log/${uuid}`;
-            const response = await fetch(fetchUrl);
+
+            // Use cache: 'no-store' and omit Accept-Encoding so we receive the raw
+            // gzip bytes and decompress manually — avoids cross-origin auto-decomp issues.
+            const response = await fetch(fetchUrl, {
+                headers: { 'Accept-Encoding': 'identity' }
+            });
 
             if (!response.ok) {
                 throw new Error(`Worker returned HTTP ${response.status}`);
             }
 
-            // Worker stores raw gzip with Content-Encoding: gzip.
-            // The browser will decompress it automatically when fetched via fetch(),
-            // so we just read the decompressed text directly.
-            const crashLogContent = await response.text();
-            console.log(`[Crash Log Loader] Success! Fetched ${crashLogContent.length} characters from worker`);
+            const contentEncoding = response.headers.get('Content-Encoding') || '';
+            const isGzipped = contentEncoding.toLowerCase().includes('gzip');
+
+            let crashLogContent;
+
+            if (isGzipped) {
+                console.log('[Crash Log Loader] Response is gzip-encoded, decompressing manually...');
+                const buffer = await response.arrayBuffer();
+                const bytes  = new Uint8Array(buffer);
+
+                const stream      = new Response(bytes).body.pipeThrough(new DecompressionStream('gzip'));
+                crashLogContent   = await new Response(stream).text();
+                console.log(`[Crash Log Loader] Decompressed to ${crashLogContent.length} characters`);
+            } else {
+                // Browser already decompressed it transparently
+                crashLogContent = await response.text();
+                console.log(`[Crash Log Loader] Fetched ${crashLogContent.length} characters (no manual decompression needed)`);
+            }
 
             insertCrashLog(crashLogContent, `Crash Log (UUID: ${uuid})`);
             crashLogReceived = true;
