@@ -56,36 +56,20 @@ function initializeCrashLogLoader() {
             console.log('[Crash Log Loader] Fetching from worker, UUID:', uuid);
 
             const fetchUrl = `${WORKER_BASE_URL}/log/${uuid}`;
-
-            // Use cache: 'no-store' and omit Accept-Encoding so we receive the raw
-            // gzip bytes and decompress manually — avoids cross-origin auto-decomp issues.
-            const response = await fetch(fetchUrl, {
-                headers: { 'Accept-Encoding': 'identity' }
-            });
+            const response = await fetch(fetchUrl);
 
             if (!response.ok) {
                 throw new Error(`Worker returned HTTP ${response.status}`);
             }
 
-            const contentEncoding = response.headers.get('Content-Encoding') || '';
-            const isGzipped = contentEncoding.toLowerCase().includes('gzip');
+            // Worker serves raw gzip as application/gzip (no Content-Encoding).
+            // We always decompress manually so browser auto-decompression never interferes.
+            console.log('[Crash Log Loader] Decompressing gzip response...');
+            const buffer  = await response.arrayBuffer();
+            const stream  = new Response(buffer).body.pipeThrough(new DecompressionStream('gzip'));
+            const crashLogContent = await new Response(stream).text();
 
-            let crashLogContent;
-
-            if (isGzipped) {
-                console.log('[Crash Log Loader] Response is gzip-encoded, decompressing manually...');
-                const buffer = await response.arrayBuffer();
-                const bytes  = new Uint8Array(buffer);
-
-                const stream      = new Response(bytes).body.pipeThrough(new DecompressionStream('gzip'));
-                crashLogContent   = await new Response(stream).text();
-                console.log(`[Crash Log Loader] Decompressed to ${crashLogContent.length} characters`);
-            } else {
-                // Browser already decompressed it transparently
-                crashLogContent = await response.text();
-                console.log(`[Crash Log Loader] Fetched ${crashLogContent.length} characters (no manual decompression needed)`);
-            }
-
+            console.log(`[Crash Log Loader] Decompressed to ${crashLogContent.length} characters`);
             insertCrashLog(crashLogContent, `Crash Log (UUID: ${uuid})`);
             crashLogReceived = true;
 
@@ -341,7 +325,6 @@ if (document.readyState === 'loading') {
 } else {
     initializeCrashLogLoader();
 }
-
 
 
 

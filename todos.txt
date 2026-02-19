@@ -1,4 +1,4 @@
-📢 Version 1.30.4.6.1 is now live:
+📢 Version 1.30.4.8 is now live:
 https://phostwood.github.io/crash-analyzer/skyrim.html
 
 
@@ -22,6 +22,7 @@ https://phostwood.github.io/crash-analyzer/skyrim.html
 	- or works with any raw text sharing output URL
 	- Version 1.30.4.6.1: now uses CloudFlare Worker and R2 storage for dedicated crash log storage/retrieval
 	- Version 1.30.4.7 Bug fix where results weren't being gzip-uncompressed
+	- Version 1.30.4.8 New approach where always unzipping file from CloudFlare, to avoid browser issues
 
 7. Update privacy policy
 	- Google Fonts
