@@ -43,7 +43,7 @@ UPLOAD_TIMEOUT = 30  # seconds
 # Plugin class
 # ─────────────────────────────────────────────────────────────
 
-class CrashLogQuickLink(mobase.IPluginTool):
+class PhostwoodQLP(mobase.IPluginTool):
     _organizer: mobase.IOrganizer
 
     def __init__(self):
@@ -56,7 +56,7 @@ class CrashLogQuickLink(mobase.IPluginTool):
     # ── IPlugin interface ──────────────────────────────────────
 
     def name(self) -> str:
-        return "Crash Log Analyzer Quick Link"
+        return "Phostwood's QLP"
 
     def author(self) -> str:
         return "Kyler, Phostwood"
@@ -66,15 +66,15 @@ class CrashLogQuickLink(mobase.IPluginTool):
 
     def description(self) -> str:
         return (
-            "Uploads the most recent Skyrim SE/AE crash log to a secure cloud "
-            "Worker and opens Phostwood's Crash Log Analyzer in your browser."
+            "Phostwood's QLP — uploads the most recent Skyrim SE/AE crash log to Sovnkrasch "
+            "and opens the Crash Log Analyzer in your browser."
         )
 
     def version(self) -> mobase.VersionInfo:
         return mobase.VersionInfo(2, 0, 0, mobase.ReleaseType.FINAL)
 
     def tooltip(self) -> str:
-        return "Upload the most recent Skyrim SE/AE crash log and open the Crash Log Analyzer."
+        return "Phostwood's QLP: Upload your most recent Skyrim SE/AE crash log and open the Crash Log Analyzer."
 
     def isActive(self) -> bool:
         return bool(self._organizer.pluginSetting(self.name(), "enabled"))
@@ -120,7 +120,7 @@ class CrashLogQuickLink(mobase.IPluginTool):
     # ── IPluginTool interface ──────────────────────────────────
 
     def displayName(self) -> str:
-        return "Upload Crash Log and Open Analyzer"
+        return "QLP: Upload Crash Log and Open Analyzer"
 
     def display(self) -> bool:
         # 1. Check that the managed game is Skyrim SE/AE
@@ -157,7 +157,7 @@ class CrashLogQuickLink(mobase.IPluginTool):
             with open(crash_log_path, "rb") as f:
                 raw_bytes = f.read()
         except Exception as e:
-            qInfo(f"[CrashLogQuickLink] Failed to read crash log: {e}")
+            qInfo(f"[PhostwoodQLP] Failed to read crash log: {e}")
             self._show_message("Read Error", f"Failed to read crash log:\n{e}")
             return False
 
@@ -189,7 +189,7 @@ class CrashLogQuickLink(mobase.IPluginTool):
 
         if local_only:
             # 5 (local). Copy raw crash log text to clipboard and open bare analyzer URL.
-            qInfo("[CrashLogQuickLink] Local-only mode: skipping upload, copying text to clipboard.")
+            qInfo("[PhostwoodQLP] Local-only mode: skipping upload, copying text to clipboard.")
             analyzer_url = self._organizer.pluginSetting(self.name(), "analyzer_url")
             self._open_in_browser(analyzer_url)
             QApplication.clipboard().setText(text)
@@ -211,7 +211,7 @@ class CrashLogQuickLink(mobase.IPluginTool):
         compressed_preview = gzip.compress(raw_bytes, compresslevel=6)
         compressed_size = len(compressed_preview)
         qInfo(
-            f"[CrashLogQuickLink] Raw size: {len(raw_bytes):,} bytes | "
+            f"[PhostwoodQLP] Raw size: {len(raw_bytes):,} bytes | "
             f"Compressed estimate: {compressed_size:,} bytes"
         )
 
@@ -232,7 +232,7 @@ class CrashLogQuickLink(mobase.IPluginTool):
         if not uuid:
             # Upload failed — error-specific dialog already shown by _upload_to_worker.
             # Fall back to clipboard so the user isn't left stranded.
-            qInfo("[CrashLogQuickLink] Upload failed; falling back to clipboard copy.")
+            qInfo("[PhostwoodQLP] Upload failed; falling back to clipboard copy.")
             analyzer_url = self._organizer.pluginSetting(self.name(), "analyzer_url")
             self._open_in_browser(analyzer_url)
             QApplication.clipboard().setText(text)
@@ -279,16 +279,16 @@ class CrashLogQuickLink(mobase.IPluginTool):
                     None, CSIDL_PERSONAL, None, SHGFP_TYPE_CURRENT, buf
                 )
                 my_documents = buf.value
-                qInfo(f"[CrashLogQuickLink] My Documents (auto-detected): {my_documents}")
+                qInfo(f"[PhostwoodQLP] My Documents (auto-detected): {my_documents}")
             except Exception as e:
-                qInfo(f"[CrashLogQuickLink] Could not resolve My Documents: {e}")
+                qInfo(f"[PhostwoodQLP] Could not resolve My Documents: {e}")
                 return None
 
             crash_log_dir = os.path.join(
                 my_documents, "My Games", "Skyrim Special Edition", "SKSE"
             )
 
-        qInfo(f"[CrashLogQuickLink] Searching for crash logs in: {crash_log_dir}")
+        qInfo(f"[PhostwoodQLP] Searching for crash logs in: {crash_log_dir}")
 
         # ── Resolve glob patterns ──────────────────────────────
         globs_setting = str(self._organizer.pluginSetting(self.name(), "crash_log_globs")).strip()
@@ -297,22 +297,22 @@ class CrashLogQuickLink(mobase.IPluginTool):
         if not patterns:
             # Fallback in case the setting was cleared entirely
             patterns = ["crash-*.log", "Crash_*.txt"]
-            qInfo("[CrashLogQuickLink] crash_log_globs was empty; using default patterns.")
+            qInfo("[PhostwoodQLP] crash_log_globs was empty; using default patterns.")
 
         # ── Collect all candidates across all patterns ─────────
         candidates = []
         for pattern in patterns:
             matched = glob.glob(os.path.join(crash_log_dir, pattern))
-            qInfo(f"[CrashLogQuickLink] Pattern '{pattern}' matched {len(matched)} file(s).")
+            qInfo(f"[PhostwoodQLP] Pattern '{pattern}' matched {len(matched)} file(s).")
             candidates.extend(matched)
 
         if not candidates:
-            qInfo(f"[CrashLogQuickLink] No crash logs found in: {crash_log_dir}")
+            qInfo(f"[PhostwoodQLP] No crash logs found in: {crash_log_dir}")
             return None
 
         # Pick the single most recently modified file across all patterns
         latest = max(candidates, key=os.path.getmtime)
-        qInfo(f"[CrashLogQuickLink] Most recent crash log: {latest}")
+        qInfo(f"[PhostwoodQLP] Most recent crash log: {latest}")
         return latest
 
     def _upload_to_worker(self, worker_url: str, text: str, crash_log_path: str = "") -> str | None:
@@ -343,7 +343,7 @@ class CrashLogQuickLink(mobase.IPluginTool):
                     data = json.loads(body)
                     uuid = data.get("uuid", "").strip()
                     if uuid:
-                        qInfo(f"[CrashLogQuickLink] Upload succeeded. UUID: {uuid}")
+                        qInfo(f"[PhostwoodQLP] Upload succeeded. UUID: {uuid}")
                         return uuid
                 except json.JSONDecodeError:
                     pass
@@ -367,7 +367,7 @@ class CrashLogQuickLink(mobase.IPluginTool):
             return None
 
         except urllib.error.URLError as e:
-            qInfo(f"[CrashLogQuickLink] URLError: {e}")
+            qInfo(f"[PhostwoodQLP] URLError: {e}")
             self._show_message(
                 "Upload Failed",
                 "Upload failed. Check your internet connection and try again.",
@@ -375,7 +375,7 @@ class CrashLogQuickLink(mobase.IPluginTool):
             return None
 
         except TimeoutError:
-            qInfo("[CrashLogQuickLink] Upload timed out.")
+            qInfo("[PhostwoodQLP] Upload timed out.")
             self._show_message(
                 "Upload Timed Out",
                 "The upload timed out. Check your connection and try again.",
@@ -384,7 +384,7 @@ class CrashLogQuickLink(mobase.IPluginTool):
 
     def _handle_http_error(self, status: int, body: str, crash_log_path: str = "") -> None:
         """Show an appropriate error dialog for a given HTTP status code."""
-        qInfo(f"[CrashLogQuickLink] HTTP error {status}. Body: {body[:200]}")
+        qInfo(f"[PhostwoodQLP] HTTP error {status}. Body: {body[:200]}")
 
         if status == 503:
             try:
@@ -439,16 +439,16 @@ class CrashLogQuickLink(mobase.IPluginTool):
 
     def _open_in_browser(self, url: str) -> None:
         """Open a URL in the system's default browser."""
-        qInfo(f"[CrashLogQuickLink] Opening URL: {url}")
+        qInfo(f"[PhostwoodQLP] Opening URL: {url}")
         try:
             if os.name == "nt":
                 os.startfile(url)
             elif os.name == "posix":
                 subprocess.run(["xdg-open", url], check=True)
             else:
-                qInfo(f"[CrashLogQuickLink] Unsupported OS: {os.name}")
+                qInfo(f"[PhostwoodQLP] Unsupported OS: {os.name}")
         except Exception as e:
-            qInfo(f"[CrashLogQuickLink] Failed to open browser: {e}")
+            qInfo(f"[PhostwoodQLP] Failed to open browser: {e}")
 
     def _show_message(self, title: str, message: str) -> None:
         """Display a modal information dialog."""
@@ -476,4 +476,4 @@ class CrashLogQuickLink(mobase.IPluginTool):
 # ─────────────────────────────────────────────────────────────
 
 def createPlugin() -> mobase.IPlugin:
-    return CrashLogQuickLink()
+    return PhostwoodQLP()
