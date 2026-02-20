@@ -8,44 +8,54 @@
 </head>
 <body>
     <div class="container">
-        <header>    
+        <header>
             <h1>Privacy Policy</h1>
             <p class="subtitle">Phostwood's Skyrim Crash Log Analyzer</p>
         </header>
 
         <main>
-            <p><em>Last Updated: February 18, 2026</em></p>
+            <p><em>Last Updated: February 19, 2026</em></p>
 
             <section>
                 <h2>Your Privacy Matters</h2>
-                <p>Phostwood's Skyrim Crash Log Analyzer is designed with your privacy in mind. <strong>All crash log analysis happens entirely on your device</strong> — your crash logs never leave your computer or device.</p>
+                <p>Phostwood's Skyrim Crash Log Analyzer is designed with your privacy in mind. <strong>All crash log analysis happens entirely on your device</strong> — your crash logs never leave your computer during analysis.</p>
+                <p>This policy covers the Analyzer itself, as well as the optional <strong>Sovnkrasch</strong> <em>(A Crash Log's Final Resting Place)</em> cloud storage service, accessible via the <strong>Phostwood's QLP</strong> <em>(Crash Log Analyzer Quick-Link MO2 Plugin)</em>. Sovnkrasch is a new service, currently in testing, and not yet publicly available.</p>
             </section>
 
             <section>
                 <h2>What We Collect</h2>
                 <p><strong>We collect nothing about you personally.</strong> Here's what does happen:</p>
                 <ul>
-                    <li><strong>Local Analysis Only:</strong> Your crash logs are analyzed entirely within your browser. They are never uploaded to any server.</li>
-                    <li><strong>Crash Log Hashes:</strong> We store a unique identifying number (hash) of each crash log you analyze in your browser's local storage for Google Analytics. This helps us track how many unique crashes each user has analyzed, but the hash contains no personal information and cannot be reversed to reveal your crash log contents.</li>
+                    <li><strong>Local Analysis Only:</strong> Your crash logs are analyzed entirely within your browser. They are never uploaded to any server during analysis.</li>
+                    <li><strong>Crash Log Hashes (Google Analytics):</strong> We store a unique identifying number (hash) of each crash log you analyze in your browser's local storage for Google Analytics. This helps us track how many unique crashes each user has analyzed, but the hash contains no personal information and cannot be reversed to reveal your crash log contents.</li>
                 </ul>
             </section>
 
             <section>
                 <h2>No AI Processing of Your Data</h2>
-                <p><strong>Your crash logs are never automatically sent to any AI service.</strong> While AI (primarily Claude AI) was used as a development assistant to help write code and troubleshooting instructions, all code was written from our specific instructions and has been manually reviewed and edited by us. Similarly, all troubleshooting instructions began as our rough notes on what to include, were reviewed by us, and often refined in collaboration with Skyrim crash log experts for completeness and accuracy. All AI contributions were made during development only. The final analyzer is static code that runs entirely in your browser — there is no dynamic connection to any AI service, and your crash logs are never transmitted to AI systems for analysis or any other purpose.</p>
+                <p><strong>Your crash logs are never automatically sent to any AI service.</strong> While AI (primarily Claude AI) was used as a development assistant to help write code and troubleshooting instructions, all code was written from our specific instructions and has been manually reviewed and edited by us. Similarly, all troubleshooting instructions began as our rough notes, were reviewed by us, and often refined in collaboration with Skyrim crash log experts. All AI contributions were made during development only. The final analyzer is static code that runs entirely in your browser — there is no dynamic connection to any AI service.</p>
                 <p>In the future, we may offer an optional feature that allows you to send crash log data to an AI service for additional analysis. Any such feature will be clearly labeled, completely optional, and will require your explicit action to use. We will never send your data to AI services without your knowledge and consent.</p>
             </section>
 
             <section>
-                <h2>Crash Log Upload Feature (MO2 Plugin)</h2>
-                <p>If you use the optional MO2 plugin to upload a crash log for sharing, the following applies:</p>
+                <h2>Sovnkrasch — Cloud Storage Service (via Phostwood's QLP)</h2>
+                <p>If you use the optional Phostwood's QLP MO2 plugin to upload a crash log to Sovnkrasch for sharing, the following applies:</p>
                 <ul>
-                    <li><strong>Redaction:</strong> Before storage, the server automatically redacts potentially sensitive information such as Windows usernames embedded in file paths, IP addresses, and email addresses.</li>
-                    <li><strong>No raw logs stored:</strong> Only the redacted, compressed version of your crash log is stored — the original is never retained.</li>
+                    <li><strong>Redaction:</strong> Before storage, the server automatically attempts to redact potentially sensitive information such as Windows usernames embedded in file paths, machine names, IP addresses, and email addresses. This redaction is best-effort and cannot be guaranteed to catch everything.</li>
+                    <li><strong>No raw logs stored:</strong> Only the redacted, compressed version of your crash log is stored — the original is never retained on our servers.</li>
                     <li><strong>Deduplication:</strong> A non-reversible hash (SHA-256) of your log is computed to avoid storing duplicate files. This hash cannot be used to reconstruct your log.</li>
-                    <li><strong>Storage:</strong> Redacted logs are stored via Cloudflare Workers and R2 (see Third-Party Services below). Logs are currently retained for for an indefinite period of time.</li>
+                    <li><strong>What metadata is stored:</strong> Each stored log includes only technical, non-personal metadata: crash logger type, log structure, line count, file sizes, upload timestamp (server clock), a crash signature line extracted from the log, the crash timestamp found within the log (if present), game edition (SSE/AE/VR), and the SHA-256 hash. No IP addresses, usernames, or any personally identifying information is stored in metadata.</li>
+                    <li><strong>Storage:</strong> Redacted logs are stored via Cloudflare Workers and R2 (see Third-Party Services below). Logs are retained as long as needed to support the service; log deletion is not currently supported. Once uploaded, please treat your crash log as non-private — links could be shared from anywhere, and we cannot guarantee removal.</li>
                     <li><strong>No account required:</strong> Uploads are anonymous. No login, email address, or personal information is collected.</li>
+                    <li><strong>Skyrim crash logs only:</strong> The service makes reasonable attempts to validate and store only authentic Skyrim SE/AE crash logs. However, this filtering cannot be guaranteed to be perfect.</li>
+                    <li><strong>Security:</strong> Reasonable precautions have been taken to prevent unauthorized scanning of stored logs. However, Sovnkrasch is a free service provided as-is, with no security guarantees. Use at your own risk.</li>
                 </ul>
+
+                <h3>License Grant for Uploaded Logs</h3>
+                <p>By uploading a crash log via Phostwood's QLP, you grant us permission to store, share, and use that log for purposes related to this project and the broader Skyrim crash analysis community. This includes the possibility that stored logs may be used to improve this project or shared with trusted collaborators working on Skyrim modding and crash analysis tools. We do not sell crash log data and have no commercial intent in doing so.</p>
+
+                <h3>Collaborator Access</h3>
+                <p>Trusted collaborators may on a case-by-case basis be granted access to stored crash logs, for the purpose of improving this or related Skyrim crash analysis projects. No private data about you or your usage of this service is shared — only the anonymized, redacted crash log content itself.</p>
             </section>
 
             <section>
@@ -56,23 +66,29 @@
                     <li><strong>Microsoft Clarity</strong> - <a href="https://learn.microsoft.com/en-us/clarity/faq" target="_blank" rel="noopener noreferrer">Privacy Policy</a></li>
                     <li><strong>GitHub Pages</strong> (a Microsoft subsidiary, our open source project hosting provider) - <a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement" target="_blank" rel="noopener noreferrer">Privacy Policy</a></li>
                 </ol>
-                <p>We have no control over the data these services collect or how they use it. Please review their privacy policies for details. NOTE: both of these companies are dominant in their industry, and keeping basic usage data from them is probably infeasible anyway.</p>
+                <p>We have no control over the data these services collect or how they use it. Please review their privacy policies for details. NOTE: both Google and Microsoft are dominant in their industries, and keeping basic usage data from them is probably infeasible anyway.</p>
             </section>
 
             <section>
                 <h2>Third-Party Services</h2>
-                <p>This project also relies on the following third-party services. Their own privacy and data practices are beyond the scope of this policy — please review their respective privacy policies on their websites for details:</p>
+                <p>This project also relies on the following third-party services. Their own privacy and data practices are beyond the scope of this policy — please review their respective privacy policies for details:</p>
                 <ul>
                     <li><strong>Google Fonts</strong> — Used to load typefaces for the analyzer interface. Google's servers receive a request when the page loads. <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer">Privacy Policy</a></li>
-                    <li><strong>Cloudflare Workers &amp; R2</strong> — Used to receive, process, redact, and store crash logs uploaded via the optional MO2 plugin. Cloudflare may log metadata about requests (such as IP addresses) in accordance with their own policies. <a href="https://www.cloudflare.com/privacypolicy/" target="_blank" rel="noopener noreferrer">Privacy Policy</a></li>
+                    <li><strong>Cloudflare Workers &amp; R2</strong> — Used to receive, process, redact, and store crash logs uploaded via Phostwood's QLP. Cloudflare may log metadata about requests (such as IP addresses) in accordance with their own policies. <a href="https://www.cloudflare.com/privacypolicy/" target="_blank" rel="noopener noreferrer">Privacy Policy</a></li>
                     <li><strong>jsDelivr CDN</strong> — Used to load the Turndown JavaScript library (which converts HTML to Markdown). jsDelivr's servers receive a request when the page loads. <a href="https://www.jsdelivr.com/privacy-policy-jsdelivr-net" target="_blank" rel="noopener noreferrer">Privacy Policy</a></li>
-                    <li><strong>Pastebin and other file-sharing services</strong> — When you open a crash log shared via a Pastebin link (or a similar service such as paste.rs), the analyzer retrieves that log from the respective service's servers. We have no control over what data those services collect when your browser contacts them. Please review the privacy policy of whichever service hosted the link you are opening.</li>
+                    <li><strong>Pastebin and other file-sharing services</strong> — When you open a crash log shared via a Pastebin link (or similar service such as paste.rs), the analyzer retrieves that log from the respective service's servers. We have no control over what data those services collect. Please review the privacy policy of whichever service hosted the link you are opening.</li>
                 </ul>
             </section>
 
             <section>
                 <h2>Open Source &amp; Transparency</h2>
-                <p>This entire project is free and open source under the <a href="https://www.gnu.org/licenses/gpl-3.0.en.html" target="_blank" rel="noopener noreferrer">GPL-3.0 License</a>. Any programmer can review the code on GitHub to verify these privacy claims.</p>
+                <p>This project is largely free and open source under the <a href="https://www.gnu.org/licenses/gpl-3.0.en.html" target="_blank" rel="noopener noreferrer">GPL-3.0 License</a>. The following components are open source and available on GitHub for anyone to review:</p>
+                <ul>
+                    <li>The Skyrim Crash Log Analyzer (HTML, CSS, JavaScript)</li>
+                    <li>Phostwood's QLP (Crash Log Analyzer Quick-Link MO2 Plugin)</li>
+                    <li>Their associated documentation and configuration files</li>
+                </ul>
+                <p>The server-side Cloudflare Worker script that powers Sovnkrasch, along with its related configuration and documentation, is kept confidential to help prevent abuse of the storage service. Any programmer can review the open source components to verify the privacy claims that apply to them.</p>
             </section>
 
             <section>
@@ -83,7 +99,8 @@
             <br>
             <br>
             <div class="button-container">
-                <a href="skyrim.html" class="button">Skyrim Analyzer</a> | 
+                <a href="TermsOfUse.html" class="button">Terms of Use</a> |
+                <a href="skyrim.html" class="button">Skyrim Analyzer</a> |
                 <a href="index.html" class="button">Nolvus Analyzer</a>
             </div>
         </main>
