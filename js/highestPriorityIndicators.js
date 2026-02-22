@@ -9,11 +9,12 @@ function highestPriorityIndicators(sections) {
   */
 
   // Must have at least one of these sections with content
+  const hasRelevantObjects = sections.relevantObjects && sections.relevantObjects.trim().length > 0;
   const hasStack = sections.stack && sections.stack.trim().length > 0;
   const hasProbableCallstack = sections.probableCallstack && sections.probableCallstack.trim().length > 0;
   const hasRegisters = sections.registers && sections.registers.trim().length > 0;
 
-  Utils.debuggingLog(['highestPriorityIndicators'], `hasStack: ${hasStack}, hasProbableCallstack: ${hasProbableCallstack}, hasRegisters: ${hasRegisters}`);
+  Utils.debuggingLog(['highestPriorityIndicators'], `hasRelevantObjects: ${hasRelevantObjects}, hasStack: ${hasStack}, hasProbableCallstack: ${hasProbableCallstack}, hasRegisters: ${hasRegisters}`);
 
   if (!hasStack && !hasProbableCallstack) {
     Utils.debuggingLog(['highestPriorityIndicators'], `Returning empty string - no stack or probable callstack found`);
@@ -63,6 +64,17 @@ function highestPriorityIndicators(sections) {
     Utils.debuggingLog(['highestPriorityIndicators'], `STACK cleaned length: ${cleaned.length} chars`);
     const truncated = cleaned.split('\n').slice(0, 20).join('\n'); // Only output 20 lines
     Utils.debuggingLog(['highestPriorityIndicators'], `STACK truncated length: ${truncated.length} chars, lines: ${truncated.split('\n').length}`);
+    report += truncated ? truncated + '\n\n' : '	(No significant indicators found)\n\n';
+  }
+
+  // Process POSSIBLE RELEVANT OBJECTS section (first 50 lines only)
+  // Present in CrashLoggerSSE 1.20.x and NSF logs (absent in 1.19.x and Trainwreck)
+  if (hasRelevantObjects) {
+    report += 'Summarized <b>POSSIBLE RELEVANT OBJECTS:</b>\n';
+    const cleaned = stripNoise(sections.relevantObjectsTop50); // first 50 lines only
+    Utils.debuggingLog(['highestPriorityIndicators'], `POSSIBLE RELEVANT OBJECTS cleaned length: ${cleaned.length} chars`);
+    const truncated = cleaned.split('\n').slice(0, 10).join('\n'); // Only output 10 lines
+    Utils.debuggingLog(['highestPriorityIndicators'], `POSSIBLE RELEVANT OBJECTS truncated length: ${truncated.length} chars, lines: ${truncated.split('\n').length}`);
     report += truncated ? truncated + '\n\n' : '	(No significant indicators found)\n\n';
   }
 

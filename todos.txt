@@ -1,66 +1,52 @@
-📢 Version 1.30.4.10 is now live:
+📢 Version 1.30.5 is now live:
 https://phostwood.github.io/crash-analyzer/skyrim.html
 
 
-1. BUG FIX: 🎯 <b>Exceeded Maximum ESMs+ESPs Plugins Limit!
-	- fixed broken reference link
+1. ✅FIXED:  for new CrashLoggerSSE's formatting change(s) and anything else
+	- ✅🎯 Highest-Confidence Indicators: 
+		- POSSIBLE RELEVANT OBJECTS:
+			- NSF Logs have always had this section, now CrashLoggerSSE does too
+		- Make adjustment for new formatting on "CALL STACK ([P]robable / [S]tack scan):"
+			- adjust the old section to accommodate new heading
+			- adjusted for [P] and [S] in section's lines
+	- ✅Verified RAM/VRAM and other header elements are still being correctly extracted
+	- ✅FIXED: Files/Elements needs bug fix for 
+		- [3] S] 0x000141509547 SkyrimSE.exe
+	- ✅FIXED: 📊 Mod Prominence Analysis (appearances : details):
+		- (20 : 0) S] SkyrimSE.exe
+	- ✅QA between eight tabs:
+		- 1. old log, new code, ?tryFormIDs&analyzeFullLog
+		- 2. new log, new code, ?tryFormIDs&analyzeFullLog
+		- 3. old log, new code, ?analyzeFullLog
+		- 4. new log, new code, ?analyzeFullLog
+		- 5. old log, live code, ?analyzeFullLog
+		- 6. new log, live code, ?analyzeFullLog
+		- 7. old log, live code, ?tryFormIDs&analyzeFullLog
+		- 8. new log, live code, ?tryFormIDs&analyzeFullLog
 
-2. USER INTERFACE ENHANCEMENT: Expanded dropzone for crash log files, which can now be drag-and-dropped anywhere in the page. It also scrolls back to the top of the page afterwards.
-
-3. NEW TOOL: added links to Kyler45's Kodex
-	- wabbajack troubleshooting
-	- Recommended tools
-
-4. Swapped the order of these two, so Engine Fixes is higher
-	- ⚠️ Consider Updating SSE Engine Fixes:
-	- ⚠️ Consider Upgrading CrashLogger SSE:
-
-5. EXPERIMENTAL: Make analyzer's checkboxes (" 'Try harder' by analyzing full log (may show many additional possible causes)" and "Display nested Log Summary (Beta feature)") use local storage so it can keep the same crash log
-	- Version 1.30.4.1: bug fix
-
-6. New feature for loading crash logs from a URL
-	- works with Pastebin
-	- or works with any raw text sharing output URL
-	- Version 1.30.4.6.1: now uses CloudFlare Worker and R2 storage for dedicated crash log storage/retrieval
-	- Version 1.30.4.7 Bug fix where results weren't being gzip-uncompressed
-	- Version 1.30.4.8 New approach where always unzipping file from CloudFlare, to avoid browser issues
-
-7. EXPERIMENTAL: New MO2 plugin (details coming in next version)
-	- Version 1.30.4.6: now uses CloudFlare Worker and R2 storage for dedicated crash log storage
-	- Version 1.30.4.9:
-		- NEW FEATURE added "Copy Link" button, and "local only" configuration setting
-			- Thanks Kyler45!
-		- NEW FEATURE: config for clipboard only, local only option
-		- ADMIN: configured cloudshare Notifications
-		-NOTE MO2 redacts usernames from its own logs, that's not my code redacting
-		-NEW FEATURE: settings for crash log location, and crash log filename regex
-	- Version 1.30.4.10
-		- REBRANDED as: Phostwood's QLP — Crash Log Analyzer Quick-Link Plugin for MO2
-			- filename, plugin name, settings, some variable names, etc.
-
-8. Updated Privacy Policy page
-	- Google Fonts
-	- Pastebin (or other file sharing service linked to) retrieval
-	- general rewrite
-	- Sovnkrasch (A Crash Log's Final Resting Place)
-	- Phostwood's QLP (Crash Log Analyzer Quick-Link MO2 Plugin)
-
-10. New Terms of Use page
-
-
-
+2. ✅FIXED: "Files/Elements listed within" seems to break when both of these are selected:
+		- [ ] "Try harder" by analyzing full log (may show many additional possible causes)
+		- [ ] Display nested Log Summary (Beta feature)
 
 
 ~~ next version ~~
 
-1. ⭐️BUG FIX(es?) for new CrashLoggerSSE's formatting change(s) and anything else
+2. ⭐️BUG FIX? Why isn't this CONSISTENTLY being cited as wrong version of "ConsoleUtilSSE"?
+	- 4XT3tzHG.txt
+	- crash-2026-02-18-10-13-16.log 
+	- crash-2026-02-17-17-53-16.log
 
-6. ?New crash log sharing feature/page?
-	- share via pastebin
-	- if over 512KB, then compresses (as much as 35 times!)
-	- attempts to redact drive letters, usernames, and such from file paths (no guarantees!)
+3. ⭐️BUG FIX? Also review heuristics for BloodSprayImpact01
+
+4. ⭐️BUG FIX? Also review heuristics for geometricculling info, about EFPs and similar mods
+
 
 2. TODO: Update donations section
+	- up to 750 hours (easily)
+	- update donor numbers
+	- Get set up for bitcoin donations?
+
+-- next version --
 
 3. Move Resaver Guide to GTS Wiki
 

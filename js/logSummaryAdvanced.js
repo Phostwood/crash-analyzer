@@ -2,7 +2,7 @@
 window.LogSummary = {
 
     // Constants    
-    fileStartCharacters: ['`', '"', ':', '(', '['],
+    fileStartCharacters: ['`', '"', ':', '(', '[', ']'],
     nameStartCharacters: ['`', '"'],
 
 
@@ -287,6 +287,13 @@ window.LogSummary = {
     processFileExtensions: function (line, priority, color, namedElementMatches) {
         let foundMatchCount = 0;
 
+        // Normalize new-format call stack lines: strip hex address, preserve [P]/[S] marker
+        // "[ 1][S] 0x000141509547      SkyrimSE.exe+1509547" -> "[S] SkyrimSE.exe+1509547"
+        const callStackPrefix = line.match(/^[\s\t]*\[\s*\d+\]\s*\[([PS])\]\s+0x[0-9a-fA-F]+\s+/);
+        if (callStackPrefix) {
+            line = `[${callStackPrefix[1]}] ` + line.slice(callStackPrefix[0].length);
+        }
+
         Utils.fileExtensions.forEach(extension => {
             if (line.toLowerCase().includes(extension)) {
                 let index = line.toLowerCase().lastIndexOf(extension);
@@ -306,6 +313,12 @@ window.LogSummary = {
                 }
 
                 let potentialMatch = line.slice(start, end).trim();
+                // Strip leading hex address that got pulled in by backwards-walk
+                // "0x7FF774E05497                   SkyrimSE.exe+0365497" -> "SkyrimSE.exe+0365497"
+                potentialMatch = potentialMatch.replace(/^0x[0-9a-fA-F]+\s+/, '');
+                // Strip +offset suffix: "SkyrimSE.exe+0365497" -> "SkyrimSE.exe"
+                potentialMatch = potentialMatch.replace(/(\.(exe|dll))\+[0-9a-fA-F]+/i, '$1');
+
                 foundMatchCount += this.addMatch(potentialMatch, priority, color, 0, namedElementMatches, line);
             }
         });
@@ -410,6 +423,7 @@ window.LogSummary = {
                     }
     
                     let potentialMatch = line.slice(start, end).trim();
+                    
                     potentialMatch = this.cleanString(potentialMatch);
                     if (potentialMatch) {
                         const hasDynamicFormID = potentialMatch.toLowerCase().includes("0xff") || potentialMatch.toLowerCase().startsWith('ff');

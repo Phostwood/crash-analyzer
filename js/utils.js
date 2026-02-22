@@ -35,7 +35,7 @@ Utils.isDebugging = false; // Set this to false to disable debugging (non-error)
 //Utils.debugBatch = ['Utils.FilenamesTracker'];
 //Utils.debugBatch = ['disableAnalyzeButtonAndTrackUniqueCrashLogCount'];
 //Utils.debugBatch = ['checkEngineFixesUpdate'];
-Utils.debugBatch = ['localStorage'];
+Utils.debugBatch = ['getLogSectionsMap'];
 
 
 Utils.isSkyrimPage = window.location.href.toLowerCase().includes('skyrim.html');
@@ -800,7 +800,7 @@ Utils.getLogSectionsMap = function(logFile) {
             clLabel: 'Header',
             twHeader: 'Header',
             nsfRegex: /^[\s\S]*?(?=Possible relevant objects)/,
-            clRegex: /^[\s\S]*?(?=PROBABLE CALL STACK)/,
+            clRegex: /^[\s\S]*?(?=PROBABLE CALL STACK:|CALL STACK \(\[P\]robable \/ \[S\]tack scan\):)/,
             twRegex: /^[\s\S]*?(?=PROBABLE CALL STACK)/,
             nsfPriority: 0,
             clPriority: 0,
@@ -831,16 +831,16 @@ Utils.getLogSectionsMap = function(logFile) {
         {
             name: 'relevantObjects',
             nsfLabel: 'Possible relevant objects',
-            clLabel: null, // CrashLogger logs don't have this section
+            clLabel: 'Possible relevant objects',  // New in CrashLoggerSSE 1.20.x (was absent in 1.19.x)
             twLabel: null, // Trainwreck logs don't have this section
             nsfRegex: /Possible relevant objects \(\d+\)\s*\{([\s\S]*?)(?=\n*\})/,
-            clRegex: null,
+            clRegex: /POSSIBLE RELEVANT OBJECTS:\s*\r?\n([\s\S]*?)(?=\n\nPROCESS INFO:)/,
             twRegex: null,
             nsfPriority: 2,
-            clPriority: null,
+            clPriority: 2,  // New in CrashLoggerSSE 1.20.x
             twPriority: null,
             nsfColor: 'darkorange',
-            clColor: null,
+            clColor: 'darkorange',  // New in CrashLoggerSSE 1.20.x
             twColor: null,
             nolvusExpectedMin: 0,
             nolvusExpectedMax: 50
@@ -851,10 +851,12 @@ Utils.getLogSectionsMap = function(logFile) {
             clLabel: 'Probable call stack',
             twLabel: 'Probable call stack',
             nsfRegex: /Probable callstack(?:\s*\(.*?\))?\s*\{([\s\S]*?)(?=\n*\})/,
-            clRegex: /PROBABLE CALL STACK:(?:\r?\n)([\s\S]*?)(?=\n\nREGISTERS:)/,
+            // Handles both CrashLoggerSSE 1.19.x ("PROBABLE CALL STACK:") and
+            // 1.20.x ("CALL STACK ([P]robable / [S]tack scan):") — [P] and [S] lines treated equivalently
+            clRegex: /(?:PROBABLE CALL STACK:|CALL STACK \(\[P\]robable \/ \[S\]tack scan\):)(?:\r?\n)([\s\S]*?)(?=\n\nREGISTERS:)/,
             twRegex: /PROBABLE CALL STACK:(?:\r?\n)([\s\S]*?)(?=\n\nREGISTERS:)/,
             nsfPriority: 3,
-            clPriority: 2,
+            clPriority: 3,
             twPriority: 2,
             nsfColor: 'gold',
             clColor: 'darkorange',
@@ -871,7 +873,7 @@ Utils.getLogSectionsMap = function(logFile) {
             clRegex: /REGISTERS:(?:\r?\n)([\s\S]*?)(?=\n\nSTACK:)/,
             twRegex: /REGISTERS:(?:\r?\n)([\s\S]*?)(?=\n\nSTACK:)/,
             nsfPriority: 4,
-            clPriority: 3,
+            clPriority: 4,
             twPriority: 3,
             nsfColor: 'dodgerblue',
             clColor: 'gold',
@@ -888,7 +890,7 @@ Utils.getLogSectionsMap = function(logFile) {
             clRegex: /^STACK:(?:\r?\n)([\s\S]*?)(?=\n\nMODULES:)/m,
             twRegex: /^STACK:(?:\r?\n)([\s\S]*?)(?=\n\nMODULES:)/m,
             nsfPriority: 5,
-            clPriority: 4,
+            clPriority: 5,
             twPriority: 4,
             nsfColor: 'blueviolet',
             clColor: 'dodgerblue',
@@ -905,7 +907,7 @@ Utils.getLogSectionsMap = function(logFile) {
             clRegex: /^MODULES:(?:\r?\n)([\s\S]*?)(?=\n\nSKSE PLUGINS:)/m,
             twRegex: /^MODULES:(?:\r?\n)([\s\S]*?)(?=\n\nSCRIPT EXTENDER PLUGINS:)/m,
             nsfPriority: 6,
-            clPriority: 5,
+            clPriority: 6,
             twPriority: 5,
             nsfColor: null,
             clColor: null,
@@ -922,7 +924,7 @@ Utils.getLogSectionsMap = function(logFile) {
             clRegex: /^SKSE PLUGINS:(?:\r?\n|\s)([\s\S]*?)(?=\r?\n\r?\nPLUGINS:)/m,
             twRegex: /^SCRIPT EXTENDER PLUGINS:[\r\n]+([\s\S]*)$/m,
             nsfPriority: null,
-            clPriority: 6,
+            clPriority: 7,
             twPriority: 6,
             nsfColor: null,
             clColor: null,
@@ -933,7 +935,7 @@ Utils.getLogSectionsMap = function(logFile) {
         {
             name: 'plugins',
             nsfLabel: 'Plugins',
-            clLabel: null, // CrashLogger logs don't have this section (at least not with the same purpose)
+            clLabel: null,
             twLabel: null, // Trainwreck logs don't have this section (at least not with the same purpose)
             nsfRegex: /Plugins\s*\((\d+)\)\s*\{/, //NOTE: this data is different than the rest, so just grabbing the #
             clRegex: null,
@@ -956,7 +958,7 @@ Utils.getLogSectionsMap = function(logFile) {
             clRegex: /^PLUGINS:.*\r?\n.*\r?\n([\s\S]*)/m,
             twRegex: null,
             nsfPriority: 8,
-            clPriority: 7,
+            clPriority: 8,
             twPriority: null,
             nsfColor: null,
             clColor: null,
@@ -1044,6 +1046,7 @@ Utils.getLogSectionsMap = function(logFile) {
 
     if (logType === 'CrashLogger') {
         // Extract physical memory values
+        // Handles both 1.19.x ("PHYSICAL MEMORY: x/y") and 1.20.x (same format, now nested under SYSTEM SPECS:)
         const physicalMemoryMatch = sections.header.match(/PHYSICAL MEMORY:([^\/]+)\/([^\r\n]+)/i);
         Utils.debuggingLog(['systemMemoryValues', 'getLogSectionsMap'], 'Physical Memory Match:', physicalMemoryMatch);
         
@@ -1057,6 +1060,8 @@ Utils.getLogSectionsMap = function(logFile) {
         }
 
         // Extract GPU memory values
+        // NOTE: 1.20.x format changed to "GPU MEMORY: x/y GB" (no space before slash vs old "GPU MEMORY: x/y")
+        // The regex handles both since it captures non-slash chars either way
         const gpuMemoryMatch = sections.header.match(/GPU MEMORY:([^\/]+)\/([^\r\n]+)/i);
         Utils.debuggingLog(['systemMemoryValues', 'getLogSectionsMap'], 'GPU Memory Match:', gpuMemoryMatch);
         

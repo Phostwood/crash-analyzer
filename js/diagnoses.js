@@ -3054,7 +3054,7 @@ function analyzeModProminence() {
     if (entries.length > 0) {
         modInsights += `<li>📊 <b>Mod Prominence Analysis</b> <code><span style="color:darkorange">(appearances : details):</span></code><br>By itself, this list does NOT indicate causation.
             <ul>
-                ${!window.location.href.toLowerCase().includes('?tryformids') ? '<li>NOTE: results may be more accurate with "Display nested Log Summary" (see checkbox at top of page)</li>' : ''}`;
+                ${!window.location.href.toLowerCase().includes('tryformids') ? '<li>NOTE: results may be more accurate with "Display nested Log Summary" (see checkbox at top of page)</li>' : ''}`;
                 // Add sorted mods to the list
                 entries.forEach(([filename, stats]) => {
                     modInsights += `
