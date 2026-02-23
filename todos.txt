@@ -1,8 +1,8 @@
-📢 Version 1.30.5.3 is now live:
+📢 Version 1.30.5.4 is now live:
 https://phostwood.github.io/crash-analyzer/skyrim.html
 
 
-1. UI IMPROVEMENT:  to "Loaded file: Crash Log (from pastebin.com/4XT3tzHG)" ... now showing pastebin url instead of just "from Pastebin")
+1. UI IMPROVEMENT:  to "Loaded file: Crash Log (from pastebin.com/4XT3tzHG)" ... now showing pastebin url instead of just "from Pastebin"
 
 2. Uploaded new images for use in Nexus mods
 	- v1.30.5.2: REVISED Sovnkrasch blue emblem with node tree
@@ -10,6 +10,8 @@ https://phostwood.github.io/crash-analyzer/skyrim.html
 3. v1.30.5.2: Announced new QLP and Sovnkrasch info in analyzer, Donations section
 
 4. v1.30.5.3: Added new clarifying section to TermsOfUse: "User-Generated Content & Abuse"
+
+5. v1.30.5.4: further small tweaks to ToU regarding "User-Generated Content & Abuse"
 
 
 
