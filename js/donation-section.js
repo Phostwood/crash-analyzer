@@ -1,39 +1,44 @@
 (function () {
   const container = document.createElement('div');
   container.innerHTML = `
+    <!-- If This Helped You Section -->
+    <span style="display: inline-block; width: 100%;">
+
+    <span style="font-size: 2em;">🎉</span> If this analyzer has helped you, here are a few <b>ways to help out:</b><br>
+    <span style="font-size: 1.5em;">⬇️</span> <b>Download, vote for, and endorse the new <a href="https://www.nexusmods.com/skyrimspecialedition/mods/173224" target="_blank">QLP Plugin for MO2</a> on NexusMods</b> — a two-click shortcut that takes you straight from crash to analysis. Every download and endorsement helps it reach more people.<br>
+    <span style="font-size: 1.5em;">📢</span> <b>Spread the word!</b> The more people who know about these tools, the better the community gets at solving crashes.<br>
+    <br>
+
+    <hr style="border-color: rgba(255,255,255,0.15); margin: 1em 0;">
+
     <!-- Donation Section -->
-    <span style="display: inline-block;">
-    <div align="center">
+    <style>
+      .support-images { display: flex; flex-wrap: nowrap; justify-content: center; align-items: center; gap: 8px; }
+      .support-images .support-mod-img { height: 180px; display: block; }
+      .support-images .kofi-button2 { height: 90px; width: auto; }
+      .support-images .kofi-button2 img { height: 90px; width: auto; }
+      @media (max-width: 480px) {
+        .support-images { flex-direction: column; align-items: center; }
+        .support-images .support-mod-img { height: auto; width: min(220px, 80vw); }
+        .support-images .kofi-button2 { transform: scale(0.8); }
+      }
+    </style>
+    <div class="support-images">
+        <a href="https://www.nexusmods.com/skyrimspecialedition/mods/173224" target="_blank"><img src="https://phostwood.github.io/crash-analyzer/images/QLP-339x339.png" alt="Phostwood's QLP" class="support-mod-img"></a>
         <a href="https://ko-fi.com/phostwood" target="_blank">
-        <span class="kofi-button2">
+          <span class="kofi-button2">
             <img src="https://storage.ko-fi.com/cdn/cup-border.png" alt="Support me on Ko-fi">
             <span></span>
-        </span>
-        </a> &nbsp;
-        <a href="https://ko-fi.com/phostwood"><img src="./images/Phostwood Avatar 100x102 - Designer (10).png" alt="Support me on Ko-fi" style="height: 113px; border-width: 5px; border-color: black; border-style: solid;"></a>
-        </br>
-        <span id="help-me-out">“Spare a septim for a humble crash-log analyzer?” — Phostwood<br></span>
+          </span>
+        </a>
+        <a href="https://www.nexusmods.com/skyrimspecialedition/mods/173224" target="_blank"><img src="https://phostwood.github.io/crash-analyzer/images/Sovnkrasch-339x339.png" alt="Sovnkrasch" class="support-mod-img"></a>
     </div>
+    <div align="center"><span id="help-me-out">"Spare a septim for a humble crash-log analyzer?" — Phostwood<br></span></div>
     <br>
-    <span style="font-size: 2em;">🪙</span> Please consider supporting this project's continued development. With 33,000 all-time users and over 4,500 monthly visitors, the community of financial supporters remains remarkably small — only 55 have ever donated, and <b>just eight generous monthly subscribers currently sustain the project.</b> On <a href="https://ko-fi.com/phostwood">Ko-fi</a> or <a href="https://www.patreon.com/Phostwood">Patreon</a> — your support directly validates and enables future development.<br>
-    <br>
-    <span style="font-size: 2em;">🪙</span> With over <b>700 hours of ongoing development</b>, this advanced analyzer examines modded Skyrim crash logs to help diagnose and fix 75-90% of crashes with identifiable causes, while providing many well-researched troubleshooting steps and links. It's currently helping over 250 different Skyrim modders analyze almost 400 crash logs each day.<br>
-    <br>
-    <small><i>Interested in exclusive advertising opportunities? <a href="https://www.reddit.com/r/Phostwood">Get in touch</a>.</i></small>
-    <br><br>
+    <span style="font-size: 2em;">🪙</span> There's a lot more this analyzer could do — and your support is what makes further development possible. Financial backing is currently very thin: <b>only eight monthly patrons</b> sustain the project right now. If this tool has saved you time and frustration, please consider supporting on <a href="https://ko-fi.com/phostwood">Ko-fi</a> — monthly giving keeps development moving, and Ko-fi passes more of your support directly to the project than other platforms. <a href="https://www.patreon.com/Phostwood">Patreon</a> is also available if you prefer.<br>
     <div id="quote"></div>
-
-    <div align="center">
-      <!-- Custom Ko-fi Button -->
-      <a href="https://ko-fi.com/phostwood" id="kofi-button" target="_blank">
-          <div class="kofi-button">
-          <img src="https://storage.ko-fi.com/cdn/cup-border.png" alt="Support me on Ko-fi">
-          <span>Spare a coin on Ko-fi</span>
-          </div>
-      </a>
-    </div>
     <br>
-    
+
     </span>
 
     <!-- Thank You Message -->

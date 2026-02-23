@@ -5,11 +5,18 @@ https://phostwood.github.io/crash-analyzer/skyrim.html
 1. UI IMPROVEMENT:  to "Loaded file: Crash Log (from pastebin.com/4XT3tzHG)" ... now showing pastebin url instead of just "from Pastebin")
 
 2. Uploaded new images for use in Nexus mods
+	- v1.30.5.2: REVISED Sovnkrasch blue emblem with node tree
+
+3. v1.30.5.2: Announced new QLP and Sovnkrasch info in analyzer, Donations section
 
 
 
 
 ~~ next version ~~
+
+4. Mod page idea:
+- Mention Reddit and Discord for help
+
 
 2. TODO: Update donations section
 	- up to 750 hours (easily)
