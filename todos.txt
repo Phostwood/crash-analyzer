@@ -1,4 +1,4 @@
-📢 Version 1.30.5.2 is now live:
+📢 Version 1.30.5.3 is now live:
 https://phostwood.github.io/crash-analyzer/skyrim.html
 
 
@@ -8,6 +8,8 @@ https://phostwood.github.io/crash-analyzer/skyrim.html
 	- v1.30.5.2: REVISED Sovnkrasch blue emblem with node tree
 
 3. v1.30.5.2: Announced new QLP and Sovnkrasch info in analyzer, Donations section
+
+4. v1.30.5.3: Added new clarifying section to TermsOfUse: "User-Generated Content & Abuse"
 
 
 
