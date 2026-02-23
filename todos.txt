@@ -1,50 +1,42 @@
-📢 Version 1.30.5 is now live:
+📢 Version 1.30.5.1 is now live:
 https://phostwood.github.io/crash-analyzer/skyrim.html
 
 
-1. ✅FIXED:  for new CrashLoggerSSE's formatting change(s) and anything else
-	- ✅🎯 Highest-Confidence Indicators: 
-		- POSSIBLE RELEVANT OBJECTS:
-			- NSF Logs have always had this section, now CrashLoggerSSE does too
-		- Make adjustment for new formatting on "CALL STACK ([P]robable / [S]tack scan):"
-			- adjust the old section to accommodate new heading
-			- adjusted for [P] and [S] in section's lines
-	- ✅Verified RAM/VRAM and other header elements are still being correctly extracted
-	- ✅FIXED: Files/Elements needs bug fix for 
-		- [3] S] 0x000141509547 SkyrimSE.exe
-	- ✅FIXED: 📊 Mod Prominence Analysis (appearances : details):
-		- (20 : 0) S] SkyrimSE.exe
-	- ✅QA between eight tabs:
-		- 1. old log, new code, ?tryFormIDs&analyzeFullLog
-		- 2. new log, new code, ?tryFormIDs&analyzeFullLog
-		- 3. old log, new code, ?analyzeFullLog
-		- 4. new log, new code, ?analyzeFullLog
-		- 5. old log, live code, ?analyzeFullLog
-		- 6. new log, live code, ?analyzeFullLog
-		- 7. old log, live code, ?tryFormIDs&analyzeFullLog
-		- 8. new log, live code, ?tryFormIDs&analyzeFullLog
+1. UI IMPROVEMENT:  to "Loaded file: Crash Log (from pastebin.com/4XT3tzHG)" ... now showing pastebin url instead of just "from Pastebin")
 
-2. ✅FIXED: "Files/Elements listed within" seems to break when both of these are selected:
-		- [ ] "Try harder" by analyzing full log (may show many additional possible causes)
-		- [ ] Display nested Log Summary (Beta feature)
+2. Uploaded new images for use in Nexus mods
+
+
 
 
 ~~ next version ~~
 
-2. ⭐️BUG FIX? Why isn't this CONSISTENTLY being cited as wrong version of "ConsoleUtilSSE"?
+2. TODO: Update donations section
+	- up to 750 hours (easily)
+	- update donor numbers
+	- Get set up for bitcoin donations
+	- CHANGE:
+		- ⭐️Instead, change the emphasis to download, like, and endorse my new MO2 Plugin on NexusMods
+			- The numbers there will speak for themselves eventually, and will also be another page to gather donations from
+		- 
+
+3. ⭐️TODO: Publish mod on Nexus
+
+
+
+~~ next version ~~
+
+2. ?BUG FIX? Why isn't this CONSISTENTLY being cited as wrong version of "ConsoleUtilSSE"?
 	- 4XT3tzHG.txt
 	- crash-2026-02-18-10-13-16.log 
 	- crash-2026-02-17-17-53-16.log
 
-3. ⭐️BUG FIX? Also review heuristics for BloodSprayImpact01
+3. ?BUG FIX? Also review heuristics for BloodSprayImpact01
 
-4. ⭐️BUG FIX? Also review heuristics for geometricculling info, about EFPs and similar mods
+4. ?BUG FIX? Also review heuristics for geometricculling info, about EFPs and similar mods
 
 
-2. TODO: Update donations section
-	- up to 750 hours (easily)
-	- update donor numbers
-	- Get set up for bitcoin donations?
+
 
 -- next version --
 

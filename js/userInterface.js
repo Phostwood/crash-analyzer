@@ -131,7 +131,7 @@ function initializeCrashLogLoader() {
             
             // Detect service and convert to raw URL if needed
             if (pasteUrl.includes('pastebin.com')) {
-                serviceName = 'Pastebin';
+                serviceName = pasteUrl.replace(/^https?:\/\//, "").replace(/\/$/, "");
                 // Extract paste ID
                 let pasteId = pasteUrl.split('pastebin.com/').pop().split('?')[0];
                 pasteId = pasteId.replace('raw/', ''); // Remove 'raw/' if present
