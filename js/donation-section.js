@@ -35,7 +35,7 @@
     </div>
     <div align="center"><span id="help-me-out">"Spare a septim for a humble crash-log analyzer?" — Phostwood<br></span></div>
     <br>
-    <span style="font-size: 2em;">🪙</span> There's a lot more this analyzer could do — and your support is what makes further development possible. Financial backing is currently very thin: <b>only eight monthly patrons</b> sustain the project right now. If this tool has saved you time and frustration, please consider supporting on <a href="https://ko-fi.com/phostwood">Ko-fi</a> — monthly giving keeps development moving, and Ko-fi passes more of your support directly to the project than other platforms. <a href="https://www.patreon.com/Phostwood">Patreon</a> is also available if you prefer.<br>
+    <span style="font-size: 2em;">🪙</span> There's a lot more this analyzer could do — and your support is what makes further development possible. Financial backing is currently very thin: <b>only eight monthly patrons</b> sustain the project right now. If this tool has saved you time and frustration, please consider a one-time tip or monthly subscription on <a href="https://ko-fi.com/phostwood">Ko-fi</a>, <a href="https://www.patreon.com/Phostwood">Patreon</a>, or <a href="https://www.paypal.com/paypalme/Phostwood">PayPal</a>. Monthly PayPal donations are also available via my <a href="https://www.nexusmods.com/profile/Phostwood" target="_blank">Nexus profile page</a>.<br>
     <div id="quote"></div>
     <br>
 

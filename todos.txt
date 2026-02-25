@@ -1,4 +1,4 @@
-📢 Version 1.30.5.5 is now live:
+📢 Version 1.30.5.6 is now live:
 https://phostwood.github.io/crash-analyzer/skyrim.html
 
 
@@ -15,27 +15,36 @@ https://phostwood.github.io/crash-analyzer/skyrim.html
 
 6. v1.30.5.5 Small updates to ToS and Privacy Policy no longer saying QLP is in testing but is now publicly available.
 
+7. v1.30.5.6 make "?UUID=" a case-insensitive match
+
+8. v1.30.5.6 In Nexus Mods Profile stuff:
+	- Accept Direct Donations on my mod at NexusMods.com
+	- Q: How do I become a "Verified Mod Author"?
+		- A: just need 1k downloads (or maybe 2K with 50/50 split?)
+
+9. v1.30.5.6 Added PayPal links to donation section
+
+
 
 ~~ next version ~~
 
 4. Mod page idea:
-- Mention Reddit and Discord for help
+- Mention Reddit and Discord for help?
 
 
 2. TODO: Update donations section
 	- up to 750 hours (easily)
 	- update donor numbers
-	- Get set up for bitcoin donations
+	- Get set up for bitcoin donations?
 	- CHANGE:
-		- ⭐️Instead, change the emphasis to download, like, and endorse my new MO2 Plugin on NexusMods
-			- The numbers there will speak for themselves eventually, and will also be another page to gather donations from
-		- 
 
-3. ⭐️TODO: Publish mod on Nexus
+3. ⭐️TODO: share mod on r/SkyrimMods
 
 
 
 ~~ next version ~~
+
+NOTE: these may have been fixed with accommodating the new CrashLoggerSSE 1.20.x format?
 
 2. ?BUG FIX? Why isn't this CONSISTENTLY being cited as wrong version of "ConsoleUtilSSE"?
 	- 4XT3tzHG.txt

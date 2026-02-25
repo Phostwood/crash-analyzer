@@ -35,8 +35,18 @@ function initializeCrashLogLoader() {
     
     // Check for query string parameters
     const urlParams = new URLSearchParams(window.location.search);
-    const uuid    = urlParams.get('UUID');   // from MO2 plugin upload
-    const logUrl  = urlParams.get('log');    // legacy Pastebin/paste.rs
+
+	// Case-insensitive param lookup
+	function getParamCI(params, key) {
+		const lowerKey = key.toLowerCase();
+		for (const [k, v] of params.entries()) {
+			if (k.toLowerCase() === lowerKey) return v;
+		}
+		return null;
+	}
+
+	const uuid   = getParamCI(urlParams, 'uuid');  // from MO2 plugin upload
+	const logUrl = getParamCI(urlParams, 'log');   // legacy Pastebin/paste.rs
 
     if (uuid) {
         loadCrashLogFromWorker(uuid);
