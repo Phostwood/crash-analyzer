@@ -319,6 +319,17 @@ async function analyzeLog() {
         }
     }
 
+
+    
+   //❗ Possible ENB Issue Detected:
+   const hasENBIssue = checkENBIssue(sections);
+   if (hasENBIssue) {
+       diagnoses += hasENBIssue;
+       diagnosesCount++;
+   }
+
+
+
     // Check for first-line error
     let firstLineDiagnosis = null;
     if (Utils.isSkyrimPage) { //Goes into top section for Skyrim users and bottom section for Nolvus users
@@ -764,6 +775,7 @@ async function analyzeLog() {
     }
 
 
+    /*OLD:
     //ENB issue (long, but collapsable version)
     if (sections.firstLine.includes('d3d11.dll')) {
         insights += '<li>❗ <b>ENB Issue Detected:</b> The presence of <code>d3d11.dll</code> in the first line of a crash log indicates a graphics-related crash. If you have recently installed an ENB or Reshader, ensure it is the correct version and consider reinstalling it. Follow the appropriate steps based on your installation method:<ol>' +
@@ -777,7 +789,7 @@ async function analyzeLog() {
             '</ul></li>' +
             '</ol></li>';
         insightsCount++;
-    }
+    } */
 
     // Apply Order
     if (hasBadlyOrganizedNolvusPlugins) {

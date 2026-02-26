@@ -52,7 +52,7 @@ if (typeof Utils === 'undefined') {
         ['d3d10_1core.dll', '(Direct3D 10.1 Core Runtime - MS <b>Windows</b> graphics)'],
         ['d3d10core.dll', '(Direct3D 10 Core Runtime - MS <b>Windows</b> graphics)'],
         ['d3d10warp.dll', '(⚠️CPU <b>emulation</b> of GPU - MS <b>Windows</b> graphics)'],
-        ['d3d11.dll', '(Direct3D 11 Runtime - MS <b>Windows</b> graphics)'],
+        ['d3d11.dll', '(Direct3D 11 - MS Windows graphics, frequent <b>ENB</b> indicator)'],
         ['d3d11on12.dll', '(Direct3D 11On12 Runtime - MS <b>Windows</b> graphics)'],
         ['d3d12core.dll', '(Direct3D 12 Core Runtime - MS <b>Windows</b> graphics)'],
         ['d3dcompiler_42.dll', '(DirectX HLSL Compiler - MS <b>Windows</b> graphics)'],

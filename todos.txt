@@ -1,4 +1,4 @@
-📢 Version 1.30.5.6 is now live:
+📢 Version 1.30.5.7 is now live:
 https://phostwood.github.io/crash-analyzer/skyrim.html
 
 
@@ -24,9 +24,19 @@ https://phostwood.github.io/crash-analyzer/skyrim.html
 
 9. v1.30.5.6 Added PayPal links to donation section
 
+10. v1.30.5.7 d3d11.dll no longer triggers First Line Error messages, in favor of  existing and more helpful "❗ ENB Issue Detected:" diagnosis.
+	- also clarified d3d11.dll in explainersMap
+	- also created DE-NOLVUS-ified troubleshooting instructions for skyrim.html
+
+11. v1.30.5.7 tweaks to donations section
+
+12. v1.30.5.7 Instructions section now defaults to hidden with a "⤵️ show details" link
+
 
 
 ~~ next version ~~
+
+1. manual review of Plugin's code in prep for r/SkyrimMods publicizing
 
 4. Mod page idea:
 - Mention Reddit and Discord for help?

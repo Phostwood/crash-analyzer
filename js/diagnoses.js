@@ -1864,7 +1864,7 @@ function analyzeEngineFixes(sections) {
 //❗Critical First-Line Error Detected:
 function analyzeFirstLine(sections, diagnosisOrInsight) {
     let insights = '';
-    const ignoreFiles = ['Dawnguard.esm', 'Dragonborn.esm', 'null', 'null)', 'SkyrimSE.exe', 'skyrim.esm', 'SkyrimVR.exe', 'VCRUNTIME140.dll', 'ntdll.dll', 'JContainers64.dll', 'skee64.dll', 'KERNELBASE.dll', 'DbSkseFunctions.dll', 'nvngx_dlssg.dll', 'XAudio2_7.dll', ...crashIndicators.nvidiaDriverIssues.codes.map(({ code }) => code), ...crashIndicators.sseEngineFixesFiles.codes.map(({ code }) => code)]; //NOTE: these already have their own specific and better test, or are just too generic/foundational to realistically place blame on 
+    const ignoreFiles = ['Dawnguard.esm', 'Dragonborn.esm', 'null', 'null)', 'SkyrimSE.exe', 'skyrim.esm', 'SkyrimVR.exe', 'VCRUNTIME140.dll', 'ntdll.dll', 'JContainers64.dll', 'skee64.dll', 'KERNELBASE.dll', 'DbSkseFunctions.dll', 'nvngx_dlssg.dll', 'XAudio2_7.dll', 'd3d11.dll', ...crashIndicators.nvidiaDriverIssues.codes.map(({ code }) => code), ...crashIndicators.sseEngineFixesFiles.codes.map(({ code }) => code)]; //NOTE: these already have their own specific and better test, or are just too generic/foundational to realistically place blame on 
     const insightFiles = ['po3_PapyrusExtender.dll', 'PapyrusTweaks.dll', 'skse64_1_6_1170.dll', 'skse64_1_6_1179.dll', 'skse64_1_6_640.dll', 'skse64_1_5_97.dll', 'sksevr_1_4_15.dll', 'fiss.dll']; //NOTE: these are placed near the bottom of the report, since they are usually not at fault, and putting them at the top gives these intructions too much priority
     
     // Extract filename from sections.firstLine (actual location can vary between log types) if it exists
@@ -4834,5 +4834,49 @@ function checkSkyrimCrashGuard(sections) {
         </li>`;
     }
     
+    return insights;
+}
+
+
+
+function checkENBIssue(sections) {
+    let insights = '';
+
+    if (!sections.firstLine.includes('d3d11.dll')) return insights;
+
+    if (!Utils.isSkyrimPage) {
+        // Current version (Nolvus-focused)
+        insights += '<li>❗ <b>Possible ENB Issue Detected:</b> The presence of <code>d3d11.dll</code> in the first line of a crash log indicates a graphics-related crash. If this diagnosis repeats across multiple crash logs, and if you have recently installed an ENB or Reshader, ensure it is the correct version and consider reinstalling it. Follow the appropriate steps based on your installation method:<ol>' +
+            '<li>❗ <b>For Manual Installers/Modders:</b> If you manually installed an ENB or similar:<a href="#" class="toggleButton">⤴️ hide</a><ul class="extraInfo">' +
+            '<li>For manual installations of standard Nolvus options, refer to the <a href="https://www.nolvus.net/guide/natl/enb">Guide on ENB & RESHADE Installation</a>.</li>' +
+            '<li>For information on the new Cabbage ENB and Kauz ENB, see the <a href="https://www.reddit.com/r/Nolvus/comments/1clurux/nolvus_enb_install_guides_and_info/">Nolvus ENB Installation Guides and Information</a>.</li>' +
+            '</ul></li>' +
+            '<li>❗ <b>For Autoinstallers of Nolvus v5:</b> Consider the following steps for fixing your ENB-related issue:<a href="#" class="toggleButton">⤴️ hide</a><ul class="extraInfo">' +
+            '<li>For a potential <b>quick fix,</b> standard Nolvus players can try manually reinstalling the <code>d3d11.dll</code> file by following the instructions in the <a href="https://www.nolvus.net/guide/natl/enb">Guide on ENB & RESHADE Installation</a>. If this does not resolve the issue, proceed with the steps below.</li>' +
+            '<li><b>Reinstall Nolvus</b> to ensure the installation is not corrupted. It may seem daunting, but <b>as long as you archived</b> during installation, the process is straightforward and far faster. <b>⚠️ CAUTION:</b> Reinstalling Nolvus will delete your save games, character presets, and screenshots. Please <b>back them up</b> first if you wish to keep them! Also, your saves will be unusable unless you reinstall with the exact same confgiurations. For detailed instructions, see this <a href="https://docs.google.com/document/d/1R_AVeneeCiqs0XGYzggXx34v3Ufq5eUHNoCHo3QE-G8/edit">Guide to Reinstalling Nolvus</a>.</li>' +
+            '</ul></li>' +
+            '</ol></li>';
+    } else {
+        // Revised version (general Skyrim)
+        insights += `<li>❗ <b>Possible ENB Issue Detected:</b> The presence of <code>d3d11.dll</code> in the first line of a crash log indicates a graphics-related crash. If this diagnosis repeats across multiple crash logs, and if you have recently installed or updated an ENB or ReShade preset, ensure it is the correct version for your Skyrim build and consider reinstalling it.
+            <ol>
+                <li>❗ <b>For Manual Installers/Modders:</b> If you manually installed an ENB or similar:<a href="#" class="toggleButton">⤴️ hide</a>
+                    <ul class="extraInfo">
+                        <li>Ensure your ENB binary is compatible with your version of Skyrim SE/AE.</li>
+                        <li>Ensure your ENB preset is compatible with your ENB binary version. Check the preset's mod page on Nexus Mods for version requirements.</li>
+                        <li>If using ReShade, similarly, ensure its compatibilities and requirements.</li>
+                    </ul>
+                </li>
+                <li>❗ <b>For Collection / Wabbajack Users:</b> Consider the following steps:<a href="#" class="toggleButton">⤴️ hide</a>
+                    <ul class="extraInfo">
+                        <li>Check your modlist's documentation or Discord for ENB-specific installation instructions, as many modlists ship with a preconfigured ENB that requires a specific binary version.</li>
+                        <li>If you manually swapped or added an ENB on top of your modlist, revert to the default ENB included with your list, or reinstall the list to restore a clean state.</li>
+                        <li><b>⚠️ CAUTION:</b> Reinstalling a Wabbajack modlist may affect your save games, character presets, and screenshots. <b>Back them up first</b> if you wish to keep them.</li>
+                    </ul>
+                </li>
+            </ol>
+        </li>`;
+    }
+
     return insights;
 }
