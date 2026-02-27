@@ -1557,15 +1557,16 @@ Utils.processExplainersAndUnlikely = function(namedElementMatches) {
 
 
 Utils.addMissingSectionHeaders = function(logFile, logType) {
-  // Only process CrashLogger logs
   if (logType !== "CrashLogger") {
     return logFile;
   }
 
-  // Split logFile into lines
+  // Normalize 1.20.x call stack header to 1.19.x for uniform detection
+  logFile = logFile.replace('CALL STACK ([P]robable / [S]tack scan):', 'PROBABLE CALL STACK:');
+
   const logLines = logFile.split('\n');
 
-  // Define the expected section headers in order
+  // Ordered list of expected section headers
   const sectionHeaders = [
     'PROBABLE CALL STACK:',
     'REGISTERS:',
@@ -1575,72 +1576,23 @@ Utils.addMissingSectionHeaders = function(logFile, logType) {
     'PLUGINS:'
   ];
 
-  // Track which sections are present
-  const presentSections = new Set();
-
-  // Check which sections exist in logLines
-  for (let i = 0; i < logLines.length; i++) {
-    const line = logLines[i].trim();
-    for (const header of sectionHeaders) {
-      if (line.startsWith(header)) {
-        presentSections.add(header);
-        break;
-      }
-    }
-  }
-
-  // Find the last present section
-  let lastPresentIndex = -1;
-  let lastPresentHeader = null;
-  for (let i = sectionHeaders.length - 1; i >= 0; i--) {
-    if (presentSections.has(sectionHeaders[i])) {
-      lastPresentIndex = i;
-      lastPresentHeader = sectionHeaders[i];
+  // Find the index of the first missing section header
+  let firstMissingIndex = sectionHeaders.length; // assume all present
+  for (let i = 0; i < sectionHeaders.length; i++) {
+    const isPresent = logLines.some(line => line.trim().startsWith(sectionHeaders[i]));
+    if (!isPresent) {
+      firstMissingIndex = i;
       break;
     }
   }
 
-  if (lastPresentIndex === -1) {
+  // Nothing missing — return as-is
+  if (firstMissingIndex === sectionHeaders.length) {
     return logFile;
   }
 
-  // Add missing headers after the last present section
-  const missingHeaders = sectionHeaders.slice(lastPresentIndex + 1);
-
-  if (missingHeaders.length === 0) {
-    return logFile;
-  }
-
-  // Find the line index of the last present header
-  let insertIndex = -1;
-  for (let i = logLines.length - 1; i >= 0; i--) {
-    if (logLines[i].trim().startsWith(lastPresentHeader)) {
-      insertIndex = i + 1;
-      break;
-    }
-  }
-
-  if (insertIndex === -1) {
-    return logFile;
-  }
-
-  // Skip to the end of the last section's content
-  while (insertIndex < logLines.length && logLines[insertIndex].trim() !== '') {
-    insertIndex++;
-  }
-
-  // Add missing section headers
-  const newLines = [];
-  for (const header of missingHeaders) {
-    newLines.push('');
-    newLines.push(header);
-  }
-
-  // Insert the new lines
-  logLines.splice(insertIndex, 0, ...newLines);
-
-  // Reconstruct and return the modified logFile
-  return logLines.join('\n');
+  // Append all missing headers to the end of the file
+  return logFile + '\n\n' + sectionHeaders.slice(firstMissingIndex).join('\n\n');
 };
 
 

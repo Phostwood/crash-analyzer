@@ -1,3 +1,22 @@
+function stripUuidAndLogParams() {
+    const params = new URLSearchParams(window.location.search);
+    const keysToDelete = [];
+    for (const key of params.keys()) {
+        if (/^uuid$/i.test(key) || /^log$/i.test(key)) {
+            keysToDelete.push(key);
+        }
+    }
+    if (keysToDelete.length === 0) return;
+    keysToDelete.forEach(key => params.delete(key));
+    const paramArray = [];
+    for (const [key, val] of params.entries()) {
+        paramArray.push(val === '' ? key : key + '=' + encodeURIComponent(val));
+    }
+    const queryString = paramArray.length > 0 ? '?' + paramArray.join('&') : '';
+    history.replaceState(null, '', window.location.pathname + queryString);
+}
+
+
 document.addEventListener('DOMContentLoaded', function() {
 	const logTypeSelect = document.getElementById('logType');
 	const downloadLink = document.getElementById('downloadLink');
@@ -452,6 +471,7 @@ document.addEventListener('DOMContentLoaded', function () {
 	window.clearAll = function () {
 		document.getElementById('filename').innerHTML = '';
 		document.getElementById('crashLog').value = '';
+		stripUuidAndLogParams(); // ← replaces the inline IIFE
 		clearResult();
 	};
 
@@ -583,9 +603,8 @@ document.addEventListener('DOMContentLoaded', function () {
 			document.getElementById('crashLog').value = reader.result;
 			displayFilename(input.files[0].name);
 			clearResult();
+			stripUuidAndLogParams(); // ← replaces the inline IIFE
 			analyzeLog();
-			//displayQuote();
-			//never used (too awkward): scrollToDiagnosesHeader();
 		};
 		reader.onerror = function (event) {
 			console.error('File reading error:', event.target.error);

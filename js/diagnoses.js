@@ -4126,7 +4126,7 @@ function checkDeathDropOverhaulCrash(sections) {
 // ⚠️ Consider Updating Engine Fixes:
 function checkEngineFixesUpdate(sections) {
     let insights = '';
-    const latestVersion = '7.0.19.0';
+    const latestVersion = '7.0.20.0';
     const shadowSceneFixingVersion = '7.0.18.0';
     
     if( !( sections.hasSkyrimSE1597 || sections.hasSkyrimAE1170 ) ){
