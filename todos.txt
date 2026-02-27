@@ -1,4 +1,4 @@
-📢 Version 1.30.5.7 is now live:
+📢 Version 1.30.5.8 is now live:
 https://phostwood.github.io/crash-analyzer/skyrim.html
 
 
@@ -32,6 +32,18 @@ https://phostwood.github.io/crash-analyzer/skyrim.html
 
 12. v1.30.5.7 Instructions section now defaults to hidden with a "⤵️ show details" link
 
+13. v1.30.5.8 New version of Engine Fixes: 7.0.20
+
+14. v1.30.5.8 BUG FIX: Drag and Drop or "Choose File" or "Clear" needs to remove the "?LOG=" or "?UUID=" from the URL query 
+	- needs more UUID testing (in prod, as UUIDs only work in prod)
+
+15. v1.30.5.8 BUG FIX: crash-2026-02-25-21-14-08.log does NOT need BEES
+	- log was truncated before normal end of header
+	- approach: updated the function that repairs truncated logs enough to extract existing data:
+		- // Normalize 1.20.x call stack header to 1.19.x for uniform detection
+		- logFile = logFile.replace('CALL STACK ([P]robable / [S]tack scan):', 'PROBABLE CALL STACK:');
+	- MAINTENANCE: also altered addMissingSectionHeaders() code so it doesn't look for sections missing in the middle, only at the end of the crash logs (simplifies the code considerably, and I'm pretty sure I've never seen a crash log truncated in the middle...)
+
 
 
 ~~ next version ~~
@@ -56,10 +68,6 @@ https://phostwood.github.io/crash-analyzer/skyrim.html
 
 NOTE: these may have been fixed with accommodating the new CrashLoggerSSE 1.20.x format?
 
-2. ?BUG FIX? Why isn't this CONSISTENTLY being cited as wrong version of "ConsoleUtilSSE"?
-	- 4XT3tzHG.txt
-	- crash-2026-02-18-10-13-16.log 
-	- crash-2026-02-17-17-53-16.log
 
 3. ?BUG FIX? Also review heuristics for BloodSprayImpact01
 
