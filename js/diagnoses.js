@@ -4663,7 +4663,7 @@ function analyzeJ3w3lsEssentialMods(sections) {
         insights += `
         <li>ℹ️ <b>J3w3ls' Essential Mods Not Found:</b> The following essential stability and bug-fixing mods from 
             <a href="https://github.com/TheOneAndOnlyJ3w3ls/Skyrim-Modding-Tutorials/wiki/J3w3ls'-Essential-Mod-List" target="_blank">J3w3ls' Essential Mod List</a> 
-            were not detected in your crash log's mod list. These mods help prevent crashes and/or fix common bugs. J3w3ls is a highly experienced Skyrim modder, mod author, documentation writer, and veteran helper and admin from <a href="https://discord.com/invite/modding-guild-skyrim-guild-872252014002843658">The Modding Guild (Skyrim Guild) Discord</a>.
+            were not detected in your crash log's mod list. These mods help prevent crashes and/or fix common bugs. J3w3ls is a highly experienced Skyrim modder, mod author, documentation writer, and veteran helper and admin from <a href="https://discord.com/invite/modding-guild-skyrim-guild-872252014002843658">The Modding Guild (Skyrim Guild) Discord</a>. These mods can be installed individually from the list below, or (if you are using Vortex) as <a href="https://www.nexusmods.com/games/skyrimspecialedition/collections/mxeewo">J3w3ls' Ultra Essential Mods</a> Nexus Collection.
             <ul>
                 <li><b>Missing Mods by Category:</b>
                     <ul>${renderCategoryList(modsByCategory)}
@@ -4672,7 +4672,7 @@ function analyzeJ3w3lsEssentialMods(sections) {
     } else {
         insights += `
         <li>ℹ️ <b>J3w3ls' Essential Mods:</b> Reference list from 
-            <a href="https://github.com/TheOneAndOnlyJ3w3ls/Skyrim-Modding-Tutorials/wiki/J3w3ls'-Essential-Mod-List" target="_blank">J3w3ls' Essential Mod List</a> - These mods help prevent crashes and/or fix common bugs. J3w3ls is a highly experienced Skyrim modder, mod author, documentation writer, and veteran helper and admin from <a href="https://discord.com/invite/modding-guild-skyrim-guild-872252014002843658">The Modding Guild (Skyrim Guild) Discord</a>.
+            <a href="https://github.com/TheOneAndOnlyJ3w3ls/Skyrim-Modding-Tutorials/wiki/J3w3ls'-Essential-Mod-List" target="_blank">J3w3ls' Essential Mod List</a> - These mods help prevent crashes and/or fix common bugs. J3w3ls is a highly experienced Skyrim modder, mod author, documentation writer, and veteran helper and admin from <a href="https://discord.com/invite/modding-guild-skyrim-guild-872252014002843658">The Modding Guild (Skyrim Guild) Discord</a>. These mods can be installed individually from the list below, or (if you are using Vortex) as <a href="https://www.nexusmods.com/games/skyrimspecialedition/collections/mxeewo">J3w3ls' Ultra Essential Mods</a> Nexus Collection.
             <ul>`;
     }
 
@@ -4879,4 +4879,68 @@ function checkENBIssue(sections) {
     }
 
     return insights;
+}
+
+
+
+// ❓ Possible Skeleton Crash Detected (Nolvus only)
+// (kept near bottom of Insights section — usually a false-positive)
+// NOTE: may be largely replaced by likely-also-flagged Regen Behavior Animations test
+function analyzeSkeletonCrash(sections) {
+    let insights = '';
+
+    // Only run this test on the Nolvus page
+    if (!Utils.isSkyrimPage) {
+        var skeletonRegex = /NPC L UpperarmTwist|NPC R UpperarmTwist|skeleton\.nif|skeleton_female\.nif|NPC L Forearm|NPC R Forearm|bisection|NPC SpineX|NPC L Heel|NPC R Heel|NPC L Foot|NPC R Foot|SaddleBone|NPC L Hand|NPC R Hand|NPC L Finger|NPC R Finger/g;
+        var skeletonMatches = sections.topQuarter.match(skeletonRegex) || [];
+
+        if (skeletonMatches.length > 0) {
+            insights += `<li>❓ <b>Possible Skeleton Crash Detected:</b>
+                The crash log contains <code>${skeletonMatches.length}</code> potential skeleton signal(s). Skeleton crashes are common and are <b>frequently not the actual crash culprit</b> — especially when other issues are present in the log. Also, if this is an occasional one-off crash, it's often best to simply ignore it and only investigate further if it happens repeatedly.
+                <ul>
+                    <li><b>Troubleshooting steps (if crash is recurring):</b>
+                        <ul>
+                            <li><b>First:</b> Try using the Nolvus Dashboard's "Apply Order" feature, as incorrect plugin load order is a common trigger for skeleton-related crashes. For more information, see: <a href="https://www.reddit.com/r/Nolvus/comments/1kp1lrw/guide_using_the_apply_order_button_in_nolvus/">How To: Use the "Apply Order" Button</a>. Note that if you have added additional mods, Apply Order will disable them and place them at the bottom of your load order — you will need to re-enable and reposition them afterwards.</li>
+                            <li>Verify that skeleton mods are properly installed and not being overwritten by other mods</li>
+                            <li>Consider regenerating behavior outputs — see the <a href="https://www.nolvus.net/guide/asc/output/nemesis">Nemesis instructions for Nolvus</a></li>
+                            <li>If the crash is recurring and your save is older, consider whether <b>save bloat</b> may be a factor — heavily bloated saves can begin triggering skeleton-related crashes over time. Try starting a new game or a much earlier save to see if the crashes stop</li>
+                            <li>Inspect other mods that may alter skeleton structures and disable them in gradually shrinking groups to pinpoint any conflict</li>
+                            <li>If a specific NIF file is repeatedly identifiable, try reinstalling the mod that it comes from, or if that fails, <a href="https://www.nexusmods.com/skyrimspecialedition/mods/23316">Cathedral Asset Optimizer (CAO)</a> may be able to fix it (with varying degrees of success)</li>
+                        </ul>
+                    </li>
+                    <li>For detailed steps and more troubleshooting advice, visit the <a href="https://www.nolvus.net/catalog/crashlog?acc=accordion-1-9">Skeleton Crash</a> and <a href="https://www.nolvus.net/catalog/crashlog?acc=accordion-1-7">Load Order Crash</a> sections on Nolvus</li>
+                    <li>Detected indicators from crash log:
+                        <ul class="extraInfo">
+                            <li><code>${skeletonMatches.length}</code> skeleton-related term(s) found in top quarter of log: <code>${[...new Set(skeletonMatches)].join('</code>, <code>')}</code></li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>`;
+        }
+    }
+
+    return insights;
+}
+
+
+// 💥Still Crashing?
+function stillCrashing() {
+    let output = `
+        <li><span class="important-emoji">💥</span><b>Still Crashing?</b><br>
+        Some things may be difficult to impossible to reliably detect from a crash log alone — so these are worth checking manually if you're still having trouble:<br>
+        <ul>
+            <li><span style="background-color: white;">🔌</span> <b>Verify your non-ESL-flagged plugin count is 254 or under.</b> Crash logs don't always display every active plugin, so it's worth confirming this manually in your mod manager. Screenshots of the number that need to always be 254 or less: <a href="images/MO2 Plugin Count.png">MO2</a> (hover over the "Active" count (here "82") to see the popup) and <a href="images/Vortex Plugin Count.png">Vortex</a>. If you need to free up slots, see <a href="https://www.nexusmods.com/skyrimspecialedition/mods/21618">this guide</a> or <a href="https://www.nexusmods.com/skyrimspecialedition/mods/145168">ESLifier</a>.</li>
+            <li>📦 <b>If you are playing a Nexus Collection, a Wabbajack modlist, or Nolvus,</b> review the <b>🤖 Troubleshooting Auto-Installing Modlists:</b> section above, and/or seek help on that modlist's dedicated Discord or Reddit community — they are the experts on their own modlist.</li>
+            <li>🎲 <b>If you are getting infrequent crashes from non-repeating causes,</b> review the <b>🎲 Reduce Random Crashes:</b> section above.</li>
+            <li>🔄 <b>Consider starting a new playthrough.</b> Adding or removing mods mid-playthrough can cause instability and crashes that are difficult to diagnose. If you have been modifying your load order during your current playthrough, a fresh start may resolve persistent issues.</li>
+            <li>⚙️ <b>If you use Vortex:</b> Go to <b>Settings → "Reset Suppressed Notifications"</b>, restart Vortex, then click the notification bell (top right) and address any warnings.</li>
+            <li>💾 <b>Check for save file corruption</b> using <a href="https://www.nexusmods.com/skyrimspecialedition/mods/5031">FallrimTools ReSaver</a>, which can diagnose and sometimes fix corrupted saves. Advanced users can also use it to remove specific problematic FormIDs from save files. ⚠️ <b>CAUTION:</b> Fixing/editing save files has inherent risks and should be avoided when possible. If you can revert to an older save, that is often preferable.</li>
+            ${Utils.LootListItemIfSkyrim}
+            <li>🔍 <b>Scan for dangerous ESLs</b> using the <a href="https://www.nexusmods.com/skyrimspecialedition/mods/68889">Find Dangerous ESLs</a> xEdit script, which isolates ESL plugins that can corrupt game saves and cause crashes.</li>
+            <li>🆘 <b>Consider asking for help.</b> If you're stuck, the modding community is happy to assist. Good places to start are <a href="https://www.reddit.com/r/skyrimmods/">r/SkyrimMods</a> on Reddit, or the <a href="https://discord.com/invite/modding-guild-skyrim-guild-872252014002843658">Modding Guild (Skyrim Guild) Discord</a> — specifically, their initially hidden "help" channel.</li>
+            <li>🔎 <b>Still no luck? Try binary search.</b> This is a technique — not a tool — for isolating which mod is causing a crash by temporarily disabling half of suspect mods at a time, halving again groups which when disabled fixed the issue ... until the causal mods are isolated. Slow and tedious, but it always works when a mod is the culprit.</li>
+        </ul>
+    </li>`;
+
+    return output;
 }

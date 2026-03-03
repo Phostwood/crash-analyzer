@@ -1,4 +1,4 @@
-📢 Version 1.30.5.8 is now live:
+📢 Version 1.30.5.9 is now live:
 https://phostwood.github.io/crash-analyzer/skyrim.html
 
 
@@ -46,9 +46,47 @@ https://phostwood.github.io/crash-analyzer/skyrim.html
 
 
 
+16. v1.30.5.9 CLARIFICATION: "Try harder" by analyzing full log (show typically less-likely causes)
+
+17. v1.30.5.9 Added link to J3w3ls' new Collection!
+	- J3w3ls' Ultra Essential Mods - Skyrim Special Edition Collection:
+	- https://www.nexusmods.com/games/skyrimspecialedition/collections/mxeewo
+
+17. v1.30.5.9 UPDATED TEST: ❓ Possible Skeleton Crash Detected:
+	- Now only shows for Nolvus users, as I wonder if it might be an indicator specific to their mods?
+	- Changed troubleshooting steps as per Helper recommendations.
+
+18. v1.30.5.9 💥Still Crashing?
+	- Recommend manual verification of plugin limit (Thanks Lakoor!)
+	- Other recommendations that fit into: "Some things may be difficult to impossible to reliably detect from a crash log alone — so these are worth checking manually if you're still having trouble:"
+
+19. v1.30.5.9 Bug Fixed (minor): Fix strip noise for this section ... should not show "RSP+D0:" stuff
+	- EXAMPLE:
+		Summarized POSSIBLE RELEVANT OBJECTS:
+			RCX: (NiPointLight*) "LP_Light[CS Light\CS Light - Magic FX|MagicLightReanimate1](1232912)#2"
+			RSP+18: (SkyrimScript::HandlePolicy*)
+			RSP: (hkpSimpleContactConstraintData*)
+
+20. v1.30.5.9 Small tweaks to Donation section
+
+
+
+
 ~~ next version ~~
 
-1. manual review of Plugin's code in prep for r/SkyrimMods publicizing
+0. ⭐️TODO? Bug Fix/Update required: RomatebitegeL's new "Object Reference: None" bug
+
+
+1. ⭐️TODO? QLP: option to trigger automatically after a new crash log? Doable? Wanted?
+	- Also, rename the plugin's title in MO2 menu?
+
+2. ⭐️manual review of Plugin's code in prep for r/SkyrimMods publicizing
+
+3. ⭐️TODO? Vortex version of plugin?
+
+4. ⭐️TODO: share mod on r/SkyrimMods
+
+
 
 4. Mod page idea:
 - Mention Reddit and Discord for help?
@@ -60,7 +98,7 @@ https://phostwood.github.io/crash-analyzer/skyrim.html
 	- Get set up for bitcoin donations?
 	- CHANGE:
 
-3. ⭐️TODO: share mod on r/SkyrimMods
+
 
 
 

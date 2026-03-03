@@ -4,12 +4,9 @@
     <!-- If This Helped You Section -->
     <span style="display: inline-block; width: 100%;">
 
-    <span style="font-size: 2em;">🎉</span> If this analyzer has helped you, here are a few <b>ways to help out:</b><br>
-    <span style="font-size: 1.5em;">⬇️</span> Download, vote for, and <b>endorse</b> our new <a href="https://www.nexusmods.com/skyrimspecialedition/mods/173224" target="_blank">Phostwood's QLP - MO2 Crash Log Quick-Link Plugin</a> on NexusMods — a two-click <b>shortcut from crash to analysis</b>. Every download and endorsement helps it reach more people.<br>
-    <span style="font-size: 1.5em;">📢</span> <b>Spread the word!</b> The more people who know about these tools, the better the community gets at solving crashes.<br>
+    <span style="font-size: 2em;">🎉</span> If this analyzer has helped you, here are is an easy way to <b>help us out:</b><br>
+    <span style="font-size: 1.5em;">⬇️</span> Download, vote for, and <b>endorse</b> our new <a href="https://www.nexusmods.com/skyrimspecialedition/mods/173224" target="_blank">Phostwood's QLP - MO2 Crash Log Quick-Link Plugin</a> on NexusMods — a two-click <b>shortcut from crash to analysis</b>. Every download and endorsement helps our analyzer reach more people.<br>
     <br>
-
-    <hr style="border-color: rgba(255,255,255,0.15); margin: 1em 0;">
 
     <!-- Donation Section -->
     <style>
@@ -35,7 +32,7 @@
     </div>
     <div align="center"><span id="help-me-out">"Spare a septim for a humble crash-log analyzer?" — Phostwood<br></span></div>
     <br>
-    <span style="font-size: 2em;">🪙</span> There's a lot more this analyzer could do — and <b>your support</b> is what makes further development possible. Financial backing is currently very thin: <b>only eight monthly patrons</b> sustain the project right now. If this tool has saved you time and frustration, please consider a one-time tip or monthly subscription on <a href="https://ko-fi.com/phostwood">Ko-fi</a>, <a href="https://www.patreon.com/Phostwood">Patreon</a>, or <a href="https://www.paypal.com/paypalme/Phostwood">PayPal</a>. One-time or monthly PayPal donations are also available via my <a href="https://www.nexusmods.com/profile/Phostwood" target="_blank">Nexus profile page</a>. Donations are voluntary, but <b>highly appreciated!</b><br>
+    <span style="font-size: 2em;">🪙</span> There's still a lot more this analyzer could do — and <b>your support</b> is what makes further development possible. Financial backing is currently very thin: <b>only eight monthly patrons</b> sustain the project right now. If this tool has saved you time and frustration, please consider a one-time tip or monthly subscription on <a href="https://ko-fi.com/phostwood">Ko-fi</a>, <a href="https://www.patreon.com/Phostwood">Patreon</a>, or <a href="https://www.paypal.com/paypalme/Phostwood">PayPal</a>. One-time or monthly PayPal donations are also available via my <a href="https://www.nexusmods.com/profile/Phostwood" target="_blank">Nexus profile page</a>. Donations are voluntary, but <b>highly appreciated!</b><br>
     <div id="quote"></div>
     <br>
 

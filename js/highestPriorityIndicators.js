@@ -169,6 +169,9 @@ function stripNoise(text) {
 
       // Now clean this specific line (not across lines!)
       content = content.replace(/\[RSP[\+\-][^\]]*\]/g, '');
+      content = content.replace(/^RAX(\+[0-9A-Fa-f]+)?[:\s]\s*/i, '');
+      content = content.replace(/^RCX(\+[0-9A-Fa-f]+)?[:\s]\s*/i, '');
+      content = content.replace(/^RSP(\+[0-9A-Fa-f]+)?[:\s]\s*/i, '');
       content = content.replace(/0x[0-9A-Fa-f]+/g, '');
       content = content.replace(/\+0x[0-9A-Fa-f]+/gi, '');
       content = content.replace(/\+[0-9A-Fa-f]{3,}/g, '');

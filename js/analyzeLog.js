@@ -1036,18 +1036,11 @@ async function analyzeLog() {
     }
 
 
-    // Skeleton crash
-    //(moved to only be near bottom of Insights section, no longer in Diagnoses section ... its usually a false-positive)
-    //NOTE: this may largely be replaced by an upcoming Regen Behavior Animations test?
-    var skeletonRegex = /NPC L UpperarmTwist|NPC R UpperarmTwist|skeleton\.nif|skeleton_female\.nif|NPC L Forearm|NPC R Forearm|bisection|NPC SpineX|NPC L Heel|NPC R Heel|NPC L Foot|NPC R Foot|SaddleBone|NPC L Hand|NPC R Hand|NPC L Finger|NPC R Finger/g;
-    var skeletonMatches = sections.topQuarter.match(skeletonRegex) || [];
-    if (skeletonMatches.length > 0) {
-        insights += '<li>❓ <b>Possible Skeleton Crash Detected:</b> The crash log suggests <code>' + skeletonMatches.length + '</code> potential skeleton integrity issues. Skeleton Issues are FREQUENTLY NOT the crash culprit when other issues are present. To address this:<ol>' +
-            '<li>Verify that mods like XPMSSE are properly installed and not overwritten by other mods.</li>' +
-            `<li>Utilize tools such as FNIS or Nemesis or Pandora to rebuild animations, particularly if you have added mods that modify character or creature animations. ${!Utils.isSkyrimPage ? 'Follow these' : 'As an example, consider these'} instructions for <a href="https://www.nolvus.net/guide/asc/output/nemesis">regenerating Nemesis for Nolvus</a>.</li>` +
-            '<li>Inspect other mods that may alter skeleton structures. Disable them in gradually shrinking groups to pinpoint the issue.</li>' +
-            '<li>If identifiable, using <a href="https://www.nexusmods.com/skyrimspecialedition/mods/23316">Cathedral Asset Optimizer (CAO)</a> may help fix the problematic NIF file(s)</li>' +
-            `</ol>${!Utils.isSkyrimPage ? 'For detailed steps and more troubleshooting advice, visit the <a href="https://www.nolvus.net/catalog/crashlog?acc=accordion-1-9">Skeleton Crash</a> and <a href="https://www.nolvus.net/catalog/crashlog?acc=accordion-1-7">Load Order Crash</a> sections on Nolvus.' : ''}</li>`;
+   
+    // ❓ Possible Skeleton Crash Detected
+    const hasSkeletonCrash = analyzeSkeletonCrash(sections);
+    if (hasSkeletonCrash) {
+        insights += hasSkeletonCrash;
         insightsCount++;
     }
 
@@ -1329,6 +1322,14 @@ async function analyzeLog() {
             '<li>Some users have reported success by restarting their PC, renaming <code>cbp.dll</code> to something else to force a different load order, or verifying the integrity of game files on Steam if there\'s a suspicion of file corruption.</li>' +
             '</ol></li>';
         insightsCount++;
+    }
+
+
+    // 💥Still Crashing?
+    const stillCrashingFooter = stillCrashing();
+    if(stillCrashingFooter) {
+        insights += stillCrashingFooter;
+        //NO COUNTER: insightsCount++;
     }
 
 
