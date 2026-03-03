@@ -57,7 +57,7 @@ function checkForTooManyNonEslPlugins(crashLogSection) {
     let diagnosis = '';
 
     if (countInfo.nonEslPluginsCount > 254) {
-        diagnosis += `<li>🎯 <b>Exceeded Maximum ESMs+ESPs Plugins Limit!</b> Your load order has <code>${countInfo.nonEslPluginsCount}</code> non-ESL-ed plugins, which is too many. Skyrim can only handle up to 254 non-ESL-ed plugins. 255 or more will cause game instability and crashes. For more information and a screenshot from Mod Organizer 2 (MO2), refer to this <a href="https://www.reddit.com/r/Nolvus/comments/1r3caqs/reference_keep_your_active_esmsesps_count_to_254/">post</a>.
+        diagnosis += `<li>🎯 <b>Exceeded Maximum ESMs+ESPs Plugins Limit!</b> Your load order has <code>${countInfo.nonEslPluginsCount}</code> non-ESL-ed plugins, which is too many. Skyrim can only handle up to 254 non-ESL-ed plugins. 255 or more will cause severe game instability and crashes. Screenshots of the number that need to always be 254 or less: <a href="images/MO2 Plugin Count.png">MO2</a> (hover over the "Active" count (here "82") to see the popup) and <a href="images/Vortex Plugin Count.png">Vortex</a> (on "Plugins" tab).
         <ul>
             <li>Note: this number excludes <code>.esp</code> plugins that have been <i>flagged</i> as ESL, and are thus are displayed in the log with extra digits in their hex number (example: the uncounted <code>[FE 000]</code> versus the counted <code>[FF]</code>).</li>
             <li><a href = "${Utils.isSkyrimPage ? 'https://www.nexusmods.com/skyrimspecialedition/mods/21618' : 'https://docs.google.com/spreadsheets/d/10p_ZFCTxXg5ntdsQipOGLcMAnoYDOC4qBEIt5ZAOo-o/'}"> Information on safely squeezing in more mods.</a></li>
@@ -141,7 +141,30 @@ function checkForObjectReferenceNone(sections) {
         }
         
         // Function to extract file information
-        function extractFileInfo(section) {
+        function extractFileInfo(section, matchedLine) {
+            // NEW FORMAT (CrashLogger v1.20.1+): File is on the register line preceding the section
+            // e.g. RSI 0x... (TESObjectREFR*) [0x3B08C78A] ("SDA DX Crimson Blood Patch.esp")
+            const tesRefFileMatch = matchedLine?.match(/\(TESObjectREFR\*\).*?"([^"]+\.esp)"/);
+
+            // NEW FORMAT: The reference's own "Modified by:" is at two-tab depth (\t\t),
+            // NOT three-tab depth (\t\t\t) which belongs to the ParentCell
+            const ownModifiedByLine = section.find(line => 
+                line.startsWith('\t\tModified by:')
+            );
+            const modifiedByFiles = ownModifiedByLine
+                ?.split('Modified by:')[1]
+                ?.split('->').map(f => f.trim())
+                .filter(f => !neverDisplay.includes(f)) ?? [];
+
+            if (tesRefFileMatch) {
+                // New format detected
+                return {
+                    mostLikelyFile: tesRefFileMatch[1],
+                    otherFiles: modifiedByFiles.join(' -> ')
+                };
+            }
+
+            // OLD FORMAT fallback: File listed explicitly in section lines
             let files = section.filter(line => line.toLowerCase().includes('file:'));
             let otherFiles = files.length > 0 ? files[0].split(':')[1].trim() : '';
             let mostLikelyFile = files.length > 0 ? files[files.length - 1].split(':')[1].trim() : '';
@@ -163,8 +186,16 @@ function checkForObjectReferenceNone(sections) {
         // Process each instance
         instances.forEach((instanceIndex) => {
             const relevantSection = extractRelevantSection(lines, instanceIndex);
-            const { otherFiles, mostLikelyFile } = extractFileInfo(relevantSection);
             
+            /* // DEBUG - remove after fixing
+            console.log('=== DEBUG ===');
+            console.log('matchedLine:', lines[instanceIndex]);
+            console.log('section length:', relevantSection.length);
+            console.log('section contents:', relevantSection);
+            // END DEBUG */
+            
+            const { otherFiles, mostLikelyFile } = extractFileInfo(relevantSection, lines[instanceIndex - 1]);
+                    
             // Create a unique key for this instance
             const instanceKey = `${otherFiles}|${mostLikelyFile}`;
             
@@ -4663,7 +4694,7 @@ function analyzeJ3w3lsEssentialMods(sections) {
         insights += `
         <li>ℹ️ <b>J3w3ls' Essential Mods Not Found:</b> The following essential stability and bug-fixing mods from 
             <a href="https://github.com/TheOneAndOnlyJ3w3ls/Skyrim-Modding-Tutorials/wiki/J3w3ls'-Essential-Mod-List" target="_blank">J3w3ls' Essential Mod List</a> 
-            were not detected in your crash log's mod list. These mods help prevent crashes and/or fix common bugs. J3w3ls is a highly experienced Skyrim modder, mod author, documentation writer, and veteran helper and admin from <a href="https://discord.com/invite/modding-guild-skyrim-guild-872252014002843658">The Modding Guild (Skyrim Guild) Discord</a>. These mods can be installed individually from the list below, or (if you are using Vortex) as <a href="https://www.nexusmods.com/games/skyrimspecialedition/collections/mxeewo">J3w3ls' Ultra Essential Mods</a> Nexus Collection.
+            were not detected in your crash log's mod list. These mods help prevent crashes and/or fix common bugs. J3w3ls is a highly experienced Skyrim modder, mod author, documentation writer, and veteran helper and admin from <a href="https://discord.com/invite/modding-guild-skyrim-guild-872252014002843658">The Modding Guild (Skyrim Guild) Discord</a>. These mods can be installed individually from the list below, or as a <a href="https://www.nexusmods.com/games/skyrimspecialedition/collections/mxeewo">J3w3ls' Ultra Essential Mods</a> Nexus Collection (Vortex installs the collection automatically; MO2 users can use the <a href="https://www.nexusmods.com/skyrimspecialedition/mods/156002">MO2 Collections Download Plug-In</a> to download them, but will still need to install each mod manually).
             <ul>
                 <li><b>Missing Mods by Category:</b>
                     <ul>${renderCategoryList(modsByCategory)}
@@ -4672,7 +4703,7 @@ function analyzeJ3w3lsEssentialMods(sections) {
     } else {
         insights += `
         <li>ℹ️ <b>J3w3ls' Essential Mods:</b> Reference list from 
-            <a href="https://github.com/TheOneAndOnlyJ3w3ls/Skyrim-Modding-Tutorials/wiki/J3w3ls'-Essential-Mod-List" target="_blank">J3w3ls' Essential Mod List</a> - These mods help prevent crashes and/or fix common bugs. J3w3ls is a highly experienced Skyrim modder, mod author, documentation writer, and veteran helper and admin from <a href="https://discord.com/invite/modding-guild-skyrim-guild-872252014002843658">The Modding Guild (Skyrim Guild) Discord</a>. These mods can be installed individually from the list below, or (if you are using Vortex) as <a href="https://www.nexusmods.com/games/skyrimspecialedition/collections/mxeewo">J3w3ls' Ultra Essential Mods</a> Nexus Collection.
+            <a href="https://github.com/TheOneAndOnlyJ3w3ls/Skyrim-Modding-Tutorials/wiki/J3w3ls'-Essential-Mod-List" target="_blank">J3w3ls' Essential Mod List</a> - These mods help prevent crashes and/or fix common bugs. J3w3ls is a highly experienced Skyrim modder, mod author, documentation writer, and veteran helper and admin from <a href="https://discord.com/invite/modding-guild-skyrim-guild-872252014002843658">The Modding Guild (Skyrim Guild) Discord</a>. These mods can be installed individually from the list below, or as a <a href="https://www.nexusmods.com/games/skyrimspecialedition/collections/mxeewo">J3w3ls' Ultra Essential Mods</a> Nexus Collection (Vortex installs the collection automatically; MO2 users can use the <a href="https://www.nexusmods.com/skyrimspecialedition/mods/156002">MO2 Collections Download Plug-In</a> to download them, but will still need to install each mod manually).
             <ul>`;
     }
 
@@ -4929,13 +4960,13 @@ function stillCrashing() {
         <li><span class="important-emoji">💥</span><b>Still Crashing?</b><br>
         Some things may be difficult to impossible to reliably detect from a crash log alone — so these are worth checking manually if you're still having trouble:<br>
         <ul>
-            <li><span style="background-color: white;">🔌</span> <b>Verify your non-ESL-flagged plugin count is 254 or under.</b> Crash logs don't always display every active plugin, so it's worth confirming this manually in your mod manager. Screenshots of the number that need to always be 254 or less: <a href="images/MO2 Plugin Count.png">MO2</a> (hover over the "Active" count (here "82") to see the popup) and <a href="images/Vortex Plugin Count.png">Vortex</a>. If you need to free up slots, see <a href="https://www.nexusmods.com/skyrimspecialedition/mods/21618">this guide</a> or <a href="https://www.nexusmods.com/skyrimspecialedition/mods/145168">ESLifier</a>.</li>
+            <li><span style="background-color: white;">🔌</span> <b>Verify your non-ESL-flagged plugin count is 254 or under.</b> Crash logs don't always display every active plugin, so it's worth confirming this manually in your mod manager. Screenshots of the number that need to always be 254 or less: <a href="images/MO2 Plugin Count.png">MO2</a> (hover over the "Active" count (here "82") to see the popup) and <a href="images/Vortex Plugin Count.png">Vortex</a> (on "Plugins" tab). If you need to free up slots, see <a href="https://www.nexusmods.com/skyrimspecialedition/mods/21618">this guide</a> or <a href="https://www.nexusmods.com/skyrimspecialedition/mods/145168">ESLifier</a>.</li>
             <li>📦 <b>If you are playing a Nexus Collection, a Wabbajack modlist, or Nolvus,</b> review the <b>🤖 Troubleshooting Auto-Installing Modlists:</b> section above, and/or seek help on that modlist's dedicated Discord or Reddit community — they are the experts on their own modlist.</li>
             <li>🎲 <b>If you are getting infrequent crashes from non-repeating causes,</b> review the <b>🎲 Reduce Random Crashes:</b> section above.</li>
             <li>🔄 <b>Consider starting a new playthrough.</b> Adding or removing mods mid-playthrough can cause instability and crashes that are difficult to diagnose. If you have been modifying your load order during your current playthrough, a fresh start may resolve persistent issues.</li>
-            <li>⚙️ <b>If you use Vortex:</b> Go to <b>Settings → "Reset Suppressed Notifications"</b>, restart Vortex, then click the notification bell (top right) and address any warnings.</li>
-            <li>💾 <b>Check for save file corruption</b> using <a href="https://www.nexusmods.com/skyrimspecialedition/mods/5031">FallrimTools ReSaver</a>, which can diagnose and sometimes fix corrupted saves. Advanced users can also use it to remove specific problematic FormIDs from save files. ⚠️ <b>CAUTION:</b> Fixing/editing save files has inherent risks and should be avoided when possible. If you can revert to an older save, that is often preferable.</li>
-            ${Utils.LootListItemIfSkyrim}
+            ${Utils.isSkyrimPage? '<li>⚙️ <b>If you use Vortex:</b> Go to <b>Settings → "Reset Suppressed Notifications"</b>, restart Vortex, then click the notification bell (top right) and address any warnings.</li>' : ''}
+            <li>💾 <b>Check for save file corruption</b> using <a href="https://www.nexusmods.com/skyrimspecialedition/mods/5031">FallrimTools ReSaver</a>, which can diagnose corrupted saves. Advanced users can also use it to remove specific problematic FormIDs from save files. ⚠️ <b>CAUTION — Last Resort Only:</b> Attempting to clean or repair a save file is risky and should be avoided when possible. Altered saves may cause mods to crash that would otherwise have been fine, and diagnosing your modlist afterward can become impossible. If you can revert to an older save, that is strongly preferable.</li>
+            ${Utils.LootListItemIfSkyrim ? Utils.LootListItemIfSkyrim : `<li>🔃 <b>Automated Nolvus Installers:</b> Try using the Nolvus Dashboard's "Apply Order" feature. This resolves load order issues. For more information, see: <a href="https://www.reddit.com/r/Nolvus/comments/1kp1lrw/guide_using_the_apply_order_button_in_nolvus/">How To: Use the "Apply Order" Button</a>. If you have added additional mods, you will then need to re-enable and reposition them in your load order.</li>`}
             <li>🔍 <b>Scan for dangerous ESLs</b> using the <a href="https://www.nexusmods.com/skyrimspecialedition/mods/68889">Find Dangerous ESLs</a> xEdit script, which isolates ESL plugins that can corrupt game saves and cause crashes.</li>
             <li>🆘 <b>Consider asking for help.</b> If you're stuck, the modding community is happy to assist. Good places to start are <a href="https://www.reddit.com/r/skyrimmods/">r/SkyrimMods</a> on Reddit, or the <a href="https://discord.com/invite/modding-guild-skyrim-guild-872252014002843658">Modding Guild (Skyrim Guild) Discord</a> — specifically, their initially hidden "help" channel.</li>
             <li>🔎 <b>Still no luck? Try binary search.</b> This is a technique — not a tool — for isolating which mod is causing a crash by temporarily disabling half of suspect mods at a time, halving again groups which when disabled fixed the issue ... until the causal mods are isolated. Slow and tedious, but it always works when a mod is the culprit.</li>

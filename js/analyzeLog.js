@@ -1434,7 +1434,7 @@ async function analyzeLog() {
     // Output the suggestedMods section if there's content
     if (Utils.isSkyrimPage) {
         if (suggestedMods.trim() !== '') {
-            let outputHtml = `<h3><img src="./images/NewArrow.png" style="height: 2.5em;  vertical-align: middle;">Suggested Mods:</h3>
+            let outputHtml = `<h3><span class="wobble"><img src="./images/NewArrow.png" style="height: 2.5em;  vertical-align: middle;"></span>Suggested Mods:</h3>
                 Mod suggestions based on recommended mods not found in your modslist. Please note that crash logs sometimes exclude mods. Based on their file types, some mods will (almost) never appear in crash logs. Also, your modlist may have valid reasons for excluding some of these, especially where already included mods would replace or conflict with suggested mods. Always research a mod before installing to understand what it does and assess potential conflicts. Also, many mods require starting a new playthrough when adding.<br>
                 <!--If adding additional baseline lists, consdier adding: 
                     <br>

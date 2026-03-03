@@ -347,11 +347,7 @@ Utils.LootWarningForNolvus = '';
 Utils.NolvusOrSkyrimText = '';
 
 if (Utils.isSkyrimPage) {
-    const lootDescription = '👑 Try using <a href="https://loot.github.io/">LOOT</a> as a <b>diagnostic tool</b>. ' +
-    '⚠️Caution: LOOT can safely be used as a diagnostic tool or for load order suggestions, ' +
-    'but its automatic load order reorganization is often discouraged. ' +
-    'It\'s widely thought to incorrectly sort 5 to 10% of mods, ' +
-    'which can be especially problematic with large mod lists.';
+    const lootDescription = `👑 <a href="https://loot.github.io/">LOOT</a> can be safely used as a diagnostic tool and is generally helpful for sorting your load order — better than sorting manually, especially for newer modders. It may occasionally mis-sort some plugins; you can fix these by adding "load after" rules or placing plugins into custom groups within LOOT. ⚠️ <b>Do not use LOOT's auto-sort with premade modlists</b> (Nexus Collections, Wabbajack lists, Nolvus, etc.) — those lists have carefully curated load orders that LOOT will break.`;
 
     Utils.LootIfSkyrim = lootDescription;
     Utils.LootListItemIfSkyrim = `<li>${lootDescription}</li>`;

@@ -301,6 +301,11 @@ span {
     background-color: #72a4f2;
 }
 
+.wobble img {
+    animation: jiggle 2s infinite;
+}
+
+
 /* Help Me Out Message Styling */
 #help-me-out {
     font-family: 'Roboto Condensed', sans-serif;
