@@ -90,7 +90,7 @@ const neverDisplay = [
 function checkForObjectReferenceNone(sections) {
     /* Log Examples:
 
-        --- Relevant portion of an example CL log: ---
+        --- Relevant portion of an example CL log (old format): ---
 
         RSI 0x2326C9C1AE0      (TESObjectREFR*)
             Object Reference: None
@@ -107,6 +107,16 @@ function checkForObjectReferenceNone(sections) {
             Flags: 0x00400408 kInitialized
             FormID: 0x2C08C78A
             FormType: Reference (61)
+
+        --- Relevant portion of an example CL log (new format, v1.20.1+): ---
+
+        RSI 0x26F554CD4E0      (TESObjectREFR*) [0x3B08C78A] ("SDA DX Crimson Blood Patch.esp")
+            Object Reference: None
+            ParentCell: ---
+                File: "ELFXEnhancer.esp"
+                Modified by: Skyrim.esm -> ... -> ELFXEnhancer.esp
+                ...
+            Modified by: Crimson Blood Armor.esp -> SDA DX Crimson Blood Patch.esp
 
         --- Relevant portion of an example NSF log: --- 
 
@@ -139,6 +149,17 @@ function checkForObjectReferenceNone(sections) {
             
             return section;
         }
+
+        // Helper to truncate a chain of " -> " separated filenames to 300 chars,
+        // dropping whole filenames from the front (never mid-name), with "..." prefix if truncated
+        function truncateChainFromFront(chain, maxLength = 300) {
+            if (chain.length <= maxLength) return chain;
+            const files = chain.split(' -> ');
+            while (files.length > 1 && files.join(' -> ').length > maxLength) {
+                files.shift();
+            }
+            return '... ' + files.join(' -> ');
+        }
         
         // Function to extract file information
         function extractFileInfo(section, matchedLine) {
@@ -156,19 +177,28 @@ function checkForObjectReferenceNone(sections) {
                 ?.split('->').map(f => f.trim())
                 .filter(f => !neverDisplay.includes(f)) ?? [];
 
+            // NEW FORMAT: The ParentCell's "File:" is at three-tab depth (\t\t\t)
+            const parentCellFileLine = section.find(line =>
+                line.startsWith('\t\t\tFile:')
+            );
+            const secondaryFile = parentCellFileLine
+                ?.split('File:')[1]?.trim()
+                .replace(/^"|"$/g, '') ?? ''; // Strip surrounding quotes if present
+
             if (tesRefFileMatch) {
                 // New format detected
                 return {
                     mostLikelyFile: tesRefFileMatch[1],
-                    otherFiles: modifiedByFiles.join(' -> ')
+                    secondaryFile: secondaryFile,
+                    tertiaryChain: modifiedByFiles.join(' -> ')
                 };
             }
 
-            // OLD FORMAT fallback: File listed explicitly in section lines
+            // OLD FORMAT fallback: File listed explicitly in section lines (no secondaryFile/tertiaryChain)
             let files = section.filter(line => line.toLowerCase().includes('file:'));
             let otherFiles = files.length > 0 ? files[0].split(':')[1].trim() : '';
             let mostLikelyFile = files.length > 0 ? files[files.length - 1].split(':')[1].trim() : '';
-            return { otherFiles, mostLikelyFile };
+            return { otherFiles, mostLikelyFile, secondaryFile: '', tertiaryChain: '' };
         }
         
         // Find all instances of "Object Reference: None"
@@ -186,7 +216,7 @@ function checkForObjectReferenceNone(sections) {
         // Process each instance
         instances.forEach((instanceIndex) => {
             const relevantSection = extractRelevantSection(lines, instanceIndex);
-            
+
             /* // DEBUG - remove after fixing
             console.log('=== DEBUG ===');
             console.log('matchedLine:', lines[instanceIndex]);
@@ -194,17 +224,17 @@ function checkForObjectReferenceNone(sections) {
             console.log('section contents:', relevantSection);
             // END DEBUG */
             
-            const { otherFiles, mostLikelyFile } = extractFileInfo(relevantSection, lines[instanceIndex - 1]);
+            const { otherFiles, mostLikelyFile, secondaryFile, tertiaryChain } = extractFileInfo(relevantSection, lines[instanceIndex - 1]);
                     
             // Create a unique key for this instance
-            const instanceKey = `${otherFiles}|${mostLikelyFile}`;
+            const instanceKey = `${otherFiles}|${mostLikelyFile}|${secondaryFile}`;
             
             // Only process if this is a new unique instance
             if (!uniqueInstances.has(instanceKey)) {
                 uniqueInstances.add(instanceKey);
                 
-                if (otherFiles || mostLikelyFile) {
-                    diagnoses += generateDiagnosis(crashTitle, otherFiles, mostLikelyFile);
+                if (otherFiles || mostLikelyFile || secondaryFile) {
+                    diagnoses += generateDiagnosis(crashTitle, otherFiles, mostLikelyFile, secondaryFile, truncateChainFromFront(tertiaryChain));
                 }
             }
         });
@@ -245,7 +275,7 @@ function checkForObjectReferenceNone(sections) {
                 if (!uniqueInstances.has(instanceKey) && (otherFiles || mostLikelyFile)) {
                     uniqueInstances.add(instanceKey);
                     crashTitle = 'BaseForm: null';
-                    diagnoses += generateDiagnosis(crashTitle, otherFiles, mostLikelyFile);
+                    diagnoses += generateDiagnosis(crashTitle, otherFiles, mostLikelyFile, '', '');
                 }
             }
         });
@@ -255,7 +285,7 @@ function checkForObjectReferenceNone(sections) {
 }
 
 // Helper function to generate consistent diagnosis text
-function generateDiagnosis(crashTitle, otherFiles, mostLikelyFile) {
+function generateDiagnosis(crashTitle, otherFiles, mostLikelyFile, secondaryFile = '', tertiaryChain = '') {
     if (neverDisplay.includes(mostLikelyFile)) {
         return '';
     }
@@ -274,6 +304,14 @@ function generateDiagnosis(crashTitle, otherFiles, mostLikelyFile) {
                 <li>Consider re-downloading (and carefully reinstalling) in case the first download was corrupted</li>
             </ul>
         </li>`;
+
+    if (secondaryFile && secondaryFile !== mostLikelyFile) {
+        diagnosis += `<li>The secondary file to investigate is the cell involved: <code>${secondaryFile}</code>. Check for conflicts or missing patches between this and the primary file above.</li>`;
+    }
+
+    if (tertiaryChain) {
+        diagnosis += `<li>Full modification chain (files toward the end are more likely to be the culprit): <code>${tertiaryChain}</code></li>`;
+    }
     
     if (otherFiles && mostLikelyFile && (mostLikelyFile !== otherFiles)) {
         diagnosis += `<li>This issue also involves: <code>${otherFiles}</code>. Check for:<ul>

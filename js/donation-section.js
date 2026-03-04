@@ -5,7 +5,7 @@
     <span style="display: inline-block; width: 100%;">
 
     <span style="font-size: 2em;">🎉</span> If this analyzer has helped you, here are is an easy way to <b>help us out:</b><br>
-    <span style="font-size: 1.5em;">⬇️</span> Download, vote for, and <b>endorse</b> our new <a href="https://www.nexusmods.com/skyrimspecialedition/mods/173224" target="_blank">Phostwood's QLP - MO2 Crash Log Quick-Link Plugin</a> on NexusMods — a two-click <b>shortcut from crash to analysis</b>. Every download and endorsement helps our analyzer reach more people.<br>
+    <span style="font-size: 1.5em;">⬇️</span> Download, vote for, and <b>endorse</b> our <a href="https://www.nexusmods.com/skyrimspecialedition/mods/173224" target="_blank">Phostwood's QLP - MO2 Crash Log Quick-Link Plugin</a> on NexusMods — now with <b>zero-click analysis</b>, automatically detecting new crash logs when Skyrim closes. Every download and endorsement helps our analyzer reach more people.<br>
     <br>
 
     <!-- Donation Section -->

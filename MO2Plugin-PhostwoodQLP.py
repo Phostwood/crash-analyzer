@@ -51,6 +51,7 @@ class PhostwoodQLP(mobase.IPluginTool):
 
     def init(self, organizer: mobase.IOrganizer) -> bool:
         self._organizer = organizer
+        organizer.onFinishedRun(self._on_game_exit)
         return True
 
     # ── IPlugin interface ──────────────────────────────────────
@@ -71,7 +72,7 @@ class PhostwoodQLP(mobase.IPluginTool):
         )
 
     def version(self) -> mobase.VersionInfo:
-        return mobase.VersionInfo(2, 0, 0, mobase.ReleaseType.FINAL)
+        return mobase.VersionInfo(2, 2, 0, mobase.ReleaseType.FINAL)
 
     def tooltip(self) -> str:
         return "Phostwood's QLP: Upload your most recent Skyrim SE/AE crash log and open the Crash Log Analyzer."
@@ -115,12 +116,31 @@ class PhostwoodQLP(mobase.IPluginTool):
                 ),
                 "crash-*.log, Crash_*.txt",
             ),
+            mobase.PluginSetting(
+                "on_game_exit_behavior",
+                (
+                    "Auto-trigger behavior when a new crash log is detected after the game exits. "
+                    "Values: 'prompt' (ask each time, default), "
+                    "'auto' (always analyze without asking), "
+                    "'disabled' (never auto-trigger; manual Tools menu only)"
+                ),
+                "prompt",
+            ),
+            mobase.PluginSetting(
+                "last_processed_log_time",
+                (
+                    "Timestamp of the most recently processed crash log (ISO 8601). "
+                    "Used to detect new crash logs after game exit. "
+                    "Clear this value to force a re-trigger prompt on next game exit."
+                ),
+                "",
+            ),
         ]
 
     # ── IPluginTool interface ──────────────────────────────────
 
     def displayName(self) -> str:
-        return "QLP: Upload Crash Log and Open Analyzer"
+        return "Phostwood's QLP: Upload Crash Log and Open Analyzer"
 
     def display(self) -> bool:
         # 1. Check that the managed game is Skyrim SE/AE
@@ -199,8 +219,8 @@ class PhostwoodQLP(mobase.IPluginTool):
                     "The Crash Log Analyzer has been opened in your browser.\n\n"
                     "Your crash log text has been copied to your clipboard — "
                     "just paste it into the analyzer and click \"Analyze\" to see your results.\n\n"
-                    "Tip: To generate a shareable link instead, disable "
-                    "\"Local Only Mode\" in this plugin's settings."
+                    "Tip: To generate a shareable link instead, set "
+                    "\"local_only_mode\" to \"false\" in this plugin's settings."
                 ),
             )
             return True
@@ -469,6 +489,121 @@ class PhostwoodQLP(mobase.IPluginTool):
         msg_box.exec()
         if msg_box.clickedButton() == copy_button:
             QApplication.clipboard().setText(link)
+
+    # ── Auto-trigger on game exit ──────────────────────────────
+
+    def _on_game_exit(self, app_path: str, exit_code: int) -> None:
+        """Called by MO2 when the game process exits. Checks for new crash logs."""
+        import datetime
+
+        behavior = str(self._organizer.pluginSetting(self.name(), "on_game_exit_behavior")).strip()
+        if behavior == "disabled":
+            return
+
+        crash_log_path = self._find_latest_crash_log()
+        if not crash_log_path:
+            return
+
+        # Determine if this log is newer than the last one we processed
+        log_mtime = os.path.getmtime(crash_log_path)
+        log_time_iso = datetime.datetime.fromtimestamp(log_mtime).isoformat(timespec="seconds")
+
+        last_processed = str(self._organizer.pluginSetting(
+            self.name(), "last_processed_log_time"
+        )).strip()
+
+        if last_processed:
+            try:
+                last_dt = datetime.datetime.fromisoformat(last_processed)
+                log_dt = datetime.datetime.fromisoformat(log_time_iso)
+                if log_dt <= last_dt:
+                    return  # Not a new log — already processed
+            except ValueError:
+                pass  # Malformed timestamp — treat as no prior record, fall through
+
+        # New crash log found
+        if behavior == "auto":
+            self._update_last_processed(log_time_iso)
+            self.display()  # Runs full display() flow, respecting local_only_mode
+        else:
+            # behavior == "prompt" (or any unrecognized value — but "disabled" is caught above)
+            self._show_auto_trigger_prompt(crash_log_path, log_time_iso)
+
+    def _update_last_processed(self, log_time_iso: str) -> None:
+        """Save the timestamp of the most recently processed crash log."""
+        self._organizer.setPluginSetting(self.name(), "last_processed_log_time", log_time_iso)
+
+    def _show_auto_trigger_prompt(self, crash_log_path: str, log_time_iso: str) -> None:
+        """
+        Show the auto-trigger confirmation dialog with four options.
+        Button order (left to right): Analyze Now · Always Analyze · Not Now · Never Ask Again.
+        Button tooltips explain each action in plain language.
+        """
+        msg_box = QMessageBox()
+        msg_box.setWindowTitle("Phostwood's QLP — Analyze Crash Log")
+        msg_box.setIcon(QMessageBox.Icon.Question)
+
+        # Build body text — wording adapts to local_only_mode
+        local_only = bool(self._organizer.pluginSetting(self.name(), "local_only_mode"))
+        if local_only:
+            action_description = "copy it to your clipboard and open the Crash Log Analyzer"
+        else:
+            action_description = "upload it to Sovnkrasch and open the Crash Log Analyzer"
+
+        msg_box.setText(
+            f"A new Skyrim crash log was detected:\n"
+            f"{os.path.basename(crash_log_path)}\n\n"
+            f"Would you like to {action_description}?\n\n"
+            f"Your choice can be changed at any time in MO2's plugin settings."
+        )
+
+        # ── Buttons ────────────────────────────────────────────────
+        analyze_now_btn = msg_box.addButton("Analyze Now", QMessageBox.ButtonRole.AcceptRole)
+        always_btn      = msg_box.addButton("Always Analyze", QMessageBox.ButtonRole.AcceptRole)
+        not_now_btn     = msg_box.addButton("Not Now", QMessageBox.ButtonRole.RejectRole)
+        never_btn       = msg_box.addButton("Never Ask Again", QMessageBox.ButtonRole.RejectRole)
+
+        # ── Tooltips ───────────────────────────────────────────────
+        analyze_now_btn.setToolTip(
+            "Analyze this crash log now. You will be asked again after future crashes."
+        )
+        always_btn.setToolTip(
+            "Analyze now and automatically analyze all future crash logs without asking. "
+            "No popup will appear in future — analysis starts immediately after each new crash. "
+            "You can change this in plugin settings at any time."
+        )
+        not_now_btn.setToolTip(
+            "Skip this crash log. You will be asked again after the next crash."
+        )
+        never_btn.setToolTip(
+            "Skip this crash log and disable automatic analysis entirely. "
+            "No popup will appear in future, and crash logs will not be analyzed automatically. "
+            "Phostwood's QLP will still be available via MO2's Tools menu. "
+            "You can re-enable this in plugin settings at any time."
+        )
+
+        msg_box.exec()
+        clicked = msg_box.clickedButton()
+
+        # ── Handle response ────────────────────────────────────────
+        if clicked == analyze_now_btn:
+            self._update_last_processed(log_time_iso)
+            # on_game_exit_behavior unchanged — keep "prompt"
+            self.display()
+
+        elif clicked == always_btn:
+            self._update_last_processed(log_time_iso)
+            self._organizer.setPluginSetting(self.name(), "on_game_exit_behavior", "auto")
+            self.display()
+
+        elif clicked == not_now_btn:
+            self._update_last_processed(log_time_iso)
+            # on_game_exit_behavior unchanged — keep "prompt"
+            # Timestamp updated so this log is not surfaced again
+
+        elif clicked == never_btn:
+            self._update_last_processed(log_time_iso)
+            self._organizer.setPluginSetting(self.name(), "on_game_exit_behavior", "disabled")
 
 
 # ─────────────────────────────────────────────────────────────

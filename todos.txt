@@ -1,4 +1,4 @@
-📢 Version 1.30.5.10 is now live:
+📢 Version 1.30.5.11 is now live:
 https://phostwood.github.io/crash-analyzer/skyrim.html
 
 
@@ -73,6 +73,11 @@ https://phostwood.github.io/crash-analyzer/skyrim.html
 	- https://www.reddit.com/r/Phostwood/comments/1risi7o/sda_dx_crimson_blood_patchesp_crash_bug/
 	- not an easy catch ... TYVM RomatebitegeL!
 	- confirmed fixed with bug report's log, and 3 others (all that I could find in the new 1.20.x format)
+
+
+24. v1.30.5.11 New v2.2.0 of QLP as published on Nexus Mods: Phostwood's QLP - Crash Log Analyzer Quick-Link Plugin for MO2: From crash to analysis in zero clicks. QLP now detects new crash logs when Skyrim closes and automatically opens the analyzer — preloaded and ready to review. Fully configurable: adjust auto-trigger behavior, crash log paths, filename patterns, and more from MO2's settings panel. Or trigger it manually anytime from the Tools menu.
+25. v1.30.5.11 Changes to Donation section to reflect new QLP
+26. v1.30.5.11 RomatebitegeL's suggested tweaks to bug fix for Object Reference: None 
 
 
 
