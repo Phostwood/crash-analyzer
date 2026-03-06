@@ -14,7 +14,7 @@
  *   - Copy Link button on success dialog
  *
  * Authors: Phostwood (Vortex port), Kyler45 (original MO2 concept)
- * Version: 1.0.0
+ * Version: 2.2.0
  */
 
 'use strict';
@@ -934,7 +934,7 @@ function main(context) {
 
     // Start file watcher and hook visibilitychange after Vortex is fully loaded
     context.once(() => {
-        log('info', LOG_PREFIX, `Extension loaded. Version: 1.0.0`);
+        log('info', LOG_PREFIX, `Extension loaded. Version: 2.2.0`);
         startFileWatcher(api);
     });
 

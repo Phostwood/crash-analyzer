@@ -1,4 +1,4 @@
-📢 Version 1.30.5.12 is now live:
+📢 Version 1.30.5.12.2 is now live:
 https://phostwood.github.io/crash-analyzer/skyrim.html
 
 
@@ -83,10 +83,26 @@ https://phostwood.github.io/crash-analyzer/skyrim.html
 25. v1.30.5.12 ⁉️ Verify Under ESMs+ESPs Plugins Limit⁉️ variant of 
 26. v1.30.5.12 New Vortex QLP!
 
+27. v1.30.5.12.2 updated version number in Vortex QLP to match MO2's version. And added zip file
+
+
+28. BUG FIX: crash_log_submitted_deduped prevented since this log was already analyzed
+	- Browser console log points to: userInterface.js?v=1.30.5.12:548
+	- What's going on with that?
+
+29. ⭐️PUSH Vortex QLP to Nexus
+	- also link back and forth to MO2 version
+	- match version number to MO2's
+	- new screenshots from Vortex
+	- Vortex-specific stuff:
+		- Install instructions
+		- Anything else?
+	
+
 
 ~~ next version ~~
 
-1. Upcoming QLP add-ons:
+1. ⭐️TODOs: Upcoming QLP add-ons:
 	- new vortex version first, then keep them in sync
 	- BugFix: SkyrimVR compatibility (Thank Apprentic3 on my MO2 QLP's forum) (MO2 only)
 	- Checkbox on popup for local_only?
@@ -95,9 +111,26 @@ https://phostwood.github.io/crash-analyzer/skyrim.html
 	- Nolvus version (MO2 only)
 	- ?list of all your prior uploads (with links) ?
 	- remove Confirmation Popup after Auto-analyze, once you can see a list of all prior uploads?
+	- Consider doing LOOT-like diagnostics, before even having a crash log. Gives access to COMPLETE list of mods/plugins.
+		- Consider adding a list of ALL mods and plugins and such?
+			- Consider adding them in their specific load order?
+		- Hexanode [Head Archivist]
+			Role icon, Scribes - Wise Helpers — 3:50 AM
+			You probably could detect collection files and include links to resources or issue trackers or whatever.
+			Phostwood
+			I hadn't considered doing an extension that does LOOT-like diagnostics, before even havinga crash log. That is something for me to consider. I'll add it to my longer-term todo list. Thanks!
+
+			And/or I could tack on a COMPLETE list of mods/plugins ... in their actual loading order. That could help with some new diagnostics in my analyzer. Or I could do those diagnostics in the QLP to save on Sovnkrasch space (I'd much prefer to keep everything in my 10GB of free space ... already using almost 10MB, and I'm hoping to keep the logs for years...)
+
+			Stuff for me to think about. Thanks for the idea! 🙂
+		- Maybe also extract true mod count, and maybe even warn them before even going to the analyzer?
+
+2. ⭐️TODO? Isolate XMP + Pandora patch issue?
 
 
 4. ⭐️TODO: share QLP mods on r/SkyrimMods
+
+
 
 
 

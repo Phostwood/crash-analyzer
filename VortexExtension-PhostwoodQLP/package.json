@@ -1,6 +1,6 @@
 {
   "name": "phostwood-qlp",
-  "version": "1.0.0",
+  "version": "2.2.0",
   "description": "Phostwood's QLP — uploads the most recent Skyrim SE/AE crash log to Sovnkrasch and opens the Crash Log Analyzer in your browser.",
   "main": "index.js",
   "author": "Phostwood, Kyler45",
