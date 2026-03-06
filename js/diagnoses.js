@@ -51,9 +51,11 @@ function reinstallEngineFixesInstructions (sections) {
 
 
 
-//NonESL Plugins Count Warning
-function checkForTooManyNonEslPlugins(crashLogSection) {
-    const countInfo = Utils.countNonEslPlugins(crashLogSection);
+//🎯 <b>Exceeded Maximum ESMs+ESPs Plugins Limit!
+function checkForTooManyNonEslPlugins(sections) {
+    const countInfo = Utils.countNonEslPlugins(sections.gamePlugins);
+    const modCounts = Utils.modCounts(sections);
+    let hasLoadedGamePlugins = Utils.hasGamePluginsLoaded(modCounts, sections.gamePlugins);
     let diagnosis = '';
 
     if (countInfo.nonEslPluginsCount > 254) {
@@ -63,6 +65,8 @@ function checkForTooManyNonEslPlugins(crashLogSection) {
             <li><a href = "${Utils.isSkyrimPage ? 'https://www.nexusmods.com/skyrimspecialedition/mods/21618' : 'https://docs.google.com/spreadsheets/d/10p_ZFCTxXg5ntdsQipOGLcMAnoYDOC4qBEIt5ZAOo-o/'}"> Information on safely squeezing in more mods.</a></li>
             <li><a href="https://www.nexusmods.com/skyrimspecialedition/mods/145168">ESLifier</a> - A tool to find ESL flaggable mods, compact form IDs, and patch ALL dependent plugins/files automatically.</li>
         </ul></li>`;
+    } else  if (!hasLoadedGamePlugins) {
+        diagnosis += `<li>⁉️ <b>Verify your non-ESL-flagged plugin count is 254 or under.</b> Due to this crash log being truncated, we're unable to verify if it is under the limit. Skyrim can only handle up to 254 non-ESL-ed plugins. 255 or more will cause severe game instability and crashes. So it's worth confirming the full count manually in your mod manager. Screenshots of the number that need to always be 254 or less: <a href="images/MO2 Plugin Count.png">MO2</a> (hover over the "Active" count (here "82") to see the popup) and <a href="images/Vortex Plugin Count.png">Vortex</a> (on "Plugins" tab). If you need to free up slots, see <a href="${Utils.isSkyrimPage ? 'https://www.nexusmods.com/skyrimspecialedition/mods/21618' : 'https://docs.google.com/spreadsheets/d/10p_ZFCTxXg5ntdsQipOGLcMAnoYDOC4qBEIt5ZAOo-o/'}">this guide</a> or <a href="https://www.nexusmods.com/skyrimspecialedition/mods/145168">ESLifier</a>.</li>`;
     }
 
     return diagnosis;

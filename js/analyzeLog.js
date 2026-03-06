@@ -76,7 +76,7 @@ async function analyzeLog() {
 
 
     //Check if too many active, non-ESL plugins
-    const tooManyNonEslPluginsResult = checkForTooManyNonEslPlugins(sections.gamePlugins);
+    const tooManyNonEslPluginsResult = checkForTooManyNonEslPlugins(sections);
     if(tooManyNonEslPluginsResult) {
         diagnoses += tooManyNonEslPluginsResult;
         diagnosesCount++;

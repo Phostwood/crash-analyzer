@@ -1,4 +1,4 @@
-📢 Version 1.30.5.11 is now live:
+📢 Version 1.30.5.12 is now live:
 https://phostwood.github.io/crash-analyzer/skyrim.html
 
 
@@ -80,18 +80,24 @@ https://phostwood.github.io/crash-analyzer/skyrim.html
 26. v1.30.5.11 RomatebitegeL's suggested tweaks to bug fix for Object Reference: None 
 
 
+25. v1.30.5.12 ⁉️ Verify Under ESMs+ESPs Plugins Limit⁉️ variant of 
+26. v1.30.5.12 New Vortex QLP!
+
 
 ~~ next version ~~
 
+1. Upcoming QLP add-ons:
+	- new vortex version first, then keep them in sync
+	- BugFix: SkyrimVR compatibility (Thank Apprentic3 on my MO2 QLP's forum) (MO2 only)
+	- Checkbox on popup for local_only?
+		- "Upload to Sovnkrasch and get a shareable link?"  ???
+	- Remove confirmation popup when local_only and auto?
+	- Nolvus version (MO2 only)
+	- ?list of all your prior uploads (with links) ?
+	- remove Confirmation Popup after Auto-analyze, once you can see a list of all prior uploads?
 
-1. ⭐️TODO? QLP: option to trigger automatically after a new crash log? Doable? Wanted?
-	- Also, rename the plugin's title in MO2 menu?
 
-2. ⭐️manual review of Plugin's code in prep for r/SkyrimMods publicizing
-
-3. ⭐️TODO? Vortex version of plugin?
-
-4. ⭐️TODO: share mod on r/SkyrimMods
+4. ⭐️TODO: share QLP mods on r/SkyrimMods
 
 
 
@@ -100,7 +106,7 @@ https://phostwood.github.io/crash-analyzer/skyrim.html
 
 
 2. TODO: Update donations section
-	- up to 750 hours (easily)
+	- up to 775 hours (easily)
 	- update donor numbers
 	- Get set up for bitcoin donations?
 	- CHANGE:
@@ -112,11 +118,8 @@ https://phostwood.github.io/crash-analyzer/skyrim.html
 ~~ next version ~~
 
 NOTE: these may have been fixed with accommodating the new CrashLoggerSSE 1.20.x format?
-
-
-3. ?BUG FIX? Also review heuristics for BloodSprayImpact01
-
-4. ?BUG FIX? Also review heuristics for geometricculling info, about EFPs and similar mods
+3. ?BUG FIX? Also review heuristics for BloodSprayImpact01 (if RomatebitegeL has an update)
+4. ?BUG FIX? Also review heuristics for geometricculling info, about EFPs and similar mods  (if RomatebitegeL has an update)
 
 
 
