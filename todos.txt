@@ -84,6 +84,7 @@ https://phostwood.github.io/crash-analyzer/skyrim.html
 26. v1.30.5.12 New Vortex QLP!
 
 27. v1.30.5.12.2 updated version number in Vortex QLP to match MO2's version. And added zip file
+28. v1.30.5.12.2 tweak to dashboard button in Vortex QLP
 
 
 28. BUG FIX: crash_log_submitted_deduped prevented since this log was already analyzed
@@ -103,6 +104,7 @@ https://phostwood.github.io/crash-analyzer/skyrim.html
 ~~ next version ~~
 
 1. ⭐️TODOs: Upcoming QLP add-ons:
+	- Add ReadMe files?
 	- new vortex version first, then keep them in sync
 	- BugFix: SkyrimVR compatibility (Thank Apprentic3 on my MO2 QLP's forum) (MO2 only)
 	- Checkbox on popup for local_only?

@@ -898,7 +898,7 @@ function main(context) {
 
         return React.createElement('div', { style: { padding: '8px' } },
             React.createElement('div', { style: { color: '#ccc', fontSize: '12px' } },
-                'Upload the most recent Skyrim SE/AE crash log and open the Crash Log Analyzer.'
+                'Upload the most recent Skyrim SE/AE crash log and open Phostwood\'s Skyrim Crash Log Analyzer.'
             ),
             React.createElement('button', { style: btnStyle, onClick: handleClick },
                 '🐛  Analyze Crash Log'
