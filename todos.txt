@@ -86,10 +86,14 @@ https://phostwood.github.io/crash-analyzer/skyrim.html
 27. v1.30.5.12.2 updated version number in Vortex QLP to match MO2's version. And added zip file
 28. v1.30.5.12.2 tweak to dashboard button in Vortex QLP
 
+29. v1.30.5.12.3 updated donation section with Vortex QLP
 
-28. BUG FIX: crash_log_submitted_deduped prevented since this log was already analyzed
+
+28. ⭐️BUG FIX? crash_log_submitted_deduped prevented since this log was already analyzed
 	- Browser console log points to: userInterface.js?v=1.30.5.12:548
 	- What's going on with that?
+29. ⭐️BUG FIX: Make Object Reference: None test more flexible (see r/Phostwood)
+03. ⭐️BUG FIX: Make QLP work with SkyrimVR
 
 29. ⭐️PUSH Vortex QLP to Nexus
 	- also link back and forth to MO2 version
