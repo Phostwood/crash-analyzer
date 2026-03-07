@@ -93,6 +93,7 @@ https://phostwood.github.io/crash-analyzer/skyrim.html
 	- see https://www.reddit.com/r/Phostwood/comments/1risi7o/sda_dx_crimson_blood_patchesp_crash_bug
 	- Thank you Gh0st for finding this issue!
 	- also refined troubleshooting advice. TY JerryPO3!
+31. v1.30.5.13.2 CORRECTION: JerryPO3 --> JerryYOJ as per their request
 
 
 
