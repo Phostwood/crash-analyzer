@@ -1,4 +1,4 @@
-📢 Version 1.30.5.12.2 is now live:
+📢 Version 1.30.5.13 is now live:
 https://phostwood.github.io/crash-analyzer/skyrim.html
 
 
@@ -88,11 +88,18 @@ https://phostwood.github.io/crash-analyzer/skyrim.html
 
 29. v1.30.5.12.3 updated donation section with Vortex QLP
 
+30. v1.30.5.13 BUG FIX: "Object Reference None:"
+	- Made "Object Reference: None" test more flexible for CrashLoggerSSE v1.20.x formatting changes. I thought this was fixed before, but Gh0st's log pointed out the prior fix had a bug.
+	- see https://www.reddit.com/r/Phostwood/comments/1risi7o/sda_dx_crimson_blood_patchesp_crash_bug
+	- Thank you Gh0st for finding this issue!
+	- also refined troubleshooting advice. TY JerryPO3!
 
-28. ⭐️BUG FIX? crash_log_submitted_deduped prevented since this log was already analyzed
+
+
+28. ⭐️?BUG FIX? crash_log_submitted_deduped prevented since this log was already analyzed
 	- Browser console log points to: userInterface.js?v=1.30.5.12:548
 	- What's going on with that?
-29. ⭐️BUG FIX: Make Object Reference: None test more flexible (see r/Phostwood)
+
 03. ⭐️BUG FIX: Make QLP work with SkyrimVR
 
 29. ⭐️PUSH Vortex QLP to Nexus

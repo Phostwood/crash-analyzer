@@ -154,6 +154,20 @@ function checkForObjectReferenceNone(sections) {
             return section;
         }
 
+        // NEW FORMAT (CrashLogger v1.20.1+): File is on the nearest register line above the section.
+        // Search backwards to find it, as there may be intervening lines (Flags, FormID, etc.)
+        // e.g. RCX 0x... (Character*) [0xFE0A684D] ("LCO_DeepwoodRedoubt.esp")
+        function findRegisterLine(lines, instanceIndex) {
+            for (let i = instanceIndex - 1; i >= 0; i--) {
+                if (/\([A-Za-z]+\*\).*?"([^"]+\.esp)"/.test(lines[i])) {
+                    return lines[i];
+                }
+                // Stop searching if we hit a non-indented line (new register/section)
+                if (!lines[i].startsWith('\t')) break;
+            }
+            return null;
+        }
+
         // Helper to truncate a chain of " -> " separated filenames to 300 chars,
         // dropping whole filenames from the front (never mid-name), with "..." prefix if truncated
         function truncateChainFromFront(chain, maxLength = 300) {
@@ -167,9 +181,11 @@ function checkForObjectReferenceNone(sections) {
         
         // Function to extract file information
         function extractFileInfo(section, matchedLine) {
-            // NEW FORMAT (CrashLogger v1.20.1+): File is on the register line preceding the section
+            // NEW FORMAT (CrashLogger v1.20.1+): File is on the register line preceding the section.
+            // The register line may reference various object types e.g. (TESObjectREFR*), (Character*), etc.
             // e.g. RSI 0x... (TESObjectREFR*) [0x3B08C78A] ("SDA DX Crimson Blood Patch.esp")
-            const tesRefFileMatch = matchedLine?.match(/\(TESObjectREFR\*\).*?"([^"]+\.esp)"/);
+            // e.g. (Character*) [] ("LCO_DeepwoodRedoubt.esp")
+            const newFormatFileMatch = matchedLine?.match(/\([A-Za-z]+\*\).*?"([^"]+\.esp)"/);
 
             // NEW FORMAT: The reference's own "Modified by:" is at two-tab depth (\t\t),
             // NOT three-tab depth (\t\t\t) which belongs to the ParentCell
@@ -189,10 +205,10 @@ function checkForObjectReferenceNone(sections) {
                 ?.split('File:')[1]?.trim()
                 .replace(/^"|"$/g, '') ?? ''; // Strip surrounding quotes if present
 
-            if (tesRefFileMatch) {
+            if (newFormatFileMatch) {
                 // New format detected
                 return {
-                    mostLikelyFile: tesRefFileMatch[1],
+                    mostLikelyFile: newFormatFileMatch[1],
                     secondaryFile: secondaryFile,
                     tertiaryChain: modifiedByFiles.join(' -> ')
                 };
@@ -228,7 +244,8 @@ function checkForObjectReferenceNone(sections) {
             console.log('section contents:', relevantSection);
             // END DEBUG */
             
-            const { otherFiles, mostLikelyFile, secondaryFile, tertiaryChain } = extractFileInfo(relevantSection, lines[instanceIndex - 1]);
+            
+            const { otherFiles, mostLikelyFile, secondaryFile, tertiaryChain } = extractFileInfo(relevantSection, findRegisterLine(lines, instanceIndex));
                     
             // Create a unique key for this instance
             const instanceKey = `${otherFiles}|${mostLikelyFile}|${secondaryFile}`;
@@ -305,7 +322,7 @@ function generateDiagnosis(crashTitle, otherFiles, mostLikelyFile, secondaryFile
                 <li>Check for missing required files, or recommended patches</li>
                 <li>Verify its in the correct load order (check mod author's recommendation). NOTE: this is a very common issue when installing or updating Vortex Collections, but usually easily fixable by enabling all mods, and clicking "Sort Now" several times. See details in above "🤖 Best Practices for Auto-Installing Modlist Users" section.</li>
                 <li>Check any configurations or configuration files (or for some mod types it may need to be regenerated)</li>
-                <li>Consider re-downloading (and carefully reinstalling) in case the first download was corrupted</li>
+                <li>Try reinstalling this mod (disable it, save without it, then reinstall and re-enable) — this tries to reset affected references and should also rule out a corrupted download, either of which may fix Object Reference: None crashes.</li>
             </ul>
         </li>`;
 
