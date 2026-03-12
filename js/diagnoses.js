@@ -5017,7 +5017,7 @@ function analyzeSkeletonCrash(sections) {
 function stillCrashing() {
     let output = `
         <li><span class="important-emoji">💥</span><b>Still Crashing?</b><br>
-        Some things may be difficult to impossible to reliably detect from a crash log alone — so these are worth checking manually if you're still having trouble:<br>
+        Some things may be difficult to impossible to reliably detect from a crash log alone — so these are worth checking manually if you're still having trouble after analyzing multiple crash logs:<br>
         <ul>
             <li><span style="background-color: white;">🔌</span> <b>Verify your non-ESL-flagged plugin count is 254 or under.</b> Crash logs don't always display every active plugin, so it's worth confirming this manually in your mod manager. Screenshots of the number that need to always be 254 or less: <a href="images/MO2 Plugin Count.png">MO2</a> (hover over the "Active" count (here "82") to see the popup) and <a href="images/Vortex Plugin Count.png">Vortex</a> (on "Plugins" tab). If you need to free up slots, see <a href="https://www.nexusmods.com/skyrimspecialedition/mods/21618">this guide</a> or <a href="https://www.nexusmods.com/skyrimspecialedition/mods/145168">ESLifier</a>.</li>
             <li>📦 <b>If you are playing a Nexus Collection, a Wabbajack modlist, or Nolvus,</b> review the <b>🤖 Troubleshooting Auto-Installing Modlists:</b> section above, and/or seek help on that modlist's dedicated Discord or Reddit community — they are the experts on their own modlist.</li>

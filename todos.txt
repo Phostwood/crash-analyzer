@@ -1,4 +1,4 @@
-📢 Version 1.30.5.13 is now live:
+📢 Version 1.30.5.14 is now live:
 https://phostwood.github.io/crash-analyzer/skyrim.html
 
 
@@ -95,22 +95,29 @@ https://phostwood.github.io/crash-analyzer/skyrim.html
 	- also refined troubleshooting advice. TY JerryPO3!
 31. v1.30.5.13.2 CORRECTION: JerryPO3 --> JerryYOJ as per their request
 
+32. v1.30.5.14: added to Recommended Tools:  "Tullius CTD Logger — a newer, not-as-widely-tested backup diagnostic tool that captures crash/freeze/infinite-loading-screen events and generates a readable summary report, including in cases where no crash log is produced or the log is cut short (or is otherwise unhelpful)."
 
+33. Small text tweaks to QLP section, and to "Still Crashing?" section.
+
+34. PUSHED Vortex QLP to Nexus
+	- also linked back and forth to MO2 version
+	- matched version number to MO2's
+	- new screenshots from Vortex
+	- wrote Vortex-specific stuff:
+		- Install instructions
+
+		
+
+~~ next version ~~
 
 28. ⭐️?BUG FIX? crash_log_submitted_deduped prevented since this log was already analyzed
 	- Browser console log points to: userInterface.js?v=1.30.5.12:548
 	- What's going on with that?
 
-03. ⭐️BUG FIX: Make QLP work with SkyrimVR
+03. ⭐️BUG FIX? Make QLP work with SkyrimVR
 
-29. ⭐️PUSH Vortex QLP to Nexus
-	- also link back and forth to MO2 version
-	- match version number to MO2's
-	- new screenshots from Vortex
-	- Vortex-specific stuff:
-		- Install instructions
-		- Anything else?
 	
+⭐️TODO: download and search through R2 storage to confirm it works as expected
 
 
 ~~ next version ~~

@@ -4,9 +4,9 @@
     <!-- If This Helped You Section -->
     <span style="display: inline-block; width: 100%;">
 
-    <span style="font-size: 2em;">🎉</span> If this analyzer has helped you, here is an easy way to <b>help us out:</b><br>
+    <span style="font-size: 2em;">🎉</span> If this analyzer has helped you, here's an easy way to <b>give back:</b><br>
 
-    <span style="font-size: 1.5em;">⬇️</span> Download, vote for, and <b>endorse</b> our QLP plugins on NexusMods — now with <b>zero-click analysis</b>, automatically detecting new crash logs when Skyrim closes. Every download and endorsement helps our analyzer reach more people.<br>
+    <span style="font-size: 1.5em;">⬇️</span> Download, vote for, and <b>endorse</b> our <b>"Quick Link" Plugins (QLP)</b> on NexusMods — featuring <b>zero-click analysis</b> that automatically detects new crash logs when Skyrim crashes and launches the analyzer with your report ready in seconds. It can also generate a shareable link, even for especially large crash logs.<br>
     
 
     <!-- QLP Mod Links -->
