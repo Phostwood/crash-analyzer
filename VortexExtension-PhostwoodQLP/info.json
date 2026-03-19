@@ -1,8 +1,8 @@
 {
   "name": "Phostwood's QLP",
   "author": "Phostwood, Kyler45",
-  "version": "2.2.0",
-  "description": "Phostwood's QLP — uploads the most recent Skyrim SE/AE crash log to Sovnkrasch and opens the Crash Log Analyzer in your browser.",
+  "version": "2.3.0",
+  "description": "Phostwood's QLP -- uploads the most recent Skyrim SE/AE/VR crash log to Sovnkrasch and opens the Crash Log Analyzer in your browser.",
   "gameId": "skyrimse",
   "url": "",
   "type": "vortex"

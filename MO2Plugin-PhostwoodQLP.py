@@ -14,9 +14,9 @@ from PyQt6.QtGui import QIcon
 from PyQt6.QtWidgets import QApplication, QMessageBox
 
 
-# ─────────────────────────────────────────────────────────────
+# -------------------------------------------------------------
 # Constants
-# ─────────────────────────────────────────────────────────────
+# -------------------------------------------------------------
 
 WORKER_VERSION = "2.0.0"
 
@@ -29,7 +29,7 @@ CLIENT_ANTI_INDICATORS = [
     "python.exe",
 ]
 
-# Compressed size limit — mirrors the Worker's MAX_FILE_GZIP_BYTES.
+# Compressed size limit -- mirrors the Worker's MAX_FILE_GZIP_BYTES.
 # We gzip client-side purely to estimate the compressed size; the raw
 # (uncompressed) text is what actually gets uploaded. A small conservative
 # margin (1.9 MB vs 2.0 MB) accounts for minor gzip implementation variance
@@ -38,23 +38,66 @@ MAX_COMPRESSED_SIZE = int(1.9 * 1024 * 1024)  # 1.9 MB (worker hard limit is 2 M
 
 UPLOAD_TIMEOUT = 30  # seconds
 
+URL_LOG_SUBFOLDER = "Phostwood"
+URL_LOG_FILENAME  = "Shareable URLs.log"
+URL_LOG_HEADER = (
+    "# Phostwood's QLP -- Crash Log Analyzer History\n"
+    "# Shareable URLs for your Skyrim SE/AE/VR crash log analyses\n"
+    "#\n"
+    "# Timestamp            | Crash Log Filename | Analyzer URL\n"
+)
 
-# ─────────────────────────────────────────────────────────────
+
+# -------------------------------------------------------------
 # Plugin class
-# ─────────────────────────────────────────────────────────────
+# -------------------------------------------------------------
 
 class PhostwoodQLP(mobase.IPluginTool):
     _organizer: mobase.IOrganizer
 
     def __init__(self):
         super().__init__()
+        self._default_crash_log_dir = ""
+        self._default_url_log_path  = ""
 
     def init(self, organizer: mobase.IOrganizer) -> bool:
         self._organizer = organizer
+
+        # -- Resolve default crash log directory ---------------
+        # SHGetFolderPathW is safe here but we resolve it in init()
+        # so we can write the result back to the setting immediately.
+        try:
+            CSIDL_PERSONAL = 5
+            SHGFP_TYPE_CURRENT = 0
+            buf = ctypes.create_unicode_buffer(ctypes.wintypes.MAX_PATH)
+            ctypes.windll.shell32.SHGetFolderPathW(
+                None, CSIDL_PERSONAL, None, SHGFP_TYPE_CURRENT, buf
+            )
+            my_documents = buf.value
+            self._default_crash_log_dir = os.path.normpath(os.path.join(
+                my_documents, "My Games", "Skyrim Special Edition", "SKSE"
+            ))
+            qInfo(f"[PhostwoodQLP] Default crash log dir: {self._default_crash_log_dir}")
+        except Exception as e:
+            qInfo(f"[PhostwoodQLP] Could not resolve My Documents: {e}")
+
+        # -- Resolve default URL log path ----------------------
+        try:
+            data_dir = organizer.pluginDataPath()
+            self._default_url_log_path = os.path.normpath(os.path.join(
+                data_dir, URL_LOG_SUBFOLDER, URL_LOG_FILENAME
+            ))
+            qInfo(f"[PhostwoodQLP] Default URL log path: {self._default_url_log_path}")
+        except Exception as e:
+            qInfo(f"[PhostwoodQLP] Could not resolve pluginDataPath(): {e}")
+
+        # -- Restore any blank settings to their defaults ------
+        self._restore_blank_settings()
+
         organizer.onFinishedRun(self._on_game_exit)
         return True
 
-    # ── IPlugin interface ──────────────────────────────────────
+    # -- IPlugin interface -------------------------------------
 
     def name(self) -> str:
         return "Phostwood's QLP"
@@ -67,15 +110,16 @@ class PhostwoodQLP(mobase.IPluginTool):
 
     def description(self) -> str:
         return (
-            "Phostwood's QLP — uploads the most recent Skyrim SE/AE crash log to Sovnkrasch "
-            "and opens the Crash Log Analyzer in your browser."
-        )
+            "Phostwood's QLP -- uploads the most recent Skyrim SE/AE/VR crash log to Sovnkrasch "
+            "and opens the Crash Log Analyzer in your browser. "
+            "Tip: clear any setting and restart MO2 to reset it to its default value."
+    )
 
     def version(self) -> mobase.VersionInfo:
-        return mobase.VersionInfo(2, 2, 0, mobase.ReleaseType.FINAL)
+        return mobase.VersionInfo(2, 3, 0, mobase.ReleaseType.FINAL)
 
     def tooltip(self) -> str:
-        return "Phostwood's QLP: Upload your most recent Skyrim SE/AE crash log and open the Crash Log Analyzer."
+        return "Phostwood's QLP: Upload your most recent Skyrim SE/AE/VR crash log and open the Crash Log Analyzer."
 
     def isActive(self) -> bool:
         return bool(self._organizer.pluginSetting(self.name(), "enabled"))
@@ -102,8 +146,7 @@ class PhostwoodQLP(mobase.IPluginTool):
                 "crash_log_dir",
                 (
                     "Crash Log Directory: full path to the folder containing crash logs. "
-                    "Leave empty to auto-detect from My Documents "
-                    "(e.g. ...\\My Games\\Skyrim Special Edition\\SKSE)"
+                    "This is auto-detected from your My Documents folder on first run."
                 ),
                 "",
             ),
@@ -135,44 +178,40 @@ class PhostwoodQLP(mobase.IPluginTool):
                 ),
                 "",
             ),
+            mobase.PluginSetting(
+                "url_log_path",
+                (
+                    "Shareable URL Log: full path to your crash log analyzer URL history file. "
+                    "A record of all shareable links is appended here after each successful upload. "
+                    "This is auto-detected from your MO2 data folder on first run."
+                ),
+                "",
+            ),
         ]
 
-    # ── IPluginTool interface ──────────────────────────────────
+    # -- IPluginTool interface ----------------------------------
 
     def displayName(self) -> str:
         return "Phostwood's QLP: Upload Crash Log and Open Analyzer"
 
     def display(self) -> bool:
-        # 1. Check that the managed game is Skyrim SE/AE
-        try:
-            game_name = self._organizer.managedGame().gameName()
-        except Exception:
-            game_name = ""
-
-        if game_name != "Skyrim Special Edition":
-            self._show_message(
-                "Unsupported Game",
-                "Only Skyrim Special Edition / Anniversary Edition is supported by this plugin.",
-            )
-            return False
-
-        # 2. Find the most recent crash log
+        # 1. Find the most recent crash log
         crash_log_path = self._find_latest_crash_log()
         if not crash_log_path:
             self._show_message(
                 "No Crash Log Found",
                 (
-                    "Could not find a valid Skyrim SE/AE crash log.\n\n"
+                    "Could not find a valid Skyrim SE/AE/VR crash log.\n\n"
                     "Possible reasons:\n"
-                    "• No crashes have occurred yet\n"
-                    "• A supported crash logger (CrashLoggerSSE, NetScriptFramework, "
+                    "* No crashes have occurred yet\n"
+                    "* A supported crash logger (CrashLoggerSSE, NetScriptFramework, "
                     "or Trainwreck) is not installed\n"
-                    "• The game has not been run through MO2"
+                    "* The game has not been run through MO2"
                 ),
             )
             return False
 
-        # 3. Read file as bytes, then decode
+        # 2. Read file as bytes, then decode
         try:
             with open(crash_log_path, "rb") as f:
                 raw_bytes = f.read()
@@ -183,8 +222,7 @@ class PhostwoodQLP(mobase.IPluginTool):
 
         text = raw_bytes.decode("utf-8", errors="replace")
 
-        # 4. Lightweight client-side validation
-
+        # 3. Lightweight client-side validation
         if len(raw_bytes) == 0:
             self._show_message(
                 "Empty File",
@@ -197,8 +235,8 @@ class PhostwoodQLP(mobase.IPluginTool):
                 self._show_message(
                     "Not a Skyrim Crash Log",
                     (
-                        "This file doesn't appear to be a Skyrim SE/AE crash log.\n\n"
-                        "Could not find a valid Skyrim SE/AE crash log.\n"
+                        "This file doesn't appear to be a Skyrim SE/AE/VR crash log.\n\n"
+                        "Could not find a valid Skyrim SE/AE/VR crash log.\n"
                         "Possible reasons: no crash logs yet, unsupported game, "
                         "or crash logger not installed."
                     ),
@@ -208,7 +246,7 @@ class PhostwoodQLP(mobase.IPluginTool):
         local_only = bool(self._organizer.pluginSetting(self.name(), "local_only_mode"))
 
         if local_only:
-            # 5 (local). Copy raw crash log text to clipboard and open bare analyzer URL.
+            # 4 (local). Copy raw crash log text to clipboard and open bare analyzer URL.
             qInfo("[PhostwoodQLP] Local-only mode: skipping upload, copying text to clipboard.")
             analyzer_url = self._organizer.pluginSetting(self.name(), "analyzer_url")
             self._open_in_browser(analyzer_url)
@@ -217,7 +255,7 @@ class PhostwoodQLP(mobase.IPluginTool):
                 "Crash Log Copied",
                 (
                     "The Crash Log Analyzer has been opened in your browser.\n\n"
-                    "Your crash log text has been copied to your clipboard — "
+                    "Your crash log text has been copied to your clipboard -- "
                     "just paste it into the analyzer and click \"Analyze\" to see your results.\n\n"
                     "Tip: To generate a shareable link instead, set "
                     "\"local_only_mode\" to \"false\" in this plugin's settings."
@@ -225,7 +263,7 @@ class PhostwoodQLP(mobase.IPluginTool):
             )
             return True
 
-        # 5. Gzip pre-check — estimate compressed size before uploading.
+        # 4. Gzip pre-check -- estimate compressed size before uploading.
         #    We compress client-side purely to measure; the raw text is uploaded.
         #    This avoids sending large files the server will reject anyway.
         compressed_preview = gzip.compress(raw_bytes, compresslevel=6)
@@ -246,12 +284,11 @@ class PhostwoodQLP(mobase.IPluginTool):
             )
             return False
 
-        # 6. Upload to Worker
+        # 5. Upload to Worker
         worker_url = self._organizer.pluginSetting(self.name(), "worker_url")
         uuid = self._upload_to_worker(worker_url, text, crash_log_path)
         if not uuid:
-            # Upload failed — error-specific dialog already shown by _upload_to_worker.
-            # Fall back to clipboard so the user isn't left stranded.
+            # Upload failed -- fall back to clipboard so the user isn't left stranded.
             qInfo("[PhostwoodQLP] Upload failed; falling back to clipboard copy.")
             analyzer_url = self._organizer.pluginSetting(self.name(), "analyzer_url")
             self._open_in_browser(analyzer_url)
@@ -266,60 +303,78 @@ class PhostwoodQLP(mobase.IPluginTool):
             )
             return False
 
-        # 7. Build full analyzer URL and open in browser
+        # 6. Build full analyzer URL and open in browser
         analyzer_url = self._organizer.pluginSetting(self.name(), "analyzer_url")
         full_url = f"{analyzer_url}?UUID={uuid}"
         self._open_in_browser(full_url)
 
-        # 8. Success dialog
-        self._show_message_copy_link(
-            "Upload Successful",
-            f"Crash log uploaded successfully.\n\nThe Crash Log Analyzer has been opened in your browser.\n\nURL:\n{full_url}",
-            full_url,
-        )
+        # 7. Record the shareable URL to the history log
+        self._append_url_log(crash_log_path, full_url)
+
+        # 8. Success dialog — suppressed in auto mode unless local-only
+        #    (local-only always shows because the user needs to paste from clipboard)
+        behavior = str(self._organizer.pluginSetting(self.name(), "on_game_exit_behavior")).strip()
+        if behavior != "auto" or local_only:
+            self._show_message_copy_link(
+                "Upload Successful",
+                (
+                    f"Crash log uploaded successfully.\n\n"
+                    f"The Crash Log Analyzer has been opened in your browser.\n\n"
+                    f"URL:\n{full_url}"
+                ),
+                full_url,
+            )
         return True
 
-    # ── Private helpers ────────────────────────────────────────
+    # -- Private helpers ---------------------------------------
+
+    def _restore_blank_settings(self) -> None:
+        """
+        Check all settings that must never be blank and restore their
+        defaults if the user has cleared them. Called from init() on
+        every startup, so Settings always shows a populated value.
+        Skips last_processed_log_time -- blank is valid there by design.
+        """
+        defaults = {
+            "analyzer_url":          "https://phostwood.github.io/crash-analyzer/skyrim.html",
+            "worker_url":            "https://skyrim-crashlog-worker.phostwood.workers.dev/upload",
+            "crash_log_globs":       "crash-*.log, Crash_*.txt",
+            "on_game_exit_behavior": "prompt",
+            "crash_log_dir":         self._default_crash_log_dir,
+            "url_log_path":          self._default_url_log_path,
+        }
+
+        for key, default in defaults.items():
+            if not default:
+                continue  # Skip if default itself could not be resolved (e.g. path failure)
+            current = str(self._organizer.pluginSetting(self.name(), key)).strip()
+            if not current:
+                self._organizer.setPluginSetting(self.name(), key, default)
+                qInfo(f"[PhostwoodQLP] '{key}' was blank; restored to default: {default}")
 
     def _find_latest_crash_log(self) -> str | None:
         """
         Return the path to the most recently modified crash log, or None.
         Respects the crash_log_dir and crash_log_globs plugin settings.
         """
-        # ── Resolve directory ──────────────────────────────────
         crash_log_dir = str(self._organizer.pluginSetting(self.name(), "crash_log_dir")).strip()
-
         if not crash_log_dir:
-            # Auto-detect from My Documents via Windows Shell API
-            try:
-                CSIDL_PERSONAL = 5
-                SHGFP_TYPE_CURRENT = 0
-                buf = ctypes.create_unicode_buffer(ctypes.wintypes.MAX_PATH)
-                ctypes.windll.shell32.SHGetFolderPathW(
-                    None, CSIDL_PERSONAL, None, SHGFP_TYPE_CURRENT, buf
-                )
-                my_documents = buf.value
-                qInfo(f"[PhostwoodQLP] My Documents (auto-detected): {my_documents}")
-            except Exception as e:
-                qInfo(f"[PhostwoodQLP] Could not resolve My Documents: {e}")
-                return None
-
-            crash_log_dir = os.path.join(
-                my_documents, "My Games", "Skyrim Special Edition", "SKSE"
-            )
+            crash_log_dir = self._default_crash_log_dir
+        if not crash_log_dir:
+            qInfo("[PhostwoodQLP] No crash log directory available.")
+            return None
 
         qInfo(f"[PhostwoodQLP] Searching for crash logs in: {crash_log_dir}")
 
-        # ── Resolve glob patterns ──────────────────────────────
+        # -- Resolve glob patterns -----------------------------
         globs_setting = str(self._organizer.pluginSetting(self.name(), "crash_log_globs")).strip()
         patterns = [p.strip() for p in globs_setting.split(",") if p.strip()]
 
         if not patterns:
-            # Fallback in case the setting was cleared entirely
             patterns = ["crash-*.log", "Crash_*.txt"]
             qInfo("[PhostwoodQLP] crash_log_globs was empty; using default patterns.")
 
-        # ── Collect all candidates across all patterns ─────────
+        # -- Collect all candidates across all patterns --------
         candidates = []
         for pattern in patterns:
             matched = glob.glob(os.path.join(crash_log_dir, pattern))
@@ -330,10 +385,55 @@ class PhostwoodQLP(mobase.IPluginTool):
             qInfo(f"[PhostwoodQLP] No crash logs found in: {crash_log_dir}")
             return None
 
-        # Pick the single most recently modified file across all patterns
         latest = max(candidates, key=os.path.getmtime)
         qInfo(f"[PhostwoodQLP] Most recent crash log: {latest}")
         return latest
+
+    def _resolve_url_log_path(self) -> str | None:
+        """
+        Return the full path to the shareable URL history log file.
+        Respects the url_log_path plugin setting; falls back to the
+        pre-calculated default. Returns None if neither is available.
+        """
+        custom_path = str(self._organizer.pluginSetting(self.name(), "url_log_path")).strip()
+        if custom_path:
+            return custom_path
+        if self._default_url_log_path:
+            return self._default_url_log_path
+        qInfo("[PhostwoodQLP] No URL log path available.")
+        return None
+
+    def _append_url_log(self, crash_log_path: str, full_url: str) -> None:
+        """
+        Append a single entry to the shareable URL history log.
+        Creates the file (with header) if it does not yet exist.
+        """
+        import datetime
+
+        log_path = self._resolve_url_log_path()
+        if not log_path:
+            qInfo("[PhostwoodQLP] URL log path could not be resolved; skipping URL log.")
+            return
+
+        timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        filename  = os.path.basename(crash_log_path)
+        entry     = f"{timestamp} | {filename} | {full_url}\n"
+
+        try:
+            log_dir = os.path.dirname(log_path)
+            if log_dir and not os.path.exists(log_dir):
+                os.makedirs(log_dir, exist_ok=True)
+                qInfo(f"[PhostwoodQLP] Created URL log directory: {log_dir}")
+
+            file_exists = os.path.isfile(log_path)
+            with open(log_path, "a", encoding="utf-8") as f:
+                if not file_exists:
+                    f.write(URL_LOG_HEADER)
+                    qInfo(f"[PhostwoodQLP] Created URL log at: {log_path}")
+                f.write(entry)
+            qInfo(f"[PhostwoodQLP] URL log entry written: {entry.strip()}")
+        except Exception as e:
+            qInfo(f"[PhostwoodQLP] Failed to write URL log: {e}")
 
     def _upload_to_worker(self, worker_url: str, text: str, crash_log_path: str = "") -> str | None:
         """
@@ -356,7 +456,7 @@ class PhostwoodQLP(mobase.IPluginTool):
         try:
             with urllib.request.urlopen(req, timeout=UPLOAD_TIMEOUT) as resp:
                 status = resp.status
-                body = resp.read().decode("utf-8", errors="replace")
+                body   = resp.read().decode("utf-8", errors="replace")
 
             if status == 200:
                 try:
@@ -373,7 +473,6 @@ class PhostwoodQLP(mobase.IPluginTool):
                 )
                 return None
 
-            # Non-200 from a successful HTTP exchange
             self._handle_http_error(status, body, crash_log_path)
             return None
 
@@ -421,14 +520,12 @@ class PhostwoodQLP(mobase.IPluginTool):
                     return
             except json.JSONDecodeError:
                 pass
-            file_info = ""
-            if crash_log_path:
-                file_info = f"\n\nPath: {crash_log_path}"
+            file_info = f"\n\nPath: {crash_log_path}" if crash_log_path else ""
             self._show_message(
                 "Upload Rejected",
                 (
                     "The server rejected this file. It doesn't look like a valid "
-                    f"Skyrim SE/AE crash log.{file_info}\n\n"
+                    f"Skyrim SE/AE/VR crash log.{file_info}\n\n"
                     "Try using 0x0.st or Google Drive to share it manually."
                 ),
             )
@@ -490,7 +587,7 @@ class PhostwoodQLP(mobase.IPluginTool):
         if msg_box.clickedButton() == copy_button:
             QApplication.clipboard().setText(link)
 
-    # ── Auto-trigger on game exit ──────────────────────────────
+    # -- Auto-trigger on game exit -----------------------------
 
     def _on_game_exit(self, app_path: str, exit_code: int) -> None:
         """Called by MO2 when the game process exits. Checks for new crash logs."""
@@ -504,8 +601,7 @@ class PhostwoodQLP(mobase.IPluginTool):
         if not crash_log_path:
             return
 
-        # Determine if this log is newer than the last one we processed
-        log_mtime = os.path.getmtime(crash_log_path)
+        log_mtime    = os.path.getmtime(crash_log_path)
         log_time_iso = datetime.datetime.fromtimestamp(log_mtime).isoformat(timespec="seconds")
 
         last_processed = str(self._organizer.pluginSetting(
@@ -515,18 +611,17 @@ class PhostwoodQLP(mobase.IPluginTool):
         if last_processed:
             try:
                 last_dt = datetime.datetime.fromisoformat(last_processed)
-                log_dt = datetime.datetime.fromisoformat(log_time_iso)
+                log_dt  = datetime.datetime.fromisoformat(log_time_iso)
                 if log_dt <= last_dt:
-                    return  # Not a new log — already processed
+                    return  # Not a new log -- already processed
             except ValueError:
-                pass  # Malformed timestamp — treat as no prior record, fall through
+                pass  # Malformed timestamp -- treat as no prior record, fall through
 
-        # New crash log found
         if behavior == "auto":
             self._update_last_processed(log_time_iso)
-            self.display()  # Runs full display() flow, respecting local_only_mode
+            self.display()
         else:
-            # behavior == "prompt" (or any unrecognized value — but "disabled" is caught above)
+            # "prompt" or any unrecognised value (but "disabled" is caught above)
             self._show_auto_trigger_prompt(crash_log_path, log_time_iso)
 
     def _update_last_processed(self, log_time_iso: str) -> None:
@@ -536,14 +631,12 @@ class PhostwoodQLP(mobase.IPluginTool):
     def _show_auto_trigger_prompt(self, crash_log_path: str, log_time_iso: str) -> None:
         """
         Show the auto-trigger confirmation dialog with four options.
-        Button order (left to right): Analyze Now · Always Analyze · Not Now · Never Ask Again.
-        Button tooltips explain each action in plain language.
+        Button order: Analyze Now / Always Analyze / Not Now / Never Ask Again.
         """
         msg_box = QMessageBox()
-        msg_box.setWindowTitle("Phostwood's QLP — Analyze Crash Log")
+        msg_box.setWindowTitle("Phostwood's QLP -- Analyze Crash Log")
         msg_box.setIcon(QMessageBox.Icon.Question)
 
-        # Build body text — wording adapts to local_only_mode
         local_only = bool(self._organizer.pluginSetting(self.name(), "local_only_mode"))
         if local_only:
             action_description = "copy it to your clipboard and open the Crash Log Analyzer"
@@ -557,19 +650,17 @@ class PhostwoodQLP(mobase.IPluginTool):
             f"Your choice can be changed at any time in MO2's plugin settings."
         )
 
-        # ── Buttons ────────────────────────────────────────────────
-        analyze_now_btn = msg_box.addButton("Analyze Now", QMessageBox.ButtonRole.AcceptRole)
-        always_btn      = msg_box.addButton("Always Analyze", QMessageBox.ButtonRole.AcceptRole)
-        not_now_btn     = msg_box.addButton("Not Now", QMessageBox.ButtonRole.RejectRole)
-        never_btn       = msg_box.addButton("Never Ask Again", QMessageBox.ButtonRole.RejectRole)
+        analyze_now_btn = msg_box.addButton("Analyze Now",      QMessageBox.ButtonRole.AcceptRole)
+        always_btn      = msg_box.addButton("Always Analyze",   QMessageBox.ButtonRole.AcceptRole)
+        not_now_btn     = msg_box.addButton("Not Now",          QMessageBox.ButtonRole.RejectRole)
+        never_btn       = msg_box.addButton("Never Ask Again",  QMessageBox.ButtonRole.RejectRole)
 
-        # ── Tooltips ───────────────────────────────────────────────
         analyze_now_btn.setToolTip(
             "Analyze this crash log now. You will be asked again after future crashes."
         )
         always_btn.setToolTip(
             "Analyze now and automatically analyze all future crash logs without asking. "
-            "No popup will appear in future — analysis starts immediately after each new crash. "
+            "No popup will appear in future -- analysis starts immediately after each new crash. "
             "You can change this in plugin settings at any time."
         )
         not_now_btn.setToolTip(
@@ -585,10 +676,8 @@ class PhostwoodQLP(mobase.IPluginTool):
         msg_box.exec()
         clicked = msg_box.clickedButton()
 
-        # ── Handle response ────────────────────────────────────────
         if clicked == analyze_now_btn:
             self._update_last_processed(log_time_iso)
-            # on_game_exit_behavior unchanged — keep "prompt"
             self.display()
 
         elif clicked == always_btn:
@@ -598,17 +687,15 @@ class PhostwoodQLP(mobase.IPluginTool):
 
         elif clicked == not_now_btn:
             self._update_last_processed(log_time_iso)
-            # on_game_exit_behavior unchanged — keep "prompt"
-            # Timestamp updated so this log is not surfaced again
 
         elif clicked == never_btn:
             self._update_last_processed(log_time_iso)
             self._organizer.setPluginSetting(self.name(), "on_game_exit_behavior", "disabled")
 
 
-# ─────────────────────────────────────────────────────────────
+# -------------------------------------------------------------
 # MO2 entry point
-# ─────────────────────────────────────────────────────────────
+# -------------------------------------------------------------
 
 def createPlugin() -> mobase.IPlugin:
     return PhostwoodQLP()

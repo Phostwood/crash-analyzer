@@ -1,137 +1,135 @@
-📢 Version 1.30.5.14 is now live:
+📢 Version 1.31.0 is now live:
 https://phostwood.github.io/crash-analyzer/skyrim.html
 
 
-1. UI IMPROVEMENT:  to "Loaded file: Crash Log (from pastebin.com/4XT3tzHG)" ... now showing pastebin url instead of just "from Pastebin"
+1. Added New Demo and Installation Video by Battdapsycho! Thank
+2. Phostwood's QLP 2.3.0 release for both MO2 and Vortex
 
 
-2. Uploaded new images for use in Nexus mods
-	- v1.30.5.2: REVISED Sovnkrasch blue emblem with node tree
 
-3. v1.30.5.2: Announced new QLP and Sovnkrasch info in analyzer, Donations section
+User-focused changelog for the Phostwood's QLP 2.3.0 release:
 
+**Phostwood's QLP — Version 2.3.0**
 
-4. v1.30.5.3: Added new clarifying section to TermsOfUse: "User-Generated Content & Abuse"
+**New: Shareable URL History Log**
+After each successful upload, the analyzer URL is now automatically saved to a log file on your computer. This gives you a permanent record of all your crash analyses — handy for sharing links on Reddit, Discord, or NexusMods, or for reviewing past crashes to spot patterns. The log file location is shown in Settings.
 
+**New: Smarter Auto-Analyze Mode**
+When Auto-trigger behavior is set to "auto", the success popup no longer appears after each upload — the analyzer just opens silently in your browser and the URL is saved to your log. No interruptions. (The popup still appears in Local Only Mode, since you need to know to paste from your clipboard.)
 
-5. v1.30.5.4: further small tweaks to ToU regarding "User-Generated Content & Abuse"
+**Improved: Settings Always Show Real Paths**
+Crash Log Directory and Shareable URL Log path fields now show your actual detected paths on first run, rather than appearing blank. If you ever clear a field, it will be restored to its default the next time the plugin runs.
 
+**Improved: Skyrim VR Support**
+The plugin no longer incorrectly blocks Skyrim VR users. SE, AE, and VR are all supported.
 
-6. v1.30.5.5 Small updates to ToS and Privacy Policy no longer saying QLP is in testing but is now publicly available.
+**Improved: Settings Page**
+Crash Analyzer URL and Cloudflare Worker URL fields now note that they usually don't need to be changed. The Crash Log Directory field notes that changes require a restart.
 
+--- NOTES: ---
 
-7. v1.30.5.6 make "?UUID=" a case-insensitive match
-8. v1.30.5.6 In Nexus Mods Profile stuff:
-	- Accept Direct Donations on my mod at NexusMods.com
-	- Q: How do I become a "Verified Mod Author"?
-		- A: just need 1k downloads (or maybe 2K with 50/50 split?)
-9. v1.30.5.6 Added PayPal links to donation section
+Want any wording tweaked before you publish?
+1. QLP MO2 and Vortex - test a fresh install of plugin
+	- ✅❓BugFix: SkyrimVR compatibility (Thank Apprentic3 on my MO2 QLP's forum) (MO2 only)
+		- ⭐️Verify with Apprentic3 after publishing
+	- ✅ New Feature: log of files uploaded to Sovnkrasch
+	- ✅ change to v2.3.0 (live version is 2.2.0)
+	- ✅test changing all fields
+		- ✅change sticks past reboot?
+		- ✅change works as intended?
+		- ✅ can change back as intended?
+		- ✅ Normalize file paths issue
+	- ✅ NOTED on Settings page: Not-a-bug: crash log directory path doesn't work until rebooting Vortex
+	- ✅ Remove Confirmation Popup after Auto-analyze, since you can see a list of all prior uploads
+		- ✅ EXCLUDE Local Only, since that includes instructions for anyone not realizing they still need to paste into the analyzer field.
+2. ✅Update my docs on QLP
+3. ✅review diffs from 2.2.0
 
+4. ⭐️Publish both QLPs to NexusMods
 
-10. v1.30.5.7 d3d11.dll no longer triggers First Line Error messages, in favor of  existing and more helpful "❗ ENB Issue Detected:" diagnosis.
-	- also clarified d3d11.dll in explainersMap
-	- also created DE-NOLVUS-ified troubleshooting instructions for skyrim.html
-11. v1.30.5.7 tweaks to donations section
-12. v1.30.5.7 Instructions section now defaults to hidden with a "⤵️ show details" link
-
-
-13. v1.30.5.8 New version of Engine Fixes: 7.0.20
-14. v1.30.5.8 BUG FIX: Drag and Drop or "Choose File" or "Clear" needs to remove the "?LOG=" or "?UUID=" from the URL query 
-	- needs more UUID testing (in prod, as UUIDs only work in prod)
-15. v1.30.5.8 BUG FIX: crash-2026-02-25-21-14-08.log does NOT need BEES
-	- log was truncated before normal end of header
-	- approach: updated the function that repairs truncated logs enough to extract existing data:
-		- // Normalize 1.20.x call stack header to 1.19.x for uniform detection
-		- logFile = logFile.replace('CALL STACK ([P]robable / [S]tack scan):', 'PROBABLE CALL STACK:');
-	- MAINTENANCE: also altered addMissingSectionHeaders() code so it doesn't look for sections missing in the middle, only at the end of the crash logs (simplifies the code considerably, and I'm pretty sure I've never seen a crash log truncated in the middle...)
-
-
-16. v1.30.5.9 CLARIFICATION: "Try harder" by analyzing full log (show typically less-likely causes)
-17. v1.30.5.9 Added link to J3w3ls' new Collection!
-	- J3w3ls' Ultra Essential Mods - Skyrim Special Edition Collection:
-	- https://www.nexusmods.com/games/skyrimspecialedition/collections/mxeewo
-17. v1.30.5.9 UPDATED TEST: ❓ Possible Skeleton Crash Detected:
-	- Now only shows for Nolvus users, as I wonder if it might be an indicator specific to their mods?
-	- Changed troubleshooting steps as per Helper recommendations.
-18. v1.30.5.9 💥Still Crashing?
-	- Recommend manual verification of plugin limit (Thanks Lakoor!)
-	- Other recommendations that fit into: "Some things may be difficult to impossible to reliably detect from a crash log alone — so these are worth checking manually if you're still having trouble:"
-19. v1.30.5.9 Bug Fixed (minor): Fix strip noise for this section ... should not show "RSP+D0:" stuff
-	- EXAMPLE:
-		Summarized POSSIBLE RELEVANT OBJECTS:
-			RCX: (NiPointLight*) "LP_Light[CS Light\CS Light - Magic FX|MagicLightReanimate1](1232912)#2"
-			RSP+18: (SkyrimScript::HandlePolicy*)
-			RSP: (hkpSimpleContactConstraintData*)
-20. v1.30.5.9 Small tweaks to Donation section
+5. ⭐️Update QLP listing:
+	- CrashLoggerSSE "recommended"
+		- text version
+		- Requirements?
+	- incorporate new features into descriptions for both MO2 and Vortex versions
+	- under Sovnkrasch, add file size benefit? (was that the one I forgot?)
 
 
-21. v1.30.5.10 Made J3w3ls' suggested changes to "Still Crashing?" section. Thanks J3w3ls!
-	- And also, for Nolvus, replaced LOOT block with "Apply Order" info.
-	- Also, made the "New" image wobble
-22. v1.30.5.10 Added new MO2 and Vortex screenshot to old over plugin limit test.
-23. v1.30.5.10 Bug Fix/Update Required: RomatebitegeL's new "Object Reference: None" bug
-	- https://www.reddit.com/r/Phostwood/comments/1risi7o/sda_dx_crimson_blood_patchesp_crash_bug/
-	- not an easy catch ... TYVM RomatebitegeL!
-	- confirmed fixed with bug report's log, and 3 others (all that I could find in the new 1.20.x format)
 
-
-24. v1.30.5.11 New v2.2.0 of QLP as published on Nexus Mods: Phostwood's QLP - Crash Log Analyzer Quick-Link Plugin for MO2: From crash to analysis in zero clicks. QLP now detects new crash logs when Skyrim closes and automatically opens the analyzer — preloaded and ready to review. Fully configurable: adjust auto-trigger behavior, crash log paths, filename patterns, and more from MO2's settings panel. Or trigger it manually anytime from the Tools menu.
-25. v1.30.5.11 Changes to Donation section to reflect new QLP
-26. v1.30.5.11 RomatebitegeL's suggested tweaks to bug fix for Object Reference: None 
-
-
-25. v1.30.5.12 ⁉️ Verify Under ESMs+ESPs Plugins Limit⁉️ variant of 
-26. v1.30.5.12 New Vortex QLP!
-
-27. v1.30.5.12.2 updated version number in Vortex QLP to match MO2's version. And added zip file
-28. v1.30.5.12.2 tweak to dashboard button in Vortex QLP
-
-29. v1.30.5.12.3 updated donation section with Vortex QLP
-
-30. v1.30.5.13 BUG FIX: "Object Reference None:"
-	- Made "Object Reference: None" test more flexible for CrashLoggerSSE v1.20.x formatting changes. I thought this was fixed before, but Gh0st's log pointed out the prior fix had a bug.
-	- see https://www.reddit.com/r/Phostwood/comments/1risi7o/sda_dx_crimson_blood_patchesp_crash_bug
-	- Thank you Gh0st for finding this issue!
-	- also refined troubleshooting advice. TY JerryPO3!
-31. v1.30.5.13.2 CORRECTION: JerryPO3 --> JerryYOJ as per their request
-
-32. v1.30.5.14: added to Recommended Tools:  "Tullius CTD Logger — a newer, not-as-widely-tested backup diagnostic tool that captures crash/freeze/infinite-loading-screen events and generates a readable summary report, including in cases where no crash log is produced or the log is cut short (or is otherwise unhelpful)."
-
-33. Small text tweaks to QLP section, and to "Still Crashing?" section.
-
-34. PUSHED Vortex QLP to Nexus
-	- also linked back and forth to MO2 version
-	- matched version number to MO2's
-	- new screenshots from Vortex
-	- wrote Vortex-specific stuff:
-		- Install instructions
-
-		
 
 ~~ next version ~~
+
+5. ⭐️⭐️⭐️⭐️⭐️⭐️⭐️New test? for 3 day wait
+	- See note in GOogle Notes
+	- promised to Bordeaux
+		- https://discord.com/channels/1355637388281385071/1362155565605851498/1482212398554415144
+
+6. ⭐️BUG FIX ON LOG SUMMARY ... where is the orc?
+	https://phostwood.github.io/crash-analyzer/skyrim.html?UUID=ff2d3395-4a9a-4ad3-92e7-cebd1c0b445f
+
+	Summarized POSSIBLE RELEVANT OBJECTS:
+		(PlayerCharacter*) "Ri'ura" [] ("AetheriusSpells.esp") []
+		RSI: (BaseExtraList*)
+		(BSJobs::JobThread*)
+
+	POSSIBLE RELEVANT OBJECTS:
+		RAX: (PlayerCharacter*) "Ri'ura" [0x00000014] ("AetheriusSpells.esp") [0x00000014]
+		RDI: (Character*) "Orcish Invader" [0x0009E14C] ("Skyrim.esm") [0x0009E14C]
+		RSI: (BaseExtraList*)
+		RSP+1B0: (BSJobs::JobThread*)
+
+7. ⭐️BUG FIX ON LOG SUMMARY: Also, do the more aggressive filtering out of things like "RDI" and "R11"
+
+8. ⭐️Popup for entering a pastebin.com URL? "Pastebin" button. 
+
+
+
+~~ next version ~~
+
+2. ⭐️QLP Landing page. streamlined at the top at least
+	- ?QLP&
+	- ?Modlist&
+	- Analyzer needs to truncate based on these
+		- QLP: Skip everything down to Donations section
+			- keep "⚠️ NOTE: Not all crash issues can be detected with this tool..."
+			- Keep "Try Harder" up top?
+			- Move choose file and field area down to bottom?
+				- If so, (and maybe even if not) add a layer popup spinner that spins until analysis is ready
+		- Modlist: Skip EngineFixes and CrashLogger warnings
+			- Skip recommended tools and references
+	- QLP needs to assemble and work with changes to the Crash Logger URL setting
+		- especially in regards to ?UUID=
+
+
+1. ⭐️?BUG FIX? Check if this needs updated?
+	https://www.reddit.com/r/skyrimmods/comments/1r3ojiv/please_i_need_help_reading_my_crash_log/
+	'QuickLootEE.dll': { //QUESTION: still unable to verify if fixed??
+			'1.1': { //WAS 1.2.1, but wasn't able to verify any fixes, and reportedly that version can potentially be working
+				minSkyrim: null,
+				maxSkyrim: '1.6.1129.9999',
+				recommendedVersion: '2.0.0',
+				modName: 'QuickLoot IE - A QuickLoot EE Fork',
+				url: 'https://www.nexusmods.com/skyrimspecialedition/mods/120075',
+				note: 'NOTE: this mod completely replaces the old QuickLoot <i>EE</i>. Be sure to disable the old one.'
+			}
+		},
 
 28. ⭐️?BUG FIX? crash_log_submitted_deduped prevented since this log was already analyzed
 	- Browser console log points to: userInterface.js?v=1.30.5.12:548
 	- What's going on with that?
 
-03. ⭐️BUG FIX? Make QLP work with SkyrimVR
-
 	
 ⭐️TODO: download and search through R2 storage to confirm it works as expected
+
 
 
 ~~ next version ~~
 
 1. ⭐️TODOs: Upcoming QLP add-ons:
-	- Add ReadMe files?
-	- new vortex version first, then keep them in sync
-	- BugFix: SkyrimVR compatibility (Thank Apprentic3 on my MO2 QLP's forum) (MO2 only)
-	- Checkbox on popup for local_only?
-		- "Upload to Sovnkrasch and get a shareable link?"  ???
-	- Remove confirmation popup when local_only and auto?
 	- Nolvus version (MO2 only)
-	- ?list of all your prior uploads (with links) ?
-	- remove Confirmation Popup after Auto-analyze, once you can see a list of all prior uploads?
+	- Consider Checkbox on popup for local_only?
+		- "Upload to Sovnkrasch and get a shareable link?"  ???
+		- can't decide if I want to do this or not ... maybe hold off for when storage seems like it might become an issue?
 	- Consider doing LOOT-like diagnostics, before even having a crash log. Gives access to COMPLETE list of mods/plugins.
 		- Consider adding a list of ALL mods and plugins and such?
 			- Consider adding them in their specific load order?

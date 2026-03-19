@@ -4910,16 +4910,16 @@ function checkSkyrimCrashGuard(sections) {
         if (bottomHalfMatch) foundIn.push("module list");
         
         insights += `<li><span class="important-emoji">⛔</span> <b>Skyrim Crash Guard Detected - Crash Log Reliability Issue:</b>
-            <code>SkyrimCrashGuard</code> found in: ${foundIn.join(", ")}. We strongly recommend against using this mod in conjunction with crash analysis, as of February 2026.
+            <code>SkyrimCrashGuard</code> found in: ${foundIn.join(", ")}. We strongly recommend against using this mod in conjunction with crash analysis, as of March 2026.
             <ul>
                 <li><b>Why this matters:</b> Crash Guard modifies game state to prevent crashes, which can corrupt data and make crash logs unreliable or misleading. This may result in incorrect diagnoses and false bug reports to mod authors.</li>
                 <li><b>CrashLogger SSE author warning (alandtse):</b>
                     <blockquote>"Given it corrupts game state and hides crashes until it can't, any information generated about the crash when it eventually fails is invalid... it impacts other mod authors pretty badly. 1. It hides the real issue so the mod author responsible can't fix it. 2. When it does crash, it may point to an issue for a mod author which never would have happened without the corrupted game state."</blockquote>
-                    Sources: <a href="https://www.nexusmods.com/skyrimspecialedition/mods/59818?tab=posts" target="_blank">CrashLogger SSE forum (sticky #4)</a>, <a href="https://github.com/alandtse/CrashLoggerSSE/pull/19" target="_blank">GitHub PR #19</a>
+                    Sources: <a href="https://www.nexusmods.com/skyrimspecialedition/mods/59818?tab=posts" target="_blank">CrashLogger SSE forum (sticky #4)</a>, <a href="https://github.com/alandtse/CrashLoggerSSE/pull/19" target="_blank">GitHub PR #19</a>, and <a href="https://www.reddit.com/r/skyrimmods/comments/1ruffcy/crash_guard_update/" target="_blank">Crash Guard Update</a>
                 </li>
                 <li><b>Recommendation:</b> For reliable crash analysis, uninstall Crash Guard, and either revert to a save file from before adding Crash Guard, or start a new character. We recommend against continuing with a save file that has potentially been corrupted.</li>
                 <li><span class="important-emoji">⚠️</span> If you continue with a save where Crash Guard is or was installed, <b>PLEASE DO NOT seek community help with potentially affected crash logs, or use them to blame mod authors.</b></li>
-                <li><b>Note:</b> Results may vary—some logs may still be useful and the mod may improve over time. See <a href="https://www.nexusmods.com/skyrimspecialedition/mods/172203?tab=posts" target="_blank">Crash Guard forum</a> for discussion.</li>
+                <li><b>Note:</b> Results may vary—some logs may still be useful and the mod may improve over time. See <a href="https://www.nexusmods.com/skyrimspecialedition/mods/172203?tab=posts" target="_blank">Crash Guard forum</a> for discussion. UPDATE: This mod has now been removed from Nexus Mods ... three times now.</li>
             </ul>
         </li>`;
     }

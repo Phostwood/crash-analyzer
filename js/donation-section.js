@@ -6,8 +6,7 @@
 
     <span style="font-size: 2em;">🎉</span> If this analyzer has helped you, here's an easy way to <b>give back:</b><br>
 
-    <span style="font-size: 1.5em;">⬇️</span> Download, vote for, and <b>endorse</b> our <b>"Quick Link" Plugins (QLP)</b> on NexusMods — featuring <b>zero-click analysis</b> that automatically detects new crash logs when Skyrim crashes and launches the analyzer with your report ready in seconds. It can also generate a shareable link, even for especially large crash logs.<br>
-    
+    <span style="font-size: 1.5em;">⬇️</span> Please <b>endorse</b> our <b>"Quick Link" Plugins (QLP)</b> on NexusMods — featuring <b>zero-click analysis</b> that automatically detects new crash logs when Skyrim crashes and launches the analyzer with your report ready in seconds. It can also generate a shareable link, even for especially large crash logs.<br>
 
     <!-- QLP Mod Links -->
     <style>
@@ -32,6 +31,17 @@
         Phostwood's QLP for Vortex
       </a>
     </div>
+    <div style="text-align:center;"><b>Watch a demo!</b>
+      <a href="https://www.youtube.com/watch?v=tWRaBMAb7sA" target="_blank" style="display:block; max-width:320px; margin:0 auto 0 auto; position:relative; text-decoration:none;">
+        <img src="https://img.youtube.com/vi/tWRaBMAb7sA/mqdefault.jpg" style="width:100%; border-radius:6px;" alt="Demo video">
+        <div style="position:absolute; inset:0; display:flex; align-items:center; justify-content:center;">
+          <div style="background:rgba(255,0,0,0.85); border-radius:50%; width:52px; height:52px; display:flex; align-items:center; justify-content:center;">
+            <div style="border:solid transparent; border-width:10px 0 10px 20px; border-left-color:white; margin-left:4px;"></div>
+          </div>
+        </div>
+      </a>
+    </div>
+
     <br>
     <br>
     <div align="center"><span id="help-me-out">"Spare a septim for a humble crash-log analyzer?" — Phostwood<br></span></div>

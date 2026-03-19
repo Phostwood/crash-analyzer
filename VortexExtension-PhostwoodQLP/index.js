@@ -1,7 +1,7 @@
 /**
  * Phostwood's QLP — Vortex Extension
  *
- * Port of the MO2 Python plugin (v2.2.0) to Vortex plain JavaScript.
+ * Port of the MO2 Python plugin (v2.3.0) to Vortex plain JavaScript.
  *
  * Features:
  *   - fs.watch() auto-trigger: detects new crash logs instantly while Vortex is open
@@ -12,9 +12,11 @@
  *   - Local-only mode (clipboard instead of upload)
  *   - Four-button auto-trigger prompt (Analyze Now / Always Analyze / Not Now / Never Ask Again)
  *   - Copy Link button on success dialog
+ *   - Shareable URL history log (appended after each successful upload)
+ *   - Blank settings auto-restored to defaults on startup
  *
  * Authors: Phostwood (Vortex port), Kyler45 (original MO2 concept)
- * Version: 2.2.0
+ * Version: 2.3.0
  */
 
 'use strict';
@@ -50,6 +52,14 @@ const SUPPORTED_GAME_IDS  = ['skyrimse', 'skyrimvr'];
 // (Windows sometimes fires two events for a single file write)
 const WATCH_DEBOUNCE_MS = 2000;
 
+const URL_LOG_SUBFOLDER = 'Phostwood';
+const URL_LOG_FILENAME  = 'Shareable URLs.log';
+const URL_LOG_HEADER    =
+    '# Phostwood\'s QLP — Crash Log Analyzer History\n' +
+    '# Shareable URLs for your Skyrim SE/AE/VR crash log analyses\n' +
+    '#\n' +
+    '# Timestamp            | Crash Log Filename | Analyzer URL\n';
+
 // ─────────────────────────────────────────────────────────────
 // Default settings (mirrors MO2 plugin settings() exactly)
 // ─────────────────────────────────────────────────────────────
@@ -62,7 +72,8 @@ const DEFAULT_SETTINGS = {
     crash_log_dir:           '',
     crash_log_globs:         'crash-*.log, Crash_*.txt',
     on_game_exit_behavior:   'prompt',   // 'prompt' | 'auto' | 'disabled'
-    last_processed_log_time: '',         // ISO 8601 or ''
+    last_processed_log_time: '',         // ISO 8601 or '' (blank is valid here)
+    url_log_path:            '',
 };
 
 // ─────────────────────────────────────────────────────────────
@@ -102,19 +113,82 @@ function getMyDocuments() {
 }
 
 // ─────────────────────────────────────────────────────────────
+// Default path resolution
+// Called once at startup to populate blank path settings
+// ─────────────────────────────────────────────────────────────
+
+function resolveDefaultCrashLogDir() {
+    const myDocs = getMyDocuments();
+    if (!myDocs) return '';
+    return path.normalize(path.join(myDocs, 'My Games', 'Skyrim Special Edition', 'SKSE'));
+}
+
+function resolveDefaultUrlLogPath() {
+    try {
+        const appData = process.env.APPDATA;
+        if (!appData) return '';
+        return path.normalize(path.join(appData, 'Vortex', PLUGIN_ID, URL_LOG_FILENAME));
+    } catch (e) {
+        log('warn', LOG_PREFIX, `Could not resolve APPDATA path: ${e}`);
+        return '';
+    }
+}
+
+// ─────────────────────────────────────────────────────────────
+// Restore blank settings to defaults
+// Called from context.once() after Vortex is fully loaded.
+// Skips last_processed_log_time — blank is valid there by design.
+// ─────────────────────────────────────────────────────────────
+
+function restoreBlankSettings(api) {
+    const staticDefaults = {
+        analyzer_url:          'https://phostwood.github.io/crash-analyzer/skyrim.html',
+        worker_url:            'https://skyrim-crashlog-worker.phostwood.workers.dev/upload',
+        crash_log_globs:       'crash-*.log, Crash_*.txt',
+        on_game_exit_behavior: 'prompt',
+    };
+
+    // Static defaults
+    for (const [key, defaultVal] of Object.entries(staticDefaults)) {
+        const current = String(getSetting(api, key)).trim();
+        if (!current) {
+            setSetting(api, key, defaultVal);
+            log('info', LOG_PREFIX, `'${key}' was blank; restored to default: ${defaultVal}`);
+        }
+    }
+
+    // Dynamic path defaults
+    const crashLogDir = String(getSetting(api, 'crash_log_dir')).trim();
+    if (!crashLogDir) {
+        const defaultDir = resolveDefaultCrashLogDir();
+        if (defaultDir) {
+            setSetting(api, 'crash_log_dir', defaultDir);
+            log('info', LOG_PREFIX, `'crash_log_dir' was blank; restored to default: ${defaultDir}`);
+        }
+    }
+
+    const urlLogPath = String(getSetting(api, 'url_log_path')).trim();
+    if (!urlLogPath) {
+        const defaultLog = resolveDefaultUrlLogPath();
+        if (defaultLog) {
+            setSetting(api, 'url_log_path', defaultLog);
+            log('info', LOG_PREFIX, `'url_log_path' was blank; restored to default: ${defaultLog}`);
+        }
+    }
+}
+
+// ─────────────────────────────────────────────────────────────
 // Crash log discovery
 // Mirrors MO2's _find_latest_crash_log() exactly
 // ─────────────────────────────────────────────────────────────
 
 function findLatestCrashLog(api) {
     // ── Resolve directory ──────────────────────────────────────
-    let crashLogDir = getSetting(api, 'crash_log_dir').trim();
-
+    let crashLogDir = String(getSetting(api, 'crash_log_dir')).trim();
     if (!crashLogDir) {
-        const myDocs = getMyDocuments();
-        if (!myDocs) return null;
-        crashLogDir = path.join(myDocs, 'My Games', 'Skyrim Special Edition', 'SKSE');
+        crashLogDir = resolveDefaultCrashLogDir();
     }
+    if (!crashLogDir) return null;
 
     log('info', LOG_PREFIX, `Searching for crash logs in: ${crashLogDir}`);
 
@@ -124,7 +198,7 @@ function findLatestCrashLog(api) {
     }
 
     // ── Resolve glob patterns ──────────────────────────────────
-    const globsSetting = getSetting(api, 'crash_log_globs').trim();
+    const globsSetting = String(getSetting(api, 'crash_log_globs')).trim();
     let patterns = globsSetting
         .split(',')
         .map(p => p.trim())
@@ -171,6 +245,46 @@ function findLatestCrashLog(api) {
 
     log('info', LOG_PREFIX, `Most recent crash log: ${latest}`);
     return latest;
+}
+
+// ─────────────────────────────────────────────────────────────
+// Shareable URL history log
+// Mirrors MO2's _append_url_log()
+// ─────────────────────────────────────────────────────────────
+
+function appendUrlLog(api, crashLogPath, fullUrl) {
+    let logFilePath = String(getSetting(api, 'url_log_path')).trim();
+    if (!logFilePath) {
+        logFilePath = resolveDefaultUrlLogPath();
+    }
+    if (!logFilePath) {
+        log('warn', LOG_PREFIX, 'URL log path could not be resolved; skipping URL log.');
+        return;
+    }
+
+    const now       = new Date();
+    const timestamp = now.getFullYear() + '-' +
+        String(now.getMonth() + 1).padStart(2, '0') + '-' +
+        String(now.getDate()).padStart(2, '0') + ' ' +
+        String(now.getHours()).padStart(2, '0') + ':' +
+        String(now.getMinutes()).padStart(2, '0') + ':' +
+        String(now.getSeconds()).padStart(2, '0');
+    const filename  = path.basename(crashLogPath);
+    const entry     = `${timestamp} | ${filename} | ${fullUrl}\n`;
+
+    try {
+        const logDir = path.dirname(logFilePath);
+        if (logDir && !fs.existsSync(logDir)) {
+            fs.mkdirSync(logDir, { recursive: true });
+            log('info', LOG_PREFIX, `Created URL log directory: ${logDir}`);
+        }
+
+        const fileExists = fs.existsSync(logFilePath);
+        fs.appendFileSync(logFilePath, fileExists ? entry : URL_LOG_HEADER + entry, 'utf8');
+        log('info', LOG_PREFIX, `URL log entry written: ${entry.trim()}`);
+    } catch (e) {
+        log('warn', LOG_PREFIX, `Failed to write URL log: ${e}`);
+    }
 }
 
 // ─────────────────────────────────────────────────────────────
@@ -224,7 +338,7 @@ async function handleHttpError(api, status, body, crashLogPath) {
         const fileInfo = crashLogPath ? `\n\nPath: ${crashLogPath}` : '';
         await showMessage(api, 'Upload Rejected',
             'The server rejected this file. It doesn\'t look like a valid ' +
-            `Skyrim SE/AE crash log.${fileInfo}\n\n` +
+            `Skyrim SE/AE/VR crash log.${fileInfo}\n\n` +
             'Try using 0x0.st or Google Drive to share it manually.'
         );
     } else if (status === 403) {
@@ -328,7 +442,7 @@ function gzipAsync(buffer) {
 // ─────────────────────────────────────────────────────────────
 
 async function display(api) {
-    // 1. Check that the active game is Skyrim SE/AE
+    // 1. Check that the active game is Skyrim SE/AE/VR
     const state     = api.getState();
     const profileId = (state.settings && state.settings.profiles && state.settings.profiles.activeProfileId) || (state.settings && state.settings.gameMode && state.settings.gameMode.lastActiveProfile);
     const profile   = profileId && state.persistent && state.persistent.profiles && state.persistent.profiles[profileId];
@@ -340,6 +454,7 @@ async function display(api) {
         );
         return;
     }
+
     // 2. Check enabled
     if (!getSetting(api, 'enabled')) return;
 
@@ -347,7 +462,7 @@ async function display(api) {
     const crashLogPath = findLatestCrashLog(api);
     if (!crashLogPath) {
         await showMessage(api, 'No Crash Log Found',
-            'Could not find a valid Skyrim SE/AE crash log.\n\n' +
+            'Could not find a valid Skyrim SE/AE/VR crash log.\n\n' +
             'Possible reasons:\n' +
             '• No crashes have occurred yet\n' +
             '• A supported crash logger (CrashLoggerSSE, NetScriptFramework, ' +
@@ -379,8 +494,8 @@ async function display(api) {
     for (const indicator of CLIENT_ANTI_INDICATORS) {
         if (text.includes(indicator)) {
             await showMessage(api, 'Not a Skyrim Crash Log',
-                'This file doesn\'t appear to be a Skyrim SE/AE crash log.\n\n' +
-                'Could not find a valid Skyrim SE/AE crash log.\n' +
+                'This file doesn\'t appear to be a Skyrim SE/AE/VR crash log.\n\n' +
+                'Could not find a valid Skyrim SE/AE/VR crash log.\n' +
                 'Possible reasons: no crash logs yet, unsupported game, ' +
                 'or crash logger not installed.'
             );
@@ -465,15 +580,22 @@ async function display(api) {
     const fullUrl = `${analyzerUrl}?UUID=${uuid}`;
     openInBrowser(fullUrl);
 
-    // 9. Success dialog with Copy Link button
-    await showMessageCopyLink(api, 'Upload Successful',
-        `Crash log uploaded successfully.\n\n` +
-        `The Crash Log Analyzer has been opened in your browser.\n\n` +
-        `URL:\n${fullUrl}`,
-        fullUrl
-    );
+    // 9. Record the shareable URL to the history log
+    appendUrlLog(api, crashLogPath, fullUrl);
 
-    // 10. Update last processed timestamp so this log isn't re-prompted
+    // 10. Success dialog — suppressed in auto mode unless local-only
+    //     (local-only always shows because the user needs to paste from clipboard)
+    const behavior = String(getSetting(api, 'on_game_exit_behavior')).trim();
+    if (behavior !== 'auto' || localOnly) {
+        await showMessageCopyLink(api, 'Upload Successful',
+            `Crash log uploaded successfully.\n\n` +
+            `The Crash Log Analyzer has been opened in your browser.\n\n` +
+            `URL:\n${fullUrl}`,
+            fullUrl
+        );
+    }
+
+    // 11. Update last processed timestamp so this log isn't re-prompted
     try {
         const logMtime = fs.statSync(crashLogPath).mtimeMs;
         const logTimeIso = new Date(logMtime).toISOString().replace(/\.\d{3}Z$/, '');
@@ -553,7 +675,7 @@ function checkForNewCrashLogs(api) {
     if (now - lastCheckTime < WATCH_DEBOUNCE_MS) return;
     lastCheckTime = now;
 
-    const behavior = getSetting(api, 'on_game_exit_behavior').trim();
+    const behavior = String(getSetting(api, 'on_game_exit_behavior')).trim();
     if (behavior === 'disabled') return;
     if (!getSetting(api, 'enabled')) return;
 
@@ -579,7 +701,7 @@ function checkForNewCrashLogs(api) {
     // ISO 8601 to seconds precision — matches MO2 format
     const logTimeIso = new Date(logMtime).toISOString().replace(/\.\d{3}Z$/, '');
 
-    const lastProcessed = getSetting(api, 'last_processed_log_time').trim();
+    const lastProcessed = String(getSetting(api, 'last_processed_log_time')).trim();
 
     if (lastProcessed) {
         try {
@@ -612,15 +734,14 @@ function checkForNewCrashLogs(api) {
 // ─────────────────────────────────────────────────────────────
 
 function startFileWatcher(api) {
-    let watchDir = getSetting(api, 'crash_log_dir').trim();
+    let watchDir = String(getSetting(api, 'crash_log_dir')).trim();
 
     if (!watchDir) {
-        const myDocs = getMyDocuments();
-        if (!myDocs) {
-            log('warn', LOG_PREFIX, 'Could not resolve My Documents — file watcher not started.');
-            return null;
-        }
-        watchDir = path.join(myDocs, 'My Games', 'Skyrim Special Edition', 'SKSE');
+        watchDir = resolveDefaultCrashLogDir();
+    }
+    if (!watchDir) {
+        log('warn', LOG_PREFIX, 'Could not resolve crash log dir — file watcher not started.');
+        return null;
     }
 
     if (!fs.existsSync(watchDir)) {
@@ -629,7 +750,7 @@ function startFileWatcher(api) {
     }
 
     // Parse the glob patterns once so we can filter events efficiently
-    const globsSetting = getSetting(api, 'crash_log_globs').trim();
+    const globsSetting = String(getSetting(api, 'crash_log_globs')).trim();
     let patterns = globsSetting.split(',').map(p => p.trim()).filter(p => p.length > 0);
     if (patterns.length === 0) patterns = ['crash-*.log', 'Crash_*.txt'];
 
@@ -699,6 +820,10 @@ function registerSettingsPage(context) {
             const v = state.settings[PLUGIN_ID] && state.settings[PLUGIN_ID]['last_processed_log_time'];
             return v !== undefined ? v : DEFAULT_SETTINGS['last_processed_log_time'];
         });
+        const urlLogPath    = useSelector(state => {
+            const v = state.settings[PLUGIN_ID] && state.settings[PLUGIN_ID]['url_log_path'];
+            return v !== undefined ? v : DEFAULT_SETTINGS['url_log_path'];
+        });
 
         const rowStyle    = { display: 'flex', alignItems: 'center', marginBottom: '12px' };
         const labelStyle  = { minWidth: '220px', color: '#ddd' };
@@ -707,7 +832,12 @@ function registerSettingsPage(context) {
 
         return React.createElement('div', { style: { padding: '1em', maxWidth: '700px' } },
 
-            React.createElement('h3', { style: { color: '#ddd', marginBottom: '1em' } }, "Phostwood's QLP Settings"),
+            React.createElement('h3', { style: { color: '#ddd', marginBottom: '0.25em' } }, "Phostwood's QLP Settings"),
+
+            React.createElement('p', { style: { color: '#aaa', fontSize: '12px', marginTop: 0, marginBottom: '1em' } },
+                "Uploads the most recent Skyrim SE/AE/VR crash log to Sovnkrasch and opens the Crash Log Analyzer in your browser. " +
+                "Tip: clear any setting and restart Vortex to reset it to its default value."
+            ),
 
             // enabled
             React.createElement('div', { style: rowStyle },
@@ -755,7 +885,12 @@ function registerSettingsPage(context) {
 
             // analyzer_url
             React.createElement('div', { style: rowStyle },
-                React.createElement('label', { style: labelStyle }, 'Crash Analyzer URL'),
+                React.createElement('label', { style: { ...labelStyle, cursor: 'default' } },
+                    'Crash Analyzer URL',
+                    React.createElement('div', { style: { fontSize: '11px', color: '#aaa', fontWeight: 'normal' } },
+                        'Usually does not need to be changed'
+                    )
+                ),
                 React.createElement('input', {
                     type: 'text', value: analyzerUrl,
                     onChange: e => setSetting(api, 'analyzer_url', e.target.value),
@@ -765,7 +900,12 @@ function registerSettingsPage(context) {
 
             // worker_url
             React.createElement('div', { style: rowStyle },
-                React.createElement('label', { style: labelStyle }, 'Cloudflare Worker URL'),
+                React.createElement('label', { style: { ...labelStyle, cursor: 'default' } },
+                    'Cloudflare Worker URL',
+                    React.createElement('div', { style: { fontSize: '11px', color: '#aaa', fontWeight: 'normal' } },
+                        'Usually does not need to be changed'
+                    )
+                ),
                 React.createElement('input', {
                     type: 'text', value: workerUrl,
                     onChange: e => setSetting(api, 'worker_url', e.target.value),
@@ -778,13 +918,12 @@ function registerSettingsPage(context) {
                 React.createElement('label', { style: { ...labelStyle, cursor: 'default' } },
                     'Crash Log Directory',
                     React.createElement('div', { style: { fontSize: '11px', color: '#aaa', fontWeight: 'normal' } },
-                        'Leave empty to auto-detect'
+                        'Changes require restarting Vortex.'
                     )
                 ),
                 React.createElement('input', {
                     type: 'text', value: crashLogDir,
                     onChange: e => setSetting(api, 'crash_log_dir', e.target.value),
-                    placeholder: '(auto-detect from My Documents)',
                     style: inputStyle,
                 })
             ),
@@ -800,6 +939,21 @@ function registerSettingsPage(context) {
                 React.createElement('input', {
                     type: 'text', value: crashLogGlobs,
                     onChange: e => setSetting(api, 'crash_log_globs', e.target.value),
+                    style: inputStyle,
+                })
+            ),
+
+            // url_log_path
+            React.createElement('div', { style: rowStyle },
+                React.createElement('label', { style: { ...labelStyle, cursor: 'default' } },
+                    'Shareable URL Log',
+                    React.createElement('div', { style: { fontSize: '11px', color: '#aaa', fontWeight: 'normal' } },
+                        'History of all uploaded analyzer URLs'
+                    )
+                ),
+                React.createElement('input', {
+                    type: 'text', value: urlLogPath,
+                    onChange: e => setSetting(api, 'url_log_path', e.target.value),
                     style: inputStyle,
                 })
             ),
@@ -898,7 +1052,7 @@ function main(context) {
 
         return React.createElement('div', { style: { padding: '8px' } },
             React.createElement('div', { style: { color: '#ccc', fontSize: '12px' } },
-                'Upload the most recent Skyrim SE/AE crash log and open Phostwood\'s Skyrim Crash Log Analyzer.'
+                'Upload the most recent Skyrim SE/AE/VR crash log and open Phostwood\'s Skyrim Crash Log Analyzer.'
             ),
             React.createElement('button', { style: btnStyle, onClick: handleClick },
                 '🐛  Analyze Crash Log'
@@ -932,9 +1086,10 @@ function main(context) {
         () => true
     );
 
-    // Start file watcher and hook visibilitychange after Vortex is fully loaded
+    // Start file watcher and restore blank settings after Vortex is fully loaded
     context.once(() => {
-        log('info', LOG_PREFIX, `Extension loaded. Version: 2.2.0`);
+        log('info', LOG_PREFIX, `Extension loaded. Version: 2.3.0`);
+        restoreBlankSettings(api);
         startFileWatcher(api);
     });
 

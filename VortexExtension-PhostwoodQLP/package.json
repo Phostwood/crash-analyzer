@@ -1,7 +1,7 @@
 {
   "name": "phostwood-qlp",
-  "version": "2.2.0",
-  "description": "Phostwood's QLP — uploads the most recent Skyrim SE/AE crash log to Sovnkrasch and opens the Crash Log Analyzer in your browser.",
+  "version": "2.3.0",
+  "description": "Phostwood's QLP -- uploads the most recent Skyrim SE/AE/VR crash log to Sovnkrasch and opens the Crash Log Analyzer in your browser.",
   "main": "index.js",
   "author": "Phostwood, Kyler45",
   "keywords": ["vortex-extension"],
