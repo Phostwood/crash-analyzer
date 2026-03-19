@@ -3,19 +3,25 @@
 [size=5][b]Phostwood's QLP[/b][/size]
 [i]Crash Log Analyzer Quick-Link Plugin for [b]Mod Organizer 2
 [/b][/i](also available for [url=https://www.nexusmods.com/skyrimspecialedition/mods/174063]Vortex[/url]﻿)
-[b]Free & Open Source[/b] | [b]Privacy-First[/b][/center]
+[b]Free & Open Source[/b] | [b]Privacy-First
+
+
+[url=https://www.youtube.com/watch?v=tWRaBMAb7sA][img]https://img.youtube.com/vi/tWRaBMAb7sA/mqdefault.jpg[/img][/url]
+New [url=https://www.youtube.com/watch?v=tWRaBMAb7sA]Demo Video[/url] ﻿﻿ ﻿by [url=https://www.youtube.com/@Battdapsycho]Battdapsycho[/url][/b]
+(Vortex demo, looking for someone to do an MO2 version)
+[/center]
 
 [url=https://www.nexusmods.com/skyrimspecialedition/mods/173224?tab=files][b]» Download the Plugin «[/b][/url]
 
-[i]Requires: [url=https://www.nexusmods.com/skyrimspecialedition/mods/6194]MO2 [/url]· a crash log[i] ([url=https://www.nexusmods.com/skyrimspecialedition/mods/59818]Crash Logger SSE[/url]﻿ recommended) [/i]· ~5 minutes
+[i]Requires: [url=https://www.nexusmods.com/skyrimspecialedition/mods/6194]MO2 [/url]· a crash log[i] ([url=https://www.nexusmods.com/skyrimspecialedition/mods/59818]Crash Logger SSE[/url]﻿ recommended) [/i]· ~5 minutes
 
-(also available for [url=https://www.nexusmods.com/skyrimspecialedition/mods/174063]Vortex[/url]﻿)[/i]
+(also available for [url=https://www.nexusmods.com/skyrimspecialedition/mods/174063]Vortex[/url]﻿)[/i]
 
 ─────────────────────────────────────────
 
 [size=4][b]What It Does[/b][/size]
 
-QLP is an [url=https://www.nexusmods.com/skyrimspecialedition/mods/6194]Mod Organizer 2 (MO2)[/url]  "Quick Link" plugin for [url=https://phostwood.github.io/crash-analyzer/skyrim.html]Phostwood's Crash Log Analyzer[/url]. From crash to analysis in [b]zero clicks[/b] — QLP now detects new crash logs when Skyrim closes/crashes and can automatically upload them to [b]Sovnkrasch[/b] (our dedicated cloud storage for Skyrim crash logs) and open the analyzer in your browser, preloaded and ready to review within seconds.
+QLP is an [url=https://www.nexusmods.com/skyrimspecialedition/mods/6194]Mod Organizer 2 (MO2)[/url]  "Quick Link" plugin for [url=https://phostwood.github.io/crash-analyzer/skyrim.html]Phostwood's Crash Log Analyzer[/url]. From crash to analysis in [b]zero clicks[/b] — QLP now detects new crash logs when Skyrim closes/crashes and can automatically upload them to [b]Sovnkrasch[/b] (our dedicated cloud storage for Skyrim crash logs) and open the analyzer in your browser, preloaded and ready to review within seconds.
 
 Fully configurable: enable Local-Only mode to skip the upload entirely, adjust auto-trigger behavior, set crash log paths and filename patterns, and more — all from MO2's settings panel. Or trigger it manually anytime from the Tools menu.
 
@@ -27,9 +33,12 @@ Uploaded logs get a permanent* shareable link — useful when asking for help, s
 [*][b]Local-Only Mode[/b] — Skip the upload entirely. The analyzer opens in your browser and automatically copies your crash log into your clipboard, letting you paste your log in manually.
 [*][b]Automatic Fallback[/b] — If an upload fails, the plugin falls back to local-only behavior automatically so you're never left without a result.
 [*][b]Configurable[/b] — Adjust auto-trigger behavior, crash log folder path, filename patterns, and more from MO2's settings panel. Defaults cover most setups without any configuration.
-[*][b]Shareable Links[/b] — Uploaded logs get a permanent* link you can share with others — no expiration, no fighting Pastebin size limits.
+[*][b]Shareable Links[/b] — Uploaded logs get a permanent link you can share with others — no expiration*, no fighting Pastebin size limits**.
+[*][b]Shareable URL History[/b] — Every analyzer link is automatically saved to a local log file after a successful upload, so you always have a record of your past analyses to share on Reddit, Discord, or NexusMods forums.
 [/list]
-[i]* "Permanent" in theory, but I'm trying to keep this all under free tier storage, so it's possible the old logs may eventually get aged out[/i]
+[i]* "Permanent" in theory, but I'm trying to keep this all under free tier storage, so it's possible the old logs may eventually get aged out[/i]
+
+[i]** For comparison: pastebin.com caps at 512 KB uncompressed. Sovnkrasch accepts up to 2 MB compressed — so even monster logs fit (tested up to 35 MB).[/i]
 
 ─────────────────────────────────────────
 
@@ -48,7 +57,7 @@ When you choose to upload, QLP sends your log to [i]Sovnkrasch[/i] — a cloud s
 [*][b]Handles big logs[/b] — Accepts up to 2 MB compressed. A 35 MB uncompressed log has been successfully uploaded.**
 [/list]
 
-[i]** For comparison: pastebin.com caps at 512 KB uncompressed. Sovnkrasch accepts up to 2 MB compressed — so even monster logs fit.[/i]
+[i]** For comparison: pastebin.com caps at 512 KB uncompressed. Sovnkrasch accepts up to 2 MB compressed — so even monster logs fit (tested up to 35 MB).[/i]
 
 [b]Example — top 1 percentile, 7 MB log, shared and analyzed:[/b]
 [url=https://phostwood.github.io/crash-analyzer/skyrim.html?UUID=89298f4f-d774-4a0d-9986-5028ea9043ab]https://phostwood.github.io/crash-analyzer/skyrim.html?UUID=89298f4f-d774-4a0d-9986-5028ea9043ab
@@ -59,10 +68,10 @@ When you choose to upload, QLP sends your log to [i]Sovnkrasch[/i] — a cloud s
 
 [size=4][b]Installation & Setup[/b][/size]
 
-All you need is [url=https://www.nexusmods.com/skyrimspecialedition/mods/6194]MO2 [/url]and a crash log with the default filename format — e.g. [font=Courier New]crash-2026-02-16-04-41-28.log[/font]. [i] [/i][url=https://www.nexusmods.com/skyrimspecialedition/mods/59818]Crash Logger SSE[/url][b][i]﻿ highly recommended[/i][/b][i]. [/i]Takes about five minutes.
+All you need is [url=https://www.nexusmods.com/skyrimspecialedition/mods/6194]MO2 [/url]and a crash log with the default filename format — e.g. [font=Courier New]crash-2026-02-16-04-41-28.log[/font]. [i] [/i][url=https://www.nexusmods.com/skyrimspecialedition/mods/59818]Crash Logger SSE[/url][b][i]﻿ highly recommended[/i][/b][i]. [/i]Takes about five minutes.
 
 [b]1. Download the Plugin[/b]
-Grab [font=Courier New]MO2Plugin-PhostwoodQLP.py[/font] from Files tab (or [url=https://github.com/Phostwood/crash-analyzer/blob/main/MO2Plugin-PhostwoodQLP.py]GitHub[/url]).
+Grab [font=Courier New]MO2Plugin-PhostwoodQLP.py[/font] from Files tab (or [url=https://github.com/Phostwood/crash-analyzer/blob/main/MO2Plugin-PhostwoodQLP.py]GitHub[/url]).
 
 [b]2. Drop It in Your MO2 Plugins Folder[/b]
 Move the file into your MO2 [font=Courier New]plugins[/font] directory, e.g.:
@@ -75,16 +84,17 @@ The plugin loads automatically. If MO2 was already running, close and reopen it.
 Go to [font=Courier New]Tools → Tool Plugins → "QLP: Upload Crash Log and Open Analyzer"[/font].
 
 [b]5. Optional: Configure It[/b]
-Adjust your crash log folder path and filename pattern at [font=Courier New]Tools → Settings → Plugins → "QLP: Upload Crash Log and Open Analyzer"[/font].
+Adjust your crash log folder path and filename pattern at [font=Courier New]Tools → Settings → Plugins → "QLP: Upload Crash Log and Open Analyzer"[/font].
 
-Default configurations:
-analyzer_url:  [code]https://phostwood.github.io/crash-analyzer/skyrim.html[/code]
-crash_log_dir: (leave blank to default to user's SKSE directory)
+Default configurations (clear any field and restart MO2 to reset it to its default value):
+analyzer_url:  [code]https://phostwood.github.io/crash-analyzer/skyrim.html[/code]
+crash_log_dir: (auto-detected from your My Documents folder on first run)
 crash_log_globs: [code]crash-*.log, Crash_*.txt[/code]
 last_processed_log_time: (auto-managed; clear to force re-trigger on next exit)
 local_only_mode: [code]false[/code]
 on_game_exit_behavior: [code]prompt[/code]
-worker_url: [code]https://skyrim-crashlog-worker.phostwood.workers.dev/upload
+url_log_path: (auto-detected on first run; stores a history of all your analyzer links)
+worker_url: [code]https://skyrim-crashlog-worker.phostwood.workers.dev/upload
 [/code]
 ─────────────────────────────────────────
 
@@ -92,7 +102,7 @@ worker_url: [code]https://skyrim-crashlog-worker.phostwood.workers.dev/upload
 
 [list]
 [*]Foundation of MO2 Plugin built by [b][/b][url=https://www.nexusmods.com/profile/Kyler45?gameId=1704][b]Kyler45[/b] [/url]﻿— also the author of the [url=https://www.nexusmods.com/skyrimspecialedition/mods/157869]Kodex mod[/url]
-[*]Storage service & analyzer by [b]Phostwood[/b] and various community experts and contributors (see analyzer's "Thank You" section)
+[*]Storage service & analyzer by [b]Phostwood[/b] and various community experts and contributors (see analyzer's "Thank You" section)
 [*]The name [i]Sovnkrasch[/i] came from Kyler45 too
 [*]The "QLP" name came from Demognomicon
 [/list]
