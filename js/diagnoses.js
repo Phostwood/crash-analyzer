@@ -1373,6 +1373,7 @@ function analyzePathingIssues(sections) {
                         <li>Consider using <a href = "https://www.nexusmods.com/skyrimspecialedition/mods/136456">Debug Menu - In-Game Navmesh Viewer and More</a> to isolate issues and request fixes/patches from mod author(s)</li>
                         <li>Additional references for advanced users: 
                             <ol>
+                                <li><b>NEW!</b> <a href="./docs/Skyrim Navmesh Guide by McPinkBalls.pdf">Skyrim Navmesh Guide by McPinkBalls.pdf</a></li>
                                 <li><a href="https://www.nexusmods.com/skyrimspecialedition/mods/119872">Kojaks NavMesh Hub</a></li>
                                 <li><a href="https://www.reddit.com/r/skyrimmods/comments/18s65sy/comment/kf7qpg1/?context=3&share_id=RfGnt0VSng-ABoIF5tgRk&utm_content=1&utm_medium=ios_app&utm_name=ioscss&utm_source=share&utm_term=1">bachmanis' throughts on troubleshooting navmesh issues</a> (see specific replies)</li>
                                 <li><a href="https://www.reddit.com/r/skyrimmods/comments/1d0r0f0/reading_crash_logs/##:~:text=These%20are%20Navmesh%20errors">Krispyroll's Reading Crash Logs Guide</a> (see specific section)</li>
@@ -1610,7 +1611,7 @@ function checkHairModCompatibility(sections, logFile) {
         'HairMaleOrc',
         'HairFemaleOrc',
         'HairFemale', // a generic catch all for other versions of the above
-        'HairMale', // a generic catch all
+        'HairMale', // a generic catch all 
         //'Hair', // overly generic, matches on "crosshair"
         'KS Hairdos.esp', 
         'ApachiiSkyHair.esm',
@@ -1636,7 +1637,7 @@ function checkHairModCompatibility(sections, logFile) {
     ];
 
     const foundHairMods = hairModStrings.filter(str => 
-        sections.topHalf.toLowerCase().includes(str.toLowerCase())
+        sections.highestConfidenceIndicators.toLowerCase().includes(str.toLowerCase())
     );
 
     const foundPhysicsMods = physicsModStrings.filter(str => 
@@ -3265,7 +3266,7 @@ function checkForRedundantBEES(sections) {
                 Backported Extended ESL Support (BEES) is installed but unnecessary for your Skyrim version <code>${Utils.getSkyrimVersion(sections.header)}</code>. 
                 Some have reported that this redundancy can potentially contribute towards crashes.
                 <ul>
-                    <li><b>Recommendation:</b> Uninstall BEES, as the expanded ESL functionality is already built into your game version.</li>
+                    <li><b>Recommendation:</b> Uninstall BEES (<code>BackportedESLSupport.dll</code>), as the expanded ESL functionality is already built into your game version.</li>
                     <li><b>Background:</b> BEES adds support for the extended ESL range (4096 records vs 2048) to older Skyrim versions, but this functionality is already included in game version 1.6.1130 and later.</li>
                     <li><b>Next Steps:</b> If crashes continue after removing BEES, please submit a new crash log for further analysis.</li>
                 </ul>
