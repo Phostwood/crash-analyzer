@@ -1,18 +1,22 @@
-📢 Version 1.31.0.1
-	- Added: Skyrim Navmesh Guide by McPinkBalls.pdf
-	- Hair mod test restricted to sections.highestConfidenceIndicators
-	- Redundant BEES: added file to check for: BackportedESLSupport.dll
-	
-
-
 📢 Version 1.31.1 is now live:
 https://phostwood.github.io/crash-analyzer/skyrim.html
 
+1. ❗ Probable LeveledItem Save Crash Detected: 
+	- BUG FIX: now also detects "TESLevItem" in addition to "LeveledItem (53)"
+	- https://www.reddit.com/r/skyrimmods/comments/1s8122r/crash_log_help/
+
+
+~ ~ Next Version ~ ~ 
+1. ⭐️⭐️⭐️⭐️⭐️⭐️⭐️ NEW TEST: Pandora + XP32 bug? See J3w3ls idea.
 
 5. ⭐️⭐️⭐️⭐️⭐️⭐️⭐️New test? for 3 day wait
 	- See note in GOogle Notes
 	- promised to Bordeaux
 		- https://discord.com/channels/1355637388281385071/1362155565605851498/1482212398554415144
+
+
+
+~~ NExt version ~~
 
 6. ⭐️BUG FIX ON LOG SUMMARY ... where is the orc?
 	https://phostwood.github.io/crash-analyzer/skyrim.html?UUID=ff2d3395-4a9a-4ad3-92e7-cebd1c0b445f
@@ -30,20 +34,13 @@ https://phostwood.github.io/crash-analyzer/skyrim.html
 
 7. ⭐️BUG FIX ON LOG SUMMARY: Also, do the more aggressive filtering out of things like "RDI" and "R11"
 
+8. Tweak on LOG SUMMMARY: display kdelete instead of filter them out? https://discord.com/channels/902984082181484615/1133753226991255562/1486724547364262058
+
 8. ⭐️Popup for entering a pastebin.com URL? "Pastebin" button. 
 
-9. NEVERMIND, was already fine on PROD version. BUG FIX: Fix hair test. Why dind't the HairMale trigger?
-	- https://pastebin.com/NRcdff3H
-	- probably from lack of looking at the new CrashLoggerSSE's section?
-		- replace with sections.highest....?
-	- https://phostwood.github.io/crash-analyzer/skyrim.html?log=https://pastebin.com/NRcdff3H
-	- maybe add tests for these mods?
-		*Vanilla hair remake SMP NPCs.esp
-		*Vanilla hair remake_Unlocked.esp
 
-
-10. ⭐️⭐️New Critical RAM test improvements? See discussion with Claude
-
+10. ⭐️⭐️New Critical RAM test improvements with PAGE FAULTS and such? See discussion with Claude
+	- Also conversations with Elise, including most recent on LEET's SOS channel
 
 
 ~~ next version ~~

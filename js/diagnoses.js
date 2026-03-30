@@ -3998,12 +3998,22 @@ function checkMissingCreationClubContent(sections, hasMissingMasters) {
 // ❗ Probable LeveledItem Save Crash Detected:
 function checkLeveledItemCrash(sections) {
     let insights = '';
-    // Check for LeveledItem (53) crash pattern
-    const crashPattern = `LeveledItem (53)`;
-    
-    if (sections.topHalf.toLowerCase().includes(crashPattern.toLowerCase())) {
-        
-    insights += `<li>❗ <b>Probable LeveledItem Save Crash Detected:</b>
+
+    const crashPatterns = [
+        { pattern: `LeveledItem (53)`, label: `<code>LeveledItem (53)</code>` },
+        { pattern: `TESLevItem`,     label: `<code>(TESLevItem*)</code>` },
+    ];
+
+    const matchedPatterns = crashPatterns.filter(({ pattern }) =>
+        sections.topHalf.toLowerCase().includes(pattern.toLowerCase())
+    );
+
+    if (matchedPatterns.length > 0) {
+        const detectedList = matchedPatterns
+            .map(({ label }) => `<li>${label} - Corrupted leveled list crash signature found in top half of crash log.</li>`)
+            .join('\n                ');
+
+        insights += `<li>❗ <b>Probable LeveledItem Save Crash Detected:</b>
         This crash typically occurs during saving, fast travel, or loading and is caused by corrupted leveled list data in your save file.
         <ul>
             <li><b>Primary fix:</b> Install <a href="https://www.nexusmods.com/skyrimspecialedition/mods/129136" target="_blank">LeveledList Crash Fix</a> (requires Skyrim SE version 1.6.1130+)</li>
@@ -4012,11 +4022,12 @@ function checkLeveledItemCrash(sections) {
             <li><b>To identify the specific FormID:</b> Enable "<b>Display nested Log Summary (Beta feature)</b>" in this analyzer and look for the FormID associated with the <code>LeveledItem (53)</code> entry within the 🔎 <b>Files/Elements</b> section of this report.</li>
             <li><a href="https://www.nexusmods.com/skyrim/mods/76776">FallrimTools ReSaver</a> can be used to diagnose and sometimes fix corrupted save files, and can also be (carefully) used by advanced users to remove specific problematic FormIDs from your save files. ⚠️ <strong>CAUTION:</strong> Fixing/editing save files has inherent risks and should be avoided when possible. If you can instead revert to an acceptable older save file, that is often preferable in the long run.</li>
             <li>Detected indicators: <a href="#" class="toggleButton">⤵️ show more</a><ul class="extraInfo" style="display:none">
-                <li><code>LeveledItem (53)</code> - Corrupted leveled list crash signature found in top half of crash log.</li>
+                ${detectedList}
             </ul></li>
         </ul>
     </li>`;
     }
+
     return insights;
 }
 
