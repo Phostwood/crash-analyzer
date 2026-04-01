@@ -1,3 +1,7 @@
+# Phostwood's QLP — MO2 Plugin
+# Version: 2.3.1
+# Authors: Kyler, Phostwood
+
 import mobase
 import os
 import glob
@@ -5,6 +9,8 @@ import gzip
 import subprocess
 import urllib.request
 import urllib.error
+import http.client
+import ssl
 import json
 import ctypes
 import ctypes.wintypes
@@ -116,7 +122,7 @@ class PhostwoodQLP(mobase.IPluginTool):
     )
 
     def version(self) -> mobase.VersionInfo:
-        return mobase.VersionInfo(2, 3, 0, mobase.ReleaseType.FINAL)
+        return mobase.VersionInfo(2, 3, 1, mobase.ReleaseType.FINAL)
 
     def tooltip(self) -> str:
         return "Phostwood's QLP: Upload your most recent Skyrim SE/AE/VR crash log and open the Crash Log Analyzer."
@@ -483,6 +489,29 @@ class PhostwoodQLP(mobase.IPluginTool):
             except Exception:
                 pass
             self._handle_http_error(e.code, body, crash_log_path)
+            return None
+
+        except (
+            http.client.RemoteDisconnected,
+            http.client.IncompleteRead,
+            ConnectionResetError,
+            ConnectionRefusedError,
+            ConnectionAbortedError,
+            BrokenPipeError,
+            ssl.SSLError,
+            ssl.CertificateError,
+        ) as e:
+            qInfo(f"[PhostwoodQLP] Connection error during upload: {e}")
+            self._show_message(
+                "Connection Dropped",
+                (
+                    "The connection to the upload server was dropped before a response was received.\n\n"
+                    "This may be caused by your region, ISP, or a temporary network issue.\n\n"
+                    "As a fallback, your crash log has been copied to your clipboard and "
+                    "the Crash Log Analyzer has been opened in your browser -- "
+                    "just paste it in and click \"Analyze\" to see your results."
+                ),
+            )
             return None
 
         except urllib.error.URLError as e:
