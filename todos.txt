@@ -1,22 +1,25 @@
-📢 Version 1.31.1 is now live:
+📢 Version 1.31.2 is now live:
 https://phostwood.github.io/crash-analyzer/skyrim.html
 
-1. ❗ Probable LeveledItem Save Crash Detected: 
-	- BUG FIX: now also detects "TESLevItem" in addition to "LeveledItem (53)"
-	- https://www.reddit.com/r/skyrimmods/comments/1s8122r/crash_log_help/
+1. UPDATE FIX for both of these tests, so they also match BSGeometryListCullingProcess in the sections.relevantObjects
+	- ❓ Possible geometry culling / occlusion-related issue
+	- ❓ Possible eFPS Issue detected
+	- Thank you RomatebitegeL!
+2. Bug fix for MO2Plugin-PhostwoodQLP-v2-3-1.zip confirmed fixed. Thank you LeavingUndad!
+
 
 
 ~ ~ Next Version ~ ~ 
 1. ⭐️⭐️⭐️⭐️⭐️⭐️⭐️ NEW TEST: Pandora + XP32 bug? See J3w3ls idea.
 
 5. ⭐️⭐️⭐️⭐️⭐️⭐️⭐️New test? for 3 day wait
-	- See note in GOogle Notes
+	- See note in Google Notes
 	- promised to Bordeaux
 		- https://discord.com/channels/1355637388281385071/1362155565605851498/1482212398554415144
 
 
 
-~~ NExt version ~~
+~~ Next version ~~
 
 6. ⭐️BUG FIX ON LOG SUMMARY ... where is the orc?
 	https://phostwood.github.io/crash-analyzer/skyrim.html?UUID=ff2d3395-4a9a-4ad3-92e7-cebd1c0b445f

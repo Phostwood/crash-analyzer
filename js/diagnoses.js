@@ -4345,7 +4345,7 @@ function checkNetScriptFrameworkStatus(sections) {
 // ❓ Possible eFPS Issue detected
 function checkPossibleEfpsIssue(sections) {
     let insights = '';
-    const hasBSGeometryListCulling = sections.stackTop100?.includes('BSGeometryListCullingProcess');
+    const hasBSGeometryListCulling = sections.stackTop100?.includes('BSGeometryListCullingProcess') || sections.relevantObjects?.includes('BSGeometryListCullingProcess');
     const hasOccTamriel = sections.bottomHalf?.toLowerCase().includes('occ_skyrim_tamriel.esp');
 
     if (hasBSGeometryListCulling && hasOccTamriel) {
@@ -4356,7 +4356,7 @@ function checkPossibleEfpsIssue(sections) {
                 <li><b>Check for patches:</b> Search for existing patches that resolve conflicts between eFPS and other mods in your load order</li>
                 <li><b>Advanced users:</b> If no patch exists, consider creating a custom patch to address conflicts</li>
                 <li>Detected indicators: <a href="#" class="toggleButton">⤵️ show more</a><ul class="extraInfo" style="display:none">
-                    <li><code>BSGeometryListCullingProcess</code> found in top 100 lines of Stack</li>
+                    <li><code>BSGeometryListCullingProcess</code> in "POSSIBLE RELEVANT OBJECTS:" or first 100 lines of "STACK:" sections of log</li>
                     <li><code>occ_skyrim_tamriel.esp</code> detected in plugin list</li>
                 </ul></li>
             </ul>
@@ -4370,7 +4370,7 @@ function checkPossibleEfpsIssue(sections) {
 // ❓ Possible geometry culling / occlusion-related issue
 function checkPossibleGeometryCullingIssue(sections) {
     let insights = '';
-    const hasBSGeometryListCulling = sections.stackTop100?.includes('BSGeometryListCullingProcess');
+    const hasBSGeometryListCulling = sections.stackTop100?.includes('BSGeometryListCullingProcess') || sections.relevantObjects?.includes('BSGeometryListCullingProcess');
 
     if (hasBSGeometryListCulling) {
         insights += `<li>❓ <b>Possible geometry culling / occlusion-related issue:</b>
@@ -4402,7 +4402,7 @@ function checkPossibleGeometryCullingIssue(sections) {
                         <li>Research potentially related mods for version compatibility, updates, and patches</li>
                     </ul>
                 </li>
-                <li>Detected indicator: <code>BSGeometryListCullingProcess</code> in first 100 lines of Stack section of log</li>
+                <li>Detected indicator: <code>BSGeometryListCullingProcess</code> in "POSSIBLE RELEVANT OBJECTS:" or first 100 lines of "STACK:" sections of log</li>
             </ul>
         </li>`;
     }
