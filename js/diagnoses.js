@@ -4345,7 +4345,7 @@ function checkNetScriptFrameworkStatus(sections) {
 // ❓ Possible eFPS Issue detected
 function checkPossibleEfpsIssue(sections) {
     let insights = '';
-    const hasBSGeometryListCulling = sections.stackTop100?.includes('BSGeometryListCullingProcess') || sections.relevantObjects?.includes('BSGeometryListCullingProcess');
+    const hasBSGeometryListCulling = sections.stack?.includes('BSGeometryListCullingProcess') || sections.relevantObjects?.includes('BSGeometryListCullingProcess');
     const hasOccTamriel = sections.bottomHalf?.toLowerCase().includes('occ_skyrim_tamriel.esp');
 
     if (hasBSGeometryListCulling && hasOccTamriel) {
@@ -4370,7 +4370,7 @@ function checkPossibleEfpsIssue(sections) {
 // ❓ Possible geometry culling / occlusion-related issue
 function checkPossibleGeometryCullingIssue(sections) {
     let insights = '';
-    const hasBSGeometryListCulling = sections.stackTop100?.includes('BSGeometryListCullingProcess') || sections.relevantObjects?.includes('BSGeometryListCullingProcess');
+    const hasBSGeometryListCulling = sections.stack?.includes('BSGeometryListCullingProcess') || sections.relevantObjects?.includes('BSGeometryListCullingProcess');
 
     if (hasBSGeometryListCulling) {
         insights += `<li>❓ <b>Possible geometry culling / occlusion-related issue:</b>

@@ -1,11 +1,8 @@
-📢 Version 1.31.2 is now live:
+📢 Version 1.31.2.1 is now live:
 https://phostwood.github.io/crash-analyzer/skyrim.html
 
-1. UPDATE FIX for both of these tests, so they also match BSGeometryListCullingProcess in the sections.relevantObjects
-	- ❓ Possible geometry culling / occlusion-related issue
-	- ❓ Possible eFPS Issue detected
-	- Thank you RomatebitegeL!
-2. Bug fix for MO2Plugin-PhostwoodQLP-v2-3-1.zip confirmed fixed. Thank you LeavingUndad!
+- Loosened test for "❓ Possible geometry culling / occlusion-related issue:" so that  BSGeometryListCullingProcess matches in the whole STACK when "Try harder" is ticked by user.
+
 
 
 
