@@ -1040,6 +1040,7 @@ function analyzeNVIDIADriverIssue(sections, diagnosisOrInsight='diagnosis') {
         <li>${emoji} <b>NVIDIA Driver Issue Detected:</b> ${detectionMessage}
             <ol>
                 <li><b>Update your NVIDIA drivers</b> to the latest version. You can download the latest drivers from the <a href="https://www.nvidia.com/Download/index.aspx">NVIDIA website</a>.</li>
+                <li>⚠️ <b>40XX/50XX series card owners:</b> As of April 2026, recent NVIDIA driver versions may cause crashes if the Smooth Motion feature is enabled. Either disable Smooth Motion in the NVIDIA app, or roll back to driver version 591.86 or lower, which is known to work with Smooth Motion enabled.</li>
                 <li>Check for any GPU overclocking settings that may be causing instability and reset them to stock speeds.</li>
                 <li>Check if any graphics mods like ENB or Upscaler or Reshade, etc. are hooking into the graphics driver by overriding the detected file(s) (see "Detected indicators" below). If so, experiment with disabling, reinstalling, reconfiguring and/or checking for related conflicts.</li>
                 <li>If the above does not resolve the issue, try performing a clean installation of the drivers using a tool like Display Driver Uninstaller (DDU) to remove all traces of the previous drivers before installing the new ones.</li>
