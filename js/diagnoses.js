@@ -2896,17 +2896,20 @@ function analyzeA0D789Crash(sections) {
 }
 
 
-// ❗ BFCO and MCO Compatibility Issue:
+//  ❓BFCO and MCO Compatibility Issue:
 function analyzeMcoBfcoCompatibility(logFile) {
     let insights = '';
 
     const logFileLowerCase = logFile.toLowerCase();
     const hasMCO = logFileLowerCase.includes('mco.dll');
     const hasBFCO = logFileLowerCase.includes('bfco.dll');
+    const hasDMCO = logFileLowerCase.includes('dodgeframework.esl') ||
+                    logFileLowerCase.includes('dodge_mco-dxp.esl') ||
+                    logFileLowerCase.includes('dodgeframework.dll');
 
     // If both DLLs are present, provide compatibility warning
     if (hasMCO && hasBFCO) {
-        insights += `<li>❗ <b>BFCO and MCO Compatibility Issue:</b> 
+        insights += `<li>❓ <b>Potential BFCO and MCO Compatibility Issue:</b> 
             Your load order includes both <a href="https://www.nexusmods.com/skyrimspecialedition/mods/85491">Modern Combat Overhaul (MCO)</a> and <a href="https://www.nexusmods.com/skyrimspecialedition/mods/117052">Behavior Framework Combat Overhaul (BFCO)</a>. These mods are not designed to work together as they perform similar functions.
             <ol>
                 <li>Choose either MCO or BFCO - you should not use both simultaneously
@@ -2943,6 +2946,14 @@ function analyzeMcoBfcoCompatibility(logFile) {
                         <li>While this combination doesn't always cause immediate crashes, it can lead to unexpected behavior and potential stability issues</li>
                         <li>BFCO specifically lists MCO as incompatible on its mod page</li>
                         <li>The conversion tool makes it easy to keep your favorite MCO animations while switching to BFCO</li>
+                        ${hasDMCO ? `<li>⚠️ <b>DMCO Exception:</b> You appear to be using <a href="https://www.nexusmods.com/skyrimspecialedition/mods/175129">DMCO (Dodge - MCO)</a>, which BFCO explicitly lists as compatible. If MCO is only present as a dependency for DMCO (and not used as a standalone combat overhaul), you can keep both BFCO and DMCO by installing in this order:
+                            <ol>
+                                <li><a href="https://www.nexusmods.com/skyrimspecialedition/mods/120091">BFCO Universal Support</a> (if using Skyrim AE)</li>
+                                <li><a href="https://www.nexusmods.com/skyrimspecialedition/mods/85491">MCO Universal Support</a> (the standalone MCO .dll only)</li>
+                                <li><a href="https://www.nexusmods.com/skyrimspecialedition/mods/175129">DMCO</a></li>
+                                <li><a href="https://www.nexusmods.com/skyrimspecialedition/mods/117052">BFCO</a></li>
+                            </ol>
+                        </li>` : ''}
                     </ul>
                 </li>
             </ol>

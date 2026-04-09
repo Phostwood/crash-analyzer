@@ -421,15 +421,6 @@ async function analyzeLog() {
     }
 
 
-   // ❗MCO and BFCO Compatibility Issue:
-   const mcoBfcoIncompatible = analyzeMcoBfcoCompatibility(logFile);
-   if (mcoBfcoIncompatible) {
-       diagnoses += mcoBfcoIncompatible;
-       diagnosesCount++;
-   }
-
-
-
    // ❗ Probable WIDeadBodyCleanupCell Crash Detected:
    const hasWIDeadBodyCleanupCell = checkWIDeadBodyCleanupCell(sections);
    if (hasWIDeadBodyCleanupCell) {
@@ -560,6 +551,14 @@ async function analyzeLog() {
         diagnoses += checkUsvfsIssueResult;
         diagnosesCount++;
     }
+
+    
+   // ❓ Potential BFCO and MCO Compatibility Issue:
+   const mcoBfcoIncompatible = analyzeMcoBfcoCompatibility(logFile);
+   if (mcoBfcoIncompatible) {
+       diagnoses += mcoBfcoIncompatible;
+       diagnosesCount++;
+   }
 
 
     //❓ Possible Shadow Scene Node Crash Detected:

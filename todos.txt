@@ -1,8 +1,11 @@
-📢 Version 1.31.3 is now live:
+📢 Version 1.31.4 is now live:
 https://phostwood.github.io/crash-analyzer/skyrim.html
 
-- Added new info to NVIDIA driver issue about Smooth
-	- Thank you to several Nolvus Helpers! (all now in Thank you section)
+- ❓BFCO and MCO Compatibility Issue:
+	- ADDED new "⚠️DMCO Exception:" information
+		- added to thank-you-section: Growltiger
+	- Demoted to ❓ Potential BFCO and MCO Compatibility Issue: 
+	- Lowered to bottom of Diagnoses section
 	
 
 ~ ~ Next version ~ ~
