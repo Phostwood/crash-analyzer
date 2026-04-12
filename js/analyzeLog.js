@@ -499,6 +499,14 @@ async function analyzeLog() {
         diagnosesCount++;
     }
 
+    
+    // ❗ Possible BGSWaterCollisionManager Crash Detected:
+        const hasAnalyzeBGSWaterCollisionManagerCrash = analyzeBGSWaterCollisionManagerCrash(sections);
+    if(hasAnalyzeBGSWaterCollisionManagerCrash) {
+        diagnoses += hasAnalyzeBGSWaterCollisionManagerCrash;
+        diagnosesCount++;
+    }
+
 
     //❗ Potential Missing Masters Detected: 
     const missingMastersDiagnosis = checkForMissingMasters(sections);

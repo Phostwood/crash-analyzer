@@ -1,11 +1,29 @@
-📢 Version 1.31.4 is now live:
+📢 Version 1.31.5 is now live:
 https://phostwood.github.io/crash-analyzer/skyrim.html
 
-- ❓BFCO and MCO Compatibility Issue:
-	- ADDED new "⚠️DMCO Exception:" information
-		- added to thank-you-section: Growltiger
-	- Demoted to ❓ Potential BFCO and MCO Compatibility Issue: 
-	- Lowered to bottom of Diagnoses section
+- NEW TEST: ❗ Possible BGSWaterCollisionManager Crash Detected:
+
+- MORE INFO: ❓ Keyboard Input Issue Detected: 
+   - expanded info on Alt+tabbing
+   - thank you deaconivory!
+
+- CLARIFICATIONS: ❗skee64.dll Issue:
+	- listed more examples of what mods are related to Racemenu
+		- Thank you battdapsycho!
+
+- EXPANDED TROUBLESHOOTING: ❓ XAudio Issue Detected: 
+	- A suspected cause of XAudio crashes is a mod whose looping sound descriptor references a .xwm audio file — community reports suggest that .xwm files may not loop reliably and could cause crashes when used in a looping sound descriptor. If you suspect a mod is adding or altering looping sounds, try disabling recently added audio-related mods one by one to identify the culprit.
+	- Advanced users: To more efficiently track down mods that add or alter sounds, load your mod list in SSEEdit and apply a filter for Sound Descriptor records — this will spot mods making unexpected changes to audio.
+	- Thank you koxi98 and RobertGK
+
+- MORE INFO: 🦉 Best Practices:
+   - expanded info on Alt+tabbing
+   - thank you deaconivory!
+
+- EXPANDED TROUBLESHOOTING: 💥Still Crashing?
+	- Added 🔁 Try rebooting your machine...
+
+
 	
 
 ~ ~ Next version ~ ~

@@ -2558,7 +2558,7 @@ function analyzeKeyboardCrash(sections) {
             <li>First steps:
                 <ul>
                 <li>Restart your computer to refresh the system</li>
-                <li>🔀 <b>Alt+Tab considerations:</b> Somtimes Alt+tabbing can cause this indicator to show up in crash logs. Avoid Alt+Tabbing, especially playing full screen, or while loading/saving, or any intensive scenes. If you must, switch applications during periods of inactivity and after pausing Skyrim with the [\`] key (entering the command line menu).</li>
+                <li>🔀 <b>Alt+Tab considerations:</b> Somtimes Alt+tabbing can cause this indicator to show up in crash logs. Avoid Alt+Tabbing, especially playing full screen, or while loading/saving, or any intensive scenes. If you must, switch applications during periods of inactivity and after pausing Skyrim with the [\`] key (entering the command line menu).  Running in borderless fullscreen mode (via <a href="https://www.nexusmods.com/skyrimspecialedition/mods/34705">SSE Display Tweaks</a>) can reduce the risk, though it does not fully eliminate it. See also: <a href="https://www.howtogeek.com/181761/why-pc-games-struggle-with-alttab-and-how-to-fix-it/">Why PC games struggle with Alt+Tab</a>.</li>
 
                 <li>Check for and install any keyboard driver updates</li>
                 </ul>
@@ -3247,12 +3247,18 @@ function analyzeSkee64Issue(sections, forFirstLine = false) {
         || (forFirstLine && sections.firstLine.toLowerCase().includes('skee64.dll'))
         ) {
         insights += `
-        <li>${emoji} <b>skee64.dll Issue Detected:</b> The presence of <code>skee64.dll</code> in the ${logPortionText} of a crash log can indicate issues with the <b>RaceMenu</b> mod and/or incompatibility issues with mods that affect character models or body or face meshes. To troubleshoot this issue:<ol>
+        <li>${emoji} <b>skee64.dll Issue Detected:</b> The presence of <code>skee64.dll</code> in the ${logPortionText} of a crash log indicates an issue involving <a href="https://www.nexusmods.com/skyrimspecialedition/mods/19080">RaceMenu</a> (SKEE) and/or a mod that depends on it. This includes a wide range of character customization mods such as:
+            <ul>
+                <li><b>Overlays</b> (body/face paints, tattoos, warpaints, freckles, moles, scars, wounds, stretch marks, burn marks, body hair, piercings)</li>
+                <li><b>Head/face mods</b> (hair, eyes, brows, beards, High Poly Head, face sculpts, head morphs, makeup)</li>
+                <li><b>Body mods</b> (body/skin replacers with RaceMenu support, body morphs via OBody or BodyGen)</li>
+            </ul>
+            To troubleshoot this issue:<ol>
             <li>✨ As a potential easy fix, consider trying <a href="https://www.nexusmods.com/skyrimspecialedition/mods/138586">RaceMenu OverlayFix and Various Mod Fixes</a>.</li>
-            <li>Another common cause for these crashes is "overlays" - wearable tattoos, piercings, or other cosmetic character modifications. If you're using such overlays:<ul>
+            <li>A common cause for these crashes is active <b>overlays</b> (wearable tattoos, body paints, piercings, scars, or other cosmetic character modifications). If you're using such overlays:<ul>
                 <li><b>IMPORTANT:</b> If the overlay item is removable, remove it in-game before disabling the problematic mod to avoid corrupting your save.</li>
             </ul></li>
-            <li>Otherwise, check for any recent mod installations or updates that may have altered character models or body meshes.</li>
+            <li>Otherwise, check for any recent mod installations or updates that may have altered character models, head parts, or body meshes.</li>
             <li>Ensure that RaceMenu and all related mods are up to date and compatible with your version of Skyrim and SKSE.</li>
             <li>Read the descriptions of related mods and ensure their correct load order, and verify that there are no conflicts between mods that modify the same assets. ${Utils.LootWarningForNolvus}</li>
             ${Utils.LootListItemIfSkyrim} 
@@ -3456,6 +3462,8 @@ function analyzeXAudioIssue(sections) {
             <li>If you're using audio-related mods, verify their compatibility with your version of Skyrim and that they don't conflict with other installed mods.</li>
             <li>Try reinstalling Direct X, as this sometimes helps. See <a href="https://mspoweruser.com/how-to-reinstall-directx-on-windows-11-a-step-by-step-guide/">How To Reinstall DirectX On Windows 11: A Step-by-Step Guide</a></li>
             <li>Disable the "Touch Keyboard and Handwriting Panel Service" in Windows (if present on your device). Press Win + R, type 'services.msc', press Enter. Find 'Touch Keyboard and Handwriting Panel Service', double-click it, click Stop, and select 'Disabled' at 'Startup type'. This service has been known to interfere with XAUDIO2_7.dll and cause crashes in games (often around 15 minutes into gameplay). Note: This service normally only exists on touchscreen-enabled devices. If you don't see it in your services list, skip this step.</li>
+            <li>A suspected cause of XAudio crashes is a mod whose looping sound descriptor references a <code>.xwm</code> audio file — community reports suggest that <code>.xwm</code> files may not loop reliably and could cause crashes when used in a looping sound descriptor. If you suspect a mod is adding or altering looping sounds, try disabling recently added audio-related mods one by one to identify the culprit.</li>
+            <li><b>Advanced users:</b> To more efficiently track down mods that add or alter sounds, load your mod list in <a href="https://www.nexusmods.com/skyrimspecialedition/mods/164">SSEEdit</a> and apply a filter for Sound Descriptor records — this will spot mods making unexpected changes to audio.</li>
             <li>Disable all mods and launch the game to confirm the crash is resolved. If it is, systematically re-enable mods in small groups to isolate which mod(s) are causing the issue.</li>
             <li>Consult the Skyrim modding community forums (such as r/skyrimmods) for specific solutions to XAudio-related errors if the above steps don't resolve the issue.</li>
             </ol></li>`;
@@ -3620,7 +3628,7 @@ function checkRandomIssues(sections, hasUnlikelyErrorForAutoInstallerModlist, ha
 
                 <li>🦉 <b>Best Practices</b> for playing a stable heavily-modded Skyrim: (Experienced modders have differing opinions, and some of these recommendations are considered <a href="https://www.reddit.com/r/skyrimmods/comments/1ls2j8b/best_practices_for_playing_a_stable_modded_skyrim/"  target="_blank">controversial</a>, but according to three top modlist communities, breaking these may cause crashes even with a stable modlist)
                     <ul>
-                        <li>${hasKeyboardIssue ? '👉' : ''}🔀 <b>Alt+Tab considerations:</b> Avoid Alt+Tabbing, especially playing full screen, or while loading/saving, or any intensive scenes. If you must, switch applications during periods of inactivity and after pausing Skyrim with the [\`] key (entering the command line menu).</li>
+                        <li>${hasKeyboardIssue ? '👉' : ''}🔀 <b>Alt+Tab considerations:</b> Avoid Alt+Tabbing, especially playing full screen, or while loading/saving, or any intensive scenes. If you must, switch applications during periods of inactivity and after pausing Skyrim with the [\`] key (entering the command line menu).  Running in borderless fullscreen mode (via <a href="https://www.nexusmods.com/skyrimspecialedition/mods/34705">SSE Display Tweaks</a>) can reduce the risk, though it does not fully eliminate it. See also: <a href="https://www.howtogeek.com/181761/why-pc-games-struggle-with-alttab-and-how-to-fix-it/">Why PC games struggle with Alt+Tab</a>.</li>
 
                         <li>${hasSaveLoadIssues ? '👉 ' : ''}If one save won't load, quit to the desktop, relaunch Skyrim and try to <b>load an older save</b>.</li>
 
@@ -5043,6 +5051,7 @@ function stillCrashing() {
         <li><span class="important-emoji">💥</span><b>Still Crashing?</b><br>
         Some things may be difficult to impossible to reliably detect from a crash log alone — so these are worth checking manually if you're still having trouble after analyzing multiple crash logs:<br>
         <ul>
+            <li>🔁 <b>Try rebooting your machine.</b> It sounds simple, but a full restart can resolve crashes that seem reliably repeatable — clearing temporary states, flushing memory, and resetting background processes that may be interfering with the game.</li>
             <li><span style="background-color: white;">🔌</span> <b>Verify your non-ESL-flagged plugin count is 254 or under.</b> Crash logs don't always display every active plugin, so it's worth confirming this manually in your mod manager. Screenshots of the number that need to always be 254 or less: <a href="images/MO2 Plugin Count.png">MO2</a> (hover over the "Active" count (here "82") to see the popup) and <a href="images/Vortex Plugin Count.png">Vortex</a> (on "Plugins" tab). If you need to free up slots, see <a href="https://www.nexusmods.com/skyrimspecialedition/mods/21618">this guide</a> or <a href="https://www.nexusmods.com/skyrimspecialedition/mods/145168">ESLifier</a>.</li>
             <li>📦 <b>If you are playing a Nexus Collection, a Wabbajack modlist, or Nolvus,</b> review the <b>🤖 Troubleshooting Auto-Installing Modlists:</b> section above, and/or seek help on that modlist's dedicated Discord or Reddit community — they are the experts on their own modlist.</li>
             <li>🎲 <b>If you are getting infrequent crashes from non-repeating causes,</b> review the <b>🎲 Reduce Random Crashes:</b> section above.</li>
@@ -5057,4 +5066,39 @@ function stillCrashing() {
     </li>`;
 
     return output;
+}
+
+
+
+
+// ❗ Possible BGSWaterCollisionManager Crash Detected:
+function analyzeBGSWaterCollisionManagerCrash(sections) {
+    let insights = '';
+    let indicators = [];
+
+    const indicatorList = [
+        'BGSWaterCollisionManager::bhkWaterfall',
+        'BGSWaterCollisionManager::bshkAutoWater',
+        'BGSWaterCollisionManager::bhkPlaceableWater'
+    ];
+
+    const logPortionLower = sections.topHalf.toLowerCase();
+
+    for (const indicator of indicatorList) {
+        if (logPortionLower.includes(indicator.toLowerCase())) {
+            indicators.push(`<code>${indicator}</code> found in top half of crash log`);
+        }
+    }
+
+    if (indicators.length > 0) {
+        insights += `<li>❗ <b>Possible BGSWaterCollisionManager Crash Detected:</b> The presence of <code>BGSWaterCollisionManager</code> in the top half of a crash log is a known crash pattern. The most likely cause is <a href="https://www.nexusmods.com/skyrimspecialedition/mods/120946">PG Patcher</a> with the "Fix Effect Lighting" option enabled. To fix this:<ol>
+            <li>Open PG Patcher and <b>disable the "Fix Effect Lighting" option</b>, then regenerate your patch output.</li>
+           <li>If you are not using PG Patcher, a secondary possible cause is <a href="https://www.nexusmods.com/skyrimspecialedition/mods/147270?tab=bugs">CS Particle Patch</a> — check its bugs page for known reports related to <code>BGSWaterCollisionManager::bshkAutoWater</code> crashes. If a fix has been released, try updating; otherwise the only workaround is to disable this mod.</li>
+            <li>Detected indicators: <a href="#" class="toggleButton">⤵️ show more</a><ul class="extraInfo" style="display:none">
+                ${indicators.map(indicator => `<li>${indicator}</li>`).join('')}
+            </ul></li>
+        </ol></li>`;
+    }
+
+    return insights;
 }
