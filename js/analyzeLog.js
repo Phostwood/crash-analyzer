@@ -560,6 +560,14 @@ async function analyzeLog() {
         diagnosesCount++;
     }
 
+
+    //❓ XAudio Issue Detected:
+    const xaudioDiagnosis = analyzeXAudioIssue(sections);
+    if(xaudioDiagnosis) {
+        diagnoses += xaudioDiagnosis;
+        diagnosesCount++;
+    }
+
     
    // ❓ Potential BFCO and MCO Compatibility Issue:
    const mcoBfcoIncompatible = analyzeMcoBfcoCompatibility(logFile);
@@ -658,7 +666,6 @@ async function analyzeLog() {
         diagnosesCount++;
     }
     
-
 
 
     //Check for Overlay issue
@@ -1247,14 +1254,6 @@ async function analyzeLog() {
         insights += xpmseInsight;
         insightsCount++;
     }
-
-    //❓ XAudio Issue Detected:
-    const xaudioDiagnosis = analyzeXAudioIssue(sections);
-    if(xaudioDiagnosis) {
-        insights += xaudioDiagnosis;
-        insightsCount++;
-    }
-
 
 
     //❓ Keyboard Input Issue Detected: 

@@ -3454,7 +3454,7 @@ function analyzeXAudioIssue(sections) {
     let insights = '';
 
     if (sections.topHalf.toLowerCase().includes('XAudio'.toLowerCase())) {
-        insights += `<li>❓ <b>XAudio Issue Detected:</b> Seeing 'XAudio' in the crash log may indicate a problem with the game's audio processing components. XAudio is part of the Windows audio infrastructure, separate from DirectX. This crash is often caused by audio driver issues or incompatible mods. Try these steps:<ol>
+        insights += `<li>❓ <b>Possible XAudio Issue Detected:</b> Seeing 'XAudio' in the crash log may indicate a problem with the game's audio processing components. XAudio is part of the Windows audio infrastructure, separate from DirectX. This crash is often caused by audio driver issues or incompatible mods. Try these steps:<ol>
             <li>As a potentially easy fix, try adding the <a href="https://www.nexusmods.com/skyrimspecialedition/mods/71567">Sound Fix for Large Sector Drives</a> mod</li>
             <li>Ensure your sound card drivers are up to date. Visit your sound card manufacturer's website for the latest driver software.</li>
             <li>Change your Windows audio format to a lower sample rate. Right-click your speaker icon in the system tray, select "Open Sound settings," then go to "Advanced" and try changing the sample rate to 16 bit, 44100 Hz (or lower). This resolves many XAudio crashes.</li>
@@ -4410,8 +4410,8 @@ function checkPossibleGeometryCullingIssue(sections) {
                     <ul>
                         <li>Mods that alter occlusion data to improve performance</li>
                         <li>Dynamic face/lighting effect mods</li>
-                        <li>LOD and worldspace overhauls</li>
-                        <li>Mesh replacers</li>
+                        <li>Interior lighting mods (Lux, ELFX Shadows, Window Shadows etc.)</li>
+                        <li>Exterior lighting mods (Lux Orbis, Enhanced Lights and FX (with ELFX - Exteriors.esp), etc.)</li>
                         <li>City expansion/overhaul mods (especially Whiterun)</li>
                     </ul>
                 </li>
